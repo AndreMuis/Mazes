@@ -23,24 +23,22 @@
     return self;
 }
 
-- (void)getversion
+- (void)getVersion
 {
-    RKObjectMapping *postMapping = [RKObjectMapping mappingForClass: [Post class]];
+    RKObjectMapping *versionMapping = [RKObjectMapping mappingForClass: [Version class]];
     
-    [postMapping mapKeyPath: @"name" toAttribute: @"name"];
-    [postMapping mapKeyPath: @"title" toAttribute: @"title"];
-    [postMapping mapKeyPath: @"content" toAttribute: @"content"];
+    [versionMapping mapKeyPath: @"number" toAttribute: @"number"];
 
-    [[RKObjectManager sharedManager].mappingProvider setMapping: postMapping forKeyPath: @""];
+    [[RKObjectManager sharedManager].mappingProvider setMapping: versionMapping forKeyPath: @""];
     
-    [[RKObjectManager sharedManager] loadObjectsAtResourcePath: @"/posts/2" delegate: self];    
+    [[RKObjectManager sharedManager] loadObjectsAtResourcePath: @"/versions/1" delegate: self];    
 }
 
 - (void)objectLoader: (RKObjectLoader*)objectLoader didLoadObject: (id)object
 {   
-    Post *post = (Post *)object;
+    Version *version = (Version *)object;
     
-    NSLog(@"%@", post);
+    NSLog(@"%@", version);
 }
 
 - (void)objectLoader: (RKObjectLoader *)objectLoader didFailWithError: (NSError *)error 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F45A4164154FAEC200B90753 /* Version.m in Sources */ = {isa = PBXBuildFile; fileRef = F45A4163154FAEC200B90753 /* Version.m */; };
 		F4E4A9CA154CB92C006AA64D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9C9154CB92C006AA64D /* UIKit.framework */; };
 		F4E4A9CC154CB92C006AA64D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9CB154CB92C006AA64D /* Foundation.framework */; };
 		F4E4A9CE154CB92C006AA64D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9CD154CB92C006AA64D /* CoreGraphics.framework */; };
@@ -256,6 +257,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F45A4162154FAEC200B90753 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
+		F45A4163154FAEC200B90753 /* Version.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Version.m; sourceTree = "<group>"; };
 		F4E4A9C5154CB92C006AA64D /* Mazes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mazes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E4A9C9154CB92C006AA64D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F4E4A9CB154CB92C006AA64D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -635,6 +638,8 @@
 				F4E4AB83154CC2FF006AA64D /* TopListsViewController.xib */,
 				F4E4AB84154CC304006AA64D /* Utilities.h */,
 				F4E4AB85154CC30B006AA64D /* Utilities.m */,
+				F45A4162154FAEC200B90753 /* Version.h */,
+				F45A4163154FAEC200B90753 /* Version.m */,
 				F4E4AB86154CC311006AA64D /* XML.h */,
 				F4E4AB87154CC319006AA64D /* XML.m */,
 				F4E4AA0C154CBB3C006AA64D /* Images */,
@@ -1211,6 +1216,7 @@
 				F4E4AB9D154CD0DC006AA64D /* Textures.m in Sources */,
 				F4E4ABAF154CDC97006AA64D /* Colors.m in Sources */,
 				F4E4ABF4154E4254006AA64D /* DataAccess.m in Sources */,
+				F45A4164154FAEC200B90753 /* Version.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

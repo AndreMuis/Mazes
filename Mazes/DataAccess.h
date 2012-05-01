@@ -10,6 +10,8 @@
 
 #import <RestKit/RestKit.h>
 
+#import "Version.h"
+
 @interface DataAccess : NSObject <RKObjectLoaderDelegate>
 
 - (void)getVersion;

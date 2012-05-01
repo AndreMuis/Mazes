@@ -43,9 +43,8 @@
 
     //[self setLanguage];
     
-    [[Globals instance].dataAccess getPost];
+    [[Globals instance].dataAccess getVersion];
 
-    
     return YES;
 }
 

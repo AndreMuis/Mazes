@@ -10,4 +10,6 @@
 
 @interface Version : NSObject
 
+@property (assign, nonatomic) float number;
+
 @end

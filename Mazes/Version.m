@@ -10,4 +10,13 @@
 
 @implementation Version
 
+@synthesize number;
+
+- (NSString *)description 
+{
+    NSString *desc = [NSString stringWithFormat: @"number = %f", self.number];
+    
+    return desc;
+}
+
 @end
