@@ -8,14 +8,49 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+#import "Communication.h"
+#import "Tester.h"
+#import "Textures.h"
+#import "Sounds.h"
 
-@property (strong, nonatomic) UIWindow *window;
+#import "DataAccess.h"
+
+@class Maze;
+@class TopListsViewController;
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
+{
+    Communication *comm;
+}
+
+@property (strong, nonatomic) IBOutlet UIWindow *window;
+@property (strong, nonatomic) IBOutlet UINavigationController *navigationController;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+ - (void)setupUserDefaults;
+ - (void)setupBannerView;
+ 
+ - (void)setLanguage;
+ - (void)setLanguageResponse;
+
+ - (void)checkVersion;
+ - (void)checkVersionResponse;
+ 
+ - (void)loadSounds;
+ - (void)loadSoundsResponse;
+ 
+ - (void)loadTextures;
+ - (void)loadTexturesResponse;
+ 
+ - (void)loadMazeEdit;
+ - (void)loadMazeEditResponse;
+ 
+ - (void)loadMazeEditLocations;
+ - (void)loadMazeEditLocationsResponse;
+  
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 

@@ -12,4 +12,20 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <CoreData/CoreData.h>
+
+    #import <AVFoundation/AVFoundation.h>
+
+    #import <iAd/iAD.h>
+
+    #import <QuartzCore/QuartzCore.h>
+    #import <OpenGLES/EAGLDrawable.h>
+
+    #import <OpenGLES/EAGL.h>
+    #import <OpenGLES/EAGLDrawable.h>
+
+    #import <OpenGLES/ES1/gl.h>
+    #import <OpenGLES/ES1/glext.h>
+
+    #define UNIQUE_ID @"29812573-D969-5C90-9581-389E68CD8715"
+
 #endif

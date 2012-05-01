@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DataAccess : NSObject
+#import <RestKit/RestKit.h>
+
+@interface DataAccess : NSObject <RKObjectLoaderDelegate>
+
+- (void)getVersion;
 
 @end

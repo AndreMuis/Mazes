@@ -1,0 +1,6 @@
+texturetool -e PVRTC -o kitty.pvrtc -p kitty_preview.png kitty.png
+
+afconvert -f caff -d aac {INPUT} {OUTPUT}
+
+
+

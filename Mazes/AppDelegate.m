@@ -8,20 +8,209 @@
 
 #import "AppDelegate.h"
 
+#import "Maze.h"
+#import "TopListsViewController.h"
+
 @implementation AppDelegate
 
 @synthesize window = _window;
+@synthesize navigationController = _navigationController;
+
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
+	BOOL testing = NO;
+
+    if (testing == YES)
+    {
+        Tester *test = [[Tester alloc] init];
+        [test FloatRounding];
+     
+        return YES;
+    }
+     
+    //self.window.rootViewController = self.navigationController;
+    //[self.window makeKeyAndVisible];
+
+    [self setupUserDefaults];
+
+    [self setupBannerView];
+
+    [Utilities createActivityView];
+
+    //[self setLanguage];
+    
+    [[Globals instance].dataAccess getPost];
+
+    
     return YES;
+}
+
+- (void)setupUserDefaults
+{
+    NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: YES], @"UseTutorial", nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults: defaults];
+}
+
+- (void)setupBannerView
+{
+    NSNumber *free = (NSNumber *)[[[NSBundle mainBundle] infoDictionary] objectForKey: @"Free"];
+    
+    if ([free boolValue] == YES)
+    {	
+        [Globals instance].bannerView.requiredContentSizeIdentifiers = [NSSet setWithObject: ADBannerContentSizeIdentifierPortrait];
+        [Globals instance].bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+
+        [Globals instance].bannerView.delegate = nil;
+    }
+}
+
+- (void)setLanguage
+{
+    comm = [[Communication alloc] initWithDelegate: self Selector: @selector(setLanguageResponse) Action: @"SetLanguage" WaitMessage: @"Loading"];
+
+    [XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"DeviceId" NodeValue: UNIQUE_ID];
+    [XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"LanguageCode" NodeValue: [Utilities getLanguageCode]];
+
+    [comm post];	
+}
+
+- (void)setLanguageResponse
+{
+    [self checkVersion];
+}
+
+- (void)checkVersion
+{
+    comm = [[Communication alloc] initWithDelegate: self Selector: @selector(checkVersionResponse) Action: @"GetVersion" WaitMessage: @"Loading"];
+ 
+    [comm post];	
+}
+ 
+- (void)checkVersionResponse
+{
+    if (comm.errorOccurred == NO)
+    {
+        //NSLog(@"%@", [XML convertDocToString: comm.responseDoc]);
+
+        float appVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"] floatValue];
+
+        float currentVersion = [[XML getNodeValueFromDoc: comm.responseDoc Node: [XML getRootNodeDoc: comm.responseDoc] XPath: "/Response/Version"] floatValue];
+
+        //NSLog(@"appVersion = %f, currentVersion = %f", appVersion, currentVersion);
+
+        if (appVersion < currentVersion)
+        {
+            NSString *message = [NSString stringWithFormat: @"This app is Version %0.1f. Version %0.1f is now available. It is recommended that you upgrade to the latest version.", appVersion, currentVersion];
+
+            [Utilities ShowAlertWithDelegate: self Message: message CancelButtonTitle: @"OK" OtherButtonTitle: @"" Tag: 1 Bounds: CGRectZero];
+        }
+        else 
+        {
+            [self loadSounds];
+        }
+    }
+    else 
+    {		
+
+        [self loadSounds];
+    }
+}
+ 
+ - (void)alertView: (UIAlertView *)alertView didDismissWithButtonIndex: (NSInteger)buttonIndex
+{
+    [self loadSounds];
+}
+
+- (void)loadSounds
+{
+    comm = [[Communication alloc] initWithDelegate: self Selector: @selector(loadSoundsResponse) Action: @"GetSounds" WaitMessage: @"Loading"];
+
+    [comm post];	
+}
+
+- (void)loadSoundsResponse
+{   
+    if (comm.errorOccurred == NO)
+    {
+        [Globals instance].sounds = [[Sounds alloc] initWithXML: comm.responseDoc];
+    }
+
+    [self loadTextures];
+}
+
+- (void)loadTextures
+{
+    comm = [[Communication alloc] initWithDelegate: self Selector: @selector(loadTexturesResponse) Action: @"GetTextures" WaitMessage: @"Loading"];
+
+    [comm post];
+}
+
+- (void)loadTexturesResponse
+{
+    if (comm.errorOccurred == NO)
+    {
+        [Globals instance].textures = [[Textures alloc] initWithXML: comm.responseDoc];
+    }
+
+    [self loadMazeEdit];
+}
+
+- (void)loadMazeEdit
+{
+    comm = [[Communication alloc] initWithDelegate: self Selector: @selector(loadMazeEditResponse) Action: @"GetMazeByUserId" WaitMessage: @"Loading"];
+
+    [XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"UserId" NodeValue: UNIQUE_ID];
+    
+    [comm post];
+}
+
+- (void)loadMazeEditResponse
+{
+    if (comm.errorOccurred == NO)
+    {
+        if ([XML isDocEmpty: comm.responseDoc] == NO)
+        {
+            [[Globals instance].mazeEdit populateFromXML: comm.responseDoc];
+
+            [self loadMazeEditLocations];
+        }
+        else 
+        {
+            [[Globals instance].topListsViewController loadMazeList];
+        }
+    }
+    else 
+    {
+        [[Globals instance].topListsViewController loadMazeList];
+    }
+}
+
+- (void)loadMazeEditLocations
+{
+    comm = [[Communication alloc] initWithDelegate: self Selector: @selector(loadMazeEditLocationsResponse) Action: @"GetLocations" WaitMessage: @"Loading"];	
+
+    [XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", [Globals instance].mazeEdit.mazeId]];
+
+    [comm post];
+}
+
+- (void)loadMazeEditLocationsResponse
+{
+    if (comm.errorOccurred == NO)
+    {		
+        [[Globals instance].mazeEdit.locations populateWithXML: comm.responseDoc];
+    }
+
+    [[Globals instance].topListsViewController loadMazeList];
+}
+
+- (void)applicationDidReceiveMemoryWarning: (UIApplication *)application
+{
+    NSLog(@"delegate received memory warning.");
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
