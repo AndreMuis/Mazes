@@ -578,7 +578,7 @@
 		
 			[cell.textLabel setText: sound.name];
 
-			if ([Globals instance].mazeEdit.backgroundSoundId == sound.soundId)
+			if ([Globals instance].mazeEdit.backgroundSoundId == [sound.soundId intValue])
             {
 				cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
@@ -731,7 +731,7 @@
 		{
 			Sound *sound = [backgroundSounds objectAtIndex: indexPath.row - 1];
 			
-			[Globals instance].mazeEdit.backgroundSoundId = sound.soundId;
+			[Globals instance].mazeEdit.backgroundSoundId = [sound.soundId intValue];
 			
 			[sound playWithNumberOfLoops: 0];
 		}

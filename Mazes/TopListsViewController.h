@@ -28,9 +28,6 @@
 	TopListsTableViewCell *TableViewCell;
 }
 
-@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-
 @property (nonatomic, retain) IBOutlet UIImageView *imageViewHighestRated;
 @property (nonatomic, retain) IBOutlet UIImageView *imageViewNewest;
 @property (nonatomic, retain) IBOutlet UIImageView *imageViewYours;

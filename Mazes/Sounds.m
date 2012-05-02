@@ -35,7 +35,7 @@
 	{
 		Sound *sound = [[Sound alloc] initWithXMLDoc: doc XMLNode: nodeCurr];
 		
-		[dictionary setObject: sound forKey: [NSNumber numberWithInt: sound.soundId]];
+		[dictionary setObject: sound forKey: sound.soundId];
 	}
 	
 	xmlFreeNodeList(node);
@@ -70,17 +70,6 @@
 - (Sound *)getSoundForId: (int)soundId
 {
 	return [dictionary objectForKey: [NSNumber numberWithInt: soundId]];
-}
-
-- (void)writeToConsole
-{
-	NSArray	*sounds = [self getSoundsSorted];
-	
-	NSLog(@"soundId name");  
-	for(Sound *sound in sounds)
-	{
-		NSLog(@"%d %@", sound.soundId, sound.name);
-	}
 }
 
 - (NSString *)description 

@@ -29,6 +29,4 @@
 
 - (Sound *)getSoundForId: (int)soundId;
 
-- (void)writeToConsole;
-
 @end

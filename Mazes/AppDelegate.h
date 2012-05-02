@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import <RestKit/RestKit.h>
+
 #import "Communication.h"
 #import "Tester.h"
 #import "Textures.h"
@@ -18,17 +20,13 @@
 @class Maze;
 @class TopListsViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, RKObjectLoaderDelegate>
 {
     Communication *comm;
 }
 
 @property (strong, nonatomic) IBOutlet UIWindow *window;
 @property (strong, nonatomic) IBOutlet UINavigationController *navigationController;
-
-@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
  - (void)setupUserDefaults;
  - (void)setupBannerView;
@@ -51,7 +49,4 @@
  - (void)loadMazeEditLocations;
  - (void)loadMazeEditLocationsResponse;
   
-- (void)saveContext;
-- (NSURL *)applicationDocumentsDirectory;
-
 @end

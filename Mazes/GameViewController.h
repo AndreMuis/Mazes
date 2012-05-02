@@ -64,7 +64,7 @@
 	UIPopoverController	*popoverController;
 }
 
-@property (nonatomic) TopListsItem *topListsItem;
+@property (nonatomic, retain) TopListsItem *topListsItem;
 
 @property (nonatomic, retain) IBOutlet UIImageView *imageViewMazesBack;
 
