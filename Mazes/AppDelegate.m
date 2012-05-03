@@ -28,7 +28,7 @@
         return YES;
     }
      
-    self.window.rootViewController = self.navigationController;
+    //self.window.rootViewController = self.navigationController;
     //[self.window makeKeyAndVisible];
 
     [self setupUserDefaults];
