@@ -8,24 +8,24 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Texture : NSObject 
+@interface Texture : NSManagedObject 
 {
-	int textureId;
+	int id;
 	NSString *name;
 	int width;
 	int height;
 	int repeats;
-	int type;
+	int material;
 	int order;
 	CGRect imageViewFrame;
 }
 
-@property (nonatomic) int textureId;
+@property (nonatomic) int id;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic) int width;
 @property (nonatomic) int height;
 @property (nonatomic) int repeats;
-@property (nonatomic) int type;
+@property (nonatomic) int material;
 @property (nonatomic) int order;
 @property (nonatomic) CGRect imageViewFrame;
 

@@ -128,6 +128,26 @@
     return editViewController;
 }
 
+- (Sounds *)sounds
+{
+    if (sounds == nil)
+    {
+        sounds = [[Sounds alloc] init];
+    }
+    
+    return sounds;
+}
+
+- (Textures *)textures
+{
+    if (textures == nil)
+    {
+        textures = [[Textures alloc] init];
+    }
+    
+    return textures;
+}
+
 - (ADBannerView *)bannerView
 {
     if (bannerView == nil)

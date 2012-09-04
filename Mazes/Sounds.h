@@ -7,23 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
+#import "Globals.h"
+#import "DataAccess.h"
 #import "Sound.h"
 
 @interface Sounds : NSObject 
 {
-	NSMutableDictionary *dictionary;
-	
 	int count;
 }
 
 @property (nonatomic) int count;
-
-- (id)initWithXML: (xmlDocPtr)doc;
-
-- (void)populateWithXML: (xmlDocPtr)doc;
-
-- (NSArray *)getSounds;
 
 - (NSArray *)getSoundsSorted;
 

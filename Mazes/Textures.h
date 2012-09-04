@@ -8,21 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Globals.h"
+#import "DataAccess.h"
 #import "Texture.h"
-#import "XML.h"
 
 @interface Textures : NSObject 
 {
+    int count;
 	int textureIdMax;
-	
-	NSMutableDictionary *dictionary;
 }
 
+@property (nonatomic) int count;
 @property (nonatomic) int textureIdMax;
-
-- (id)initWithXML: (xmlDocPtr)doc;
-
-- (void)populateWithXML: (xmlDocPtr)doc;
 
 - (NSArray *)getTextures;
 

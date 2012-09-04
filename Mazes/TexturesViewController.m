@@ -81,7 +81,7 @@
             #pragma clang diagnostic push
             #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
             
-			[textureDelegate performSelector: textureSelector withObject: [NSNumber numberWithInt: texture.textureId]];
+			[textureDelegate performSelector: textureSelector withObject: [NSNumber numberWithInt: texture.id]];
 			
 			[exitDelegate performSelector: exitSelector];
             

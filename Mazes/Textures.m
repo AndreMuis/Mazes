@@ -10,66 +10,74 @@
 
 @implementation Textures
 
+@synthesize count;
 @synthesize textureIdMax;
 
-- (id)initWithXML: (xmlDocPtr)doc
+- (id)init
 {
     self = [super init];
 	
     if (self)
 	{
-		dictionary = [[NSMutableDictionary alloc] init];
-
-		[self populateWithXML: doc];
+        count = 0;
+        textureIdMax = 0;
 	}
 	
     return self;
 }
 
-- (void)populateWithXML: (xmlDocPtr)doc
+- (int)count
 {
-	textureIdMax = 0;
-	
-	xmlNodePtr node = [XML getNodesFromDoc: doc XPath: "/Response/Textures/Texture"];
+    NSArray *textures = [self getTextures];
+    
+	return textures.count;
+}
 
-	xmlNodePtr nodeCurr;
-	for (nodeCurr = node; nodeCurr; nodeCurr = nodeCurr->next)
-	{
-		Texture *texture = [[Texture alloc] init];
-	
-		texture.textureId = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "TextureId"] intValue];
-		texture.name = [XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "Name"];
-		texture.width = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "Width"] intValue];
-		texture.height = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "Height"] intValue];
-		texture.repeats = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "Repeats"] intValue];
-		texture.type = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "Type"] intValue];
-		texture.order = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "Order"] intValue];			
-		
-		if (texture.textureId > textureIdMax)
-			textureIdMax = texture.textureId;
+- (int)textureIdMax
+{
+    if (textureIdMax == 0)
+    {
+        NSArray *textures = [self getTextures];
 
-		[dictionary setObject: texture forKey: [NSNumber numberWithInt: texture.textureId]];
-	}
-
-	xmlFreeNodeList(node);
+        for (Texture *texture in textures)
+        {
+            if (texture.id > textureIdMax)
+            {
+                textureIdMax = texture.id;
+            }
+        }
+    }
+    
+    return textureIdMax;
 }
 
 - (NSArray *)getTextures
-{
-	NSArray *textures = [dictionary allValues];
-
+{    
+    NSEntityDescription *entity = [NSEntityDescription entityForName: @"Texture" inManagedObjectContext: [Globals instance].dataAccess.managedObjectContext];   
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];  
+    [request setEntity: entity];   
+    
+    NSError *error = nil;  
+    NSArray *textures = [[Globals instance].dataAccess.managedObjectContext executeFetchRequest: request error: &error];   
+    
+    if (error != nil)
+    {
+        DLog(@"%@", error);
+    }
+	
 	return textures;
 }
 
 - (NSArray *)getTexturesSorted
 {
-	NSArray *textures = [dictionary allValues];
+	NSArray *textures = [self getTextures];
 	
 	NSArray *texturesSorted = [textures sortedArrayUsingComparator: (NSComparator)^(Texture *texture1, Texture *texture2)
 							   {
 								   int comparisonResult = NSOrderedSame;
 								   
-								   if (texture1.type == texture2.type)
+								   if (texture1.material == texture2.material)
 								   {
 									   if (texture1.order < texture2.order)
 									   {
@@ -84,11 +92,11 @@
 										   comparisonResult = NSOrderedDescending;
 									   }
 								   }
-								   else if (texture1.type < texture2.type)
+								   else if (texture1.material < texture2.material)
 								   {
 									   comparisonResult = NSOrderedAscending;
 								   }
-								   else if (texture1.type > texture2.type)
+								   else if (texture1.material > texture2.material)
 								   {
 									   comparisonResult = NSOrderedDescending;
 								   }
@@ -101,12 +109,29 @@
 
 - (Texture *)getTextureForId: (int)textureId
 {
-	return [dictionary objectForKey: [NSNumber numberWithInt: textureId]];
+    Texture *textureRet = nil;
+    
+    NSArray *textures = [self getTextures]; 
+    
+    for (Texture *texture in textures)
+    {
+        if (texture.id == textureId)
+        {
+            textureRet = texture;
+        }
+    }
+    
+    if (textureRet == nil)
+    {
+        DLog(@"Could not find texture for Id = %d", textureId);
+    }
+    
+	return textureRet;
 }
 
 - (NSString *)description 
 {
-    return [NSString stringWithFormat: @"%@", dictionary];
+    return [NSString stringWithFormat: @"%@", [self getTextures]];
 }
 
 @end

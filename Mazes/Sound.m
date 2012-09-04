@@ -10,16 +10,19 @@
 
 @implementation Sound
 
-@dynamic soundId; 
+@dynamic id; 
 @dynamic name;
 
-- (id)initWithXMLDoc: (xmlDocPtr)doc XMLNode: (xmlNodePtr)node
+- (id)init
 {
     self = [super init];
 	
     if (self)
 	{
-		self.soundId = [NSNumber numberWithInt: [[XML getNodeValueFromDoc: doc Node: node XPath: "SoundId"] intValue]];
+        DLog(@"%@ %@", self.id, self.name);
+        
+        /*
+		self.id = [NSNumber numberWithInt: [[XML getNodeValueFromDoc: doc Node: node XPath: "SoundId"] intValue]];
 		self.name = [XML getNodeValueFromDoc: doc Node: node XPath: "Name"];
 		
 		NSString *path = [[NSBundle mainBundle] pathForResource: self.name ofType: @"caf"];
@@ -30,6 +33,7 @@
 		player.volume = 1.0;
 
 		[player prepareToPlay];
+         */
 	}
 	
     return self;
@@ -53,7 +57,7 @@
 
 - (NSString *)description 
 {
-    NSString *desc = [NSString stringWithFormat: @"soundId = %@", self.soundId];
+    NSString *desc = [NSString stringWithFormat: @"id = %@", self.id];
     desc = [NSString stringWithFormat: @"%@, name = %@", desc, self.name];
     
     return desc;

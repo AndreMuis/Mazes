@@ -10,23 +10,23 @@
 
 @implementation Texture
 
-@synthesize textureId; 
-@synthesize name;
-@synthesize width; 
-@synthesize height; 
-@synthesize repeats; 
-@synthesize type;
-@synthesize order; 
-@synthesize imageViewFrame;
+@dynamic id; 
+@dynamic name;
+@dynamic width; 
+@dynamic height; 
+@dynamic repeats; 
+@dynamic material;
+@dynamic order; 
+@dynamic imageViewFrame;
 
 - (NSString *)description 
 {
-    NSString *desc = [NSString stringWithFormat: @"textureId = %d", self.textureId];
+    NSString *desc = [NSString stringWithFormat: @"id = %d", self.id];
     desc = [NSString stringWithFormat: @"%@, name = %@", desc, self.name];
     desc = [NSString stringWithFormat: @"%@, width = %d", desc, self.width];
     desc = [NSString stringWithFormat: @"%@, height = %d", desc, self.height];
     desc = [NSString stringWithFormat: @"%@, repeats = %d", desc, self.repeats];
-    desc = [NSString stringWithFormat: @"%@, type = %d", desc, self.type];
+    desc = [NSString stringWithFormat: @"%@, material = %d", desc, self.material];
     desc = [NSString stringWithFormat: @"%@, order = %d", desc, self.order];
     
     return desc;

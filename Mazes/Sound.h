@@ -8,23 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-#import <RestKit/RestKit.h>
-
-#import <libxml2/libxml/tree.h>
-#import <libxml2/libxml/xpath.h>
-#import <libxml2/libxml/xpathInternals.h>
-
-#import "XML.h"
+#import "Utilities.h"
 
 @interface Sound : NSManagedObject
 {
 	AVAudioPlayer *player;
 }
 
-@property (nonatomic, retain) NSNumber *soundId;
+@property (nonatomic, retain) NSNumber *id;
 @property (nonatomic, retain) NSString *name;
-
-- (id)initWithXMLDoc: (xmlDocPtr)doc XMLNode: (xmlNodePtr)node;
 
 - (void)playWithNumberOfLoops: (int)numberOfLoops;
 - (void)stop;

@@ -13,6 +13,22 @@
 
 @implementation Utilities
 
++ (void)LogWithObject: (id)object Format: (NSString *)formatString, ...
+{
+    #ifdef DEBUG
+    formatString = [NSString stringWithFormat: @"%@: %@", NSStringFromClass([object class]), formatString];
+    
+    va_list args;
+    va_start(args, formatString);
+    
+    NSLogv(formatString, args);
+    
+    va_end(args);
+    #else
+    
+    #endif
+}
+
 + (NSString *)getLanguageCode
 {
 	NSArray *preferredLanguages = [NSLocale preferredLanguages];

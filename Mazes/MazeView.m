@@ -104,7 +104,7 @@
 		NSString *path = [[NSBundle mainBundle] pathForResource: texture.name ofType: @"pvrtc"];
 		NSData *texData = [[NSData alloc] initWithContentsOfFile: path];
 	
-		glBindTexture(GL_TEXTURE_2D, GLtextures[texture.textureId]);
+		glBindTexture(GL_TEXTURE_2D, GLtextures[texture.id]);
 		glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG, texture.width, texture.height, 0, (texture.width * texture.height) / 2, [texData bytes]);
 	
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

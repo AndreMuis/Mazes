@@ -8,19 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-#import <RestKit/RestKit.h>
-
 #import "Communication.h"
+#import "DataAccess.h"
 #import "Tester.h"
+#import "Version.h"
 #import "Textures.h"
 #import "Sounds.h"
-
-#import "DataAccess.h"
 
 @class Maze;
 @class TopListsViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, RKObjectLoaderDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, LoadVersionDelegate>
 {
     Communication *comm;
 }
@@ -28,25 +26,16 @@
 @property (strong, nonatomic) IBOutlet UIWindow *window;
 @property (strong, nonatomic) IBOutlet UINavigationController *navigationController;
 
- - (void)setupUserDefaults;
- - (void)setupBannerView;
- 
- - (void)setLanguage;
- - (void)setLanguageResponse;
+- (void)setupUserDefaults;
+- (void)setupBannerView;
 
- - (void)checkVersion;
- - (void)checkVersionResponse;
- 
- - (void)loadSounds;
- - (void)loadSoundsResponse;
- 
- - (void)loadTextures;
- - (void)loadTexturesResponse;
- 
- - (void)loadMazeEdit;
- - (void)loadMazeEditResponse;
- 
- - (void)loadMazeEditLocations;
- - (void)loadMazeEditLocationsResponse;
+- (void)setLanguage;
+- (void)setLanguageResponse;
+
+- (void)loadMazeEdit;
+- (void)loadMazeEditResponse;
+
+- (void)loadMazeEditLocations;
+- (void)loadMazeEditLocationsResponse;
   
 @end

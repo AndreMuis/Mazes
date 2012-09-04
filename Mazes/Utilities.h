@@ -17,6 +17,8 @@
 {
 }
 
++ (void)LogWithObject: (id)object Format: (NSString *)formatString, ...;
+
 + (NSString *)getLanguageCode;
 + (NSString *)getLanguageNameFromCode: (NSString *)languageCode;
 

@@ -12,69 +12,60 @@
 
 @synthesize count;
 
-- (id)initWithXML: (xmlDocPtr)doc
-{
-    self = [super init];
-	
-    if (self)
-	{
-		dictionary = [[NSMutableDictionary alloc] init];
-		
-		[self populateWithXML: doc];
-	}
-	
-    return self;
-}
-
-- (void)populateWithXML: (xmlDocPtr)doc
-{
-	xmlNodePtr node = [XML getNodesFromDoc: doc XPath: "/Response/Sounds/Sound"];
-	
-	xmlNodePtr nodeCurr;
-	for (nodeCurr = node; nodeCurr; nodeCurr = nodeCurr->next)
-	{
-		Sound *sound = [[Sound alloc] initWithXMLDoc: doc XMLNode: nodeCurr];
-		
-		[dictionary setObject: sound forKey: sound.soundId];
-	}
-	
-	xmlFreeNodeList(node);
-}
-
 - (int)count
 {
-	return dictionary.count;
-}
-
-- (NSArray *)getSounds
-{
-	NSArray *sounds = [dictionary allValues];
-	
-	return sounds;
+    NSArray *sounds = [self getSoundsSorted]; 
+    
+	return sounds.count;
 }
 
 - (NSArray *)getSoundsSorted
 {
-	NSArray *sounds = [dictionary allValues];
+    NSEntityDescription *entity = [NSEntityDescription entityForName: @"Sound" inManagedObjectContext: [Globals instance].dataAccess.managedObjectContext];   
+
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];  
+    [request setEntity: entity];   
+
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey: @"name" ascending: YES];  
+    NSArray *sortDescriptors = [NSArray arrayWithObject: sortDescriptor];
+    [request setSortDescriptors: sortDescriptors];  
+
+    NSError *error = nil;  
+    NSArray *sounds = [[Globals instance].dataAccess.managedObjectContext executeFetchRequest: request error: &error];   
+
+    if (error != nil)
+    {
+        DLog(@"%@", error);
+    }
 	
-	NSArray *soundsSorted = [sounds sortedArrayUsingComparator: (NSComparator)^(Sound *sound1, Sound *sound2)
-							   {
-								   int comparisonResult = [sound1.name compare: sound2.name];
-								   
-								   return comparisonResult; 
-							   }];
-	
-	return soundsSorted;
+	return sounds;
 }
 
 - (Sound *)getSoundForId: (int)soundId
 {
-	return [dictionary objectForKey: [NSNumber numberWithInt: soundId]];
+    Sound *soundRet = nil;
+    
+    NSArray *sounds = [self getSoundsSorted]; 
+
+    for (Sound *sound in sounds)
+    {
+        if ([sound.id intValue] == soundId)
+        {
+            soundRet = sound;
+        }
+    }
+    
+    if (soundRet == nil)
+    {
+        DLog(@"Could not find sound for Id = %d", soundId);
+    }
+    
+	return soundRet;
 }
 
 - (NSString *)description 
 {
-    return [NSString stringWithFormat: @"%@", dictionary];
+    return [NSString stringWithFormat: @"%@", [self getSoundsSorted]];
 }
 
 @end
