@@ -15,7 +15,7 @@
 @dynamic width; 
 @dynamic height; 
 @dynamic repeats; 
-@dynamic material;
+@dynamic kind;
 @dynamic order; 
 @dynamic imageViewFrame;
 
@@ -26,7 +26,7 @@
     desc = [NSString stringWithFormat: @"%@, width = %d", desc, self.width];
     desc = [NSString stringWithFormat: @"%@, height = %d", desc, self.height];
     desc = [NSString stringWithFormat: @"%@, repeats = %d", desc, self.repeats];
-    desc = [NSString stringWithFormat: @"%@, material = %d", desc, self.material];
+    desc = [NSString stringWithFormat: @"%@, kind = %d", desc, self.kind];
     desc = [NSString stringWithFormat: @"%@, order = %d", desc, self.order];
     
     return desc;

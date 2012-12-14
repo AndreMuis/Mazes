@@ -117,15 +117,15 @@
 {
 	BOOL surrounded = NO;
 	
-	int wallTypeNorth = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants instance].Direction.North];
-	int wallTypeEast = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants instance].Direction.East];
-	int wallTypeSouth = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants instance].Direction.South];
-	int wallTypeWest = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants instance].Direction.West];
+	int wallTypeNorth = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.North];
+	int wallTypeEast = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.East];
+	int wallTypeSouth = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.South];
+	int wallTypeWest = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.West];
 
-	if ((wallTypeNorth == [Constants instance].WallType.Solid || wallTypeNorth == [Constants instance].WallType.Invisible) &&
-		(wallTypeEast == [Constants instance].WallType.Solid || wallTypeEast == [Constants instance].WallType.Invisible) &&
-		(wallTypeSouth == [Constants instance].WallType.Solid || wallTypeSouth == [Constants instance].WallType.Invisible) &&
-		(wallTypeWest == [Constants instance].WallType.Solid || wallTypeWest == [Constants instance].WallType.Invisible))
+	if ((wallTypeNorth == [Constants shared].WallType.Solid || wallTypeNorth == [Constants shared].WallType.Invisible) &&
+		(wallTypeEast == [Constants shared].WallType.Solid || wallTypeEast == [Constants shared].WallType.Invisible) &&
+		(wallTypeSouth == [Constants shared].WallType.Solid || wallTypeSouth == [Constants shared].WallType.Invisible) &&
+		(wallTypeWest == [Constants shared].WallType.Solid || wallTypeWest == [Constants shared].WallType.Invisible))
 	{
 		surrounded = YES;
 	}
@@ -138,25 +138,25 @@
 	int type = 0;
 	Location *location;
 	
-	if (direction == [Constants instance].Direction.North)
+	if (direction == [Constants shared].Direction.North)
 	{
 		location = [self getLocationByX: locX Y: locY];
 
 		type = location.wallNorth;
 	}
-	else if (direction == [Constants instance].Direction.West)
+	else if (direction == [Constants shared].Direction.West)
 	{
 		location = [self getLocationByX: locX Y: locY];
 		
 		type = location.wallWest;
 	}
-	else if (direction == [Constants instance].Direction.South)
+	else if (direction == [Constants shared].Direction.South)
 	{
 		location = [self getLocationByX: locX Y: locY + 1];
 		
 		type = location.wallNorth;
 	}
-	else if (direction == [Constants instance].Direction.East)
+	else if (direction == [Constants shared].Direction.East)
 	{
 		location = [self getLocationByX: locX + 1 Y: locY];
 		
@@ -171,25 +171,25 @@
 	Location *location;
 	BOOL hitWall = NO;
 	
-	if (direction == [Constants instance].Direction.North)
+	if (direction == [Constants shared].Direction.North)
 	{
 		location = [self getLocationByX: locX Y: locY];
 		
 		hitWall = location.wallNorthHit;
 	}
-	else if (direction == [Constants instance].Direction.West)
+	else if (direction == [Constants shared].Direction.West)
 	{
 		location = [self getLocationByX: locX Y: locY];
 		
 		hitWall = location.wallWestHit;
 	}
-	else if (direction == [Constants instance].Direction.South)
+	else if (direction == [Constants shared].Direction.South)
 	{
 		location = [self getLocationByX: locX Y: locY + 1];
 		
 		hitWall = location.wallNorthHit;
 	}
-	else if (direction == [Constants instance].Direction.East)
+	else if (direction == [Constants shared].Direction.East)
 	{
 		location = [self getLocationByX: locX + 1 Y: locY];
 		
@@ -203,8 +203,8 @@
 {
 	BOOL val;
 	
-	if ((location.x == 1 && location.y >= 2 && location.y <= rows && wallDir == [Constants instance].Direction.North) ||
-		(location.y == 1 && location.x >= 2 && location.x <= columns && wallDir == [Constants instance].Direction.West) ||
+	if ((location.x == 1 && location.y >= 2 && location.y <= rows && wallDir == [Constants shared].Direction.North) ||
+		(location.y == 1 && location.x >= 2 && location.x <= columns && wallDir == [Constants shared].Direction.West) ||
 		(location.x >= 2 && location.x <= columns && location.y >= 2 && location.y <= rows))
 		val = YES;
 	else 
@@ -217,25 +217,25 @@
 {
 	Location *location;
 
-	if (direction == [Constants instance].Direction.North)
+	if (direction == [Constants shared].Direction.North)
 	{
 		location = [self getLocationByX: locX Y: locY];
 		
 		location.WallNorth = type;
 	}
-	else if (direction == [Constants instance].Direction.West)
+	else if (direction == [Constants shared].Direction.West)
 	{
 		location = [self getLocationByX: locX Y: locY];
 		
 		location.WallWest = type;
 	}
-	else if (direction == [Constants instance].Direction.South)
+	else if (direction == [Constants shared].Direction.South)
 	{
 		location = [self getLocationByX: locX Y: locY + 1];
 		
 		location.WallNorth = type;
 	}
-	else if (direction == [Constants instance].Direction.East)
+	else if (direction == [Constants shared].Direction.East)
 	{
 		location = [self getLocationByX: locX + 1 Y: locY];
 		
@@ -247,25 +247,25 @@
 {
 	Location *location;
 	
-	if (direction == [Constants instance].Direction.North)
+	if (direction == [Constants shared].Direction.North)
 	{
 		location = [self getLocationByX: locX Y: locY];
 		
 		location.WallNorthHit = YES;
 	}
-	else if (direction == [Constants instance].Direction.West)
+	else if (direction == [Constants shared].Direction.West)
 	{
 		location = [self getLocationByX: locX Y: locY];
 		
 		location.WallWestHit = YES;
 	}
-	else if (direction == [Constants instance].Direction.South)
+	else if (direction == [Constants shared].Direction.South)
 	{
 		location = [self getLocationByX: locX Y: locY + 1];
 		
 		location.WallNorthHit = YES;
 	}
-	else if (direction == [Constants instance].Direction.East)
+	else if (direction == [Constants shared].Direction.East)
 	{
 		location = [self getLocationByX: locX + 1 Y: locY];
 		
@@ -283,21 +283,21 @@
 	{
 		if (location.x <= columns && location.y <= rows)
 		{
-			segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants instance].MazeObject.Location];
+			segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants shared].MazeObject.Location];
 			
-			if (location.type == [Constants instance].LocationType.Start)
+			if (location.type == [Constants shared].LocationType.Start)
 			{
 				CGContextSetFillColorWithColor(context, [Styles instance].grid.startColor.CGColor);
 			}
-			else if (location.type == [Constants instance].LocationType.End)
+			else if (location.type == [Constants shared].LocationType.End)
 			{
 				CGContextSetFillColorWithColor(context, [Styles instance].grid.endColor.CGColor);
 			}
-			else if (location.type == [Constants instance].LocationType.StartOver)
+			else if (location.type == [Constants shared].LocationType.StartOver)
 			{
 				CGContextSetFillColorWithColor(context, [Styles instance].grid.startOverColor.CGColor);
 			}
-			else if (location.type == [Constants instance].LocationType.Teleportation)
+			else if (location.type == [Constants shared].LocationType.Teleportation)
 			{
 				CGContextSetFillColorWithColor(context, [Styles instance].grid.teleportationColor.CGColor);
 			}
@@ -312,17 +312,20 @@
 			
 			CGContextFillRect(context, segmentRect);
 			
-			if (location.type == [Constants instance].LocationType.Start || location.type == [Constants instance].LocationType.Teleportation)
+			if (location.type == [Constants shared].LocationType.Start || location.type == [Constants shared].LocationType.Teleportation)
 			{
 				[Utilities drawArrowInRect: segmentRect AngleDegrees: location.direction Scale: 0.8];
 				
-				if (location.type == [Constants instance].LocationType.Teleportation)
+				if (location.type == [Constants shared].LocationType.Teleportation)
 				{
 					CGContextSetFillColorWithColor(context, [Styles instance].grid.teleportIdColor.CGColor);
 				
 					NSString *num = [NSString stringWithFormat: @"%d", location.teleportId];
 				
-					[num drawInRect: segmentRect withFont: [UIFont systemFontOfSize: [Styles instance].grid.teleportFontSize] lineBreakMode: UILineBreakModeClip alignment: UITextAlignmentCenter];
+					[num drawInRect: segmentRect
+                           withFont: [UIFont systemFontOfSize: [Styles instance].grid.teleportFontSize]
+                      lineBreakMode: NSLineBreakByClipping
+                          alignment: NSTextAlignmentCenter];
 				}
 			}				
 			
@@ -344,7 +347,7 @@
 		
 		if (location.x <= columns)
 		{
-			segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants instance].MazeObject.WallNorth];
+			segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants shared].MazeObject.WallNorth];
 						
 			// outer wall
 			if (location.y == 1 || location.y == rows + 1)
@@ -354,16 +357,24 @@
 			}
 			else
 			{
-				int wallType = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants instance].Direction.North];
+				int wallType = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.North];
 				
-				if (wallType == [Constants instance].WallType.None)
+				if (wallType == [Constants shared].WallType.None)
+                {
 					CGContextSetFillColorWithColor(context, [Styles instance].grid.noWallColor.CGColor);
-				else if (wallType == [Constants instance].WallType.Solid)
+                }
+				else if (wallType == [Constants shared].WallType.Solid)
+                {
 					CGContextSetFillColorWithColor(context, [Styles instance].grid.solidColor.CGColor);
-				else if (wallType == [Constants instance].WallType.Invisible)
+                }
+				else if (wallType == [Constants shared].WallType.Invisible)
+                {
 					CGContextSetFillColorWithColor(context, [Styles instance].grid.invisibleColor.CGColor);
-				else if (wallType == [Constants instance].WallType.Fake)
+                }
+				else if (wallType == [Constants shared].WallType.Fake)
+                {
 					CGContextSetFillColorWithColor(context, [Styles instance].grid.fakeColor.CGColor);
+                }
 									
 				CGContextFillRect(context, segmentRect);
 			}
@@ -375,7 +386,7 @@
 						
 			if (currWallLoc != nil)
 			{
-				if (location.x == currWallLoc.x && location.y == currWallLoc.y && currWallDir == [Constants instance].Direction.North)
+				if (location.x == currWallLoc.x && location.y == currWallLoc.y && currWallDir == [Constants shared].Direction.North)
 				{
 					[Utilities drawBorderInsideRect: segmentRect WithWidth: [Styles instance].grid.wallHighlightWidth Color: [Styles instance].grid.locationHighlightColor];				
 				}
@@ -386,7 +397,7 @@
 		
 		if (location.y <= rows)
 		{
-			segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants instance].MazeObject.WallWest];
+			segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants shared].MazeObject.WallWest];
 
 			// outer wall
 			if (location.x == 1 || location.x == columns + 1)
@@ -396,16 +407,24 @@
 			}
 			else
 			{
-				int wallType = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants instance].Direction.West];
+				int wallType = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.West];
 				
-				if (wallType == [Constants instance].WallType.None)
+				if (wallType == [Constants shared].WallType.None)
+                {
 					CGContextSetFillColorWithColor(context, [Styles instance].grid.noWallColor.CGColor);
-				else if (wallType == [Constants instance].WallType.Solid)
+                }
+				else if (wallType == [Constants shared].WallType.Solid)
+                {
 					CGContextSetFillColorWithColor(context, [Styles instance].grid.solidColor.CGColor);
-				else if (wallType == [Constants instance].WallType.Invisible)
+                }
+				else if (wallType == [Constants shared].WallType.Invisible)
+                {
 					CGContextSetFillColorWithColor(context, [Styles instance].grid.invisibleColor.CGColor);
-				else if (wallType == [Constants instance].WallType.Fake)
+                }
+				else if (wallType == [Constants shared].WallType.Fake)
+                {
 					CGContextSetFillColorWithColor(context, [Styles instance].grid.fakeColor.CGColor);
+                }
 				
 				CGContextFillRect(context, segmentRect);
 			}
@@ -417,7 +436,7 @@
 			
 			if (currWallLoc != nil)
 			{
-				if (location.x == currWallLoc.x && location.y == currWallLoc.y && currWallDir == [Constants instance].Direction.West)
+				if (location.x == currWallLoc.x && location.y == currWallLoc.y && currWallDir == [Constants shared].Direction.West)
 				{
 					[Utilities drawBorderInsideRect: segmentRect WithWidth: [Styles instance].grid.wallHighlightWidth Color: [Styles instance].grid.locationHighlightColor];				
 				}
@@ -426,7 +445,7 @@
 		
 		// Corner
 
-		segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants instance].MazeObject.Corner];
+		segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants shared].MazeObject.Corner];
 
 		if (location.y > 1 && location.y <= rows && location.x > 1 && location.x <= columns)
 		{
@@ -449,7 +468,7 @@
 	
 	for (Location *location in array)
 	{	
-		segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants instance].MazeObject.Location];
+		segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants shared].MazeObject.Location];
 
 		touchRect = CGRectMake(segmentRect.origin.x - [Styles instance].grid.segmentLengthShort / 2.0, segmentRect.origin.y - [Styles instance].grid.segmentLengthShort / 2.0, [Styles instance].grid.segmentLengthLong + [Styles instance].grid.segmentLengthShort, [Styles instance].grid.segmentLengthLong + [Styles instance].grid.segmentLengthShort);
 		
@@ -477,11 +496,11 @@
 		{
 			if (i == 1) 
 			{
-				*segType = [Constants instance].MazeObject.WallNorth;				
+				*segType = [Constants shared].MazeObject.WallNorth;				
 			}
 			else if (i == 2)
 			{
-				*segType = [Constants instance].MazeObject.WallWest;
+				*segType = [Constants shared].MazeObject.WallWest;
 			}
 			
 			segmentRect = [self getSegmentRectFromLocation: location SegmentType: *segType];
@@ -511,8 +530,8 @@
 			if (found == YES)
 			{
 				if ((location.x <= columns && location.y <= rows) ||
-					(location.x == columns + 1 && *segType == [Constants instance].MazeObject.WallWest && location.y <= rows) ||
-					(location.y == rows + 1 && *segType == [Constants instance].MazeObject.WallNorth && location.x <= columns))
+					(location.x == columns + 1 && *segType == [Constants shared].MazeObject.WallWest && location.y <= rows) ||
+					(location.y == rows + 1 && *segType == [Constants shared].MazeObject.WallNorth && location.x <= columns))
 				{
 					return location;
 				}
@@ -527,7 +546,7 @@
 {
 	float segmentX = 0.0, segmentY = 0.0, width = 0.0, height = 0.0;
 	
-	if (segmentType == [Constants instance].MazeObject.Location)
+	if (segmentType == [Constants shared].MazeObject.Location)
 	{
 		segmentX = [Styles instance].grid.segmentLengthShort + (location.x - 1) * ([Styles instance].grid.segmentLengthLong + [Styles instance].grid.segmentLengthShort);
 		segmentY = [Styles instance].grid.segmentLengthShort + (location.y - 1) * ([Styles instance].grid.segmentLengthLong + [Styles instance].grid.segmentLengthShort);
@@ -535,7 +554,7 @@
 		width = [Styles instance].grid.segmentLengthLong;
 		height = [Styles instance].grid.segmentLengthLong; 
 	}
-	else if (segmentType == [Constants instance].MazeObject.WallNorth)
+	else if (segmentType == [Constants shared].MazeObject.WallNorth)
 	{
 		segmentX = [Styles instance].grid.segmentLengthShort + (location.x - 1) * ([Styles instance].grid.segmentLengthShort + [Styles instance].grid.segmentLengthLong);
 		segmentY = (location.y - 1) * ([Styles instance].grid.segmentLengthShort + [Styles instance].grid.segmentLengthLong);
@@ -543,7 +562,7 @@
 		width = [Styles instance].grid.segmentLengthLong;
 		height = [Styles instance].grid.segmentLengthShort; 
 	}
-	else if (segmentType == [Constants instance].MazeObject.WallWest)
+	else if (segmentType == [Constants shared].MazeObject.WallWest)
 	{
 		segmentX = (location.x - 1) * ([Styles instance].grid.segmentLengthShort + [Styles instance].grid.segmentLengthLong);
 		segmentY = [Styles instance].grid.segmentLengthShort + (location.y - 1) * ([Styles instance].grid.segmentLengthShort + [Styles instance].grid.segmentLengthLong);	
@@ -551,7 +570,7 @@
 		width = [Styles instance].grid.segmentLengthShort;
 		height = [Styles instance].grid.segmentLengthLong; 
 	}
-	else if (segmentType == [Constants instance].MazeObject.Corner)
+	else if (segmentType == [Constants shared].MazeObject.Corner)
 	{
 		segmentX = (location.x - 1) * ([Styles instance].grid.segmentLengthLong + [Styles instance].grid.segmentLengthShort);
 		segmentY = (location.y - 1) * ([Styles instance].grid.segmentLengthLong + [Styles instance].grid.segmentLengthShort);	

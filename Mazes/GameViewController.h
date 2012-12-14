@@ -11,7 +11,6 @@
 #import "Globals.h"
 #import "Communication.h"
 #import "Maze.h"
-#import "Sounds.h"
 #import "TopListsViewController.h"
 #import "MazeView.h"
 #import "MapView.h"

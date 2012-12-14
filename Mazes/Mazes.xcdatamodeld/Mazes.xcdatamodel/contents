@@ -7,7 +7,7 @@
     <entity name="Texture" representedClassName="Texture" syncable="YES">
         <attribute name="height" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="id" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="material" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="kind" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="order" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="repeats" attributeType="Integer 32" syncable="YES"/>

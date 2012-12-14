@@ -8,6 +8,11 @@
 
 #import "GameViewController.h"
 
+#import "Colors.h"
+#import "Game.h"
+#import "Sounds.h"
+#import "Sound.h"
+
 @implementation GameViewController
 
 @synthesize topListsItem; 
@@ -29,8 +34,8 @@
 	
 	movements = [[NSMutableArray alloc] init];
 		
-	moveStepDurationAvg = [Constants instance].stepDurationAvgStart;
-	turnStepDurationAvg = [Constants instance].stepDurationAvgStart;
+	moveStepDurationAvg = [Constants shared].stepDurationAvgStart;
+	turnStepDurationAvg = [Constants shared].stepDurationAvgStart;
 	
 	lblTitle.backgroundColor = [Styles instance].gameView.titleBackgroundColor;
 	lblTitle.font = [Styles instance].gameView.titleFont;
@@ -50,7 +55,7 @@
 	viewMazeBorder.backgroundColor = [Styles instance].gameView.borderColor;
 
 	[mazeView setupOpenGLViewport];
-	[mazeView translateDGLX: 0.0 DGLY: [Constants instance].eyeHeight DGLZ: 0.0];
+	[mazeView translateDGLX: 0.0 DGLY: [Constants shared].eyeHeight DGLZ: 0.0];
 
 	[mazeView setupOpenGLTextures];
 	
@@ -77,16 +82,13 @@
 
 	lblTitle.text = topListsItem.mazeName;
 	
-	NSNumber *free = (NSNumber *)[[[NSBundle mainBundle] infoDictionary] objectForKey: @"Free"];
-	if ([free boolValue] == YES)
-	{
-		ADBannerView *banner = [Globals instance].bannerView;
-		
-		banner.delegate = self;
-		banner.frame = CGRectMake(banner.frame.origin.x, [Styles instance].screen.height - [Styles instance].bannerView.height, banner.frame.size.width, banner.frame.size.height);
-		
-		[self.view addSubview: banner];
-	}
+    [Game shared].bannerView.delegate = self;
+    [Game shared].bannerView.frame = CGRectMake([Game shared].bannerView.frame.origin.x,
+                                                [Styles instance].screen.height - [Styles instance].bannerView.height,
+                                                [Game shared].bannerView.frame.size.width,
+                                                [Game shared].bannerView.frame.size.height);
+    
+    [self.view addSubview: [Game shared].bannerView];
 
 	[self loadMaze];
 }
@@ -161,13 +163,13 @@
 	mazeView.Theta = 0.0;
 	
 	prevLoc = nil;
-	Location *startLoc = [[Globals instance].mazeMain.locations getLocationByType: [Constants instance].LocationType.Start];
+	Location *startLoc = [[Globals instance].mazeMain.locations getLocationByType: [Constants shared].LocationType.Start];
 	[self SetupNewLocation: startLoc];
 	
 	if ([Globals instance].mazeMain.backgroundSoundId != 0)
 	{
-		Sound *sound = [[Globals instance].sounds getSoundForId: [Globals instance].mazeMain.backgroundSoundId];
-		[sound playWithNumberOfLoops: -1];
+		Sound *sound = [[Sounds shared] getSoundWithId: [Globals instance].mazeMain.backgroundSoundId];
+        [sound playWithNumberOfLoops: -1];
 	}
 	
 	IsMoving = NO;
@@ -182,12 +184,12 @@
 
 	[mazeView translateDGLX: -mazeView.GLX DGLY: 0.0 DGLZ: -mazeView.GLZ];
 	
-	float glx = [Constants instance].wallDepth / 2.0 + [Constants instance].wallWidth / 2.0 + (currLoc.x - 1) * [Constants instance].wallWidth;
-	float glz = [Constants instance].wallDepth / 2.0 + [Constants instance].wallWidth / 2.0 + (currLoc.y - 1) * [Constants instance].wallWidth;
+	float glx = [Constants shared].wallDepth / 2.0 + [Constants shared].wallWidth / 2.0 + (currLoc.x - 1) * [Constants shared].wallWidth;
+	float glz = [Constants shared].wallDepth / 2.0 + [Constants shared].wallWidth / 2.0 + (currLoc.y - 1) * [Constants shared].wallWidth;
 	
 	[mazeView translateDGLX: glx DGLY: 0.0 DGLZ: glz];
 	
-	if (currLoc.type == [Constants instance].LocationType.Start || currLoc.type == [Constants instance].LocationType.Teleportation)
+	if (currLoc.type == [Constants shared].LocationType.Start || currLoc.type == [Constants shared].LocationType.Teleportation)
 	{
 		int theta = currLoc.direction;
 		
@@ -196,13 +198,13 @@
 		[mazeView rotateDTheta: (float)theta];
 
 		if (theta == 0)
-			currDir = [Constants instance].Direction.North;
+			currDir = [Constants shared].Direction.North;
 		else if (theta == 90)
-			currDir = [Constants instance].Direction.East;
+			currDir = [Constants shared].Direction.East;
 		else if (theta == 180)
-			currDir = [Constants instance].Direction.South;
+			currDir = [Constants shared].Direction.South;
 		else if (theta == 270)
-			currDir = [Constants instance].Direction.West;
+			currDir = [Constants shared].Direction.West;
 	}
 	
 	mapView.currLoc = currLoc;
@@ -221,7 +223,7 @@
 	
 	if (CGRectContainsPoint(mazeView.frame, location) == YES)
 	{
-		[movements addObject: [NSNumber numberWithInt: [Constants instance].Movement.Forward]];
+		[movements addObject: [NSNumber numberWithInt: [Constants shared].Movement.Forward]];
 	}
 	
 	[self processMovements];
@@ -235,15 +237,15 @@
 	{
 		if (recognizer.direction == UISwipeGestureRecognizerDirectionDown)
 		{
-			[movements addObject: [NSNumber numberWithInt: [Constants instance].Movement.Backward]];
+			[movements addObject: [NSNumber numberWithInt: [Constants shared].Movement.Backward]];
 		}
 		else if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft)
 		{
-			[movements addObject: [NSNumber numberWithInt: [Constants instance].Movement.TurnLeft]];
+			[movements addObject: [NSNumber numberWithInt: [Constants shared].Movement.TurnLeft]];
 		}
 		else if (recognizer.direction == UISwipeGestureRecognizerDirectionRight)
 		{
-			[movements addObject: [NSNumber numberWithInt: [Constants instance].Movement.TurnRight]];
+			[movements addObject: [NSNumber numberWithInt: [Constants shared].Movement.TurnRight]];
 		}
 	}
 	
@@ -259,11 +261,11 @@
 		NSNumber *movement = [movements objectAtIndex: 0];
 		[movements removeObjectAtIndex: 0];
 		
-		if ([movement integerValue] == [Constants instance].Movement.Backward || [movement integerValue] == [Constants instance].Movement.Forward)
+		if ([movement integerValue] == [Constants shared].Movement.Backward || [movement integerValue] == [Constants shared].Movement.Forward)
 		{
 			[self moveForwardBackward: [movement integerValue]];
 		}
-		else if ([movement integerValue] == [Constants instance].Movement.TurnLeft || [movement integerValue] == [Constants instance].Movement.TurnRight)
+		else if ([movement integerValue] == [Constants shared].Movement.TurnLeft || [movement integerValue] == [Constants shared].Movement.TurnRight)
 		{
 			[self turn: [movement integerValue]];
 		}
@@ -279,90 +281,90 @@
 	dLocX = 0; 
 	dLocY = 0; 
 
-	if (movement == [Constants instance].Movement.Forward)
+	if (movement == [Constants shared].Movement.Forward)
 	{
-		if (currDir == [Constants instance].Direction.North)
+		if (currDir == [Constants shared].Direction.North)
 		{
 			dLocX = 0;
 			dLocY = -1;
 			
 			dglx = 0.0;
-			dglz = -[Constants instance].wallWidth;
+			dglz = -[Constants shared].wallWidth;
 			
-			movementDir = [Constants instance].Direction.North;
+			movementDir = [Constants shared].Direction.North;
 		}
-		else if (currDir == [Constants instance].Direction.East)
+		else if (currDir == [Constants shared].Direction.East)
 		{
 			dLocX = 1;
 			dLocY = 0;
 			
-			dglx = [Constants instance].wallWidth;
+			dglx = [Constants shared].wallWidth;
 			dglz = 0.0;
 			
-			movementDir = [Constants instance].Direction.East;
+			movementDir = [Constants shared].Direction.East;
 		}
-		else if (currDir == [Constants instance].Direction.South)
+		else if (currDir == [Constants shared].Direction.South)
 		{
 			dLocX = 0;
 			dLocY = 1;
 			
 			dglx = 0.0;
-			dglz = [Constants instance].wallWidth;
+			dglz = [Constants shared].wallWidth;
 			
-			movementDir = [Constants instance].Direction.South;
+			movementDir = [Constants shared].Direction.South;
 		}
-		else if (currDir == [Constants instance].Direction.West)
+		else if (currDir == [Constants shared].Direction.West)
 		{
 			dLocX = -1;
 			dLocY = 0;
 			
-			dglx = -[Constants instance].wallWidth;
+			dglx = -[Constants shared].wallWidth;
 			dglz = 0.0;
 			
-			movementDir = [Constants instance].Direction.West;
+			movementDir = [Constants shared].Direction.West;
 		}
 	}
-	else if (movement == [Constants instance].Movement.Backward)
+	else if (movement == [Constants shared].Movement.Backward)
 	{
-		if (currDir == [Constants instance].Direction.North)
+		if (currDir == [Constants shared].Direction.North)
 		{
 			dLocX = 0;
 			dLocY = 1;
 			
 			dglx = 0.0;
-			dglz = [Constants instance].wallWidth;
+			dglz = [Constants shared].wallWidth;
 			
-			movementDir = [Constants instance].Direction.South;
+			movementDir = [Constants shared].Direction.South;
 		}
-		else if (currDir == [Constants instance].Direction.East)
+		else if (currDir == [Constants shared].Direction.East)
 		{
 			dLocX = -1;
 			dLocY = 0;
 			
-			dglx = -[Constants instance].wallWidth;
+			dglx = -[Constants shared].wallWidth;
 			dglz = 0.0;
 
-			movementDir = [Constants instance].Direction.West;
+			movementDir = [Constants shared].Direction.West;
 		}
-		else if (currDir == [Constants instance].Direction.South)
+		else if (currDir == [Constants shared].Direction.South)
 		{
 			dLocX = 0;
 			dLocY = -1;
 			
 			dglx = 0.0;
-			dglz = -[Constants instance].wallWidth;
+			dglz = -[Constants shared].wallWidth;
 			
-			movementDir = [Constants instance].Direction.North;
+			movementDir = [Constants shared].Direction.North;
 		}
-		else if (currDir == [Constants instance].Direction.West)
+		else if (currDir == [Constants shared].Direction.West)
 		{
 			dLocX = 1;
 			dLocY = 0;
 			
-			dglx = [Constants instance].wallWidth;
+			dglx = [Constants shared].wallWidth;
 			dglz = 0.0;
 			
-			movementDir = [Constants instance].Direction.East;
+			movementDir = [Constants shared].Direction.East;
 		}
 	}
 	
@@ -371,7 +373,7 @@
 	// Animate Movement
 	
 	stepCount = 1;
-	steps = (int)([Constants instance].movementDuration / moveStepDurationAvg);
+	steps = (int)([Constants shared].movementDuration / moveStepDurationAvg);
 	
 	// steps must be even for bounce back
 	if (steps % 2 == 1)
@@ -388,10 +390,14 @@
 	//NSLog(@"step duration avg = %f", moveStepDurationAvg);
 	
 	movementStartDate = [[NSDate alloc] init];
-	if (wallType == [Constants instance].WallType.None || wallType == [Constants instance].WallType.Invisible || wallType == [Constants instance].WallType.Fake)
+	if (wallType == [Constants shared].WallType.None || wallType == [Constants shared].WallType.Invisible || wallType == [Constants shared].WallType.Fake)
+    {
 		[self moveStep: nil];
-	else if (wallType == [Constants instance].WallType.Solid)
+    }
+	else if (wallType == [Constants shared].WallType.Solid)
+    {
 		[self moveEnd];
+    }
 }
 
 - (void)moveStep: (NSTimer *)timer
@@ -401,15 +407,15 @@
 
 	int wallType = [[Globals instance].mazeMain.locations getWallTypeLocX: currLoc.x LocY: currLoc.y Direction: movementDir];
 	
-	if (wallType == [Constants instance].WallType.Fake && stepCount >= steps * [Constants instance].fakeMovementPrcnt && wallRemoved == NO)
+	if (wallType == [Constants shared].WallType.Fake && stepCount >= steps * [Constants shared].fakeMovementPrcnt && wallRemoved == NO)
 	{
-		[[Globals instance].mazeMain.locations setWallTypeLocX: currLoc.x LocY: currLoc.y Direction: movementDir Type: [Constants instance].WallType.None];
+		[[Globals instance].mazeMain.locations setWallTypeLocX: currLoc.x LocY: currLoc.y Direction: movementDir Type: [Constants shared].WallType.None];
 		[mazeView setupOpenGLVerticies];
 		[mazeView drawMaze];	
 		
 		wallRemoved = YES;
 	}
-	else if (wallType == [Constants instance].WallType.Invisible && stepCount >= steps / 2 && directionReversed == NO)
+	else if (wallType == [Constants shared].WallType.Invisible && stepCount >= steps / 2 && directionReversed == NO)
 	{
 		dglx_step = -dglx_step; 
 		dglz_step = -dglz_step; 
@@ -437,7 +443,7 @@
 	
 	int wallType = [[Globals instance].mazeMain.locations getWallTypeLocX: currLoc.x LocY: currLoc.y Direction: movementDir];
 	
-	if (wallType == [Constants instance].WallType.None || wallType == [Constants instance].WallType.Fake)
+	if (wallType == [Constants shared].WallType.None || wallType == [Constants shared].WallType.Fake)
 	{
 		prevLoc = currLoc;
 		
@@ -453,7 +459,7 @@
 		
 		[self locationChanged];
 	}
-	else if (wallType == [Constants instance].WallType.Invisible)
+	else if (wallType == [Constants shared].WallType.Invisible)
 	{
 		[movements removeAllObjects];	
 
@@ -487,35 +493,35 @@
 {
 	float dTheta = 0.0;
 	
-	if (movement == [Constants instance].Movement.TurnLeft)
+	if (movement == [Constants shared].Movement.TurnLeft)
 	{
 		dTheta = -90.0;
 
-		if (currDir == [Constants instance].Direction.North) 
-			currDir = [Constants instance].Direction.West;
-		else if (currDir == [Constants instance].Direction.West) 
-			currDir = [Constants instance].Direction.South;
-		else if (currDir == [Constants instance].Direction.South) 
-			currDir = [Constants instance].Direction.East;
-		else if (currDir == [Constants instance].Direction.East) 
-			currDir = [Constants instance].Direction.North;
+		if (currDir == [Constants shared].Direction.North) 
+			currDir = [Constants shared].Direction.West;
+		else if (currDir == [Constants shared].Direction.West) 
+			currDir = [Constants shared].Direction.South;
+		else if (currDir == [Constants shared].Direction.South) 
+			currDir = [Constants shared].Direction.East;
+		else if (currDir == [Constants shared].Direction.East) 
+			currDir = [Constants shared].Direction.North;
 	}
-	else if (movement == [Constants instance].Movement.TurnRight)
+	else if (movement == [Constants shared].Movement.TurnRight)
 	{
 		dTheta = 90.0;
 
-		if (currDir == [Constants instance].Direction.North) 
-			currDir = [Constants instance].Direction.East;
-		else if (currDir == [Constants instance].Direction.East) 
-			currDir = [Constants instance].Direction.South;
-		else if (currDir == [Constants instance].Direction.South) 
-			currDir = [Constants instance].Direction.West;
-		else if (currDir == [Constants instance].Direction.West) 
-			currDir = [Constants instance].Direction.North;
+		if (currDir == [Constants shared].Direction.North) 
+			currDir = [Constants shared].Direction.East;
+		else if (currDir == [Constants shared].Direction.East) 
+			currDir = [Constants shared].Direction.South;
+		else if (currDir == [Constants shared].Direction.South) 
+			currDir = [Constants shared].Direction.West;
+		else if (currDir == [Constants shared].Direction.West) 
+			currDir = [Constants shared].Direction.North;
 	}
 	
 	stepCount = 1;
-	steps = (int)([Constants instance].movementDuration / turnStepDurationAvg);
+	steps = (int)([Constants shared].movementDuration / turnStepDurationAvg);
 	
 	dTheta_step = dTheta / (float)steps;
 
@@ -572,19 +578,19 @@
 
 - (void)locationChanged
 {
-	if (currLoc.type == [Constants instance].LocationType.End)
+	if (currLoc.type == [Constants shared].LocationType.End)
 	{
 		[movements removeAllObjects];
 		
 		[self setMazeFinished];
 	}
-	else if (currLoc.type == [Constants instance].LocationType.StartOver)
+	else if (currLoc.type == [Constants shared].LocationType.StartOver)
 	{
 		[movements removeAllObjects];
 		
 		[Utilities ShowAlertWithDelegate: self Message: currLoc.message CancelButtonTitle: @"Start Over" OtherButtonTitle: @"" Tag: 1 Bounds: CGRectZero];
 	}
-	else if (currLoc.type == [Constants instance].LocationType.Teleportation)
+	else if (currLoc.type == [Constants shared].LocationType.Teleportation)
 	{
 		[movements removeAllObjects];
 		
@@ -617,7 +623,7 @@
 
 - (void)displayMessage
 {
-	if (currLoc.type != [Constants instance].LocationType.Teleportation || (currLoc.type == [Constants instance].LocationType.Teleportation && prevLoc.type == [Constants instance].LocationType.Teleportation))
+	if (currLoc.type != [Constants shared].LocationType.Teleportation || (currLoc.type == [Constants shared].LocationType.Teleportation && prevLoc.type == [Constants shared].LocationType.Teleportation))
 	{
 		if ([currLoc.message isEqualToString: @""] == NO)
 		{
@@ -680,7 +686,7 @@
 		ratingView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent: 0.0];
 		
 		ratingView.MazeId = topListsItem.mazeId;
-		ratingView.Mode = [Constants instance].RatingMode.RecordEnd;
+		ratingView.Mode = [Constants shared].RatingMode.RecordEnd;
 		ratingView.Rating = topListsItem.userRating;
 		
 		[alertView addSubview: ratingView];
@@ -693,7 +699,7 @@
 		
 		UILabel *ratingLabel = [[UILabel alloc] initWithFrame: CGRectMake(labelX, labelY, labelWidth, labelHeight)];
 		ratingLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent: 0.0];
-		[ratingLabel setTextAlignment: UITextAlignmentCenter];
+		[ratingLabel setTextAlignment: NSTextAlignmentCenter];
 		[ratingLabel setTextColor: [Styles instance].endAlertView.textColor];
 		ratingLabel.font = [UIFont systemFontOfSize: 14.0];  
 		ratingLabel.text = @"Click a star above to rate.";
@@ -713,7 +719,7 @@
 {
 	if (alertView.tag == 1)
 	{
-		Location *startLoc = [[Globals instance].mazeMain.locations getLocationByType: [Constants instance].LocationType.Start];
+		Location *startLoc = [[Globals instance].mazeMain.locations getLocationByType: [Constants shared].LocationType.Start];
 		[self SetupNewLocation: startLoc];
 	}
 	else if (alertView.tag == 2)
@@ -745,7 +751,7 @@
 {
 	if ([Globals instance].mazeMain.backgroundSoundId != 0)
 	{
-		Sound *sound = [[Globals instance].sounds getSoundForId: [Globals instance].mazeMain.backgroundSoundId];
+		Sound *sound = [[Sounds shared] getSoundWithId: [Globals instance].mazeMain.backgroundSoundId];
 		[sound stop];	
 	}
 	
@@ -818,14 +824,12 @@
 	[movements removeAllObjects];
 
 	if (self.popoverController.popoverVisible == YES)
+    {
 		[self.popoverController dismissPopoverAnimated: YES];
-	
-	NSNumber *free = (NSNumber *)[[[NSBundle mainBundle] infoDictionary] objectForKey: @"Free"];
-	if ([free boolValue] == YES)
-	{
-		[Globals instance].bannerView.delegate = nil;
-		[[Globals instance].bannerView removeFromSuperview];
-	}	
+    }
+
+	[Game shared].bannerView.delegate = nil;
+    [[Game shared].bannerView removeFromSuperview];
 }
 
 - (void)viewDidUnload 

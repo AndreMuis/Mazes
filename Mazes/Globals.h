@@ -22,8 +22,6 @@
 {
     AppDelegate *appDelegate;
 
-    DataAccess *dataAccess;
-    
     Maze *MazeMain;
 	Maze *MazeEdit;
 
@@ -33,18 +31,10 @@
 	CreateViewController *createViewController;
 	EditViewController *editViewController;
 	
-	Sounds *sounds;
-	
-	Textures *textures;
-	
-	ADBannerView *bannerView;
-	
 	UIView *activityView;
 }
 
 @property (nonatomic, retain) AppDelegate *appDelegate;
-
-@property (nonatomic, retain) DataAccess *dataAccess;
 
 @property (nonatomic, retain) Maze *mazeMain;
 @property (nonatomic, retain) Maze *mazeEdit;
@@ -54,12 +44,6 @@
 
 @property (nonatomic, retain) CreateViewController *createViewController;
 @property (nonatomic, retain) EditViewController *editViewController;
-
-@property (nonatomic, retain) Sounds *sounds;
-
-@property (nonatomic, retain) Textures *textures;
-
-@property (nonatomic, retain) ADBannerView *bannerView;
 
 @property (nonatomic, retain) UIView *activityView;
 

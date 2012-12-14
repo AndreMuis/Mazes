@@ -8,6 +8,8 @@
 
 #import "TopListsViewController.h"
 
+#import "Game.h"
+
 @implementation TopListsViewController
 
 @synthesize imageViewHighestRated,  imageViewNewest, imageViewYours, TableView, TableViewCell, imageViewMazes, imageViewCreate;
@@ -20,12 +22,6 @@
 
 	TableView.backgroundColor = [Styles instance].mazeList.tableBackgroundColor;
 	
-	NSNumber *free = (NSNumber *)[[[NSBundle mainBundle] infoDictionary] objectForKey: @"Free"];
-	if ([free boolValue] == NO)
-	{
-		TableView.frame = CGRectMake(TableView.frame.origin.x, TableView.frame.origin.y, TableView.frame.size.width, TableView.frame.size.height + [Styles instance].bannerView.height);
-	}
-		
 	selectedSegmentIndex = 0;
 	[self setupSegmentsWithSelectedIndex: 1];
 	
@@ -37,17 +33,14 @@
 - (void)viewWillAppear: (BOOL)animated
 {
 	[super viewWillAppear: animated];
-		
-	NSNumber *free = (NSNumber *)[[[NSBundle mainBundle] infoDictionary] objectForKey: @"Free"];
-	if ([free boolValue] == YES)
-	{
-		ADBannerView *banner = [Globals instance].bannerView;
-		
-		banner.delegate = self;
-		banner.frame = CGRectMake(banner.frame.origin.x, TableView.frame.origin.y + TableView.frame.size.height, banner.frame.size.width, banner.frame.size.height);
-		
-		[self.view addSubview: banner];
-	}
+
+    [Game shared].bannerView.delegate = self;
+    [Game shared].bannerView.frame = CGRectMake([Game shared].bannerView.frame.origin.x,
+                                                TableView.frame.origin.y + TableView.frame.size.height,
+                                                [Game shared].bannerView.frame.size.width,
+                                                [Game shared].bannerView.frame.size.height);
+    
+    [self.view addSubview: [Game shared].bannerView];
 }
 
 - (void)viewDidAppear: (BOOL)animated
@@ -252,30 +245,30 @@
 		cell.dateLabel1.textColor = [Styles instance].mazeList.textColor;
 		cell.dateLabel1.text = topListsItem.dateLastMod;
 		
-		cell.viewRatingAvg1.backgroundColor = [Colors instance].transparentColor;
+		cell.viewRatingAvg1.backgroundColor = [Colors shared].transparentColor;
 		cell.lblNumRatings1.textColor = [Styles instance].mazeList.textColor;
 		if (topListsItem.avgRating == 0.0)
 		{
-			cell.viewRatingAvg1.Mode = [Constants instance].RatingMode.DoNothing;
+			cell.viewRatingAvg1.Mode = [Constants shared].RatingMode.DoNothing;
 
 			cell.lblNumRatings1.text = @"";
 		}
 		else 
 		{
-			cell.viewRatingAvg1.Mode = [Constants instance].RatingMode.DisplayAvg;
+			cell.viewRatingAvg1.Mode = [Constants shared].RatingMode.DisplayAvg;
 			cell.viewRatingAvg1.rating = topListsItem.avgRating;
 			
 			cell.lblNumRatings1.text = [NSString stringWithFormat: @"%d ratings", topListsItem.numRatings];
 		}
 		
-		cell.viewRatingUser1.backgroundColor = [Colors instance].transparentColor;
+		cell.viewRatingUser1.backgroundColor = [Colors shared].transparentColor;
 		if (topListsItem.started == NO)
 		{
-			cell.viewRatingUser1.Mode = [Constants instance].RatingMode.DoNothing;
+			cell.viewRatingUser1.Mode = [Constants shared].RatingMode.DoNothing;
 		}
 		else
 		{
-			cell.viewRatingUser1.mode = [Constants instance].RatingMode.DisplayUser;
+			cell.viewRatingUser1.mode = [Constants shared].RatingMode.DisplayUser;
 			cell.viewRatingUser1.rating = topListsItem.userRating;
 		}
 		
@@ -293,30 +286,30 @@
 			cell.dateLabel2.textColor = [Styles instance].mazeList.textColor;
 			cell.dateLabel2.text = topListsItem.dateLastMod;
 			
-			cell.viewRatingAvg2.backgroundColor = [Colors instance].transparentColor;
+			cell.viewRatingAvg2.backgroundColor = [Colors shared].transparentColor;
 			cell.lblNumRatings2.textColor = [Styles instance].mazeList.textColor;
 			if (topListsItem.avgRating == 0.0)
 			{
-				cell.viewRatingAvg2.Mode = [Constants instance].RatingMode.DoNothing;
+				cell.viewRatingAvg2.Mode = [Constants shared].RatingMode.DoNothing;
 				
 				cell.lblNumRatings2.text = @"";				
 			}
 			else 
 			{
-				cell.viewRatingAvg2.mode = [Constants instance].RatingMode.DisplayAvg;
+				cell.viewRatingAvg2.mode = [Constants shared].RatingMode.DisplayAvg;
 				cell.viewRatingAvg2.rating = topListsItem.avgRating;
 				
 				cell.lblNumRatings2.text = [NSString stringWithFormat: @"%d ratings", topListsItem.numRatings];
 			}
 			
-			cell.viewRatingUser2.backgroundColor = [Colors instance].transparentColor;
+			cell.viewRatingUser2.backgroundColor = [Colors shared].transparentColor;
 			if (topListsItem.started == NO)
 			{
-				cell.viewRatingUser2.Mode = [Constants instance].RatingMode.DoNothing;
+				cell.viewRatingUser2.Mode = [Constants shared].RatingMode.DoNothing;
 			}
 			else
 			{
-				cell.viewRatingUser2.mode = [Constants instance].RatingMode.DisplayUser;
+				cell.viewRatingUser2.mode = [Constants shared].RatingMode.DisplayUser;
 				cell.viewRatingUser2.rating = topListsItem.userRating;
 			}
 		}
@@ -329,13 +322,13 @@
 			cell.nameLabel2.text = @"";
 			cell.dateLabel2.text = @"";
 
-			cell.viewRatingAvg2.backgroundColor = [Colors instance].transparentColor;
-			cell.viewRatingAvg2.Mode = [Constants instance].RatingMode.DoNothing;
+			cell.viewRatingAvg2.backgroundColor = [Colors shared].transparentColor;
+			cell.viewRatingAvg2.Mode = [Constants shared].RatingMode.DoNothing;
 			
 			cell.lblNumRatings2.text = @"";
 
-			cell.viewRatingUser2.backgroundColor = [Colors instance].transparentColor;
-			cell.viewRatingUser2.Mode = [Constants instance].RatingMode.DoNothing;
+			cell.viewRatingUser2.backgroundColor = [Colors shared].transparentColor;
+			cell.viewRatingUser2.Mode = [Constants shared].RatingMode.DoNothing;
 		}
 	}
 	
@@ -373,13 +366,9 @@
 - (void)viewWillDisappear: (BOOL)animated
 {
 	[super viewWillDisappear: animated];
-	
-	NSNumber *free = (NSNumber *)[[[NSBundle mainBundle] infoDictionary] objectForKey: @"Free"];
-	if ([free boolValue] == YES)
-	{
-		[Globals instance].bannerView.delegate = nil;
-		[[Globals instance].bannerView removeFromSuperview];
-	}
+
+	[Game shared].bannerView.delegate = nil;
+	[[Game shared].bannerView removeFromSuperview];
 }
 
 @end

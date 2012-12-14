@@ -13,27 +13,25 @@
 @dynamic id; 
 @dynamic name;
 
-- (id)init
+- (id)initWithEntity: (NSEntityDescription *)entity insertIntoManagedObjectContext: (NSManagedObjectContext *)context
 {
-    self = [super init];
+    self = [super initWithEntity: entity insertIntoManagedObjectContext: context];
 	
     if (self)
-	{
-        DLog(@"%@ %@", self.id, self.name);
-        
-        /*
-		self.id = [NSNumber numberWithInt: [[XML getNodeValueFromDoc: doc Node: node XPath: "SoundId"] intValue]];
-		self.name = [XML getNodeValueFromDoc: doc Node: node XPath: "Name"];
-		
+    {
 		NSString *path = [[NSBundle mainBundle] pathForResource: self.name ofType: @"caf"];
-        NSError *error;
-
+        
+        NSError *error = nil;
 		player = [[AVAudioPlayer alloc] initWithContentsOfURL: [NSURL fileURLWithPath: path] error: &error];
 		
-		player.volume = 1.0;
-
-		[player prepareToPlay];
-         */
+        if (error == nil)
+        {
+            player.volume = 1.0;
+        }
+        else
+        {
+            DLog(@"Unable to create audio player for sound: %@", self);
+        }
 	}
 	
     return self;

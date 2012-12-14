@@ -9,7 +9,7 @@
 #import "Globals.h"
 
 #import "AppDelegate.h"
-#import "DataAccess.h"
+#import "WebServices.h"
 #import "Maze.h"
 #import "TopListsViewController.h"
 #import "GameViewController.h"
@@ -19,16 +19,12 @@
 @implementation Globals
 
 @synthesize appDelegate;
-@synthesize dataAccess;
 @synthesize mazeMain; 
 @synthesize mazeEdit; 
 @synthesize topListsViewController; 
 @synthesize gameViewController; 
 @synthesize createViewController; 
 @synthesize editViewController; 
-@synthesize sounds;
-@synthesize textures; 
-@synthesize bannerView; 
 @synthesize activityView;
 
 - (id)init
@@ -61,16 +57,6 @@
 - (AppDelegate *)appDelegate
 {
     return (AppDelegate *)[[UIApplication sharedApplication] delegate];
-}
-
-- (DataAccess *)dataAccess
-{
-    if (dataAccess == nil)
-    {
-        dataAccess = [[DataAccess alloc] init];
-    }
-    
-    return dataAccess;
 }
 
 - (Maze *)mazeMain
@@ -126,36 +112,6 @@
     }
     
     return editViewController;
-}
-
-- (Sounds *)sounds
-{
-    if (sounds == nil)
-    {
-        sounds = [[Sounds alloc] init];
-    }
-    
-    return sounds;
-}
-
-- (Textures *)textures
-{
-    if (textures == nil)
-    {
-        textures = [[Textures alloc] init];
-    }
-    
-    return textures;
-}
-
-- (ADBannerView *)bannerView
-{
-    if (bannerView == nil)
-    {
-        bannerView = [[ADBannerView alloc] initWithFrame: CGRectZero];
-    }
-    
-    return bannerView;
 }
 
 @end

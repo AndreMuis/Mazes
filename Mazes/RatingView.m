@@ -21,23 +21,23 @@
 {
 	userRect = rect;
 	
-	if (mode == [Constants instance].RatingMode.DoNothing)
+	if (mode == [Constants shared].RatingMode.DoNothing)
 	{
 		self.userInteractionEnabled = NO;
 	}
-	else if (mode == [Constants instance].RatingMode.DisplayAvg)
+	else if (mode == [Constants shared].RatingMode.DisplayAvg)
 	{
 		[self drawStarsRect: rect Color: [Styles instance].ratingView.displayAvgColor];
 	}
-	else if (mode == [Constants instance].RatingMode.DisplayUser)
+	else if (mode == [Constants shared].RatingMode.DisplayUser)
 	{
 		[self drawStarsRect: rect Color: [Styles instance].ratingView.displayUserColor];
 	}
-	else if (mode == [Constants instance].RatingMode.RecordPopover)
+	else if (mode == [Constants shared].RatingMode.RecordPopover)
 	{
 		[self drawStarsRect: rect Color: [Styles instance].ratingView.recordPopoverColor];
 	}
-	else if (mode == [Constants instance].RatingMode.RecordEnd)
+	else if (mode == [Constants shared].RatingMode.RecordEnd)
 	{
 		[self drawStarsRect: rect Color: [Styles instance].ratingView.recordEndColor];
 	}
@@ -78,7 +78,7 @@
 	[super touchesBegan: touches withEvent: event];
 	
 	// applies to rating view in popover
-	if (mode == [Constants instance].RatingMode.RecordPopover || mode == [Constants instance].RatingMode.RecordEnd)
+	if (mode == [Constants shared].RatingMode.RecordPopover || mode == [Constants shared].RatingMode.RecordEnd)
 	{
 		CGPoint touchPoint = [[touches anyObject] locationInView: self];
 
@@ -102,7 +102,7 @@
 	
 	RatingView *ratingView = (RatingView *)[viewController.view.subviews objectAtIndex: 0];
 	ratingView.backgroundColor = [Styles instance].ratingView.popupBackgroundColor;
-	ratingView.Mode = [Constants instance].RatingMode.RecordPopover;
+	ratingView.Mode = [Constants shared].RatingMode.RecordPopover;
 	ratingView.MazeId = mazeId;
 	ratingView.Rating = rating;
 	
@@ -132,13 +132,13 @@
 
 - (void)setRatingResponse
 {	
-	if (mode == [Constants instance].RatingMode.RecordPopover)
+	if (mode == [Constants shared].RatingMode.RecordPopover)
 	{
 		[self.popoverController dismissPopoverAnimated: YES];
 		
 		[[Globals instance].topListsViewController loadMazeList];
 	}
-	else if (mode == [Constants instance].RatingMode.RecordEnd)
+	else if (mode == [Constants shared].RatingMode.RecordEnd)
 	{
 		[[Globals instance].gameViewController dismissEndAlertView];
 	}

@@ -30,6 +30,21 @@
 @synthesize purpleColor;
 @synthesize lightPurpleColor;
 
++ (Colors *)shared
+{
+	static Colors *shared = nil;
+	
+	@synchronized(self)
+	{
+		if (shared == nil)
+		{
+			shared = [[Colors alloc] init];
+		}
+	}
+	
+	return shared;
+}
+
 - (id)init
 {
     self = [super init];
@@ -67,21 +82,6 @@
     }
 	
     return self;
-}
-
-+ (Colors *)instance  
-{
-	static Colors *instance = nil;
-	
-	@synchronized(self) 
-	{
-		if (instance == nil) 
-		{
-			instance = [[Colors alloc] init];
-		}
-	}
-	
-	return instance;
 }
 
 @end

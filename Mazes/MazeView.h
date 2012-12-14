@@ -10,7 +10,6 @@
 
 #import "Globals.h"
 #import "Maze.h"
-#import "Textures.h"
 
 typedef struct
 {

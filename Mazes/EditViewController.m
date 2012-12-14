@@ -8,6 +8,12 @@
 
 #import "EditViewController.h"
 
+#import "Settings.h"
+#import "Sounds.h"
+#import "Sound.h"
+#import "Textures.h"
+#import "Texture.h"
+
 @implementation EditViewController
 
 @synthesize btnMain, btnLocation, btnWall, btnGraphics, btnAudio, viewPlaceHolder, viewMain, scrollViewLocation, viewWall, viewGraphics, viewAudio, textFieldName, switchPublic, switchTutorial, LocationTypeTableView, DirectionTableView, textViewMessage, MessageDisplaysLabel, WallTypeTableView, imageViewFloor, imageViewCeiling, imageViewWall, imageViewWallDefault, imageViewFloorDefault, imageViewCeilingDefault, tableViewBackgroundSound, viewButtons, lblMessage1, lblMessage2, gridView;
@@ -40,13 +46,13 @@
 	viewAudio.frame = viewPlaceHolder.frame;
 	viewAudio.backgroundColor = [Styles instance].editView.panelBackgroundColor;
 
-	locationTypes = [[NSArray alloc] initWithObjects: [NSNumber numberWithInt: [Constants instance].LocationType.DoNothing], [NSNumber numberWithInt: [Constants instance].LocationType.Start], [NSNumber numberWithInt: [Constants instance].LocationType.End], [NSNumber numberWithInt: [Constants instance].LocationType.StartOver], [NSNumber numberWithInt: [Constants instance].LocationType.Teleportation], nil];
+	locationTypes = [[NSArray alloc] initWithObjects: [NSNumber numberWithInt: [Constants shared].LocationType.DoNothing], [NSNumber numberWithInt: [Constants shared].LocationType.Start], [NSNumber numberWithInt: [Constants shared].LocationType.End], [NSNumber numberWithInt: [Constants shared].LocationType.StartOver], [NSNumber numberWithInt: [Constants shared].LocationType.Teleportation], nil];
 	locationTypeLabels = [[NSArray alloc] initWithObjects: @"Do Nothing", @"Start", @"End", @"Start Over", @"Teleportation", nil];
 	
 	directionThetas = [[NSArray alloc] initWithObjects: [NSNumber numberWithInt: 0], [NSNumber numberWithInt: 90], [NSNumber numberWithInt: 180], [NSNumber numberWithInt: 270], nil];
 	directionLabels = [[NSArray alloc] initWithObjects: @"North", @"East", @"South", @"West", nil];
 	
-	wallTypes = [[NSArray alloc] initWithObjects: [NSNumber numberWithInt: [Constants instance].WallType.None], [NSNumber numberWithInt: [Constants instance].WallType.Solid], [NSNumber numberWithInt: [Constants instance].WallType.Invisible], [NSNumber numberWithInt: [Constants instance].WallType.Fake], nil];
+	wallTypes = [[NSArray alloc] initWithObjects: [NSNumber numberWithInt: [Constants shared].WallType.None], [NSNumber numberWithInt: [Constants shared].WallType.Solid], [NSNumber numberWithInt: [Constants shared].WallType.Invisible], [NSNumber numberWithInt: [Constants shared].WallType.Fake], nil];
 	wallTypeLabels = [[NSArray alloc] initWithObjects: @"No Wall", @"Solid", @"Invisible", @"Fake", nil];
 	
 	// set table row heights
@@ -85,12 +91,11 @@
 
 	locationsVisited = [[NSMutableArray alloc] init];
 		
-	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	NSNumber *useTutorial = (NSNumber *)[userDefaults objectForKey: @"UseTutorial"];
-		
-	if ([useTutorial boolValue] == YES)
-		[self animateScrollView];
-
+    if ([Settings shared].useTutorial == YES)
+    {
+        [self animateScrollView];
+    }
+    
 	[self setup];
 }
 
@@ -160,11 +165,8 @@
 	textFieldName.text = [Globals instance].mazeEdit.name;
 	
 	switchPublic.on = [Globals instance].mazeEdit.isPublic;
-	
-	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	NSNumber *useTutorial = (NSNumber *)[userDefaults objectForKey: @"UseTutorial"];
-	
-	switchTutorial.on = [useTutorial boolValue];
+		
+	switchTutorial.on = [Settings shared].useTutorial;
 	
 	currLoc = nil;
 	prevLoc = nil;
@@ -274,10 +276,14 @@
 		
 		[self setupTabBarWithSelectedIndex: 3];
 		
-		if (segType == [Constants instance].MazeObject.WallNorth)
-			currWallDir = [Constants instance].Direction.North;
-		else if (segType == [Constants instance].MazeObject.WallWest) 
-			currWallDir = [Constants instance].Direction.West;
+		if (segType == [Constants shared].MazeObject.WallNorth)
+        {
+			currWallDir = [Constants shared].Direction.North;
+        }
+		else if (segType == [Constants shared].MazeObject.WallWest)
+        {
+			currWallDir = [Constants shared].Direction.West;
+        }
 	
 		gridView.currWallDir = currWallDir;
 		
@@ -288,13 +294,13 @@
 			int oldWallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir];
 			
 			int newWallType = 0;
-			if (oldWallType == [Constants instance].WallType.None)
+			if (oldWallType == [Constants shared].WallType.None)
             {
-				newWallType = [Constants instance].WallType.Solid;
+				newWallType = [Constants shared].WallType.Solid;
             }
 			else
             {
-				newWallType = [Constants instance].WallType.None;
+				newWallType = [Constants shared].WallType.None;
             }
             
 			[[Globals instance].mazeEdit.locations setWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir Type: newWallType];			
@@ -368,7 +374,7 @@
 		prevLoc.teleportX = currLoc.x;
 		prevLoc.teleportY = currLoc.y;
 				
-		currLoc.type = [Constants instance].LocationType.Teleportation;
+		currLoc.type = [Constants shared].LocationType.Teleportation;
 		currLoc.teleportId = prevLoc.teleportId;
 		currLoc.teleportX = prevLoc.x;
 		currLoc.teleportY = prevLoc.y;
@@ -398,7 +404,7 @@
 {
 	BOOL setAsTeleportation = NO;
 	
-	if (currLoc != nil && currLoc.type == [Constants instance].LocationType.Teleportation && currLoc.teleportX == 0 && currLoc.teleportY == 0)
+	if (currLoc != nil && currLoc.type == [Constants shared].LocationType.Teleportation && currLoc.teleportX == 0 && currLoc.teleportY == 0)
 		setAsTeleportation = YES;
 	
 	return setAsTeleportation;
@@ -483,7 +489,7 @@
 	}
 	else if (tableView.tag == 4)
 	{
-		rows = [Globals instance].sounds.count + 1;
+		rows = [Sounds shared].count + 1;
 	}
 	
 	return rows;
@@ -572,7 +578,7 @@
 		}
 		else 
 		{
-			NSArray	*backgroundSounds = [[Globals instance].sounds getSoundsSorted];
+			NSArray	*backgroundSounds = [[Sounds shared] getSoundsSorted];
 		
 			Sound *sound = [backgroundSounds objectAtIndex: indexPath.row - 1];
 		
@@ -605,17 +611,17 @@
 	{
 		int locationType = [[locationTypes objectAtIndex: indexPath.row] intValue];
 
-		if (locationType == [Constants instance].LocationType.DoNothing)
+		if (locationType == [Constants shared].LocationType.DoNothing)
 		{
 			[self ResetCurrentLocation];
 
 			[self showTutorialHelpForTopic: @"None"];
 		}
-		if (locationType == [Constants instance].LocationType.Start)
+		if (locationType == [Constants shared].LocationType.Start)
 		{
 			[self ResetCurrentLocation];
 
-			Location *startLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants instance].LocationType.Start];
+			Location *startLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants shared].LocationType.Start];
 			
 			if (startLoc != nil)
             {
@@ -624,11 +630,11 @@
             
 			[self showTutorialHelpForTopic: @"StartDirection"];
 		}
-		else if (locationType == [Constants instance].LocationType.End)
+		else if (locationType == [Constants shared].LocationType.End)
 		{
 			[self ResetCurrentLocation];
 
-			Location *endLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants instance].LocationType.End];
+			Location *endLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants shared].LocationType.End];
 			
 			if (endLoc != nil)
             {
@@ -637,13 +643,13 @@
             
             [self showTutorialHelpForTopic: @"None"];			
 		}
-		else if (locationType == [Constants instance].LocationType.StartOver)
+		else if (locationType == [Constants shared].LocationType.StartOver)
 		{
 			[self ResetCurrentLocation];
 			
 			[self showTutorialHelpForTopic: @"None"];			
 		}
-		else if (locationType == [Constants instance].LocationType.Teleportation)
+		else if (locationType == [Constants shared].LocationType.Teleportation)
 		{
 			if ([[Globals instance].mazeEdit.locations IsSurroundedByWallsLocation: currLoc])
 			{
@@ -688,17 +694,23 @@
 		{
 			[self SetupWallTypeTableViewWallType: newWallType];
 			
-			if (newWallType == [Constants instance].WallType.Invisible)
+			if (newWallType == [Constants shared].WallType.Invisible)
+            {
 				[self showTutorialHelpForTopic: @"InvisibleWalls"];
-			else if (newWallType == [Constants instance].WallType.Fake)
+            }
+			else if (newWallType == [Constants shared].WallType.Fake)
+            {
 				[self showTutorialHelpForTopic: @"FakeWalls"];
-			else 
+            }
+			else
+            {
 				[self showTutorialHelpForTopic: @"None"];
+            }
 		}
 	}	
 	else if (tableView.tag == 4)
 	{
-		NSArray	*backgroundSounds = [[Globals instance].sounds getSoundsSorted];
+		NSArray	*backgroundSounds = [[Sounds shared] getSoundsSorted];
 		
 		// previous
 		
@@ -711,7 +723,7 @@
 		{
 			[self stopBackgroundSound];
 			
-			Sound *sound = [[Globals instance].sounds getSoundForId: [Globals instance].mazeEdit.backgroundSoundId];
+			Sound *sound = [[Sounds shared] getSoundWithId: [Globals instance].mazeEdit.backgroundSoundId];
 			
 			row = [backgroundSounds indexOfObject: sound] + 1;
 		}
@@ -747,7 +759,7 @@
 
 - (void)ResetCurrentLocation
 {
-	if (currLoc.type == [Constants instance].LocationType.Teleportation)
+	if (currLoc.type == [Constants shared].LocationType.Teleportation)
 	{
 		[self showTutorialHelpForTopic: @"None"];
 		
@@ -801,7 +813,7 @@
 {
 	[self clearAccessoriesInTableView: DirectionTableView];
 
-	if (locationType == [Constants instance].LocationType.Start || locationType == [Constants instance].LocationType.Teleportation)
+	if (locationType == [Constants shared].LocationType.Start || locationType == [Constants shared].LocationType.Teleportation)
 	{
 		[self setTableView: DirectionTableView Disabled: NO];
 		
@@ -821,15 +833,15 @@
 
 - (void)SetupMessageDisplaysLabelLocationType: (int)locationType
 {
-	if (locationType == [Constants instance].LocationType.DoNothing)
+	if (locationType == [Constants shared].LocationType.DoNothing)
 		MessageDisplaysLabel.text = @"Above maze";
-	else if (locationType == [Constants instance].LocationType.Start)
+	else if (locationType == [Constants shared].LocationType.Start)
 		MessageDisplaysLabel.text = @"Above maze";
-	else if (locationType == [Constants instance].LocationType.End)
+	else if (locationType == [Constants shared].LocationType.End)
 		MessageDisplaysLabel.text = @"In pop-up";
-	else if (locationType == [Constants instance].LocationType.StartOver)
+	else if (locationType == [Constants shared].LocationType.StartOver)
 		MessageDisplaysLabel.text = @"In pop-up";
-	else if (locationType == [Constants instance].LocationType.Teleportation)
+	else if (locationType == [Constants shared].LocationType.Teleportation)
 		MessageDisplaysLabel.text = @"Above maze";
 }
 
@@ -864,19 +876,19 @@
 	Location *location1 = nil;
 	Location *location2 = nil;
 
-	if (currWallDir == [Constants instance].Direction.North)
+	if (currWallDir == [Constants shared].Direction.North)
 	{
 		location1 = [[Globals instance].mazeEdit.locations getLocationByX: currWallLoc.x Y: currWallLoc.y];
 		location2 = [[Globals instance].mazeEdit.locations getLocationByX: currWallLoc.x Y: currWallLoc.y - 1];			
 	}
-	else if (currWallDir == [Constants instance].Direction.West)
+	else if (currWallDir == [Constants shared].Direction.West)
 	{
 		location1 = [[Globals instance].mazeEdit.locations getLocationByX: currWallLoc.x Y: currWallLoc.y];
 		location2 = [[Globals instance].mazeEdit.locations getLocationByX: currWallLoc.x - 1 Y: currWallLoc.y];			
 	}
 
-	if ((location1.type == [Constants instance].LocationType.Teleportation && [[Globals instance].mazeEdit.locations IsSurroundedByWallsLocation: location1] == YES) ||
-		(location2.type == [Constants instance].LocationType.Teleportation && [[Globals instance].mazeEdit.locations IsSurroundedByWallsLocation: location2] == YES))
+	if ((location1.type == [Constants shared].LocationType.Teleportation && [[Globals instance].mazeEdit.locations IsSurroundedByWallsLocation: location1] == YES) ||
+		(location2.type == [Constants shared].LocationType.Teleportation && [[Globals instance].mazeEdit.locations IsSurroundedByWallsLocation: location2] == YES))
 	{
 		passes = NO;
 	}
@@ -917,7 +929,7 @@ BOOL exists;
 	[locationsVisited removeAllObjects];
 	exists = NO;
 	
-	Location *startLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants instance].LocationType.Start];
+	Location *startLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants shared].LocationType.Start];
 	[self findExitLocation: startLoc];
 	
 	return exists;
@@ -930,45 +942,45 @@ BOOL exists;
 	else
 		return;
 		
-	if (location.type == [Constants instance].LocationType.End)
+	if (location.type == [Constants shared].LocationType.End)
 		exists = YES;
 
-	if (exists == YES || location.type == [Constants instance].LocationType.StartOver)
+	if (exists == YES || location.type == [Constants shared].LocationType.StartOver)
     {
 		return;
     }
     
 	int wallType;
 	
-	wallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants instance].Direction.North];
-	if (wallType == [Constants instance].WallType.None || wallType == [Constants instance].WallType.Fake)
+	wallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.North];
+	if (wallType == [Constants shared].WallType.None || wallType == [Constants shared].WallType.Fake)
 	{
 		Location *newLocation = [[Globals instance].mazeEdit.locations getLocationByX: location.x Y: location.y - 1];
 		[self findExitLocation: newLocation];
 	}
 		 
-	wallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants instance].Direction.East];
-	if (wallType == [Constants instance].WallType.None || wallType == [Constants instance].WallType.Fake)
+	wallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.East];
+	if (wallType == [Constants shared].WallType.None || wallType == [Constants shared].WallType.Fake)
 	{
 		Location *newLocation = [[Globals instance].mazeEdit.locations getLocationByX: location.x + 1 Y: location.y];
 		[self findExitLocation: newLocation];
 	}
 	
-	wallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants instance].Direction.South];
-	if (wallType == [Constants instance].WallType.None || wallType == [Constants instance].WallType.Fake)
+	wallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.South];
+	if (wallType == [Constants shared].WallType.None || wallType == [Constants shared].WallType.Fake)
 	{
 		Location *newLocation = [[Globals instance].mazeEdit.locations getLocationByX: location.x Y: location.y + 1];
 		[self findExitLocation: newLocation];
 	}
 	
-	wallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants instance].Direction.West];
-	if (wallType == [Constants instance].WallType.None || wallType == [Constants instance].WallType.Fake)
+	wallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.West];
+	if (wallType == [Constants shared].WallType.None || wallType == [Constants shared].WallType.Fake)
 	{
 		Location *newLocation = [[Globals instance].mazeEdit.locations getLocationByX: location.x - 1 Y: location.y];
 		[self findExitLocation: newLocation];
 	}
 	
-	if (location.type == [Constants instance].LocationType.Teleportation)
+	if (location.type == [Constants shared].LocationType.Teleportation)
 	{
 		Location *newLocation = [[Globals instance].mazeEdit.locations getLocationByX: location.teleportX Y: location.teleportY];
 		[self findExitLocation: newLocation];
@@ -996,7 +1008,7 @@ BOOL exists;
 			floorTextureId = [Globals instance].mazeEdit.floorTextureId;
 		}
 
-		Texture *floorTexture = [[Globals instance].textures getTextureForId: floorTextureId];
+		Texture *floorTexture = [[Textures shared] getTextureWithId: floorTextureId];
 		
 		imageViewFloor.image = [UIImage imageNamed: [floorTexture.name stringByAppendingString: @".png"]];
 
@@ -1010,7 +1022,7 @@ BOOL exists;
 			ceilingTextureId = [Globals instance].mazeEdit.ceilingTextureId;
 		}
 		
-		Texture *ceilingTexture = [[Globals instance].textures getTextureForId: ceilingTextureId];
+		Texture *ceilingTexture = [[Textures shared] getTextureWithId: ceilingTextureId];
 		
 		imageViewCeiling.image = [UIImage imageNamed: [ceilingTexture.name stringByAppendingString: @".png"]];
 	}
@@ -1065,11 +1077,11 @@ BOOL exists;
 		
 		int locationTextureId = 0, textureId = 0;
 		
-		if (currWallDir == [Constants instance].Direction.North)
+		if (currWallDir == [Constants shared].Direction.North)
 		{
 			locationTextureId = currWallLoc.wallNorthTextureId;
 		}
-		else if (currWallDir == [Constants instance].Direction.West)
+		else if (currWallDir == [Constants shared].Direction.West)
 		{
 			locationTextureId = currWallLoc.wallWestTextureId;			
 		}
@@ -1083,7 +1095,7 @@ BOOL exists;
 			textureId = [Globals instance].mazeEdit.wallTextureId;			
 		}
 						
-		Texture *texture = [[Globals instance].textures getTextureForId: textureId];
+		Texture *texture = [[Textures shared] getTextureWithId: textureId];
 		
 		imageViewWall.image = [UIImage imageNamed: [texture.name stringByAppendingString: @".png"]];
 	}
@@ -1101,10 +1113,14 @@ BOOL exists;
 		
 		texturesViewController.textureDelegate = currWallLoc;
 			
-		if (currWallDir == [Constants instance].Direction.North)
+		if (currWallDir == [Constants shared].Direction.North)
+        {
 			texturesViewController.textureSelector = @selector(setWallNorthTextureIdWithNumber:);
-		else if (currWallDir == [Constants instance].Direction.West)
+        }
+		else if (currWallDir == [Constants shared].Direction.West)
+        {
 			texturesViewController.textureSelector = @selector(setWallWestTextureIdWithNumber:);
+        }
 			
 		texturesViewController.exitDelegate = self;
 		texturesViewController.exitSelector = @selector(setupWallPanel);
@@ -1122,13 +1138,13 @@ BOOL exists;
 	if (popoverControllerTextures.popoverVisible == YES)
 		[popoverControllerTextures dismissPopoverAnimated: YES];
 	
-	Texture *wallTexture = [[Globals instance].textures getTextureForId: [Globals instance].mazeEdit.wallTextureId];
+	Texture *wallTexture = [[Textures shared] getTextureWithId: [Globals instance].mazeEdit.wallTextureId];
 	imageViewWallDefault.image = [UIImage imageNamed: [wallTexture.name stringByAppendingString: @".png"]];
 	
-	Texture *floorTexture = [[Globals instance].textures getTextureForId: [Globals instance].mazeEdit.floorTextureId];
+	Texture *floorTexture = [[Textures shared] getTextureWithId: [Globals instance].mazeEdit.floorTextureId];
 	imageViewFloorDefault.image = [UIImage imageNamed: [floorTexture.name stringByAppendingString: @".png"]];
 	
-	Texture *ceilingTexture = [[Globals instance].textures getTextureForId: [Globals instance].mazeEdit.ceilingTextureId];
+	Texture *ceilingTexture = [[Textures shared] getTextureWithId: [Globals instance].mazeEdit.ceilingTextureId];
 	imageViewCeilingDefault.image = [UIImage imageNamed: [ceilingTexture.name stringByAppendingString: @".png"]];	
 }
 
@@ -1230,7 +1246,7 @@ BOOL exists;
 	{
 		int retVal = [[XML getNodeValueFromDoc: comm.responseDoc Node: [XML getRootNodeDoc: comm.responseDoc] XPath: "/Response/RetVal"] intValue];
 		
-		if (retVal == [Constants instance].nameExists)
+		if (retVal == [Constants shared].nameExists)
 		{
 			[self setupTabBarWithSelectedIndex: 1];
 						
@@ -1269,7 +1285,7 @@ BOOL exists;
 	{
 		int retVal = [[XML getNodeValueFromDoc: comm.responseDoc Node :[XML getRootNodeDoc: comm.responseDoc] XPath: "/Response/RetVal"] intValue];
 		
-		if (retVal == [Constants instance].nameExists)
+		if (retVal == [Constants shared].nameExists)
 		{
 			[self setupTabBarWithSelectedIndex: 1];
 						
@@ -1308,7 +1324,7 @@ BOOL exists;
 	
 	NSString *mazeName = [textFieldName.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-	Location *startLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants instance].LocationType.Start];
+	Location *startLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants shared].LocationType.Start];
 
 	if ([mazeName isEqualToString: @""] == true)
 	{
@@ -1324,7 +1340,7 @@ BOOL exists;
 	}
 	else if (switchPublic.on == YES)
 	{
-		Location *endLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants instance].LocationType.End];
+		Location *endLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants shared].LocationType.End];
 				
 		if (endLoc == nil)
 		{
@@ -1408,7 +1424,7 @@ BOOL exists;
 
 - (void)stopBackgroundSound
 {
-	Sound *sound = [[Globals instance].sounds getSoundForId: [Globals instance].mazeEdit.backgroundSoundId];
+	Sound *sound = [[Sounds shared] getSoundWithId: [Globals instance].mazeEdit.backgroundSoundId];
 
 	[sound stop];
 }
@@ -1437,7 +1453,7 @@ BOOL exists;
 
 		[textViewMessage resignFirstResponder];
 	}
-	else if (range.location >= [Constants instance].locationMessageMaxLength)
+	else if (range.location >= [Constants shared].locationMessageMaxLength)
 	{
 		if (rangeBackspace.location == NSNotFound)
 			changeText = NO;
@@ -1470,7 +1486,7 @@ BOOL exists;
 		
 		[textFieldName resignFirstResponder];
 	}
-	else if (range.location >= [Constants instance].mazeNameMaxLength)
+	else if (range.location >= [Constants shared].mazeNameMaxLength)
 	{
 		changeText = NO;
     }
@@ -1485,19 +1501,12 @@ BOOL exists;
 		[self showTutorialHelpForTopic: @"None"];
 	}
 	
-	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	
-	[userDefaults setObject: [NSNumber numberWithBool: switchTutorial.on] forKey: @"UseTutorial"];
-	[userDefaults synchronize];
+    [Settings shared].useTutorial = switchTutorial.on;
 }
 
 - (void)showTutorialHelpForTopic: (NSString *)topic
 {
-	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-	
-	NSNumber *useTutorial = (NSNumber *)[userDefaults objectForKey: @"UseTutorial"];
-
-	if ([useTutorial boolValue] == YES)
+	if ([Settings shared].useTutorial == YES)
 	{
 		if (topic == @"None")
 		{

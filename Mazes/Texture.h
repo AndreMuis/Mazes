@@ -15,7 +15,7 @@
 	int width;
 	int height;
 	int repeats;
-	int material;
+	int kind;
 	int order;
 	CGRect imageViewFrame;
 }
@@ -25,7 +25,7 @@
 @property (nonatomic) int width;
 @property (nonatomic) int height;
 @property (nonatomic) int repeats;
-@property (nonatomic) int material;
+@property (nonatomic) int kind;
 @property (nonatomic) int order;
 @property (nonatomic) CGRect imageViewFrame;
 

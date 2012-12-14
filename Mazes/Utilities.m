@@ -72,7 +72,7 @@
 	activityWheel.frame = CGRectMake(wheelX, wheelY, activityWheel.frame.size.width, activityWheel.frame.size.height); 
 
 	UILabel *lblMessage = (UILabel *)[[[Globals instance].activityView subviews] objectAtIndex: 1];
-	lblMessage.backgroundColor = [Colors instance].transparentColor;
+	lblMessage.backgroundColor = [Colors shared].transparentColor;
 	lblMessage.frame = CGRectMake(wheelX + activityWheel.frame.size.width + padding, wheelY + 2.0, messageSize.width, messageSize.height);
 	lblMessage.font = [UIFont systemFontOfSize: 31];
 	lblMessage.text = message;

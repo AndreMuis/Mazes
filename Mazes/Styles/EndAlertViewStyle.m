@@ -18,7 +18,7 @@
 	
     if (self)
 	{
-        self.textColor = [Colors instance].whiteColor;
+        self.textColor = [Colors shared].whiteColor;
     }
     
     return self;

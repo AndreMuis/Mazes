@@ -8,10 +8,30 @@
 
 #import "Textures.h"
 
+#import "Constants.h"
+#import "Texture.h"
+#import "Utilities.h"
+
 @implementation Textures
 
+@synthesize loaded;
 @synthesize count;
-@synthesize textureIdMax;
+@synthesize maxId;
+
++ (Textures *)shared
+{
+	static Textures *shared = nil;
+	
+	@synchronized(self)
+	{
+		if (shared == nil)
+		{
+			shared = [[Textures alloc] init];
+		}
+	}
+	
+	return shared;
+}
 
 - (id)init
 {
@@ -19,114 +39,64 @@
 	
     if (self)
 	{
-        count = 0;
-        textureIdMax = 0;
+        self->loaded = NO;
+        self->count = 0;
+        self->maxId = 0;
 	}
 	
     return self;
 }
 
-- (int)count
+- (void)load
 {
-    NSArray *textures = [self getTextures];
+    self->webServices = [[WebServices alloc] init];
     
-	return textures.count;
+    [self->webServices getTexturesWithDelegate: self];
 }
 
-- (int)textureIdMax
+- (void)getTexturesSucceeded
 {
-    if (textureIdMax == 0)
-    {
-        NSArray *textures = [self getTextures];
+    self->loaded = YES;
+}
 
-        for (Texture *texture in textures)
-        {
-            if (texture.id > textureIdMax)
-            {
-                textureIdMax = texture.id;
-            }
-        }
-    }
+- (void)getTexturesFailed
+{
+    [self performSelector: @selector(load) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
+}
+
+- (int)count
+{
+	return [Texture allObjects].count;
+}
+
+- (int)maxId
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"SELF.id == %@.@max.id", [Texture allObjects]];
+    Texture *texture = [Texture objectWithPredicate: predicate];
     
-    return textureIdMax;
+    return texture.id;
 }
 
 - (NSArray *)getTextures
-{    
-    NSEntityDescription *entity = [NSEntityDescription entityForName: @"Texture" inManagedObjectContext: [Globals instance].dataAccess.managedObjectContext];   
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];  
-    [request setEntity: entity];   
-    
-    NSError *error = nil;  
-    NSArray *textures = [[Globals instance].dataAccess.managedObjectContext executeFetchRequest: request error: &error];   
-    
-    if (error != nil)
-    {
-        DLog(@"%@", error);
-    }
-	
-	return textures;
+{
+	return [Texture allObjects];
 }
 
 - (NSArray *)getTexturesSorted
 {
-	NSArray *textures = [self getTextures];
-	
-	NSArray *texturesSorted = [textures sortedArrayUsingComparator: (NSComparator)^(Texture *texture1, Texture *texture2)
-							   {
-								   int comparisonResult = NSOrderedSame;
-								   
-								   if (texture1.material == texture2.material)
-								   {
-									   if (texture1.order < texture2.order)
-									   {
-										   comparisonResult = NSOrderedAscending;
-									   }
-									   if (texture1.order == texture2.order)
-									   {
-										   comparisonResult = NSOrderedSame;
-									   }
-									   if (texture1.order > texture2.order)
-									   {
-										   comparisonResult = NSOrderedDescending;
-									   }
-								   }
-								   else if (texture1.material < texture2.material)
-								   {
-									   comparisonResult = NSOrderedAscending;
-								   }
-								   else if (texture1.material > texture2.material)
-								   {
-									   comparisonResult = NSOrderedDescending;
-								   }
-								   
-								   return comparisonResult; 
-							   }];
-	
-	return texturesSorted;
+    NSFetchRequest *fetchRequest = [Texture fetchRequest];
+    NSSortDescriptor *kindSortDescriptor = [NSSortDescriptor sortDescriptorWithKey: @"kind" ascending: YES];
+    NSSortDescriptor *orderSortDescriptor = [NSSortDescriptor sortDescriptorWithKey: @"order" ascending: YES];
+    [fetchRequest setSortDescriptors: [NSArray arrayWithObjects: kindSortDescriptor, orderSortDescriptor, nil]];
+    
+    return [Texture objectsWithFetchRequest: fetchRequest];
 }
 
-- (Texture *)getTextureForId: (int)textureId
+- (Texture *)getTextureWithId: (int)id
 {
-    Texture *textureRet = nil;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"id == %d", id];
     
-    NSArray *textures = [self getTextures]; 
-    
-    for (Texture *texture in textures)
-    {
-        if (texture.id == textureId)
-        {
-            textureRet = texture;
-        }
-    }
-    
-    if (textureRet == nil)
-    {
-        DLog(@"Could not find texture for Id = %d", textureId);
-    }
-    
-	return textureRet;
+    return [Texture objectWithPredicate: predicate];
 }
 
 - (NSString *)description 

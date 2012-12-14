@@ -39,9 +39,9 @@
 		x = 0;
 		y = 0;
 		direction = 0;
-		wallNorth = [Constants instance].WallType.Solid;
-		wallWest = [Constants instance].WallType.Solid;
-		type = [Constants instance].LocationType.DoNothing;
+		wallNorth = [Constants shared].WallType.Solid;
+		wallWest = [Constants shared].WallType.Solid;
+		type = [Constants shared].LocationType.DoNothing;
 		message = @"";
 		teleportId = 0;
 		teleportX = 0;
@@ -61,7 +61,7 @@
 - (void)reset
 {
 	direction = 0;
-	type = [Constants instance].LocationType.DoNothing;
+	type = [Constants shared].LocationType.DoNothing;
 	message = @"";
 	teleportId = 0;
 	teleportX = 0;

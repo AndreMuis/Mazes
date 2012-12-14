@@ -22,11 +22,11 @@
 	
     if (self)
 	{
-        self.popupBackgroundColor = [Colors instance].lightYellowColor;
-        self.displayAvgColor = [Colors instance].redColor;
-        self.displayUserColor = [Colors instance].blueColor;
-        self.recordPopoverColor = [Colors instance].blueColor;
-        self.recordEndColor = [Colors instance].yellowColor;
+        self.popupBackgroundColor = [Colors shared].lightYellowColor;
+        self.displayAvgColor = [Colors shared].redColor;
+        self.displayUserColor = [Colors shared].blueColor;
+        self.recordPopoverColor = [Colors shared].blueColor;
+        self.recordEndColor = [Colors shared].yellowColor;
     }
   
     return self;

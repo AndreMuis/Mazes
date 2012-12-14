@@ -19,8 +19,8 @@
 	
     if (self)
 	{
-        self.tableBackgroundColor = [Colors instance].transparentColor;
-        self.textColor = [Colors instance].darkBrownColor;
+        self.tableBackgroundColor = [Colors shared].transparentColor;
+        self.textColor = [Colors shared].darkBrownColor;
     }
     
     return self;

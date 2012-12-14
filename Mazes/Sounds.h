@@ -7,21 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
 
-#import "Globals.h"
-#import "DataAccess.h"
-#import "Sound.h"
+#import <RestKit/RestKit.h>
 
-@interface Sounds : NSObject 
+#import "WebServices.h"
+
+@class Sound;
+
+@interface Sounds : NSObject <GetSoundsDelegate>
 {
-	int count;
+    WebServices *webServices;
 }
 
-@property (nonatomic) int count;
+@property (assign, nonatomic, readonly) BOOL loaded;
+@property (assign, nonatomic, readonly) int count;
+
++ (Sounds *)shared;
+
+- (void)load;
 
 - (NSArray *)getSoundsSorted;
 
-- (Sound *)getSoundForId: (int)soundId;
+- (Sound *)getSoundWithId: (int)id;
 
 @end

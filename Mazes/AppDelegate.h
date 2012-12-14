@@ -8,29 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Communication.h"
-#import "DataAccess.h"
-#import "Tester.h"
-#import "Version.h"
-#import "Textures.h"
-#import "Sounds.h"
+#import "Sound.h"
 
-@class Maze;
-@class TopListsViewController;
+@class Communication;
+@class WebServices;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, LoadVersionDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
     Communication *comm;
+    WebServices *webServices;
+    
+    Sound *sound;
+    
+    AVAudioPlayer *player;
 }
 
 @property (strong, nonatomic) IBOutlet UIWindow *window;
 @property (strong, nonatomic) IBOutlet UINavigationController *navigationController;
-
-- (void)setupUserDefaults;
-- (void)setupBannerView;
-
-- (void)setLanguage;
-- (void)setLanguageResponse;
 
 - (void)loadMazeEdit;
 - (void)loadMazeEditResponse;

@@ -100,6 +100,9 @@ typedef struct
     int nameExists;
 }
 
+@property (strong, nonatomic, readonly) NSString *serverBaseURL;
+@property (assign, nonatomic, readonly) NSTimeInterval serverRetryDelaySecs;
+
 @property (nonatomic) float receiveResponseTimeoutSecs;
 
 @property (nonatomic) DirectionType Direction;
@@ -132,6 +135,6 @@ typedef struct
 @property (nonatomic) int mazeNameMaxLength;
 @property (nonatomic) int nameExists;
 
-+ (Constants *)instance;
++ (Constants *)shared;
 
 @end

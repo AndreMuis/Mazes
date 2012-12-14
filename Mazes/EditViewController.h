@@ -10,8 +10,6 @@
 
 #import "Communication.h"
 #import "Maze.h"
-#import "Textures.h"
-#import "Sounds.h"
 #import "TopListsViewController.h"
 #import "GridView.h"
 #import "TexturesViewController.h"

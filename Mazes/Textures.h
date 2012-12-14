@@ -8,23 +8,27 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Globals.h"
-#import "DataAccess.h"
-#import "Texture.h"
+#import "WebServices.h"
 
-@interface Textures : NSObject 
+@class Texture;
+
+@interface Textures : NSObject <GetTexturesDelegate>
 {
-    int count;
-	int textureIdMax;
+    WebServices *webServices;
 }
 
-@property (nonatomic) int count;
-@property (nonatomic) int textureIdMax;
+@property (assign, nonatomic, readonly) BOOL loaded;
+@property (assign, nonatomic, readonly) int count;
+@property (assign, nonatomic, readonly) int maxId;
+
++ (Textures *)shared;
+
+- (void)load;
 
 - (NSArray *)getTextures;
 
 - (NSArray *)getTexturesSorted;
 
-- (Texture *)getTextureForId: (int)textureId;
+- (Texture *)getTextureWithId: (int)textureId;
 
 @end

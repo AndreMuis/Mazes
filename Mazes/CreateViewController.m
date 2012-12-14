@@ -17,13 +17,13 @@
 	[super viewDidLoad];
  
 	rowsArr = [[NSMutableArray alloc] init];
-	for (int i = [Constants instance].rowsMin; i <= [Constants instance].rowsMax; i = i + 1)
+	for (int i = [Constants shared].rowsMin; i <= [Constants shared].rowsMax; i = i + 1)
 	{
 		[rowsArr addObject: [[NSNumber numberWithInt: i] stringValue]];
 	}
 	
 	columnsArr = [[NSMutableArray alloc] init];
-	for (int i = [Constants instance].columnsMin; i <= [Constants instance].columnsMax; i = i + 1)
+	for (int i = [Constants shared].columnsMin; i <= [Constants shared].columnsMax; i = i + 1)
 	{
 		[columnsArr addObject: [[NSNumber numberWithInt: i] stringValue]];
 	}
@@ -33,8 +33,8 @@
 {
 	[super viewWillAppear: animated];
 	
-	[Globals instance].mazeEdit.Rows = [Constants instance].rowsMin;
-	[Globals instance].mazeEdit.Columns = [Constants instance].columnsMin;
+	[Globals instance].mazeEdit.Rows = [Constants shared].rowsMin;
+	[Globals instance].mazeEdit.Columns = [Constants shared].columnsMin;
 	
 	[[Globals instance].mazeEdit.locations populateWithRows: [Globals instance].mazeEdit.rows Columns: [Globals instance].mazeEdit.columns];
 	

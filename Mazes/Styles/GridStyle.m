@@ -47,30 +47,30 @@
         self.locationHighlightWidth = 5.0;
         self.wallHighlightWidth = 3.0;
         
-        self.borderColor = [Colors instance].darkGrayColor;
-        self.backgroundColor = [Colors instance].transparentColor;
+        self.borderColor = [Colors shared].darkGrayColor;
+        self.backgroundColor = [Colors shared].transparentColor;
         
-        self.doNothingColor = [Colors instance].whiteColor;
-        self.startColor = [Colors instance].greenColor;
-        self.endColor = [Colors instance].redColor;
-        self.startOverColor = [Colors instance].purpleColor;
-        self.teleportationColor = [Colors instance].orangeColor;
+        self.doNothingColor = [Colors shared].whiteColor;
+        self.startColor = [Colors shared].greenColor;
+        self.endColor = [Colors shared].redColor;
+        self.startOverColor = [Colors shared].purpleColor;
+        self.teleportationColor = [Colors shared].orangeColor;
         self.messageColor = [[UIColor alloc] initWithRed: 0.85 green: 0.85 blue: 0.85 alpha: 1.0];
         
-        self.arrowColor = [Colors instance].blueColor;
+        self.arrowColor = [Colors shared].blueColor;
         
         self.textureHighlightColor = [[UIColor alloc] initWithRed: 1.0 green: 1.0 blue: 0.5 alpha: 1.0];
-        self.locationHighlightColor = [Colors instance].yellowColor;
+        self.locationHighlightColor = [Colors shared].yellowColor;
         
         self.teleportFontSize = 27.0;
-        self.teleportIdColor = [Colors instance].whiteOpaqueColor;
+        self.teleportIdColor = [Colors shared].whiteOpaqueColor;
         
-        self.noWallColor = [Colors instance].whiteColor;
-        self.solidColor = [Colors instance].blueColor;
+        self.noWallColor = [Colors shared].whiteColor;
+        self.solidColor = [Colors shared].blueColor;
         self.invisibleColor = [[UIColor alloc] initWithRed: 0.7 green: 0.7 blue: 0.7 alpha: 1.0];
-        self.fakeColor = [Colors instance].redColor;
+        self.fakeColor = [Colors shared].redColor;
         
-        self.cornerColor = [Colors instance].darkBlueColor;   
+        self.cornerColor = [Colors shared].darkBlueColor;   
     }
     
     return self;

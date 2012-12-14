@@ -8,6 +8,9 @@
 
 #import "TexturesViewController.h"
 
+#import "Textures.h"
+#import "Texture.h"
+
 @implementation TexturesViewController
 
 @synthesize textureDelegate, textureSelector, exitDelegate, exitSelector;
@@ -32,7 +35,7 @@
 {
 	self.view.backgroundColor = [Styles instance].editView.viewTexturesBackgroundColor;
 	
-	NSArray *textures = [[Globals instance].textures getTexturesSorted];
+	NSArray *textures = [[Textures shared] getTexturesSorted];
 	
 	float padding = ([Styles instance].editView.popoverTexturesWidth - [Styles instance].editView.texturesPerRow * [Styles instance].editView.textureImageLength) / ([Styles instance].editView.texturesPerRow + 1);
 	
@@ -72,7 +75,7 @@
 {
 	CGPoint touchPoint = [recognizer locationInView: self.view];
 
-	NSArray *textures = [[Globals instance].textures getTexturesSorted];
+	NSArray *textures = [[Textures shared] getTexturesSorted];
 
 	for (Texture *texture in textures)
 	{

@@ -33,7 +33,7 @@
 	// if touch is in Expanded User Rating View cancel touches and call rating popup
 	if ([self TouchPoint: touchPoint InViewRatingUser: viewRatingUser1] == YES)
 	{
-		if (viewRatingUser1.mode == [Constants instance].RatingMode.DisplayUser)
+		if (viewRatingUser1.mode == [Constants shared].RatingMode.DisplayUser)
         {
 			[viewRatingUser1 ShowRatingPopover];
         }
@@ -44,7 +44,7 @@
 	}
 	else if ([self TouchPoint: touchPoint InViewRatingUser: viewRatingUser2] == YES)
 	{
-		if (viewRatingUser2.mode == [Constants instance].RatingMode.DisplayUser)
+		if (viewRatingUser2.mode == [Constants shared].RatingMode.DisplayUser)
         {
 			[viewRatingUser2 ShowRatingPopover];
         }

@@ -37,17 +37,17 @@
         self.panelBackgroundColor = [[UIColor alloc] initWithRed: 1.0 green: 0.96 blue: 0.65 alpha: 1.0];
         self.tabDarkColor = [[UIColor alloc] initWithRed: 0.96 green: 0.87 blue: 0.0 alpha: 1.0];
         
-        self.tableHeaderBackgroundColor = [Colors instance].orangeRedColor;
+        self.tableHeaderBackgroundColor = [Colors shared].orangeRedColor;
         self.tableHeaderTextColor = [UIColor whiteColor];
-        self.tableHeaderTextAlignment = UITextAlignmentCenter;
+        self.tableHeaderTextAlignment = NSTextAlignmentCenter;
         self.tableHeaderFont = [UIFont boldSystemFontOfSize: 18];
         
-        self.tableViewBackgroundColor = [Colors instance].whiteColor;
+        self.tableViewBackgroundColor = [Colors shared].whiteColor;
         self.tableViewDisabledBackgroundColor = [[UIColor alloc] initWithRed: 0.9 green: 0.9 blue: 0.9 alpha: 1.0]; // light gray
 		
         self.tableViewBackgroundSoundRows = 4;
         
-        self.viewTexturesBackgroundColor = [Colors instance].lightYellowColor;
+        self.viewTexturesBackgroundColor = [Colors shared].lightYellowColor;
         self.popoverTexturesWidth = 700.0;
         self.popoverTexturesHeight = 700.0;
         self.textureImageLength = 100.0;
@@ -55,8 +55,8 @@
         
         self.viewButtonsBackgroundColor = [[UIColor alloc] initWithRed: 1.0 green: 0.96 blue: 0.65 alpha: 1.0]; 
         
-        self.messageBackgroundColor = [Colors instance].transparentColor;
-        self.messageTextColor = [Colors instance].darkBlueColor;
+        self.messageBackgroundColor = [Colors shared].transparentColor;
+        self.messageTextColor = [Colors shared].darkBlueColor;
     }
     
     return self;

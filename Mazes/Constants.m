@@ -10,7 +10,10 @@
 
 @implementation Constants
 
+@synthesize serverBaseURL;
+
 @synthesize receiveResponseTimeoutSecs;
+@synthesize serverRetryDelaySecs;
 
 @synthesize Direction;
 @synthesize MazeObject;
@@ -37,12 +40,35 @@
 @synthesize mazeNameMaxLength;
 @synthesize nameExists;
 
++ (Constants *)shared
+{
+	static Constants *shared = nil;
+	
+	@synchronized(self)
+	{
+		if (shared == nil)
+		{
+			shared = [[Constants alloc] init];
+		}
+	}
+	
+	return shared;
+}
+
 - (id)init
 {
     self = [super init];
 	
-	if (self) 
+	if (self)
 	{
+        #if defined DEBUG
+            serverBaseURL = @"http://localhost:3000";
+        #else
+            serverBaseURL = @"http://173.45.249.212:3000";
+        #endif
+
+        serverRetryDelaySecs = 5.0;
+        
         receiveResponseTimeoutSecs = 5.0;
 
 		Direction.North = DEF_NORTH;
@@ -97,21 +123,6 @@
 	}
 	
     return self;
-}
-
-+ (Constants *)instance  
-{
-	static Constants *instance = nil;
-	
-	@synchronized(self) 
-	{
-		if (instance == nil) 
-		{
-			instance = [[Constants alloc] init];
-		}
-	}
-	
-	return instance;
 }
 
 @end

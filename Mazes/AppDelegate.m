@@ -6,10 +6,19 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import <AVFoundation/AVFoundation.h>
+
 #import "AppDelegate.h"
 
+#import "Communication.h"
+#import "Game.h"
 #import "Maze.h"
+#import "Sounds.h"
+#import "Tester.h"
+#import "Textures.h"
 #import "TopListsViewController.h"
+#import "Version.h"
+#import "WebServices.h"
 
 @implementation AppDelegate
 
@@ -31,80 +40,15 @@
     //self.window.rootViewController = self.navigationController;
     //[self.window makeKeyAndVisible];
 
-    [self setupUserDefaults];
-
-    [self setupBannerView];
-
     [Utilities createActivityView];
-
-    //[self setLanguage];
-
-    [[Globals instance].dataAccess getVersionWithDelegate: self];
-        
-    if ([Globals instance].sounds.count == 0)
-    {
-        [[Globals instance].dataAccess loadSounds];
-    }
-
-    NSLog(@"%@", [[Globals instance].textures getTextures]);
     
-    [[Globals instance].dataAccess loadTextures];
+    [[Game shared] checkVersion];
+
+    [[Sounds shared] load];
+    
+    [[Textures shared] load];
+    
     return YES;
-}
-
-- (void)setupUserDefaults
-{
-    NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: YES], @"UseTutorial", nil];
-    [[NSUserDefaults standardUserDefaults] registerDefaults: defaults];
-}
-
-- (void)setupBannerView
-{
-    NSNumber *free = (NSNumber *)[[[NSBundle mainBundle] infoDictionary] objectForKey: @"Free"];
-    
-    if ([free boolValue] == YES)
-    {	
-        [Globals instance].bannerView.requiredContentSizeIdentifiers = [NSSet setWithObject: ADBannerContentSizeIdentifierPortrait];
-        [Globals instance].bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
-
-        [Globals instance].bannerView.delegate = nil;
-    }
-}
-
-- (void)loadVersionSucceededWithVersion: (Version *)currentVersion
-{
-    //NSLog(@"%@", [XML convertDocToString: comm.responseDoc]);
-
-    float appVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleVersion"] floatValue];
-
-    //NSLog(@"appVersion = %f, currentVersion = %f", appVersion, currentVersion);
-
-    if (appVersion < currentVersion.number)
-    {
-        NSString *message = [NSString stringWithFormat: @"This app is Version %0.1f. Version %0.1f is now available. It is recommended that you upgrade to the latest version.", appVersion, currentVersion.number];
-        
-        [Utilities ShowAlertWithDelegate: nil Message: message CancelButtonTitle: @"OK" OtherButtonTitle: @"" Tag: 1 Bounds: CGRectZero];
-    }
-}
-
-- (void)loadVersionFailed
-{
-    DLog(@"Unable to load version.");
-}
-
-- (void)setLanguage
-{
-    comm = [[Communication alloc] initWithDelegate: self Selector: @selector(setLanguageResponse) Action: @"SetLanguage" WaitMessage: @"Loading"];
-
-    [XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"DeviceId" NodeValue: UNIQUE_ID];
-    [XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"LanguageCode" NodeValue: [Utilities getLanguageCode]];
-
-    [comm post];	
-}
-
-- (void)setLanguageResponse
-{
-    // [self checkVersion];
 }
 
 - (void)loadMazeEdit

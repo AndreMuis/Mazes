@@ -8,59 +8,78 @@
 
 #import "Sounds.h"
 
+#import "Constants.h"
+#import "Sound.h"
+
 @implementation Sounds
 
+@synthesize loaded;
 @synthesize count;
+
++ (Sounds *)shared
+{
+	static Sounds *shared = nil;
+	
+	@synchronized(self)
+	{
+		if (shared == nil)
+		{
+			shared = [[Sounds alloc] init];
+		}
+	}
+	
+	return shared;
+}
+
+- (id)init
+{
+    self = [super init];
+	
+	if (self)
+	{
+        self->loaded = NO;
+        self->count = 0;
+	}
+	
+    return self;
+}
+
+- (void)load
+{
+    self->webServices = [[WebServices alloc] init];
+
+    [self->webServices getSoundsWithDelegate: self];
+}
+
+- (void)getSoundsSucceeded
+{
+    self->loaded = YES;
+}
+
+- (void)getSoundsFailed
+{
+    [self performSelector: @selector(load) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
+}
 
 - (int)count
 {
-    NSArray *sounds = [self getSoundsSorted]; 
-    
-	return sounds.count;
+	return [Sound allObjects].count;
 }
 
 - (NSArray *)getSoundsSorted
 {
-    NSEntityDescription *entity = [NSEntityDescription entityForName: @"Sound" inManagedObjectContext: [Globals instance].dataAccess.managedObjectContext];   
-
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];  
-    [request setEntity: entity];   
-
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey: @"name" ascending: YES];  
-    NSArray *sortDescriptors = [NSArray arrayWithObject: sortDescriptor];
-    [request setSortDescriptors: sortDescriptors];  
-
-    NSError *error = nil;  
-    NSArray *sounds = [[Globals instance].dataAccess.managedObjectContext executeFetchRequest: request error: &error];   
-
-    if (error != nil)
-    {
-        DLog(@"%@", error);
-    }
-	
-	return sounds;
+    NSFetchRequest *fetchRequest = [Sound fetchRequest];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey: @"name" ascending: YES];
+    [fetchRequest setSortDescriptors: [NSArray arrayWithObject: sortDescriptor]];
+    
+    return [Sound objectsWithFetchRequest: fetchRequest];
 }
 
-- (Sound *)getSoundForId: (int)soundId
+- (Sound *)getSoundWithId: (int)id
 {
-    Sound *soundRet = nil;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"id == %d", id];
     
-    NSArray *sounds = [self getSoundsSorted]; 
-
-    for (Sound *sound in sounds)
-    {
-        if ([sound.id intValue] == soundId)
-        {
-            soundRet = sound;
-        }
-    }
-    
-    if (soundRet == nil)
-    {
-        DLog(@"Could not find sound for Id = %d", soundId);
-    }
-    
-	return soundRet;
+    return [Sound objectWithPredicate: predicate];
 }
 
 - (NSString *)description 
@@ -69,3 +88,26 @@
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

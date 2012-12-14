@@ -51,6 +51,6 @@
 @property (nonatomic, retain) UIColor *purpleColor;
 @property (nonatomic, retain) UIColor *lightPurpleColor;
 
-+ (Colors *)instance;
++ (Colors *)shared;
 
 @end
