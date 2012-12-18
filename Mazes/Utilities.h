@@ -14,36 +14,22 @@
 @class Styles;
 
 @interface Utilities : NSObject 
-{
-}
 
-+ (void)LogWithObject: (id)object Format: (NSString *)formatString, ...;
++ (void)logWithClass: (Class)class format: (NSString *)formatString, ...;
 
-+ (NSString *)getLanguageCode;
-+ (NSString *)getLanguageNameFromCode: (NSString *)languageCode;
++ (void)drawBorderInsideRect: (CGRect)rect withWidth: (CGFloat)width color: (UIColor *)color;
 
-+ (void)createActivityView;
++ (void)drawStarInRect: (CGRect)rect clipRect: (CGRect)clipRect color: (UIColor *)color outline: (BOOL)outline;
 
-+ (void)showActivityViewWithMessage: (NSString *)message;
-+ (void)hideActivityView;
++ (void)rotateImageView: (UIImageView *)imageView angleDegrees: (CGFloat)angleDegrees;
 
-+ (void)ShowAlertWithDelegate: (id)delegate Message: (NSString *)message CancelButtonTitle: (NSString *)cancelButtonTitle OtherButtonTitle: (NSString *)otherButtonTitle Tag: (int)tag Bounds: (CGRect)bounds;
++ (UIImage *)createDirectionArrowImageWidth: (CGFloat)width height: (CGFloat)height;
 
-+ (void)drawBorderInsideRect: (CGRect)rect WithWidth: (CGFloat)width Color: (UIColor *)color;
++ (void)drawArrowInRect: (CGRect)rect angleDegrees: (double)angle scale: (float)scale;
 
-+ (void)drawStarInRect: (CGRect)rect ClipRect: (CGRect)clipRect UIColor: (UIColor *)uiColor Outline: (BOOL)outline;
++ (void)rotateX: (float *)x y: (float *)y angleDegrees: (double)dangle;
 
-+ (void)RotateImageView: (UIImageView *)imageView AngleDegrees: (CGFloat)angleDegrees;
-
-+ (UIImage *)CreateDirectionArrowImageWidth: (CGFloat)width Height: (CGFloat)height;
-
-+ (void)drawArrowInRect: (CGRect)rect AngleDegrees: (double)angle Scale: (float)scale;
-
-+ (void)RotateX: (float *)x Y: (float *)y AngleDegrees: (double)dangle;
-
-+ (double)RadiansFromDegrees: (double)degrees;
-+ (double)DegreesFromRadians: (double)radians;
-
-+ (NSString *)URLEncode: (NSString *)string;
++ (double)radiansFromDegrees: (double)degrees;
++ (double)degreesFromRadians: (double)radians;
 
 @end

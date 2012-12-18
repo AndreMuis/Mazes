@@ -37,6 +37,7 @@
 	return self;
 }
 
+/*
 - (void)populateFromXML: (xmlDocPtr) doc
 {
 	xmlNodePtr rootNode = [XML getRootNodeDoc: doc];
@@ -51,6 +52,7 @@
 	self.floorTextureId = [[XML getNodeValueFromDoc: doc Node: rootNode XPath: "/Response/Maze/FloorTextureId"] intValue];
 	self.ceilingTextureId = [[XML getNodeValueFromDoc: doc Node: rootNode XPath: "/Response/Maze/CeilingTextureId"] intValue];
 }
+*/
 
 - (void)reset
 {

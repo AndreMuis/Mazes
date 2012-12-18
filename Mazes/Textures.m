@@ -54,7 +54,7 @@
     [self->webServices getTexturesWithDelegate: self];
 }
 
-- (void)getTexturesSucceeded
+- (void)webServicesGetTextures: (NSError *)error
 {
     self->loaded = YES;
 }
@@ -66,37 +66,39 @@
 
 - (int)count
 {
-	return [Texture allObjects].count;
+	return 1; //[Texture allObjects].count;
 }
 
 - (int)maxId
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"SELF.id == %@.@max.id", [Texture allObjects]];
-    Texture *texture = [Texture objectWithPredicate: predicate];
+    //NSPredicate *predicate = [NSPredicate predicateWithFormat: @"SELF.id == %@.@max.id", [Texture allObjects]];
+    //Texture *texture = [Texture objectWithPredicate: predicate];
     
-    return texture.id;
+    return 1; //texture.id;
 }
 
 - (NSArray *)getTextures
 {
-	return [Texture allObjects];
+	return nil; // [Texture allObjects];
 }
 
 - (NSArray *)getTexturesSorted
 {
+    /*
     NSFetchRequest *fetchRequest = [Texture fetchRequest];
     NSSortDescriptor *kindSortDescriptor = [NSSortDescriptor sortDescriptorWithKey: @"kind" ascending: YES];
     NSSortDescriptor *orderSortDescriptor = [NSSortDescriptor sortDescriptorWithKey: @"order" ascending: YES];
     [fetchRequest setSortDescriptors: [NSArray arrayWithObjects: kindSortDescriptor, orderSortDescriptor, nil]];
+    */
     
-    return [Texture objectsWithFetchRequest: fetchRequest];
+    return nil; //[Texture objectsWithFetchRequest: fetchRequest];
 }
 
 - (Texture *)getTextureWithId: (int)id
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"id == %d", id];
+   // NSPredicate *predicate = [NSPredicate predicateWithFormat: @"id == %d", id];
     
-    return [Texture objectWithPredicate: predicate];
+    return nil; // [Texture objectWithPredicate: predicate];
 }
 
 - (NSString *)description 

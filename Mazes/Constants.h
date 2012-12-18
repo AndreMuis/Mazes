@@ -100,7 +100,11 @@ typedef struct
     int nameExists;
 }
 
-@property (strong, nonatomic, readonly) NSString *serverBaseURL;
+@property (strong, nonatomic, readonly) NSString *flurryAPIKey;
+
+@property (strong, nonatomic, readonly) NSString *crittercismAppId;
+
+@property (strong, nonatomic, readonly) NSURL *serverBaseURL;
 @property (assign, nonatomic, readonly) NSTimeInterval serverRetryDelaySecs;
 
 @property (nonatomic) float receiveResponseTimeoutSecs;

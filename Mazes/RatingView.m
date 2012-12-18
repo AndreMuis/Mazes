@@ -27,19 +27,19 @@
 	}
 	else if (mode == [Constants shared].RatingMode.DisplayAvg)
 	{
-		[self drawStarsRect: rect Color: [Styles instance].ratingView.displayAvgColor];
+		[self drawStarsRect: rect Color: [Styles shared].ratingView.displayAvgColor];
 	}
 	else if (mode == [Constants shared].RatingMode.DisplayUser)
 	{
-		[self drawStarsRect: rect Color: [Styles instance].ratingView.displayUserColor];
+		[self drawStarsRect: rect Color: [Styles shared].ratingView.displayUserColor];
 	}
 	else if (mode == [Constants shared].RatingMode.RecordPopover)
 	{
-		[self drawStarsRect: rect Color: [Styles instance].ratingView.recordPopoverColor];
+		[self drawStarsRect: rect Color: [Styles shared].ratingView.recordPopoverColor];
 	}
 	else if (mode == [Constants shared].RatingMode.RecordEnd)
 	{
-		[self drawStarsRect: rect Color: [Styles instance].ratingView.recordEndColor];
+		[self drawStarsRect: rect Color: [Styles shared].ratingView.recordEndColor];
 	}
 }
 
@@ -55,19 +55,31 @@
 		
 		if (i <= rating)
 		{
-			[Utilities drawStarInRect: CGRectMake(starX, starY, starWidth, starHeight) ClipRect: CGRectZero UIColor: color  Outline: NO];
+			[Utilities drawStarInRect: CGRectMake(starX, starY, starWidth, starHeight)
+                             clipRect: CGRectZero
+                                color: color
+                              outline: NO];
 		}
 		else if (i > ceilf(rating))
 		{
-			[Utilities drawStarInRect: CGRectMake(starX, starY, starWidth, starHeight) ClipRect: CGRectZero UIColor: color  Outline: YES];
+			[Utilities drawStarInRect: CGRectMake(starX, starY, starWidth, starHeight)
+                             clipRect: CGRectZero
+                                color: color
+                              outline: YES];
 		}
 		else
 		{
 			float fract = rating - floorf(rating);
 			
-			[Utilities drawStarInRect: CGRectMake(starX, starY, starWidth, starHeight) ClipRect: CGRectMake(starX, starY, fract * starWidth, starHeight) UIColor: color  Outline: NO];
+			[Utilities drawStarInRect: CGRectMake(starX, starY, starWidth, starHeight)
+                             clipRect: CGRectMake(starX, starY, fract * starWidth, starHeight)
+                                color: color
+                              outline: NO];
 			
-			[Utilities drawStarInRect: CGRectMake(starX, starY, starWidth, starHeight) ClipRect: CGRectMake(starX + fract * starWidth, starY, starWidth - fract * starWidth, starHeight) UIColor: color  Outline: YES];
+			[Utilities drawStarInRect: CGRectMake(starX, starY, starWidth, starHeight)
+                             clipRect: CGRectMake(starX + fract * starWidth, starY, starWidth - fract * starWidth, starHeight)
+                                color: color
+                              outline: YES];
 		}
 	}
 }
@@ -98,10 +110,10 @@
 - (void)ShowRatingPopover
 {
 	UIViewController* viewController = [[UIViewController alloc] initWithNibName: @"RatingPopoverViewController" bundle: nil];
-	viewController.view.backgroundColor = [Styles instance].ratingView.popupBackgroundColor;
+	viewController.view.backgroundColor = [Styles shared].ratingView.popupBackgroundColor;
 	
 	RatingView *ratingView = (RatingView *)[viewController.view.subviews objectAtIndex: 0];
-	ratingView.backgroundColor = [Styles instance].ratingView.popupBackgroundColor;
+	ratingView.backgroundColor = [Styles shared].ratingView.popupBackgroundColor;
 	ratingView.Mode = [Constants shared].RatingMode.RecordPopover;
 	ratingView.MazeId = mazeId;
 	ratingView.Rating = rating;
@@ -118,6 +130,7 @@
 
 - (void)SetRating: (float)aRating
 {
+    /*
 	rating = aRating;
 	[self setNeedsDisplay];
 	
@@ -128,6 +141,7 @@
 	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"Rating" NodeValue: [NSString stringWithFormat: @"%f", rating]];
 
 	[comm post];
+    */
 }
 
 - (void)setRatingResponse
@@ -136,11 +150,11 @@
 	{
 		[self.popoverController dismissPopoverAnimated: YES];
 		
-		[[Globals instance].topListsViewController loadMazeList];
+		[[MainListViewController shared] loadMazeList];
 	}
 	else if (mode == [Constants shared].RatingMode.RecordEnd)
 	{
-		[[Globals instance].gameViewController dismissEndAlertView];
+		[[Globals shared].gameViewController dismissEndAlertView];
 	}
 }
 

@@ -12,31 +12,40 @@
 
 @class Version;
 
-@protocol GetVersionDelegate <NSObject>
+@protocol MAWebServicesGetVersionDelegate <NSObject>
 @required
-- (void)getVersionSucceededWithVersion: (Version *)version;
-- (void)getVersionFailed;
+- (void)webServicesGetVersion: (Version *)version error: (NSError *)error;
 @end
 
-@protocol GetSoundsDelegate <NSObject>
+@protocol MAWebServicesGetSoundsDelegate <NSObject>
 @required
-- (void)getSoundsSucceeded;
-- (void)getSoundsFailed;
+- (void)webServicesGetSounds: (NSError *)error;
 @end
 
-@protocol GetTexturesDelegate <NSObject>
+@protocol MAWebServicesGetTexturesDelegate <NSObject>
 @required
-- (void)getTexturesSucceeded;
-- (void)getTexturesFailed;
+- (void)webServicesGetTextures: (NSError *)error;
+@end
+
+@protocol MAWebServicesGetHighestRatedDelegate <NSObject>
+@required
+- (void)webServicesGetHighestRated: (NSArray *)hightestRatedMainListItems error: (NSError *)error;
 @end
 
 @interface WebServices : NSObject
 {
-    RKObjectManager *objectManager;;
+    RKObjectRequestOperation *objectRequestOperation;
+    
+    RKManagedObjectStore *managedObjectStore;
+    RKManagedObjectRequestOperation *managedObjectRequestOperation;
 }
 
-- (void)getVersionWithDelegate: (id<GetVersionDelegate>)delegate;
-- (void)getSoundsWithDelegate: (id<GetSoundsDelegate>)delegate;
-- (void)getTexturesWithDelegate: (id<GetTexturesDelegate>)delegate;
+- (void)getVersionWithDelegate: (id<MAWebServicesGetVersionDelegate>)delegate;
+
+- (void)getSoundsWithDelegate: (id<MAWebServicesGetSoundsDelegate>)delegate;
+
+- (void)getTexturesWithDelegate: (id<MAWebServicesGetTexturesDelegate>)delegate;
+
+- (void)getHighestRatedWithDelegate: (id<MAWebServicesGetHighestRatedDelegate>)delegate userId: (int)userId;
 
 @end

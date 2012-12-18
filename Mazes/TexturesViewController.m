@@ -17,7 +17,7 @@
 
 - (void)loadView
 {
-	self.view = [[UIScrollView alloc] initWithFrame: CGRectMake(0.0, 0.0, [Styles instance].editView.popoverTexturesWidth, [Styles instance].editView.popoverTexturesHeight)];
+	self.view = [[UIScrollView alloc] initWithFrame: CGRectMake(0.0, 0.0, [Styles shared].editView.popoverTexturesWidth, [Styles shared].editView.popoverTexturesHeight)];
 }
 
 - (void)viewDidLoad
@@ -33,30 +33,30 @@
 	
 - (void)setupScrollView
 {
-	self.view.backgroundColor = [Styles instance].editView.viewTexturesBackgroundColor;
+	self.view.backgroundColor = [Styles shared].editView.viewTexturesBackgroundColor;
 	
 	NSArray *textures = [[Textures shared] getTexturesSorted];
 	
-	float padding = ([Styles instance].editView.popoverTexturesWidth - [Styles instance].editView.texturesPerRow * [Styles instance].editView.textureImageLength) / ([Styles instance].editView.texturesPerRow + 1);
+	float padding = ([Styles shared].editView.popoverTexturesWidth - [Styles shared].editView.texturesPerRow * [Styles shared].editView.textureImageLength) / ([Styles shared].editView.texturesPerRow + 1);
 	
 	int row = 1, column = 1;
 	float x = 0.0, y = 0.0;
 	for (Texture *texture in textures)
 	{
-		if (column > [Styles instance].editView.texturesPerRow)
+		if (column > [Styles shared].editView.texturesPerRow)
 		{
 			column = 1;
 			row = row + 1;
 		}
 		
-		x = padding + (column - 1) * ([Styles instance].editView.textureImageLength + padding);
-		y = padding + (row - 1) * ([Styles instance].editView.textureImageLength + padding);
+		x = padding + (column - 1) * ([Styles shared].editView.textureImageLength + padding);
+		y = padding + (row - 1) * ([Styles shared].editView.textureImageLength + padding);
 		
 		UIImage *image = [UIImage imageNamed: [texture.name stringByAppendingString: @".png"]];
 		
 		UIImageView *imageView = [[UIImageView alloc] initWithImage: image];
 		
-		CGRect imageViewFrame = CGRectMake(x, y, [Styles instance].editView.textureImageLength, [Styles instance].editView.textureImageLength);
+		CGRect imageViewFrame = CGRectMake(x, y, [Styles shared].editView.textureImageLength, [Styles shared].editView.textureImageLength);
 		
 		texture.imageViewFrame = imageViewFrame;
 		
@@ -68,7 +68,7 @@
 	}
 	
 	UIScrollView *texturesView = (UIScrollView *)self.view;
-	texturesView.contentSize = CGSizeMake([Styles instance].editView.popoverTexturesWidth, padding + row * ([Styles instance].editView.textureImageLength + padding));	
+	texturesView.contentSize = CGSizeMake([Styles shared].editView.popoverTexturesWidth, padding + row * ([Styles shared].editView.textureImageLength + padding));	
 }
 
 - (void)handleTapFrom: (UITapGestureRecognizer *)recognizer 

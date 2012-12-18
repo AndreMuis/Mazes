@@ -8,16 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Communication.h"
 #import "Maze.h"
-#import "TopListsViewController.h"
+#import "MainListViewController.h"
 #import "GridView.h"
 #import "TexturesViewController.h"
 
 @interface EditViewController : UIViewController <UIGestureRecognizerDelegate, UITableViewDelegate, UITextViewDelegate, UITextFieldDelegate, UIAlertViewDelegate, UIPopoverControllerDelegate>
 {
-	Communication *comm;
-
 	int selectedTabIndex;
 	
 	UIButton *btnMain;

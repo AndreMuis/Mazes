@@ -12,7 +12,7 @@
 
 @class Texture;
 
-@interface Textures : NSObject <GetTexturesDelegate>
+@interface Textures : NSObject <MAWebServicesGetTexturesDelegate>
 {
     WebServices *webServices;
 }

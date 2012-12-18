@@ -56,7 +56,8 @@ int MapSquares[8][3][3] =
 	{
 		// create directional arrow
 
-		UIImage *directionArrowImage = [Utilities CreateDirectionArrowImageWidth: [Styles instance].map.squareWidth Height: [Styles instance].map.squareWidth];
+		UIImage *directionArrowImage = [Utilities createDirectionArrowImageWidth: [Styles shared].map.squareWidth
+                                                                          height: [Styles shared].map.squareWidth];
 		
 		directionArrowImageView = [[UIImageView alloc] initWithImage: directionArrowImage];
 		directionArrowImageView.alpha = 0.0;
@@ -71,8 +72,8 @@ int MapSquares[8][3][3] =
 {
 	BOOL visible;
 	
-	float mapXOffset = ([Styles instance].map.length - ([Styles instance].map.squareWidth * [Globals instance].mazeMain.columns + [Styles instance].map.wallWidth * ([Globals instance].mazeMain.columns + 1))) / 2.0; 
-	float mapYOffset = ([Styles instance].map.length - ([Styles instance].map.squareWidth * [Globals instance].mazeMain.rows + [Styles instance].map.wallWidth * ([Globals instance].mazeMain.rows + 1))) / 2.0; 
+	float mapXOffset = ([Styles shared].map.length - ([Styles shared].map.squareWidth * [Globals shared].mazeMain.columns + [Styles shared].map.wallWidth * ([Globals shared].mazeMain.columns + 1))) / 2.0; 
+	float mapYOffset = ([Styles shared].map.length - ([Styles shared].map.squareWidth * [Globals shared].mazeMain.rows + [Styles shared].map.wallWidth * ([Globals shared].mazeMain.rows + 1))) / 2.0; 
 	
 	CGPoint mapOffset = CGPointMake(mapXOffset, mapYOffset);
 	
@@ -94,7 +95,7 @@ int MapSquares[8][3][3] =
 			// only consider rows with directions specified
 			if (MapWalls[i][j][2] != 0)
 			{
-				wallType = [[Globals instance].mazeMain.locations getWallTypeLocX: currLoc.x + wallLocX LocY: currLoc.y + wallLocY Direction: wallDir];
+				wallType = [[Globals shared].mazeMain.locations getWallTypeLocX: currLoc.x + wallLocX LocY: currLoc.y + wallLocY Direction: wallDir];
 				if (wallType == [Constants shared].WallType.Solid || wallType == [Constants shared].WallType.Fake)
                 {
 					visible = NO;
@@ -112,50 +113,50 @@ int MapSquares[8][3][3] =
 			Location *drawLoc = nil;
 			if (wallDir == [Constants shared].Direction.North || wallDir == [Constants shared].Direction.West)
 			{
-				drawLoc = [[Globals instance].mazeMain.locations getLocationByX: currLoc.x + wallLocX Y: currLoc.y + wallLocY];
+				drawLoc = [[Globals shared].mazeMain.locations getLocationByX: currLoc.x + wallLocX Y: currLoc.y + wallLocY];
 			}
 			else if (wallDir == [Constants shared].Direction.South)
 			{
-				drawLoc = [[Globals instance].mazeMain.locations getLocationByX: currLoc.x + wallLocX Y: currLoc.y + wallLocY + 1];
+				drawLoc = [[Globals shared].mazeMain.locations getLocationByX: currLoc.x + wallLocX Y: currLoc.y + wallLocY + 1];
 				wallDir = [Constants shared].Direction.North;
 			}	
 			else if (wallDir == [Constants shared].Direction.East)
 			{
-				drawLoc = [[Globals instance].mazeMain.locations getLocationByX: currLoc.x + wallLocX + 1 Y: currLoc.y + wallLocY];
+				drawLoc = [[Globals shared].mazeMain.locations getLocationByX: currLoc.x + wallLocX + 1 Y: currLoc.y + wallLocY];
 				wallDir = [Constants shared].Direction.West;
 			}	
 			
 			// draw wall
-			wallType = [[Globals instance].mazeMain.locations getWallTypeLocX: drawLoc.x LocY: drawLoc.y Direction: wallDir];
+			wallType = [[Globals shared].mazeMain.locations getWallTypeLocX: drawLoc.x LocY: drawLoc.y Direction: wallDir];
 			
 			if (wallDir == [Constants shared].Direction.North)
 			{
-				wallStartX = mapOffset.x + (drawLoc.x - 1) * ([Styles instance].map.squareWidth + [Styles instance].map.wallWidth) + [Styles instance].map.wallWidth;
-				wallStartY = mapOffset.y + (drawLoc.y - 1) * ([Styles instance].map.squareWidth + [Styles instance].map.wallWidth);
+				wallStartX = mapOffset.x + (drawLoc.x - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
+				wallStartY = mapOffset.y + (drawLoc.y - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth);
 				
-				wallWidth = [Styles instance].map.squareWidth;
-				wallHeight = [Styles instance].map.wallWidth;
+				wallWidth = [Styles shared].map.squareWidth;
+				wallHeight = [Styles shared].map.wallWidth;
 			}
 			else if (wallDir == [Constants shared].Direction.West)
 			{
-				wallStartX = mapOffset.x + (drawLoc.x - 1) * ([Styles instance].map.squareWidth + [Styles instance].map.wallWidth);
-				wallStartY = mapOffset.y + (drawLoc.y - 1) * ([Styles instance].map.squareWidth + [Styles instance].map.wallWidth) + [Styles instance].map.wallWidth;
+				wallStartX = mapOffset.x + (drawLoc.x - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth);
+				wallStartY = mapOffset.y + (drawLoc.y - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
 				
-				wallWidth = [Styles instance].map.wallWidth;
-				wallHeight = [Styles instance].map.squareWidth;
+				wallWidth = [Styles shared].map.wallWidth;
+				wallHeight = [Styles shared].map.squareWidth;
 			}
 			
 			if (wallType == [Constants shared].WallType.Solid || wallType == [Constants shared].WallType.Fake)
 			{				
-				wallColor = [Styles instance].map.wallColor;
+				wallColor = [Styles shared].map.wallColor;
 			}
-			else if ([Constants shared].WallType.Invisible && [[Globals instance].mazeMain.locations hasHitWallAtLocX: drawLoc.x LocY: drawLoc.y Direction: wallDir] == YES) 
+			else if ([Constants shared].WallType.Invisible && [[Globals shared].mazeMain.locations hasHitWallAtLocX: drawLoc.x LocY: drawLoc.y Direction: wallDir] == YES) 
 			{
-				wallColor = [Styles instance].map.invisibleColor;
+				wallColor = [Styles shared].map.invisibleColor;
 			}
 			else if (wallType == [Constants shared].WallType.None || [Constants shared].WallType.Invisible) 
 			{
-				wallColor = [Styles instance].map.noWallColor;
+				wallColor = [Styles shared].map.noWallColor;
 			}
 			
 			[self addMapSegmentRect: CGRectMake(wallStartX, wallStartY, wallWidth, wallHeight) Color: wallColor];
@@ -168,7 +169,7 @@ int MapSquares[8][3][3] =
 				cornerLoc = drawLoc;
 				[self drawMapCornerWithLocation: cornerLoc MapOffset: mapOffset];
 				
-				cornerLoc = [[Globals instance].mazeMain.locations getLocationByX: drawLoc.x + 1 Y: drawLoc.y];
+				cornerLoc = [[Globals shared].mazeMain.locations getLocationByX: drawLoc.x + 1 Y: drawLoc.y];
 				[self drawMapCornerWithLocation: cornerLoc MapOffset: mapOffset];				
 			}
 			else if (wallDir == [Constants shared].Direction.West)
@@ -176,7 +177,7 @@ int MapSquares[8][3][3] =
 				cornerLoc = drawLoc;
 				[self drawMapCornerWithLocation: cornerLoc MapOffset: mapOffset];
 				
-				cornerLoc = [[Globals instance].mazeMain.locations getLocationByX: drawLoc.x Y: drawLoc.y + 1];
+				cornerLoc = [[Globals shared].mazeMain.locations getLocationByX: drawLoc.x Y: drawLoc.y + 1];
 				[self drawMapCornerWithLocation: cornerLoc MapOffset: mapOffset];				
 			}
 		}
@@ -198,7 +199,7 @@ int MapSquares[8][3][3] =
 			
 			if (MapSquares[i][j][2] != 0)
 			{
-				wallType = [[Globals instance].mazeMain.locations getWallTypeLocX: currLoc.x + squareX LocY: currLoc.y + squareY Direction: wallDir]; 
+				wallType = [[Globals shared].mazeMain.locations getWallTypeLocX: currLoc.x + squareX LocY: currLoc.y + squareY Direction: wallDir]; 
 				if (wallType == [Constants shared].WallType.Solid || wallType == [Constants shared].WallType.Fake)
                 {
 					visible = NO;
@@ -210,33 +211,33 @@ int MapSquares[8][3][3] =
 		{
 			[self rotateMapCoordinatesX: MapSquares[i][0][0] Y: MapSquares[i][0][1] Dir: MapSquares[i][0][2] RX: &squareX RY: &squareY RDir: &wallDir];
 			
-			Location *drawLoc = [[Globals instance].mazeMain.locations getLocationByX: currLoc.x + squareX Y: currLoc.y + squareY];
+			Location *drawLoc = [[Globals shared].mazeMain.locations getLocationByX: currLoc.x + squareX Y: currLoc.y + squareY];
 			
-			squareStartX = mapOffset.x + (drawLoc.x - 1) * ([Styles instance].map.squareWidth + [Styles instance].map.wallWidth) + [Styles instance].map.wallWidth;
-			squareStartY = mapOffset.y + (drawLoc.y - 1) * ([Styles instance].map.squareWidth + [Styles instance].map.wallWidth) + [Styles instance].map.wallWidth;
+			squareStartX = mapOffset.x + (drawLoc.x - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
+			squareStartY = mapOffset.y + (drawLoc.y - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
 			
-			squareWidth = [Styles instance].map.squareWidth;
-			squareHeight = [Styles instance].map.squareWidth;
+			squareWidth = [Styles shared].map.squareWidth;
+			squareHeight = [Styles shared].map.squareWidth;
 			
 			if (drawLoc.type == [Constants shared].LocationType.Start)
             {
-				squareColor = [Styles instance].map.startColor;
+				squareColor = [Styles shared].map.startColor;
             }
 			else if (drawLoc.type == [Constants shared].LocationType.End)
             {
-				squareColor = [Styles instance].map.endColor;
+				squareColor = [Styles shared].map.endColor;
             }
 			else if (drawLoc.type == [Constants shared].LocationType.StartOver && drawLoc.visited == YES)
             {
-				squareColor = [Styles instance].map.startOverColor;
+				squareColor = [Styles shared].map.startOverColor;
             }
 			else if (drawLoc.type == [Constants shared].LocationType.Teleportation && drawLoc.visited == YES)
             {
-				squareColor = [Styles instance].map.teleportationColor;
+				squareColor = [Styles shared].map.teleportationColor;
             }
 			else
             {
-				squareColor = [Styles instance].map.doNothingColor;
+				squareColor = [Styles shared].map.doNothingColor;
             }
 			
 			[self addMapSegmentRect: CGRectMake(squareStartX, squareStartY, squareWidth, squareHeight) Color: squareColor];
@@ -250,61 +251,61 @@ int MapSquares[8][3][3] =
 	if (directionArrowImageView.alpha == 0.0)
 		directionArrowImageView.alpha = 1.0;
 	
-	float arrowX = mapOffset.x + (currLoc.x - 1) * ([Styles instance].map.squareWidth + [Styles instance].map.wallWidth) + [Styles instance].map.wallWidth;
-	float arrowY = mapOffset.y + (currLoc.y - 1) * ([Styles instance].map.squareWidth + [Styles instance].map.wallWidth) + [Styles instance].map.wallWidth;
+	float arrowX = mapOffset.x + (currLoc.x - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
+	float arrowY = mapOffset.y + (currLoc.y - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
 	
-	directionArrowImageView.frame = CGRectMake(arrowX, arrowY, [Styles instance].map.squareWidth, [Styles instance].map.squareWidth);
+	directionArrowImageView.frame = CGRectMake(arrowX, arrowY, [Styles shared].map.squareWidth, [Styles shared].map.squareWidth);
 	
 	float theta = 0.0;
 	if (currDir == [Constants shared].Direction.North) theta = 0.0;
 	if (currDir == [Constants shared].Direction.East) theta = 90.0;
 	if (currDir == [Constants shared].Direction.South) theta = 180.0;
 	if (currDir == [Constants shared].Direction.West) theta = 270.0;
-	[Utilities RotateImageView: directionArrowImageView AngleDegrees: theta];
+	[Utilities rotateImageView: directionArrowImageView angleDegrees: theta];
 }
 
 // corner is at top-left of location
 - (void)drawMapCornerWithLocation: (Location *)cornerLoc MapOffset: (CGPoint)mapOffset
 {
-	int cornerStartX = mapOffset.x + (cornerLoc.x - 1) * ([Styles instance].map.squareWidth + [Styles instance].map.wallWidth);
-	int cornerStartY = mapOffset.y + (cornerLoc.y - 1) * ([Styles instance].map.squareWidth + [Styles instance].map.wallWidth);
+	int cornerStartX = mapOffset.x + (cornerLoc.x - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth);
+	int cornerStartY = mapOffset.y + (cornerLoc.y - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth);
 	
-	int cornerWidth = [Styles instance].map.wallWidth;
-	int cornerHeight = [Styles instance].map.wallWidth;
+	int cornerWidth = [Styles shared].map.wallWidth;
+	int cornerHeight = [Styles shared].map.wallWidth;
 	
 	UIColor *cornerColor = nil;
 	
 	// relative to corner
-	int wallTypeNorth = [[Globals instance].mazeMain.locations getWallTypeLocX: cornerLoc.x LocY: cornerLoc.y - 1 Direction: [Constants shared].Direction.West];
-	int wallTypeEast = [[Globals instance].mazeMain.locations getWallTypeLocX: cornerLoc.x LocY: cornerLoc.y Direction: [Constants shared].Direction.North];
-	int wallTypeSouth = [[Globals instance].mazeMain.locations getWallTypeLocX: cornerLoc.x LocY: cornerLoc.y Direction: [Constants shared].Direction.West];
-	int wallTypeWest = [[Globals instance].mazeMain.locations getWallTypeLocX: cornerLoc.x - 1 LocY: cornerLoc.y Direction: [Constants shared].Direction.North];
+	int wallTypeNorth = [[Globals shared].mazeMain.locations getWallTypeLocX: cornerLoc.x LocY: cornerLoc.y - 1 Direction: [Constants shared].Direction.West];
+	int wallTypeEast = [[Globals shared].mazeMain.locations getWallTypeLocX: cornerLoc.x LocY: cornerLoc.y Direction: [Constants shared].Direction.North];
+	int wallTypeSouth = [[Globals shared].mazeMain.locations getWallTypeLocX: cornerLoc.x LocY: cornerLoc.y Direction: [Constants shared].Direction.West];
+	int wallTypeWest = [[Globals shared].mazeMain.locations getWallTypeLocX: cornerLoc.x - 1 LocY: cornerLoc.y Direction: [Constants shared].Direction.North];
 	
-	int wallHitNorth = [[Globals instance].mazeMain.locations hasHitWallAtLocX: cornerLoc.x LocY: cornerLoc.y - 1 Direction: [Constants shared].Direction.West];
-	int wallHitEast = [[Globals instance].mazeMain.locations hasHitWallAtLocX: cornerLoc.x LocY: cornerLoc.y Direction: [Constants shared].Direction.North];
-	int wallHitSouth = [[Globals instance].mazeMain.locations hasHitWallAtLocX: cornerLoc.x LocY: cornerLoc.y Direction: [Constants shared].Direction.West];
-	int wallHitWest = [[Globals instance].mazeMain.locations hasHitWallAtLocX: cornerLoc.x - 1 LocY: cornerLoc.y Direction: [Constants shared].Direction.North];
+	int wallHitNorth = [[Globals shared].mazeMain.locations hasHitWallAtLocX: cornerLoc.x LocY: cornerLoc.y - 1 Direction: [Constants shared].Direction.West];
+	int wallHitEast = [[Globals shared].mazeMain.locations hasHitWallAtLocX: cornerLoc.x LocY: cornerLoc.y Direction: [Constants shared].Direction.North];
+	int wallHitSouth = [[Globals shared].mazeMain.locations hasHitWallAtLocX: cornerLoc.x LocY: cornerLoc.y Direction: [Constants shared].Direction.West];
+	int wallHitWest = [[Globals shared].mazeMain.locations hasHitWallAtLocX: cornerLoc.x - 1 LocY: cornerLoc.y Direction: [Constants shared].Direction.North];
 	
 	if ((wallTypeNorth == [Constants shared].WallType.None || (wallTypeNorth == [Constants shared].WallType.Invisible && wallHitNorth == NO)) &&
 		(wallTypeEast == [Constants shared].WallType.None || (wallTypeEast == [Constants shared].WallType.Invisible && wallHitEast == NO)) &&
 		(wallTypeSouth == [Constants shared].WallType.None || (wallTypeSouth == [Constants shared].WallType.Invisible && wallHitSouth == NO)) &&
 		(wallTypeWest == [Constants shared].WallType.None || (wallTypeWest == [Constants shared].WallType.Invisible && wallHitWest == NO)))
 	{
-		cornerColor = [Styles instance].map.noWallColor;
+		cornerColor = [Styles shared].map.noWallColor;
 	}
 	else if (wallTypeNorth == [Constants shared].WallType.Solid || wallTypeNorth == [Constants shared].WallType.Fake ||
 			 wallTypeEast == [Constants shared].WallType.Solid || wallTypeEast == [Constants shared].WallType.Fake ||
 			 wallTypeSouth == [Constants shared].WallType.Solid || wallTypeSouth == [Constants shared].WallType.Fake ||
 			 wallTypeWest == [Constants shared].WallType.Solid || wallTypeWest == [Constants shared].WallType.Fake)
 	{
-		cornerColor = [Styles instance].map.wallColor;
+		cornerColor = [Styles shared].map.wallColor;
 	}
 	else if ((wallTypeNorth == [Constants shared].WallType.Invisible && wallHitNorth == YES) ||
 			 (wallTypeEast == [Constants shared].WallType.Invisible && wallHitEast == YES) ||
 			 (wallTypeSouth == [Constants shared].WallType.Invisible && wallHitSouth == YES) ||
 			 (wallTypeWest == [Constants shared].WallType.Invisible && wallHitWest == YES))
 	{
-		cornerColor = [Styles instance].map.invisibleColor;
+		cornerColor = [Styles shared].map.invisibleColor;
 	}
 	else 
 	{

@@ -1,0 +1,50 @@
+
+PODS:
+- AFNetworking (1.0.1)
+- CrittercismSDK (3.4.0)
+- FlurrySDK (4.1.0)
+- RestKit (0.20.0pre4):
+  - RestKit/Core (= 0.20.0pre4)
+- RestKit/Core (0.20.0pre4):
+  - RestKit/CoreData
+  - RestKit/Network
+  - RestKit/ObjectMapping
+- RestKit/CoreData (0.20.0pre4)
+- RestKit/Network (0.20.0pre4):
+  - AFNetworking (= 1.0.1)
+  - RestKit/ObjectMapping
+  - RestKit/Support
+  - SOCKit
+- RestKit/ObjectMapping (0.20.0pre4)
+- RestKit/Support (0.20.0pre4)
+- RestKit/Testing (0.20.0pre4)
+- SOCKit (1.1)
+
+DEPENDENCIES:
+- CrittercismSDK
+- FlurrySDK
+- RestKit (from `https://github.com/RestKit/RestKit.git', branch `development')
+- RestKit/Testing (from `https://github.com/RestKit/RestKit.git', branch `development')
+
+EXTERNAL SOURCES:
+  RestKit:
+    :git: https://github.com/RestKit/RestKit.git
+    :branch: development
+  RestKit/Testing:
+    :git: https://github.com/RestKit/RestKit.git
+    :branch: development
+
+SPEC CHECKSUMS:
+  AFNetworking: 4c11f857c9a18d65f4257c90a1e74ac49f0ac422
+  CrittercismSDK: 0e28e8b0d52506c65b3344a87e8b36de2e4a8eef
+  FlurrySDK: 52245ae8c6fa31825dc74a6afb94b861da2435fa
+  RestKit: 5e3c60668a917633279bf0ed327c2a3a52250d3f
+  RestKit/Core: 5e3c60668a917633279bf0ed327c2a3a52250d3f
+  RestKit/CoreData: 5e3c60668a917633279bf0ed327c2a3a52250d3f
+  RestKit/Network: 5e3c60668a917633279bf0ed327c2a3a52250d3f
+  RestKit/ObjectMapping: 5e3c60668a917633279bf0ed327c2a3a52250d3f
+  RestKit/Support: 5e3c60668a917633279bf0ed327c2a3a52250d3f
+  RestKit/Testing: 5e3c60668a917633279bf0ed327c2a3a52250d3f
+  SOCKit: 179515c1a621dd5652a60e9be02ea4adcd25bc9b
+
+COCOAPODS: 0.16.0

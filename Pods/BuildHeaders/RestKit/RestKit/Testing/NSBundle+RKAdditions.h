@@ -1,0 +1,1 @@
+../../../../RestKit/Code/Testing/NSBundle+RKAdditions.h

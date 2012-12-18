@@ -39,6 +39,7 @@
 	}
 }
 
+/*
 - (void)populateWithXML: (xmlDocPtr)doc
 {
 	xmlNodePtr node = [XML getNodesFromDoc: doc XPath: "/Response/Locations/Location"];
@@ -69,6 +70,7 @@
 	
 	xmlFreeNodeList(node);
 }
+*/
 
 - (void)reset
 {
@@ -287,43 +289,43 @@
 			
 			if (location.type == [Constants shared].LocationType.Start)
 			{
-				CGContextSetFillColorWithColor(context, [Styles instance].grid.startColor.CGColor);
+				CGContextSetFillColorWithColor(context, [Styles shared].grid.startColor.CGColor);
 			}
 			else if (location.type == [Constants shared].LocationType.End)
 			{
-				CGContextSetFillColorWithColor(context, [Styles instance].grid.endColor.CGColor);
+				CGContextSetFillColorWithColor(context, [Styles shared].grid.endColor.CGColor);
 			}
 			else if (location.type == [Constants shared].LocationType.StartOver)
 			{
-				CGContextSetFillColorWithColor(context, [Styles instance].grid.startOverColor.CGColor);
+				CGContextSetFillColorWithColor(context, [Styles shared].grid.startOverColor.CGColor);
 			}
 			else if (location.type == [Constants shared].LocationType.Teleportation)
 			{
-				CGContextSetFillColorWithColor(context, [Styles instance].grid.teleportationColor.CGColor);
+				CGContextSetFillColorWithColor(context, [Styles shared].grid.teleportationColor.CGColor);
 			}
 			else if ([location.message isEqualToString: @""] == NO)
 			{
-				CGContextSetFillColorWithColor(context, [Styles instance].grid.messageColor.CGColor);
+				CGContextSetFillColorWithColor(context, [Styles shared].grid.messageColor.CGColor);
 			}
 			else
 			{
-				CGContextSetFillColorWithColor(context, [Styles instance].grid.doNothingColor.CGColor);
+				CGContextSetFillColorWithColor(context, [Styles shared].grid.doNothingColor.CGColor);
 			}
 			
 			CGContextFillRect(context, segmentRect);
 			
 			if (location.type == [Constants shared].LocationType.Start || location.type == [Constants shared].LocationType.Teleportation)
 			{
-				[Utilities drawArrowInRect: segmentRect AngleDegrees: location.direction Scale: 0.8];
+				[Utilities drawArrowInRect: segmentRect angleDegrees: location.direction scale: 0.8];
 				
 				if (location.type == [Constants shared].LocationType.Teleportation)
 				{
-					CGContextSetFillColorWithColor(context, [Styles instance].grid.teleportIdColor.CGColor);
+					CGContextSetFillColorWithColor(context, [Styles shared].grid.teleportIdColor.CGColor);
 				
 					NSString *num = [NSString stringWithFormat: @"%d", location.teleportId];
 				
 					[num drawInRect: segmentRect
-                           withFont: [UIFont systemFontOfSize: [Styles instance].grid.teleportFontSize]
+                           withFont: [UIFont systemFontOfSize: [Styles shared].grid.teleportFontSize]
                       lineBreakMode: NSLineBreakByClipping
                           alignment: NSTextAlignmentCenter];
 				}
@@ -331,14 +333,18 @@
 			
 			if (location.floorTextureId != 0 || location.ceilingTextureId != 0)
 			{
-				[Utilities drawBorderInsideRect: segmentRect WithWidth: [Styles instance].grid.textureHighlightWidth Color: [Styles instance].grid.textureHighlightColor];
+				[Utilities drawBorderInsideRect: segmentRect
+                                      withWidth: [Styles shared].grid.textureHighlightWidth
+                                          color: [Styles shared].grid.textureHighlightColor];
 			}	
 				
 			if (currLoc != nil)
 			{
 				if (location.x == currLoc.x && location.y == currLoc.y)
 				{
-					[Utilities drawBorderInsideRect: segmentRect WithWidth: [Styles instance].grid.locationHighlightWidth Color: [Styles instance].grid.locationHighlightColor];
+					[Utilities drawBorderInsideRect: segmentRect
+                                          withWidth: [Styles shared].grid.locationHighlightWidth
+                                              color: [Styles shared].grid.locationHighlightColor];
 				}
 			}
 		}
@@ -352,7 +358,7 @@
 			// outer wall
 			if (location.y == 1 || location.y == rows + 1)
 			{
-				CGContextSetFillColorWithColor(context, [Styles instance].grid.borderColor.CGColor);
+				CGContextSetFillColorWithColor(context, [Styles shared].grid.borderColor.CGColor);
 				CGContextFillRect(context, segmentRect);
 			}
 			else
@@ -361,19 +367,19 @@
 				
 				if (wallType == [Constants shared].WallType.None)
                 {
-					CGContextSetFillColorWithColor(context, [Styles instance].grid.noWallColor.CGColor);
+					CGContextSetFillColorWithColor(context, [Styles shared].grid.noWallColor.CGColor);
                 }
 				else if (wallType == [Constants shared].WallType.Solid)
                 {
-					CGContextSetFillColorWithColor(context, [Styles instance].grid.solidColor.CGColor);
+					CGContextSetFillColorWithColor(context, [Styles shared].grid.solidColor.CGColor);
                 }
 				else if (wallType == [Constants shared].WallType.Invisible)
                 {
-					CGContextSetFillColorWithColor(context, [Styles instance].grid.invisibleColor.CGColor);
+					CGContextSetFillColorWithColor(context, [Styles shared].grid.invisibleColor.CGColor);
                 }
 				else if (wallType == [Constants shared].WallType.Fake)
                 {
-					CGContextSetFillColorWithColor(context, [Styles instance].grid.fakeColor.CGColor);
+					CGContextSetFillColorWithColor(context, [Styles shared].grid.fakeColor.CGColor);
                 }
 									
 				CGContextFillRect(context, segmentRect);
@@ -381,14 +387,18 @@
 			
 			if (location.wallNorthTextureId != 0)
 			{
-				[Utilities drawBorderInsideRect: segmentRect WithWidth: [Styles instance].grid.textureHighlightWidth Color: [Styles instance].grid.textureHighlightColor];
+				[Utilities drawBorderInsideRect: segmentRect
+                                      withWidth: [Styles shared].grid.textureHighlightWidth
+                                          color: [Styles shared].grid.textureHighlightColor];
 			}	
 						
 			if (currWallLoc != nil)
 			{
 				if (location.x == currWallLoc.x && location.y == currWallLoc.y && currWallDir == [Constants shared].Direction.North)
 				{
-					[Utilities drawBorderInsideRect: segmentRect WithWidth: [Styles instance].grid.wallHighlightWidth Color: [Styles instance].grid.locationHighlightColor];				
+					[Utilities drawBorderInsideRect: segmentRect
+                                          withWidth: [Styles shared].grid.wallHighlightWidth
+                                              color: [Styles shared].grid.locationHighlightColor];
 				}
 			}
 		}
@@ -402,7 +412,7 @@
 			// outer wall
 			if (location.x == 1 || location.x == columns + 1)
 			{
-				CGContextSetFillColorWithColor(context, [Styles instance].grid.borderColor.CGColor);
+				CGContextSetFillColorWithColor(context, [Styles shared].grid.borderColor.CGColor);
 				CGContextFillRect(context, segmentRect);
 			}
 			else
@@ -411,19 +421,19 @@
 				
 				if (wallType == [Constants shared].WallType.None)
                 {
-					CGContextSetFillColorWithColor(context, [Styles instance].grid.noWallColor.CGColor);
+					CGContextSetFillColorWithColor(context, [Styles shared].grid.noWallColor.CGColor);
                 }
 				else if (wallType == [Constants shared].WallType.Solid)
                 {
-					CGContextSetFillColorWithColor(context, [Styles instance].grid.solidColor.CGColor);
+					CGContextSetFillColorWithColor(context, [Styles shared].grid.solidColor.CGColor);
                 }
 				else if (wallType == [Constants shared].WallType.Invisible)
                 {
-					CGContextSetFillColorWithColor(context, [Styles instance].grid.invisibleColor.CGColor);
+					CGContextSetFillColorWithColor(context, [Styles shared].grid.invisibleColor.CGColor);
                 }
 				else if (wallType == [Constants shared].WallType.Fake)
                 {
-					CGContextSetFillColorWithColor(context, [Styles instance].grid.fakeColor.CGColor);
+					CGContextSetFillColorWithColor(context, [Styles shared].grid.fakeColor.CGColor);
                 }
 				
 				CGContextFillRect(context, segmentRect);
@@ -431,14 +441,18 @@
 
 			if (location.wallNorthTextureId != 0)
 			{
-				[Utilities drawBorderInsideRect: segmentRect WithWidth: [Styles instance].grid.textureHighlightWidth Color: [Styles instance].grid.textureHighlightColor];
+				[Utilities drawBorderInsideRect: segmentRect
+                                      withWidth: [Styles shared].grid.textureHighlightWidth
+                                          color: [Styles shared].grid.textureHighlightColor];
 			}	
 			
 			if (currWallLoc != nil)
 			{
 				if (location.x == currWallLoc.x && location.y == currWallLoc.y && currWallDir == [Constants shared].Direction.West)
 				{
-					[Utilities drawBorderInsideRect: segmentRect WithWidth: [Styles instance].grid.wallHighlightWidth Color: [Styles instance].grid.locationHighlightColor];				
+					[Utilities drawBorderInsideRect: segmentRect
+                                          withWidth: [Styles shared].grid.wallHighlightWidth
+                                              color: [Styles shared].grid.locationHighlightColor];
 				}
 			}
 		}
@@ -449,12 +463,12 @@
 
 		if (location.y > 1 && location.y <= rows && location.x > 1 && location.x <= columns)
 		{
-			CGContextSetFillColorWithColor(context, [Styles instance].grid.cornerColor.CGColor);
+			CGContextSetFillColorWithColor(context, [Styles shared].grid.cornerColor.CGColor);
 			CGContextFillRect(context, segmentRect);
 		}	
 		else
 		{
-			CGContextSetFillColorWithColor(context, [Styles instance].grid.borderColor.CGColor);
+			CGContextSetFillColorWithColor(context, [Styles shared].grid.borderColor.CGColor);
 			CGContextFillRect(context, segmentRect);
 		}
 	}
@@ -470,7 +484,7 @@
 	{	
 		segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants shared].MazeObject.Location];
 
-		touchRect = CGRectMake(segmentRect.origin.x - [Styles instance].grid.segmentLengthShort / 2.0, segmentRect.origin.y - [Styles instance].grid.segmentLengthShort / 2.0, [Styles instance].grid.segmentLengthLong + [Styles instance].grid.segmentLengthShort, [Styles instance].grid.segmentLengthLong + [Styles instance].grid.segmentLengthShort);
+		touchRect = CGRectMake(segmentRect.origin.x - [Styles shared].grid.segmentLengthShort / 2.0, segmentRect.origin.y - [Styles shared].grid.segmentLengthShort / 2.0, [Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort, [Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);
 		
 		if (CGRectContainsPoint(touchRect, touchPoint) && location.x <= columns && location.y <= rows)
 		{
@@ -488,7 +502,7 @@
 	CGPoint segmentOrigin = CGPointZero;
 	
 	float tx = 0.0, ty = 0.0;
-	float b = ([Styles instance].grid.segmentLengthLong + [Styles instance].grid.segmentLengthShort) / 2.0;
+	float b = ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort) / 2.0;
 	
 	for (Location *location in array)
 	{	
@@ -548,40 +562,41 @@
 	
 	if (segmentType == [Constants shared].MazeObject.Location)
 	{
-		segmentX = [Styles instance].grid.segmentLengthShort + (location.x - 1) * ([Styles instance].grid.segmentLengthLong + [Styles instance].grid.segmentLengthShort);
-		segmentY = [Styles instance].grid.segmentLengthShort + (location.y - 1) * ([Styles instance].grid.segmentLengthLong + [Styles instance].grid.segmentLengthShort);
+		segmentX = [Styles shared].grid.segmentLengthShort + (location.x - 1) * ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);
+		segmentY = [Styles shared].grid.segmentLengthShort + (location.y - 1) * ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);
 		
-		width = [Styles instance].grid.segmentLengthLong;
-		height = [Styles instance].grid.segmentLengthLong; 
+		width = [Styles shared].grid.segmentLengthLong;
+		height = [Styles shared].grid.segmentLengthLong; 
 	}
 	else if (segmentType == [Constants shared].MazeObject.WallNorth)
 	{
-		segmentX = [Styles instance].grid.segmentLengthShort + (location.x - 1) * ([Styles instance].grid.segmentLengthShort + [Styles instance].grid.segmentLengthLong);
-		segmentY = (location.y - 1) * ([Styles instance].grid.segmentLengthShort + [Styles instance].grid.segmentLengthLong);
+		segmentX = [Styles shared].grid.segmentLengthShort + (location.x - 1) * ([Styles shared].grid.segmentLengthShort + [Styles shared].grid.segmentLengthLong);
+		segmentY = (location.y - 1) * ([Styles shared].grid.segmentLengthShort + [Styles shared].grid.segmentLengthLong);
 		
-		width = [Styles instance].grid.segmentLengthLong;
-		height = [Styles instance].grid.segmentLengthShort; 
+		width = [Styles shared].grid.segmentLengthLong;
+		height = [Styles shared].grid.segmentLengthShort; 
 	}
 	else if (segmentType == [Constants shared].MazeObject.WallWest)
 	{
-		segmentX = (location.x - 1) * ([Styles instance].grid.segmentLengthShort + [Styles instance].grid.segmentLengthLong);
-		segmentY = [Styles instance].grid.segmentLengthShort + (location.y - 1) * ([Styles instance].grid.segmentLengthShort + [Styles instance].grid.segmentLengthLong);	
+		segmentX = (location.x - 1) * ([Styles shared].grid.segmentLengthShort + [Styles shared].grid.segmentLengthLong);
+		segmentY = [Styles shared].grid.segmentLengthShort + (location.y - 1) * ([Styles shared].grid.segmentLengthShort + [Styles shared].grid.segmentLengthLong);	
 		
-		width = [Styles instance].grid.segmentLengthShort;
-		height = [Styles instance].grid.segmentLengthLong; 
+		width = [Styles shared].grid.segmentLengthShort;
+		height = [Styles shared].grid.segmentLengthLong; 
 	}
 	else if (segmentType == [Constants shared].MazeObject.Corner)
 	{
-		segmentX = (location.x - 1) * ([Styles instance].grid.segmentLengthLong + [Styles instance].grid.segmentLengthShort);
-		segmentY = (location.y - 1) * ([Styles instance].grid.segmentLengthLong + [Styles instance].grid.segmentLengthShort);	
+		segmentX = (location.x - 1) * ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);
+		segmentY = (location.y - 1) * ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);	
 		
-		width = [Styles instance].grid.segmentLengthShort;
-		height = [Styles instance].grid.segmentLengthShort; 
+		width = [Styles shared].grid.segmentLengthShort;
+		height = [Styles shared].grid.segmentLengthShort; 
 	}
 	
 	return CGRectMake(segmentX, segmentY, width, height);
 }
 
+/*
 - (xmlNodePtr)CreateLocationsXMLWithDoc: (xmlDocPtr)doc
 {
 	xmlNodePtr locationsNode = [XML CreateNodeDoc: doc NodeName: @"Locations"];
@@ -611,6 +626,7 @@
 
 	return locationsNode;
 }
+*/
 
 - (NSString *)description 
 {

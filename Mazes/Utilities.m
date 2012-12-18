@@ -13,99 +13,33 @@
 
 @implementation Utilities
 
-+ (void)LogWithObject: (id)object Format: (NSString *)formatString, ...
++ (void)logWithClass: (Class)class format: (NSString *)formatString, ...
 {
-    #ifdef DEBUG
-    formatString = [NSString stringWithFormat: @"%@: %@", NSStringFromClass([object class]), formatString];
+    NSString *newFormatString = [NSString stringWithFormat: @"%@: %@", NSStringFromClass(class), formatString];
+    
     
     va_list args;
     va_start(args, formatString);
     
-    NSLogv(formatString, args);
+    NSString *message = [[NSString alloc] initWithFormat: newFormatString arguments: args];
     
     va_end(args);
+    
+    
+    #ifdef DEBUG
+    
+    NSLog(@"%@", message);
+    
     #else
+    
+    [Flurry logEvent: @"Log message" withParameters: [NSDictionary dictionaryWithObjectsAndKeys:
+                                                      message, @"message",
+                                                      nil]];
     
     #endif
 }
 
-+ (NSString *)getLanguageCode
-{
-	NSArray *preferredLanguages = [NSLocale preferredLanguages];
-	NSString *languageCode = ((preferredLanguages.count == 0) ? @"en" : [preferredLanguages objectAtIndex: 0]);
-
-	return languageCode;
-}
-
-+ (NSString *)getLanguageNameFromCode: (NSString *)languageCode
-{
-	NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier: languageCode];
-	
-	NSString *languageName = [locale displayNameForKey: NSLocaleLanguageCode value: languageCode];
-	
-	return languageName;
-}
-
-+ (void)createActivityView
-{
-	[Globals instance].activityView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, [Styles instance].screen.width, [Styles instance].screen.height)];
-	
-	UIActivityIndicatorView *activityWheel = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhiteLarge];
-	
-	UILabel *lblMessage = [[UILabel alloc] initWithFrame: CGRectZero];
-	
-	[[Globals instance].activityView addSubview: activityWheel];
-	[[Globals instance].activityView addSubview: lblMessage];
-}
-
-+ (void)showActivityViewWithMessage: (NSString *)message
-{
-	CGSize messageSize = [message sizeWithFont: [Styles instance].activityView.messageFont];
-	
-	UIActivityIndicatorView *activityWheel = (UIActivityIndicatorView *)[[[Globals instance].activityView subviews] objectAtIndex: 0];
-
-	float padding = [Styles instance].activityView.paddingPrcnt * activityWheel.frame.size.width;
-	
-	float wheelX = [Styles instance].screen.width / 2.0 - activityWheel.frame.size.width / 2.0 - padding / 2.0 - messageSize.width / 2.0;
-	float wheelY = [Styles instance].screen.height / 2.0 - activityWheel.frame.size.height / 2.0;
-
-	activityWheel.frame = CGRectMake(wheelX, wheelY, activityWheel.frame.size.width, activityWheel.frame.size.height); 
-
-	UILabel *lblMessage = (UILabel *)[[[Globals instance].activityView subviews] objectAtIndex: 1];
-	lblMessage.backgroundColor = [Colors shared].transparentColor;
-	lblMessage.frame = CGRectMake(wheelX + activityWheel.frame.size.width + padding, wheelY + 2.0, messageSize.width, messageSize.height);
-	lblMessage.font = [UIFont systemFontOfSize: 31];
-	lblMessage.text = message;
-	lblMessage.textColor = [Styles instance].activityView.messageColor;
-	
-	[[Globals instance].appDelegate.window addSubview: [Globals instance].activityView];
-	
-	[[[[Globals instance].activityView subviews] objectAtIndex: 0] startAnimating];
-}
-
-+ (void)hideActivityView
-{
-	[[[Globals instance].activityView.subviews objectAtIndex: 0] stopAnimating];
-
-	[[Globals instance].activityView removeFromSuperview];
-}
-
-+ (void)ShowAlertWithDelegate: (id)delegate Message: (NSString *)message CancelButtonTitle: (NSString *)cancelButtonTitle OtherButtonTitle: (NSString *)otherButtonTitle Tag: (int)tag Bounds: (CGRect)bounds
-{
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"" message: message delegate: delegate cancelButtonTitle: cancelButtonTitle otherButtonTitles: nil];
-	
-	if ([otherButtonTitle isEqualToString: @""] == NO)
-		[alert addButtonWithTitle: otherButtonTitle];
-	
-	alert.tag = tag;
-	
-	if (CGRectEqualToRect(bounds, CGRectZero) == NO)
-		alert.bounds = bounds;
-	
-	[alert show];	
-}
-
-+ (void)drawBorderInsideRect: (CGRect)rect WithWidth: (CGFloat)width Color: (UIColor *)color
++ (void)drawBorderInsideRect: (CGRect)rect withWidth: (CGFloat)width color: (UIColor *)color
 {
 	CGContextRef context = UIGraphicsGetCurrentContext();	
 	
@@ -117,7 +51,7 @@
 	CGContextFillRect(context, CGRectMake(rect.origin.x + rect.size.width - width, rect.origin.y + width, width, rect.size.height - 2.0 * width));
 }
 
-+ (void)drawStarInRect: (CGRect)rect ClipRect: (CGRect)clipRect UIColor: (UIColor *)uiColor Outline: (BOOL)outline
++ (void)drawStarInRect: (CGRect)rect clipRect: (CGRect)clipRect color: (UIColor *)uiColor outline: (BOOL)outline
 {
 	CGContextRef context = UIGraphicsGetCurrentContext();	
 
@@ -161,8 +95,8 @@
 			CGContextAddLineToPoint(context, origin.x + x2, origin.y - y2);				
 		}
 		
-		[self RotateX: &x1 Y: &y1 AngleDegrees: 72.0];
-		[self RotateX: &x2 Y: &y2 AngleDegrees: 72.0];		
+		[self rotateX: &x1 y: &y1 angleDegrees: 72.0];
+		[self rotateX: &x2 y: &y2 angleDegrees: 72.0];
 	}
 	
 	CGContextClosePath(context);
@@ -183,12 +117,12 @@
 	CGContextRestoreGState(context);
 }
 
-+ (void)RotateImageView: (UIImageView *)imageView AngleDegrees: (CGFloat)angleDegrees
++ (void)rotateImageView: (UIImageView *)imageView angleDegrees: (CGFloat)angleDegrees
 {
 	imageView.transform = CGAffineTransformMakeRotation(angleDegrees * (M_PI / 180.0));
 }
 
-+ (UIImage *)CreateDirectionArrowImageWidth: (CGFloat)width Height: (CGFloat)height
++ (UIImage *)createDirectionArrowImageWidth: (CGFloat)width height: (CGFloat)height
 {
 	NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
 	UIImage *directionArrowImage = [[UIImage alloc] initWithContentsOfFile: [NSString stringWithFormat:@"%@/%@", bundlePath, @"Direction Arrow.png"]];
@@ -203,7 +137,7 @@
 	return directionArrowImageScaled;
 }
 
-+ (void)drawArrowInRect: (CGRect)rect AngleDegrees: (double)angle Scale: (float)scale
++ (void)drawArrowInRect: (CGRect)rect angleDegrees: (double)angle scale: (float)scale
 {
 	CGContextRef context = UIGraphicsGetCurrentContext();	
 	
@@ -231,10 +165,10 @@
 	x4 = x4 * scale;
 	y4 = y4 * scale;
 	
-	[self RotateX: &x1 Y: &y1 AngleDegrees: angle];
-	[self RotateX: &x2 Y: &y2 AngleDegrees: angle];
-	[self RotateX: &x3 Y: &y3 AngleDegrees: angle];
-	[self RotateX: &x4 Y: &y4 AngleDegrees: angle];
+	[self rotateX: &x1 y: &y1 angleDegrees: angle];
+	[self rotateX: &x2 y: &y2 angleDegrees: angle];
+	[self rotateX: &x3 y: &y3 angleDegrees: angle];
+	[self rotateX: &x4 y: &y4 angleDegrees: angle];
 
 	CGPoint origin = CGPointMake(rect.origin.x + rect.size.width / 2.0, rect.origin.y + rect.size.height / 2.0);
 	
@@ -245,12 +179,12 @@
 	CGContextAddLineToPoint(context, origin.x + x4, origin.y + y4);
 	CGContextClosePath(context);
 	
-	CGContextSetFillColorWithColor(context, [Styles instance].grid.arrowColor.CGColor);	
+	CGContextSetFillColorWithColor(context, [Styles shared].grid.arrowColor.CGColor);
 	CGContextFillPath(context);
 }
 
 // theta = 0 east, rotation is counter-clockwise
-+ (void)RotateX: (float *)x Y: (float *)y AngleDegrees: (double)dangle
++ (void)rotateX: (float *)x y: (float *)y angleDegrees: (double)dangle
 {
 	double angle = atan(*y / *x); 
 	
@@ -261,7 +195,7 @@
 	if (*x > 0.0 && *y < 0.0)
 		angle = angle + 2.0 * M_PI;
 	
-	angle = angle + [self RadiansFromDegrees: dangle];
+	angle = angle + [self radiansFromDegrees: dangle];
 	
 	float r = sqrt(*x * *x + *y * *y);
 	
@@ -269,21 +203,14 @@
 	*y = r * sin(angle);
 }
 
-+ (double)RadiansFromDegrees: (double)degrees
++ (double)radiansFromDegrees: (double)degrees
 {
 	return degrees * ((2.0 * M_PI) / 360.0);
 }
 
-+ (double)DegreesFromRadians: (double)radians
++ (double)degreesFromRadians: (double)radians
 {
 	return radians * (360.0 / (2.0 * M_PI));
-}
-
-+ (NSString *)URLEncode: (NSString *)string
-{
-    NSString *encodedString = (__bridge NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, (__bridge CFStringRef)string, NULL, (CFStringRef)@"!*'();:@&=+$,/?%#[]", kCFStringEncodingUTF8);
-	
-	return encodedString;
 }
 
 @end

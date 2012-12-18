@@ -44,47 +44,51 @@
     return self;
 }
 
-- (void)load
+- (void)download
 {
     self->webServices = [[WebServices alloc] init];
 
     [self->webServices getSoundsWithDelegate: self];
 }
 
-- (void)getSoundsSucceeded
+- (void)webServicesGetSounds: (NSError *)error
 {
-    self->loaded = YES;
-}
-
-- (void)getSoundsFailed
-{
-    [self performSelector: @selector(load) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
+    if (error == nil)
+    {
+        self->loaded = YES;
+    }
+    else
+    {
+        [self performSelector: @selector(download) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
+    }
 }
 
 - (int)count
 {
-	return [Sound allObjects].count;
+	return 1; // [Sound allObjects].count;
 }
 
 - (NSArray *)getSoundsSorted
 {
+    /*
     NSFetchRequest *fetchRequest = [Sound fetchRequest];
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey: @"name" ascending: YES];
     [fetchRequest setSortDescriptors: [NSArray arrayWithObject: sortDescriptor]];
+    */
     
-    return [Sound objectsWithFetchRequest: fetchRequest];
+    return nil; //[Sound objectsWithFetchRequest: fetchRequest];
 }
 
 - (Sound *)getSoundWithId: (int)id
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"id == %d", id];
+    //NSPredicate *predicate = [NSPredicate predicateWithFormat: @"id == %d", id];
     
-    return [Sound objectWithPredicate: predicate];
+    return nil; //[Sound objectWithPredicate: predicate];
 }
 
 - (NSString *)description 
 {
-    return [NSString stringWithFormat: @"%@", [self getSoundsSorted]];
+    return nil; // [NSString stringWithFormat: @"%@", [self getSoundsSorted]];
 }
 
 @end

@@ -20,7 +20,7 @@
     
     if (self) 
 	{
-		self.backgroundColor = [Styles instance].grid.backgroundColor;
+		self.backgroundColor = [Styles shared].grid.backgroundColor;
     }
 	
 	return self;
@@ -28,11 +28,11 @@
 
 - (void)drawRect: (CGRect)rect 
 {
-	[[Globals instance].mazeEdit.locations drawGridWithCurrLoc: currLoc 
+	[[Globals shared].mazeEdit.locations drawGridWithCurrLoc: currLoc
                                                    CurrWallLoc: currWallLoc 
                                                    CurrWallDir: currWallDir 
-                                                          Rows: [Globals instance].mazeEdit.rows 
-                                                       Columns: [Globals instance].mazeEdit.columns];
+                                                          Rows: [Globals shared].mazeEdit.rows
+                                                       Columns: [Globals shared].mazeEdit.columns];
 }
 
 @end

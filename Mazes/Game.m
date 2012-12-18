@@ -9,6 +9,7 @@
 #import "Game.h"
 
 #import "Constants.h"
+#import "Flurry.h"
 #import "Utilities.h"
 #import "Version.h"
 
@@ -43,15 +44,27 @@
 
 - (ADBannerView *)bannerView
 {
-    if (self.bannerView == nil)
+    if (_bannerView == nil)
     {
-        self.bannerView = [[ADBannerView alloc] initWithFrame: CGRectZero];
+        _bannerView = [[ADBannerView alloc] initWithFrame: CGRectZero];
         //self.bannerView.requiredContentSizeIdentifiers = [NSSet setWithObject: ADBAnner ADBannerContentSizeIdentifierPortrait];
         //self.bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
-        self.bannerView.delegate = nil;
+        _bannerView.delegate = self;
     }
     
-    return self.bannerView;
+    return _bannerView;
+}
+
+- (void)bannerViewDidLoadAd: (ADBannerView *)banner
+{
+    [Flurry logEvent: @"bannerViewDidLoadAd:"
+      withParameters: @{[[NSLocale currentLocale] localeIdentifier] : @"localeIdentifier"}];
+}
+
+- (void)bannerView: (ADBannerView *)banner didFailToReceiveAdWithError: (NSError *)error
+{
+    [Flurry logEvent: @"bannerView: didFailToReceiveAdWithError:"
+      withParameters: @{[[NSLocale currentLocale] localeIdentifier] : @"localeIdentifier", [error localizedDescription] : @"error"}];
 }
 
 - (void)checkVersion
@@ -61,29 +74,31 @@
     [self->webServices getVersionWithDelegate: self];
 }
 
-- (void)getVersionSucceededWithVersion: (Version *)currentVersion
+- (void)webServicesGetVersion: (Version *)currentVersion error: (NSError *)error
 {
     float appVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleShortVersionString"] floatValue];
     
     //NSLog(@"appVersion = %f, currentVersion = %f", appVersion, currentVersion);
     
-    if (appVersion < currentVersion.number)
+    if (error == nil)
     {
-        NSString *message = [NSString stringWithFormat: @"This app is Version %0.1f. Version %0.1f is now available. It is recommended that you upgrade to the latest version.", appVersion, currentVersion.number];
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
-                                                            message: message
-                                                           delegate: nil
-                                                  cancelButtonTitle: @"OK"
-                                                  otherButtonTitles: nil];
-        
-        [alertView show];
+        if (appVersion < currentVersion.number)
+        {
+            NSString *message = [NSString stringWithFormat: @"This app is Version %0.1f. Version %0.1f is now available. It is recommended that you upgrade to the latest version.", appVersion, currentVersion.number];
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                message: message
+                                                               delegate: nil
+                                                      cancelButtonTitle: @"OK"
+                                                      otherButtonTitles: nil];
+            
+            [alertView show];
+        }
     }
-}
-
-- (void)getVersionFailed
-{
-    [self performSelector: @selector(checkVersion) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
+    else
+    {
+        [self performSelector: @selector(checkVersion) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
+    }
 }
 
 @end

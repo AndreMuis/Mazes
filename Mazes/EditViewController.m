@@ -25,26 +25,26 @@
 	self.view.frame = CGRectMake(0.0, 0.0, 768.0, 1024.0);
 
 	viewMain.frame = viewPlaceHolder.frame;
-	viewMain.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+	viewMain.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 	
 	CGRect locationTypeFrame = LocationTypeTableView.frame;
 	CGRect directionFrame =	DirectionTableView.frame;
 	
 	scrollViewLocation.contentSize = scrollViewLocation.frame.size;
 	scrollViewLocation.frame = viewPlaceHolder.frame;
-	scrollViewLocation.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+	scrollViewLocation.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 	
 	LocationTypeTableView.frame = locationTypeFrame;
 	DirectionTableView.frame = directionFrame;
 	
 	viewWall.frame = viewPlaceHolder.frame;
-	viewWall.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+	viewWall.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 	
 	viewGraphics.frame = viewPlaceHolder.frame;
-	viewGraphics.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+	viewGraphics.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 	
 	viewAudio.frame = viewPlaceHolder.frame;
-	viewAudio.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+	viewAudio.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 
 	locationTypes = [[NSArray alloc] initWithObjects: [NSNumber numberWithInt: [Constants shared].LocationType.DoNothing], [NSNumber numberWithInt: [Constants shared].LocationType.Start], [NSNumber numberWithInt: [Constants shared].LocationType.End], [NSNumber numberWithInt: [Constants shared].LocationType.StartOver], [NSNumber numberWithInt: [Constants shared].LocationType.Teleportation], nil];
 	locationTypeLabels = [[NSArray alloc] initWithObjects: @"Do Nothing", @"Start", @"End", @"Start Over", @"Teleportation", nil];
@@ -62,19 +62,19 @@
 
 	[WallTypeTableView setRowHeight: (WallTypeTableView.frame.size.height - WallTypeTableView.sectionHeaderHeight) / wallTypes.count];
 	
-	[tableViewBackgroundSound setRowHeight: (tableViewBackgroundSound.frame.size.height - tableViewBackgroundSound.sectionHeaderHeight) / [Styles instance].editView.tableViewBackgroundSoundRows];
+	[tableViewBackgroundSound setRowHeight: (tableViewBackgroundSound.frame.size.height - tableViewBackgroundSound.sectionHeaderHeight) / [Styles shared].editView.tableViewBackgroundSoundRows];
 
-	MessageDisplaysLabel.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+	MessageDisplaysLabel.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 	
 	[self initTexturesPopover];
 	
-	viewButtons.backgroundColor = [Styles instance].editView.viewButtonsBackgroundColor;
+	viewButtons.backgroundColor = [Styles shared].editView.viewButtonsBackgroundColor;
 	
-	lblMessage1.backgroundColor = [Styles instance].editView.messageBackgroundColor;
-	lblMessage1.textColor = [Styles instance].editView.messageTextColor;
+	lblMessage1.backgroundColor = [Styles shared].editView.messageBackgroundColor;
+	lblMessage1.textColor = [Styles shared].editView.messageTextColor;
 	
-	lblMessage2.backgroundColor = [Styles instance].editView.messageBackgroundColor;
-	lblMessage2.textColor = [Styles instance].editView.messageTextColor;
+	lblMessage2.backgroundColor = [Styles shared].editView.messageBackgroundColor;
+	lblMessage2.textColor = [Styles shared].editView.messageTextColor;
 	
 	UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapFrom:)];
 	tapRecognizer.cancelsTouchesInView = NO;
@@ -105,7 +105,7 @@
 	
 	popoverControllerTextures = [[UIPopoverController alloc] initWithContentViewController: viewControllerTextures];
 	
-	popoverControllerTextures.popoverContentSize = CGSizeMake([Styles instance].editView.popoverTexturesWidth, [Styles instance].editView.popoverTexturesHeight);
+	popoverControllerTextures.popoverContentSize = CGSizeMake([Styles shared].editView.popoverTexturesWidth, [Styles shared].editView.popoverTexturesHeight);
     popoverControllerTextures.delegate = self;
 }
 
@@ -136,9 +136,9 @@
 	
 	[gridView setNeedsDisplay];
 	
-	if ([Globals instance].mazeEdit.rows == 0 && [Globals instance].mazeEdit.columns == 0)
+	if ([Globals shared].mazeEdit.rows == 0 && [Globals shared].mazeEdit.columns == 0)
     {
-		[self.navigationController pushViewController: (UIViewController *)[Globals instance].createViewController animated: NO];
+		[self.navigationController pushViewController: (UIViewController *)[Globals shared].createViewController animated: NO];
     }
 }
 
@@ -162,9 +162,9 @@
 	
 	MessageDisplaysLabel.text = @"";
 	
-	textFieldName.text = [Globals instance].mazeEdit.name;
+	textFieldName.text = [Globals shared].mazeEdit.name;
 	
-	switchPublic.on = [Globals instance].mazeEdit.isPublic;
+	switchPublic.on = [Globals shared].mazeEdit.isPublic;
 		
 	switchTutorial.on = [Settings shared].useTutorial;
 	
@@ -217,39 +217,39 @@
 
 - (void)setupTabBarWithSelectedIndex: (int)selectedIndex
 {
-	btnMain.backgroundColor = [Styles instance].editView.tabDarkColor;
-	btnLocation.backgroundColor = [Styles instance].editView.tabDarkColor;
-	btnWall.backgroundColor = [Styles instance].editView.tabDarkColor;
-	btnGraphics.backgroundColor = [Styles instance].editView.tabDarkColor;
-	btnAudio.backgroundColor = [Styles instance].editView.tabDarkColor;
+	btnMain.backgroundColor = [Styles shared].editView.tabDarkColor;
+	btnLocation.backgroundColor = [Styles shared].editView.tabDarkColor;
+	btnWall.backgroundColor = [Styles shared].editView.tabDarkColor;
+	btnGraphics.backgroundColor = [Styles shared].editView.tabDarkColor;
+	btnAudio.backgroundColor = [Styles shared].editView.tabDarkColor;
 
 	if (selectedIndex == 1)
 	{
-		btnMain.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+		btnMain.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 		
 		[self.view bringSubviewToFront: viewMain];
 	}
 	else if (selectedIndex == 2)
 	{
-		btnLocation.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+		btnLocation.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 		
 		[self.view bringSubviewToFront: scrollViewLocation];
 	}
 	else if (selectedIndex == 3)
 	{
-		btnWall.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+		btnWall.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 		
 		[self.view bringSubviewToFront: viewWall];
 	}
 	else if (selectedIndex == 4)
 	{
-		btnGraphics.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+		btnGraphics.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 		
 		[self.view bringSubviewToFront: viewGraphics];
 	}
 	else if (selectedIndex == 5)
 	{
-		btnAudio.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+		btnAudio.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 		
 		[self.view bringSubviewToFront: viewAudio];
 	}
@@ -264,10 +264,10 @@
 	CGPoint touchPoint = [recognizer locationInView: gridView];
 
 	int segType = 0;
-	Location *location = [[Globals instance].mazeEdit.locations getGridWallLocationSegType: &segType 
+	Location *location = [[Globals shared].mazeEdit.locations getGridWallLocationSegType: &segType 
                                                                             FromTouchPoint: touchPoint 
-                                                                                      Rows: [Globals instance].mazeEdit.rows 
-                                                                                   Columns: [Globals instance].mazeEdit.columns];
+                                                                                      Rows: [Globals shared].mazeEdit.rows 
+                                                                                   Columns: [Globals shared].mazeEdit.columns];
 
 	if (location != nil)
 	{
@@ -287,11 +287,11 @@
 	
 		gridView.currWallDir = currWallDir;
 		
-		if ([[Globals instance].mazeEdit.locations IsInnerWallWithLocation: location Rows: [Globals instance].mazeEdit.rows Columns: [Globals instance].mazeEdit.columns WallDir: currWallDir] == YES)
+		if ([[Globals shared].mazeEdit.locations IsInnerWallWithLocation: location Rows: [Globals shared].mazeEdit.rows Columns: [Globals shared].mazeEdit.columns WallDir: currWallDir] == YES)
 		{
 			[self setTableView: WallTypeTableView Disabled:	NO];
 			
-			int oldWallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir];
+			int oldWallType = [[Globals shared].mazeEdit.locations getWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir];
 			
 			int newWallType = 0;
 			if (oldWallType == [Constants shared].WallType.None)
@@ -303,13 +303,13 @@
 				newWallType = [Constants shared].WallType.None;
             }
             
-			[[Globals instance].mazeEdit.locations setWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir Type: newWallType];			
+			[[Globals shared].mazeEdit.locations setWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir Type: newWallType];			
 			
 			if ([self WallPassesTeleportationSurroundedCheck] == NO)
 			{
 				newWallType = oldWallType;
 				
-				[[Globals instance].mazeEdit.locations setWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir Type: newWallType];
+				[[Globals shared].mazeEdit.locations setWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir Type: newWallType];
 				
 				[self TeleportationSurroundedAlert];
 			}
@@ -322,7 +322,7 @@
 		{
 			[self setTableView: WallTypeTableView Disabled:	YES];
 
-			int wallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir];
+			int wallType = [[Globals shared].mazeEdit.locations getWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir];
 
 			[self SetupWallTypeTableViewWallType: wallType];
 		}
@@ -339,7 +339,7 @@
 	{
 		CGPoint touchPoint = [recognizer locationInView: gridView];
 
-		Location *location = [[Globals instance].mazeEdit.locations getGridLocationFromTouchPoint: touchPoint Rows: [Globals instance].mazeEdit.rows Columns: [Globals instance].mazeEdit.columns];
+		Location *location = [[Globals shared].mazeEdit.locations getGridLocationFromTouchPoint: touchPoint Rows: [Globals shared].mazeEdit.rows Columns: [Globals shared].mazeEdit.columns];
 		
 		if (location != nil)
 		{			
@@ -352,11 +352,11 @@
 {
 	[self setTableView: LocationTypeTableView Disabled: NO];
 	
-	Location *newLoc = [[Globals instance].mazeEdit.locations getLocationByX: coord.x Y: coord.y];
+	Location *newLoc = [[Globals shared].mazeEdit.locations getLocationByX: coord.x Y: coord.y];
 	
 	BOOL setAsTeleportation = [self setNextLocationAsTeleportation];
 	
-	if (setAsTeleportation == YES && [[Globals instance].mazeEdit.locations IsSurroundedByWallsLocation: newLoc] == YES)
+	if (setAsTeleportation == YES && [[Globals shared].mazeEdit.locations IsSurroundedByWallsLocation: newLoc] == YES)
 	{
 		[self TeleportationSurroundedAlert];
 		return;
@@ -420,10 +420,10 @@
 
 	UILabel *lblHeader = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, tableView.bounds.size.width, tableView.sectionHeaderHeight)];
 	
-	lblHeader.backgroundColor = [Styles instance].editView.tableHeaderBackgroundColor;
-	lblHeader.font = [Styles instance].editView.tableHeaderFont;
-	lblHeader.textColor = [Styles instance].editView.tableHeaderTextColor;
-	lblHeader.textAlignment = [Styles instance].editView.tableHeaderTextAlignment;
+	lblHeader.backgroundColor = [Styles shared].editView.tableHeaderBackgroundColor;
+	lblHeader.font = [Styles shared].editView.tableHeaderFont;
+	lblHeader.textColor = [Styles shared].editView.tableHeaderTextColor;
+	lblHeader.textAlignment = [Styles shared].editView.tableHeaderTextAlignment;
 	
 	if (tableView.tag == 1)
 	{
@@ -511,7 +511,7 @@
         }
         
 		[cell.textLabel setText: [locationTypeLabels objectAtIndex: indexPath.row]];
-		cell.textLabel.font = [Styles instance].defaultFont;
+		cell.textLabel.font = [Styles shared].defaultFont;
 	}
 	else if (tableView.tag == 2)
 	{
@@ -525,18 +525,18 @@
 		}
         
 		[cell.textLabel setText: [directionLabels objectAtIndex: indexPath.row]];
-		cell.textLabel.font = [Styles instance].defaultFont;
+		cell.textLabel.font = [Styles shared].defaultFont;
 		
 		// add directional arrows to table
 		
 		float directionArrowLength = DirectionTableView.rowHeight * 0.6;
-		UIImage *directionArrowImage = [Utilities CreateDirectionArrowImageWidth: directionArrowLength Height: directionArrowLength];
+		UIImage *directionArrowImage = [Utilities createDirectionArrowImageWidth: directionArrowLength height: directionArrowLength];
 		
 		cell.imageView.contentMode = UIViewContentModeCenter;
 		cell.imageView.image = directionArrowImage;
 		
 		CGFloat angleDegrees = [[directionThetas objectAtIndex: indexPath.row] floatValue];
-		[Utilities RotateImageView: cell.imageView AngleDegrees: angleDegrees];
+		[Utilities rotateImageView: cell.imageView angleDegrees: angleDegrees];
 	}
 	else if (tableView.tag == 3)
 	{
@@ -550,7 +550,7 @@
 		}
         
 		[cell.textLabel setText: [wallTypeLabels objectAtIndex: indexPath.row]];
-		cell.textLabel.font = [Styles instance].defaultFont;
+		cell.textLabel.font = [Styles shared].defaultFont;
 	}
 	else if (tableView.tag == 4)
 	{
@@ -560,14 +560,14 @@
 		if (cell == nil)
 		{
 			cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: CellIdentifier];
-			cell.textLabel.font = [Styles instance].defaultFont;
+			cell.textLabel.font = [Styles shared].defaultFont;
 		}
 				
 		if (indexPath.row == 0)
 		{
 			[cell.textLabel setText: @"None"];
 			
-			if ([Globals instance].mazeEdit.backgroundSoundId == 0)
+			if ([Globals shared].mazeEdit.backgroundSoundId == 0)
             {
 				cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
@@ -584,7 +584,7 @@
 		
 			[cell.textLabel setText: sound.name];
 
-			if ([Globals instance].mazeEdit.backgroundSoundId == [sound.id intValue])
+			if ([Globals shared].mazeEdit.backgroundSoundId == [sound.id intValue])
             {
 				cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
@@ -621,7 +621,7 @@
 		{
 			[self ResetCurrentLocation];
 
-			Location *startLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants shared].LocationType.Start];
+			Location *startLoc = [[Globals shared].mazeEdit.locations getLocationByType: [Constants shared].LocationType.Start];
 			
 			if (startLoc != nil)
             {
@@ -634,7 +634,7 @@
 		{
 			[self ResetCurrentLocation];
 
-			Location *endLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants shared].LocationType.End];
+			Location *endLoc = [[Globals shared].mazeEdit.locations getLocationByType: [Constants shared].LocationType.End];
 			
 			if (endLoc != nil)
             {
@@ -651,7 +651,7 @@
 		}
 		else if (locationType == [Constants shared].LocationType.Teleportation)
 		{
-			if ([[Globals instance].mazeEdit.locations IsSurroundedByWallsLocation: currLoc])
+			if ([[Globals shared].mazeEdit.locations IsSurroundedByWallsLocation: currLoc])
 			{
 				[self TeleportationSurroundedAlert];
 				
@@ -676,15 +676,15 @@
 	}	
 	else if (tableView.tag == 3)
 	{
-		int oldWallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir];
+		int oldWallType = [[Globals shared].mazeEdit.locations getWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir];
 		
 		int newWallType = [[wallTypes objectAtIndex: indexPath.row] intValue];
 		
-		[[Globals instance].mazeEdit.locations setWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir Type: newWallType]; 
+		[[Globals shared].mazeEdit.locations setWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir Type: newWallType]; 
 		
 		if ([self WallPassesTeleportationSurroundedCheck] == NO)
 		{
-			[[Globals instance].mazeEdit.locations setWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir Type: oldWallType]; 
+			[[Globals shared].mazeEdit.locations setWallTypeLocX: currWallLoc.x LocY: currWallLoc.y Direction: currWallDir Type: oldWallType]; 
 		
 			[WallTypeTableView deselectRowAtIndexPath: indexPath animated: YES];
 			
@@ -715,7 +715,7 @@
 		// previous
 		
 		int row = 0;
-		if ([Globals instance].mazeEdit.backgroundSoundId == 0)
+		if ([Globals shared].mazeEdit.backgroundSoundId == 0)
 		{
 			row = 0;
 		}
@@ -723,7 +723,7 @@
 		{
 			[self stopBackgroundSound];
 			
-			Sound *sound = [[Sounds shared] getSoundWithId: [Globals instance].mazeEdit.backgroundSoundId];
+			Sound *sound = [[Sounds shared] getSoundWithId: [Globals shared].mazeEdit.backgroundSoundId];
 			
 			row = [backgroundSounds indexOfObject: sound] + 1;
 		}
@@ -737,13 +737,13 @@
 		
 		if (indexPath.row == 0)
 		{
-			[Globals instance].mazeEdit.backgroundSoundId = 0;
+			[Globals shared].mazeEdit.backgroundSoundId = 0;
 		}
 		else 
 		{
 			Sound *sound = [backgroundSounds objectAtIndex: indexPath.row - 1];
 			
-			[Globals instance].mazeEdit.backgroundSoundId = [sound.id intValue];
+			[Globals shared].mazeEdit.backgroundSoundId = [sound.id intValue];
 			
 			[sound playWithNumberOfLoops: 0];
 		}
@@ -763,7 +763,7 @@
 	{
 		[self showTutorialHelpForTopic: @"None"];
 		
-		Location *teleportLoc = [[Globals instance].mazeEdit.locations getLocationByX: currLoc.teleportX Y: currLoc.teleportY];	
+		Location *teleportLoc = [[Globals shared].mazeEdit.locations getLocationByX: currLoc.teleportX Y: currLoc.teleportY];	
 
 		if (teleportLoc != nil)
 			[teleportLoc reset];
@@ -781,7 +781,7 @@
 		teleportId = teleportId + 1;
 		
 		idexists = NO;
-		for (Location *loc in [Globals instance].mazeEdit.locations.array)
+		for (Location *loc in [Globals shared].mazeEdit.locations.array)
 		{
 			if (loc.teleportId == teleportId)
             {
@@ -878,17 +878,17 @@
 
 	if (currWallDir == [Constants shared].Direction.North)
 	{
-		location1 = [[Globals instance].mazeEdit.locations getLocationByX: currWallLoc.x Y: currWallLoc.y];
-		location2 = [[Globals instance].mazeEdit.locations getLocationByX: currWallLoc.x Y: currWallLoc.y - 1];			
+		location1 = [[Globals shared].mazeEdit.locations getLocationByX: currWallLoc.x Y: currWallLoc.y];
+		location2 = [[Globals shared].mazeEdit.locations getLocationByX: currWallLoc.x Y: currWallLoc.y - 1];			
 	}
 	else if (currWallDir == [Constants shared].Direction.West)
 	{
-		location1 = [[Globals instance].mazeEdit.locations getLocationByX: currWallLoc.x Y: currWallLoc.y];
-		location2 = [[Globals instance].mazeEdit.locations getLocationByX: currWallLoc.x - 1 Y: currWallLoc.y];			
+		location1 = [[Globals shared].mazeEdit.locations getLocationByX: currWallLoc.x Y: currWallLoc.y];
+		location2 = [[Globals shared].mazeEdit.locations getLocationByX: currWallLoc.x - 1 Y: currWallLoc.y];			
 	}
 
-	if ((location1.type == [Constants shared].LocationType.Teleportation && [[Globals instance].mazeEdit.locations IsSurroundedByWallsLocation: location1] == YES) ||
-		(location2.type == [Constants shared].LocationType.Teleportation && [[Globals instance].mazeEdit.locations IsSurroundedByWallsLocation: location2] == YES))
+	if ((location1.type == [Constants shared].LocationType.Teleportation && [[Globals shared].mazeEdit.locations IsSurroundedByWallsLocation: location1] == YES) ||
+		(location2.type == [Constants shared].LocationType.Teleportation && [[Globals shared].mazeEdit.locations IsSurroundedByWallsLocation: location2] == YES))
 	{
 		passes = NO;
 	}
@@ -902,8 +902,13 @@
 
 - (void)TeleportationSurroundedAlert
 {	
-	NSString *message = @"A teleportation location cannot be surrounded by walls.";
-	[Utilities ShowAlertWithDelegate: self Message: message CancelButtonTitle: @"OK" OtherButtonTitle: @"" Tag: 0 Bounds: CGRectZero];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
+                                                        message: @"A teleportation location cannot be surrounded by walls."
+                                                       delegate: nil
+                                              cancelButtonTitle: @"OK"
+                                              otherButtonTitles: nil];
+    
+    [alertView show];
 }
 
 //
@@ -929,7 +934,7 @@ BOOL exists;
 	[locationsVisited removeAllObjects];
 	exists = NO;
 	
-	Location *startLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants shared].LocationType.Start];
+	Location *startLoc = [[Globals shared].mazeEdit.locations getLocationByType: [Constants shared].LocationType.Start];
 	[self findExitLocation: startLoc];
 	
 	return exists;
@@ -952,37 +957,37 @@ BOOL exists;
     
 	int wallType;
 	
-	wallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.North];
+	wallType = [[Globals shared].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.North];
 	if (wallType == [Constants shared].WallType.None || wallType == [Constants shared].WallType.Fake)
 	{
-		Location *newLocation = [[Globals instance].mazeEdit.locations getLocationByX: location.x Y: location.y - 1];
+		Location *newLocation = [[Globals shared].mazeEdit.locations getLocationByX: location.x Y: location.y - 1];
 		[self findExitLocation: newLocation];
 	}
 		 
-	wallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.East];
+	wallType = [[Globals shared].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.East];
 	if (wallType == [Constants shared].WallType.None || wallType == [Constants shared].WallType.Fake)
 	{
-		Location *newLocation = [[Globals instance].mazeEdit.locations getLocationByX: location.x + 1 Y: location.y];
+		Location *newLocation = [[Globals shared].mazeEdit.locations getLocationByX: location.x + 1 Y: location.y];
 		[self findExitLocation: newLocation];
 	}
 	
-	wallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.South];
+	wallType = [[Globals shared].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.South];
 	if (wallType == [Constants shared].WallType.None || wallType == [Constants shared].WallType.Fake)
 	{
-		Location *newLocation = [[Globals instance].mazeEdit.locations getLocationByX: location.x Y: location.y + 1];
+		Location *newLocation = [[Globals shared].mazeEdit.locations getLocationByX: location.x Y: location.y + 1];
 		[self findExitLocation: newLocation];
 	}
 	
-	wallType = [[Globals instance].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.West];
+	wallType = [[Globals shared].mazeEdit.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.West];
 	if (wallType == [Constants shared].WallType.None || wallType == [Constants shared].WallType.Fake)
 	{
-		Location *newLocation = [[Globals instance].mazeEdit.locations getLocationByX: location.x - 1 Y: location.y];
+		Location *newLocation = [[Globals shared].mazeEdit.locations getLocationByX: location.x - 1 Y: location.y];
 		[self findExitLocation: newLocation];
 	}
 	
 	if (location.type == [Constants shared].LocationType.Teleportation)
 	{
-		Location *newLocation = [[Globals instance].mazeEdit.locations getLocationByX: location.teleportX Y: location.teleportY];
+		Location *newLocation = [[Globals shared].mazeEdit.locations getLocationByX: location.teleportX Y: location.teleportY];
 		[self findExitLocation: newLocation];
 	}
 }
@@ -1005,7 +1010,7 @@ BOOL exists;
 		}
 		else
 		{
-			floorTextureId = [Globals instance].mazeEdit.floorTextureId;
+			floorTextureId = [Globals shared].mazeEdit.floorTextureId;
 		}
 
 		Texture *floorTexture = [[Textures shared] getTextureWithId: floorTextureId];
@@ -1019,7 +1024,7 @@ BOOL exists;
 		}
 		else
 		{
-			ceilingTextureId = [Globals instance].mazeEdit.ceilingTextureId;
+			ceilingTextureId = [Globals shared].mazeEdit.ceilingTextureId;
 		}
 		
 		Texture *ceilingTexture = [[Textures shared] getTextureWithId: ceilingTextureId];
@@ -1028,9 +1033,9 @@ BOOL exists;
 	}
 	else 
 	{
-		imageViewFloor.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+		imageViewFloor.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 
-		imageViewCeiling.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+		imageViewCeiling.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 	}	
 }
 
@@ -1092,7 +1097,7 @@ BOOL exists;
 		}
 		else 
 		{
-			textureId = [Globals instance].mazeEdit.wallTextureId;			
+			textureId = [Globals shared].mazeEdit.wallTextureId;			
 		}
 						
 		Texture *texture = [[Textures shared] getTextureWithId: textureId];
@@ -1101,7 +1106,7 @@ BOOL exists;
 	}
 	else 
 	{
-		imageViewWall.backgroundColor = [Styles instance].editView.panelBackgroundColor;
+		imageViewWall.backgroundColor = [Styles shared].editView.panelBackgroundColor;
 	}
 }
 
@@ -1138,13 +1143,13 @@ BOOL exists;
 	if (popoverControllerTextures.popoverVisible == YES)
 		[popoverControllerTextures dismissPopoverAnimated: YES];
 	
-	Texture *wallTexture = [[Textures shared] getTextureWithId: [Globals instance].mazeEdit.wallTextureId];
+	Texture *wallTexture = [[Textures shared] getTextureWithId: [Globals shared].mazeEdit.wallTextureId];
 	imageViewWallDefault.image = [UIImage imageNamed: [wallTexture.name stringByAppendingString: @".png"]];
 	
-	Texture *floorTexture = [[Textures shared] getTextureWithId: [Globals instance].mazeEdit.floorTextureId];
+	Texture *floorTexture = [[Textures shared] getTextureWithId: [Globals shared].mazeEdit.floorTextureId];
 	imageViewFloorDefault.image = [UIImage imageNamed: [floorTexture.name stringByAppendingString: @".png"]];
 	
-	Texture *ceilingTexture = [[Textures shared] getTextureWithId: [Globals instance].mazeEdit.ceilingTextureId];
+	Texture *ceilingTexture = [[Textures shared] getTextureWithId: [Globals shared].mazeEdit.ceilingTextureId];
 	imageViewCeilingDefault.image = [UIImage imageNamed: [ceilingTexture.name stringByAppendingString: @".png"]];	
 }
 
@@ -1152,7 +1157,7 @@ BOOL exists;
 {
 	TexturesViewController *texturesViewController = (TexturesViewController *)popoverControllerTextures.contentViewController;
 	
-	texturesViewController.textureDelegate = [Globals instance].mazeEdit;
+	texturesViewController.textureDelegate = [Globals shared].mazeEdit;
 	texturesViewController.textureSelector = @selector(setWallTextureIdWithNumber:);
 	texturesViewController.exitDelegate = self;
 	texturesViewController.exitSelector = @selector(setupGraphicsPanel);
@@ -1164,7 +1169,7 @@ BOOL exists;
 {
 	TexturesViewController *texturesViewController = (TexturesViewController *)popoverControllerTextures.contentViewController;
 	
-	texturesViewController.textureDelegate = [Globals instance].mazeEdit;
+	texturesViewController.textureDelegate = [Globals shared].mazeEdit;
 	texturesViewController.textureSelector = @selector(setFloorTextureIdWithNumber:);
 	texturesViewController.exitDelegate = self;
 	texturesViewController.exitSelector = @selector(setupGraphicsPanel);
@@ -1176,7 +1181,7 @@ BOOL exists;
 {
 	TexturesViewController *texturesViewController = (TexturesViewController *)popoverControllerTextures.contentViewController;
 	
-	texturesViewController.textureDelegate = [Globals instance].mazeEdit;
+	texturesViewController.textureDelegate = [Globals shared].mazeEdit;
 	texturesViewController.textureSelector = @selector(setCeilingTextureIdWithNumber:);
 	texturesViewController.exitDelegate = self;
 	texturesViewController.exitSelector = @selector(setupGraphicsPanel);
@@ -1199,7 +1204,14 @@ BOOL exists;
 {
 	if([self setNextLocationAsTeleportation] == YES)
 	{
-		[Utilities ShowAlertWithDelegate: self Message: @"Please select a second teleportation location before saving." CancelButtonTitle: @"OK" OtherButtonTitle: @"" Tag: 0 Bounds: CGRectZero];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
+                                                            message: @"Please select a second teleportation location before saving."
+                                                           delegate: nil
+                                                  cancelButtonTitle: @"OK"
+                                                  otherButtonTitles: nil];
+        
+        [alertView show];
+        
 		return;
 	}
 	
@@ -1209,11 +1221,11 @@ BOOL exists;
 	}
 	else 
 	{
-		[Globals instance].mazeEdit.Name = [textFieldName.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		[Globals instance].mazeEdit.IsPublic = switchPublic.on;
+		[Globals shared].mazeEdit.Name = [textFieldName.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		[Globals shared].mazeEdit.IsPublic = switchPublic.on;
 	}
 	
-	if ([Globals instance].mazeEdit.mazeId == 0)
+	if ([Globals shared].mazeEdit.mazeId == 0)
 	{
 		[self createMaze];
 	}
@@ -1225,6 +1237,7 @@ BOOL exists;
 
 - (void)createMaze
 {
+    /*
 	comm = [[Communication alloc] initWithDelegate: self Selector: @selector(createMazeResponse) Action: @"CreateMaze" WaitMessage: @"Saving"];
 	
 	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"UserId" NodeValue: UNIQUE_ID];
@@ -1238,10 +1251,12 @@ BOOL exists;
 	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"IsPublic" NodeValue: [Globals instance].mazeEdit.isPublic == YES ? @"True" : @"False"];
 	
 	[comm post];
+    */
 }
 
 - (void)createMazeResponse
 {
+    /*
 	if (comm.errorOccurred == NO)
 	{
 		int retVal = [[XML getNodeValueFromDoc: comm.responseDoc Node: [XML getRootNodeDoc: comm.responseDoc] XPath: "/Response/RetVal"] intValue];
@@ -1262,10 +1277,12 @@ BOOL exists;
 			[self setLocations];
 		}
 	}
+    */
 }
 
 - (void)updateMaze
 {
+    /*
 	comm = [[Communication alloc] initWithDelegate: self Selector: @selector(updateMazeResponse) Action: @"UpdateMaze" WaitMessage: @"Saving"];
 
 	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", [Globals instance].mazeEdit.mazeId]];
@@ -1277,10 +1294,12 @@ BOOL exists;
 	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"IsPublic" NodeValue: [Globals instance].mazeEdit.isPublic == YES ? @"True" : @"False"];
 
 	[comm post];
+    */
 }
 
 - (void)updateMazeResponse
 {
+    /*
 	if (comm.errorOccurred == NO)
 	{
 		int retVal = [[XML getNodeValueFromDoc: comm.responseDoc Node :[XML getRootNodeDoc: comm.responseDoc] XPath: "/Response/RetVal"] intValue];
@@ -1298,16 +1317,19 @@ BOOL exists;
 			[self setLocations];				
 		}
 	}
+    */
 }
 
 - (void)setLocations
 {
+    /*
 	comm = [[Communication alloc] initWithDelegate: self Selector: @selector(setLocationsResponse) Action: @"SetLocations" WaitMessage: @"Saving"];
 	
 	xmlNodePtr locationsNode = [[Globals instance].mazeEdit.locations CreateLocationsXMLWithDoc: comm.requestDoc];
 	[XML AddChildNode: locationsNode ToParent: [XML getRootNodeDoc: comm.requestDoc]];
 		
 	[comm post];
+    */
 }
 
 - (void)setLocationsResponse
@@ -1324,32 +1346,57 @@ BOOL exists;
 	
 	NSString *mazeName = [textFieldName.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-	Location *startLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants shared].LocationType.Start];
+	Location *startLoc = [[Globals shared].mazeEdit.locations getLocationByType: [Constants shared].LocationType.Start];
 
 	if ([mazeName isEqualToString: @""] == true)
 	{
 		[self setupTabBarWithSelectedIndex: 1];
 				
-		[Utilities ShowAlertWithDelegate: self Message: @"Please enter in a name for your maze." CancelButtonTitle: @"OK" OtherButtonTitle: @"" Tag: 0 Bounds: CGRectZero];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
+                                                            message: @"Please enter in a name for your maze."
+                                                           delegate: nil
+                                                  cancelButtonTitle: @"OK"
+                                                  otherButtonTitles: nil];
+        
+        [alertView show];
+
 		passed = NO;
 	}
 	else if (startLoc == nil)
 	{
-		[Utilities ShowAlertWithDelegate: self Message: @"Please select a start location." CancelButtonTitle: @"OK" OtherButtonTitle: @"" Tag: 0 Bounds: CGRectZero];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
+                                                            message: @"Please select a start location."
+                                                           delegate: nil
+                                                  cancelButtonTitle: @"OK"
+                                                  otherButtonTitles: nil];
+        [alertView show];
+
 		passed = NO;
 	}
 	else if (switchPublic.on == YES)
 	{
-		Location *endLoc = [[Globals instance].mazeEdit.locations getLocationByType: [Constants shared].LocationType.End];
+		Location *endLoc = [[Globals shared].mazeEdit.locations getLocationByType: [Constants shared].LocationType.End];
 				
 		if (endLoc == nil)
 		{
-			[Utilities ShowAlertWithDelegate: self Message: @"Your maze must have an end location before it can be made public." CancelButtonTitle: @"OK" OtherButtonTitle: @"" Tag: 0 Bounds: CGRectZero];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                message: @"Your maze must have an end location before it can be made public."
+                                                               delegate: nil
+                                                      cancelButtonTitle: @"OK"
+                                                      otherButtonTitles: nil];
+            [alertView show];
+
 			passed = NO;
 		}
 		else if ([self pathExists] == NO)
 		{
-			[Utilities ShowAlertWithDelegate: self Message: @"Your maze must have a path from start to end before it can be made public." CancelButtonTitle: @"OK" OtherButtonTitle: @"" Tag: 0 Bounds: CGRectZero];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                message: @"Your maze must have a path from start to end before it can be made public."
+                                                               delegate: nil
+                                                      cancelButtonTitle: @"OK"
+                                                      otherButtonTitles: nil];
+            [alertView show];
+
 			passed = NO;
 		}
 	}
@@ -1366,7 +1413,14 @@ BOOL exists;
 
 - (IBAction)Delete: (id)sender
 {
-	[Utilities ShowAlertWithDelegate: self Message: @"Delete maze?" CancelButtonTitle: @"Yes" OtherButtonTitle: @"No" Tag: 1 Bounds: CGRectZero];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
+                                                        message: @"Delete maze?"
+                                                       delegate: self
+                                              cancelButtonTitle: @"Yes"
+                                              otherButtonTitles: @"No", nil];
+    alertView.tag = 1;
+    
+    [alertView show];    
 }
 
 - (void)alertView: (UIAlertView *)alertView didDismissWithButtonIndex: (NSInteger)buttonIndex
@@ -1376,7 +1430,7 @@ BOOL exists;
 	{
 		[self stopBackgroundSound];
 		
-		if ([Globals instance].mazeEdit.mazeId != 0)
+		if ([Globals shared].mazeEdit.mazeId != 0)
 		{	
 			[self deleteMaze];
 		}
@@ -1389,42 +1443,46 @@ BOOL exists;
 
 - (void)deleteMaze
 {
+    /*
 	comm = [[Communication alloc] initWithDelegate: self Selector: @selector(deleteMazeResponse) Action: @"SetMazeInactive" WaitMessage: @"Deleting"];
 	
 	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", [Globals instance].mazeEdit.mazeId]];
 	
 	[comm post];
+    */
 }
 
 - (void)deleteMazeResponse
 {
+    /*
 	if (comm.errorOccurred == NO)
 	{			
 		[self setupCreateView];
 	}
+    */
 }
 
 - (void)setupCreateView
 {
-	[[Globals instance].mazeEdit reset];
+	[[Globals shared].mazeEdit reset];
 	
 	[self setup];
 	
-	[self.navigationController pushViewController: (UIViewController *)[Globals instance].createViewController animated: NO];
+	[self.navigationController pushViewController: (UIViewController *)[Globals shared].createViewController animated: NO];
 }
 
 - (IBAction)btnMazesTouchDown: (id)sender
 {
 	[self stopBackgroundSound];
 	
-	[[Globals instance].topListsViewController loadMazeList];
+	[[MainListViewController shared] loadMazeList];
 	
 	[self.navigationController popViewControllerAnimated: NO];
 }
 
 - (void)stopBackgroundSound
 {
-	Sound *sound = [[Sounds shared] getSoundWithId: [Globals instance].mazeEdit.backgroundSoundId];
+	Sound *sound = [[Sounds shared] getSoundWithId: [Globals shared].mazeEdit.backgroundSoundId];
 
 	[sound stop];
 }
@@ -1570,12 +1628,12 @@ BOOL exists;
 {
 	if (disabled == YES && tableView.allowsSelection == YES)
 	{
-		tableView.backgroundColor =	[Styles instance].editView.tableViewDisabledBackgroundColor;
+		tableView.backgroundColor =	[Styles shared].editView.tableViewDisabledBackgroundColor;
 		tableView.allowsSelection = NO;
 	}
 	else if (disabled == NO && tableView.allowsSelection == NO)
 	{
-		tableView.backgroundColor =	[Styles instance].editView.tableViewBackgroundColor;
+		tableView.backgroundColor =	[Styles shared].editView.tableViewBackgroundColor;
 		tableView.allowsSelection = YES;
 	}
 }

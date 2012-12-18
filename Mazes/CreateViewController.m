@@ -33,10 +33,10 @@
 {
 	[super viewWillAppear: animated];
 	
-	[Globals instance].mazeEdit.Rows = [Constants shared].rowsMin;
-	[Globals instance].mazeEdit.Columns = [Constants shared].columnsMin;
+	[Globals shared].mazeEdit.Rows = [Constants shared].rowsMin;
+	[Globals shared].mazeEdit.Columns = [Constants shared].columnsMin;
 	
-	[[Globals instance].mazeEdit.locations populateWithRows: [Globals instance].mazeEdit.rows Columns: [Globals instance].mazeEdit.columns];
+	[[Globals shared].mazeEdit.locations populateWithRows: [Globals shared].mazeEdit.rows Columns: [Globals shared].mazeEdit.columns];
 	
 	[pickerView selectRow: 0 inComponent: 0 animated: NO];
 	[pickerView selectRow: 0 inComponent: 1 animated: NO];
@@ -87,20 +87,20 @@
 
 - (void)pickerView:(UIPickerView *)thePickerView didSelectRow: (NSInteger)row inComponent: (NSInteger)component 
 {	
-	[[Globals instance].mazeEdit reset];
+	[[Globals shared].mazeEdit reset];
 
 	if (component == 0)
 	{
-		[Globals instance].mazeEdit.Rows = [[rowsArr objectAtIndex: row] intValue];
-		[Globals instance].mazeEdit.Columns = [[columnsArr objectAtIndex: [thePickerView selectedRowInComponent: 1]] intValue];
+		[Globals shared].mazeEdit.Rows = [[rowsArr objectAtIndex: row] intValue];
+		[Globals shared].mazeEdit.Columns = [[columnsArr objectAtIndex: [thePickerView selectedRowInComponent: 1]] intValue];
 	}
 	else if (component == 1)
 	{
-		[Globals instance].mazeEdit.Rows = [[rowsArr objectAtIndex: [thePickerView selectedRowInComponent: 0]] intValue];
-		[Globals instance].mazeEdit.Columns = [[columnsArr objectAtIndex: row] intValue];
+		[Globals shared].mazeEdit.Rows = [[rowsArr objectAtIndex: [thePickerView selectedRowInComponent: 0]] intValue];
+		[Globals shared].mazeEdit.Columns = [[columnsArr objectAtIndex: row] intValue];
 	}
 	
-	[[Globals instance].mazeEdit.locations populateWithRows: [Globals instance].mazeEdit.rows Columns: [Globals instance].mazeEdit.columns];
+	[[Globals shared].mazeEdit.locations populateWithRows: [Globals shared].mazeEdit.rows Columns: [Globals shared].mazeEdit.columns];
 	
 	[gridView setNeedsDisplay];
 }
@@ -112,7 +112,7 @@
 
 - (IBAction)btnMazesTouchDown: (id)sender
 {
-	[[Globals instance].mazeEdit reset];
+	[[Globals shared].mazeEdit reset];
 	
 	[self.navigationController popToRootViewControllerAnimated: NO];
 }

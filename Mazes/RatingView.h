@@ -9,15 +9,12 @@
 #import <UIKit/UIKit.h>
 
 #import "Globals.h"
-#import "Communication.h"
 #import "Styles.h"
-#import "TopListsViewController.h"
+#import "MainListViewController.h"
 #import "GameViewController.h"
 
 @interface RatingView : UIView <UIPopoverControllerDelegate>
 {
-	Communication *comm;
-	
 	CGRect userRect;
 	
 	int mode;

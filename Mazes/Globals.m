@@ -11,21 +11,27 @@
 #import "AppDelegate.h"
 #import "WebServices.h"
 #import "Maze.h"
-#import "TopListsViewController.h"
+#import "MainListViewController.h"
 #import "GameViewController.h"
 #import "CreateViewController.h"
 #import "EditViewController.h"
 
 @implementation Globals
 
-@synthesize appDelegate;
-@synthesize mazeMain; 
-@synthesize mazeEdit; 
-@synthesize topListsViewController; 
-@synthesize gameViewController; 
-@synthesize createViewController; 
-@synthesize editViewController; 
-@synthesize activityView;
++ (Globals *)shared
+{
+	static Globals *instance = nil;
+	
+	@synchronized(self)
+	{
+		if (instance == nil)
+		{
+			instance = [[Globals alloc] init];
+		}
+	}
+	
+	return instance;
+}
 
 - (id)init
 {
@@ -33,25 +39,10 @@
     
     if (self) 
     {
-        self.mazeMain = nil;
+        _mazeMain = nil;
     }
     
     return self;
-}
-
-+ (Globals *)instance  
-{
-	static Globals *instance = nil;
-	
-	@synchronized(self) 
-	{
-		if (instance == nil) 
-		{
-			instance = [[Globals alloc] init];
-		}
-	}
-	
-	return instance;
 }
 
 - (AppDelegate *)appDelegate
@@ -61,57 +52,52 @@
 
 - (Maze *)mazeMain
 {
-    if (mazeMain == nil)
+    if (_mazeMain == nil)
     {
-        mazeMain = [[Maze alloc] init];
+        _mazeMain = [[Maze alloc] init];
     }
     
-    return mazeMain;
+    return _mazeMain;
 }
 
 - (Maze *)mazeEdit
 {
-    if (mazeEdit == nil)
+    if (_mazeEdit == nil)
     {
-        mazeEdit = [[Maze alloc] init];
+        _mazeEdit = [[Maze alloc] init];
     }
     
-    return mazeEdit;
-}
-
-- (TopListsViewController *)topListsViewController
-{
-    return (TopListsViewController *)[self.appDelegate.navigationController.viewControllers objectAtIndex: 0];
+    return _mazeEdit;
 }
 
 - (GameViewController *)gameViewController
 {
-    if (gameViewController == nil)
+    if (_gameViewController == nil)
     {
-        gameViewController = [[GameViewController alloc] initWithNibName: @"GameViewController" bundle: nil];
+        _gameViewController = [[GameViewController alloc] initWithNibName: @"GameViewController" bundle: nil];
     }
     
-    return gameViewController;
+    return _gameViewController;
 }
 
 - (CreateViewController *)createViewController
 {
-    if (createViewController == nil)
+    if (_createViewController == nil)
     {
-        createViewController = [[CreateViewController alloc] initWithNibName: @"CreateViewController" bundle: nil];
+        _createViewController = [[CreateViewController alloc] initWithNibName: @"CreateViewController" bundle: nil];
     }
     
-    return createViewController;
+    return _createViewController;
 }
 
 - (EditViewController *)editViewController
 {
-    if (editViewController == nil)
+    if (_editViewController == nil)
     {
-        editViewController = [[EditViewController alloc] initWithNibName: @"EditViewController" bundle: nil];
+        _editViewController = [[EditViewController alloc] initWithNibName: @"EditViewController" bundle: nil];
     }
     
-    return editViewController;
+    return _editViewController;
 }
 
 @end

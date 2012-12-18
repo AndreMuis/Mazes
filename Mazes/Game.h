@@ -11,7 +11,7 @@
 
 #import "WebServices.h"
 
-@interface Game : NSObject <GetVersionDelegate>
+@interface Game : NSObject <ADBannerViewDelegate, MAWebServicesGetVersionDelegate>
 {
     WebServices *webServices;
 }

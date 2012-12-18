@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Utilities.h"
-
 @interface Sound : NSManagedObject
 {
 	AVAudioPlayer *player;

@@ -8,11 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import <libxml/tree.h>
-#import <libxml/xpath.h>
-#import <libxml/xpathInternals.h>
-
-#import "XML.h"
 #import "Locations.h"
 
 @interface Maze : NSObject
@@ -42,7 +37,7 @@
 
 @property (nonatomic, retain) Locations *locations;
 
-- (void)populateFromXML: (xmlDocPtr)doc;
+//- (void)populateFromXML: (xmlDocPtr)doc;
 
 - (void)reset;
 

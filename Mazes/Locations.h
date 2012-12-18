@@ -9,11 +9,6 @@
 #import <Foundation/Foundation.h>
 
 #import "Utilities.h"
-#import "XML.h"
-
-#import <libxml/tree.h>
-#import <libxml/xpath.h>
-#import <libxml/xpathInternals.h>
 
 #import "Styles.h"
 #import "Location.h"
@@ -26,7 +21,7 @@
 @property (nonatomic, retain) NSMutableArray *array;
 
 - (void)populateWithRows: (int)rows Columns: (int)columns;
-- (void)populateWithXML: (xmlDocPtr)xml;
+//- (void)populateWithXML: (xmlDocPtr)xml;
 
 - (void)reset;
 
@@ -54,6 +49,6 @@
 - (CGRect)getSegmentRectFromLocation: (Location *)location SegmentType: (int)segmentType;
 
 
-- (xmlNodePtr)CreateLocationsXMLWithDoc: (xmlDocPtr)doc;
+//- (xmlNodePtr)CreateLocationsXMLWithDoc: (xmlDocPtr)doc;
 
 @end

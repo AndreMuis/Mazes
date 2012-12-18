@@ -15,7 +15,7 @@
 
 @implementation GameViewController
 
-@synthesize topListsItem; 
+@synthesize mainListItem;
 @synthesize imageViewMazesBack; 
 @synthesize lblTitle;
 @synthesize imageViewHowToPlay; 
@@ -37,22 +37,22 @@
 	moveStepDurationAvg = [Constants shared].stepDurationAvgStart;
 	turnStepDurationAvg = [Constants shared].stepDurationAvgStart;
 	
-	lblTitle.backgroundColor = [Styles instance].gameView.titleBackgroundColor;
-	lblTitle.font = [Styles instance].gameView.titleFont;
-	lblTitle.textColor = [Styles instance].gameView.titleTextColor;
+	lblTitle.backgroundColor = [Styles shared].gameView.titleBackgroundColor;
+	lblTitle.font = [Styles shared].gameView.titleFont;
+	lblTitle.textColor = [Styles shared].gameView.titleTextColor;
 	
-	viewMapBorder.backgroundColor = [Styles instance].gameView.borderColor;
-	mapView.backgroundColor = [Styles instance].map.backgroundColor;
+	viewMapBorder.backgroundColor = [Styles shared].gameView.borderColor;
+	mapView.backgroundColor = [Styles shared].map.backgroundColor;
 	
 	mapView.mapSegments = [[NSMutableArray alloc] init];
 	
-	viewMessageBorder.backgroundColor = [Styles instance].gameView.borderColor;
+	viewMessageBorder.backgroundColor = [Styles shared].gameView.borderColor;
 	
-	textViewMessage.backgroundColor = [Styles instance].gameView.messageBackgroundColor;
-	textViewMessage.font = [Styles instance].defaultFont;	
-	textViewMessage.textColor = [Styles instance].gameView.messageTextColor;
+	textViewMessage.backgroundColor = [Styles shared].gameView.messageBackgroundColor;
+	textViewMessage.font = [Styles shared].defaultFont;	
+	textViewMessage.textColor = [Styles shared].gameView.messageTextColor;
 	
-	viewMazeBorder.backgroundColor = [Styles instance].gameView.borderColor;
+	viewMazeBorder.backgroundColor = [Styles shared].gameView.borderColor;
 
 	[mazeView setupOpenGLViewport];
 	[mazeView translateDGLX: 0.0 DGLY: [Constants shared].eyeHeight DGLZ: 0.0];
@@ -80,11 +80,10 @@
 {	
 	[super viewWillAppear: animated];
 
-	lblTitle.text = topListsItem.mazeName;
+	lblTitle.text = mainListItem.mazeName;
 	
-    [Game shared].bannerView.delegate = self;
     [Game shared].bannerView.frame = CGRectMake([Game shared].bannerView.frame.origin.x,
-                                                [Styles instance].screen.height - [Styles instance].bannerView.height,
+                                                [Styles shared].screen.height - [Styles shared].bannerView.height,
                                                 [Game shared].bannerView.frame.size.width,
                                                 [Game shared].bannerView.frame.size.height);
     
@@ -95,39 +94,46 @@
 
 - (void)loadMaze
 {
+    /*
 	comm = [[Communication alloc] initWithDelegate: self Selector: @selector(loadMazeResponse) Action: @"GetMaze" WaitMessage: @"Loading"];
 	
-	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", self.topListsItem.mazeId]];
+	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", self.mainListItem.mazeId]];
 	
 	[comm post];
+    */
 }
 
 - (void)loadMazeResponse
 {
+    /*
 	if (comm.errorOccurred == NO)
 	{
 		[[Globals instance].mazeMain populateFromXML: comm.responseDoc];
 
 		[self loadMazeLocations];
 	}
+    */
 }
 
 - (void)loadMazeLocations
 {
+    /*
 	comm = [[Communication alloc] initWithDelegate: self Selector: @selector(loadMazeLocationsResponse) Action: @"GetLocations" WaitMessage: @"Loading"];
 	
-	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", self.topListsItem.mazeId]];
+	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", self.mainListItem.mazeId]];
 	
-	[comm post];	
+	[comm post];
+    */
 }
 
 - (void)loadMazeLocationsResponse
 {
+    /*
 	if (comm.errorOccurred == NO)
 	{
 		[[Globals instance].mazeMain.locations populateWithXML: comm.responseDoc];
 		
-		if (topListsItem.started == NO)
+		if (mainListItem.started == NO)
 		{			
 			[self setMazeStarted];
 		}
@@ -136,16 +142,19 @@
 			[self Setup];
 		}
 	}
+    */
 }
 
 - (void)setMazeStarted
 {
+    /*
 	comm = [[Communication alloc] initWithDelegate: self Selector: @selector(setMazeStartedResponse) Action: @"SetMazeStarted" WaitMessage: @"Saving Progress"];
 	
 	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", [Globals instance].mazeMain.mazeId]];
 	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"UserId" NodeValue: UNIQUE_ID];
 	
 	[comm post];
+    */
 }
 
 - (void)setMazeStartedResponse
@@ -163,12 +172,12 @@
 	mazeView.Theta = 0.0;
 	
 	prevLoc = nil;
-	Location *startLoc = [[Globals instance].mazeMain.locations getLocationByType: [Constants shared].LocationType.Start];
+	Location *startLoc = [[Globals shared].mazeMain.locations getLocationByType: [Constants shared].LocationType.Start];
 	[self SetupNewLocation: startLoc];
 	
-	if ([Globals instance].mazeMain.backgroundSoundId != 0)
+	if ([Globals shared].mazeMain.backgroundSoundId != 0)
 	{
-		Sound *sound = [[Sounds shared] getSoundWithId: [Globals instance].mazeMain.backgroundSoundId];
+		Sound *sound = [[Sounds shared] getSoundWithId: [Globals shared].mazeMain.backgroundSoundId];
         [sound playWithNumberOfLoops: -1];
 	}
 	
@@ -368,7 +377,7 @@
 		}
 	}
 	
-	int wallType = [[Globals instance].mazeMain.locations getWallTypeLocX: currLoc.x LocY: currLoc.y Direction: movementDir];
+	int wallType = [[Globals shared].mazeMain.locations getWallTypeLocX: currLoc.x LocY: currLoc.y Direction: movementDir];
 	
 	// Animate Movement
 	
@@ -405,11 +414,11 @@
 	[mazeView translateDGLX: dglx_step DGLY: 0.0 DGLZ: dglz_step];
 	[mazeView drawMaze];	
 
-	int wallType = [[Globals instance].mazeMain.locations getWallTypeLocX: currLoc.x LocY: currLoc.y Direction: movementDir];
+	int wallType = [[Globals shared].mazeMain.locations getWallTypeLocX: currLoc.x LocY: currLoc.y Direction: movementDir];
 	
 	if (wallType == [Constants shared].WallType.Fake && stepCount >= steps * [Constants shared].fakeMovementPrcnt && wallRemoved == NO)
 	{
-		[[Globals instance].mazeMain.locations setWallTypeLocX: currLoc.x LocY: currLoc.y Direction: movementDir Type: [Constants shared].WallType.None];
+		[[Globals shared].mazeMain.locations setWallTypeLocX: currLoc.x LocY: currLoc.y Direction: movementDir Type: [Constants shared].WallType.None];
 		[mazeView setupOpenGLVerticies];
 		[mazeView drawMaze];	
 		
@@ -441,13 +450,13 @@
 
 	float moveDuration = [end timeIntervalSinceDate: movementStartDate];
 	
-	int wallType = [[Globals instance].mazeMain.locations getWallTypeLocX: currLoc.x LocY: currLoc.y Direction: movementDir];
+	int wallType = [[Globals shared].mazeMain.locations getWallTypeLocX: currLoc.x LocY: currLoc.y Direction: movementDir];
 	
 	if (wallType == [Constants shared].WallType.None || wallType == [Constants shared].WallType.Fake)
 	{
 		prevLoc = currLoc;
 		
-		currLoc = [[Globals instance].mazeMain.locations getLocationByX: currLoc.x + dLocX Y: currLoc.y + dLocY];
+		currLoc = [[Globals shared].mazeMain.locations getLocationByX: currLoc.x + dLocX Y: currLoc.y + dLocY];
 		currLoc.Visited = YES;
 		
 		moveStepDurationAvg = moveDuration / steps;
@@ -463,7 +472,7 @@
 	{
 		[movements removeAllObjects];	
 
-		[[Globals instance].mazeMain.locations setWallHitLocX: currLoc.x LocY: currLoc.y Direction: movementDir];
+		[[Globals shared].mazeMain.locations setWallHitLocX: currLoc.x LocY: currLoc.y Direction: movementDir];
 
 		mapView.currLoc = currLoc;
 		mapView.currDir = currDir;
@@ -588,13 +597,20 @@
 	{
 		[movements removeAllObjects];
 		
-		[Utilities ShowAlertWithDelegate: self Message: currLoc.message CancelButtonTitle: @"Start Over" OtherButtonTitle: @"" Tag: 1 Bounds: CGRectZero];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
+                                                            message: currLoc.message
+                                                           delegate: self
+                                                  cancelButtonTitle: @"Start Over"
+                                                  otherButtonTitles: nil];
+        alertView.tag = 1;
+        
+        [alertView show];
 	}
 	else if (currLoc.type == [Constants shared].LocationType.Teleportation)
 	{
 		[movements removeAllObjects];
 		
-		Location *teleportLoc = [[Globals instance].mazeMain.locations getLocationByX: currLoc.teleportX Y: currLoc.teleportY];
+		Location *teleportLoc = [[Globals shared].mazeMain.locations getLocationByX: currLoc.teleportX Y: currLoc.teleportY];
 		[self SetupNewLocation: teleportLoc];
 	}
 	else 
@@ -605,20 +621,24 @@
 
 - (void)setMazeFinished
 {
+    /*
 	comm = [[Communication alloc] initWithDelegate: self Selector: @selector(setMazeFinishedResponse) Action: @"SetMazeFinished" WaitMessage: @"Saving Progress"];
 
 	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", [Globals instance].mazeMain.mazeId]];
 	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"UserId" NodeValue: UNIQUE_ID];
 
 	[comm post];
+    */
 }
 
 - (void)setMazeFinishedResponse
 {
+    /*
 	if (comm.errorOccurred == NO)
     {
 		[self ShowEndAlert];
     }
+    */
 }
 
 - (void)displayMessage
@@ -649,7 +669,7 @@
 - (void)ShowEndAlert
 {
 	NSString *cancelButtonTitle = @"";
-	if (topListsItem.userRating == 0.0)
+	if (mainListItem.userRating == 0.0)
 	{
 		cancelButtonTitle = @"Don't Rate";
 	}
@@ -668,9 +688,9 @@
 {
 	RatingView *ratingView = nil;
 	
-	if (alertView.tag == 2 && topListsItem.userRating == 0.0)
+	if (alertView.tag == 2 && mainListItem.userRating == 0.0)
 	{
-		[Globals instance].gameViewController = self;
+		[Globals shared].gameViewController = self;
 		
 		UIView *buttonView = [alertView.subviews objectAtIndex: 3];
 
@@ -685,9 +705,9 @@
 		ratingView.frame = CGRectMake(ratingViewX, ratingViewY, ratingViewWidth, ratingViewHeight);
 		ratingView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent: 0.0];
 		
-		ratingView.MazeId = topListsItem.mazeId;
+		ratingView.MazeId = mainListItem.mazeId;
 		ratingView.Mode = [Constants shared].RatingMode.RecordEnd;
-		ratingView.Rating = topListsItem.userRating;
+		ratingView.Rating = mainListItem.userRating;
 		
 		[alertView addSubview: ratingView];
 		
@@ -700,7 +720,7 @@
 		UILabel *ratingLabel = [[UILabel alloc] initWithFrame: CGRectMake(labelX, labelY, labelWidth, labelHeight)];
 		ratingLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent: 0.0];
 		[ratingLabel setTextAlignment: NSTextAlignmentCenter];
-		[ratingLabel setTextColor: [Styles instance].endAlertView.textColor];
+		[ratingLabel setTextColor: [Styles shared].endAlertView.textColor];
 		ratingLabel.font = [UIFont systemFontOfSize: 14.0];  
 		ratingLabel.text = @"Click a star above to rate.";
 
@@ -719,7 +739,7 @@
 {
 	if (alertView.tag == 1)
 	{
-		Location *startLoc = [[Globals instance].mazeMain.locations getLocationByType: [Constants shared].LocationType.Start];
+		Location *startLoc = [[Globals shared].mazeMain.locations getLocationByType: [Constants shared].LocationType.Start];
 		[self SetupNewLocation: startLoc];
 	}
 	else if (alertView.tag == 2)
@@ -749,13 +769,13 @@
 
 - (void)goBack
 {
-	if ([Globals instance].mazeMain.backgroundSoundId != 0)
+	if ([Globals shared].mazeMain.backgroundSoundId != 0)
 	{
-		Sound *sound = [[Sounds shared] getSoundWithId: [Globals instance].mazeMain.backgroundSoundId];
+		Sound *sound = [[Sounds shared] getSoundWithId: [Globals shared].mazeMain.backgroundSoundId];
 		[sound stop];	
 	}
 	
-	[[Globals instance].topListsViewController loadMazeList];
+	[[MainListViewController shared] loadMazeList];
 	
 	[[self navigationController] popViewControllerAnimated: YES];
 }
@@ -783,10 +803,10 @@
 	}
 	
 	UIViewController *vcHelp = [[UIViewController alloc] initWithNibName: @"GameHelpViewController" bundle: nil];
-	vcHelp.view.backgroundColor = [Styles instance].gameView.helpBackgroundColor;
+	vcHelp.view.backgroundColor = [Styles shared].gameView.helpBackgroundColor;
 	
 	UILabel *label = (UILabel *)[vcHelp.view.subviews objectAtIndex: 0];
-	label.textColor = [Styles instance].gameView.helpTextColor;
+	label.textColor = [Styles shared].gameView.helpTextColor;
 	
 	UIPopoverController *pcPopover = [[UIPopoverController alloc] initWithContentViewController: vcHelp];
 
@@ -797,11 +817,6 @@
 	self.popoverController = pcPopover;
 
 	[self.popoverController presentPopoverFromRect: btnHowToPlay.frame inView: self.view permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
-}
-
-- (void)bannerView: (ADBannerView *)banner didFailToReceiveAdWithError: (NSError *)error
-{
-	NSLog(@"%@", [error localizedDescription]);
 }
 
 - (void)didReceiveMemoryWarning 
@@ -815,7 +830,7 @@
 {
 	[super viewWillDisappear: animated];
 
-	[[Globals instance].mazeMain reset];
+	[[Globals shared].mazeMain reset];
 	
 	// reset GL coordinates
 	[mazeView translateDGLX: -mazeView.GLX DGLY: 0.0 DGLZ: -mazeView.GLZ];
@@ -828,7 +843,6 @@
 		[self.popoverController dismissPopoverAnimated: YES];
     }
 
-	[Game shared].bannerView.delegate = nil;
     [[Game shared].bannerView removeFromSuperview];
 }
 

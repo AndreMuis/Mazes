@@ -14,7 +14,7 @@
 
 @class Sound;
 
-@interface Sounds : NSObject <GetSoundsDelegate>
+@interface Sounds : NSObject <MAWebServicesGetSoundsDelegate>
 {
     WebServices *webServices;
 }
@@ -24,7 +24,7 @@
 
 + (Sounds *)shared;
 
-- (void)load;
+- (void)download;
 
 - (NSArray *)getSoundsSorted;
 

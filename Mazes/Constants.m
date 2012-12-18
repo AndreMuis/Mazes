@@ -61,10 +61,14 @@
 	
 	if (self)
 	{
+        _flurryAPIKey = @"72C58XPN2XTXVRTP27BN";
+        
+        _crittercismAppId = @"50cbd3ed4f633a03f0000003";
+        
         #if defined DEBUG
-            serverBaseURL = @"http://localhost:3000";
+            serverBaseURL = [[NSURL alloc] initWithString: @"http://localhost:3000"];
         #else
-            serverBaseURL = @"http://173.45.249.212:3000";
+            serverBaseURL = [[NSURL alloc] initWithString: @"http://173.45.249.212:3000"];
         #endif
 
         serverRetryDelaySecs = 5.0;

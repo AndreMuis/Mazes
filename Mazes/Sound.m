@@ -8,6 +8,8 @@
 
 #import "Sound.h"
 
+#import "Utilities.h"
+
 @implementation Sound
 
 @dynamic id; 
@@ -30,7 +32,7 @@
         }
         else
         {
-            DLog(@"Unable to create audio player for sound: %@", self);
+            [Utilities logWithClass: [self class] format: @"Unable to create audio player for sound: %@", self];
         }
 	}
 	

@@ -10,58 +10,58 @@
 
 #import "AppDelegate.h"
 
-#import "Communication.h"
+#import "Constants.h"
+#import "Crittercism.h"
 #import "Game.h"
+#import "Flurry.h"
 #import "Maze.h"
 #import "Sounds.h"
-#import "Tester.h"
 #import "Textures.h"
-#import "TopListsViewController.h"
+#import "MainListViewController.h"
 #import "Version.h"
 #import "WebServices.h"
+#import "User.h"
 
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize navigationController = _navigationController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	BOOL testing = NO;
+    [Flurry startSession: [Constants shared].flurryAPIKey];
 
-    if (testing == YES)
-    {
-        Tester *test = [[Tester alloc] init];
-        [test FloatRounding];
-     
-        return YES;
-    }
-     
-    //self.window.rootViewController = self.navigationController;
-    //[self.window makeKeyAndVisible];
-
-    [Utilities createActivityView];
+    [Crittercism enableWithAppID: [Constants shared].crittercismAppId];
     
+    self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
+    
+    self.window.rootViewController = [MainListViewController shared];
+    [self.window makeKeyAndVisible];
+
     [[Game shared] checkVersion];
 
-    [[Sounds shared] load];
+    // [[Sounds shared] download];
     
-    [[Textures shared] load];
+    // [[Textures shared] load];
+    
+    self->webServices = [[WebServices alloc] init];
     
     return YES;
 }
 
 - (void)loadMazeEdit
 {
+    /*
     comm = [[Communication alloc] initWithDelegate: self Selector: @selector(loadMazeEditResponse) Action: @"GetMazeByUserId" WaitMessage: @"Loading"];
 
     [XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"UserId" NodeValue: UNIQUE_ID];
     
     [comm post];
+    */
 }
 
 - (void)loadMazeEditResponse
 {
+    /*
     if (comm.errorOccurred == NO)
     {
         if ([XML isDocEmpty: comm.responseDoc] == NO)
@@ -72,32 +72,37 @@
         }
         else 
         {
-            [[Globals instance].topListsViewController loadMazeList];
+            [[MainListViewController shared] loadMazeList];
         }
     }
     else 
     {
-        [[Globals instance].topListsViewController loadMazeList];
+        [[MainListViewController shared] loadMazeList];
     }
+    */
 }
 
 - (void)loadMazeEditLocations
 {
+    /*
     comm = [[Communication alloc] initWithDelegate: self Selector: @selector(loadMazeEditLocationsResponse) Action: @"GetLocations" WaitMessage: @"Loading"];	
 
     [XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", [Globals instance].mazeEdit.mazeId]];
 
     [comm post];
+    */
 }
 
 - (void)loadMazeEditLocationsResponse
 {
+    /*
     if (comm.errorOccurred == NO)
     {		
         [[Globals instance].mazeEdit.locations populateWithXML: comm.responseDoc];
     }
 
-    [[Globals instance].topListsViewController loadMazeList];
+    [[MainListViewController shared] loadMazeList];
+    */
 }
 
 - (void)applicationDidReceiveMemoryWarning: (UIApplication *)application
@@ -106,3 +111,19 @@
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -19,8 +19,8 @@
 	
     if (self)
 	{
-        self.width = [Globals instance].appDelegate.window.screen.bounds.size.width;
-        self.height = [Globals instance].appDelegate.window.screen.bounds.size.height;
+        self.width = [Globals shared].appDelegate.window.screen.bounds.size.width;
+        self.height = [Globals shared].appDelegate.window.screen.bounds.size.height;
     }
 	
     return self;

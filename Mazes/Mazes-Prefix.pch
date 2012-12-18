@@ -13,6 +13,9 @@
     #import <Foundation/Foundation.h>
     #import <CoreData/CoreData.h>
 
+    #import <SystemConfiguration/SystemConfiguration.h>
+    #import <MobileCoreServices/MobileCoreServices.h>
+
     #import <AVFoundation/AVFoundation.h>
 
     #import <iAd/iAD.h>
@@ -27,6 +30,4 @@
     #import <OpenGLES/ES1/glext.h>
 
     #define UNIQUE_ID @"29812573-D969-5C90-9581-389E68CD8715"
-
-    #define DLog(fmt, ...) [Utilities LogWithObject: self Format: fmt, ##__VA_ARGS__];
 #endif

@@ -9,19 +9,16 @@
 #import <UIKit/UIKit.h>
 
 #import "Globals.h"
-#import "Communication.h"
 #import "Maze.h"
-#import "TopListsViewController.h"
+#import "MainListViewController.h"
 #import "MazeView.h"
 #import "MapView.h"
-#import "TopListsItem.h"
+#import "MainListItem.h"
 #import "RatingView.h"
 
 @interface GameViewController : UIViewController <UIGestureRecognizerDelegate, UIAlertViewDelegate, UIPopoverControllerDelegate, ADBannerViewDelegate>
 {
-	Communication *comm;
-	
-	TopListsItem *topListsItem;
+	MainListItem *mainListItem;
 
 	Location *prevLoc, *currLoc;
 	int currDir;
@@ -63,7 +60,7 @@
 	UIPopoverController	*popoverController;
 }
 
-@property (nonatomic, retain) TopListsItem *topListsItem;
+@property (nonatomic, retain) MainListItem *mainListItem;
 
 @property (nonatomic, retain) IBOutlet UIImageView *imageViewMazesBack;
 

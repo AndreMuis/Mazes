@@ -20,9 +20,6 @@
 #import "ScreenStyle.h"
 
 @interface Styles : NSObject 
-{
-	UIFont *defaultFont;
-}
 
 @property (nonatomic, retain) UIFont *defaultFont;
 
@@ -37,6 +34,6 @@
 @property (retain, nonatomic) RatingViewStyle *ratingView;
 @property (retain, nonatomic) ScreenStyle *screen;
 
-+ (Styles *)instance;
++ (Styles *)shared;
 
 @end
