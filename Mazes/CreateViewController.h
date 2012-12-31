@@ -1,9 +1,9 @@
 //
 //  CreateViewController.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 4/18/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -14,17 +14,15 @@
 
 @interface CreateViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
 {
+    Maze *maze;
+    
 	NSMutableArray *rowsArr;
 	NSMutableArray *columnsArr;
-	
-	UIPickerView *pickerView;
-
-	GridView *gridView;
 }
 
-@property (nonatomic, retain) IBOutlet UIPickerView *pickerView;
+@property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
 
-@property (nonatomic, retain) IBOutlet GridView *gridView;
+@property (weak, nonatomic) IBOutlet GridView *gridView;
 
 - (IBAction)btnContinueTouchDown: (id)sender;
 

@@ -1,45 +1,41 @@
 //
 //  RatingView.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 12/30/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-#import "Globals.h"
-#import "Styles.h"
-#import "MainListViewController.h"
-#import "GameViewController.h"
+typedef enum
+{
+	MARatingModeDoNothing = 1,
+	MARatingModeDisplayAvg = 2,
+	MARatingModeDisplayUser = 3,
+	MARatingModeRecordPopover = 4,
+	MARatingModeRecordEnd = 5
+} MARatingModeType;
 
 @interface RatingView : UIView <UIPopoverControllerDelegate>
 {
 	CGRect userRect;
-	
-	int mode;
-	int mazeId;
-	float rating;
-		
-	float starWidth, starHeight;
-	
-	UIPopoverController *popoverController;
 }
 
-@property (nonatomic) int mode;
-@property (nonatomic) int mazeId;
-@property (nonatomic) float rating;
+@property (assign, nonatomic) MARatingModeType mode;
+@property (assign, nonatomic) int mazeId;
+@property (assign, nonatomic) float rating;
 
-@property (nonatomic) float starWidth;
-@property (nonatomic) float starHeight;
+@property (assign, nonatomic) float starWidth;
+@property (assign, nonatomic) float starHeight;
 
-@property (nonatomic, retain) UIPopoverController *popoverController;
+@property (strong, nonatomic) UIPopoverController *popoverController;
 
-- (void)drawStarsRect: (CGRect)rect Color: (UIColor *)color;
+- (void)drawStarsRect: (CGRect)rect color: (UIColor *)color;
 
-- (void)ShowRatingPopover;
+- (void)showRatingPopover;
 
-- (void)SetRating: (float)rating;
+- (void)setRating2: (float)rating;
 - (void)setRatingResponse;
 
 @end

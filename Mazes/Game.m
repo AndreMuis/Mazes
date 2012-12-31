@@ -3,7 +3,7 @@
 //  Mazes
 //
 //  Created by Andre Muis on 9/3/12.
-//
+//  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
 #import "Game.h"
@@ -36,23 +36,13 @@
 	
 	if (self)
 	{
-        _bannerView = nil;
-	}
-	
-    return self;
-}
-
-- (ADBannerView *)bannerView
-{
-    if (_bannerView == nil)
-    {
-        _bannerView = [[ADBannerView alloc] initWithFrame: CGRectZero];
-        //self.bannerView.requiredContentSizeIdentifiers = [NSSet setWithObject: ADBAnner ADBannerContentSizeIdentifierPortrait];
-        //self.bannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+        self->operationQueue = [[NSOperationQueue alloc] init];
+        
+        _bannerView = [[ADBannerView alloc] init];
         _bannerView.delegate = self;
-    }
+	}
     
-    return _bannerView;
+    return self;
 }
 
 - (void)bannerViewDidLoadAd: (ADBannerView *)banner
@@ -69,12 +59,10 @@
 
 - (void)checkVersion
 {
-    self->webServices = [[WebServices alloc] init];
-
-    [self->webServices getVersionWithDelegate: self];
+    [self->operationQueue addOperation: [[ServerOperations shared] getVersionOperationWithDelegate: self]];
 }
 
-- (void)webServicesGetVersion: (Version *)currentVersion error: (NSError *)error
+- (void)serverOperationsGetVersion: (Version *)version error: (NSError *)error
 {
     float appVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleShortVersionString"] floatValue];
     
@@ -82,9 +70,9 @@
     
     if (error == nil)
     {
-        if (appVersion < currentVersion.number)
+        if (appVersion < version.number)
         {
-            NSString *message = [NSString stringWithFormat: @"This app is Version %0.1f. Version %0.1f is now available. It is recommended that you upgrade to the latest version.", appVersion, currentVersion.number];
+            NSString *message = [NSString stringWithFormat: @"This app is Version %0.1f. Version %0.1f is now available. It is recommended that you upgrade to the latest version.", appVersion, version.number];
             
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
                                                                 message: message

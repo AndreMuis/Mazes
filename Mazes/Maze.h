@@ -1,9 +1,9 @@
 //
 //  Maze.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 4/18/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,35 +11,22 @@
 #import "Locations.h"
 
 @interface Maze : NSObject
-{
-	int mazeId;
-	NSString *name;
-	int rows;
-	int columns;
-	BOOL isPublic;
-	int backgroundSoundId;
-	int wallTextureId;
-	int floorTextureId;
-	int ceilingTextureId;
-		
-	Locations *locations;
-}
 
-@property (nonatomic) int mazeId;
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic) int rows;
-@property (nonatomic) int columns;
-@property (nonatomic) BOOL isPublic;
-@property (nonatomic) int backgroundSoundId;
-@property (nonatomic) int wallTextureId;
-@property (nonatomic) int floorTextureId;
-@property (nonatomic) int ceilingTextureId;
+@property (assign, nonatomic) int id;
+@property (assign, nonatomic) int userId;
+@property (strong, nonatomic) NSString *name;
+@property (assign, nonatomic) int rows;
+@property (assign, nonatomic) int columns;
+@property (assign, nonatomic) BOOL active;
+@property (assign, nonatomic) BOOL public;
+@property (assign, nonatomic) int backgroundSoundId;
+@property (assign, nonatomic) int wallTextureId;
+@property (assign, nonatomic) int floorTextureId;
+@property (assign, nonatomic) int ceilingTextureId;
+@property (strong, nonatomic) NSDate *createdDate;
+@property (strong, nonatomic) NSDate *updatedDate;
 
-@property (nonatomic, retain) Locations *locations;
-
-//- (void)populateFromXML: (xmlDocPtr)doc;
-
-- (void)reset;
+@property (strong, nonatomic) Locations *locations;
 
 - (void)setWallTextureIdWithNumber: (NSNumber *)textureId;
 - (void)setFloorTextureIdWithNumber: (NSNumber *)textureId;

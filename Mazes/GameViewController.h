@@ -1,107 +1,113 @@
 //
 //  GameViewController.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 4/18/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-#import "Globals.h"
-#import "Maze.h"
-#import "MainListViewController.h"
-#import "MazeView.h"
-#import "MapView.h"
-#import "MainListItem.h"
-#import "RatingView.h"
+#import "Constants.h"
+#import "MAViewController.h"
+#import "ServerOperations.h"
 
-@interface GameViewController : UIViewController <UIGestureRecognizerDelegate, UIAlertViewDelegate, UIPopoverControllerDelegate, ADBannerViewDelegate>
+typedef enum
 {
-	MainListItem *mainListItem;
+	MAMovementBackward = 1,
+	MAMovementForward = 2,
+	MAMovementTurnLeft = 3,
+	MAMovementTurnRight = 4
+} MAMovementType;
 
-	Location *prevLoc, *currLoc;
-	int currDir;
+@class Location;
+@class MainListItem;
+@class MapView;
+@class Maze;
+@class MazeView;
+
+@interface GameViewController : MAViewController
+    <MAServerOperationsGetMazeDelegate,
+    MAServerOperationsGetLocationsDelegate,
+    MAServerOperationsGetMazeUserDelegate,
+    UIGestureRecognizerDelegate,
+    UIAlertViewDelegate,
+    UIPopoverControllerDelegate>
+{
+    NSOperationQueue *operationQueue;
+    
+    Maze *maze;
+    MazeUser *mazeUser;
+    
+	Location *prevLoc;
+	Location *currLoc;
+
+	MADirectionType currDir;
 	
 	NSDate *movementStartDate;
 		
 	NSMutableArray *movements;
-	BOOL IsMoving;
+	BOOL isMoving;
 	
-	int movementDir;
+	MADirectionType movementDir;
 	
-	int dLocX, dLocY;
-	float dglx_step, dglz_step, dTheta_step;
+	int dLocX;
+	int dLocY;
+
+	float dglx_step;
+	float dglz_step;
+	float dTheta_step;
 	
-	int steps, stepCount;
-	float moveStepDurationAvg, turnStepDurationAvg;
+	int steps;
+	int stepCount;
+
+	float moveStepDurationAvg;
+	float turnStepDurationAvg;
 	
-	BOOL wallRemoved, directionReversed;
-		
-	UIImageView *imageViewMazesBack;
-	
-	UILabel *lblTitle;
-	
-	UIImageView *imageViewHowToPlay;
-	
-	UIButton *btnHowToPlay;
-	
-	UIView *viewMapBorder;
-	MapView *mapView;
-	
-	UIView *viewMessageBorder;
-	UITextView *textViewMessage;	
-	
-	UIView *viewMazeBorder;
-	MazeView *mazeView;
+	BOOL wallRemoved;
+	BOOL directionReversed;
 		
 	UIAlertView *endAlertView;
-	
-	UIPopoverController	*popoverController;
 }
 
-@property (nonatomic, retain) MainListItem *mainListItem;
+@property (weak, nonatomic) MainListItem *mainListItem;
 
-@property (nonatomic, retain) IBOutlet UIImageView *imageViewMazesBack;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewMazesBack;
 
-@property (nonatomic, retain) IBOutlet UILabel *lblTitle;
+@property (weak, nonatomic) IBOutlet UILabel *lblTitle;
 
-@property (nonatomic, retain) IBOutlet UIImageView *imageViewHowToPlay;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewHowToPlay;
 
-@property (nonatomic, retain) IBOutlet UIButton *btnHowToPlay;
+@property (weak, nonatomic) IBOutlet UIButton *btnHowToPlay;
 
-@property (nonatomic, retain) IBOutlet UIView *viewMapBorder;
-@property (nonatomic, retain) IBOutlet MapView *mapView;
+@property (weak, nonatomic) IBOutlet UIView *viewMapBorder;
+@property (weak, nonatomic) IBOutlet MapView *mapView;
 
-@property (nonatomic, retain) IBOutlet UIView *viewMessageBorder;
-@property (nonatomic, retain) IBOutlet UITextView *textViewMessage;
+@property (weak, nonatomic) IBOutlet UIView *viewMessageBorder;
+@property (weak, nonatomic) IBOutlet UITextView *textViewMessage;
 
-@property (nonatomic, retain) IBOutlet UIView *viewMazeBorder;
-@property (nonatomic, retain) IBOutlet MazeView *mazeView;
+@property (weak, nonatomic) IBOutlet UIView *viewMazeBorder;
+@property (weak, nonatomic) IBOutlet MazeView *mazeView;
 
-@property (nonatomic, retain) UIPopoverController *popoverController;
+@property (strong, nonatomic) UIPopoverController *popoverController2;
 
-- (void)loadMaze;
-- (void)loadMazeResponse;
-- (void)loadMazeLocations;
-- (void)loadMazeLocationsResponse;
++ (GameViewController *)shared;
 
-- (void)setMazeStarted;
-- (void)setMazeStartedResponse;
+- (void)setupOperationQueue;
 
-- (void)Setup;
-- (void)SetupNewLocation: (Location *)newLoc;
+- (void)setup;
+- (void)setupNewLocation: (Location *)newLoc;
 
 - (void)handleTapFrom: (UITapGestureRecognizer *)recognizer;
 - (void)handleSwipeFrom: (UISwipeGestureRecognizer *)recognizer;
 
 - (void)processMovements;
 
-- (void)moveForwardBackward: (int)movement;
+- (void)moveForwardBackward: (MAMovementType)movement;
 - (void)moveStep: (NSTimer *) timer;
 - (void)moveEnd;
 
-- (void)turn: (int)movement;
+- (void)turn: (MAMovementType)movement;
 - (void)turnStep: (NSTimer *)timer;
 - (void)turnEnd;
 
@@ -113,7 +119,7 @@
 - (void)displayMessage;
 - (void)clearMessage;
 
-- (void)ShowEndAlert;
+- (void)showEndAlert;
 - (void)dismissEndAlertView;
 
 - (IBAction)btnMazesBackTouchDown: (id)sender;

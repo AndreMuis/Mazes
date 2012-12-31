@@ -7,3 +7,5 @@ pod 'RestKit/Testing',  :git => 'https://github.com/RestKit/RestKit.git', :branc
 pod 'FlurrySDK'
 
 pod 'CrittercismSDK'
+
+pod 'MagicalRecord'

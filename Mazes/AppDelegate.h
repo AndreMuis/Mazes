@@ -3,23 +3,21 @@
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-#import "Sound.h"
+#import "CoreData+MagicalRecord.h"
 
-@class WebServices;
+#import "Sound.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
-    WebServices *webServices;
-    
     Sound *sound;
 }
 
-@property (strong, nonatomic) IBOutlet UIWindow *window;
+@property (strong, nonatomic) UIWindow *window;
 
 - (void)loadMazeEdit;
 - (void)loadMazeEditResponse;

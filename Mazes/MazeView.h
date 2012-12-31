@@ -1,70 +1,71 @@
 //
 //  MazeView.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 4/18/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-#import "Globals.h"
-#import "Maze.h"
+@class Maze;
 
 typedef struct
 {
 	GLfloat vertCoords[12];
 	GLfloat texCoords[8];
 	int textureId;
-} rectangleType;
+} RectangleType;
 
-typedef struct
+typedef enum
 {
-	int NorthSouth;
-	int WestEast;
-	int Horizontal;
-} OrientationType;
+	MAOrientationNorthSouth = 1,
+	MAOrientationWestEast = 2,
+	MAOrientationHorizontal = 3
+} MAOrientationType;
 
 @interface MazeView : UIView
 {
-	@private
-	
     GLint backingWidth;
     GLint backingHeight;
     
-    EAGLContext *context;
-	
-    GLuint viewFramebuffer, viewRenderbuffer;
+    GLuint viewFramebuffer;
+    GLuint viewRenderbuffer;
 	GLuint depthRenderbuffer;
 		
-	OrientationType Orientation;
-	
-	GLuint *GLtextures;
+	GLuint *glTextures;
 	
 	NSMutableArray *rectangles;
-	
-	float GLX, GLY, GLZ, Theta;
 }
 
-@property (nonatomic) float GLX;
-@property (nonatomic) float GLY;
-@property (nonatomic) float GLZ;
+@property (strong, nonatomic) Maze *maze;
 
-@property (nonatomic) float Theta;
+@property (assign, nonatomic) float glX;
+@property (assign, nonatomic) float glY;
+@property (assign, nonatomic) float glZ;
+
+@property (assign, nonatomic) float theta;
 
 - (void)setupOpenGLViewport;
 - (void)setupOpenGLTextures;
 - (void)setupOpenGLVerticies;
 
-- (void)addRectWithX: (float)x Y: (float)y Z: (float)z
-			   Width: (float)width  Length: (float)length 
-		 Orientation: (int)orientation TexId: (int)texId DefaultTexId: (int)defaultTexId TexCoordsWidthPrcnt1: (float)texCoordsWidthPrcnt1 TexCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2;
+- (void)addRectWithX: (float)x
+                   y: (float)y
+                   z: (float)z
+			   width: (float)width
+              length: (float)length
+		 orientation: (MAOrientationType)orientation
+               texId: (int)texId
+        defaultTexId: (int)defaultTexId
+texCoordsWidthPrcnt1: (float)texCoordsWidthPrcnt1
+texCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2;
 
 - (void)drawMaze;
 - (void)clearMaze;
 
-- (void)translateDGLX: (float)dglx DGLY: (float)dgly DGLZ: (float)dglz;
-- (void)rotateDTheta: (float)dtheta;
+- (void)translateDGLX: (float)dglx dGLY: (float)dGLY dGLZ: (float)dGLZ;
+- (void)rotateDTheta: (float)dTheta;
 
 - (void)deleteTextures;
 

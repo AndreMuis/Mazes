@@ -9,23 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "CrittercismDelegate.h"
 
-@protocol CrittercismDelegate <NSObject>
-
-@optional
-- (void)crittercismDidClose;
-- (void)crittercismDidCrashOnLastLoad;
-@end
+@class CritterImpl;
 
 @interface Crittercism : NSObject {
-  // tracks our HTTP connections
-  CFMutableDictionaryRef connectionMap;
-  id <CrittercismDelegate> delegate;
-  BOOL didCrashOnLastLoad;
+ @private
+  CritterImpl *critter_;
 }
-
-@property(retain) id <CrittercismDelegate> delegate;
-@property(assign) BOOL didCrashOnLastLoad;
 
 //
 // Methods for Enabling Crittercism
@@ -38,10 +29,14 @@
 + (void)enableWithAppID:(NSString *)appId
             andDelegate:(id <CrittercismDelegate>)critterDelegate;
 
-+ (Crittercism *)sharedInstance;
-
-// Retrieve your app id
-+ (NSString *)getAppID;
+// When async breadcrumb mode is enabled, writes to the breadcrumb file will be
+// conflated into at most one batch write per iteration of the main thread's
+// run loop.
+// Enabling this mode can cause breadcrumbs to be lost if your app crashes
+// before the breadcrumb file has been flushed. Crittercism only recommends
+// use of this mode if you are rapidly leaving breadcrumbs within a performance
+// critical section of code.
++ (void)setAsyncBreadcrumbMode:(BOOL)writeAsync;
 
 // Disable or enable all communication with Crittercism servers.
 // If called to disable (status == YES), any pending crash reports will be
@@ -50,6 +45,12 @@
 
 // Retrieve currently stored opt out status.
 + (BOOL)getOptOutStatus;
+
+// Retrieve the Crittercism generated unique identifier for this device.
+// Note, this is NOT the iPhone's UDID.
+//
+// If called before enabling the library, will return an empty string.
++ (NSString *)getUserUUID;
 
 // Record an exception that you purposely caught via Crittercism.
 //
@@ -77,6 +78,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DEPRECATED METHODS
 ////////////////////////////////////////////////////////////////////////////////
+
++ (Crittercism *)sharedInstance;
+
+- (id <CrittercismDelegate>)delegate;
+- (void)setDelegate:(id <CrittercismDelegate>)delegate;
+
+- (BOOL)didCrashOnLastLoad;
+- (void)setDidCrashOnLastLoad:(BOOL)didCrash;
 
 //
 // Initializers - Will be removed in a future release. Please change your code

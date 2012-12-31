@@ -1,9 +1,9 @@
 //
 //  Sound.m
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 2/22/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import "Sound.h"
@@ -14,53 +14,79 @@
 
 @dynamic id; 
 @dynamic name;
+@dynamic createdDate;
+@dynamic updatedDate;
 
-- (id)initWithEntity: (NSEntityDescription *)entity insertIntoManagedObjectContext: (NSManagedObjectContext *)context
+- (void)awakeFromInsert
 {
-    self = [super initWithEntity: entity insertIntoManagedObjectContext: context];
-	
-    if (self)
+    [self setup];
+}
+
+- (void)awakeFromFetch
+{
+    [self setup];
+}
+
+- (void)setup
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource: self.name ofType: @"caf"];
+
+    NSError *error = nil;
+    self->audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL: [NSURL fileURLWithPath: path] error: &error];
+
+    if (error == nil)
     {
-		NSString *path = [[NSBundle mainBundle] pathForResource: self.name ofType: @"caf"];
-        
-        NSError *error = nil;
-		player = [[AVAudioPlayer alloc] initWithContentsOfURL: [NSURL fileURLWithPath: path] error: &error];
-		
-        if (error == nil)
-        {
-            player.volume = 1.0;
-        }
-        else
-        {
-            [Utilities logWithClass: [self class] format: @"Unable to create audio player for sound: %@", self];
-        }
-	}
-	
-    return self;
+        self->audioPlayer.volume = 1.0;
+    }
+    else
+    {
+        [Utilities logWithClass: [self class] format: @"Unable to create audio player for sound: %@", self];
+    }
 }
 
 - (void)playWithNumberOfLoops: (int)numberOfLoops
 {
-	player.numberOfLoops = numberOfLoops;
+	self->audioPlayer.numberOfLoops = numberOfLoops;
 		
-	[player play];
+	[self->audioPlayer play];
 }
 
 - (void)stop
 {
-	[player stop];
+	[self->audioPlayer stop];
 	
-	player.currentTime = 0.0;
-	
-	[player prepareToPlay];
+	self->audioPlayer.currentTime = 0.0;
 }
 
 - (NSString *)description 
 {
     NSString *desc = [NSString stringWithFormat: @"id = %@", self.id];
     desc = [NSString stringWithFormat: @"%@, name = %@", desc, self.name];
+    desc = [NSString stringWithFormat: @"%@, createdDate = %@", desc, self.createdDate];
+    desc = [NSString stringWithFormat: @"%@, updatedDate = %@", desc, self.updatedDate];
     
     return desc;
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

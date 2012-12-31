@@ -1,13 +1,14 @@
 //
 //  MazeView.m
-//  iPad Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 4/18/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import "MazeView.h"
 
+#import "Maze.h"
 #import "Textures.h"
 #import "Texture.h"
 
@@ -15,7 +16,7 @@
 
 @interface MazeView ()
 
-@property (nonatomic, retain) EAGLContext *context;
+@property (strong, nonatomic) EAGLContext *context;
 
 - (BOOL) createFramebuffer;
 - (void) destroyFramebuffer;
@@ -23,8 +24,6 @@
 @end
 
 @implementation MazeView
-
-@synthesize context, GLX, GLY, GLZ, Theta;
 
 + (Class)layerClass
 {
@@ -42,17 +41,13 @@
 		eaglLayer.opaque = YES;
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
         
-        context = [[EAGLContext alloc] initWithAPI: kEAGLRenderingAPIOpenGLES1];
+        self.context = [[EAGLContext alloc] initWithAPI: kEAGLRenderingAPIOpenGLES1];
         
-        if (!context || ![EAGLContext setCurrentContext: context]) 
+        if (!self.context || ![EAGLContext setCurrentContext: self.context])
 		{
             return nil;
         }
 
-		Orientation.NorthSouth = 1;
-		Orientation.WestEast = 2;
-		Orientation.Horizontal = 3;
-		
 		rectangles = [[NSMutableArray alloc] init];
 	}
 
@@ -98,16 +93,16 @@
 
 - (void)setupOpenGLTextures
 {
-	GLtextures = (GLuint *)malloc(([Textures shared].maxId + 1) * sizeof(GLuint));
+	glTextures = (GLuint *)malloc(([Textures shared].maxId + 1) * sizeof(GLuint));
 	
-	glGenTextures([Textures shared].maxId + 1, GLtextures);
+	glGenTextures([Textures shared].maxId + 1, glTextures);
 
-	for (Texture *texture in [[Textures shared] getTextures])
+	for (Texture *texture in [[Textures shared] all])
 	{		
 		NSString *path = [[NSBundle mainBundle] pathForResource: texture.name ofType: @"pvrtc"];
 		NSData *texData = [[NSData alloc] initWithContentsOfFile: path];
 	
-		glBindTexture(GL_TEXTURE_2D, GLtextures[texture.id]);
+		glBindTexture(GL_TEXTURE_2D, glTextures[texture.id]);
 		glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG, texture.width, texture.height, 0, (texture.width * texture.height) / 2, [texData bytes]);
 	
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -121,43 +116,71 @@
 	// Draw Maze Rectangles
 	
 	// Walls
-	for (Location *location in [Globals shared].mazeMain.locations.array)
+	for (Location *location in [self.maze.locations all])
 	{
 		float glx = (location.x - 1) * [Constants shared].wallWidth;
 		float glz = (location.y - 1) * [Constants shared].wallWidth;
 			
 		// North Wall
-		int wallType = [[Globals shared].mazeMain.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.North];
+		MAWallType wallType = [self.maze.locations getWallTypeLocX: location.x locY: location.y direction: MADirectionNorth];
 		
-		if (wallType == [Constants shared].WallType.Solid || wallType == [Constants shared].WallType.Fake)
+		if (wallType == MAWallSolid || wallType == MAWallFake)
 		{
 			// wall far
-			[self addRectWithX: glx + [Constants shared].wallDepth / 2.0 Y: 0.0 Z: glz 
-						 Width: [Constants shared].wallWidth Length: [Constants shared].wallHeight 
-				   Orientation: Orientation.WestEast TexId: location.wallNorthTextureId DefaultTexId: [Globals shared].mazeMain.wallTextureId TexCoordsWidthPrcnt1: 0.0 TexCoordsWidthPrcnt2: 1.0];
+			[self addRectWithX: glx + [Constants shared].wallDepth / 2.0
+                             y: 0.0
+                             z: glz
+						 width: [Constants shared].wallWidth
+                        length: [Constants shared].wallHeight
+				   orientation: MAOrientationWestEast
+                         texId: location.wallNorthTextureId
+                  defaultTexId: self.maze.wallTextureId
+          texCoordsWidthPrcnt1: 0.0
+          texCoordsWidthPrcnt2: 1.0];
 	
 			// wall near
-			[self addRectWithX: glx + [Constants shared].wallDepth / 2.0 Y: 0.0 Z: glz + [Constants shared].wallDepth 
-						 Width: [Constants shared].wallWidth Length: [Constants shared].wallHeight 
-				   Orientation: Orientation.WestEast TexId: location.wallNorthTextureId DefaultTexId: [Globals shared].mazeMain.wallTextureId TexCoordsWidthPrcnt1: 0.0 TexCoordsWidthPrcnt2: 1.0];
+			[self addRectWithX: glx + [Constants shared].wallDepth / 2.0
+                             y: 0.0
+                             z: glz + [Constants shared].wallDepth
+						 width: [Constants shared].wallWidth
+                        length: [Constants shared].wallHeight
+				   orientation: MAOrientationWestEast
+                         texId: location.wallNorthTextureId
+                  defaultTexId: self.maze.wallTextureId
+          texCoordsWidthPrcnt1: 0.0
+          texCoordsWidthPrcnt2: 1.0];
 		}
-		
+        
 		// West Wall
-		wallType = [[Globals shared].mazeMain.locations getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.West];
+		wallType = [self.maze.locations getWallTypeLocX: location.x locY: location.y direction: MADirectionWest];
 
-		if (wallType == [Constants shared].WallType.Solid || wallType == [Constants shared].WallType.Fake)
-		{	
+		if (wallType == MAWallSolid || wallType == MAWallFake)
+		{
 			// wall far
-			[self addRectWithX: glx Y: 0.0 Z: glz + [Constants shared].wallDepth / 2.0 
-						 Width: [Constants shared].wallWidth Length: [Constants shared].wallHeight 
-				   Orientation: Orientation.NorthSouth TexId: location.wallWestTextureId DefaultTexId: [Globals shared].mazeMain.wallTextureId TexCoordsWidthPrcnt1: 0.0 TexCoordsWidthPrcnt2: 1.0];
-			
+			[self addRectWithX: glx
+                             y: 0.0
+                             z: glz + [Constants shared].wallDepth / 2.0
+						 width: [Constants shared].wallWidth
+                        length: [Constants shared].wallHeight
+				   orientation: MAOrientationNorthSouth
+                         texId: location.wallWestTextureId
+                  defaultTexId: self.maze.wallTextureId
+          texCoordsWidthPrcnt1: 0.0
+          texCoordsWidthPrcnt2: 1.0];
+
 			// wall near
-			[self addRectWithX: glx + [Constants shared].wallDepth Y: 0.0 Z: glz + [Constants shared].wallHeight / 2.0 
-						 Width: [Constants shared].wallWidth Length: [Constants shared].wallHeight 
-				   Orientation: Orientation.NorthSouth TexId: location.wallWestTextureId DefaultTexId: [Globals shared].mazeMain.wallTextureId TexCoordsWidthPrcnt1: 0.0 TexCoordsWidthPrcnt2: 1.0];
+			[self addRectWithX: glx + [Constants shared].wallDepth
+                             y: 0.0
+                             z: glz + [Constants shared].wallDepth / 2.0
+						 width: [Constants shared].wallWidth
+                        length: [Constants shared].wallHeight
+				   orientation: MAOrientationNorthSouth
+                         texId: location.wallWestTextureId
+                  defaultTexId: self.maze.wallTextureId
+          texCoordsWidthPrcnt1: 0.0
+          texCoordsWidthPrcnt2: 1.0];
 		}
-		
+        
 		// Corner of North and West Wall
 		
 		// determine which wall segments of corner should be drawn
@@ -168,19 +191,19 @@
 		BOOL westWallExists = NO;
 		BOOL eastWallExists = NO;
 		
-		Location *locationNorth = [[Globals shared].mazeMain.locations getLocationByX: location.x Y: location.y - 1];
-		Location *locationWest = [[Globals shared].mazeMain.locations getLocationByX: location.x - 1 Y: location.y];
+		Location *locationNorth = [self.maze.locations getLocationByX: location.x y: location.y - 1];
+		Location *locationWest = [self.maze.locations getLocationByX: location.x - 1 y: location.y];
 		
-		if (locationNorth.wallWest == [Constants shared].WallType.Solid || locationNorth.wallWest == [Constants shared].WallType.Fake)
+		if (locationNorth.wallWest == MAWallSolid || locationNorth.wallWest == MAWallFake)
 			northWallExists = YES;
 		
-		if (location.wallWest == [Constants shared].WallType.Solid || location.wallWest == [Constants shared].WallType.Fake)
+		if (location.wallWest == MAWallSolid || location.wallWest == MAWallFake)
 			southWallExists = YES;
 
-		if (locationWest.wallNorth == [Constants shared].WallType.Solid || locationWest.wallNorth == [Constants shared].WallType.Fake)
+		if (locationWest.wallNorth == MAWallSolid || locationWest.wallNorth == MAWallFake)
 			westWallExists = YES;
 		
-		if (location.wallNorth == [Constants shared].WallType.Solid || location.wallNorth == [Constants shared].WallType.Fake)
+		if (location.wallNorth == MAWallSolid || location.wallNorth == MAWallFake)
 			eastWallExists = YES;
 		
 		BOOL topRightWallExists = NO;
@@ -305,81 +328,151 @@
 		
 		if (topLeftWallExists == YES)
 		{
-			[self addRectWithX: glx Y: 0.0 Z: glz
-						 Width: [Constants shared].wallDepth / 2.0  Length: [Constants shared].wallHeight 
-				   Orientation: Orientation.WestEast TexId: topLeftWallTextureId DefaultTexId: [Globals shared].mazeMain.wallTextureId TexCoordsWidthPrcnt1: 1.0 - wallWidthPrcnt TexCoordsWidthPrcnt2: 1.0];
+			[self addRectWithX: glx
+                             y: 0.0
+                             z: glz
+						 width: [Constants shared].wallDepth / 2.0
+                        length: [Constants shared].wallHeight
+				   orientation: MAOrientationWestEast
+                         texId: topLeftWallTextureId
+                  defaultTexId: self.maze.wallTextureId
+          texCoordsWidthPrcnt1: 1.0 - wallWidthPrcnt
+          texCoordsWidthPrcnt2: 1.0];
 		}			
 
 		if (topRightWallExists == YES)
 		{
-			[self addRectWithX: glx + [Constants shared].wallDepth / 2.0 Y: 0.0 Z: glz
-						 Width: [Constants shared].wallDepth / 2.0  Length: [Constants shared].wallHeight 
-				   Orientation: Orientation.WestEast TexId: topRightWallTextureId DefaultTexId: [Globals shared].mazeMain.wallTextureId TexCoordsWidthPrcnt1: 0.0 TexCoordsWidthPrcnt2: wallWidthPrcnt];
+			[self addRectWithX: glx + [Constants shared].wallDepth / 2.0
+                             y: 0.0
+                             z: glz
+						 width: [Constants shared].wallDepth / 2.0
+                        length: [Constants shared].wallHeight
+				   orientation: MAOrientationWestEast
+                         texId: topRightWallTextureId
+                  defaultTexId: self.maze.wallTextureId
+          texCoordsWidthPrcnt1: 0.0
+          texCoordsWidthPrcnt2: wallWidthPrcnt];
 		}			
 		
 		if (bottomLeftWallExists == YES)
 		{
-			[self addRectWithX: glx Y: 0.0 Z: glz + [Constants shared].wallDepth
-						 Width: [Constants shared].wallDepth / 2.0  Length: [Constants shared].wallHeight 
-				   Orientation: Orientation.WestEast TexId: bottomLeftWallTextureId DefaultTexId: [Globals shared].mazeMain.wallTextureId TexCoordsWidthPrcnt1: 1.0 - wallWidthPrcnt	TexCoordsWidthPrcnt2: 1.0];
+			[self addRectWithX: glx
+                             y: 0.0
+                             z: glz + [Constants shared].wallDepth
+						 width: [Constants shared].wallDepth / 2.0
+                        length: [Constants shared].wallHeight
+				   orientation: MAOrientationWestEast
+                         texId: bottomLeftWallTextureId
+                  defaultTexId: self.maze.wallTextureId
+          texCoordsWidthPrcnt1: 1.0 - wallWidthPrcnt
+          texCoordsWidthPrcnt2: 1.0];
 		}			
 		
 		if (bottomRightWallExists == YES)
 		{
-			[self addRectWithX: glx + [Constants shared].wallDepth / 2.0 Y: 0.0 Z: glz + [Constants shared].wallDepth
-						 Width: [Constants shared].wallDepth / 2.0  Length: [Constants shared].wallHeight 
-				   Orientation: Orientation.WestEast TexId: bottomRightWallTextureId DefaultTexId: [Globals shared].mazeMain.wallTextureId TexCoordsWidthPrcnt1: 0.0 TexCoordsWidthPrcnt2: wallWidthPrcnt];
+			[self addRectWithX: glx + [Constants shared].wallDepth / 2.0
+                             y: 0.0
+                             z: glz + [Constants shared].wallDepth
+						 width: [Constants shared].wallDepth / 2.0
+                        length: [Constants shared].wallHeight
+				   orientation: MAOrientationWestEast
+                         texId: bottomRightWallTextureId
+                  defaultTexId: self.maze.wallTextureId
+          texCoordsWidthPrcnt1: 0.0
+          texCoordsWidthPrcnt2: wallWidthPrcnt];
 		}			
 		
 		if (leftTopWallExists == YES)
 		{
-			[self addRectWithX: glx Y: 0.0 Z: glz
-						 Width: [Constants shared].wallDepth / 2.0  Length: [Constants shared].wallHeight 
-				   Orientation: Orientation.NorthSouth TexId: leftTopWallTextureId DefaultTexId: [Globals shared].mazeMain.wallTextureId TexCoordsWidthPrcnt1: 1.0 - wallWidthPrcnt	TexCoordsWidthPrcnt2: 1.0];
+			[self addRectWithX: glx
+                             y: 0.0
+                             z: glz
+						 width: [Constants shared].wallDepth / 2.0
+                        length: [Constants shared].wallHeight
+				   orientation: MAOrientationNorthSouth
+                         texId: leftTopWallTextureId
+                  defaultTexId: self.maze.wallTextureId
+          texCoordsWidthPrcnt1: 1.0 - wallWidthPrcnt
+          texCoordsWidthPrcnt2: 1.0];
 		}			
 		
 		if (leftBottomWallExists == YES)
 		{
-			[self addRectWithX: glx Y: 0.0 Z: glz + [Constants shared].wallDepth / 2.0
-						 Width: [Constants shared].wallDepth / 2.0  Length: [Constants shared].wallHeight 
-				   Orientation: Orientation.NorthSouth TexId: leftBottomWallTextureId DefaultTexId: [Globals shared].mazeMain.wallTextureId TexCoordsWidthPrcnt1: 0.0	TexCoordsWidthPrcnt2: wallWidthPrcnt];
+			[self addRectWithX: glx
+                             y: 0.0
+                             z: glz + [Constants shared].wallDepth / 2.0
+						 width: [Constants shared].wallDepth / 2.0
+                        length: [Constants shared].wallHeight
+				   orientation: MAOrientationNorthSouth
+                         texId: leftBottomWallTextureId
+                  defaultTexId: self.maze.wallTextureId
+          texCoordsWidthPrcnt1: 0.0
+          texCoordsWidthPrcnt2: wallWidthPrcnt];
 		}			
 		
 		if (rightTopWallExists == YES)
 		{
-			[self addRectWithX: glx + [Constants shared].wallDepth Y: 0.0 Z: glz
-						 Width: [Constants shared].wallDepth / 2.0  Length: [Constants shared].wallHeight 
-				   Orientation: Orientation.NorthSouth TexId: rightTopWallTextureId DefaultTexId: [Globals shared].mazeMain.wallTextureId TexCoordsWidthPrcnt1: 1.0 - wallWidthPrcnt	TexCoordsWidthPrcnt2: 1.0];
+			[self addRectWithX: glx + [Constants shared].wallDepth
+                             y: 0.0
+                             z: glz
+						 width: [Constants shared].wallDepth / 2.0
+                        length: [Constants shared].wallHeight
+				   orientation: MAOrientationNorthSouth
+                         texId: rightTopWallTextureId
+                  defaultTexId: self.maze.wallTextureId
+          texCoordsWidthPrcnt1: 1.0 - wallWidthPrcnt
+          texCoordsWidthPrcnt2: 1.0];
 		}			
 		
 		if (rightBottomWallExists == YES)
 		{
-			[self addRectWithX: glx + [Constants shared].wallDepth Y: 0.0 Z: glz + [Constants shared].wallDepth / 2.0
-						 Width: [Constants shared].wallDepth / 2.0  Length: [Constants shared].wallHeight 
-				   Orientation: Orientation.NorthSouth TexId: rightBottomWallTextureId DefaultTexId: [Globals shared].mazeMain.wallTextureId TexCoordsWidthPrcnt1: 0.0 TexCoordsWidthPrcnt2: wallWidthPrcnt];
-		}			
+			[self addRectWithX: glx + [Constants shared].wallDepth
+                             y: 0.0
+                             z: glz + [Constants shared].wallDepth / 2.0
+						 width: [Constants shared].wallDepth / 2.0
+                        length: [Constants shared].wallHeight
+				   orientation: MAOrientationNorthSouth
+                         texId: rightBottomWallTextureId
+                  defaultTexId: self.maze.wallTextureId
+          texCoordsWidthPrcnt1: 0.0
+          texCoordsWidthPrcnt2: wallWidthPrcnt];
+		}
 	}		
 		
 	// Floor
-	for (Location *location in [Globals shared].mazeMain.locations.array)
+	for (Location *location in [self.maze.locations all])
 	{
 		float glx = (location.x - 1) * [Constants shared].wallWidth;
 		float glz = (location.y - 1) * [Constants shared].wallWidth;
 		
-		[self addRectWithX: glx + [Constants shared].wallDepth / 2.0 Y: 0.0 Z: glz + [Constants shared].wallDepth / 2.0 
-					 Width: [Constants shared].wallWidth Length: [Constants shared].wallWidth 
-			   Orientation: Orientation.Horizontal TexId: location.floorTextureId DefaultTexId: [Globals shared].mazeMain.floorTextureId TexCoordsWidthPrcnt1: 0.0 TexCoordsWidthPrcnt2: 1.0];
+		[self addRectWithX: glx + [Constants shared].wallDepth / 2.0
+                         y: 0.0
+                         z: glz + [Constants shared].wallDepth / 2.0
+					 width: [Constants shared].wallWidth
+                    length: [Constants shared].wallWidth
+			   orientation: MAOrientationHorizontal
+                     texId: location.floorTextureId
+              defaultTexId: self.maze.floorTextureId
+      texCoordsWidthPrcnt1: 0.0
+      texCoordsWidthPrcnt2: 1.0];
 	}
 	
 	// Ceiling
-	for (Location *location in [Globals shared].mazeMain.locations.array)
+	for (Location *location in [self.maze.locations all])
 	{
 		float glx = (location.x - 1) * [Constants shared].wallWidth;
 		float glz = (location.y - 1) * [Constants shared].wallWidth;
 
-		[self addRectWithX: glx + [Constants shared].wallDepth / 2.0 Y: [Constants shared].wallHeight Z: glz + [Constants shared].wallDepth / 2.0 
-					 Width: [Constants shared].wallWidth Length: [Constants shared].wallWidth
-			   Orientation: Orientation.Horizontal TexId: location.ceilingTextureId DefaultTexId: [Globals shared].mazeMain.ceilingTextureId TexCoordsWidthPrcnt1: 0.0 TexCoordsWidthPrcnt2: 1.0];
+		[self addRectWithX: glx + [Constants shared].wallDepth / 2.0
+                         y: [Constants shared].wallHeight
+                         z: glz + [Constants shared].wallDepth / 2.0
+					 width: [Constants shared].wallWidth
+                    length: [Constants shared].wallWidth
+			   orientation: MAOrientationHorizontal
+                     texId: location.ceilingTextureId
+              defaultTexId: self.maze.ceilingTextureId
+      texCoordsWidthPrcnt1: 0.0
+      texCoordsWidthPrcnt2: 1.0];
  	}
 	
 	//int verticiesCount = wallVerticiesCount + floorVerticiesCount + ceilingVerticiesCount + startVerticiesCount + endVerticiesCount;
@@ -389,19 +482,26 @@
 	//NSLog(@"GL verticies coordinates = %d", verticiesCount * 3);
 }
 
-- (void)addRectWithX: (float)x Y: (float)y Z: (float)z
-			   Width: (float)width  Length: (float)length 
-		 Orientation: (int)orientation TexId: (int)texId DefaultTexId: (int)defaultTexId TexCoordsWidthPrcnt1: (float)texCoordsWidthPrcnt1 TexCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2
+- (void)addRectWithX: (float)x
+                   y: (float)y
+                   z: (float)z
+			   width: (float)width
+              length: (float)length
+		 orientation: (MAOrientationType)orientation
+               texId: (int)texId
+        defaultTexId: (int)defaultTexId
+texCoordsWidthPrcnt1: (float)texCoordsWidthPrcnt1
+texCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2
 {
 	if (texId == 0)
 		texId = defaultTexId;
 	
-	rectangleType rectangle;
+	RectangleType rectangle;
 	rectangle.textureId = texId;
 	
 	float x1 = 0.0, y1 = 0.0, z1 = 0.0, x2 = 0.0, y2 = 0.0, z2 = 0.0;
 	
-	if (orientation == Orientation.WestEast)
+	if (orientation == MAOrientationWestEast)
 	{
 		x1 = x;
 		x2 = x + width;
@@ -427,7 +527,7 @@
 		rectangle.vertCoords[10] = y2;
 		rectangle.vertCoords[11] = z1;
 	}
-	else if (orientation == Orientation.NorthSouth)
+	else if (orientation == MAOrientationNorthSouth)
 	{
 		x1 = x;
 		
@@ -453,7 +553,7 @@
 		rectangle.vertCoords[10] = y2; 
 		rectangle.vertCoords[11] = z1; 		
 	}
-	else if (orientation == Orientation.Horizontal)
+	else if (orientation == MAOrientationHorizontal)
 	{
 		x1 = x;
 		x2 = x + length;
@@ -480,7 +580,7 @@
 		rectangle.vertCoords[11] = z1; 		
 	}
 
-	Texture *texture = [[Textures shared] getTextureWithId: texId];
+	Texture *texture = [[Textures shared] textureWithId: texId];
 	
 	rectangle.texCoords[0] = texture.repeats * texCoordsWidthPrcnt2;
 	rectangle.texCoords[1] = texture.repeats;
@@ -494,14 +594,14 @@
 	rectangle.texCoords[6] = texture.repeats * texCoordsWidthPrcnt1;
 	rectangle.texCoords[7] = 0.0;	
 	
-	NSData *data = [[NSData alloc] initWithBytes: &rectangle length: sizeof(rectangleType)];
+	NSData *data = [[NSData alloc] initWithBytes: &rectangle length: sizeof(RectangleType)];
 	
 	[rectangles addObject: data];
 }
 		 
 - (void)drawMaze
 {
-	[EAGLContext setCurrentContext: context];
+	[EAGLContext setCurrentContext: self.context];
 	
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
 	
@@ -511,8 +611,8 @@
 	
 	for (NSData *data in rectangles)
 	{	
-		rectangleType rectangle;
-		[data getBytes: &rectangle length: sizeof(rectangleType)];	
+		RectangleType rectangle;
+		[data getBytes: &rectangle length: sizeof(RectangleType)];
 	
 		glVertexPointer(3, GL_FLOAT, 0, rectangle.vertCoords);
 		glTexCoordPointer(2, GL_FLOAT, 0, rectangle.texCoords);
@@ -521,7 +621,7 @@
 		{
 			currTextureId = rectangle.textureId;
 			
-			glBindTexture(GL_TEXTURE_2D, GLtextures[rectangle.textureId]);			
+			glBindTexture(GL_TEXTURE_2D, glTextures[rectangle.textureId]);
 		}
 		
 		// draw single rectangle
@@ -533,12 +633,12 @@
 	
 	glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);	
 	
-    [context presentRenderbuffer: GL_RENDERBUFFER_OES];
+    [self.context presentRenderbuffer: GL_RENDERBUFFER_OES];
 }
 
 - (void)clearMaze
 {
-	[EAGLContext setCurrentContext: context];
+	[EAGLContext setCurrentContext: self.context];
 	
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
 	
@@ -546,32 +646,32 @@
 	
 	glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);	
 	
-    [context presentRenderbuffer: GL_RENDERBUFFER_OES];	
+    [self.context presentRenderbuffer: GL_RENDERBUFFER_OES];
 }
 
-- (void)translateDGLX: (float)dglx DGLY: (float)dgly DGLZ: (float)dglz
+- (void)translateDGLX: (float)dGLX dGLY: (float)dGLY dGLZ: (float)dGLZ
 {
-	glTranslatef(-dglx, -dgly, -dglz);
+	glTranslatef(-dGLX, -dGLY, -dGLZ);
 	
-	GLX = GLX + dglx;
-	GLY = GLY + dgly;
-	GLZ = GLZ + dglz;
+	self.glX = self.glX + dGLX;
+	self.glY = self.glY + dGLY;
+	self.glZ = self.glZ + dGLZ;
 }
 
-- (void)rotateDTheta: (float)dtheta
+- (void)rotateDTheta: (float)dTheta
 {
-	glTranslatef(GLX, 0.0, GLZ);
+	glTranslatef(self.glX, 0.0, self.glZ);
 	
-	glRotatef(dtheta, 0.0f, 1.0f, 0.0f);
+	glRotatef(dTheta, 0.0f, 1.0f, 0.0f);
 	
-	glTranslatef(-GLX, 0.0, -GLZ);
+	glTranslatef(-self.glX, 0.0, -self.glZ);
 	
-	Theta = Theta + dtheta;
+	self.theta = self.theta + dTheta;
 }
 	
 - (void)layoutSubviews 
 {
-    [EAGLContext setCurrentContext: context];
+    [EAGLContext setCurrentContext: self.context];
     [self destroyFramebuffer];
     [self createFramebuffer];
     [self drawMaze];
@@ -584,7 +684,7 @@
     
     glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
     glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
-    [context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:(CAEAGLLayer*)self.layer];
+    [self.context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:(CAEAGLLayer*)self.layer];
     glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, viewRenderbuffer);
     
     glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_WIDTH_OES, &backingWidth);
@@ -623,7 +723,7 @@
 
 - (void)deleteTextures;
 {
-	glDeleteTextures([Textures shared].maxId + 1, GLtextures);
+	glDeleteTextures([Textures shared].maxId + 1, glTextures);
 }
 
 @end

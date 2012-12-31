@@ -1,18 +1,19 @@
 //
 //  GridView.m
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 1/31/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import "GridView.h"
 
-@implementation GridView
+#import "Styles.h"
+#import "Maze.h"
+#import "Locations.h"
+#import "Location.h"
 
-@synthesize currLoc; 
-@synthesize currWallLoc; 
-@synthesize currWallDir;
+@implementation GridView
 
 - (id)initWithCoder: (NSCoder *)coder 
 {    
@@ -28,11 +29,11 @@
 
 - (void)drawRect: (CGRect)rect 
 {
-	[[Globals shared].mazeEdit.locations drawGridWithCurrLoc: currLoc
-                                                   CurrWallLoc: currWallLoc 
-                                                   CurrWallDir: currWallDir 
-                                                          Rows: [Globals shared].mazeEdit.rows
-                                                       Columns: [Globals shared].mazeEdit.columns];
+	[self.maze.locations drawGridWithCurrLoc: self.currLoc
+                                 currWallLoc: self.currWallLoc
+                                 currWallDir: self.currWallDir
+                                        rows: self.maze.rows
+                                     columns: self.maze.columns];
 }
 
-@end
+@end  

@@ -3,22 +3,12 @@
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
 #import "GameViewStyle.h"
 
 @implementation GameViewStyle
-
-@synthesize titleBackgroundColor;
-@synthesize titleFont;
-@synthesize titleTextColor;
-
-@synthesize helpBackgroundColor;
-@synthesize helpTextColor;
-@synthesize borderColor;
-@synthesize messageBackgroundColor;
-@synthesize messageTextColor;
 
 - (id)init
 {

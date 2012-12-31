@@ -1,54 +1,60 @@
 //
 //  Locations.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 10/4/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
+#import "Constants.h"
+#import "Location.h"
+#import "Styles.h"
 #import "Utilities.h"
 
-#import "Styles.h"
-#import "Location.h"
+typedef enum
+{
+	MAMazeObjectLocation = 1,
+	MAMazeObjectWallNorth = 2,
+	MAMazeObjectWallWest = 3,
+	MAMazeObjectCorner = 4
+} MAMazeObjectType;
 
 @interface Locations : NSObject 
 {
-	NSMutableArray *array;
+    NSMutableArray *list;
 }
 
-@property (nonatomic, retain) NSMutableArray *array;
+- (void)populateWithRows: (int)rows columns: (int)columns;
 
-- (void)populateWithRows: (int)rows Columns: (int)columns;
-//- (void)populateWithXML: (xmlDocPtr)xml;
+- (void)populateWithArray: (NSArray *)locations;
 
-- (void)reset;
+- (NSArray *)all;
 
-- (void)UpdateMazeId: (int)mazeId;
+- (void)removeAll;
 
-- (Location *)getLocationByX: (int)x Y: (int)y;
-- (Location *)getLocationByType: (int)type;
+- (void)updateMazeId: (int)mazeId;
 
-- (BOOL)IsSurroundedByWallsLocation: (Location *)location;
+- (Location *)getLocationByX: (int)x y: (int)y;
+- (Location *)getLocationByAction: (MALocationActionType)action;
 
-- (int)getWallTypeLocX: (int)locX LocY: (int)locY Direction: (int)direction;
-- (BOOL)hasHitWallAtLocX: (int)locX LocY: (int)locY Direction: (int)direction;
+- (BOOL)isSurroundedByWallsLocation: (Location *)location;
 
-- (BOOL)IsInnerWallWithLocation: (Location *)location Rows: (int)rows Columns: (int)columns WallDir: (int)wallDir;
+- (MAWallType)getWallTypeLocX: (int)locX locY: (int)locY direction: (MADirectionType)direction;
+- (BOOL)hasHitWallAtLocX: (int)locX locY: (int)locY direction: (MADirectionType)direction;
 
-- (void)setWallTypeLocX: (int)locX LocY: (int)locY Direction: (int)direction Type: (int)type;
-- (void)setWallHitLocX: (int)locX LocY: (int)locY Direction: (int)direction;
+- (BOOL)isInnerWallWithLocation: (Location *)location rows: (int)rows columns: (int)columns wallDir: (MADirectionType)wallDir;
 
-
-- (void)drawGridWithCurrLoc: (Location *)currLoc CurrWallLoc: (Location *)currWallLoc CurrWallDir: (int)currWallDir Rows: (int)rows Columns: (int)columns;
-
-- (Location *)getGridLocationFromTouchPoint: (CGPoint)touchPoint Rows: (int)rows Columns: (int)columns;
-- (Location *)getGridWallLocationSegType: (int *)segType FromTouchPoint: (CGPoint)touchPoint Rows: (int)rows Columns: (int)columns;
-
-- (CGRect)getSegmentRectFromLocation: (Location *)location SegmentType: (int)segmentType;
+- (void)setWallTypeLocX: (int)locX locY: (int)locY direction: (MADirectionType)direction type: (MAWallType)type;
+- (void)setWallHitLocX: (int)locX locY: (int)locY direction: (MADirectionType)direction;
 
 
-//- (xmlNodePtr)CreateLocationsXMLWithDoc: (xmlDocPtr)doc;
+- (void)drawGridWithCurrLoc: (Location *)currLoc currWallLoc: (Location *)currWallLoc currWallDir: (MADirectionType)currWallDir rows: (int)rows columns: (int)columns;
+
+- (Location *)getGridLocationFromTouchPoint: (CGPoint)touchPoint rows: (int)rows columns: (int)columns;
+- (Location *)getGridWallLocationSegType: (MAMazeObjectType *)segType fromTouchPoint: (CGPoint)touchPoint rows: (int)rows columns: (int)columns;
+
+- (CGRect)getSegmentRectFromLocation: (Location *)location segmentType: (MAMazeObjectType)segmentType;
 
 @end

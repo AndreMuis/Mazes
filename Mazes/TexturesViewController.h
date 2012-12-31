@@ -1,9 +1,9 @@
 //
 //  TexturesViewController.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 2/13/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -12,17 +12,11 @@
 #import "Styles.h"
 
 @interface TexturesViewController : UIViewController 
-{
-	id textureDelegate; 
-	SEL textureSelector; 
-	id exitDelegate;
-	SEL exitSelector;
-}
 
-@property (nonatomic, retain) id textureDelegate;
-@property (nonatomic) SEL textureSelector;
-@property (nonatomic, retain) id exitDelegate;
-@property (nonatomic) SEL exitSelector;
+@property (strong, nonatomic) id textureDelegate;
+@property (assign, nonatomic) SEL textureSelector;
+@property (strong, nonatomic) id exitDelegate;
+@property (assign, nonatomic) SEL exitSelector;
 
 - (void)setupScrollView;
 

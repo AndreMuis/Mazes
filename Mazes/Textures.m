@@ -1,22 +1,19 @@
 //
 //  Textures.m
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 2/12/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import "Textures.h"
 
 #import "Constants.h"
+#import "GameViewController.h"
 #import "Texture.h"
 #import "Utilities.h"
 
 @implementation Textures
-
-@synthesize loaded;
-@synthesize count;
-@synthesize maxId;
 
 + (Textures *)shared
 {
@@ -39,71 +36,92 @@
 	
     if (self)
 	{
-        self->loaded = NO;
-        self->count = 0;
-        self->maxId = 0;
+        self->operationQueue = [[NSOperationQueue alloc] init];
+        
+        _count = 0;
+        _maxId = 0;
 	}
 	
     return self;
 }
 
-- (void)load
+- (void)download
 {
-    self->webServices = [[WebServices alloc] init];
-    
-    [self->webServices getTexturesWithDelegate: self];
+    [self->operationQueue addOperation: [[ServerOperations shared] getTexturesOperationWithDelegate: self]];
 }
 
-- (void)webServicesGetTextures: (NSError *)error
+- (void)serverOperationsGetTextures: (NSError *)error
 {
-    self->loaded = YES;
-}
-
-- (void)getTexturesFailed
-{
-    [self performSelector: @selector(load) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
+    if (error == nil)
+    {
+        [[GameViewController shared] setup];
+    }
+    else
+    {
+        [self performSelector: @selector(download) withObject: self afterDelay: [Constants shared].serverRetryDelaySecs];
+    }
 }
 
 - (int)count
 {
-	return 1; //[Texture allObjects].count;
+	return [Texture MR_findAll].count;
 }
 
 - (int)maxId
 {
-    //NSPredicate *predicate = [NSPredicate predicateWithFormat: @"SELF.id == %@.@max.id", [Texture allObjects]];
-    //Texture *texture = [Texture objectWithPredicate: predicate];
+    Texture *texture = [Texture MR_findFirstOrderedByAttribute: @"id" ascending: NO];
     
-    return 1; //texture.id;
+    if (texture == nil)
+    {
+        [Utilities logWithClass: [self class] format: @"Unable to determine max id. No textures found."];
+    }
+
+    return texture.id;
 }
 
-- (NSArray *)getTextures
+- (NSArray *)all
 {
-	return nil; // [Texture allObjects];
+	return [Texture MR_findAll];
 }
 
-- (NSArray *)getTexturesSorted
+- (NSArray *)sortedByKindThenOrder
 {
-    /*
-    NSFetchRequest *fetchRequest = [Texture fetchRequest];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName: @"Texture"];
     NSSortDescriptor *kindSortDescriptor = [NSSortDescriptor sortDescriptorWithKey: @"kind" ascending: YES];
     NSSortDescriptor *orderSortDescriptor = [NSSortDescriptor sortDescriptorWithKey: @"order" ascending: YES];
     [fetchRequest setSortDescriptors: [NSArray arrayWithObjects: kindSortDescriptor, orderSortDescriptor, nil]];
-    */
     
-    return nil; //[Texture objectsWithFetchRequest: fetchRequest];
+    return [Texture MR_executeFetchRequest: fetchRequest];
 }
 
-- (Texture *)getTextureWithId: (int)id
+- (Texture *)textureWithId: (int)id
 {
-   // NSPredicate *predicate = [NSPredicate predicateWithFormat: @"id == %d", id];
+    Texture *textureRet = [Texture MR_findFirstByAttribute: @"id" withValue: [NSNumber numberWithInt: id]];
     
-    return nil; // [Texture objectWithPredicate: predicate];
+    if (textureRet == nil)
+    {
+        [Utilities logWithClass: [self class] format: @"Unable to find texture with id: %d", id];
+    }
+    
+    return textureRet;
 }
 
 - (NSString *)description 
 {
-    return [NSString stringWithFormat: @"%@", [self getTextures]];
+    return [NSString stringWithFormat: @"%@", [self all]];
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+

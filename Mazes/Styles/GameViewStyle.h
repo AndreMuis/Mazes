@@ -3,7 +3,7 @@
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -12,14 +12,14 @@
 
 @interface GameViewStyle : NSObject
 
-@property (retain, nonatomic) UIColor *titleBackgroundColor;
-@property (retain, nonatomic) UIFont *titleFont;
-@property (retain, nonatomic) UIColor *titleTextColor;
+@property (strong, nonatomic) UIColor *titleBackgroundColor;
+@property (strong, nonatomic) UIFont *titleFont;
+@property (strong, nonatomic) UIColor *titleTextColor;
 	
-@property (retain, nonatomic) UIColor *helpBackgroundColor;
-@property (retain, nonatomic) UIColor *helpTextColor;
-@property (retain, nonatomic) UIColor *borderColor;
-@property (retain, nonatomic) UIColor *messageBackgroundColor;
-@property (retain, nonatomic) UIColor *messageTextColor;
+@property (strong, nonatomic) UIColor *helpBackgroundColor;
+@property (strong, nonatomic) UIColor *helpTextColor;
+@property (strong, nonatomic) UIColor *borderColor;
+@property (strong, nonatomic) UIColor *messageBackgroundColor;
+@property (strong, nonatomic) UIColor *messageTextColor;
 
 @end

@@ -1,9 +1,9 @@
 //
 //  Texture.m
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 2/12/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import "Texture.h"
@@ -18,6 +18,8 @@
 @dynamic kind;
 @dynamic order; 
 @dynamic imageViewFrame;
+@dynamic createdDate;
+@dynamic updatedDate;
 
 - (NSString *)description 
 {
@@ -28,7 +30,9 @@
     desc = [NSString stringWithFormat: @"%@, repeats = %d", desc, self.repeats];
     desc = [NSString stringWithFormat: @"%@, kind = %d", desc, self.kind];
     desc = [NSString stringWithFormat: @"%@, order = %d", desc, self.order];
-    
+    desc = [NSString stringWithFormat: @"%@, createdDate = %@", desc, self.createdDate];
+    desc = [NSString stringWithFormat: @"%@, updatedDate = %@", desc, self.updatedDate];
+
     return desc;
 }
 

@@ -1,20 +1,16 @@
 //
 //  MapSegment.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 8/6/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 @interface MapSegment : NSObject 
-{
-	CGRect rect;
-	UIColor *color;
-}
 
-@property (nonatomic) CGRect rect;
-@property (nonatomic, retain) UIColor *color;
+@property (assign, nonatomic) CGRect rect;
+@property (strong, nonatomic) UIColor *color;
 
 @end

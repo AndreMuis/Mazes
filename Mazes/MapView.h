@@ -1,44 +1,37 @@
 //
 //  MapView.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 1/30/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-#import "Globals.h"
-#import "Utilities.h"
-#import "Styles.h"
-#import "Maze.h"
-#import "Location.h"
-#import "MapSegment.h"
+#import "Constants.h"
+
+@class Maze;
+@class Location;
 
 @interface MapView : UIView 
 {
-	NSMutableArray *mapSegments;
-		
-	UIImageView *directionArrowImageView;
-	
-	Location *currLoc;
-	int currDir;
+    NSMutableArray *segments;
+    
+    UIImageView *directionArrowImageView;
 }
 
-@property (nonatomic, retain) NSMutableArray *mapSegments;
+@property (strong, nonatomic) Maze *maze;
 
-@property (nonatomic, retain) UIImageView *directionArrowImageView;
+@property (strong, nonatomic) Location *currLoc;
+@property (assign, nonatomic) MADirectionType currDir;
 
-@property (nonatomic, retain) Location *currLoc;
-@property (nonatomic) int currDir;
+- (void)drawSurroundings;
+- (void)drawCornerWithLocation: (Location *)cornerLoc offset: (CGPoint)offset;
 
-- (void)drawMap;
-- (void)drawMapCornerWithLocation: (Location *)cornerLoc MapOffset: (CGPoint)mapOffset;
+- (void)rotateCoordinatesX: (int)x y: (int)y dir: (int)dir rx: (int *)rx ry: (int *)ry rdir: (MADirectionType *)rdir;
 
-- (void)rotateMapCoordinatesX: (int)x Y: (int)y Dir: (int)dir RX: (int *)rx RY: (int *)ry RDir: (int *)rdir;
+- (void)addSegmentRect: (CGRect)rect color: (UIColor *)color;
 
-- (void)addMapSegmentRect: (CGRect) rect Color: (UIColor *) color;
-
-- (void)clearMap;
+- (void)clear;
 
 @end

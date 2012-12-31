@@ -1,55 +1,56 @@
 //
 //  Location.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 10/4/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 #import "Constants.h"
 
-@interface Location : NSObject 
+typedef enum
 {
-	int mazeId;
-	int x;
-	int y;
-	int direction;
-	int wallNorth;
-	int wallWest;
-	int type;
-	NSString *message;
-	int teleportId;
-	int teleportX;
-	int teleportY;
-	int wallNorthTextureId;
-	int wallWestTextureId;
-	int floorTextureId;
-	int ceilingTextureId;
-	BOOL visited;
-	BOOL wallNorthHit;
-	BOOL wallWestHit;
-}
+	MALocationActionDoNothing = 0,
+	MALocationActionStart = 1,
+	MALocationActionEnd = 2,
+	MALocationActionStartOver = 3,
+	MALocationActionTeleport = 4
+} MALocationActionType;
 
-@property (nonatomic) int mazeId;
-@property (nonatomic) int x;
-@property (nonatomic) int y;
-@property (nonatomic) int direction;
-@property (nonatomic) int wallNorth;
-@property (nonatomic) int wallWest;
-@property (nonatomic) int type;
-@property (nonatomic, retain) NSString *message;
-@property (nonatomic) int teleportId;
-@property (nonatomic) int teleportX;
-@property (nonatomic) int teleportY;
-@property (nonatomic) int wallNorthTextureId;
-@property (nonatomic) int wallWestTextureId;
-@property (nonatomic) int floorTextureId;
-@property (nonatomic) int ceilingTextureId;
-@property (nonatomic) BOOL visited;
-@property (nonatomic) BOOL wallNorthHit; 
-@property (nonatomic) BOOL wallWestHit;
+typedef enum
+{
+    MAWallUnknown = 0,
+	MAWallNone = 1,
+	MAWallSolid = 2,
+	MAWallInvisible = 3,
+	MAWallFake = 4
+} MAWallType;
+
+@interface Location : NSObject 
+
+@property (assign, nonatomic) int id;
+@property (assign, nonatomic) int mazeId;
+@property (assign, nonatomic) int x;
+@property (assign, nonatomic) int y;
+@property (assign, nonatomic) int direction;
+@property (assign, nonatomic) MAWallType wallNorth;
+@property (assign, nonatomic) MAWallType wallWest;
+@property (assign, nonatomic) MALocationActionType action;
+@property (strong, nonatomic) NSString *message;
+@property (assign, nonatomic) int teleportId;
+@property (assign, nonatomic) int teleportX;
+@property (assign, nonatomic) int teleportY;
+@property (assign, nonatomic) int wallNorthTextureId;
+@property (assign, nonatomic) int wallWestTextureId;
+@property (assign, nonatomic) int floorTextureId;
+@property (assign, nonatomic) int ceilingTextureId;
+@property (assign, nonatomic) BOOL visited;
+@property (assign, nonatomic) BOOL wallNorthHit;
+@property (assign, nonatomic) BOOL wallWestHit;
+@property (strong, nonatomic) NSDate *createdDate;
+@property (strong, nonatomic) NSDate *updatedDate;
 
 - (void)reset;
 

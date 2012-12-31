@@ -1,33 +1,34 @@
 //
 //  Sounds.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 2/22/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-#import <RestKit/RestKit.h>
+#import "CoreData+MagicalRecord.h"
 
-#import "WebServices.h"
+#import "ServerOperations.h"
 
 @class Sound;
 
-@interface Sounds : NSObject <MAWebServicesGetSoundsDelegate>
+@interface Sounds : NSObject <NSFetchedResultsControllerDelegate, MAServerOperationsGetSoundsDelegate>
 {
-    WebServices *webServices;
+    NSOperationQueue *operationQueue;
 }
 
-@property (assign, nonatomic, readonly) BOOL loaded;
-@property (assign, nonatomic, readonly) int count;
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+
+@property (assign, nonatomic) int count;
 
 + (Sounds *)shared;
 
 - (void)download;
 
-- (NSArray *)getSoundsSorted;
+- (NSArray *)sortedByName;
 
-- (Sound *)getSoundWithId: (int)id;
+- (Sound *)soundWithId: (int)id;
 
 @end

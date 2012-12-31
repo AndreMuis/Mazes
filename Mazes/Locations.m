@@ -1,16 +1,14 @@
 //
 //  Locations.m
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 10/4/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import "Locations.h"
 
 @implementation Locations
-
-@synthesize array;
 
 - (id)init
 {
@@ -18,13 +16,13 @@
 	
     if (self)
 	{
-		array = [[NSMutableArray alloc] init];
-	}
+        self->list = [[NSMutableArray alloc] init];
+    }
 	
 	return self;
 }
 
-- (void)populateWithRows: (int)rows Columns: (int)columns
+- (void)populateWithRows: (int)rows columns: (int)columns
 {
 	for (int LocX = 1; LocX <= columns + 1; LocX = LocX + 1)
 	{
@@ -34,62 +32,39 @@
 			location.X = LocX;
 			location.Y = LocY;
 			
-			[array addObject: location];
+			[self->list addObject: location];
 		}
 	}
 }
 
-/*
-- (void)populateWithXML: (xmlDocPtr)doc
+- (void)populateWithArray: (NSArray *)locations
 {
-	xmlNodePtr node = [XML getNodesFromDoc: doc XPath: "/Response/Locations/Location"];
-	
-	xmlNodePtr nodeCurr;
-	for (nodeCurr = node; nodeCurr; nodeCurr = nodeCurr->next)
-	{
-		Location *location = [[Location alloc] init];
-		
-		location.mazeId = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "MazeId"] intValue];
-		location.x = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "X"] intValue];
-		location.y = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "Y"] intValue];
-		location.direction = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "Direction"] intValue];
-		location.wallNorth = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "WallNorth"] intValue];
-		location.wallWest = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "WallWest"] intValue];
-		location.type = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "Type"] intValue];
-		location.message = [XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "Message"];
-		location.teleportId = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "TeleportId"] intValue];
-		location.teleportX = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "TeleportX"] intValue];
-		location.teleportY = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "TeleportY"] intValue];
-		location.wallNorthTextureId = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "WallNorthTextureId"] intValue];
-		location.wallWestTextureId = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "WallWestTextureId"] intValue];
-		location.floorTextureId = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "FloorTextureId"] intValue];
-		location.ceilingTextureId = [[XML getNodeValueFromDoc: doc Node: nodeCurr XPath: "CeilingTextureId"] intValue];
-		
-		[array addObject: location];
-	}
-	
-	xmlFreeNodeList(node);
-}
-*/
-
-- (void)reset
-{
-	[array removeAllObjects];
+    self->list = [NSMutableArray arrayWithArray: locations];
 }
 
-- (void)UpdateMazeId: (int)mazeId
+- (NSArray *)all
 {
-	for (Location *loc in array)
+    return self->list;
+}
+
+- (void)removeAll
+{
+	[self->list removeAllObjects];
+}
+
+- (void)updateMazeId: (int)mazeId
+{
+	for (Location *loc in self->list)
 	{
 		loc.MazeId = mazeId;
 	}	
 }
 
-- (Location *)getLocationByX: (int)x Y: (int)y
+- (Location *)getLocationByX: (int)x y: (int)y
 {
 	Location *location = nil;
 	
-	for (Location *loc in array)
+	for (Location *loc in self->list)
 	{
 		if (loc.x == x && loc.y == y)
         {
@@ -100,13 +75,13 @@
 	return location;
 }
 
-- (Location *)getLocationByType: (int)type
+- (Location *)getLocationByAction: (MALocationActionType)action
 {
 	Location *location = nil;
 	
-	for (Location *loc in array)
+	for (Location *loc in self->list)
 	{
-		if (loc.type == type)
+		if (loc.action == action)
         {
 			location = loc;
         }
@@ -115,19 +90,19 @@
 	return location;
 }
 
-- (BOOL)IsSurroundedByWallsLocation: (Location *)location
+- (BOOL)isSurroundedByWallsLocation: (Location *)location
 {
 	BOOL surrounded = NO;
 	
-	int wallTypeNorth = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.North];
-	int wallTypeEast = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.East];
-	int wallTypeSouth = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.South];
-	int wallTypeWest = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.West];
+	MAWallType wallTypeNorth = [self getWallTypeLocX: location.x locY: location.y direction: MADirectionNorth];
+	MAWallType wallTypeEast = [self getWallTypeLocX: location.x locY: location.y direction: MADirectionEast];
+	MAWallType wallTypeSouth = [self getWallTypeLocX: location.x locY: location.y direction: MADirectionSouth];
+	MAWallType wallTypeWest = [self getWallTypeLocX: location.x locY: location.y direction: MADirectionWest];
 
-	if ((wallTypeNorth == [Constants shared].WallType.Solid || wallTypeNorth == [Constants shared].WallType.Invisible) &&
-		(wallTypeEast == [Constants shared].WallType.Solid || wallTypeEast == [Constants shared].WallType.Invisible) &&
-		(wallTypeSouth == [Constants shared].WallType.Solid || wallTypeSouth == [Constants shared].WallType.Invisible) &&
-		(wallTypeWest == [Constants shared].WallType.Solid || wallTypeWest == [Constants shared].WallType.Invisible))
+	if ((wallTypeNorth == MAWallSolid || wallTypeNorth == MAWallInvisible) &&
+		(wallTypeEast == MAWallSolid || wallTypeEast == MAWallInvisible) &&
+		(wallTypeSouth == MAWallSolid || wallTypeSouth == MAWallInvisible) &&
+		(wallTypeWest == MAWallSolid || wallTypeWest == MAWallInvisible))
 	{
 		surrounded = YES;
 	}
@@ -135,171 +110,184 @@
 	return surrounded;
 }
 
-- (int)getWallTypeLocX: (int)locX LocY: (int)locY Direction: (int)direction
+- (MAWallType)getWallTypeLocX: (int)locX locY: (int)locY direction: (MADirectionType)direction
 {
 	int type = 0;
 	Location *location;
 	
-	if (direction == [Constants shared].Direction.North)
-	{
-		location = [self getLocationByX: locX Y: locY];
-
-		type = location.wallNorth;
-	}
-	else if (direction == [Constants shared].Direction.West)
-	{
-		location = [self getLocationByX: locX Y: locY];
-		
-		type = location.wallWest;
-	}
-	else if (direction == [Constants shared].Direction.South)
-	{
-		location = [self getLocationByX: locX Y: locY + 1];
-		
-		type = location.wallNorth;
-	}
-	else if (direction == [Constants shared].Direction.East)
-	{
-		location = [self getLocationByX: locX + 1 Y: locY];
-		
-		type = location.wallWest;
-	}
-	
+    switch (direction)
+    {
+        case MADirectionNorth:
+            location = [self getLocationByX: locX y: locY];
+            type = location.wallNorth;
+            break;
+            
+        case MADirectionWest:
+            location = [self getLocationByX: locX y: locY];
+            type = location.wallWest;
+            break;
+            
+        case MADirectionSouth:
+            location = [self getLocationByX: locX y: locY + 1];
+            type = location.wallNorth;
+            break;
+            
+        case MADirectionEast:
+            location = [self getLocationByX: locX + 1 y: locY];
+            type = location.wallWest;
+            break;
+            
+        default:
+            [Utilities logWithClass: [self class] format: @"direction set to an illegal value: %d", direction];
+            break;
+    }
+    
 	return type;
 }
 
-- (BOOL)hasHitWallAtLocX: (int)locX LocY: (int)locY Direction: (int)direction
+- (BOOL)hasHitWallAtLocX: (int)locX locY: (int)locY direction: (MADirectionType)direction
 {
 	Location *location;
 	BOOL hitWall = NO;
 	
-	if (direction == [Constants shared].Direction.North)
-	{
-		location = [self getLocationByX: locX Y: locY];
-		
-		hitWall = location.wallNorthHit;
-	}
-	else if (direction == [Constants shared].Direction.West)
-	{
-		location = [self getLocationByX: locX Y: locY];
-		
-		hitWall = location.wallWestHit;
-	}
-	else if (direction == [Constants shared].Direction.South)
-	{
-		location = [self getLocationByX: locX Y: locY + 1];
-		
-		hitWall = location.wallNorthHit;
-	}
-	else if (direction == [Constants shared].Direction.East)
-	{
-		location = [self getLocationByX: locX + 1 Y: locY];
-		
-		hitWall = location.wallWestHit;
-	}
+    switch (direction)
+    {
+        case MADirectionNorth:
+            location = [self getLocationByX: locX y: locY];
+            hitWall = location.wallNorthHit;
+            break;
+            
+        case MADirectionWest:
+            location = [self getLocationByX: locX y: locY];
+            hitWall = location.wallWestHit;
+            break;
+            
+        case MADirectionSouth:
+            location = [self getLocationByX: locX y: locY + 1];
+            hitWall = location.wallNorthHit;
+            break;
+            
+        case MADirectionEast:
+            location = [self getLocationByX: locX + 1 y: locY];
+            hitWall = location.wallWestHit;
+            break;
+
+        default:
+            [Utilities logWithClass: [self class] format: @"direction set to an illegal value: %d", direction];
+            break;
+    }
+    
 	
 	return hitWall;
 }
 
-- (BOOL)IsInnerWallWithLocation: (Location *)location Rows: (int)rows Columns: (int)columns WallDir: (int)wallDir
+- (BOOL)isInnerWallWithLocation: (Location *)location rows: (int)rows columns: (int)columns wallDir: (MADirectionType)wallDir
 {
 	BOOL val;
 	
-	if ((location.x == 1 && location.y >= 2 && location.y <= rows && wallDir == [Constants shared].Direction.North) ||
-		(location.y == 1 && location.x >= 2 && location.x <= columns && wallDir == [Constants shared].Direction.West) ||
+	if ((location.x == 1 && location.y >= 2 && location.y <= rows && wallDir == MADirectionNorth) ||
+		(location.y == 1 && location.x >= 2 && location.x <= columns && wallDir == MADirectionWest) ||
 		(location.x >= 2 && location.x <= columns && location.y >= 2 && location.y <= rows))
+    {
 		val = YES;
-	else 
+    }
+	else
+    {
 		val = NO;
+    }
 
 	return val;
 }
 
-- (void)setWallTypeLocX: (int)locX LocY: (int)locY Direction: (int)direction Type: (int)type
+- (void)setWallTypeLocX: (int)locX locY: (int)locY direction: (MADirectionType)direction type: (MAWallType)type
 {
 	Location *location;
 
-	if (direction == [Constants shared].Direction.North)
-	{
-		location = [self getLocationByX: locX Y: locY];
-		
-		location.WallNorth = type;
-	}
-	else if (direction == [Constants shared].Direction.West)
-	{
-		location = [self getLocationByX: locX Y: locY];
-		
-		location.WallWest = type;
-	}
-	else if (direction == [Constants shared].Direction.South)
-	{
-		location = [self getLocationByX: locX Y: locY + 1];
-		
-		location.WallNorth = type;
-	}
-	else if (direction == [Constants shared].Direction.East)
-	{
-		location = [self getLocationByX: locX + 1 Y: locY];
-		
-		location.WallWest = type;
-	}
+    switch (direction)
+    {
+        case MADirectionNorth:
+            location = [self getLocationByX: locX y: locY];
+            location.WallNorth = type;
+            break;
+            
+        case MADirectionWest:
+            location = [self getLocationByX: locX y: locY];
+            location.WallWest = type;
+            break;
+            
+        case MADirectionSouth:
+            location = [self getLocationByX: locX y: locY + 1];
+            location.WallNorth = type;
+            break;
+            
+        case MADirectionEast:
+            location = [self getLocationByX: locX + 1 y: locY];
+            location.WallWest = type;
+            break;
+            
+        default:
+            [Utilities logWithClass: [self class] format: @"direction set to an illegal value: %d", direction];
+            break;
+    }
 }
 
-- (void)setWallHitLocX: (int)locX LocY: (int)locY Direction: (int)direction
+- (void)setWallHitLocX: (int)locX locY: (int)locY direction: (MADirectionType)direction
 {
 	Location *location;
 	
-	if (direction == [Constants shared].Direction.North)
-	{
-		location = [self getLocationByX: locX Y: locY];
-		
-		location.WallNorthHit = YES;
-	}
-	else if (direction == [Constants shared].Direction.West)
-	{
-		location = [self getLocationByX: locX Y: locY];
-		
-		location.WallWestHit = YES;
-	}
-	else if (direction == [Constants shared].Direction.South)
-	{
-		location = [self getLocationByX: locX Y: locY + 1];
-		
-		location.WallNorthHit = YES;
-	}
-	else if (direction == [Constants shared].Direction.East)
-	{
-		location = [self getLocationByX: locX + 1 Y: locY];
-		
-		location.WallWestHit = YES;
-	}
+    switch (direction)
+    {
+        case MADirectionNorth:
+            location = [self getLocationByX: locX y: locY];
+            location.WallNorthHit = YES;
+            break;
+            
+        case MADirectionWest:
+            location = [self getLocationByX: locX y: locY];
+            location.WallWestHit = YES;
+            break;
+            
+        case MADirectionSouth:
+            location = [self getLocationByX: locX y: locY + 1];
+            location.WallNorthHit = YES;
+            break;
+            
+        case MADirectionEast:
+            location = [self getLocationByX: locX + 1 y: locY];
+            location.WallWestHit = YES;
+            break;
+            
+        default:
+            [Utilities logWithClass: [self class] format: @"direction set to an illegal value: %d", direction];
+            break;
+    }
 }
 
-- (void)drawGridWithCurrLoc: (Location *)currLoc CurrWallLoc: (Location *)currWallLoc CurrWallDir: (int)currWallDir Rows: (int)rows Columns: (int)columns
+- (void)drawGridWithCurrLoc: (Location *)currLoc currWallLoc: (Location *)currWallLoc currWallDir: (MADirectionType)currWallDir rows: (int)rows columns: (int)columns
 {
 	CGRect segmentRect;
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();	
 
-	for (Location *location in array)
+	for (Location *location in self->list)
 	{
 		if (location.x <= columns && location.y <= rows)
 		{
-			segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants shared].MazeObject.Location];
+			segmentRect = [self getSegmentRectFromLocation: location segmentType: MAMazeObjectLocation];
 			
-			if (location.type == [Constants shared].LocationType.Start)
+			if (location.action == MALocationActionStart)
 			{
 				CGContextSetFillColorWithColor(context, [Styles shared].grid.startColor.CGColor);
 			}
-			else if (location.type == [Constants shared].LocationType.End)
+			else if (location.action == MALocationActionEnd)
 			{
 				CGContextSetFillColorWithColor(context, [Styles shared].grid.endColor.CGColor);
 			}
-			else if (location.type == [Constants shared].LocationType.StartOver)
+			else if (location.action == MALocationActionStartOver)
 			{
 				CGContextSetFillColorWithColor(context, [Styles shared].grid.startOverColor.CGColor);
 			}
-			else if (location.type == [Constants shared].LocationType.Teleportation)
+			else if (location.action == MALocationActionTeleport)
 			{
 				CGContextSetFillColorWithColor(context, [Styles shared].grid.teleportationColor.CGColor);
 			}
@@ -314,11 +302,11 @@
 			
 			CGContextFillRect(context, segmentRect);
 			
-			if (location.type == [Constants shared].LocationType.Start || location.type == [Constants shared].LocationType.Teleportation)
+			if (location.action == MALocationActionStart || location.action == MALocationActionTeleport)
 			{
 				[Utilities drawArrowInRect: segmentRect angleDegrees: location.direction scale: 0.8];
 				
-				if (location.type == [Constants shared].LocationType.Teleportation)
+				if (location.action == MALocationActionTeleport)
 				{
 					CGContextSetFillColorWithColor(context, [Styles shared].grid.teleportIdColor.CGColor);
 				
@@ -353,7 +341,7 @@
 		
 		if (location.x <= columns)
 		{
-			segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants shared].MazeObject.WallNorth];
+			segmentRect = [self getSegmentRectFromLocation: location segmentType: MAMazeObjectWallNorth];
 						
 			// outer wall
 			if (location.y == 1 || location.y == rows + 1)
@@ -363,21 +351,21 @@
 			}
 			else
 			{
-				int wallType = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.North];
+				MAWallType wallType = [self getWallTypeLocX: location.x locY: location.y direction: MADirectionNorth];
 				
-				if (wallType == [Constants shared].WallType.None)
+				if (wallType == MAWallNone)
                 {
 					CGContextSetFillColorWithColor(context, [Styles shared].grid.noWallColor.CGColor);
                 }
-				else if (wallType == [Constants shared].WallType.Solid)
+				else if (wallType == MAWallSolid)
                 {
 					CGContextSetFillColorWithColor(context, [Styles shared].grid.solidColor.CGColor);
                 }
-				else if (wallType == [Constants shared].WallType.Invisible)
+				else if (wallType == MAWallInvisible)
                 {
 					CGContextSetFillColorWithColor(context, [Styles shared].grid.invisibleColor.CGColor);
                 }
-				else if (wallType == [Constants shared].WallType.Fake)
+				else if (wallType == MAWallFake)
                 {
 					CGContextSetFillColorWithColor(context, [Styles shared].grid.fakeColor.CGColor);
                 }
@@ -394,7 +382,7 @@
 						
 			if (currWallLoc != nil)
 			{
-				if (location.x == currWallLoc.x && location.y == currWallLoc.y && currWallDir == [Constants shared].Direction.North)
+				if (location.x == currWallLoc.x && location.y == currWallLoc.y && currWallDir == MADirectionNorth)
 				{
 					[Utilities drawBorderInsideRect: segmentRect
                                           withWidth: [Styles shared].grid.wallHighlightWidth
@@ -407,7 +395,7 @@
 		
 		if (location.y <= rows)
 		{
-			segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants shared].MazeObject.WallWest];
+			segmentRect = [self getSegmentRectFromLocation: location segmentType: MAMazeObjectWallWest];
 
 			// outer wall
 			if (location.x == 1 || location.x == columns + 1)
@@ -417,21 +405,21 @@
 			}
 			else
 			{
-				int wallType = [self getWallTypeLocX: location.x LocY: location.y Direction: [Constants shared].Direction.West];
+				MAWallType wallType = [self getWallTypeLocX: location.x locY: location.y direction: MADirectionWest];
 				
-				if (wallType == [Constants shared].WallType.None)
+				if (wallType == MAWallNone)
                 {
 					CGContextSetFillColorWithColor(context, [Styles shared].grid.noWallColor.CGColor);
                 }
-				else if (wallType == [Constants shared].WallType.Solid)
+				else if (wallType == MAWallSolid)
                 {
 					CGContextSetFillColorWithColor(context, [Styles shared].grid.solidColor.CGColor);
                 }
-				else if (wallType == [Constants shared].WallType.Invisible)
+				else if (wallType == MAWallInvisible)
                 {
 					CGContextSetFillColorWithColor(context, [Styles shared].grid.invisibleColor.CGColor);
                 }
-				else if (wallType == [Constants shared].WallType.Fake)
+				else if (wallType == MAWallFake)
                 {
 					CGContextSetFillColorWithColor(context, [Styles shared].grid.fakeColor.CGColor);
                 }
@@ -448,7 +436,7 @@
 			
 			if (currWallLoc != nil)
 			{
-				if (location.x == currWallLoc.x && location.y == currWallLoc.y && currWallDir == [Constants shared].Direction.West)
+				if (location.x == currWallLoc.x && location.y == currWallLoc.y && currWallDir == MADirectionWest)
 				{
 					[Utilities drawBorderInsideRect: segmentRect
                                           withWidth: [Styles shared].grid.wallHighlightWidth
@@ -459,7 +447,7 @@
 		
 		// Corner
 
-		segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants shared].MazeObject.Corner];
+		segmentRect = [self getSegmentRectFromLocation: location segmentType: MAMazeObjectCorner];
 
 		if (location.y > 1 && location.y <= rows && location.x > 1 && location.x <= columns)
 		{
@@ -474,15 +462,15 @@
 	}
 }
 
-- (Location *)getGridLocationFromTouchPoint: (CGPoint)touchPoint Rows: (int)rows Columns: (int)columns
+- (Location *)getGridLocationFromTouchPoint: (CGPoint)touchPoint rows: (int)rows columns: (int)columns
 {
 	Location *loc = nil;
 	
 	CGRect segmentRect = CGRectZero, touchRect = CGRectZero;
 	
-	for (Location *location in array)
+	for (Location *location in self->list)
 	{	
-		segmentRect = [self getSegmentRectFromLocation: location SegmentType: [Constants shared].MazeObject.Location];
+		segmentRect = [self getSegmentRectFromLocation: location segmentType: MAMazeObjectLocation];
 
 		touchRect = CGRectMake(segmentRect.origin.x - [Styles shared].grid.segmentLengthShort / 2.0, segmentRect.origin.y - [Styles shared].grid.segmentLengthShort / 2.0, [Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort, [Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);
 		
@@ -496,7 +484,7 @@
 	return loc;
 }
 	
-- (Location *)getGridWallLocationSegType: (int *)segType FromTouchPoint: (CGPoint)touchPoint Rows: (int)rows Columns: (int)columns 
+- (Location *)getGridWallLocationSegType: (MAMazeObjectType *)segType fromTouchPoint: (CGPoint)touchPoint rows: (int)rows columns: (int)columns
 {
 	CGRect segmentRect = CGRectZero;	
 	CGPoint segmentOrigin = CGPointZero;
@@ -504,20 +492,20 @@
 	float tx = 0.0, ty = 0.0;
 	float b = ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort) / 2.0;
 	
-	for (Location *location in array)
+	for (Location *location in self->list)
 	{	
 		for (int i = 1; i <= 2; i = i + 1)
 		{
 			if (i == 1) 
 			{
-				*segType = [Constants shared].MazeObject.WallNorth;				
+				*segType = MAMazeObjectWallNorth;
 			}
 			else if (i == 2)
 			{
-				*segType = [Constants shared].MazeObject.WallWest;
+				*segType = MAMazeObjectWallWest;
 			}
 			
-			segmentRect = [self getSegmentRectFromLocation: location SegmentType: *segType];
+			segmentRect = [self getSegmentRectFromLocation: location segmentType: *segType];
 			
 			segmentOrigin.x = segmentRect.origin.x + segmentRect.size.width / 2.0;
 			segmentOrigin.y = segmentRect.origin.y + segmentRect.size.height / 2.0;
@@ -544,8 +532,8 @@
 			if (found == YES)
 			{
 				if ((location.x <= columns && location.y <= rows) ||
-					(location.x == columns + 1 && *segType == [Constants shared].MazeObject.WallWest && location.y <= rows) ||
-					(location.y == rows + 1 && *segType == [Constants shared].MazeObject.WallNorth && location.x <= columns))
+					(location.x == columns + 1 && *segType == MAMazeObjectWallWest && location.y <= rows) ||
+					(location.y == rows + 1 && *segType == MAMazeObjectWallNorth && location.x <= columns))
 				{
 					return location;
 				}
@@ -556,81 +544,60 @@
 	return nil;
 }
 
-- (CGRect)getSegmentRectFromLocation: (Location *)location SegmentType: (int)segmentType
+- (CGRect)getSegmentRectFromLocation: (Location *)location segmentType: (MAMazeObjectType)segmentType
 {
 	float segmentX = 0.0, segmentY = 0.0, width = 0.0, height = 0.0;
 	
-	if (segmentType == [Constants shared].MazeObject.Location)
-	{
-		segmentX = [Styles shared].grid.segmentLengthShort + (location.x - 1) * ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);
-		segmentY = [Styles shared].grid.segmentLengthShort + (location.y - 1) * ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);
-		
-		width = [Styles shared].grid.segmentLengthLong;
-		height = [Styles shared].grid.segmentLengthLong; 
-	}
-	else if (segmentType == [Constants shared].MazeObject.WallNorth)
-	{
-		segmentX = [Styles shared].grid.segmentLengthShort + (location.x - 1) * ([Styles shared].grid.segmentLengthShort + [Styles shared].grid.segmentLengthLong);
-		segmentY = (location.y - 1) * ([Styles shared].grid.segmentLengthShort + [Styles shared].grid.segmentLengthLong);
-		
-		width = [Styles shared].grid.segmentLengthLong;
-		height = [Styles shared].grid.segmentLengthShort; 
-	}
-	else if (segmentType == [Constants shared].MazeObject.WallWest)
-	{
-		segmentX = (location.x - 1) * ([Styles shared].grid.segmentLengthShort + [Styles shared].grid.segmentLengthLong);
-		segmentY = [Styles shared].grid.segmentLengthShort + (location.y - 1) * ([Styles shared].grid.segmentLengthShort + [Styles shared].grid.segmentLengthLong);	
-		
-		width = [Styles shared].grid.segmentLengthShort;
-		height = [Styles shared].grid.segmentLengthLong; 
-	}
-	else if (segmentType == [Constants shared].MazeObject.Corner)
-	{
-		segmentX = (location.x - 1) * ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);
-		segmentY = (location.y - 1) * ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);	
-		
-		width = [Styles shared].grid.segmentLengthShort;
-		height = [Styles shared].grid.segmentLengthShort; 
-	}
-	
+    switch (segmentType)
+    {
+        case MAMazeObjectLocation:
+            segmentX = [Styles shared].grid.segmentLengthShort + (location.x - 1) * ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);
+            segmentY = [Styles shared].grid.segmentLengthShort + (location.y - 1) * ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);
+            
+            width = [Styles shared].grid.segmentLengthLong;
+            height = [Styles shared].grid.segmentLengthLong;
+        
+            break;
+            
+    case MAMazeObjectWallNorth:
+            segmentX = [Styles shared].grid.segmentLengthShort + (location.x - 1) * ([Styles shared].grid.segmentLengthShort + [Styles shared].grid.segmentLengthLong);
+            segmentY = (location.y - 1) * ([Styles shared].grid.segmentLengthShort + [Styles shared].grid.segmentLengthLong);
+            
+            width = [Styles shared].grid.segmentLengthLong;
+            height = [Styles shared].grid.segmentLengthShort;
+        
+            break;
+        
+    case MAMazeObjectWallWest:
+            segmentX = (location.x - 1) * ([Styles shared].grid.segmentLengthShort + [Styles shared].grid.segmentLengthLong);
+            segmentY = [Styles shared].grid.segmentLengthShort + (location.y - 1) * ([Styles shared].grid.segmentLengthShort + [Styles shared].grid.segmentLengthLong);
+            
+            width = [Styles shared].grid.segmentLengthShort;
+            height = [Styles shared].grid.segmentLengthLong;
+        
+            break;
+        
+    case MAMazeObjectCorner:
+        
+            segmentX = (location.x - 1) * ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);
+            segmentY = (location.y - 1) * ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort);
+            
+            width = [Styles shared].grid.segmentLengthShort;
+            height = [Styles shared].grid.segmentLengthShort;
+        
+            break;
+        
+        default:
+            [Utilities logWithClass: [self class] format: @"segmentType set to an illegal value: %d", segmentType];
+            break;
+    }
+    
 	return CGRectMake(segmentX, segmentY, width, height);
 }
 
-/*
-- (xmlNodePtr)CreateLocationsXMLWithDoc: (xmlDocPtr)doc
-{
-	xmlNodePtr locationsNode = [XML CreateNodeDoc: doc NodeName: @"Locations"];
-	
-	for (Location *location in array)
-	{
-		xmlNodePtr locationNode = [XML CreateNodeDoc: doc NodeName: @"Location"];
-	
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", location.mazeId]];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"X" NodeValue: [NSString stringWithFormat: @"%d", location.x]];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"Y" NodeValue: [NSString stringWithFormat: @"%d", location.y]];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"Direction" NodeValue: [NSString stringWithFormat: @"%d", location.direction]];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"WallNorth" NodeValue: [NSString stringWithFormat: @"%d", location.wallNorth]];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"WallWest" NodeValue: [NSString stringWithFormat: @"%d", location.wallWest]];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"Type" NodeValue: [NSString stringWithFormat: @"%d", location.type]];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"Message" NodeValue: location.message];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"TeleportId" NodeValue: [NSString stringWithFormat: @"%d", location.teleportId]];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"TeleportX" NodeValue: [NSString stringWithFormat: @"%d", location.teleportX]];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"TeleportY" NodeValue: [NSString stringWithFormat: @"%d", location.teleportY]];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"WallNorthTextureId" NodeValue: [NSString stringWithFormat: @"%d", location.wallNorthTextureId]];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"WallWestTextureId" NodeValue: [NSString stringWithFormat: @"%d", location.wallWestTextureId]];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"FloorTextureId" NodeValue: [NSString stringWithFormat: @"%d", location.floorTextureId]];
-		[XML addNodeDoc: doc Parent: locationNode NodeName: @"CeilingTextureId" NodeValue: [NSString stringWithFormat: @"%d", location.ceilingTextureId]];
-		
-		[XML AddChildNode: locationNode ToParent: locationsNode];
-	}
-
-	return locationsNode;
-}
-*/
-
 - (NSString *)description 
 {
-    return [NSString stringWithFormat: @"%@", array];
+    return [NSString stringWithFormat: @"%@", self->list];
 }
 
 @end

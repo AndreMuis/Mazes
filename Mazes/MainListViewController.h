@@ -1,55 +1,65 @@
 //
 //  MainListViewController.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 4/25/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-#import "WebServices.h"
+#import "MAViewController.h"
+#import "ServerOperations.h"
 
 @class MainListTableViewCell;
+@class MAEvent;
 
-@interface MainListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MAWebServicesGetHighestRatedDelegate>
+@interface MainListViewController : MAViewController <
+    UITableViewDataSource,
+    UITableViewDelegate,
+    MAServerOperationsHighestRatedListDelegate,
+    MAServerOperationsNewestListDelegate,
+    MAServerOperationsYoursListDelegate>
 {
-	NSMutableArray *array;
-	
-	int selectedSegmentIndex;
+    NSOperationQueue *operationQueue;;
     
-    WebServices *highestRatedWebServices;
-    NSArray *highestRatedMazeListItems;
+    MAEvent *setupOperationQueueEvent;
     
-    WebServices *newestWebServices;
-    NSArray *newestMazeListItems;
-
-    WebServices *yoursRatedWebServices;
-    NSArray *yoursMazeListItems;
+    NSArray *highestRatedMainListItems;
+    BOOL highestRatedListHasLoaded;
+    
+    NSArray *newestMainListItems;
+    BOOL newestMainListHasLoaded;
+    
+    NSArray *yoursMainListItems;
+    BOOL yoursMainListHasLoaded;
+    
+    int selectedSegmentIndex;
 }
 
-@property (nonatomic, retain) IBOutlet UIImageView *imageViewHighestRated;
-@property (nonatomic, retain) IBOutlet UIImageView *imageViewNewest;
-@property (nonatomic, retain) IBOutlet UIImageView *imageViewYours;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewHighestRated;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewNewest;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewYours;
 
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet MainListTableViewCell *tableViewCell;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet MainListTableViewCell *tableViewCell;
 
-@property (nonatomic, retain) IBOutlet UIImageView *imageViewMazes;
-@property (nonatomic, retain) IBOutlet UIImageView *imageViewCreate;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewMazes;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewCreate;
 
 + (MainListViewController *)shared;
-
-- (void)getHighestRatedList;
-
-- (void)loadMazeList;
-- (void)loadMazeListResponse;
 
 - (IBAction)btnHighestRatedTouchDown: (id)sender;
 - (IBAction)btnNewestTouchDown: (id)sender;
 - (IBAction)btnYoursTouchDown: (id)sender;
 
-- (void)setupSegmentsWithSelectedIndex: (int)index;
+- (void)refreshSegments;
+
+- (void)setupOperationQueue;
+
+- (NSArray *)currentMainListItems;
 
 - (IBAction)btnCreateTouchDown: (id)sender;
 

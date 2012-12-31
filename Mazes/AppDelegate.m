@@ -3,7 +3,7 @@
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
 #import <AVFoundation/AVFoundation.h>
@@ -17,14 +17,12 @@
 #import "Maze.h"
 #import "Sounds.h"
 #import "Textures.h"
-#import "MainListViewController.h"
+#import "MainViewController.h"
 #import "Version.h"
-#import "WebServices.h"
+#import "ServerOperations.h"
 #import "User.h"
 
 @implementation AppDelegate
-
-@synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -32,18 +30,18 @@
 
     [Crittercism enableWithAppID: [Constants shared].crittercismAppId];
     
+    [MagicalRecord setupCoreDataStack];
+    
     self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
     
-    self.window.rootViewController = [MainListViewController shared];
+    self.window.rootViewController = [MainViewController shared];
     [self.window makeKeyAndVisible];
 
     [[Game shared] checkVersion];
 
-    // [[Sounds shared] download];
+    [[Sounds shared] download];
     
-    // [[Textures shared] load];
-    
-    self->webServices = [[WebServices alloc] init];
+    [[Textures shared] download];
     
     return YES;
 }

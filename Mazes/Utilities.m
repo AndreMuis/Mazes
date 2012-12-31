@@ -1,9 +1,9 @@
 //
 //  Utilities.m
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 12/10/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import "Utilities.h"

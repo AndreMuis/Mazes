@@ -1,27 +1,21 @@
 //
 //  GridView.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 1/31/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-#import "Globals.h"
-#import "Styles.h"
-#import "Maze.h"
-#import "Locations.h"
+@class Location;
+@class Maze;
 
 @interface GridView : UIView 
-{
-	Location *currLoc;
-	Location *currWallLoc;
-	int currWallDir;
-}
 
-@property (nonatomic, retain) Location *currLoc;
-@property (nonatomic, retain) Location *currWallLoc;
-@property (nonatomic) int currWallDir;
+@property (strong, nonatomic) Maze *maze;
+@property (strong, nonatomic) Location *currLoc;
+@property (strong, nonatomic) Location *currWallLoc;
+@property (assign, nonatomic) int currWallDir;
 
 @end

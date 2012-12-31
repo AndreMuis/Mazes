@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		476EE451899B44D292F604E7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB012DB6A094990B0DD29FC /* libPods.a */; };
+		F454E1881692211E008D10C1 /* MazeUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F454E1871692211E008D10C1 /* MazeUser.m */; };
+		F454E19216923CB5008D10C1 /* MAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F454E18F16923CB4008D10C1 /* MAEvent.m */; };
+		F454E19316923CB5008D10C1 /* MAEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = F454E19116923CB5008D10C1 /* MAEvents.m */; };
 		F45A4164154FAEC200B90753 /* Version.m in Sources */ = {isa = PBXBuildFile; fileRef = F45A4163154FAEC200B90753 /* Version.m */; };
 		F49161FE167D1B6D00F4A346 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = F49161FD167D1B6D00F4A346 /* User.m */; };
 		F4A0E1CE15F5BE6F00151192 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A0E1CD15F5BE6F00151192 /* Game.m */; };
@@ -65,7 +68,6 @@
 		F4E4AA5C154CBB58006AA64D /* The Hour of Triumph.caf in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AA4C154CBB58006AA64D /* The Hour of Triumph.caf */; };
 		F4E4AA5D154CBB58006AA64D /* Wind.caf in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AA4D154CBB58006AA64D /* Wind.caf */; };
 		F4E4AA75154CBB64006AA64D /* ActivityViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA60154CBB64006AA64D /* ActivityViewStyle.m */; };
-		F4E4AA76154CBB64006AA64D /* BannerViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA62154CBB64006AA64D /* BannerViewStyle.m */; };
 		F4E4AA77154CBB64006AA64D /* EditViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA64154CBB64006AA64D /* EditViewStyle.m */; };
 		F4E4AA78154CBB64006AA64D /* EndAlertViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA66154CBB64006AA64D /* EndAlertViewStyle.m */; };
 		F4E4AA79154CBB64006AA64D /* GameViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA68154CBB64006AA64D /* GameViewStyle.m */; };
@@ -200,7 +202,11 @@
 		F4E4ABEC154E34BE006AA64D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABEB154E34AA006AA64D /* Security.framework */; };
 		F4E4ABEE154E34D2006AA64D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABED154E34C8006AA64D /* MobileCoreServices.framework */; };
 		F4E4ABF0154E34E7006AA64D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABEF154E34DA006AA64D /* SystemConfiguration.framework */; };
-		F4E4ABF4154E4254006AA64D /* WebServices.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4ABF3154E421E006AA64D /* WebServices.m */; };
+		F4E4ABF4154E4254006AA64D /* ServerOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4ABF3154E421E006AA64D /* ServerOperations.m */; };
+		F4E4B9A4168E745800F6CCC3 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4B9A2168E745800F6CCC3 /* MainViewController.m */; };
+		F4E4B9A5168E745800F6CCC3 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4B9A3168E745800F6CCC3 /* MainViewController.xib */; };
+		F4E4B9A8168E779600F6CCC3 /* MainViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4B9A7168E779600F6CCC3 /* MainViewStyle.m */; };
+		F4E4B9AB168E8BE500F6CCC3 /* MAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4B9AA168E8BE400F6CCC3 /* MAViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -216,6 +222,12 @@
 /* Begin PBXFileReference section */
 		122A96D44809491DA9B335B4 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		2FB012DB6A094990B0DD29FC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F454E1861692211E008D10C1 /* MazeUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MazeUser.h; sourceTree = "<group>"; };
+		F454E1871692211E008D10C1 /* MazeUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MazeUser.m; sourceTree = "<group>"; };
+		F454E18E16923CB4008D10C1 /* MAEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAEvent.h; sourceTree = "<group>"; };
+		F454E18F16923CB4008D10C1 /* MAEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAEvent.m; sourceTree = "<group>"; };
+		F454E19016923CB4008D10C1 /* MAEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAEvents.h; sourceTree = "<group>"; };
+		F454E19116923CB5008D10C1 /* MAEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAEvents.m; sourceTree = "<group>"; };
 		F45A4162154FAEC200B90753 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		F45A4163154FAEC200B90753 /* Version.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Version.m; sourceTree = "<group>"; };
 		F49161FC167D1B6D00F4A346 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -282,8 +294,6 @@
 		F4E4AA4D154CBB58006AA64D /* Wind.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Wind.caf; sourceTree = "<group>"; };
 		F4E4AA5F154CBB64006AA64D /* ActivityViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewStyle.h; sourceTree = "<group>"; };
 		F4E4AA60154CBB64006AA64D /* ActivityViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewStyle.m; sourceTree = "<group>"; };
-		F4E4AA61154CBB64006AA64D /* BannerViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerViewStyle.h; sourceTree = "<group>"; };
-		F4E4AA62154CBB64006AA64D /* BannerViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerViewStyle.m; sourceTree = "<group>"; };
 		F4E4AA63154CBB64006AA64D /* EditViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewStyle.h; sourceTree = "<group>"; };
 		F4E4AA64154CBB64006AA64D /* EditViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewStyle.m; sourceTree = "<group>"; };
 		F4E4AA65154CBB64006AA64D /* EndAlertViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndAlertViewStyle.h; sourceTree = "<group>"; };
@@ -450,8 +460,15 @@
 		F4E4ABEB154E34AA006AA64D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F4E4ABED154E34C8006AA64D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		F4E4ABEF154E34DA006AA64D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		F4E4ABF2154E41FA006AA64D /* WebServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebServices.h; sourceTree = "<group>"; };
-		F4E4ABF3154E421E006AA64D /* WebServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebServices.m; sourceTree = "<group>"; };
+		F4E4ABF2154E41FA006AA64D /* ServerOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerOperations.h; sourceTree = "<group>"; };
+		F4E4ABF3154E421E006AA64D /* ServerOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerOperations.m; sourceTree = "<group>"; };
+		F4E4B9A1168E745800F6CCC3 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		F4E4B9A2168E745800F6CCC3 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		F4E4B9A3168E745800F6CCC3 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		F4E4B9A6168E779600F6CCC3 /* MainViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewStyle.h; sourceTree = "<group>"; };
+		F4E4B9A7168E779600F6CCC3 /* MainViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewStyle.m; sourceTree = "<group>"; };
+		F4E4B9A9168E8BE400F6CCC3 /* MAViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAViewController.h; sourceTree = "<group>"; };
+		F4E4B9AA168E8BE400F6CCC3 /* MAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -555,10 +572,10 @@
 				F4E4AB44154CC175006AA64D /* GameViewController.xib */,
 				F4E4AB47154CC17F006AA64D /* GridView.h */,
 				F4E4AB48154CC183006AA64D /* GridView.m */,
-				F4E4AB55154CC1CC006AA64D /* Location.h */,
-				F4E4AB56154CC1CF006AA64D /* Location.m */,
 				F4E4AB57154CC1D4006AA64D /* Locations.h */,
 				F4E4AB58154CC1D7006AA64D /* Locations.m */,
+				F4E4AB55154CC1CC006AA64D /* Location.h */,
+				F4E4AB56154CC1CF006AA64D /* Location.m */,
 				F4E4AB7C154CC2CC006AA64D /* MainListItem.h */,
 				F4E4AB7D154CC2D1006AA64D /* MainListItem.m */,
 				F4E4AB7E154CC2D8006AA64D /* MainListTableViewCell.h */,
@@ -567,18 +584,31 @@
 				F4E4AB81154CC2EF006AA64D /* MainListViewController.h */,
 				F4E4AB82154CC2F7006AA64D /* MainListViewController.m */,
 				F4E4AB83154CC2FF006AA64D /* MainListViewController.xib */,
+				F4E4B9A1168E745800F6CCC3 /* MainViewController.h */,
+				F4E4B9A2168E745800F6CCC3 /* MainViewController.m */,
+				F4E4B9A3168E745800F6CCC3 /* MainViewController.xib */,
 				F4E4AB59154CC1DC006AA64D /* MapSegment.h */,
 				F4E4AB5A154CC1DF006AA64D /* MapSegment.m */,
 				F4E4AB5B154CC1E5006AA64D /* MapView.h */,
 				F4E4AB5C154CC1E8006AA64D /* MapView.m */,
+				F454E19016923CB4008D10C1 /* MAEvents.h */,
+				F454E19116923CB5008D10C1 /* MAEvents.m */,
+				F454E18E16923CB4008D10C1 /* MAEvent.h */,
+				F454E18F16923CB4008D10C1 /* MAEvent.m */,
+				F4E4B9A9168E8BE400F6CCC3 /* MAViewController.h */,
+				F4E4B9AA168E8BE400F6CCC3 /* MAViewController.m */,
 				F4E4AB5D154CC1ED006AA64D /* Maze.h */,
 				F4E4AB5E154CC1F2006AA64D /* Maze.m */,
 				F4E4A9DD154CB92C006AA64D /* Mazes.xcdatamodeld */,
+				F454E1861692211E008D10C1 /* MazeUser.h */,
+				F454E1871692211E008D10C1 /* MazeUser.m */,
 				F4E4AB64154CC22C006AA64D /* MazeView.h */,
 				F4E4AB65154CC231006AA64D /* MazeView.m */,
 				F4E4AB66154CC238006AA64D /* RatingPopoverViewController.xib */,
 				F4E4AB67154CC23C006AA64D /* RatingView.h */,
 				F4E4AB68154CC242006AA64D /* RatingView.m */,
+				F4E4ABF2154E41FA006AA64D /* ServerOperations.h */,
+				F4E4ABF3154E421E006AA64D /* ServerOperations.m */,
 				F4A0E1DD15F5C96200151192 /* Settings.h */,
 				F4A0E1DE15F5C96200151192 /* Settings.m */,
 				F4E4AB6B154CC251006AA64D /* Sounds.h */,
@@ -595,8 +625,6 @@
 				F4E4AB85154CC30B006AA64D /* Utilities.m */,
 				F45A4162154FAEC200B90753 /* Version.h */,
 				F45A4163154FAEC200B90753 /* Version.m */,
-				F4E4ABF2154E41FA006AA64D /* WebServices.h */,
-				F4E4ABF3154E421E006AA64D /* WebServices.m */,
 				F49161FC167D1B6D00F4A346 /* User.h */,
 				F49161FD167D1B6D00F4A346 /* User.m */,
 				F4E4AA0C154CBB3C006AA64D /* Images */,
@@ -723,8 +751,6 @@
 				F4E4ABAE154CDC93006AA64D /* Colors.m */,
 				F4E4AA5F154CBB64006AA64D /* ActivityViewStyle.h */,
 				F4E4AA60154CBB64006AA64D /* ActivityViewStyle.m */,
-				F4E4AA61154CBB64006AA64D /* BannerViewStyle.h */,
-				F4E4AA62154CBB64006AA64D /* BannerViewStyle.m */,
 				F4E4AA63154CBB64006AA64D /* EditViewStyle.h */,
 				F4E4AA64154CBB64006AA64D /* EditViewStyle.m */,
 				F4E4AA65154CBB64006AA64D /* EndAlertViewStyle.h */,
@@ -733,6 +759,8 @@
 				F4E4AA68154CBB64006AA64D /* GameViewStyle.m */,
 				F4E4AA69154CBB64006AA64D /* GridStyle.h */,
 				F4E4AA6A154CBB64006AA64D /* GridStyle.m */,
+				F4E4B9A6168E779600F6CCC3 /* MainViewStyle.h */,
+				F4E4B9A7168E779600F6CCC3 /* MainViewStyle.m */,
 				F4E4AA6B154CBB64006AA64D /* MapStyle.h */,
 				F4E4AA6C154CBB64006AA64D /* MapStyle.m */,
 				F4E4AA6D154CBB64006AA64D /* MazeListStyle.h */,
@@ -885,6 +913,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Andre Muis";
 			};
 			buildConfigurationList = F4E4A9BF154CB92C006AA64D /* Build configuration list for PBXProject "Mazes" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1041,6 +1070,7 @@
 				F4E4AB95154CC33E006AA64D /* MainListViewController.xib in Resources */,
 				F4E4AB99154CC3DA006AA64D /* GameHelpViewController.xib in Resources */,
 				F4E4AB9E154CD0EA006AA64D /* MainListTableViewCell.xib in Resources */,
+				F4E4B9A5168E745800F6CCC3 /* MainViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1093,7 +1123,6 @@
 				F4E4A9DC154CB92C006AA64D /* AppDelegate.m in Sources */,
 				F4E4A9DF154CB92C006AA64D /* Mazes.xcdatamodeld in Sources */,
 				F4E4AA75154CBB64006AA64D /* ActivityViewStyle.m in Sources */,
-				F4E4AA76154CBB64006AA64D /* BannerViewStyle.m in Sources */,
 				F4E4AA77154CBB64006AA64D /* EditViewStyle.m in Sources */,
 				F4E4AA78154CBB64006AA64D /* EndAlertViewStyle.m in Sources */,
 				F4E4AA79154CBB64006AA64D /* GameViewStyle.m in Sources */,
@@ -1126,11 +1155,17 @@
 				F4E4AB96154CC344006AA64D /* Utilities.m in Sources */,
 				F4E4AB9D154CD0DC006AA64D /* Textures.m in Sources */,
 				F4E4ABAF154CDC97006AA64D /* Colors.m in Sources */,
-				F4E4ABF4154E4254006AA64D /* WebServices.m in Sources */,
+				F4E4ABF4154E4254006AA64D /* ServerOperations.m in Sources */,
 				F45A4164154FAEC200B90753 /* Version.m in Sources */,
 				F4A0E1CE15F5BE6F00151192 /* Game.m in Sources */,
 				F4A0E1DF15F5C96300151192 /* Settings.m in Sources */,
 				F49161FE167D1B6D00F4A346 /* User.m in Sources */,
+				F4E4B9A4168E745800F6CCC3 /* MainViewController.m in Sources */,
+				F4E4B9A8168E779600F6CCC3 /* MainViewStyle.m in Sources */,
+				F4E4B9AB168E8BE500F6CCC3 /* MAViewController.m in Sources */,
+				F454E1881692211E008D10C1 /* MazeUser.m in Sources */,
+				F454E19216923CB5008D10C1 /* MAEvent.m in Sources */,
+				F454E19316923CB5008D10C1 /* MAEvents.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

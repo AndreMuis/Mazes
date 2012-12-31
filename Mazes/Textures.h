@@ -1,34 +1,35 @@
 //
 //  Textures.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 2/12/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-#import "WebServices.h"
+#import "CoreData+MagicalRecord.h"
+
+#import "ServerOperations.h"
 
 @class Texture;
 
-@interface Textures : NSObject <MAWebServicesGetTexturesDelegate>
+@interface Textures : NSObject <MAServerOperationsGetTexturesDelegate>
 {
-    WebServices *webServices;
+    NSOperationQueue *operationQueue;
 }
 
-@property (assign, nonatomic, readonly) BOOL loaded;
-@property (assign, nonatomic, readonly) int count;
-@property (assign, nonatomic, readonly) int maxId;
+@property (assign, nonatomic) int count;
+@property (assign, nonatomic) int maxId;
 
 + (Textures *)shared;
 
-- (void)load;
+- (void)download;
 
-- (NSArray *)getTextures;
+- (NSArray *)all;
 
-- (NSArray *)getTexturesSorted;
+- (NSArray *)sortedByKindThenOrder;
 
-- (Texture *)getTextureWithId: (int)textureId;
+- (Texture *)textureWithId: (int)textureId;
 
 @end

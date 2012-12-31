@@ -1,9 +1,9 @@
-    //
+//
 //  TexturesViewController.m
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 2/13/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import "TexturesViewController.h"
@@ -12,8 +12,6 @@
 #import "Texture.h"
 
 @implementation TexturesViewController
-
-@synthesize textureDelegate, textureSelector, exitDelegate, exitSelector;
 
 - (void)loadView
 {
@@ -35,7 +33,7 @@
 {
 	self.view.backgroundColor = [Styles shared].editView.viewTexturesBackgroundColor;
 	
-	NSArray *textures = [[Textures shared] getTexturesSorted];
+	NSArray *textures = [[Textures shared] sortedByKindThenOrder];
 	
 	float padding = ([Styles shared].editView.popoverTexturesWidth - [Styles shared].editView.texturesPerRow * [Styles shared].editView.textureImageLength) / ([Styles shared].editView.texturesPerRow + 1);
 	
@@ -75,7 +73,7 @@
 {
 	CGPoint touchPoint = [recognizer locationInView: self.view];
 
-	NSArray *textures = [[Textures shared] getTexturesSorted];
+	NSArray *textures = [[Textures shared] sortedByKindThenOrder];
 
 	for (Texture *texture in textures)
 	{
@@ -84,9 +82,9 @@
             #pragma clang diagnostic push
             #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
             
-			[textureDelegate performSelector: textureSelector withObject: [NSNumber numberWithInt: texture.id]];
+			[self.textureDelegate performSelector: self.textureSelector withObject: [NSNumber numberWithInt: texture.id]];
 			
-			[exitDelegate performSelector: exitSelector];
+			[self.exitDelegate performSelector: self.exitSelector];
             
             #pragma clang diagnostic pop
 		}

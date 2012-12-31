@@ -1,20 +1,19 @@
 //
 //  Sounds.m
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 2/22/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import "Sounds.h"
 
 #import "Constants.h"
+#import "GameViewController.h"
 #import "Sound.h"
+#import "Utilities.h"
 
 @implementation Sounds
-
-@synthesize loaded;
-@synthesize count;
 
 + (Sounds *)shared
 {
@@ -37,8 +36,9 @@
 	
 	if (self)
 	{
-        self->loaded = NO;
-        self->count = 0;
+        self->operationQueue = [[NSOperationQueue alloc] init];
+        
+        _count = 0;
 	}
 	
     return self;
@@ -46,16 +46,14 @@
 
 - (void)download
 {
-    self->webServices = [[WebServices alloc] init];
-
-    [self->webServices getSoundsWithDelegate: self];
+    [self->operationQueue addOperation: [[ServerOperations shared] getSoundsOperationWithDelegate: self]];
 }
 
-- (void)webServicesGetSounds: (NSError *)error
+- (void)serverOperationsGetSounds: (NSError *)error
 {
     if (error == nil)
     {
-        self->loaded = YES;
+        [[GameViewController shared] setup];
     }
     else
     {
@@ -65,30 +63,29 @@
 
 - (int)count
 {
-	return 1; // [Sound allObjects].count;
+    return [Sound MR_findAll].count;
 }
 
-- (NSArray *)getSoundsSorted
+- (NSArray *)sortedByName
 {
-    /*
-    NSFetchRequest *fetchRequest = [Sound fetchRequest];
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey: @"name" ascending: YES];
-    [fetchRequest setSortDescriptors: [NSArray arrayWithObject: sortDescriptor]];
-    */
-    
-    return nil; //[Sound objectsWithFetchRequest: fetchRequest];
+    return [Sound MR_findAllSortedBy: @"name" ascending: YES];
 }
 
-- (Sound *)getSoundWithId: (int)id
+- (Sound *)soundWithId: (int)id
 {
-    //NSPredicate *predicate = [NSPredicate predicateWithFormat: @"id == %d", id];
+    Sound *soundRet = [Sound MR_findFirstByAttribute: @"id" withValue: [NSNumber numberWithInt: id]];
     
-    return nil; //[Sound objectWithPredicate: predicate];
+    if (soundRet == nil)
+    {
+        [Utilities logWithClass: [self class] format: @"Unable to find sound with id: %d", id];
+    }
+    
+    return soundRet;
 }
 
 - (NSString *)description 
 {
-    return nil; // [NSString stringWithFormat: @"%@", [self getSoundsSorted]];
+    return [NSString stringWithFormat: @"%@", [self sortedByName]];
 }
 
 @end

@@ -3,7 +3,7 @@
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -13,7 +13,7 @@
 
 @interface ScreenStyle : NSObject
 
-@property (nonatomic, assign) float width;
-@property (nonatomic, assign) float height;
+@property (assign, nonatomic) float width;
+@property (assign, nonatomic) float height;
 
 @end

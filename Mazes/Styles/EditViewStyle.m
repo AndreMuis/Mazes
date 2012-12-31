@@ -3,30 +3,12 @@
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
 #import "EditViewStyle.h"
 
 @implementation EditViewStyle
-
-@synthesize panelBackgroundColor;
-@synthesize tabDarkColor;
-@synthesize tableHeaderBackgroundColor;
-@synthesize tableHeaderTextColor;
-@synthesize tableHeaderTextAlignment;
-@synthesize tableHeaderFont;
-@synthesize tableViewBackgroundColor;
-@synthesize tableViewDisabledBackgroundColor;	
-@synthesize tableViewBackgroundSoundRows;
-@synthesize viewTexturesBackgroundColor;
-@synthesize popoverTexturesWidth;
-@synthesize popoverTexturesHeight;
-@synthesize textureImageLength;
-@synthesize texturesPerRow;
-@synthesize viewButtonsBackgroundColor;
-@synthesize messageBackgroundColor;
-@synthesize messageTextColor;
 
 - (id)init
 {

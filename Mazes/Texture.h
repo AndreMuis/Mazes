@@ -1,32 +1,24 @@
 //
 //  Texture.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 2/12/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 @interface Texture : NSManagedObject 
-{
-	int id;
-	NSString *name;
-	int width;
-	int height;
-	int repeats;
-	int kind;
-	int order;
-	CGRect imageViewFrame;
-}
 
-@property (nonatomic) int id;
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic) int width;
-@property (nonatomic) int height;
-@property (nonatomic) int repeats;
-@property (nonatomic) int kind;
-@property (nonatomic) int order;
-@property (nonatomic) CGRect imageViewFrame;
+@property (assign, nonatomic) int id;
+@property (strong, nonatomic) NSString *name;
+@property (assign, nonatomic) int width;
+@property (assign, nonatomic) int height;
+@property (assign, nonatomic) int repeats;
+@property (assign, nonatomic) int kind;
+@property (assign, nonatomic) int order;
+@property (assign, nonatomic) CGRect imageViewFrame;
+@property (strong, nonatomic) NSDate *createdDate;
+@property (strong, nonatomic) NSDate *updatedDate;
 
 @end

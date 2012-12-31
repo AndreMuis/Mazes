@@ -1,19 +1,19 @@
 //
 //  Styles.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 1/30/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 #import "ActivityViewStyle.h"
-#import "BannerViewStyle.h"
 #import "EditViewStyle.h"
 #import "EndAlertViewStyle.h"
 #import "GameViewStyle.h"
 #import "GridStyle.h"
+#import "MainViewStyle.h"
 #import "MapStyle.h"
 #import "MazeListStyle.h"
 #import "RatingViewStyle.h"
@@ -21,18 +21,18 @@
 
 @interface Styles : NSObject 
 
-@property (nonatomic, retain) UIFont *defaultFont;
+@property (strong, nonatomic) UIFont *defaultFont;
 
-@property (retain, nonatomic) ActivityViewStyle *activityView;
-@property (retain, nonatomic) BannerViewStyle *bannerView;
-@property (retain, nonatomic) EditViewStyle *editView;
-@property (retain, nonatomic) EndAlertViewStyle *endAlertView;
-@property (retain, nonatomic) GameViewStyle *gameView;
-@property (retain, nonatomic) GridStyle *grid;
-@property (retain, nonatomic) MapStyle *map;
-@property (retain, nonatomic) MazeListStyle *mazeList;
-@property (retain, nonatomic) RatingViewStyle *ratingView;
-@property (retain, nonatomic) ScreenStyle *screen;
+@property (strong, nonatomic) ActivityViewStyle *activityView;
+@property (strong, nonatomic) EditViewStyle *editView;
+@property (strong, nonatomic) EndAlertViewStyle *endAlertView;
+@property (strong, nonatomic) GameViewStyle *gameView;
+@property (strong, nonatomic) GridStyle *grid;
+@property (strong, nonatomic) MainViewStyle *mainView;
+@property (strong, nonatomic) MapStyle *map;
+@property (strong, nonatomic) MazeListStyle *mazeList;
+@property (strong, nonatomic) RatingViewStyle *ratingView;
+@property (strong, nonatomic) ScreenStyle *screen;
 
 + (Styles *)shared;
 

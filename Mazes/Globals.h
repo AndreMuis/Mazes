@@ -1,9 +1,9 @@
 //
 //  Globals.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 1/13/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -19,17 +19,12 @@
 
 @interface Globals : NSObject 
 
-@property (nonatomic, retain) AppDelegate *appDelegate;
+@property (strong, nonatomic) AppDelegate *appDelegate;
 
-@property (nonatomic, retain) Maze *mazeMain;
-@property (nonatomic, retain) Maze *mazeEdit;
+@property (strong, nonatomic) CreateViewController *createViewController;
+@property (strong, nonatomic) EditViewController *editViewController;
 
-@property (nonatomic, retain) GameViewController *gameViewController;
-
-@property (nonatomic, retain) CreateViewController *createViewController;
-@property (nonatomic, retain) EditViewController *editViewController;
-
-@property (nonatomic, retain) UIView *activityView;
+@property (strong, nonatomic) UIView *activityView;
 
 + (Globals *)shared;
 

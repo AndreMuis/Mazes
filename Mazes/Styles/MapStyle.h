@@ -3,7 +3,7 @@
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -16,14 +16,14 @@
 @property (assign, nonatomic) float length;
 @property (assign, nonatomic) float wallWidth;
 @property (assign, nonatomic) float squareWidth;
-@property (retain, nonatomic) UIColor *backgroundColor;
-@property (retain, nonatomic) UIColor *doNothingColor;
-@property (retain, nonatomic) UIColor *startColor;
-@property (retain, nonatomic) UIColor *endColor;
-@property (retain, nonatomic) UIColor *startOverColor;
-@property (retain, nonatomic) UIColor *teleportationColor;
-@property (retain, nonatomic) UIColor *wallColor;
-@property (retain, nonatomic) UIColor *noWallColor;
-@property (retain, nonatomic) UIColor *invisibleColor;	
+@property (strong, nonatomic) UIColor *backgroundColor;
+@property (strong, nonatomic) UIColor *doNothingColor;
+@property (strong, nonatomic) UIColor *startColor;
+@property (strong, nonatomic) UIColor *endColor;
+@property (strong, nonatomic) UIColor *startOverColor;
+@property (strong, nonatomic) UIColor *teleportationColor;
+@property (strong, nonatomic) UIColor *wallColor;
+@property (strong, nonatomic) UIColor *noWallColor;
+@property (strong, nonatomic) UIColor *invisibleColor;	
 
 @end

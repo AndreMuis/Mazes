@@ -1,16 +1,14 @@
-    //
+//
 //  CreateViewController.m
-//  iPad Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 4/18/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import "CreateViewController.h"
 
 @implementation CreateViewController
-
-@synthesize pickerView, gridView;
 
 - (void)viewDidLoad 
 {
@@ -33,15 +31,15 @@
 {
 	[super viewWillAppear: animated];
 	
-	[Globals shared].mazeEdit.Rows = [Constants shared].rowsMin;
-	[Globals shared].mazeEdit.Columns = [Constants shared].columnsMin;
+    self->maze = [[Maze alloc] init];
+    
+	self->maze.rows = [Constants shared].rowsMin;
+	self->maze.columns = [Constants shared].columnsMin;
 	
-	[[Globals shared].mazeEdit.locations populateWithRows: [Globals shared].mazeEdit.rows Columns: [Globals shared].mazeEdit.columns];
+	[self.pickerView selectRow: 0 inComponent: 0 animated: NO];
+	[self.pickerView selectRow: 0 inComponent: 1 animated: NO];
 	
-	[pickerView selectRow: 0 inComponent: 0 animated: NO];
-	[pickerView selectRow: 0 inComponent: 1 animated: NO];
-	
-	[gridView setNeedsDisplay];
+	[self.gridView setNeedsDisplay];
 }
 
 - (NSInteger)numberOfComponentsInPickerView: (UIPickerView *)thePickerView 
@@ -87,33 +85,30 @@
 
 - (void)pickerView:(UIPickerView *)thePickerView didSelectRow: (NSInteger)row inComponent: (NSInteger)component 
 {	
-	[[Globals shared].mazeEdit reset];
-
 	if (component == 0)
 	{
-		[Globals shared].mazeEdit.Rows = [[rowsArr objectAtIndex: row] intValue];
-		[Globals shared].mazeEdit.Columns = [[columnsArr objectAtIndex: [thePickerView selectedRowInComponent: 1]] intValue];
+		self->maze.rows = [[rowsArr objectAtIndex: row] intValue];
+		self->maze.columns = [[columnsArr objectAtIndex: [thePickerView selectedRowInComponent: 1]] intValue];
 	}
 	else if (component == 1)
 	{
-		[Globals shared].mazeEdit.Rows = [[rowsArr objectAtIndex: [thePickerView selectedRowInComponent: 0]] intValue];
-		[Globals shared].mazeEdit.Columns = [[columnsArr objectAtIndex: row] intValue];
+		self->maze.rows = [[rowsArr objectAtIndex: [thePickerView selectedRowInComponent: 0]] intValue];
+		self->maze.columns = [[columnsArr objectAtIndex: row] intValue];
 	}
-	
-	[[Globals shared].mazeEdit.locations populateWithRows: [Globals shared].mazeEdit.rows Columns: [Globals shared].mazeEdit.columns];
-	
-	[gridView setNeedsDisplay];
+    
+	[self.gridView setNeedsDisplay];
 }
 
 - (IBAction)btnContinueTouchDown: (id)sender
 {
+    [self->maze.locations populateWithRows: self->maze.rows
+                                   columns: self->maze.columns];
+	   
 	[self.navigationController popViewControllerAnimated: NO];
 }
 
 - (IBAction)btnMazesTouchDown: (id)sender
 {
-	[[Globals shared].mazeEdit reset];
-	
 	[self.navigationController popToRootViewControllerAnimated: NO];
 }
 

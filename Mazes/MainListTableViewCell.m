@@ -1,13 +1,14 @@
 //
 //  MainListTableViewCell.m
-//  iPad Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 4/18/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import "MainListTableViewCell.h"
 
+#import "Constants.h"
 #import "RatingView.h"
 
 @implementation MainListTableViewCell
@@ -18,22 +19,22 @@
 	CGPoint touchPoint = [touch locationInView: self];
 	
 	// if touch is in Expanded User Rating View cancel touches and call rating popup
-	if ([self TouchPoint: touchPoint InViewRatingUser: self.viewRatingUser1] == YES)
+	if ([self touchPoint: touchPoint inViewRatingUser: self.viewRatingUser1] == YES)
 	{
-		if (self.viewRatingUser1.mode == [Constants shared].RatingMode.DisplayUser)
+		if (self.viewRatingUser1.mode == MARatingModeDisplayUser)
         {
-			[self.viewRatingUser1 ShowRatingPopover];
+			[self.viewRatingUser1 showRatingPopover];
         }
 		else
         {
 			[super touchesBegan: touches withEvent: event];
         }
 	}
-	else if ([self TouchPoint: touchPoint InViewRatingUser: self.viewRatingUser2] == YES)
+	else if ([self touchPoint: touchPoint inViewRatingUser: self.viewRatingUser2] == YES)
 	{
-		if (self.viewRatingUser2.mode == [Constants shared].RatingMode.DisplayUser)
+		if (self.viewRatingUser2.mode == MARatingModeDisplayUser)
         {
-			[self.viewRatingUser2 ShowRatingPopover];
+			[self.viewRatingUser2 showRatingPopover];
         }
 		else
         {
@@ -55,7 +56,7 @@
     }
 }
 
-- (BOOL)TouchPoint: (CGPoint)touchPoint InViewRatingUser: (RatingView *)viewRatingUser
+- (BOOL)touchPoint: (CGPoint)touchPoint inViewRatingUser: (RatingView *)viewRatingUser
 {
 	float x = viewRatingUser.frame.origin.x - viewRatingUser.starWidth / 2.0;
 	float y = viewRatingUser.frame.origin.y - viewRatingUser.starHeight / 2.0;

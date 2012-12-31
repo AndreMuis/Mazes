@@ -3,36 +3,12 @@
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
 #import "GridStyle.h"
 
 @implementation GridStyle
-
-@synthesize segmentLengthShort;
-@synthesize segmentLengthLong;
-@synthesize textureHighlightWidth;
-@synthesize locationHighlightWidth;
-@synthesize wallHighlightWidth;
-@synthesize borderColor;
-@synthesize backgroundColor;
-@synthesize doNothingColor;
-@synthesize startColor;
-@synthesize endColor;
-@synthesize startOverColor;
-@synthesize teleportationColor;
-@synthesize messageColor;
-@synthesize arrowColor;
-@synthesize textureHighlightColor;
-@synthesize locationHighlightColor;
-@synthesize teleportFontSize;
-@synthesize teleportIdColor;
-@synthesize noWallColor;
-@synthesize solidColor;
-@synthesize invisibleColor;
-@synthesize fakeColor;	
-@synthesize cornerColor;
 
 - (id)init
 {

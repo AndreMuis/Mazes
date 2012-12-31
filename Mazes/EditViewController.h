@@ -1,125 +1,86 @@
 //
 //  EditViewController.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 4/30/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-#import "Maze.h"
-#import "MainListViewController.h"
-#import "GridView.h"
-#import "TexturesViewController.h"
+#import "Constants.h"
+#import "Location.h"
+
+@class GridView;
+@class Maze;
 
 @interface EditViewController : UIViewController <UIGestureRecognizerDelegate, UITableViewDelegate, UITextViewDelegate, UITextFieldDelegate, UIAlertViewDelegate, UIPopoverControllerDelegate>
 {
 	int selectedTabIndex;
 	
-	UIButton *btnMain;
-	UIButton *btnLocation;
-	UIButton *btnWall;
-	UIButton *btnGraphics;
-	UIButton *btnAudio;
-	
-	UIView *viewPlaceHolder;
-	UIView *viewMain;
-	UIScrollView *scrollViewLocation;
-	UIView *viewWall;
-	UIView *viewGraphics;
-	UIView *viewAudio;
-	
-	UITextField *textFieldName;
-	UISwitch *switchPublic;
-	UISwitch *switchTutorial;
-	
-	NSArray *locationTypes;
-	NSArray *locationTypeLabels;
+	NSArray *locationActions;
+	NSArray *locationActionLabels;
 
 	NSArray *directionThetas;
 	NSArray	*directionLabels;
 	
 	NSArray *wallTypes;
 	NSArray	*wallTypeLabels;
-
-	UITableView *LocationTypeTableView;
-	UITableView *DirectionTableView;
-
-	UITextView *textViewMessage;
-	UILabel *MessageDisplaysLabel;
-
-	UITableView *WallTypeTableView;
-
-	UIImageView *imageViewFloor;
-	UIImageView *imageViewCeiling;
-	
-	UIImageView *imageViewWall;
-	
-	UIImageView *imageViewWallDefault;
-	UIImageView *imageViewFloorDefault;
-	UIImageView *imageViewCeilingDefault;
-
-	UITableView	*tableViewBackgroundSound;
 	
 	UIPopoverController *popoverControllerTextures;
-	
-	UIView *viewButtons;
-	
-	UILabel *lblMessage1, *lblMessage2;
-	
-    GridView *gridView;
 	
 	Location *currLoc, *prevLoc;
 	
 	Location *currWallLoc;
-	int currWallDir;
+	MADirectionType currWallDir;
 	
 	NSMutableArray *locationsVisited;
 }
 
-@property (nonatomic, retain) IBOutlet UIButton *btnMain;
-@property (nonatomic, retain) IBOutlet UIButton *btnLocation;
-@property (nonatomic, retain) IBOutlet UIButton *btnWall;
-@property (nonatomic, retain) IBOutlet UIButton *btnGraphics;
-@property (nonatomic, retain) IBOutlet UIButton *btnAudio;
+@property (strong, nonatomic) Maze *maze;
 
-@property (nonatomic, retain) IBOutlet UIView *viewPlaceHolder;
-@property (nonatomic, retain) IBOutlet UIView *viewMain;
-@property (nonatomic, retain) IBOutlet UIScrollView *scrollViewLocation;
-@property (nonatomic, retain) IBOutlet UIView *viewWall;
-@property (nonatomic, retain) IBOutlet UIView *viewGraphics;
-@property (nonatomic, retain) IBOutlet UIView *viewAudio;
+@property (weak, nonatomic) IBOutlet UIButton *btnMain;
+@property (weak, nonatomic) IBOutlet UIButton *btnLocation;
+@property (weak, nonatomic) IBOutlet UIButton *btnWall;
+@property (weak, nonatomic) IBOutlet UIButton *btnGraphics;
+@property (weak, nonatomic) IBOutlet UIButton *btnAudio;
 
-@property (nonatomic, retain) IBOutlet UITextField *textFieldName;
-@property (nonatomic, retain) IBOutlet UISwitch *switchPublic;
-@property (nonatomic, retain) IBOutlet UISwitch *switchTutorial;
+@property (weak, nonatomic) IBOutlet UIView *viewPlaceHolder;
+@property (weak, nonatomic) IBOutlet UIView *viewMain;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollViewLocation;
+@property (weak, nonatomic) IBOutlet UIView *viewWall;
+@property (weak, nonatomic) IBOutlet UIView *viewGraphics;
+@property (weak, nonatomic) IBOutlet UIView *viewAudio;
 
-@property (nonatomic, retain) IBOutlet UITableView *LocationTypeTableView;
-@property (nonatomic, retain) IBOutlet UITableView *DirectionTableView;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldName;
+@property (weak, nonatomic) IBOutlet UISwitch *switchPublic;
+@property (weak, nonatomic) IBOutlet UISwitch *switchTutorial;
 
-@property (nonatomic, retain) IBOutlet UITextView *textViewMessage;
-@property (nonatomic, retain) IBOutlet UILabel *MessageDisplaysLabel;
+@property (weak, nonatomic) IBOutlet UITableView *locationTypeTableView;
+@property (weak, nonatomic) IBOutlet UITableView *directionTableView;
 
-@property (nonatomic, retain) IBOutlet UITableView *WallTypeTableView;
+@property (weak, nonatomic) IBOutlet UITextView *textViewMessage;
+@property (weak, nonatomic) IBOutlet UILabel *messageDisplaysLabel;
 
-@property (nonatomic, retain) IBOutlet UIImageView *imageViewFloor;
-@property (nonatomic, retain) IBOutlet UIImageView *imageViewCeiling;
+@property (weak, nonatomic) IBOutlet UITableView *wallTypeTableView;
 
-@property (nonatomic, retain) IBOutlet UIImageView *imageViewWall;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewFloor;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewCeiling;
 
-@property (nonatomic, retain) IBOutlet UIImageView *imageViewWallDefault;
-@property (nonatomic, retain) IBOutlet UIImageView *imageViewFloorDefault;
-@property (nonatomic, retain) IBOutlet UIImageView *imageViewCeilingDefault;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewWall;
 
-@property (nonatomic, retain) IBOutlet UITableView *tableViewBackgroundSound;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewWallDefault;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewFloorDefault;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewCeilingDefault;
 
-@property (nonatomic, retain) IBOutlet UIView *viewButtons;
+@property (weak, nonatomic) IBOutlet UITableView *tableViewBackgroundSound;
 
-@property (nonatomic, retain) IBOutlet UILabel *lblMessage1;
-@property (nonatomic, retain) IBOutlet UILabel *lblMessage2;
+@property (weak, nonatomic) IBOutlet UIView *viewButtons;
 
-@property (nonatomic, retain) IBOutlet GridView *gridView;
+@property (weak, nonatomic) IBOutlet UILabel *lblMessage1;
+@property (weak, nonatomic) IBOutlet UILabel *lblMessage2;
+
+@property (weak, nonatomic) IBOutlet GridView *gridView;
 
 - (void)initTexturesPopover;
 
@@ -141,20 +102,20 @@
 - (void)locationChangedToCoord: (CGPoint)coord;
 - (BOOL)setNextLocationAsTeleportation;
 
-- (void)ResetCurrentLocation;
+- (void)resetCurrentLocation;
 
-- (int)GetNextTeleportId;
+- (int)getNextTeleportId;
 
-- (void)SetupLocationTypeTableViewLocationType: (int)locationType Theta: (int)theta;
-- (void)SetupDirectionTableViewLocationType: (int)locationType Theta: (int)theta;
-- (void)SetupMessageDisplaysLabelLocationType: (int)locationType;
+- (void)setupLocationActionTableViewLocationAction: (MALocationActionType)locationAction theta: (int)theta;
+- (void)setupDirectionTableViewLocationAction: (MALocationActionType)locationAction theta: (int)theta;
+- (void)setupMessageDisplaysLabelLocationAction: (MALocationActionType)locationAction;
 
-- (void)SetupWallTypeTableViewWallType: (int)wallType;
+- (void)setupWallTypeTableViewWallType: (int)wallType;
 
 - (void)clearAccessoriesInTableView: (UITableView *)tableView;
 
-- (BOOL)WallPassesTeleportationSurroundedCheck;
-- (void)TeleportationSurroundedAlert;
+- (BOOL)wallPassesTeleportationSurroundedCheck;
+- (void)teleportationSurroundedAlert;
 
 - (IBAction)switchPublicValueChanged: (id)sender;
 - (BOOL)pathExists;
@@ -175,7 +136,7 @@
 - (IBAction)btnFloorDefaultTouchDown;
 - (IBAction)btnCeilingDefaultTouchDown;
 
-- (IBAction)Save: (id)sender;
+- (IBAction)save: (id)sender;
 
 - (void)createMaze;
 - (void)createMazeResponse;
@@ -190,7 +151,7 @@
 
 - (BOOL)validate;
 
-- (IBAction)Delete: (id)sender;
+- (IBAction)delete: (id)sender;
 
 - (void)deleteMaze;
 - (void)deleteMazeResponse;
@@ -205,7 +166,7 @@
 
 - (void)showTutorialHelpForTopic: (NSString *)topic;
 
-- (void)setTableView: (UITableView *)tableView Disabled: (BOOL)disabled;
+- (void)setTableView: (UITableView *)tableView disabled: (BOOL)disabled;
 
 @end
 

@@ -3,4 +3,24 @@ texturetool -e PVRTC -o kitty.pvrtc -p kitty_preview.png kitty.png
 afconvert -f caff -d aac {INPUT} {OUTPUT}
 
 
+server: ssh root@173.45.249.212 / 1Vivaldi$
+
+
+/etc/init.d/apache2 restart
+
+
+Ruby on Rails:
+
+rails server -d
+
+copy    mazes/app
+        mazes/db
+        mazes/config/routes.rb
+
+rake db:create
+rake db:migrate
+rake db:seed
+
+rake db:rollback
+
 

@@ -3,7 +3,7 @@
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -17,23 +17,23 @@
 @property (assign, nonatomic) float textureHighlightWidth;
 @property (assign, nonatomic) float locationHighlightWidth;
 @property (assign, nonatomic) float wallHighlightWidth;
-@property (retain, nonatomic) UIColor *borderColor;
-@property (retain, nonatomic) UIColor *backgroundColor;
-@property (retain, nonatomic) UIColor *doNothingColor;
-@property (retain, nonatomic) UIColor *startColor;
-@property (retain, nonatomic) UIColor *endColor;
-@property (retain, nonatomic) UIColor *startOverColor;
-@property (retain, nonatomic) UIColor *teleportationColor;
-@property (retain, nonatomic) UIColor *messageColor;
-@property (retain, nonatomic) UIColor *arrowColor;
-@property (retain, nonatomic) UIColor *textureHighlightColor;
-@property (retain, nonatomic) UIColor *locationHighlightColor;
+@property (strong, nonatomic) UIColor *borderColor;
+@property (strong, nonatomic) UIColor *backgroundColor;
+@property (strong, nonatomic) UIColor *doNothingColor;
+@property (strong, nonatomic) UIColor *startColor;
+@property (strong, nonatomic) UIColor *endColor;
+@property (strong, nonatomic) UIColor *startOverColor;
+@property (strong, nonatomic) UIColor *teleportationColor;
+@property (strong, nonatomic) UIColor *messageColor;
+@property (strong, nonatomic) UIColor *arrowColor;
+@property (strong, nonatomic) UIColor *textureHighlightColor;
+@property (strong, nonatomic) UIColor *locationHighlightColor;
 @property (assign, nonatomic) float teleportFontSize;
-@property (retain, nonatomic) UIColor *teleportIdColor;
-@property (retain, nonatomic) UIColor *noWallColor;
-@property (retain, nonatomic) UIColor *solidColor;
-@property (retain, nonatomic) UIColor *invisibleColor;
-@property (retain, nonatomic) UIColor *fakeColor;	
-@property (retain, nonatomic) UIColor *cornerColor;
+@property (strong, nonatomic) UIColor *teleportIdColor;
+@property (strong, nonatomic) UIColor *noWallColor;
+@property (strong, nonatomic) UIColor *solidColor;
+@property (strong, nonatomic) UIColor *invisibleColor;
+@property (strong, nonatomic) UIColor *fakeColor;	
+@property (strong, nonatomic) UIColor *cornerColor;
 
 @end

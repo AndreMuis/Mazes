@@ -3,25 +3,12 @@
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
 #import "MapStyle.h"
 
 @implementation MapStyle
-
-@synthesize length;
-@synthesize wallWidth;
-@synthesize squareWidth;
-@synthesize backgroundColor;
-@synthesize doNothingColor;
-@synthesize startColor;
-@synthesize endColor;
-@synthesize startOverColor;
-@synthesize teleportationColor;
-@synthesize wallColor;
-@synthesize noWallColor;
-@synthesize invisibleColor;	
 
 - (id)init
 {

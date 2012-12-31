@@ -3,7 +3,7 @@
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
 #import "MainListItem.h"
@@ -26,6 +26,16 @@
 	}
 	
     return self;
+}
+
+- (NSString *)lastModifiedFormatted
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    [dateFormatter setDateStyle: NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle: NSDateFormatterNoStyle];
+    
+    return [dateFormatter stringFromDate: self.lastModified];
 }
 
 - (NSString *)description

@@ -1,9 +1,9 @@
 //
 //  MainListTableViewCell.h
-//  iPad_Mazes
+//  Mazes
 //
 //  Created by Andre Muis on 4/18/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Andre Muis. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -12,28 +12,28 @@
 
 @interface MainListTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UILabel *nameLabel1;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel1;
 
-@property (strong, nonatomic) IBOutlet RatingView *viewRatingAvg1;
-@property (strong, nonatomic) IBOutlet UILabel *lblNumRatings1;
+@property (weak, nonatomic) IBOutlet RatingView *viewRatingAvg1;
+@property (weak, nonatomic) IBOutlet UILabel *lblNumRatings1;
 
-@property (strong, nonatomic) IBOutlet RatingView *viewRatingUser1;
+@property (weak, nonatomic) IBOutlet RatingView *viewRatingUser1;
 
-@property (strong, nonatomic) IBOutlet UILabel *dateLabel1;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel1;
 
-@property (strong, nonatomic) IBOutlet UIImageView *imageViewBackground2;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewBackground2;
 
-@property (strong, nonatomic) IBOutlet UILabel *nameLabel2;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel2;
 
-@property (strong, nonatomic) IBOutlet RatingView *viewRatingAvg2;
-@property (strong, nonatomic) IBOutlet UILabel *lblNumRatings2;
+@property (weak, nonatomic) IBOutlet RatingView *viewRatingAvg2;
+@property (weak, nonatomic) IBOutlet UILabel *lblNumRatings2;
 
-@property (strong, nonatomic) IBOutlet RatingView *viewRatingUser2;
+@property (weak, nonatomic) IBOutlet RatingView *viewRatingUser2;
 
-@property (strong, nonatomic) IBOutlet UILabel *dateLabel2;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel2;
 
-@property (nonatomic, assign) int touchColumn;
+@property (assign, nonatomic) int touchColumn;
 
-- (BOOL)TouchPoint: (CGPoint)touchPoint InViewRatingUser: (RatingView *)viewRatingUser;
+- (BOOL)touchPoint: (CGPoint)touchPoint inViewRatingUser: (RatingView *)viewRatingUser;
 
 @end

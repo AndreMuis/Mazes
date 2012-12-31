@@ -3,14 +3,12 @@
 //  Mazes
 //
 //  Created by Andre Muis on 9/3/12.
-//
+//  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
 #import "Settings.h"
 
 @implementation Settings
-
-@synthesize useTutorial;
 
 + (Settings *)shared
 {
