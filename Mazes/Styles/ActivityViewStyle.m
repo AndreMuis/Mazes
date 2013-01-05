@@ -8,6 +8,8 @@
 
 #import "ActivityViewStyle.h"
 
+#import "Colors.h"
+
 @implementation ActivityViewStyle
 
 - (id)init
@@ -16,9 +18,7 @@
 
     if (self)
 	{
-       	self.messageFont = [UIFont systemFontOfSize: 31.0];
-        self.messageColor = [[UIColor alloc] initWithRed: 0.0 green: 0.0 blue: 0.0 alpha: 0.4];
-        self.paddingPrcnt = 0.2;
+        self.color = [Colors shared].darkGrayColor;
     }
                       
     return self;

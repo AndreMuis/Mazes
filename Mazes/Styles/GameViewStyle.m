@@ -16,7 +16,7 @@
 	
     if (self)
 	{
-        self.titleBackgroundColor = [Colors shared].transparentColor;
+        self.titleBackgroundColor = [UIColor clearColor];
         self.titleFont = [UIFont boldSystemFontOfSize: 19];
         self.titleTextColor = [[UIColor alloc] initWithRed: 0.5 green: 0.25 blue: 0.0 alpha: 1.0]; // broen
         

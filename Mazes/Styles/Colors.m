@@ -31,8 +31,6 @@
 	
 	if (self) 
 	{
-        _transparentColor = [[UIColor alloc] initWithRed: 1.0 green: 1.0 blue: 1.0 alpha: 0.0];
-        
         _blackColor = [[UIColor alloc] initWithRed: 0.0 green: 0.0 blue: 0.0 alpha: 1.0];
         
         _whiteColor  = [[UIColor alloc] initWithRed: 1.0 green: 1.0 blue: 1.0 alpha: 1.0];

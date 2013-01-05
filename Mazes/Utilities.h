@@ -8,14 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Globals.h"
-
 @class AppDelegate;
 @class Styles;
 
 @interface Utilities : NSObject 
 
 + (void)logWithClass: (Class)class format: (NSString *)formatString, ...;
+
++ (BOOL)iCloudAvavilable;
+
++ (void)cleariCloudStore;
 
 + (void)drawBorderInsideRect: (CGRect)rect withWidth: (CGFloat)width color: (UIColor *)color;
 

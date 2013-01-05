@@ -17,7 +17,9 @@
     if (self)
 	{
         _id = 0;
-        _uuid = nil;
+        _udid = nil;
+        _createdDate = nil;
+        _updatedDate = nil;
 	}
 	
     return self;
@@ -26,9 +28,13 @@
 - (NSString *)description
 {
     NSString *desc = [NSString stringWithFormat: @"id = %d", self.id];
-    desc = [NSString stringWithFormat: @"%@, uuid = %@", desc, self.uuid];
+    desc = [NSString stringWithFormat: @"%@, udid = %@", desc, self.udid];
+    desc = [NSString stringWithFormat: @"%@, createdDate = %@", desc, self.createdDate];
+    desc = [NSString stringWithFormat: @"%@, updatedDate = %@", desc, self.updatedDate];
     
     return desc;
 }
 
+
 @end
+

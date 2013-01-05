@@ -82,6 +82,8 @@
 
 @property (weak, nonatomic) IBOutlet GridView *gridView;
 
++ (EditViewController *)shared;
+
 - (void)initTexturesPopover;
 
 - (void)animateScrollView;

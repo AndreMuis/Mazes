@@ -37,10 +37,10 @@
         
         self.eventTimerIntervalSecs = 0.01;
         
-        #ifdef DEBUG
-            _serverBaseURL = [[NSURL alloc] initWithString: @"http://localhost:3000"];
+        #if TARGET_IPHONE_SIMULATOR
+        _serverBaseURL = [[NSURL alloc] initWithString: @"http://localhost:3000"];
         #else
-            _serverBaseURL = [[NSURL alloc] initWithString: @"http://173.45.249.212:3000"];
+        _serverBaseURL = [[NSURL alloc] initWithString: @"http://173.45.249.212:3000"];
         #endif
 
         _serverRetryDelaySecs = 5.0;

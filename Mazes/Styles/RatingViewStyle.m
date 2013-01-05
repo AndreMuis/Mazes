@@ -16,11 +16,11 @@
 	
     if (self)
 	{
-        self.popupBackgroundColor = [Colors shared].lightYellowColor;
-        self.displayAvgColor = [Colors shared].redColor;
-        self.displayUserColor = [Colors shared].blueColor;
-        self.recordPopoverColor = [Colors shared].blueColor;
-        self.recordEndColor = [Colors shared].yellowColor;
+        _popupBackgroundColor = [Colors shared].lightYellowColor;
+        
+        _averageRatingStarColor = [Colors shared].redColor;
+        _userRatingStarColor = [Colors shared].blueColor;
+        _mazeFinishedStarColor = [Colors shared].yellowColor;
     }
   
     return self;

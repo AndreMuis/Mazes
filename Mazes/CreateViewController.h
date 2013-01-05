@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Globals.h"
 #import "Maze.h"
 #import "GridView.h"
 
@@ -23,6 +22,8 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
 
 @property (weak, nonatomic) IBOutlet GridView *gridView;
+
++ (CreateViewController *)shared;
 
 - (IBAction)btnContinueTouchDown: (id)sender;
 

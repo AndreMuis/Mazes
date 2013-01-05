@@ -8,6 +8,7 @@
 
 #import "EditViewController.h"
 
+#import "CreateViewController.h"
 #import "GridView.h"
 #import "MainListViewController.h"
 #import "Maze.h"
@@ -19,6 +20,32 @@
 #import "TexturesViewController.h"
 
 @implementation EditViewController
+
++ (EditViewController *)shared
+{
+	static EditViewController *instance = nil;
+	
+	@synchronized(self)
+	{
+		if (instance == nil)
+		{
+			instance = [[EditViewController alloc] initWithNibName: @"EditViewController" bundle: nil];
+		}
+	}
+	
+	return instance;
+}
+
+- (id)initWithNibName: (NSString *)nibNameOrNil bundle: (NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName: nibNameOrNil bundle: nibBundleOrNil];
+    
+    if (self)
+    {
+    }
+    
+    return self;
+}
 
 - (void)viewDidLoad 
 {
@@ -155,7 +182,7 @@
 	
 	if (self.maze.rows == 0 && self.maze.columns == 0)
     {
-		[self.navigationController pushViewController: (UIViewController *)[Globals shared].createViewController animated: NO];
+		[self.navigationController pushViewController: [CreateViewController shared] animated: NO];
     }
 }
 
@@ -1507,7 +1534,7 @@ BOOL exists;
 {
 	[self setup];
 	
-	[self.navigationController pushViewController: (UIViewController *)[Globals shared].createViewController animated: NO];
+	[self.navigationController pushViewController: [CreateViewController shared] animated: NO];
 }
 
 - (IBAction)btnMazesTouchDown: (id)sender
@@ -1677,13 +1704,6 @@ BOOL exists;
 		tableView.backgroundColor =	[Styles shared].editView.tableViewBackgroundColor;
 		tableView.allowsSelection = YES;
 	}
-}
-
-- (void)didReceiveMemoryWarning 
-{
-    [super didReceiveMemoryWarning];
-	
-	NSLog(@"Edit View Controller received a memory warning.");
 }
 
 @end

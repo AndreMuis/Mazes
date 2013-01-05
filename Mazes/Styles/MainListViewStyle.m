@@ -1,14 +1,14 @@
 //
-//  MazeListStyle.m
+//  MainListViewStyle.m
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
 //  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
-#import "MazeListStyle.h"
+#import "MainListViewStyle.h"
 
-@implementation MazeListStyle
+@implementation MainListViewStyle
 
 - (id)init
 {
@@ -16,7 +16,7 @@
 	
     if (self)
 	{
-        self.tableBackgroundColor = [Colors shared].transparentColor;
+        self.tableBackgroundColor = [UIColor clearColor];
         self.textColor = [Colors shared].darkBrownColor;
     }
     

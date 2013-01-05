@@ -13,6 +13,8 @@
 @class Location;
 @class Maze;
 @class MazeUser;
+@class Rating;
+@class User;
 @class Version;
 
 @protocol MAServerOperationsGetVersionDelegate <NSObject>
@@ -31,6 +33,11 @@
 @end
 
 
+@protocol MAServerOperationsGetUserDelegate <NSObject>
+@required
+- (void)serverOperationsGetUser: (User *)user error: (NSError *)error;
+@end
+
 @protocol MAServerOperationsGetMazeDelegate <NSObject>
 @required
 - (void)serverOperationsGetMaze: (Maze *)maze error: (NSError *)error;
@@ -41,9 +48,20 @@
 - (void)serverOperationsGetLocations: (NSArray *)locations error: (NSError *)error;
 @end
 
+
 @protocol MAServerOperationsGetMazeUserDelegate <NSObject>
 @required
 - (void)serverOperationsGetMazeUser: (MazeUser *)mazeUser error: (NSError *)error;
+@end
+
+@protocol MAServerOperationsSaveMazeUserDelegate <NSObject>
+@required
+- (void)serverOperationsSaveMazeUserWithError: (NSError *)error;
+@end
+
+@protocol MAServerOperationsSaveMazeRatingDelegate <NSObject>
+@required
+- (void)serverOperationsSaveRatingWithError: (NSError *)error;
 @end
 
 
@@ -78,11 +96,19 @@
 - (RKManagedObjectRequestOperation *)getTexturesOperationWithDelegate: (id<MAServerOperationsGetTexturesDelegate>)delegate;
 
 
+- (RKObjectRequestOperation *)getUserOperationWithDelegate: (id<MAServerOperationsGetUserDelegate>)delegate udid: (NSString *)udid;
+
+
 - (RKObjectRequestOperation *)getMazeOperationWithDelegate: (id<MAServerOperationsGetMazeDelegate>)delegate mazeId: (int)mazeId;
 
 - (RKObjectRequestOperation *)getLocationsOperationWithDelegate: (id<MAServerOperationsGetLocationsDelegate>)delegate mazeId: (int)mazeId;
 
+
 - (RKObjectRequestOperation *)getMazeUserOperationWithDelegate: (id<MAServerOperationsGetMazeUserDelegate>)delegate mazeId: (int)mazeId userId: (int)userId;
+
+- (RKObjectRequestOperation *)saveMazeUserOperationWithDelegate: (id<MAServerOperationsSaveMazeUserDelegate>)delegate mazeUser: (MazeUser *)mazeUser;
+
+- (RKObjectRequestOperation *)saveMazeRatingOperationWithDelegate: (id<MAServerOperationsSaveMazeRatingDelegate>)delegate rating: (Rating *)rating;
 
 
 - (RKObjectRequestOperation *)highestRatedOperationWithDelegate: (id<MAServerOperationsHighestRatedListDelegate>)delegate userId: (int)userId;

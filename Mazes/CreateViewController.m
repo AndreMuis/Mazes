@@ -10,6 +10,32 @@
 
 @implementation CreateViewController
 
++ (CreateViewController *)shared
+{
+	static CreateViewController *instance = nil;
+	
+	@synchronized(self)
+	{
+		if (instance == nil)
+		{
+			instance = [[CreateViewController alloc] initWithNibName: @"CreateViewController" bundle: nil];
+		}
+	}
+	
+	return instance;
+}
+
+- (id)initWithNibName: (NSString *)nibNameOrNil bundle: (NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName: nibNameOrNil bundle: nibBundleOrNil];
+    
+    if (self)
+    {
+    }
+    
+    return self;
+}
+
 - (void)viewDidLoad 
 {
 	[super viewDidLoad];
@@ -110,18 +136,6 @@
 - (IBAction)btnMazesTouchDown: (id)sender
 {
 	[self.navigationController popToRootViewControllerAnimated: NO];
-}
-
-- (void)didReceiveMemoryWarning 
-{
-    [super didReceiveMemoryWarning];
-	
-	NSLog(@"Create View Controller received a memory warning.");
-}
-
-- (void)viewDidUnload 
-{
-    [super viewDidUnload];
 }
 
 @end

@@ -13,9 +13,10 @@
 @interface RatingViewStyle : NSObject
 
 @property (strong, nonatomic) UIColor *popupBackgroundColor;
-@property (strong, nonatomic) UIColor *displayAvgColor;
-@property (strong, nonatomic) UIColor *displayUserColor;
-@property (strong, nonatomic) UIColor *recordPopoverColor;
-@property (strong, nonatomic) UIColor *recordEndColor;
+
+@property (strong, nonatomic) UIColor *averageRatingStarColor;
+@property (strong, nonatomic) UIColor *userRatingStarColor;
+@property (strong, nonatomic) UIColor *selectableStarColor;
+@property (strong, nonatomic) UIColor *mazeFinishedStarColor;
 
 @end

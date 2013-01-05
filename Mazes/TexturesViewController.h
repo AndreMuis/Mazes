@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Globals.h"
 #import "Styles.h"
 
 @interface TexturesViewController : UIViewController 

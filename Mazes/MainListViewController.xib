@@ -204,10 +204,6 @@
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<bool key="IBUIHidesWhenStopped">NO</bool>
 						<int key="IBUIStyle">0</int>
-						<object class="NSColor" key="IBUIColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC40MDAwMDAwMDYgMC40MDAwMDAwMDYgMC40MDAwMDAwMDYAA</bytes>
-						</object>
 					</object>
 					<object class="IBUIImageView" id="770473381">
 						<reference key="NSNextResponder" ref="824878468"/>

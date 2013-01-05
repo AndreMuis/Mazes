@@ -35,6 +35,8 @@
     BOOL yoursMainListHasLoaded;
     
     int selectedSegmentIndex;
+    
+    BOOL viewAppearingFirstTime;
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewHighestRated;

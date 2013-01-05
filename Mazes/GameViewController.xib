@@ -13,6 +13,7 @@
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>IBProxyObject</string>
+			<string>IBUIActivityIndicatorView</string>
 			<string>IBUIButton</string>
 			<string>IBUIImageView</string>
 			<string>IBUILabel</string>
@@ -68,6 +69,40 @@
 							<string key="NSResourceName">btnMazesBackBlue.png</string>
 						</object>
 					</object>
+					<object class="IBUIButton" id="249185575">
+						<reference key="NSNextResponder" ref="210202698"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{17, 13}, {154, 32}}</string>
+						<reference key="NSSuperview" ref="210202698"/>
+						<reference key="NSNextKeyView" ref="83025574"/>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<int key="IBUIContentHorizontalAlignment">0</int>
+						<int key="IBUIContentVerticalAlignment">0</int>
+						<object class="NSColor" key="IBUIHighlightedTitleColor" id="910925280">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MQA</bytes>
+						</object>
+						<object class="NSColor" key="IBUINormalTitleColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+						</object>
+						<object class="NSColor" key="IBUINormalTitleShadowColor" id="156059432">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MC41AA</bytes>
+						</object>
+						<object class="IBUIFontDescription" key="IBUIFontDescription" id="12613347">
+							<string key="name">Helvetica-Bold</string>
+							<string key="family">Helvetica</string>
+							<int key="traits">2</int>
+							<double key="pointSize">15</double>
+						</object>
+						<object class="NSFont" key="IBUIFont" id="494185302">
+							<string key="NSName">Helvetica-Bold</string>
+							<double key="NSSize">15</double>
+							<int key="NSfFlags">16</int>
+						</object>
+					</object>
 					<object class="IBUILabel" id="83025574">
 						<reference key="NSNextResponder" ref="210202698"/>
 						<int key="NSvFlags">292</int>
@@ -89,10 +124,7 @@
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
 							<string key="IBUIColorCocoaTouchKeyPath">darkTextColor</string>
 						</object>
-						<object class="NSColor" key="IBUIHighlightedColor" id="910925280">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MQA</bytes>
-						</object>
+						<reference key="IBUIHighlightedColor" ref="910925280"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
@@ -108,37 +140,6 @@
 							<int key="NSfFlags">16</int>
 						</object>
 						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
-					</object>
-					<object class="IBUIButton" id="249185575">
-						<reference key="NSNextResponder" ref="210202698"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{17, 13}, {154, 32}}</string>
-						<reference key="NSSuperview" ref="210202698"/>
-						<reference key="NSNextKeyView" ref="83025574"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<int key="IBUIContentHorizontalAlignment">0</int>
-						<int key="IBUIContentVerticalAlignment">0</int>
-						<reference key="IBUIHighlightedTitleColor" ref="910925280"/>
-						<object class="NSColor" key="IBUINormalTitleColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-						</object>
-						<object class="NSColor" key="IBUINormalTitleShadowColor" id="156059432">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MC41AA</bytes>
-						</object>
-						<object class="IBUIFontDescription" key="IBUIFontDescription" id="12613347">
-							<string key="name">Helvetica-Bold</string>
-							<string key="family">Helvetica</string>
-							<int key="traits">2</int>
-							<double key="pointSize">15</double>
-						</object>
-						<object class="NSFont" key="IBUIFont" id="494185302">
-							<string key="NSName">Helvetica-Bold</string>
-							<double key="NSSize">15</double>
-							<int key="NSfFlags">16</int>
-						</object>
 					</object>
 					<object class="IBUIImageView" id="965249093">
 						<reference key="NSNextResponder" ref="210202698"/>
@@ -237,10 +238,24 @@
 					<object class="IBUIView" id="623026924">
 						<reference key="NSNextResponder" ref="210202698"/>
 						<int key="NSvFlags">292</int>
+						<object class="NSMutableArray" key="NSSubviews">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
 						<string key="NSFrame">{{20, 452}, {728, 481}}</string>
 						<reference key="NSSuperview" ref="210202698"/>
 						<reference key="IBUIBackgroundColor" ref="290684199"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+					</object>
+					<object class="IBUIActivityIndicatorView" id="767454750">
+						<reference key="NSNextResponder" ref="210202698"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{366, 390}, {37, 37}}</string>
+						<reference key="NSSuperview" ref="210202698"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<bool key="IBUIHidesWhenStopped">NO</bool>
+						<int key="IBUIStyle">0</int>
 					</object>
 				</object>
 				<string key="NSFrameSize">{768, 1024}</string>
@@ -261,14 +276,6 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">mazeView</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="623026924"/>
-					</object>
-					<int key="connectionID">43</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">view</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="210202698"/>
@@ -277,111 +284,127 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">backImageView</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="539290934"/>
+					</object>
+					<int key="connectionID">79</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">titleLabel</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="83025574"/>
+					</object>
+					<int key="connectionID">80</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">instructionsImageView</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="965249093"/>
+					</object>
+					<int key="connectionID">83</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">instructionsButton</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="581108737"/>
+					</object>
+					<int key="connectionID">84</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">mapBorderView</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="781063281"/>
+					</object>
+					<int key="connectionID">87</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">mapView</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="1020348097"/>
 					</object>
-					<int key="connectionID">48</int>
+					<int key="connectionID">88</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">textViewMessage</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="825294594"/>
-					</object>
-					<int key="connectionID">50</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">viewMapBorder</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="781063281"/>
-					</object>
-					<int key="connectionID">58</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">viewMazeBorder</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="259044566"/>
-					</object>
-					<int key="connectionID">59</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">viewMessageBorder</string>
+						<string key="label">messageBorderView</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="51981655"/>
 					</object>
-					<int key="connectionID">60</int>
+					<int key="connectionID">89</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">imageViewHowToPlay</string>
+						<string key="label">messageTextView</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="965249093"/>
+						<reference key="destination" ref="825294594"/>
 					</object>
-					<int key="connectionID">69</int>
+					<int key="connectionID">90</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">imageViewMazesBack</string>
+						<string key="label">mazeBorderView</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="539290934"/>
+						<reference key="destination" ref="259044566"/>
 					</object>
-					<int key="connectionID">75</int>
+					<int key="connectionID">91</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">btnHowToPlay</string>
+						<string key="label">mazeView</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="581108737"/>
+						<reference key="destination" ref="623026924"/>
 					</object>
-					<int key="connectionID">76</int>
+					<int key="connectionID">92</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">lblTitle</string>
+						<string key="label">activityIndicatorView</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="83025574"/>
+						<reference key="destination" ref="767454750"/>
 					</object>
-					<int key="connectionID">78</int>
+					<int key="connectionID">97</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">btnMazesBackTouchDown:</string>
+						<string key="label">backButtonTouchDown:</string>
 						<reference key="source" ref="249185575"/>
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">1</int>
 					</object>
-					<int key="connectionID">73</int>
+					<int key="connectionID">81</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">btnMazesBackTouchUpInside:</string>
+						<string key="label">backButtonTouchUpInside:</string>
 						<reference key="source" ref="249185575"/>
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">74</int>
+					<int key="connectionID">93</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">btnHowToPlayTouchDown:</string>
+						<string key="label">instructionsButtonTouchDown:</string>
 						<reference key="source" ref="581108737"/>
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">1</int>
 					</object>
-					<int key="connectionID">71</int>
+					<int key="connectionID">85</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">btnHowToPlayTouchUpInside:</string>
+						<string key="label">instructionsButtonTouchUpInside:</string>
 						<reference key="source" ref="581108737"/>
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">72</int>
+					<int key="connectionID">86</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -417,20 +440,21 @@
 							<reference ref="801222636"/>
 							<reference ref="825294594"/>
 							<reference ref="539290934"/>
-							<reference ref="249185575"/>
 							<reference ref="965249093"/>
 							<reference ref="581108737"/>
 							<reference ref="83025574"/>
 							<reference ref="623026924"/>
+							<reference ref="249185575"/>
 							<reference ref="1020348097"/>
+							<reference ref="767454750"/>
 						</object>
 						<reference key="parent" ref="0"/>
+						<string key="objectName">view</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">38</int>
 						<reference key="object" ref="801222636"/>
 						<reference key="parent" ref="210202698"/>
-						<string key="objectName">Game Background</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">52</int>
@@ -439,7 +463,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 						</object>
 						<reference key="parent" ref="210202698"/>
-						<string key="objectName">viewMapBorder</string>
+						<string key="objectName">mapBorderView</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">53</int>
@@ -448,7 +472,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 						</object>
 						<reference key="parent" ref="210202698"/>
-						<string key="objectName">viewMessageBorder</string>
+						<string key="objectName">messageBorderView</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">54</int>
@@ -457,55 +481,64 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 						</object>
 						<reference key="parent" ref="210202698"/>
-						<string key="objectName">viewMazeBorder</string>
+						<string key="objectName">mazeBorderView</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">61</int>
 						<reference key="object" ref="965249093"/>
 						<reference key="parent" ref="210202698"/>
-						<string key="objectName">imageViewHowToPlay</string>
+						<string key="objectName">instructionsImageView</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">62</int>
 						<reference key="object" ref="539290934"/>
 						<reference key="parent" ref="210202698"/>
-						<string key="objectName">imageViewMazesBack</string>
+						<string key="objectName">backImageView</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">63</int>
 						<reference key="object" ref="249185575"/>
 						<reference key="parent" ref="210202698"/>
-						<string key="objectName">btnMazesBack</string>
+						<string key="objectName">backButton</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">64</int>
 						<reference key="object" ref="581108737"/>
 						<reference key="parent" ref="210202698"/>
-						<string key="objectName">btnHowToPlay</string>
+						<string key="objectName">instructionsButton</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">77</int>
 						<reference key="object" ref="83025574"/>
 						<reference key="parent" ref="210202698"/>
-						<string key="objectName">lblTitle</string>
+						<string key="objectName">titleLabel</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">49</int>
 						<reference key="object" ref="825294594"/>
 						<reference key="parent" ref="210202698"/>
-						<string key="objectName">textViewMessage</string>
+						<string key="objectName">messageTextView</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">8</int>
 						<reference key="object" ref="623026924"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
 						<reference key="parent" ref="210202698"/>
-						<string key="objectName">Maze View</string>
+						<string key="objectName">mazeView</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">46</int>
 						<reference key="object" ref="1020348097"/>
 						<reference key="parent" ref="210202698"/>
-						<string key="objectName">Map View</string>
+						<string key="objectName">mapView</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">96</int>
+						<reference key="object" ref="767454750"/>
+						<reference key="parent" ref="210202698"/>
+						<string key="objectName">activityIndicatorView</string>
 					</object>
 				</object>
 			</object>
@@ -532,6 +565,7 @@
 					<string>77.IBPluginDependency</string>
 					<string>8.CustomClassName</string>
 					<string>8.IBPluginDependency</string>
+					<string>96.IBPluginDependency</string>
 				</object>
 				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -554,6 +588,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>MazeView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -568,7 +603,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">78</int>
+			<int key="maxID">97</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>

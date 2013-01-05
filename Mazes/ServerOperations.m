@@ -13,8 +13,10 @@
 #import "MainListItem.h"
 #import "Maze.h"
 #import "MazeUser.h"
+#import "Rating.h"
 #import "Sound.h"
 #import "Texture.h"
+#import "User.h"
 #import "Utilities.h"
 #import "Version.h"
 
@@ -213,6 +215,48 @@
 }
 
 
+- (RKObjectRequestOperation *)getUserOperationWithDelegate: (id<MAServerOperationsGetUserDelegate>)delegate udid: (NSString *)udid
+{
+    RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass: [User class]];
+    
+    [objectMapping addAttributeMappingsFromDictionary:
+     @{@"id" : @"id",
+     @"udid" : @"udid",
+     @"created_at" : @"createdDate",
+     @"updated_at" : @"updatedDate"}];
+    
+    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful);
+    
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping: objectMapping
+                                                                                       pathPattern: nil
+                                                                                           keyPath: nil
+                                                                                       statusCodes: statusCodes];
+    
+    NSURL *url = [Constants shared].serverBaseURL;
+    url = [url URLByAppendingPathComponent: [NSString stringWithFormat: @"/users/show/%@.json", udid]];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: url];
+    
+    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest: request
+                                                                                     responseDescriptors: @[responseDescriptor]];
+    
+    Class class = [self class];
+    
+    [objectRequestOperation setCompletionBlockWithSuccess: ^(RKObjectRequestOperation *operation, RKMappingResult *result)
+     {
+         [delegate serverOperationsGetUser: [result firstObject] error: nil];
+     }
+                                                  failure: ^(RKObjectRequestOperation *operation, NSError *error)
+     {
+         [Utilities logWithClass: class format: @"Unable to get user from server. Error: %@", [error localizedDescription]];
+         
+         [delegate serverOperationsGetUser: nil error: error];
+     }];
+    
+    return objectRequestOperation;
+}
+
+
 - (RKObjectRequestOperation *)getMazeOperationWithDelegate: (id<MAServerOperationsGetMazeDelegate>)delegate mazeId: (int)mazeId
 {
     RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass: [Maze class]];
@@ -362,6 +406,101 @@
     
     return objectRequestOperation;
 }
+
+- (RKObjectRequestOperation *)saveMazeUserOperationWithDelegate: (id<MAServerOperationsSaveMazeUserDelegate>)delegate mazeUser: (MazeUser *)mazeUser
+{
+    RKObjectMapping *requestObjectMapping = [RKObjectMapping requestMapping];
+    
+    [requestObjectMapping addAttributeMappingsFromDictionary:
+     @{@"mazeId" : @"maze_id",
+     @"userId" : @"user_id",
+     @"started" : @"started",
+     @"finished" : @"finished",
+     @"rating" : @"rating"}];
+
+    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping: requestObjectMapping
+                                                                                   objectClass: [MazeUser class]
+                                                                                   rootKeyPath: @"maze_user"];
+    
+    NSError *error = nil;
+    NSDictionary *parameters = [RKObjectParameterization parametersWithObject: mazeUser
+                                                            requestDescriptor: requestDescriptor
+                                                                        error: &error];
+    
+    if (error != nil)
+    {
+        [Utilities logWithClass: [self class] format: @"Unable to parameterize object mazeUser. Error = %@", [error localizedDescription]];
+    }
+    
+    error = nil;
+    NSData *requestBody = [RKMIMETypeSerialization dataFromObject: parameters
+                                                         MIMEType: RKMIMETypeFormURLEncoded
+                                                            error: &error];
+    
+    if (error != nil)
+    {
+        [Utilities logWithClass: [self class] format: @"Unable to serialize parameters. Error = %@", [error localizedDescription]];
+    }
+
+
+    NSURL *url = [Constants shared].serverBaseURL;
+    url = [url URLByAppendingPathComponent: [NSString stringWithFormat: @"/maze_users/%d.json", mazeUser.id]];
+
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: url];
+
+    [request setHTTPMethod: @"PUT"];
+    [request addValue: @"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+    [request setHTTPBody: requestBody];
+    
+    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest: request
+                                                                                     responseDescriptors: @[]];
+    
+    
+    Class class = [self class];
+    
+    [objectRequestOperation setCompletionBlockWithSuccess: ^(RKObjectRequestOperation *operation, RKMappingResult *result)
+     {
+         [delegate serverOperationsSaveMazeUserWithError: nil];
+     }
+                                                  failure: ^(RKObjectRequestOperation *operation, NSError *error)
+     {
+         [Utilities logWithClass: class format: @"Unable to set mazeUser on server. Error: %@", [error localizedDescription]];
+         
+         [delegate serverOperationsSaveMazeUserWithError: error];
+     }];
+        
+    return objectRequestOperation;
+}
+
+- (RKObjectRequestOperation *)saveMazeRatingOperationWithDelegate: (id<MAServerOperationsSaveMazeRatingDelegate>)delegate rating: (Rating *)rating
+{
+    NSURL *url = [Constants shared].serverBaseURL;
+    url = [url URLByAppendingPathComponent: [NSString stringWithFormat: @"main/setMazeRating/%d/%d/%f.json", rating.mazeId, rating.userId, rating.value]];
+
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: url];
+    
+    [request addValue: @"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+    
+    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest: request
+                                                                                     responseDescriptors: @[]];
+    
+    
+    Class class = [self class];
+    
+    [objectRequestOperation setCompletionBlockWithSuccess: ^(RKObjectRequestOperation *operation, RKMappingResult *result)
+     {
+         [delegate serverOperationsSaveRatingWithError: nil];
+     }
+                                                  failure: ^(RKObjectRequestOperation *operation, NSError *error)
+     {
+         [Utilities logWithClass: class format: @"Unable to set rating on server. Error: %@", [error localizedDescription]];
+         
+         [delegate serverOperationsSaveRatingWithError: error];
+     }];
+    
+    return objectRequestOperation;
+}
+
 
 
 - (RKObjectRequestOperation *)highestRatedOperationWithDelegate: (id<MAServerOperationsHighestRatedListDelegate>)delegate userId: (int)userId

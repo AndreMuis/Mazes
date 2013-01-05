@@ -91,11 +91,4 @@
 	}	
 }		
 
-- (void)didReceiveMemoryWarning 
-{
-    [super didReceiveMemoryWarning];
-	
-	NSLog(@"Textures View Controller received a memory warning.");
-}
-
 @end

@@ -55,6 +55,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{9, 6}, {374, 76}}</string>
 								<reference key="NSSuperview" ref="986055370"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="85650317"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -68,6 +69,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{23, 18}, {253, 22}}</string>
 								<reference key="NSSuperview" ref="986055370"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="121383871"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -101,6 +103,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{23, 44}, {122, 22}}</string>
 								<reference key="NSSuperview" ref="986055370"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="548623815"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">1</int>
@@ -113,6 +116,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{153, 44}, {87, 22}}</string>
 								<reference key="NSSuperview" ref="986055370"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="786734187"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -144,6 +148,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{243, 44}, {122, 22}}</string>
 								<reference key="NSSuperview" ref="986055370"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="860259957"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">1</int>
@@ -156,6 +161,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{284, 18}, {81, 22}}</string>
 								<reference key="NSSuperview" ref="986055370"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="73840161"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -185,6 +191,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{389, 6}, {374, 76}}</string>
 								<reference key="NSSuperview" ref="986055370"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="658009070"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -195,6 +202,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{403, 18}, {253, 22}}</string>
 								<reference key="NSSuperview" ref="986055370"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="267656277"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -215,6 +223,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{403, 44}, {122, 22}}</string>
 								<reference key="NSSuperview" ref="986055370"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="412315111"/>
 								<object class="NSColor" key="IBUIBackgroundColor" id="192740156">
 									<int key="NSColorSpace">1</int>
@@ -227,6 +236,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{533, 44}, {84, 22}}</string>
 								<reference key="NSSuperview" ref="986055370"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1035029507"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -246,6 +256,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{625, 44}, {120, 22}}</string>
 								<reference key="NSSuperview" ref="986055370"/>
+								<reference key="NSWindow"/>
 								<reference key="IBUIBackgroundColor" ref="192740156"/>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
@@ -254,6 +265,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{664, 18}, {81, 22}}</string>
 								<reference key="NSSuperview" ref="986055370"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="761196760"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -272,6 +284,7 @@
 						</object>
 						<string key="NSFrameSize">{768, 81}</string>
 						<reference key="NSSuperview" ref="267464034"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="232054674"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -286,6 +299,7 @@
 				</object>
 				<string key="NSFrameSize">{768, 82}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="986055370"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -312,91 +326,91 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">DateLabel1</string>
-						<reference key="source" ref="267464034"/>
-						<reference key="destination" ref="121383871"/>
-					</object>
-					<int key="connectionID">34</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">DateLabel2</string>
-						<reference key="source" ref="267464034"/>
-						<reference key="destination" ref="267656277"/>
-					</object>
-					<int key="connectionID">35</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">NameLabel1</string>
+						<string key="label">name1Label</string>
 						<reference key="source" ref="267464034"/>
 						<reference key="destination" ref="85650317"/>
 					</object>
-					<int key="connectionID">36</int>
+					<int key="connectionID">71</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">NameLabel2</string>
-						<reference key="source" ref="267464034"/>
-						<reference key="destination" ref="658009070"/>
-					</object>
-					<int key="connectionID">37</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">viewRatingAvg1</string>
+						<string key="label">averageRating1View</string>
 						<reference key="source" ref="267464034"/>
 						<reference key="destination" ref="73840161"/>
 					</object>
-					<int key="connectionID">55</int>
+					<int key="connectionID">72</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">viewRatingUser1</string>
-						<reference key="source" ref="267464034"/>
-						<reference key="destination" ref="786734187"/>
-					</object>
-					<int key="connectionID">56</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">viewRatingAvg2</string>
-						<reference key="source" ref="267464034"/>
-						<reference key="destination" ref="761196760"/>
-					</object>
-					<int key="connectionID">57</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">viewRatingUser2</string>
-						<reference key="source" ref="267464034"/>
-						<reference key="destination" ref="1035029507"/>
-					</object>
-					<int key="connectionID">59</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">lblNumRatings1</string>
+						<string key="label">ratingCount1Label</string>
 						<reference key="source" ref="267464034"/>
 						<reference key="destination" ref="548623815"/>
 					</object>
-					<int key="connectionID">64</int>
+					<int key="connectionID">73</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">lblNumRatings2</string>
+						<string key="label">userRating1View</string>
 						<reference key="source" ref="267464034"/>
-						<reference key="destination" ref="412315111"/>
+						<reference key="destination" ref="786734187"/>
 					</object>
-					<int key="connectionID">65</int>
+					<int key="connectionID">74</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">imageViewBackground2</string>
+						<string key="label">date1Label</string>
+						<reference key="source" ref="267464034"/>
+						<reference key="destination" ref="121383871"/>
+					</object>
+					<int key="connectionID">75</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">background2ImageView</string>
 						<reference key="source" ref="267464034"/>
 						<reference key="destination" ref="860259957"/>
 					</object>
-					<int key="connectionID">70</int>
+					<int key="connectionID">76</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">name2Label</string>
+						<reference key="source" ref="267464034"/>
+						<reference key="destination" ref="658009070"/>
+					</object>
+					<int key="connectionID">77</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">averageRating2View</string>
+						<reference key="source" ref="267464034"/>
+						<reference key="destination" ref="761196760"/>
+					</object>
+					<int key="connectionID">78</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">ratingCount2Label</string>
+						<reference key="source" ref="267464034"/>
+						<reference key="destination" ref="412315111"/>
+					</object>
+					<int key="connectionID">79</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">userRating2View</string>
+						<reference key="source" ref="267464034"/>
+						<reference key="destination" ref="1035029507"/>
+					</object>
+					<int key="connectionID">80</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">date2Label</string>
+						<reference key="source" ref="267464034"/>
+						<reference key="destination" ref="267656277"/>
+					</object>
+					<int key="connectionID">81</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -451,19 +465,19 @@
 						<int key="objectID">5</int>
 						<reference key="object" ref="85650317"/>
 						<reference key="parent" ref="267464034"/>
-						<string key="objectName">lblName1</string>
+						<string key="objectName">name1Label</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">7</int>
 						<reference key="object" ref="121383871"/>
 						<reference key="parent" ref="267464034"/>
-						<string key="objectName">lblDate1</string>
+						<string key="objectName">date1Label</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">31</int>
 						<reference key="object" ref="267656277"/>
 						<reference key="parent" ref="267464034"/>
-						<string key="objectName">lblDate2</string>
+						<string key="objectName">date2Label</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">44</int>
@@ -472,7 +486,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 						</object>
 						<reference key="parent" ref="267464034"/>
-						<string key="objectName">viewRatingAvg1</string>
+						<string key="objectName">averageRating1View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">50</int>
@@ -481,49 +495,48 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 						</object>
 						<reference key="parent" ref="267464034"/>
-						<string key="objectName">viewRatingAvg2</string>
+						<string key="objectName">averageRating2View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">54</int>
 						<reference key="object" ref="786734187"/>
 						<reference key="parent" ref="267464034"/>
-						<string key="objectName">viewRatingUser1</string>
+						<string key="objectName">userRating1View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">58</int>
 						<reference key="object" ref="1035029507"/>
 						<reference key="parent" ref="267464034"/>
-						<string key="objectName">viewRatingUser2</string>
+						<string key="objectName">userRating2View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">29</int>
 						<reference key="object" ref="658009070"/>
 						<reference key="parent" ref="267464034"/>
-						<string key="objectName">lblName2</string>
+						<string key="objectName">name2Label</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">62</int>
 						<reference key="object" ref="548623815"/>
 						<reference key="parent" ref="267464034"/>
-						<string key="objectName">lblNumRatings1</string>
+						<string key="objectName">ratingCount1Label</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">63</int>
 						<reference key="object" ref="412315111"/>
 						<reference key="parent" ref="267464034"/>
-						<string key="objectName">lblNumRatings2</string>
+						<string key="objectName">ratingCount2Label</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">66</int>
 						<reference key="object" ref="232054674"/>
 						<reference key="parent" ref="267464034"/>
-						<string key="objectName">imageViewBackground1</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">69</int>
 						<reference key="object" ref="860259957"/>
 						<reference key="parent" ref="267464034"/>
-						<string key="objectName">imageViewBackground2</string>
+						<string key="objectName">background2ImageView</string>
 					</object>
 				</object>
 			</object>
@@ -594,9 +607,124 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">70</int>
+			<int key="maxID">81</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<object class="IBPartialClassDescription">
+					<string key="className">MainListTableViewCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>averageRating1View</string>
+							<string>averageRating2View</string>
+							<string>background2ImageView</string>
+							<string>date1Label</string>
+							<string>date2Label</string>
+							<string>name1Label</string>
+							<string>name2Label</string>
+							<string>ratingCount1Label</string>
+							<string>ratingCount2Label</string>
+							<string>userRating1View</string>
+							<string>userRating2View</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>RatingView</string>
+							<string>RatingView</string>
+							<string>UIImageView</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>RatingView</string>
+							<string>RatingView</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>averageRating1View</string>
+							<string>averageRating2View</string>
+							<string>background2ImageView</string>
+							<string>date1Label</string>
+							<string>date2Label</string>
+							<string>name1Label</string>
+							<string>name2Label</string>
+							<string>ratingCount1Label</string>
+							<string>ratingCount2Label</string>
+							<string>userRating1View</string>
+							<string>userRating2View</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">averageRating1View</string>
+								<string key="candidateClassName">RatingView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">averageRating2View</string>
+								<string key="candidateClassName">RatingView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">background2ImageView</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">date1Label</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">date2Label</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">name1Label</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">name2Label</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">ratingCount1Label</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">ratingCount2Label</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userRating1View</string>
+								<string key="candidateClassName">RatingView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userRating2View</string>
+								<string key="candidateClassName">RatingView</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/MainListTableViewCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">RatingView</string>
+					<string key="superclassName">UIView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/RatingView.h</string>
+					</object>
+				</object>
+			</object>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBIPadFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">

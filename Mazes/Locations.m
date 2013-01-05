@@ -16,7 +16,7 @@
 	
     if (self)
 	{
-        self->list = [[NSMutableArray alloc] init];
+        self->list = nil;
     }
 	
 	return self;
@@ -24,6 +24,8 @@
 
 - (void)populateWithRows: (int)rows columns: (int)columns
 {
+    self->list = [[NSMutableArray alloc] init];
+
 	for (int LocX = 1; LocX <= columns + 1; LocX = LocX + 1)
 	{
 		for (int LocY = 1; LocY <= rows + 1; LocY = LocY + 1)

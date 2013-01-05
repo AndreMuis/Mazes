@@ -12,17 +12,32 @@
 
 #import "Constants.h"
 #import "Crittercism.h"
-#import "Game.h"
+#import "CurrentUser.h"
 #import "Flurry.h"
-#import "Maze.h"
 #import "Sounds.h"
 #import "Textures.h"
 #import "MainViewController.h"
-#import "Version.h"
-#import "ServerOperations.h"
+#import "MainListViewController.h"
+#import "Utilities.h"
 #import "User.h"
+#import "Version.h"
 
 @implementation AppDelegate
+
+- (id)init
+{
+    self = [super init];
+	
+	if (self)
+	{
+        self->operationQueue = [[NSOperationQueue alloc] init];
+        
+        _bannerView = [[ADBannerView alloc] init];
+        _bannerView.delegate = self;
+	}
+    
+    return self;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -32,80 +47,105 @@
     
     [MagicalRecord setupCoreDataStack];
     
+    #if TARGET_IPHONE_SIMULATOR
+    [CurrentUser shared].id = 6766;
+    #endif 
+    
     self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
     
     self.window.rootViewController = [MainViewController shared];
     [self.window makeKeyAndVisible];
 
-    [[Game shared] checkVersion];
-
+    [self getVersion];
+    
     [[Sounds shared] download];
     
     [[Textures shared] download];
+
+    // iPad UDID: 7db970c5dc91e0129515c096ae1b07f8fd04ec3f
+    // [Utilities cleariCloudStore];
+
+    #if !TARGET_IPHONE_SIMULATOR
+    if ([CurrentUser shared].id == 0)
+    {
+        [self getUser];
+    }
+    #endif
     
     return YES;
 }
 
-- (void)loadMazeEdit
+- (void)bannerViewDidLoadAd: (ADBannerView *)banner
 {
-    /*
-    comm = [[Communication alloc] initWithDelegate: self Selector: @selector(loadMazeEditResponse) Action: @"GetMazeByUserId" WaitMessage: @"Loading"];
+    [Flurry logEvent: @"bannerViewDidLoadAd:"
+      withParameters: @{[[NSLocale currentLocale] localeIdentifier] : @"localeIdentifier"}];
+}
 
-    [XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"UserId" NodeValue: UNIQUE_ID];
+- (void)bannerView: (ADBannerView *)banner didFailToReceiveAdWithError: (NSError *)error
+{
+    [Flurry logEvent: @"bannerView: didFailToReceiveAdWithError:"
+      withParameters: @{[[NSLocale currentLocale] localeIdentifier] : @"localeIdentifier", [error localizedDescription] : @"error"}];
+}
+
+- (void)getVersion
+{
+    [self->operationQueue addOperation: [[ServerOperations shared] getVersionOperationWithDelegate: self]];
+}
+
+- (void)getUser
+{
+    #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+    [self->operationQueue addOperation: [[ServerOperations shared] getUserOperationWithDelegate: self
+                                                                                           udid: [UIDevice currentDevice].uniqueIdentifier]];
+    #pragma GCC diagnostic warning "-Wdeprecated-declarations"
+}
+
+- (void)serverOperationsGetVersion: (Version *)version error: (NSError *)error
+{
+    float appVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleShortVersionString"] floatValue];
     
-    [comm post];
-    */
-}
-
-- (void)loadMazeEditResponse
-{
-    /*
-    if (comm.errorOccurred == NO)
+    //NSLog(@"appVersion = %f, currentVersion = %f", appVersion, currentVersion);
+    
+    if (error == nil)
     {
-        if ([XML isDocEmpty: comm.responseDoc] == NO)
+        if (appVersion < version.number)
         {
-            [[Globals instance].mazeEdit populateFromXML: comm.responseDoc];
-
-            [self loadMazeEditLocations];
-        }
-        else 
-        {
-            [[MainListViewController shared] loadMazeList];
+            NSString *message = [NSString stringWithFormat: @"This app is Version %0.1f. Version %0.1f is now available. It is recommended that you upgrade to the latest version.", appVersion, version.number];
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                message: message
+                                                               delegate: nil
+                                                      cancelButtonTitle: @"OK"
+                                                      otherButtonTitles: nil];
+            
+            [alertView show];
         }
     }
-    else 
+    else
     {
-        [[MainListViewController shared] loadMazeList];
+        [self performSelector: @selector(getVersion) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
     }
-    */
 }
 
-- (void)loadMazeEditLocations
+- (void)serverOperationsGetUser: (User *)user error: (NSError *)error
 {
-    /*
-    comm = [[Communication alloc] initWithDelegate: self Selector: @selector(loadMazeEditLocationsResponse) Action: @"GetLocations" WaitMessage: @"Loading"];	
-
-    [XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", [Globals instance].mazeEdit.mazeId]];
-
-    [comm post];
-    */
-}
-
-- (void)loadMazeEditLocationsResponse
-{
-    /*
-    if (comm.errorOccurred == NO)
-    {		
-        [[Globals instance].mazeEdit.locations populateWithXML: comm.responseDoc];
+    if (error == nil)
+    {
+        [CurrentUser shared].id = user.id;
+        
+        NSLog(@"id after %d", [CurrentUser shared].id);
+        
+        [[MainListViewController shared] setupOperationQueue];
     }
-
-    [[MainListViewController shared] loadMazeList];
-    */
+    else
+    {
+        [self performSelector: @selector(getUser) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
+    }    
 }
 
 - (void)applicationDidReceiveMemoryWarning: (UIApplication *)application
 {
-    NSLog(@"delegate received memory warning.");
+    [Utilities logWithClass: [self class] format: @"applicationDidReceiveMemoryWarning:"];
 }
 
 @end

@@ -40,9 +40,8 @@
         _grid = [[GridStyle alloc] init];
         _mainView = [[MainViewStyle alloc] init];
         _map = [[MapStyle alloc] init];
-        _mazeList = [[MazeListStyle alloc] init];
+        _mainListView = [[MainListViewStyle alloc] init];
         _ratingView = [[RatingViewStyle alloc] init];
-        _screen = [[ScreenStyle alloc] init];
     }
 	
     return self;

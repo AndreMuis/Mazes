@@ -10,6 +10,7 @@
 
 #import "Constants.h"
 #import "MAViewController.h"
+#import "RatingView.h"
 #import "ServerOperations.h"
 
 typedef enum
@@ -25,6 +26,7 @@ typedef enum
 @class MapView;
 @class Maze;
 @class MazeView;
+@class MAEvent;
 
 @interface GameViewController : MAViewController
     <MAServerOperationsGetMazeDelegate,
@@ -32,11 +34,17 @@ typedef enum
     MAServerOperationsGetMazeUserDelegate,
     UIGestureRecognizerDelegate,
     UIAlertViewDelegate,
+    MARatingViewDelegate,
     UIPopoverControllerDelegate>
 {
     NSOperationQueue *operationQueue;
     
+    MAEvent *getGameDataEvent;
+    MAEvent *saveMazeUserEvent;
+    
     Maze *maze;
+    NSArray *locations;
+    
     MazeUser *mazeUser;
     
 	Location *prevLoc;
@@ -66,34 +74,36 @@ typedef enum
 	
 	BOOL wallRemoved;
 	BOOL directionReversed;
-		
+
+    UIAlertView *startOverAlertView;
 	UIAlertView *endAlertView;
 }
 
-@property (weak, nonatomic) MainListItem *mainListItem;
+@property (assign, nonatomic) int mazeId;
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewMazesBack;
+@property (weak, nonatomic) IBOutlet UIImageView *backImageView;
 
-@property (weak, nonatomic) IBOutlet UILabel *lblTitle;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewHowToPlay;
+@property (weak, nonatomic) IBOutlet UIImageView *instructionsImageView;
+@property (weak, nonatomic) IBOutlet UIButton *instructionsButton;
 
-@property (weak, nonatomic) IBOutlet UIButton *btnHowToPlay;
-
-@property (weak, nonatomic) IBOutlet UIView *viewMapBorder;
+@property (weak, nonatomic) IBOutlet UIView *mapBorderView;
 @property (weak, nonatomic) IBOutlet MapView *mapView;
 
-@property (weak, nonatomic) IBOutlet UIView *viewMessageBorder;
-@property (weak, nonatomic) IBOutlet UITextView *textViewMessage;
+@property (weak, nonatomic) IBOutlet UIView *messageBorderView;
+@property (weak, nonatomic) IBOutlet UITextView *messageTextView;
 
-@property (weak, nonatomic) IBOutlet UIView *viewMazeBorder;
+@property (weak, nonatomic) IBOutlet UIView *mazeBorderView;
 @property (weak, nonatomic) IBOutlet MazeView *mazeView;
+
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
 @property (strong, nonatomic) UIPopoverController *popoverController2;
 
 + (GameViewController *)shared;
 
-- (void)setupOperationQueue;
+- (void)getGameData;
 
 - (void)setup;
 - (void)setupNewLocation: (Location *)newLoc;
@@ -113,23 +123,37 @@ typedef enum
 
 - (void)locationChanged;
 
-- (void)setMazeFinished;
-- (void)setMazeFinishedResponse;
-
 - (void)displayMessage;
 - (void)clearMessage;
 
 - (void)showEndAlert;
 - (void)dismissEndAlertView;
 
-- (IBAction)btnMazesBackTouchDown: (id)sender;
-- (IBAction)btnMazesBackTouchUpInside: (id)sender;
+- (IBAction)backButtonTouchDown: (id)sender;
+- (IBAction)backButtonTouchUpInside: (id)sender;
 
 - (void)goBack;
 
-- (IBAction)btnHowToPlayTouchDown: (id)sender;
-- (IBAction)btnHowToPlayTouchUpInside: (id)sender;
+- (IBAction)instructionsButtonTouchDown: (id)sender;
+- (IBAction)instructionsButtonTouchUpInside: (id)sender;
 
 - (void)displayHelp;
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

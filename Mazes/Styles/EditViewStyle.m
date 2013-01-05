@@ -37,7 +37,7 @@
         
         self.viewButtonsBackgroundColor = [[UIColor alloc] initWithRed: 1.0 green: 0.96 blue: 0.65 alpha: 1.0]; 
         
-        self.messageBackgroundColor = [Colors shared].transparentColor;
+        self.messageBackgroundColor = [UIColor clearColor];
         self.messageTextColor = [Colors shared].darkBlueColor;
     }
     

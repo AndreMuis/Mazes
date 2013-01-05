@@ -9,158 +9,146 @@
 #import "RatingView.h"
 
 #import "GameViewController.h"
-#import "Globals.h"
 #import "MainListViewController.h"
+#import "RatingViewController.h"
 #import "Styles.h"
 #import "Utilities.h"
 
 @implementation RatingView
 
-- (void)drawRect: (CGRect)rect 
+- (id)initWithCoder: (NSCoder*)coder
 {
-	userRect = rect;
-	
-    switch (self.mode)
-    {
-        case MARatingModeDoNothing:
-            self.userInteractionEnabled = NO;
-            break;
-            
-        case MARatingModeDisplayAvg:
-            [self drawStarsRect: rect color: [Styles shared].ratingView.displayAvgColor];
-            break;
-            
-        case MARatingModeDisplayUser:
-            [self drawStarsRect: rect color: [Styles shared].ratingView.displayUserColor];
-            break;
-            
-        case MARatingModeRecordPopover:
-            [self drawStarsRect: rect color: [Styles shared].ratingView.recordPopoverColor];
-            break;
-            
-        case MARatingModeRecordEnd:
-            [self drawStarsRect: rect color: [Styles shared].ratingView.recordEndColor];
-            break;
-            
-        default:
-            [Utilities logWithClass: [self class] format: @"mode set to an illegal value: %d", self.mode];
-            break;
+    self = [super initWithCoder: coder];
+    
+    if (self)
+	{
+        _delegate = nil;
+        _rating = 0.0;
+        _starColor = nil;
+        _type = MARatingViewUnknown;
     }
+	
+	return self;
 }
 
-- (void)drawStarsRect: (CGRect)rect color: (UIColor *)color
+- (void)setupWithDelegate: (id<MARatingViewDelegate>)aDelegate rating: (float)aRating type: (MARatingViewType)aType starColor: (UIColor *)aStarColor
 {
-	self.starWidth = rect.size.width / 5.0;
-	self.starHeight = rect.size.height;
-	
+    self.delegate = aDelegate;
+    self.rating = aRating;
+    self.starColor = aStarColor;
+    self.type = aType;
+    
+    self.backgroundColor = [UIColor clearColor];
+    
+    self->starWidth = self.frame.size.width / 5.0;
+	self->starHeight = self.frame.size.height;
+
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapFrom:)];
+	[self addGestureRecognizer: tapGestureRecognizer];
+}
+
+- (void)drawRect: (CGRect)rect
+{
 	for (float i = 1.0; i <= 5.0; i = i + 1.0)
 	{
-		float starX = self.starWidth * (i - 1);
+		float starX = self->starWidth * (i - 1);
 		float starY = rect.origin.y;
 		
 		if (i <= self.rating)
 		{
-			[Utilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
+			[Utilities drawStarInRect: CGRectMake(starX, starY, self->starWidth, self->starHeight)
                              clipRect: CGRectZero
-                                color: color
+                                color: self.starColor
                               outline: NO];
 		}
 		else if (i > ceilf(self.rating))
 		{
-			[Utilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
+			[Utilities drawStarInRect: CGRectMake(starX, starY, self->starWidth, self->starHeight)
                              clipRect: CGRectZero
-                                color: color
+                                color: self.starColor
                               outline: YES];
 		}
 		else
 		{
 			float fract = self.rating - floorf(self.rating);
 			
-			[Utilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
-                             clipRect: CGRectMake(starX, starY, fract * self.starWidth, self.starHeight)
-                                color: color
+			[Utilities drawStarInRect: CGRectMake(starX, starY, self->starWidth, self->starHeight)
+                             clipRect: CGRectMake(starX, starY, fract * self->starWidth, self->starHeight)
+                                color: self.starColor
                               outline: NO];
 			
-			[Utilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
-                             clipRect: CGRectMake(starX + fract * self.starWidth, starY, self.starWidth - fract * self.starWidth, self.starHeight)
-                                color: color
+			[Utilities drawStarInRect: CGRectMake(starX, starY, self->starWidth, self->starHeight)
+                             clipRect: CGRectMake(starX + fract * self->starWidth, starY, self->starWidth - fract * self->starWidth, self->starHeight)
+                                color: self.starColor
                               outline: YES];
 		}
 	}
 }
 
-// touches for User Rating Views are handled in MainListTableViewCell.m
-- (void)touchesBegan: (NSSet *)touches withEvent: (UIEvent *)event 
-{	
-	[super touchesBegan: touches withEvent: event];
-	
-	// applies to rating view in popover
-	if (self.mode == MARatingModeRecordPopover || self.mode == MARatingModeRecordEnd)
-	{
-		CGPoint touchPoint = [[touches anyObject] locationInView: self];
+- (void)handleTapFrom: (UITapGestureRecognizer *)tapGestureRecognizer;
+{
+    CGPoint tapPoint = [tapGestureRecognizer locationInView: self];
 
-		int stars = 0;
-		for (int i = 0; i < 5; i = i + 1)
-		{
-			if (touchPoint.x >= i * self.starWidth && touchPoint.x <= (i + 1) * self.starWidth)
+    switch (self.type)
+    {
+        case MARatingViewDisplayOnly:
+        {
+            break;
+        }
+            
+        case MARatingViewEditable:
+        {
+            RatingViewController *ratingViewController = [[RatingViewController alloc] initWithNibName: @"RatingViewController" bundle: nil];
+
+            self->popoverController = [[UIPopoverController alloc] initWithContentViewController: ratingViewController];
+            
+            [ratingViewController.ratingView setupWithDelegate: self
+                                                        rating: self.rating
+                                                          type: MARatingViewSelectable
+                                                     starColor: self.starColor];
+
+            self->popoverController.popoverContentSize = ratingViewController.view.frame.size;
+            
+            [self->popoverController presentPopoverFromRect: self.bounds
+                                                     inView: self
+                                   permittedArrowDirections: UIPopoverArrowDirectionAny
+                                                   animated: YES];
+            
+            break;
+        }
+            
+        case MARatingViewSelectable:
+        {
+            for (int star = 1; star <= 5; star = star + 1)
             {
-				stars = i + 1;
+                if (tapPoint.x >= (star - 1) * starWidth && tapPoint.x <= star * starWidth)
+                {
+                    self.rating = (float)star;
+                }
             }
-		}
-		
-		[self setRating2: stars];
-	}
+
+            [self setNeedsDisplay];
+            
+            [self.delegate ratingView: self ratingChanged: self.rating];
+            break;
+        }
+            
+        default:
+        {
+            [Utilities logWithClass: [self class] format: @"type set to an illegal value: %d", self.type];
+            break;
+        }
+    }
 }
 
-- (void)showRatingPopover
+- (void)ratingView: (RatingView *)ratingView ratingChanged: (float)newRating
 {
-	UIViewController* viewController = [[UIViewController alloc] initWithNibName: @"RatingPopoverViewController" bundle: nil];
-	viewController.view.backgroundColor = [Styles shared].ratingView.popupBackgroundColor;
-	
-	RatingView *ratingView = (RatingView *)[viewController.view.subviews objectAtIndex: 0];
-	ratingView.backgroundColor = [Styles shared].ratingView.popupBackgroundColor;
-	ratingView.mode = MARatingModeRecordPopover;
-	ratingView.mazeId = self.mazeId;
-	ratingView.rating = self.rating;
-	
-	UIPopoverController* thePopoverController = [[UIPopoverController alloc] initWithContentViewController: viewController];
-	
-	thePopoverController.popoverContentSize = CGSizeMake(viewController.view.frame.size.width, viewController.view.frame.size.height);
-	thePopoverController.delegate = ratingView;
-	
-	[thePopoverController presentPopoverFromRect: self.bounds inView: self permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
-	
-	ratingView.popoverController = thePopoverController;
-}
+    [self->popoverController dismissPopoverAnimated: YES];
 
-- (void)setRating2: (float)aRating
-{
-    /*
-	rating = aRating;
-	[self setNeedsDisplay];
-	
-	comm = [[Communication alloc] initWithDelegate: self Selector: @selector(setRatingResponse) Action: @"SetMazeRating" WaitMessage: @"Saving"];
-
-	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", mazeId]];
-	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"UserId" NodeValue: UNIQUE_ID];
-	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"Rating" NodeValue: [NSString stringWithFormat: @"%f", rating]];
-
-	[comm post];
-    */
-}
-
-- (void)setRatingResponse
-{	
-	if (self.mode == MARatingModeRecordPopover)
-	{
-		[self.popoverController dismissPopoverAnimated: YES];
-		
-		//[[MainListViewController shared] loadMazeList];
-	}
-	else if (self.mode == MARatingModeRecordEnd)
-	{
-		[[GameViewController shared] dismissEndAlertView];
-	}
+    if (newRating != self.rating)
+    {
+        [self.delegate ratingView: self ratingChanged: newRating];
+    }
 }
 
 @end

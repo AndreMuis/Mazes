@@ -10,7 +10,6 @@
 
 @interface Colors : NSObject
 
-@property (strong, nonatomic) UIColor *transparentColor;
 @property (strong, nonatomic) UIColor *blackColor;
 @property (strong, nonatomic) UIColor *whiteColor;
 @property (strong, nonatomic) UIColor *whiteOpaqueColor;

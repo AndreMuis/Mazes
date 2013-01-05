@@ -8,34 +8,36 @@
 
 #import <UIKit/UIKit.h>
 
+@class RatingView;
+
 typedef enum
 {
-	MARatingModeDoNothing = 1,
-	MARatingModeDisplayAvg = 2,
-	MARatingModeDisplayUser = 3,
-	MARatingModeRecordPopover = 4,
-	MARatingModeRecordEnd = 5
-} MARatingModeType;
+	MARatingViewUnknown = 0,
+	MARatingViewDisplayOnly = 1,
+	MARatingViewEditable = 2,
+	MARatingViewSelectable = 3
+} MARatingViewType;
 
-@interface RatingView : UIView <UIPopoverControllerDelegate>
+@protocol MARatingViewDelegate <NSObject>
+@required
+- (void)ratingView: (RatingView *)ratingView ratingChanged: (float)newRating;
+@end
+
+@interface RatingView : UIView <MARatingViewDelegate , UIPopoverControllerDelegate>
 {
-	CGRect userRect;
+    CGFloat starWidth;
+	CGFloat starHeight;
+    
+    UIPopoverController* popoverController;
 }
 
-@property (assign, nonatomic) MARatingModeType mode;
-@property (assign, nonatomic) int mazeId;
+@property (strong, nonatomic) id<MARatingViewDelegate> delegate;
 @property (assign, nonatomic) float rating;
+@property (strong, nonatomic) UIColor *starColor;
+@property (assign, nonatomic) MARatingViewType type;
 
-@property (assign, nonatomic) float starWidth;
-@property (assign, nonatomic) float starHeight;
+- (void)setupWithDelegate: (id<MARatingViewDelegate>)aDelegate rating: (float)aRating type: (MARatingViewType)aType starColor: (UIColor *)aStarColor;
 
-@property (strong, nonatomic) UIPopoverController *popoverController;
-
-- (void)drawStarsRect: (CGRect)rect color: (UIColor *)color;
-
-- (void)showRatingPopover;
-
-- (void)setRating2: (float)rating;
-- (void)setRatingResponse;
+- (void)handleTapFrom: (UITapGestureRecognizer *)tapGestureRecognizer;
 
 @end

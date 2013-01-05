@@ -8,21 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-#import "CoreData+MagicalRecord.h"
+#import "ServerOperations.h"
 
-#import "Sound.h"
-
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, MAServerOperationsGetVersionDelegate, MAServerOperationsGetUserDelegate, ADBannerViewDelegate>
 {
-    Sound *sound;
+    NSOperationQueue *operationQueue;
 }
 
 @property (strong, nonatomic) UIWindow *window;
 
-- (void)loadMazeEdit;
-- (void)loadMazeEditResponse;
+@property (strong, nonatomic) ADBannerView *bannerView;
 
-- (void)loadMazeEditLocations;
-- (void)loadMazeEditLocationsResponse;
+- (void)getVersion;
+
+- (void)getUser;
 
 @end

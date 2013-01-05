@@ -10,8 +10,6 @@
 
 @interface ActivityViewStyle : NSObject
 
-@property (strong, nonatomic) UIFont *messageFont;
-@property (strong, nonatomic) UIColor *messageColor;
-@property (assign, nonatomic) float paddingPrcnt;
+@property (strong, nonatomic) UIColor *color;
 
 @end

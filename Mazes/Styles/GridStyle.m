@@ -24,7 +24,7 @@
         self.wallHighlightWidth = 3.0;
         
         self.borderColor = [Colors shared].darkGrayColor;
-        self.backgroundColor = [Colors shared].transparentColor;
+        self.backgroundColor = [UIColor clearColor];
         
         self.doNothingColor = [Colors shared].whiteColor;
         self.startColor = [Colors shared].greenColor;

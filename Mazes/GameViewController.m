@@ -8,9 +8,12 @@
 
 #import "GameViewController.h"
 
+#import "ActivityViewStyle.h"
+#import "AppDelegate.h"
 #import "Colors.h"
-#import "Game.h"
-#import "Globals.h"
+#import "CurrentUser.h"
+#import "MAEvents.h"
+#import "MAEvent.h"
 #import "MainListItem.h"
 #import "MainListViewController.h"
 #import "MainViewController.h"
@@ -18,7 +21,8 @@
 #import "Maze.h"
 #import "MazeUser.h"
 #import "MazeView.h"
-#import "RatingView.h"
+#import "RatingViewStyle.h"
+#import "ServerQueue.h"
 #import "Sounds.h"
 #import "Sound.h"
 #import "Textures.h"
@@ -49,7 +53,20 @@
     {
         self->operationQueue = [[NSOperationQueue alloc] init];
         
+        self->getGameDataEvent = [[MAEvent alloc] initWithTarget: self
+                                                          action: @selector(getGameData)
+                                                    intervalSecs: [Constants shared].serverRetryDelaySecs
+                                                         repeats: NO];
+
+        self->saveMazeUserEvent = [[MAEvent alloc] initWithTarget: self
+                                                           action: @selector(saveMazeUser)
+                                                     intervalSecs: [Constants shared].serverRetryDelaySecs
+                                                          repeats: NO];
+
         self->maze = nil;
+        self->locations = nil;
+        
+        self->mazeUser = nil;
         
         self->movements = [[NSMutableArray alloc] init];
 		
@@ -64,20 +81,20 @@
 {
     [super viewDidLoad];
 	
-	self.lblTitle.backgroundColor = [Styles shared].gameView.titleBackgroundColor;
-	self.lblTitle.font = [Styles shared].gameView.titleFont;
-	self.lblTitle.textColor = [Styles shared].gameView.titleTextColor;
+	self.titleLabel.backgroundColor = [Styles shared].gameView.titleBackgroundColor;
+	self.titleLabel.font = [Styles shared].gameView.titleFont;
+	self.titleLabel.textColor = [Styles shared].gameView.titleTextColor;
 	
-	self.viewMapBorder.backgroundColor = [Styles shared].gameView.borderColor;
+	self.mapBorderView.backgroundColor = [Styles shared].gameView.borderColor;
 	self.mapView.backgroundColor = [Styles shared].map.backgroundColor;
 	
-	self.viewMessageBorder.backgroundColor = [Styles shared].gameView.borderColor;
+	self.messageBorderView.backgroundColor = [Styles shared].gameView.borderColor;
 	
-	self.textViewMessage.backgroundColor = [Styles shared].gameView.messageBackgroundColor;
-	self.textViewMessage.font = [Styles shared].defaultFont;
-	self.textViewMessage.textColor = [Styles shared].gameView.messageTextColor;
+	self.messageTextView.backgroundColor = [Styles shared].gameView.messageBackgroundColor;
+	self.messageTextView.font = [Styles shared].defaultFont;
+	self.messageTextView.textColor = [Styles shared].gameView.messageTextColor;
 	
-	self.viewMazeBorder.backgroundColor = [Styles shared].gameView.borderColor;
+	self.mazeBorderView.backgroundColor = [Styles shared].gameView.borderColor;
 
 	[self.mazeView setupOpenGLViewport];
 	[self.mazeView translateDGLX: 0.0 dGLY: [Constants shared].eyeHeight dGLZ: 0.0];
@@ -99,6 +116,8 @@
 	UISwipeGestureRecognizer *swipeDownRecognizer  = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(handleSwipeFrom:)];
     swipeDownRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
 	[self.view addGestureRecognizer: swipeDownRecognizer];
+    
+    self.activityIndicatorView.color = [Styles shared].activityView.color;
 }
 
 - (void)viewWillAppear: (BOOL)animated
@@ -107,99 +126,130 @@
 
     if (self->movingToParentViewController == YES)
     {
-        self.lblTitle.text = self->maze.name;
+        self.titleLabel.text = self->maze.name;
         
-        [Game shared].bannerView.frame = CGRectMake([Game shared].bannerView.frame.origin.x,
-                                                    self.view.frame.size.height - [Game shared].bannerView.frame.size.height,
-                                                    [Game shared].bannerView.frame.size.width,
-                                                    [Game shared].bannerView.frame.size.height);
+        self.mazeView.userInteractionEnabled = NO;
         
-        [self.view addSubview: [Game shared].bannerView];
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+
         
-        [self setupOperationQueue];
+        appDelegate.bannerView.frame = CGRectMake(appDelegate.bannerView.frame.origin.x,
+                                                  self.view.frame.size.height - appDelegate.bannerView.frame.size.height,
+                                                  appDelegate.bannerView.frame.size.width,
+                                                  appDelegate.bannerView.frame.size.height);
+        
+        [self.view addSubview: appDelegate.bannerView];
+        
+        self.activityIndicatorView.hidden = NO;
+        [self.activityIndicatorView startAnimating];
+        
+        [self getGameData];
     }
 }
 
-- (void)setupOperationQueue
+- (void)getGameData
 {
     [self->operationQueue cancelAllOperations];
     
     [self->operationQueue addOperation: [[ServerOperations shared] getMazeOperationWithDelegate: self
-                                                                                         mazeId: self.mainListItem.mazeId]];
+                                                                                         mazeId: self.mazeId]];
     
     [self->operationQueue addOperation: [[ServerOperations shared] getLocationsOperationWithDelegate: self
-                                                                                              mazeId: self.mainListItem.mazeId]];
+                                                                                              mazeId: self.mazeId]];
     
     [self->operationQueue addOperation: [[ServerOperations shared] getMazeUserOperationWithDelegate: self
-                                                                                             mazeId: self.mainListItem.mazeId
-                                                                                             userId: 1]]; //6766
+                                                                                             mazeId: self.mazeId
+                                                                                             userId: [CurrentUser shared].id]];
 }
 
 - (void)serverOperationsGetMaze: (Maze *)aMaze error: (NSError *)error
 {
     if (error == nil)
     {
-        NSLog(@"serverOperationsGetMaze");
-        
         self->maze = aMaze;
 
         [self setup];
     }
     else
     {
-        [self performSelector: @selector(setupOperationQueue) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
+        if ([[MAEvents shared] hasEvent: self->getGameDataEvent] == NO)
+        {
+            [[MAEvents shared] addEvent: self->getGameDataEvent];
+        }
     }
 }
 
-- (void)serverOperationsGetLocations: (NSArray *)locations error: (NSError *)error
+- (void)serverOperationsGetLocations: (NSArray *)aLocations error: (NSError *)error
 {
     if (error == nil)
     {
-        NSLog(@"serverOperationsGetLocations");
-        
-        [self->maze.locations populateWithArray: locations];
+        self->locations = aLocations;
         
         [self setup];
     }
     else
     {
-        [self performSelector: @selector(setupOperationQueue) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
+        if ([[MAEvents shared] hasEvent: self->getGameDataEvent] == NO)
+        {
+            [[MAEvents shared] addEvent: self->getGameDataEvent];
+        }
     }
 }
 
 - (void)serverOperationsGetMazeUser: (MazeUser *)aMazeUser error: (NSError *)error
 {
-    NSLog(@"aMazeUser = %@", aMazeUser);
-    
     if (error == nil)
     {
-        NSLog(@"serverOperationsGetMazeUser");
-     
-        if (aMazeUser == nil)
-        {
-            self->mazeUser = [[MazeUser alloc] init];
-            self->mazeUser.mazeId = self.mainListItem.mazeId;
-            self->mazeUser.userId = 6766;
-        }
-        else
-        {
-            self->mazeUser = aMazeUser;
-        }
+        self->mazeUser = aMazeUser;
         
         [self setup];
     }
     else
     {
-        [self performSelector: @selector(setupOperationQueue) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
+        if ([[MAEvents shared] hasEvent: self->getGameDataEvent] == NO)
+        {
+            [[MAEvents shared] addEvent: self->getGameDataEvent];
+        }
     }
 }
 
 - (void)setup
 {
-    if (self->maze != nil && [self->maze.locations all].count > 0 && self->mazeUser != nil && [Sounds shared].count > 0 && [Textures shared].count > 0)
+    //NSLog(@"maze = %@", self->maze);
+    //NSLog(@"locations = %@", self->locations);
+    //NSLog(@"mazeUser = %@", self->mazeUser);
+    //NSLog(@"sounds = %d", [Sounds shared].count);
+    //NSLog(@"textures = %d", [Textures shared].count);
+    
+    if (self->maze != nil && self->locations != nil && self->mazeUser != nil && [Sounds shared].count > 0 && [Textures shared].count > 0)
     {
+        [self->maze.locations populateWithArray: self->locations];
+        
+        if ([[MAEvents shared] hasEvent: self->getGameDataEvent] == YES)
+        {
+            [[MAEvents shared] removeEvent: self->getGameDataEvent];
+        }
+        
+        if (self->operationQueue.operationCount != 0)
+        {
+            [Utilities logWithClass: [self class] format: @"Operation queue should be empty. Operation count = %d", self->operationQueue.operationCount];
+        }
+        
+        if (self->mazeUser.started == NO)
+        {
+            self->mazeUser.started = YES;
+
+            [[ServerQueue shared] addObject: self->mazeUser];
+        }
+        
+        self.activityIndicatorView.hidden = YES;
+        [self.activityIndicatorView stopAnimating];
+        
+     
         self.mapView.maze = self->maze;
         
+        
+        self.mazeView.userInteractionEnabled = YES;
         
         self.mazeView.maze = self->maze;
         
@@ -646,20 +696,25 @@
 	{
 		[movements removeAllObjects];
 		
-		[self setMazeFinished];
+        if (self->mazeUser.finished == NO)
+        {
+            self->mazeUser.finished = YES;
+            
+            [[ServerQueue shared] addObject: self->mazeUser];
+        }
+        
+        [self showEndAlert];
 	}
 	else if (currLoc.action == MALocationActionStartOver)
 	{
 		[movements removeAllObjects];
 		
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
-                                                            message: currLoc.message
-                                                           delegate: self
-                                                  cancelButtonTitle: @"Start Over"
-                                                  otherButtonTitles: nil];
-        alertView.tag = 1;
-        
-        [alertView show];
+        self->startOverAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                              message: currLoc.message
+                                                             delegate: self
+                                                    cancelButtonTitle: @"Start Over"
+                                                    otherButtonTitles: nil];
+        [self->startOverAlertView show];
 	}
 	else if (currLoc.action == MALocationActionTeleport)
 	{
@@ -674,43 +729,21 @@
 	}
 }
 
-- (void)setMazeFinished
-{
-    /*
-	comm = [[Communication alloc] initWithDelegate: self Selector: @selector(setMazeFinishedResponse) Action: @"SetMazeFinished" WaitMessage: @"Saving Progress"];
-
-	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"MazeId" NodeValue: [NSString stringWithFormat: @"%d", [Globals instance].mazeMain.mazeId]];
-	[XML addNodeDoc: comm.requestDoc Parent: [XML getRootNodeDoc: comm.requestDoc] NodeName: @"UserId" NodeValue: UNIQUE_ID];
-
-	[comm post];
-    */
-}
-
-- (void)setMazeFinishedResponse
-{
-    /*
-	if (comm.errorOccurred == NO)
-    {
-		[self ShowEndAlert];
-    }
-    */
-}
-
 - (void)displayMessage
 {
 	if (currLoc.action != MALocationActionTeleport || (currLoc.action == MALocationActionTeleport && prevLoc.action == MALocationActionTeleport))
 	{
 		if ([currLoc.message isEqualToString: @""] == NO)
 		{
-			if ([self.textViewMessage.text isEqualToString: @""])
+			if ([self.messageTextView.text isEqualToString: @""])
 			{
-				self.textViewMessage.text = currLoc.message;
+				self.messageTextView.text = currLoc.message;
 			}
 			else
 			{
-				self.textViewMessage.text = [currLoc.message stringByAppendingFormat: @"\n\n%@", self.textViewMessage.text];
+				self.messageTextView.text = [currLoc.message stringByAppendingFormat: @"\n\n%@", self.messageTextView.text];
 				
-				self.textViewMessage.contentOffset = CGPointZero; 
+				self.messageTextView.contentOffset = CGPointZero; 
 			}
 		}
 	}
@@ -718,13 +751,13 @@
 
 - (void)clearMessage
 {
-	self.textViewMessage.text = @"";
+	self.messageTextView.text = @"";
 }
 
 - (void)showEndAlert
 {
 	NSString *cancelButtonTitle = @"";
-	if (self.mainListItem.userRating == 0.0)
+	if (self->mazeUser.rating == 0.0)
 	{
 		cancelButtonTitle = @"Don't Rate";
 	}
@@ -733,17 +766,18 @@
 		cancelButtonTitle = @"OK";
 	}
 		
-	endAlertView = [[UIAlertView alloc] initWithTitle: @"" message: currLoc.message delegate: self cancelButtonTitle: cancelButtonTitle otherButtonTitles: nil];
-	endAlertView.tag = 2;
+	self->endAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                    message: currLoc.message
+                                                   delegate: self
+                                          cancelButtonTitle: cancelButtonTitle
+                                          otherButtonTitles: nil];
 
-	[endAlertView show];	
+	[endAlertView show];
 }
 
 - (void)willPresentAlertView: (UIAlertView *)alertView
 {
-	RatingView *ratingView = nil;
-	
-	if (alertView.tag == 2 && self.mainListItem.userRating == 0.0)
+	if (alertView == self->endAlertView && self->mazeUser.rating == 0.0)
 	{
 		UIView *buttonView = [alertView.subviews objectAtIndex: 3];
 
@@ -753,15 +787,16 @@
 		float ratingViewWidth = alertView.frame.size.width - 2.0 * ratingViewX;		
 		float ratingViewHeight = 45.0;
 		
-		ratingView = [[RatingView alloc] init];
+		RatingView *ratingView = [[RatingView alloc] init];
 		
 		ratingView.frame = CGRectMake(ratingViewX, ratingViewY, ratingViewWidth, ratingViewHeight);
 		ratingView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent: 0.0];
 		
-		ratingView.mazeId = self->maze.id;
-		ratingView.mode = MARatingModeRecordEnd;
-		ratingView.rating = self.mainListItem.userRating;
-		
+        [ratingView setupWithDelegate: self
+                               rating: self->mazeUser.rating
+                                 type: MARatingViewSelectable
+                            starColor: [Styles shared].ratingView.mazeFinishedStarColor];
+        
 		[alertView addSubview: ratingView];
 		
 		// add rating label
@@ -788,14 +823,26 @@
 	}
 }
 
+- (void)ratingView: (RatingView *)ratingView ratingChanged: (float)newRating
+{
+    if (newRating != self->mazeUser.rating)
+    {
+        self->mazeUser.rating = newRating;
+        
+        [[ServerQueue shared] addObject: self->mazeUser];
+    }
+    
+    [self dismissEndAlertView];
+}
+
 - (void)alertView: (UIAlertView *)alertView didDismissWithButtonIndex: (NSInteger)buttonIndex
 {
-	if (alertView.tag == 1)
+	if (alertView == self->startOverAlertView)
 	{
 		Location *startLoc = [self->maze.locations getLocationByAction: MALocationActionStart];
 		[self setupNewLocation: startLoc];
 	}
-	else if (alertView.tag == 2)
+	else if (alertView == self->endAlertView)
 	{		
 		[self goBack];
 	}
@@ -808,14 +855,14 @@
 
 // Back Button
 
-- (IBAction)btnMazesBackTouchDown: (id)sender
+- (IBAction)backButtonTouchDown: (id)sender
 {
-	self.imageViewMazesBack.image = [UIImage imageNamed: @"btnMazesBackOrange.png"];
+	self.backImageView.image = [UIImage imageNamed: @"btnMazesBackOrange.png"];
 }
 
-- (IBAction)btnMazesBackTouchUpInside: (id)sender
+- (IBAction)backButtonTouchUpInside: (id)sender
 {
-	self.imageViewMazesBack.image = [UIImage imageNamed: @"btnMazesBackBlue.png"];
+	self.backImageView.image = [UIImage imageNamed: @"btnMazesBackBlue.png"];
 	
 	[self goBack];
 }
@@ -828,6 +875,12 @@
 		[sound stop];	
 	}
 	
+    [self->operationQueue cancelAllOperations];
+    [[MAEvents shared] removeEvent: self->saveMazeUserEvent];
+    
+    self.activityIndicatorView.hidden = YES;
+    [self.activityIndicatorView stopAnimating];
+    
 	[[MainViewController shared] transitionFromViewController: self
                                              toViewController: [MainListViewController shared]
                                                    transition: MATransitionFlipFromRight];
@@ -835,14 +888,14 @@
 
 // How To Play Button
 
-- (IBAction)btnHowToPlayTouchDown: (id)sender
+- (IBAction)instructionsButtonTouchDown: (id)sender
 {
-	self.imageViewHowToPlay.image = [UIImage imageNamed: @"btnHowToPlayOrange.png"];
+	self.instructionsImageView.image = [UIImage imageNamed: @"btnHowToPlayOrange.png"];
 }
 
-- (IBAction)btnHowToPlayTouchUpInside: (id)sender
+- (IBAction)instructionsButtonTouchUpInside: (id)sender
 {
-	self.imageViewHowToPlay.image = [UIImage imageNamed: @"btnHowToPlayBlue.png"];
+	self.instructionsImageView.image = [UIImage imageNamed: @"btnHowToPlayBlue.png"];
 	
 	[self displayHelp];
 }
@@ -869,7 +922,9 @@
 
 	self.popoverController2 = pcPopover;
 
-	[self.popoverController2 presentPopoverFromRect: self.btnHowToPlay.frame inView: self.view permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
+	[self.popoverController2 presentPopoverFromRect: self.instructionsButton.frame
+                                             inView: self.view
+                           permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
 }
 
 - (void)viewWillDisappear: (BOOL)animated

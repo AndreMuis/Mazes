@@ -10,7 +10,9 @@
 
 @interface User : NSObject
 
-@property (assign, nonatomic) NSUInteger id;
-@property (strong, nonatomic) NSString *uuid;
+@property (assign, nonatomic) int id;
+@property (strong, nonatomic) NSString *udid;
+@property (strong, nonatomic) NSDate *createdDate;
+@property (strong, nonatomic) NSDate *updatedDate;
 
 @end

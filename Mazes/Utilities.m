@@ -39,6 +39,28 @@
     #endif
 }
 
++ (BOOL)iCloudAvavilable
+{
+    NSURL *url = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier: nil];
+    
+    if (url != nil)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
++ (void)cleariCloudStore
+{
+    for (NSString *key in [[NSUbiquitousKeyValueStore defaultStore] dictionaryRepresentation].allKeys)
+    {
+        [[NSUbiquitousKeyValueStore defaultStore] removeObjectForKey: key];
+    }
+}
+
 + (void)drawBorderInsideRect: (CGRect)rect withWidth: (CGFloat)width color: (UIColor *)color
 {
 	CGContextRef context = UIGraphicsGetCurrentContext();	

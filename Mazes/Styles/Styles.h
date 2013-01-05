@@ -15,9 +15,8 @@
 #import "GridStyle.h"
 #import "MainViewStyle.h"
 #import "MapStyle.h"
-#import "MazeListStyle.h"
+#import "MainListViewStyle.h"
 #import "RatingViewStyle.h"
-#import "ScreenStyle.h"
 
 @interface Styles : NSObject 
 
@@ -30,9 +29,8 @@
 @property (strong, nonatomic) GridStyle *grid;
 @property (strong, nonatomic) MainViewStyle *mainView;
 @property (strong, nonatomic) MapStyle *map;
-@property (strong, nonatomic) MazeListStyle *mazeList;
+@property (strong, nonatomic) MainListViewStyle *mainListView;
 @property (strong, nonatomic) RatingViewStyle *ratingView;
-@property (strong, nonatomic) ScreenStyle *screen;
 
 + (Styles *)shared;
 

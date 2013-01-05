@@ -1,5 +1,5 @@
 //
-//  MazeListStyle.h
+//  MainListViewStyle.h
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
@@ -10,7 +10,7 @@
 
 #import "Colors.h"
 
-@interface MazeListStyle : NSObject
+@interface MainListViewStyle : NSObject
 
 @property (strong, nonatomic) UIColor *tableBackgroundColor;
 @property (strong, nonatomic) UIColor *textColor;

@@ -8,7 +8,6 @@
 
 #import "MapView.h"
 
-#import "Globals.h"
 #import "Location.h"
 #import "MapSegment.h"
 #import "Maze.h"

@@ -8,32 +8,40 @@
 
 #import <UIKit/UIKit.h>
 
-@class RatingView;
+#import "RatingView.h"
 
-@interface MainListTableViewCell : UITableViewCell
+@class MainListItem;
 
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel1;
+@interface MainListTableViewCell : UITableViewCell <MARatingViewDelegate>
+{
+    MainListItem *mainListItem1;
+    MainListItem *mainListItem2;
+}
 
-@property (weak, nonatomic) IBOutlet RatingView *viewRatingAvg1;
-@property (weak, nonatomic) IBOutlet UILabel *lblNumRatings1;
+@property (assign, nonatomic) int selectedColumn;
 
-@property (weak, nonatomic) IBOutlet RatingView *viewRatingUser1;
+@property (weak, nonatomic) IBOutlet UILabel *name1Label;
 
-@property (weak, nonatomic) IBOutlet UILabel *dateLabel1;
+@property (weak, nonatomic) IBOutlet RatingView *averageRating1View;
+@property (weak, nonatomic) IBOutlet UILabel *ratingCount1Label;
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewBackground2;
+@property (weak, nonatomic) IBOutlet RatingView *userRating1View;
 
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel2;
+@property (weak, nonatomic) IBOutlet UILabel *date1Label;
 
-@property (weak, nonatomic) IBOutlet RatingView *viewRatingAvg2;
-@property (weak, nonatomic) IBOutlet UILabel *lblNumRatings2;
+@property (weak, nonatomic) IBOutlet UIImageView *background2ImageView;
 
-@property (weak, nonatomic) IBOutlet RatingView *viewRatingUser2;
+@property (weak, nonatomic) IBOutlet UILabel *name2Label;
 
-@property (weak, nonatomic) IBOutlet UILabel *dateLabel2;
+@property (weak, nonatomic) IBOutlet RatingView *averageRating2View;
+@property (weak, nonatomic) IBOutlet UILabel *ratingCount2Label;
 
-@property (assign, nonatomic) int touchColumn;
+@property (weak, nonatomic) IBOutlet RatingView *userRating2View;
 
-- (BOOL)touchPoint: (CGPoint)touchPoint inViewRatingUser: (RatingView *)viewRatingUser;
+@property (weak, nonatomic) IBOutlet UILabel *date2Label;
+
+- (void)setupWithMainListItem1: (MainListItem *)aMainListItem1 mainListItem2: (MainListItem *)aMainListItem2;
+
+- (void)handleTapFrom: (UITapGestureRecognizer *)tapGestureRecognizer;
 
 @end
