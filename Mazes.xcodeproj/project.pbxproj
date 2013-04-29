@@ -578,6 +578,8 @@
 				F4E4AB58154CC1D7006AA64D /* Locations.m */,
 				F4E4AB55154CC1CC006AA64D /* Location.h */,
 				F4E4AB56154CC1CF006AA64D /* Location.m */,
+				F454E19016923CB4008D10C1 /* MAEvents.h */,
+				F454E19116923CB5008D10C1 /* MAEvents.m */,
 				F454E18E16923CB4008D10C1 /* MAEvent.h */,
 				F454E18F16923CB4008D10C1 /* MAEvent.m */,
 				F4E4B9A9168E8BE400F6CCC3 /* MAViewController.h */,
@@ -597,8 +599,6 @@
 				F4E4AB5A154CC1DF006AA64D /* MapSegment.m */,
 				F4E4AB5B154CC1E5006AA64D /* MapView.h */,
 				F4E4AB5C154CC1E8006AA64D /* MapView.m */,
-				F454E19016923CB4008D10C1 /* MAEvents.h */,
-				F454E19116923CB5008D10C1 /* MAEvents.m */,
 				F4E4AB5D154CC1ED006AA64D /* Maze.h */,
 				F4E4AB5E154CC1F2006AA64D /* Maze.m */,
 				F4E4A9DD154CB92C006AA64D /* Mazes.xcdatamodeld */,
@@ -919,7 +919,7 @@
 		F4E4A9BC154CB92C006AA64D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Andre Muis";
 			};
 			buildConfigurationList = F4E4A9BF154CB92C006AA64D /* Build configuration list for PBXProject "Mazes" */;
@@ -1221,6 +1221,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1247,6 +1251,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1267,12 +1275,14 @@
 			baseConfigurationReference = 122A96D44809491DA9B335B4 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Mazes/Mazes.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Mazes/Mazes-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
 				INFOPLIST_FILE = "Mazes/Mazes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1283,6 +1293,7 @@
 			baseConfigurationReference = 122A96D44809491DA9B335B4 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Mazes/Mazes.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Mazes/Mazes-Prefix.pch";
@@ -1290,6 +1301,7 @@
 				INFOPLIST_FILE = "Mazes/Mazes-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};

@@ -24,3 +24,6 @@ rake db:seed
 rake db:rollback
 
 
+MySQL:
+
+/usr/local/bin/mysqld_safe &

@@ -299,46 +299,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">imageViewHighestRated</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="847181326"/>
-					</object>
-					<int key="connectionID">35</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">imageViewNewest</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="702221059"/>
-					</object>
-					<int key="connectionID">36</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">imageViewYours</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="620328184"/>
-					</object>
-					<int key="connectionID">37</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">imageViewCreate</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="699505445"/>
-					</object>
-					<int key="connectionID">45</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">imageViewMazes</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="770473381"/>
-					</object>
-					<int key="connectionID">46</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">tableView</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="617329536"/>
@@ -352,6 +312,46 @@
 						<reference key="destination" ref="166068535"/>
 					</object>
 					<int key="connectionID">59</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">highestRatedImageView</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="847181326"/>
+					</object>
+					<int key="connectionID">60</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">newestImageView</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="702221059"/>
+					</object>
+					<int key="connectionID">62</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">yoursImageView</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="620328184"/>
+					</object>
+					<int key="connectionID">64</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">createImageView</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="699505445"/>
+					</object>
+					<int key="connectionID">66</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">createButton</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="731896540"/>
+					</object>
+					<int key="connectionID">68</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -371,39 +371,39 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">btnHighestRatedTouchDown:</string>
+						<string key="label">highestRatedButtonTouchDown:</string>
 						<reference key="source" ref="174369408"/>
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">1</int>
 					</object>
-					<int key="connectionID">38</int>
+					<int key="connectionID">61</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">btnNewestTouchDown:</string>
+						<string key="label">newestButtonTouchDown:</string>
 						<reference key="source" ref="1012780786"/>
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">1</int>
 					</object>
-					<int key="connectionID">39</int>
+					<int key="connectionID">63</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">btnYoursTouchDown:</string>
+						<string key="label">yoursButtonTouchDown:</string>
 						<reference key="source" ref="365688730"/>
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">1</int>
 					</object>
-					<int key="connectionID">40</int>
+					<int key="connectionID">65</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">btnCreateTouchDown:</string>
+						<string key="label">createButtonTouchDown:</string>
 						<reference key="source" ref="731896540"/>
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">1</int>
 					</object>
-					<int key="connectionID">47</int>
+					<int key="connectionID">67</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -459,55 +459,53 @@
 						<int key="objectID">29</int>
 						<reference key="object" ref="847181326"/>
 						<reference key="parent" ref="824878468"/>
-						<string key="objectName">imageViewHighestRated</string>
+						<string key="objectName">highestRatedImageView</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">30</int>
 						<reference key="object" ref="174369408"/>
 						<reference key="parent" ref="824878468"/>
-						<string key="objectName">btnHighestRated</string>
+						<string key="objectName">highestRatedButton</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">31</int>
 						<reference key="object" ref="702221059"/>
 						<reference key="parent" ref="824878468"/>
-						<string key="objectName">imageViewNewest</string>
+						<string key="objectName">newestImageView</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">32</int>
 						<reference key="object" ref="620328184"/>
 						<reference key="parent" ref="824878468"/>
-						<string key="objectName">imageViewYours</string>
+						<string key="objectName">yoursImageView</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">33</int>
 						<reference key="object" ref="1012780786"/>
 						<reference key="parent" ref="824878468"/>
-						<string key="objectName">btnNewest</string>
+						<string key="objectName">newestButton</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">34</int>
 						<reference key="object" ref="365688730"/>
 						<reference key="parent" ref="824878468"/>
-						<string key="objectName">btnYours</string>
+						<string key="objectName">yoursButton</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">42</int>
 						<reference key="object" ref="770473381"/>
 						<reference key="parent" ref="824878468"/>
-						<string key="objectName">imageViewMazes</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">43</int>
 						<reference key="object" ref="37262636"/>
 						<reference key="parent" ref="824878468"/>
-						<string key="objectName">btnMazes</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">44</int>
 						<reference key="object" ref="731896540"/>
 						<reference key="parent" ref="824878468"/>
-						<string key="objectName">btnCreate</string>
+						<string key="objectName">createButton</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">10</int>
@@ -522,7 +520,7 @@
 						<int key="objectID">41</int>
 						<reference key="object" ref="699505445"/>
 						<reference key="parent" ref="824878468"/>
-						<string key="objectName">imageViewCreate</string>
+						<string key="objectName">createImageView</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">58</int>
@@ -589,7 +587,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">59</int>
+			<int key="maxID">68</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>

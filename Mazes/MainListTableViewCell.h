@@ -13,10 +13,6 @@
 @class MainListItem;
 
 @interface MainListTableViewCell : UITableViewCell <MARatingViewDelegate>
-{
-    MainListItem *mainListItem1;
-    MainListItem *mainListItem2;
-}
 
 @property (assign, nonatomic) int selectedColumn;
 
@@ -41,7 +37,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *date2Label;
 
 - (void)setupWithMainListItem1: (MainListItem *)aMainListItem1 mainListItem2: (MainListItem *)aMainListItem2;
-
-- (void)handleTapFrom: (UITapGestureRecognizer *)tapGestureRecognizer;
 
 @end

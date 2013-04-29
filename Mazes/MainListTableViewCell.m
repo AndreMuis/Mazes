@@ -19,6 +19,13 @@
 #import "Styles.h"
 #import "Utilities.h"
 
+@interface MainListTableViewCell ()
+
+@property (strong, nonatomic) MainListItem *mainListItem1;
+@property (strong, nonatomic) MainListItem *mainListItem2;
+
+@end
+
 @implementation MainListTableViewCell
 
 - (id)initWithCoder: (NSCoder *)aDecoder
@@ -27,8 +34,8 @@
     
     if (self)
 	{
-        self->mainListItem1 = nil;
-        self->mainListItem2 = nil;
+        self.mainListItem1 = nil;
+        self.mainListItem2 = nil;
         
         _selectedColumn = 0;
         
@@ -42,18 +49,18 @@
 
 - (void)setupWithMainListItem1: (MainListItem *)aMainListItem1 mainListItem2: (MainListItem *)aMainListItem2
 {
-    self->mainListItem1 = aMainListItem1;
-    self->mainListItem2 = aMainListItem2;
+    self.mainListItem1 = aMainListItem1;
+    self.mainListItem2 = aMainListItem2;
     
     self.name1Label.textColor = [Styles shared].mainListView.textColor;
-    self.name1Label.text = self->mainListItem1.mazeName;
+    self.name1Label.text = self.mainListItem1.mazeName;
     
     self.date1Label.textColor = [Styles shared].mainListView.textColor;
-    self.date1Label.text = self->mainListItem1.lastModifiedFormatted;
+    self.date1Label.text = self.mainListItem1.lastModifiedFormatted;
     
     self.ratingCount1Label.textColor = [Styles shared].mainListView.textColor;
 
-    if (mainListItem1.averageRating == 0.0)
+    if (self.mainListItem1.averageRating == 0.0)
     {
         self.averageRating1View.hidden = YES;
         
@@ -64,14 +71,14 @@
         self.averageRating1View.hidden = NO;
         
         [self.averageRating1View setupWithDelegate: self
-                                            rating: self->mainListItem1.averageRating
+                                            rating: self.mainListItem1.averageRating
                                               type: MARatingViewDisplayOnly
                                          starColor: [Styles shared].ratingView.averageRatingStarColor];
         
-        self.ratingCount1Label.text = [NSString stringWithFormat: @"%d ratings", self->mainListItem1.ratingsCount];
+        self.ratingCount1Label.text = [NSString stringWithFormat: @"%d ratings", self.mainListItem1.ratingsCount];
     }
     
-    if (mainListItem1.userStarted == NO)
+    if (self.mainListItem1.userStarted == NO)
     {
         self.userRating1View.hidden = YES;
     }
@@ -80,21 +87,21 @@
         self.userRating1View.hidden = NO;
         
         [self.userRating1View setupWithDelegate: self
-                                         rating: self->mainListItem1.userRating
+                                         rating: self.mainListItem1.userRating
                                            type: MARatingViewEditable
                                       starColor: [Styles shared].ratingView.userRatingStarColor];
     }
     
-    if (mainListItem2 != nil)
+    if (self.mainListItem2 != nil)
     {
         self.name2Label.textColor = [Styles shared].mainListView.textColor;
-        self.name2Label.text = self->mainListItem2.mazeName;
+        self.name2Label.text = self.mainListItem2.mazeName;
         
         self.date2Label.textColor = [Styles shared].mainListView.textColor;
-        self.date2Label.text = self->mainListItem2.lastModifiedFormatted;
+        self.date2Label.text = self.mainListItem2.lastModifiedFormatted;
         
         self.ratingCount2Label.textColor = [Styles shared].mainListView.textColor;
-        if (mainListItem2.averageRating == 0.0)
+        if (self.mainListItem2.averageRating == 0.0)
         {
             self.averageRating2View.hidden = YES;
             
@@ -105,14 +112,14 @@
             self.averageRating2View.hidden = NO;
             
             [self.averageRating2View setupWithDelegate: self
-                                                rating: self->mainListItem2.averageRating
+                                                rating: self.mainListItem2.averageRating
                                                   type: MARatingViewDisplayOnly
                                              starColor: [Styles shared].ratingView.averageRatingStarColor];
             
-            self.ratingCount2Label.text = [NSString stringWithFormat: @"%d ratings", self->mainListItem2.ratingsCount];
+            self.ratingCount2Label.text = [NSString stringWithFormat: @"%d ratings", self.mainListItem2.ratingsCount];
         }
         
-        if (self->mainListItem2.userStarted == NO)
+        if (self.mainListItem2.userStarted == NO)
         {
             self.userRating2View.hidden = YES;
         }
@@ -121,7 +128,7 @@
             self.userRating2View.hidden = NO;
             
             [self.userRating2View setupWithDelegate: self
-                                             rating: self->mainListItem2.userRating
+                                             rating: self.mainListItem2.userRating
                                                type: MARatingViewEditable
                                           starColor: [Styles shared].ratingView.userRatingStarColor];
         }
@@ -160,11 +167,11 @@
     
     if (ratingView == self.userRating1View)
     {
-        rating.mazeId = self->mainListItem1.mazeId;
+        rating.mazeId = self.mainListItem1.mazeId;
     }
     else if (ratingView == self.userRating2View)
     {
-        rating.mazeId = self->mainListItem2.mazeId;
+        rating.mazeId = self.mainListItem2.mazeId;
     }
     else
     {

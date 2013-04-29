@@ -13,6 +13,12 @@
 #import "Texture.h"
 #import "Utilities.h"
 
+@interface Textures ()
+
+@property (strong, nonatomic) NSOperationQueue *operationQueue;
+
+@end
+
 @implementation Textures
 
 + (Textures *)shared
@@ -36,7 +42,7 @@
 	
     if (self)
 	{
-        self->operationQueue = [[NSOperationQueue alloc] init];
+        _operationQueue = [[NSOperationQueue alloc] init];
         
         _count = 0;
         _maxId = 0;
@@ -47,7 +53,7 @@
 
 - (void)download
 {
-    [self->operationQueue addOperation: [[ServerOperations shared] getTexturesOperationWithDelegate: self]];
+    [self.operationQueue addOperation: [[ServerOperations shared] getTexturesOperationWithDelegate: self]];
 }
 
 - (void)serverOperationsGetTextures: (NSError *)error

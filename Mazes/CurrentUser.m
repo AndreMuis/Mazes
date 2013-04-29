@@ -8,6 +8,12 @@
 
 #import "CurrentUser.h"
 
+@interface CurrentUser ()
+
+@property (strong, nonatomic) NSString *userIdKey;
+
+@end
+
 @implementation CurrentUser
 
 + (CurrentUser *)shared
@@ -31,7 +37,7 @@
     
     if (self)
     {
-        self->userIdKey = @"UserIdKey";
+        _userIdKey = @"UserIdKey";
         
         if ([[NSUbiquitousKeyValueStore defaultStore] dictionaryRepresentation].count == 0)
         {
@@ -44,12 +50,12 @@
 
 - (int)id
 {
-    return [[NSUbiquitousKeyValueStore defaultStore] longLongForKey: self->userIdKey];
+    return [[NSUbiquitousKeyValueStore defaultStore] longLongForKey: self.userIdKey];
 }
 
 - (void)setId: (int)anId
 {
-    [[NSUbiquitousKeyValueStore defaultStore] setLongLong: anId forKey: self->userIdKey];
+    [[NSUbiquitousKeyValueStore defaultStore] setLongLong: anId forKey: self.userIdKey];
     
     [[NSUbiquitousKeyValueStore defaultStore] synchronize];
 }

@@ -11,17 +11,44 @@
 #import "ActivityViewStyle.h"
 #import "AppDelegate.h"
 #import "CurrentUser.h"
+#import "CreateViewController.h"
 #import "EditViewController.h"
 #import "GameViewController.h"
-#import "MainListItem.h" 
-#import "MainListTableViewCell.h"
-#import "MainViewController.h"
 #import "MAEvents.h"
 #import "MAEvent.h"
+#import "MainListItem.h"
+#import "MainListTableViewCell.h"
+#import "MainViewController.h"
+#import "Maze.h"
+#import "MazeUser.h"
+#import "Rating.h"
 #import "RatingView.h"
 #import "ServerOperations.h"
 #import "Styles.h"
 #import "Utilities.h"
+
+@interface MainListViewController ()
+
+@property (strong, nonatomic) NSOperationQueue *getMazeListsOperationQueue;;
+@property (strong, nonatomic) NSOperationQueue *getUserMazeOperationQueue;;
+
+@property (strong, nonatomic) MAEvent *getMazeListsEvent;
+@property (strong, nonatomic) MAEvent *getUserMazeEvent;
+
+@property (strong, nonatomic) NSArray *highestRatedMainListItems;
+@property (assign, nonatomic) BOOL highestRatedListHasLoaded;
+
+@property (strong, nonatomic) NSArray *newestMainListItems;
+@property (assign, nonatomic) BOOL newestMainListHasLoaded;
+
+@property (strong, nonatomic) NSArray *yoursMainListItems;
+@property (assign, nonatomic) BOOL yoursMainListHasLoaded;
+
+@property (assign, nonatomic) int selectedSegmentIndex;
+
+@property (assign, nonatomic) BOOL viewAppearingFirstTime;
+
+@end
 
 @implementation MainListViewController
 
@@ -46,25 +73,31 @@
     
     if (self)
     {
-        self->operationQueue = [[NSOperationQueue alloc] init];
+        _getMazeListsOperationQueue = [[NSOperationQueue alloc] init];
+        _getUserMazeOperationQueue = [[NSOperationQueue alloc] init];
 
-        self->setupOperationQueueEvent = [[MAEvent alloc] initWithTarget: self
-                                                                  action: @selector(setupOperationQueue)
-                                                            intervalSecs: [Constants shared].serverRetryDelaySecs
-                                                                 repeats: NO];
+        _getMazeListsEvent = [[MAEvent alloc] initWithTarget: self
+                                                      action: @selector(getMazeLists)
+                                                intervalSecs: [Constants shared].serverRetryDelaySecs
+                                                     repeats: NO];
         
-        self->highestRatedMainListItems = [NSArray array];
-        self->highestRatedListHasLoaded = NO;
+        _getUserMazeEvent = [[MAEvent alloc] initWithTarget: self
+                                                     action: @selector(getUserMaze)
+                                               intervalSecs: [Constants shared].serverRetryDelaySecs
+                                                    repeats: NO];
         
-        self->newestMainListItems = [NSArray array];
-        self->newestMainListHasLoaded = NO;
+        self.highestRatedMainListItems = [NSArray array];
+        self.highestRatedListHasLoaded = NO;
         
-        self->yoursMainListItems = [NSArray array];
-        self->yoursMainListHasLoaded = NO;
+        self.newestMainListItems = [NSArray array];
+        self.newestMainListHasLoaded = NO;
         
-        self->selectedSegmentIndex = 0;
+        self.yoursMainListItems = [NSArray array];
+        self.yoursMainListHasLoaded = NO;
         
-        self->viewAppearingFirstTime = YES;
+        self.selectedSegmentIndex = 0;
+        
+        self.viewAppearingFirstTime = YES;
     }
     
     return self;
@@ -74,7 +107,7 @@
 {
 	[super viewDidLoad];
 	
-    self->selectedSegmentIndex = 0;
+    self.selectedSegmentIndex = 0;
 	[self refreshSegments];
 
 	self.tableView.backgroundColor = [Styles shared].mainListView.tableBackgroundColor;
@@ -92,13 +125,13 @@
 {
 	[super viewWillAppear: animated];
 
-    if (self->movingToParentViewController == YES || self->viewAppearingFirstTime == YES)
+    if (self.movingToParentViewController == YES || self.viewAppearingFirstTime == YES)
     {
-        self->viewAppearingFirstTime = NO;
+        self.viewAppearingFirstTime = NO;
         
         if ([CurrentUser shared].id != 0)
         {
-            [self setupOperationQueue];
+            [self getMazeLists];
         }
         
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -121,31 +154,31 @@
     {
         NSLog(@"highest rated");
         
-        self->highestRatedMainListItems = mainListItems;
+        self.highestRatedMainListItems = mainListItems;
         
-        if (self->highestRatedListHasLoaded == NO)
+        if (self.highestRatedListHasLoaded == NO)
         {
-            self->highestRatedListHasLoaded = YES;
+            self.highestRatedListHasLoaded = YES;
             
-            if (self->selectedSegmentIndex == 0)
+            if (self.selectedSegmentIndex == 0)
             {
                 self.activityIndicatorView.hidden = YES;
                 [self.activityIndicatorView stopAnimating];
             }
         }
         
-        if (self->selectedSegmentIndex == 0)
+        if (self.selectedSegmentIndex == 0)
         {
             [self.tableView reloadData];
         }
     }
     else
     {
-        if (self->selectedSegmentIndex == 0)
+        if (self.selectedSegmentIndex == 0)
         {
-            if ([[MAEvents shared] hasEvent: self->setupOperationQueueEvent] == NO)
+            if ([[MAEvents shared] hasEvent: self.getMazeListsEvent] == NO)
             {
-                [[MAEvents shared] addEvent: self->setupOperationQueueEvent];
+                [[MAEvents shared] addEvent: self.getMazeListsEvent];
             }
         }
     }
@@ -157,31 +190,31 @@
     {
         NSLog(@"newest");
         
-        self->newestMainListItems = mainListItems;
+        self.newestMainListItems = mainListItems;
         
-        if (self->newestMainListHasLoaded == NO)
+        if (self.newestMainListHasLoaded == NO)
         {
-            self->newestMainListHasLoaded = YES;
+            self.newestMainListHasLoaded = YES;
             
-            if (self->selectedSegmentIndex == 1)
+            if (self.selectedSegmentIndex == 1)
             {
                 self.activityIndicatorView.hidden = YES;
                 [self.activityIndicatorView stopAnimating];
             }
         }
 
-        if (self->selectedSegmentIndex == 1)
+        if (self.selectedSegmentIndex == 1)
         {
             [self.tableView reloadData];
         }
     }
     else
     {
-        if (self->selectedSegmentIndex == 1)
+        if (self.selectedSegmentIndex == 1)
         {
-            if ([[MAEvents shared] hasEvent: self->setupOperationQueueEvent] == NO)
+            if ([[MAEvents shared] hasEvent: self.getMazeListsEvent] == NO)
             {
-                [[MAEvents shared] addEvent: self->setupOperationQueueEvent];
+                [[MAEvents shared] addEvent: self.getMazeListsEvent];
             }
         }
     }
@@ -193,20 +226,20 @@
     {
         NSLog(@"yours");
         
-        self->yoursMainListItems = mainListItems;
+        self.yoursMainListItems = mainListItems;
         
-        if (self->yoursMainListHasLoaded == NO)
+        if (self.yoursMainListHasLoaded == NO)
         {
-            self->yoursMainListHasLoaded = YES;
+            self.yoursMainListHasLoaded = YES;
             
-            if (self->selectedSegmentIndex == 2)
+            if (self.selectedSegmentIndex == 2)
             {
                 self.activityIndicatorView.hidden = YES;
                 [self.activityIndicatorView stopAnimating];
             }
         }
         
-        if (self->selectedSegmentIndex == 2)
+        if (self.selectedSegmentIndex == 2)
         {
             [self.tableView reloadData];
         }
@@ -215,23 +248,23 @@
     }
     else
     {
-        if (self->selectedSegmentIndex == 2)
+        if (self.selectedSegmentIndex == 2)
         {
-            if ([[MAEvents shared] hasEvent: self->setupOperationQueueEvent] == NO)
+            if ([[MAEvents shared] hasEvent: self.getMazeListsEvent] == NO)
             {
-                [[MAEvents shared] addEvent: self->setupOperationQueueEvent];
+                [[MAEvents shared] addEvent: self.getMazeListsEvent];
             }
         }
     }
 }
 
-- (void)setupOperationQueue
+- (void)getMazeLists
 {
-    [self->operationQueue cancelAllOperations];
+    [self.getMazeListsOperationQueue cancelAllOperations];
 
-    if ([[MAEvents shared] hasEvent: self->setupOperationQueueEvent] == YES)
+    if ([[MAEvents shared] hasEvent: self.getMazeListsEvent] == YES)
     {
-        [[MAEvents shared] removeEvent: self->setupOperationQueueEvent];
+        [[MAEvents shared] removeEvent: self.getMazeListsEvent];
     }
     
     RKObjectRequestOperation *highestRatedOperation = [[ServerOperations shared] highestRatedOperationWithDelegate: self
@@ -247,7 +280,7 @@
     
     RKObjectRequestOperation *currentOperation = nil;
     
-    switch (self->selectedSegmentIndex)
+    switch (self.selectedSegmentIndex)
     {
         case 0:
             currentOperation = highestRatedOperation;
@@ -262,11 +295,11 @@
             break;
             
         default:
-            [Utilities logWithClass: [self class] format: @"selectedSegmentIndex set to an illegal value: %d", self->selectedSegmentIndex];
+            [Utilities logWithClass: [self class] format: @"selectedSegmentIndex set to an illegal value: %d", self.selectedSegmentIndex];
             break;
     }
 
-    [self->operationQueue addOperation: currentOperation];
+    [self.getMazeListsOperationQueue addOperation: currentOperation];
 
     for (RKObjectRequestOperation *operation in operations)
     {
@@ -276,29 +309,29 @@
             
             if (operation == highestRatedOperation)
             {
-                mainListItems = self->highestRatedMainListItems;
+                mainListItems = self.highestRatedMainListItems;
             }
             else if (operation == newestOperation)
             {
-                mainListItems = self->newestMainListItems;
+                mainListItems = self.newestMainListItems;
             }
             else if (operation == yoursOperation)
             {
-                mainListItems = self->yoursMainListItems;
+                mainListItems = self.yoursMainListItems;
             }
             
             if (mainListItems.count == 0)
             {
                 [operation addDependency: currentOperation];
             
-                [self->operationQueue addOperation: operation];
+                [self.getMazeListsOperationQueue addOperation: operation];
             }
         }
     }
     
-    if ((self->selectedSegmentIndex == 0 && self->highestRatedListHasLoaded == NO) ||
-        (self->selectedSegmentIndex == 1 && self->newestMainListHasLoaded == NO) ||
-        (self->selectedSegmentIndex == 2 && self->yoursMainListHasLoaded == NO))
+    if ((self.selectedSegmentIndex == 0 && self.highestRatedListHasLoaded == NO) ||
+        (self.selectedSegmentIndex == 1 && self.newestMainListHasLoaded == NO) ||
+        (self.selectedSegmentIndex == 2 && self.yoursMainListHasLoaded == NO))
     {
         self.activityIndicatorView.hidden = NO;
         [self.activityIndicatorView startAnimating];
@@ -312,81 +345,81 @@
 
 // Segmented Control
 
-- (IBAction)btnHighestRatedTouchDown: (id)sender
+- (IBAction)highestRatedButtonTouchDown: (id)sender
 {	
-	if (self->selectedSegmentIndex != 0)
+	if (self.selectedSegmentIndex != 0)
 	{
-        self->selectedSegmentIndex = 0;
+        self.selectedSegmentIndex = 0;
 		[self refreshSegments];
 
         if ([CurrentUser shared].id != 0)
         {
             [self.tableView reloadData];
             
-            [self setupOperationQueue];
+            [self getMazeLists];
         }
 	}
 }
 
-- (IBAction)btnNewestTouchDown: (id)sender
+- (IBAction)newestButtonTouchDown: (id)sender
 {
-	if (self->selectedSegmentIndex != 1)
+	if (self.selectedSegmentIndex != 1)
 	{
-        self->selectedSegmentIndex = 1;
+        self.selectedSegmentIndex = 1;
 		[self refreshSegments];
         
         if ([CurrentUser shared].id != 0)
         {
             [self.tableView reloadData];
 
-            [self setupOperationQueue];
+            [self getMazeLists];
         }
 	}
 }
 
-- (IBAction)btnYoursTouchDown: (id)sender
+- (IBAction)yoursButtonTouchDown: (id)sender
 {
-	if (self->selectedSegmentIndex != 2)
+	if (self.selectedSegmentIndex != 2)
 	{
-        self->selectedSegmentIndex = 2;
+        self.selectedSegmentIndex = 2;
 		[self refreshSegments];
         
         if ([CurrentUser shared].id != 0)
         {
             [self.tableView reloadData];
             
-            [self setupOperationQueue];
+            [self getMazeLists];
         }
 	}
 }
 
 - (void)refreshSegments
 {
-	if (self->selectedSegmentIndex == 0)
+	if (self.selectedSegmentIndex == 0)
     {
-		self.imageViewHighestRated.image = [UIImage imageNamed: @"btnHighestRatedOrange.png"];
+		self.highestRatedImageView.image = [UIImage imageNamed: @"btnHighestRatedOrange.png"];
     }
 	else
     {
-		self.imageViewHighestRated.image = [UIImage imageNamed: @"btnHighestRatedBlue.png"];
+		self.highestRatedImageView.image = [UIImage imageNamed: @"btnHighestRatedBlue.png"];
     }
 		
-	if (self->selectedSegmentIndex == 1)
+	if (self.selectedSegmentIndex == 1)
     {
-		self.imageViewNewest.image = [UIImage imageNamed: @"btnNewestOrange.png"];
+		self.newestImageView.image = [UIImage imageNamed: @"btnNewestOrange.png"];
     }
 	else
     {
-		self.imageViewNewest.image = [UIImage imageNamed: @"btnNewestBlue.png"];
+		self.newestImageView.image = [UIImage imageNamed: @"btnNewestBlue.png"];
     }
 
-	if (self->selectedSegmentIndex == 2)
+	if (self.selectedSegmentIndex == 2)
     {
-		self.imageViewYours.image = [UIImage imageNamed: @"btnYoursOrange.png"];
+		self.yoursImageView.image = [UIImage imageNamed: @"btnYoursOrange.png"];
     }
 	else
     {
-		self.imageViewYours.image = [UIImage imageNamed: @"btnYoursBlue.png"];
+		self.yoursImageView.image = [UIImage imageNamed: @"btnYoursBlue.png"];
     }
 }
 
@@ -451,10 +484,23 @@
     
 	if (i < mainListItems.count)
 	{
-        if ([[MAEvents shared] hasEvent: self->setupOperationQueueEvent] == YES)
+        if ([[MAEvents shared] hasEvent: self.getMazeListsEvent] == YES)
         {
-            [[MAEvents shared] removeEvent: self->setupOperationQueueEvent];
+            [[MAEvents shared] removeEvent: self.getMazeListsEvent];
         }
+        
+        [self.getMazeListsOperationQueue cancelAllOperations];
+        
+        
+        if ([[MAEvents shared] hasEvent: self.getUserMazeEvent] == YES)
+        {
+            [[MAEvents shared] removeEvent: self.getUserMazeEvent];
+        }
+        
+        [self.getUserMazeOperationQueue cancelAllOperations];
+        
+        
+        self.createButton.enabled = YES;
         
         MainListItem *mainListItem = [mainListItems objectAtIndex: i];
         
@@ -468,39 +514,148 @@
 
 - (NSArray *)currentMainListItems
 {
-    switch (self->selectedSegmentIndex)
+    switch (self.selectedSegmentIndex)
     {
         case 0:
-            return self->highestRatedMainListItems;
+            return self.highestRatedMainListItems;
             break;
             
         case 1:
-            return self->newestMainListItems;
+            return self.newestMainListItems;
             break;
             
         case 2:
-            return self->yoursMainListItems;
+            return self.yoursMainListItems;
             break;
             
         default:
-            [Utilities logWithClass: [self class] format: @"selectedSegmentIndex set to an illegal value: %d", self->selectedSegmentIndex];
+            [Utilities logWithClass: [self class] format: @"selectedSegmentIndex set to an illegal value: %d", self.selectedSegmentIndex];
             return nil;
             break;
     }
 }
 
-- (IBAction)btnCreateTouchDown: (id)sender
+- (void)savedMazeUser: (MazeUser *)mazeUser
+{
+    for (MainListItem *mainListItem in [self currentMainListItems])
+    {
+        if (mazeUser.mazeId == mainListItem.mazeId && (mazeUser.started != mainListItem.userStarted || mazeUser.rating != mainListItem.userRating))
+        {
+            [self getMazeLists];
+        }
+    }
+}
+
+- (void)savedRating: (Rating *)rating
+{
+    for (MainListItem *mainListItem in [self currentMainListItems])
+    {
+        if (rating.mazeId == mainListItem.mazeId && rating.value != mainListItem.userRating)
+        {
+            [self getMazeLists];
+        }
+    }
+}
+
+- (IBAction)createButtonTouchDown: (id)sender
 {
     if ([CurrentUser shared].id != 0)
     {
-        if ([[MAEvents shared] hasEvent: self->setupOperationQueueEvent] == YES)
+        if ([[MAEvents shared] hasEvent: self.getMazeListsEvent] == YES)
         {
-            [[MAEvents shared] removeEvent: self->setupOperationQueueEvent];
+            [[MAEvents shared] removeEvent: self.getMazeListsEvent];
         }
 
-        [self.navigationController pushViewController: [EditViewController shared] animated: NO];
+        [self.getMazeListsOperationQueue cancelAllOperations];
+        
+        
+        if ([EditViewController shared].maze == nil)
+        {
+            self.createButton.enabled = NO;
+            
+            [self getUserMaze];
+        }
+        else
+        {
+            if ([EditViewController shared].maze.locations.list.count == 0)
+            {
+                [[MainViewController shared] transitionFromViewController: self
+                                                         toViewController: [CreateViewController shared]
+                                                               transition: MATransitionCrossDissolve];            
+            }
+            else
+            {
+                [[MainViewController shared] transitionFromViewController: self
+                                                         toViewController: [EditViewController shared]
+                                                               transition: MATransitionCrossDissolve];
+            }
+        }
+    }
+}
+
+- (void)getUserMaze
+{
+    [self.getUserMazeOperationQueue addOperation: [[ServerOperations shared] getMazeOperationWithDelegate: self userId: [CurrentUser shared].id]];
+}
+
+- (void)serverOperationsGetMaze: (Maze *)maze error: (NSError *)error
+{
+    NSLog(@"maze = %@", maze);
+    
+    if (error == nil)
+    {
+        if (maze == nil)
+        {
+            [EditViewController shared].maze = [[Maze alloc] init];
+
+            [EditViewController shared].maze.userId = [CurrentUser shared].id;
+            [EditViewController shared].maze.active = YES;
+            [EditViewController shared].maze.wallTextureId = 1;
+            [EditViewController shared].maze.floorTextureId = 20;
+            [EditViewController shared].maze.ceilingTextureId = 15;
+            
+            [[MainViewController shared] transitionFromViewController: self
+                                                     toViewController: [CreateViewController shared]
+                                                           transition: MATransitionCrossDissolve];
+        }
+        else
+        {
+            [EditViewController shared].maze = maze;
+
+            [[MainViewController shared] transitionFromViewController: self
+                                                     toViewController: [EditViewController shared]
+                                                           transition: MATransitionCrossDissolve];
+        }
+        
+        self.createButton.enabled = YES;
+    }
+    else
+    {
+        [self performSelector: @selector(getUserMaze) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
     }
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

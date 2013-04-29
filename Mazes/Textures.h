@@ -15,9 +15,6 @@
 @class Texture;
 
 @interface Textures : NSObject <MAServerOperationsGetTexturesDelegate>
-{
-    NSOperationQueue *operationQueue;
-}
 
 @property (assign, nonatomic) int count;
 @property (assign, nonatomic) int maxId;

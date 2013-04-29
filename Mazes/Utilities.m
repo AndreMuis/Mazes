@@ -6,6 +6,8 @@
 //  Copyright 2010 Andre Muis. All rights reserved.
 //
 
+#import "Flurry.h"
+
 #import "Utilities.h"
 
 #import "AppDelegate.h"

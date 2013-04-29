@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum
+typedef enum : int
 {
 	MADirectionUnknown = 0,
 	MADirectionNorth = 1,

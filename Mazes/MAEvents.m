@@ -12,6 +12,13 @@
 #import "MAEvent.h"
 #import "Utilities.h"
 
+@interface MAEvents ()
+
+@property (strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic) NSMutableArray *events;
+
+@end
+
 @implementation MAEvents
 
 + (MAEvents *)shared
@@ -35,16 +42,16 @@
     
     if (self) 
     {
-        self->timer = [NSTimer timerWithTimeInterval: [Constants shared].eventTimerIntervalSecs
-                                              target: self
-                                            selector: @selector(timerFired:)
-                                            userInfo: nil
-                                             repeats: YES];
+        _timer = [NSTimer timerWithTimeInterval: [Constants shared].eventTimerIntervalSecs
+                                         target: self
+                                       selector: @selector(timerFired:)
+                                       userInfo: nil
+                                        repeats: YES];
    
-        [[NSRunLoop currentRunLoop] addTimer: self->timer forMode: NSDefaultRunLoopMode];
-        [[NSRunLoop currentRunLoop] addTimer: self->timer forMode: UITrackingRunLoopMode];
+        [[NSRunLoop currentRunLoop] addTimer: self.timer forMode: NSDefaultRunLoopMode];
+        [[NSRunLoop currentRunLoop] addTimer: self.timer forMode: UITrackingRunLoopMode];
                 
-        self->events = [[NSMutableArray alloc] init];
+        _events = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -54,7 +61,7 @@
 {
     if ([self hasEvent: event] == NO)
     {
-        [self->events addObject: event];
+        [self.events addObject: event];
     }
     else
     {
@@ -67,7 +74,7 @@
 {
     BOOL exists = NO;
     
-    for (MAEvent *event in self->events)
+    for (MAEvent *event in self.events)
     {
         if (event.target == anEvent.target && event.action == anEvent.action)
         {
@@ -80,9 +87,9 @@
 
 - (void)removeEvent: (MAEvent *)event
 {
-    if ([self->events indexOfObject: event] != NSNotFound)
+    if ([self.events indexOfObject: event] != NSNotFound)
     {    
-        [self->events removeObject: event];
+        [self.events removeObject: event];
     }
     else
     {
@@ -94,7 +101,7 @@
 {
     NSMutableArray *eventsWithTarget = [NSMutableArray array];
     
-    for (MAEvent *event in self->events)
+    for (MAEvent *event in self.events)
     {
         if (event.target == target)
         {
@@ -102,12 +109,12 @@
         }
     }
     
-    [self->events removeObjectsInArray: eventsWithTarget];
+    [self.events removeObjectsInArray: eventsWithTarget];
 }
 
 - (void)timerFired: (NSTimer *)timer
 {
-    for (MAEvent *event in [NSArray arrayWithArray: self->events])
+    for (MAEvent *event in [NSArray arrayWithArray: self.events])
     {
         if (event.elapsedSecs >= event.intervalSecs)
         {

@@ -14,6 +14,13 @@
 #import "Styles.h"
 #import "Utilities.h"
 
+@interface MapView ()
+
+@property (strong, nonatomic) NSMutableArray *segments;
+@property (strong, nonatomic) UIImageView *directionArrowImageView;
+
+@end
+
 @implementation MapView
 
 int MapWalls[17][3][3] = 
@@ -58,15 +65,15 @@ int MapSquares[8][3][3] =
     
     if (self) 
 	{
-        self->segments = [[NSMutableArray alloc] init];
+        _segments = [[NSMutableArray alloc] init];
         
 		UIImage *directionArrowImage = [Utilities createDirectionArrowImageWidth: [Styles shared].map.squareWidth
                                                                           height: [Styles shared].map.squareWidth];
 		
-		self->directionArrowImageView = [[UIImageView alloc] initWithImage: directionArrowImage];
-		self->directionArrowImageView.alpha = 0.0;
+		_directionArrowImageView = [[UIImageView alloc] initWithImage: directionArrowImage];
+		_directionArrowImageView.alpha = 0.0;
 		
-		[self addSubview: self->directionArrowImageView];
+		[self addSubview: self.directionArrowImageView];
     }
 	
 	return self;
@@ -266,22 +273,22 @@ int MapSquares[8][3][3] =
 	[self setNeedsDisplay];
 	
 	// Draw directional arrow
-	if (self->directionArrowImageView.alpha == 0.0)
+	if (self.directionArrowImageView.alpha == 0.0)
     {
-		self->directionArrowImageView.alpha = 1.0;
+		self.directionArrowImageView.alpha = 1.0;
 	}
     
 	float arrowX = offset.x + (self.currLoc.x - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
 	float arrowY = offset.y + (self.currLoc.y - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
 	
-	self->directionArrowImageView.frame = CGRectMake(arrowX, arrowY, [Styles shared].map.squareWidth, [Styles shared].map.squareWidth);
+	self.directionArrowImageView.frame = CGRectMake(arrowX, arrowY, [Styles shared].map.squareWidth, [Styles shared].map.squareWidth);
 	
 	float theta = 0.0;
 	if (self.currDir == MADirectionNorth) theta = 0.0;
 	if (self.currDir == MADirectionEast) theta = 90.0;
 	if (self.currDir == MADirectionSouth) theta = 180.0;
 	if (self.currDir == MADirectionWest) theta = 270.0;
-	[Utilities rotateImageView: self->directionArrowImageView angleDegrees: theta];
+	[Utilities rotateImageView: self.directionArrowImageView angleDegrees: theta];
 }
 
 // corner is at top-left of location
@@ -375,7 +382,7 @@ int MapSquares[8][3][3] =
 {
 	BOOL exists = NO;
 	
-	for (MapSegment *segment in self->segments)
+	for (MapSegment *segment in self.segments)
 	{
 		if (segment.rect.origin.x == rect.origin.x &&
             segment.rect.origin.y == rect.origin.y &&
@@ -392,7 +399,7 @@ int MapSquares[8][3][3] =
 		MapSegment *segment = [[MapSegment alloc] init];
 		segment.rect = rect;
 		segment.color = color;
-		[self->segments addObject: segment];
+		[self.segments addObject: segment];
 	}
 }
 
@@ -400,7 +407,7 @@ int MapSquares[8][3][3] =
 {
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
-	for (MapSegment *segment in self->segments)
+	for (MapSegment *segment in self.segments)
 	{
 		CGContextSetFillColorWithColor(context, segment.color.CGColor);
 		CGContextFillRect(context, segment.rect);
@@ -409,9 +416,9 @@ int MapSquares[8][3][3] =
 
 - (void)clear
 {
-	self->directionArrowImageView.alpha = 0.0;
+	self.directionArrowImageView.alpha = 0.0;
 	
-	[self->segments removeAllObjects];
+	[self.segments removeAllObjects];
 	
 	[self setNeedsDisplay];
 }

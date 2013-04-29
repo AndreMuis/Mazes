@@ -9,6 +9,7 @@
 #import "ServerOperations.h"
 
 #import "Constants.h"
+#import "Locations.h"
 #import "Location.h"
 #import "MainListItem.h"
 #import "Maze.h"
@@ -19,6 +20,13 @@
 #import "User.h"
 #import "Utilities.h"
 #import "Version.h"
+
+@interface ServerOperations ()
+
+@property (strong, nonatomic) RKManagedObjectStore *managedObjectStore;
+@property (strong, nonatomic) RKResponseDescriptor *mainListItemResponseDescriptor;
+
+@end
 
 @implementation ServerOperations
 
@@ -45,20 +53,20 @@
 	{
         NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles: nil];
         
-        self->managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel: managedObjectModel];
+        self.managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel: managedObjectModel];
         
         NSString *persistentStorePath = [RKApplicationDataDirectory() stringByAppendingPathComponent: @"Mazes.sqlite"];
         
         NSError *error = nil;
         
-        [managedObjectStore addSQLitePersistentStoreAtPath: persistentStorePath fromSeedDatabaseAtPath: nil withConfiguration: nil options: nil error: &error];
+        [self.managedObjectStore addSQLitePersistentStoreAtPath: persistentStorePath fromSeedDatabaseAtPath: nil withConfiguration: nil options: nil error: &error];
         
         if (error != nil)
         {
             [Utilities logWithClass: [self class] format: @"Unable to add SQLite to persistent store. Error: %@", [error localizedDescription]];
         }
         
-        [managedObjectStore createManagedObjectContexts];
+        [self.managedObjectStore createManagedObjectContexts];
         
         
         RKObjectMapping *mainListItemObjectMapping = [RKObjectMapping mappingForClass: [MainListItem class]];
@@ -74,10 +82,10 @@
         
         NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful);
         
-        self->mainListItemResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping: mainListItemObjectMapping
-                                                                                       pathPattern: nil
-                                                                                           keyPath: nil
-                                                                                       statusCodes: statusCodes];
+        self.mainListItemResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping: mainListItemObjectMapping
+                                                                                      pathPattern: nil
+                                                                                          keyPath: nil
+                                                                                      statusCodes: statusCodes];
 	}
 	
     return self;
@@ -127,7 +135,7 @@
 
 - (RKManagedObjectRequestOperation *)getSoundsOperationWithDelegate: (id<MAServerOperationsGetSoundsDelegate>)delegate
 {
-    RKEntityMapping *soundMapping = [RKEntityMapping mappingForEntityForName: @"Sound" inManagedObjectStore: self->managedObjectStore];
+    RKEntityMapping *soundMapping = [RKEntityMapping mappingForEntityForName: @"Sound" inManagedObjectStore: self.managedObjectStore];
     [soundMapping addAttributeMappingsFromDictionary:
      @{@"id": @"id",
      @"name": @"name",
@@ -148,8 +156,8 @@
     RKManagedObjectRequestOperation *managedObjectRequestOperation = [[RKManagedObjectRequestOperation alloc] initWithRequest: request
                                                                                                           responseDescriptors: @[responseDescriptor]];
     
-    managedObjectRequestOperation.managedObjectContext = self->managedObjectStore.mainQueueManagedObjectContext;
-    managedObjectRequestOperation.managedObjectCache = self->managedObjectStore.managedObjectCache;
+    managedObjectRequestOperation.managedObjectContext = self.managedObjectStore.mainQueueManagedObjectContext;
+    managedObjectRequestOperation.managedObjectCache = self.managedObjectStore.managedObjectCache;
     
     Class class = [self class];
     
@@ -169,7 +177,7 @@
 
 - (RKManagedObjectRequestOperation *)getTexturesOperationWithDelegate: (id<MAServerOperationsGetTexturesDelegate>)delegate
 {
-    RKEntityMapping *textureMapping = [RKEntityMapping mappingForEntityForName: @"Texture" inManagedObjectStore: self->managedObjectStore];
+    RKEntityMapping *textureMapping = [RKEntityMapping mappingForEntityForName: @"Texture" inManagedObjectStore: self.managedObjectStore];
     [textureMapping addAttributeMappingsFromDictionary:
      @{@"id" : @"id",
      @"name" : @"name",
@@ -195,8 +203,8 @@
     RKManagedObjectRequestOperation *managedObjectRequestOperation = [[RKManagedObjectRequestOperation alloc] initWithRequest: request
                                                                                                           responseDescriptors: @[responseDescriptor]];
     
-    managedObjectRequestOperation.managedObjectContext = self->managedObjectStore.mainQueueManagedObjectContext;
-    managedObjectRequestOperation.managedObjectCache = self->managedObjectStore.managedObjectCache;
+    managedObjectRequestOperation.managedObjectContext = self.managedObjectStore.mainQueueManagedObjectContext;
+    managedObjectRequestOperation.managedObjectCache = self.managedObjectStore.managedObjectCache;
     
     Class class = [self class];
     
@@ -259,9 +267,9 @@
 
 - (RKObjectRequestOperation *)getMazeOperationWithDelegate: (id<MAServerOperationsGetMazeDelegate>)delegate mazeId: (int)mazeId
 {
-    RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass: [Maze class]];
+    RKObjectMapping *mazeObjectMapping = [RKObjectMapping mappingForClass: [Maze class]];
     
-    [objectMapping addAttributeMappingsFromDictionary:
+    [mazeObjectMapping addAttributeMappingsFromDictionary:
      @{@"id" : @"id",
      @"user_id" : @"userId",
      @"name" : @"name",
@@ -276,9 +284,37 @@
      @"created_at" : @"createdDate",
      @"updated_at" : @"updatedDate"}];
 
+    
+    RKObjectMapping *locationObjectMapping = [RKObjectMapping mappingForClass: [Location class]];
+    
+    [locationObjectMapping addAttributeMappingsFromDictionary:
+     @{@"id" : @"id",
+     @"maze_id" : @"mazeId",
+     @"x" : @"x",
+     @"y" : @"y",
+     @"direction" : @"direction",
+     @"wall_north" : @"wallNorth",
+     @"wall_west" : @"wallWest",
+     @"action" : @"action",
+     @"message" : @"message",
+     @"teleport_id" : @"teleportId",
+     @"teleport_x" : @"teleportX",
+     @"teleport_y" : @"teleportY",
+     @"wall_north_texture_id" : @"wallNorthTextureId",
+     @"wall_west_texture_id" : @"wallWestTextureId",
+     @"floor_texture_id" : @"floorTextureId",
+     @"ceiling_texture_id" : @"ceilingTextureId",
+     @"created_at" : @"createdDate",
+     @"updated_at" : @"updatedDate"}];
+
+    [mazeObjectMapping addPropertyMapping: [RKRelationshipMapping relationshipMappingFromKeyPath: @"locations"
+                                                                                       toKeyPath: @"locations.list"
+                                                                                     withMapping: locationObjectMapping]];
+
+    
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful);
     
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping: objectMapping
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping: mazeObjectMapping
                                                                                        pathPattern: nil
                                                                                            keyPath: nil
                                                                                        statusCodes: statusCodes];
@@ -307,39 +343,62 @@
     return objectRequestOperation;
 }
 
-- (RKObjectRequestOperation *)getLocationsOperationWithDelegate: (id<MAServerOperationsGetLocationsDelegate>)delegate mazeId: (int)mazeId
+- (RKObjectRequestOperation *)getMazeOperationWithDelegate: (id<MAServerOperationsGetMazeDelegate>)delegate userId: (int)userId
 {
-    RKObjectMapping *objectMapping = [RKObjectMapping mappingForClass: [Location class]];
+    RKObjectMapping *mazeObjectMapping = [RKObjectMapping mappingForClass: [Maze class]];
     
-    [objectMapping addAttributeMappingsFromDictionary:
-    @{@"id" : @"id",
-    @"maze_id" : @"mazeId",
-    @"x" : @"x",
-    @"y" : @"y",
-    @"direction" : @"direction",
-    @"wall_north" : @"wallNorth",
-    @"wall_west" : @"wallWest",
-    @"action" : @"action",
-    @"message" : @"message",
-    @"teleport_id" : @"teleportId",
-    @"teleport_x" : @"teleportX",
-    @"teleport_y" : @"teleportY",
-    @"wall_north_texture_id" : @"wallNorthTextureId",
-    @"wall_west_texture_id" : @"wallWestTextureId",
-    @"floor_texture_id" : @"floorTextureId",
-    @"ceiling_texture_id" : @"ceilingTextureId",
-    @"created_at" : @"createdDate",
-    @"updated_at" : @"updatedDate"}];
+    [mazeObjectMapping addAttributeMappingsFromDictionary:
+     @{@"id" : @"id",
+     @"user_id" : @"userId",
+     @"name" : @"name",
+     @"rows" : @"rows",
+     @"columns" : @"columns",
+     @"active" : @"active",
+     @"is_public" : @"public",
+     @"background_sound_id" : @"backgroundSoundId",
+     @"wall_texture_id" : @"wallTextureId",
+     @"floor_texture_id" : @"floorTextureId",
+     @"ceiling_texture_id" : @"ceilingTextureId",
+     @"created_at" : @"createdDate",
+     @"updated_at" : @"updatedDate"}];
+    
+    
+    RKObjectMapping *locationObjectMapping = [RKObjectMapping mappingForClass: [Location class]];
+    
+    [locationObjectMapping addAttributeMappingsFromDictionary:
+     @{@"id" : @"id",
+     @"maze_id" : @"mazeId",
+     @"x" : @"x",
+     @"y" : @"y",
+     @"direction" : @"direction",
+     @"wall_north" : @"wallNorth",
+     @"wall_west" : @"wallWest",
+     @"action" : @"action",
+     @"message" : @"message",
+     @"teleport_id" : @"teleportId",
+     @"teleport_x" : @"teleportX",
+     @"teleport_y" : @"teleportY",
+     @"wall_north_texture_id" : @"wallNorthTextureId",
+     @"wall_west_texture_id" : @"wallWestTextureId",
+     @"floor_texture_id" : @"floorTextureId",
+     @"ceiling_texture_id" : @"ceilingTextureId",
+     @"created_at" : @"createdDate",
+     @"updated_at" : @"updatedDate"}];
+    
+    [mazeObjectMapping addPropertyMapping: [RKRelationshipMapping relationshipMappingFromKeyPath: @"locations"
+                                                                                       toKeyPath: @"locations.list"
+                                                                                     withMapping: locationObjectMapping]];
+
     
     NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful);
     
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping: objectMapping
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping: mazeObjectMapping
                                                                                        pathPattern: nil
                                                                                            keyPath: nil
                                                                                        statusCodes: statusCodes];
     
     NSURL *url = [Constants shared].serverBaseURL;
-    url = [url URLByAppendingPathComponent: [NSString stringWithFormat: @"mazes/%d/locations.json", mazeId]];
+    url = [url URLByAppendingPathComponent: [NSString stringWithFormat: @"mazes/show/%d.json", userId]];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: url];
     
@@ -350,17 +409,225 @@
     
     [objectRequestOperation setCompletionBlockWithSuccess: ^(RKObjectRequestOperation *operation, RKMappingResult *result)
      {
-         [delegate serverOperationsGetLocations: [result array] error: nil];
+         [delegate serverOperationsGetMaze: [result firstObject] error: nil];
      }
                                                   failure: ^(RKObjectRequestOperation *operation, NSError *error)
      {
          [Utilities logWithClass: class format: @"Unable to get maze from server. Error: %@", [error localizedDescription]];
          
-         [delegate serverOperationsGetLocations: nil error: error];
+         [delegate serverOperationsGetMaze: nil error: error];
      }];
     
     return objectRequestOperation;
 }
+
+- (RKObjectRequestOperation *)saveMazeOperationWithDelegate: (id<MAServerOperationsSaveMazeDelegate>)delegate maze: (Maze *)maze
+{
+    // Request
+    
+    NSMutableDictionary *mazeDictionary = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                           [NSNumber numberWithInt: maze.userId], @"user_id",
+                                           maze.name, @"name",
+                                           [NSNumber numberWithInt: maze.rows], @"rows",
+                                           [NSNumber numberWithInt: maze.columns], @"columns",
+                                           [NSNumber numberWithBool: maze.active], @"active",
+                                           [NSNumber numberWithBool: maze.public], @"is_public",
+                                           [NSNumber numberWithInt: maze.backgroundSoundId], @"background_sound_id",
+                                           [NSNumber numberWithInt: maze.wallTextureId], @"wall_texture_id",
+                                           [NSNumber numberWithInt: maze.floorTextureId], @"floor_texture_id",
+                                           [NSNumber numberWithInt: maze.ceilingTextureId], @"ceiling_texture_id",
+                                           nil];
+    
+    if (maze.id != 0)
+    {
+        [mazeDictionary setObject: [NSNumber numberWithInt: maze.id] forKey: @"id"];
+    }
+    
+    
+    NSMutableArray *locationsArray = [[NSMutableArray alloc] init];
+
+    for (Location *location in maze.locations.list)
+    {
+        NSMutableDictionary *locationDictionary = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                                   [NSNumber numberWithInt: location.x], @"x",
+                                                   [NSNumber numberWithInt: location.y], @"y",
+                                                   [NSNumber numberWithInt: location.direction], @"direction",
+                                                   [NSNumber numberWithInt: location.wallNorth], @"wall_north",
+                                                   [NSNumber numberWithInt: location.wallWest], @"wall_west",
+                                                   [NSNumber numberWithInt: location.action], @"action",
+                                                   location.message, @"message",
+                                                   [NSNumber numberWithInt: location.teleportId], @"teleport_id",
+                                                   [NSNumber numberWithInt: location.teleportX], @"teleport_x",
+                                                   [NSNumber numberWithInt: location.teleportY], @"teleport_y",
+                                                   [NSNumber numberWithInt: location.wallNorthTextureId], @"wall_north_texture_id",
+                                                   [NSNumber numberWithInt: location.wallWestTextureId], @"wall_west_texture_id",
+                                                   [NSNumber numberWithInt: location.floorTextureId], @"floor_texture_id",
+                                                   [NSNumber numberWithInt: location.ceilingTextureId], @"ceiling_texture_id",
+                                                   nil];
+        
+        if (maze.id != 0)
+        {
+            [locationDictionary setObject: [NSNumber numberWithInt: location.id] forKey: @"id"];
+            [locationDictionary setObject: [NSNumber numberWithInt: location.mazeId] forKey: @"maze_id"];
+        }
+
+        [locationsArray addObject: locationDictionary];
+    }
+
+    [mazeDictionary setObject: locationsArray forKey: @"locations_attributes"];
+
+
+    NSError *error = nil;
+    NSData *requestBody = [RKMIMETypeSerialization dataFromObject: @{@"maze" : mazeDictionary}
+                                                         MIMEType: RKMIMETypeJSON
+                                                            error: &error];
+    
+    
+    if (error != nil)
+    {
+        [Utilities logWithClass: [self class] format: @"Unable to serialize parameters. Error = %@", [error localizedDescription]];
+    }
+    
+    
+    NSURL *url = [Constants shared].serverBaseURL;
+    if (maze.id == 0)
+    {
+        url = [url URLByAppendingPathComponent: [NSString stringWithFormat: @"/mazes.json"]];
+    }
+    else
+    {
+        url = [url URLByAppendingPathComponent: [NSString stringWithFormat: @"/mazes/%d.json", maze.id]];
+    }
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: url];
+    
+    if (maze.id == 0)
+    {
+        [request setHTTPMethod: @"POST"];
+    }
+    else
+    {
+        [request setHTTPMethod: @"PUT"];
+    }
+    
+    [request addValue: @"application/json" forHTTPHeaderField: @"Content-Type"];
+    [request setHTTPBody: requestBody];
+    
+    // Response
+    
+    RKObjectMapping *mazeObjectMapping = [RKObjectMapping mappingForClass: [Maze class]];
+    
+    [mazeObjectMapping addAttributeMappingsFromDictionary:
+     @{@"id" : @"id",
+     @"user_id" : @"userId",
+     @"name" : @"name",
+     @"rows" : @"rows",
+     @"columns" : @"columns",
+     @"active" : @"active",
+     @"is_public" : @"public",
+     @"background_sound_id" : @"backgroundSoundId",
+     @"wall_texture_id" : @"wallTextureId",
+     @"floor_texture_id" : @"floorTextureId",
+     @"ceiling_texture_id" : @"ceilingTextureId",
+     @"created_at" : @"createdDate",
+     @"updated_at" : @"updatedDate"}];
+    
+    
+    RKObjectMapping *locationObjectMapping = [RKObjectMapping mappingForClass: [Location class]];
+    
+    [locationObjectMapping addAttributeMappingsFromDictionary:
+     @{@"id" : @"id",
+     @"maze_id" : @"mazeId",
+     @"x" : @"x",
+     @"y" : @"y",
+     @"direction" : @"direction",
+     @"wall_north" : @"wallNorth",
+     @"wall_west" : @"wallWest",
+     @"action" : @"action",
+     @"message" : @"message",
+     @"teleport_id" : @"teleportId",
+     @"teleport_x" : @"teleportX",
+     @"teleport_y" : @"teleportY",
+     @"wall_north_texture_id" : @"wallNorthTextureId",
+     @"wall_west_texture_id" : @"wallWestTextureId",
+     @"floor_texture_id" : @"floorTextureId",
+     @"ceiling_texture_id" : @"ceilingTextureId",
+     @"created_at" : @"createdDate",
+     @"updated_at" : @"updatedDate"}];
+    
+    [mazeObjectMapping addPropertyMapping: [RKRelationshipMapping relationshipMappingFromKeyPath: @"locations"
+                                                                                       toKeyPath: @"locations.list"
+                                                                                     withMapping: locationObjectMapping]];
+    
+    
+    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful);
+    
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping: mazeObjectMapping
+                                                                                       pathPattern: nil
+                                                                                           keyPath: nil
+                                                                                       statusCodes: statusCodes];
+    
+    // Response end
+    
+    NSArray *responseDescriptors = nil;
+    if (maze.id == 0)
+    {
+        responseDescriptors = @[responseDescriptor];
+    }
+    else
+    {
+        responseDescriptors = @[];
+    }
+    
+    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest: request
+                                                                                     responseDescriptors: responseDescriptors];
+    
+    
+    Class class = [self class];
+    
+    [objectRequestOperation setCompletionBlockWithSuccess: ^(RKObjectRequestOperation *operation, RKMappingResult *result)
+     {
+         [delegate serverOperationsSaveMaze: [result firstObject] error: nil];
+     }
+                                                  failure: ^(RKObjectRequestOperation *operation, NSError *error)
+     {
+         [Utilities logWithClass: class format: @"Unable to save maze on server. Error: %@", [error localizedDescription]];
+         
+         [delegate serverOperationsSaveMaze: nil error: error];
+     }];
+    
+    return objectRequestOperation;
+}
+
+- (RKObjectRequestOperation *)deleteMazeOperationWithDelegate: (id<MAServerOperationsDeleteMazeDelegate>)delegate mazeId: (int)mazeId
+{
+    NSURL *url = [Constants shared].serverBaseURL;
+    url = [url URLByAppendingPathComponent: [NSString stringWithFormat: @"mazes/%d.json", mazeId]];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: url];
+    
+    [request setHTTPMethod: @"DELETE"];
+    
+    RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest: request
+                                                                                     responseDescriptors: @[]];
+    
+    
+    Class class = [self class];
+    
+    [objectRequestOperation setCompletionBlockWithSuccess: ^(RKObjectRequestOperation *operation, RKMappingResult *result)
+     {
+         [delegate serverOperationsDeleteMazeWithError: nil];
+     }
+                                                  failure: ^(RKObjectRequestOperation *operation, NSError *error)
+     {
+         [Utilities logWithClass: class format: @"Unable to set rating on server. Error: %@", [error localizedDescription]];
+         
+         [delegate serverOperationsDeleteMazeWithError: error];
+     }];
+    
+    return objectRequestOperation;   
+}
+
 
 - (RKObjectRequestOperation *)getMazeUserOperationWithDelegate: (id<MAServerOperationsGetMazeUserDelegate>)delegate mazeId: (int)mazeId userId: (int)userId
 {    
@@ -409,34 +676,19 @@
 
 - (RKObjectRequestOperation *)saveMazeUserOperationWithDelegate: (id<MAServerOperationsSaveMazeUserDelegate>)delegate mazeUser: (MazeUser *)mazeUser
 {
-    RKObjectMapping *requestObjectMapping = [RKObjectMapping requestMapping];
-    
-    [requestObjectMapping addAttributeMappingsFromDictionary:
-     @{@"mazeId" : @"maze_id",
-     @"userId" : @"user_id",
-     @"started" : @"started",
-     @"finished" : @"finished",
-     @"rating" : @"rating"}];
+    NSDictionary *mazeUserDictionary =
+    @{@"maze_id" : [NSNumber numberWithInt: mazeUser.mazeId],
+    @"user_id" : [NSNumber numberWithInt: mazeUser.userId],
+    @"started" : [NSNumber numberWithBool: mazeUser.started],
+    @"finished" : [NSNumber numberWithBool: mazeUser.finished],
+    @"rating" : [NSNumber numberWithFloat: mazeUser.rating]};
 
-    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping: requestObjectMapping
-                                                                                   objectClass: [MazeUser class]
-                                                                                   rootKeyPath: @"maze_user"];
-    
     NSError *error = nil;
-    NSDictionary *parameters = [RKObjectParameterization parametersWithObject: mazeUser
-                                                            requestDescriptor: requestDescriptor
-                                                                        error: &error];
     
-    if (error != nil)
-    {
-        [Utilities logWithClass: [self class] format: @"Unable to parameterize object mazeUser. Error = %@", [error localizedDescription]];
-    }
-    
-    error = nil;
-    NSData *requestBody = [RKMIMETypeSerialization dataFromObject: parameters
-                                                         MIMEType: RKMIMETypeFormURLEncoded
+    NSData *requestBody = [RKMIMETypeSerialization dataFromObject: @{@"maze_user" : mazeUserDictionary}
+                                                         MIMEType: RKMIMETypeJSON
                                                             error: &error];
-    
+
     if (error != nil)
     {
         [Utilities logWithClass: [self class] format: @"Unable to serialize parameters. Error = %@", [error localizedDescription]];
@@ -449,7 +701,7 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: url];
 
     [request setHTTPMethod: @"PUT"];
-    [request addValue: @"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+    [request addValue: @"application/json" forHTTPHeaderField: @"Content-Type"];
     [request setHTTPBody: requestBody];
     
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest: request
@@ -472,14 +724,13 @@
     return objectRequestOperation;
 }
 
+
 - (RKObjectRequestOperation *)saveMazeRatingOperationWithDelegate: (id<MAServerOperationsSaveMazeRatingDelegate>)delegate rating: (Rating *)rating
 {
     NSURL *url = [Constants shared].serverBaseURL;
     url = [url URLByAppendingPathComponent: [NSString stringWithFormat: @"main/setMazeRating/%d/%d/%f.json", rating.mazeId, rating.userId, rating.value]];
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: url];
-    
-    [request addValue: @"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
     
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest: request
                                                                                      responseDescriptors: @[]];
@@ -502,7 +753,6 @@
 }
 
 
-
 - (RKObjectRequestOperation *)highestRatedOperationWithDelegate: (id<MAServerOperationsHighestRatedListDelegate>)delegate userId: (int)userId
 {
     NSURL *url = [Constants shared].serverBaseURL;
@@ -511,7 +761,7 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: url];
     
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest: request
-                                                                                     responseDescriptors: @[self->mainListItemResponseDescriptor]];
+                                                                                     responseDescriptors: @[self.mainListItemResponseDescriptor]];
     
     Class class = [self class];
     
@@ -537,7 +787,7 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: url];
     
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest: request
-                                                                                     responseDescriptors: @[self->mainListItemResponseDescriptor]];
+                                                                                     responseDescriptors: @[self.mainListItemResponseDescriptor]];
     
     Class class = [self class];
     
@@ -563,7 +813,7 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: url];
     
     RKObjectRequestOperation *objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest: request
-                                                                                     responseDescriptors: @[self->mainListItemResponseDescriptor]];
+                                                                                     responseDescriptors: @[self.mainListItemResponseDescriptor]];
     
     Class class = [self class];
     

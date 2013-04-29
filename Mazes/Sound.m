@@ -10,12 +10,20 @@
 
 #import "Utilities.h"
 
+@interface Sound ()
+
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
+
+@end
+
 @implementation Sound
 
 @dynamic id; 
 @dynamic name;
 @dynamic createdDate;
 @dynamic updatedDate;
+
+@synthesize audioPlayer;
 
 - (void)awakeFromInsert
 {
@@ -32,11 +40,11 @@
     NSString *path = [[NSBundle mainBundle] pathForResource: self.name ofType: @"caf"];
 
     NSError *error = nil;
-    self->audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL: [NSURL fileURLWithPath: path] error: &error];
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL: [NSURL fileURLWithPath: path] error: &error];
 
     if (error == nil)
     {
-        self->audioPlayer.volume = 1.0;
+        self.audioPlayer.volume = 1.0;
     }
     else
     {
@@ -46,16 +54,16 @@
 
 - (void)playWithNumberOfLoops: (int)numberOfLoops
 {
-	self->audioPlayer.numberOfLoops = numberOfLoops;
+	self.audioPlayer.numberOfLoops = numberOfLoops;
 		
-	[self->audioPlayer play];
+	[self.audioPlayer play];
 }
 
 - (void)stop
 {
-	[self->audioPlayer stop];
+	[self.audioPlayer stop];
 	
-	self->audioPlayer.currentTime = 0.0;
+	self.audioPlayer.currentTime = 0.0;
 }
 
 - (NSString *)description 

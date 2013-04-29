@@ -15,11 +15,6 @@
 @class Sound;
 
 @interface Sounds : NSObject <NSFetchedResultsControllerDelegate, MAServerOperationsGetSoundsDelegate>
-{
-    NSOperationQueue *operationQueue;
-}
-
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @property (assign, nonatomic) int count;
 

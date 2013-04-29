@@ -10,7 +10,7 @@
 
 #import "Constants.h"
 
-typedef enum
+typedef enum : int
 {
 	MALocationActionDoNothing = 0,
 	MALocationActionStart = 1,
@@ -19,7 +19,7 @@ typedef enum
 	MALocationActionTeleport = 4
 } MALocationActionType;
 
-typedef enum
+typedef enum : int
 {
     MAWallUnknown = 0,
 	MAWallNone = 1,
@@ -53,11 +53,6 @@ typedef enum
 @property (strong, nonatomic) NSDate *updatedDate;
 
 - (void)reset;
-
-- (void)setWallNorthTextureIdWithNumber: (NSNumber *)textureId;
-- (void)setWallWestTextureIdWithNumber: (NSNumber *)textureId;
-- (void)setFloorTextureIdWithNumber: (NSNumber *)textureId;
-- (void)setCeilingTextureIdWithNumber: (NSNumber *)textureId;
 
 @end
 

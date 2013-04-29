@@ -8,6 +8,14 @@
 
 #import "CreateViewController.h"
 
+#import "Constants.h"
+#import "EditViewController.h"
+#import "GridView.h"
+#import "MainListViewController.h"
+#import "MainViewController.h"
+#import "Maze.h"
+#import "Utilities.h"
+
 @implementation CreateViewController
 
 + (CreateViewController *)shared
@@ -36,35 +44,20 @@
     return self;
 }
 
-- (void)viewDidLoad 
-{
-	[super viewDidLoad];
- 
-	rowsArr = [[NSMutableArray alloc] init];
-	for (int i = [Constants shared].rowsMin; i <= [Constants shared].rowsMax; i = i + 1)
-	{
-		[rowsArr addObject: [[NSNumber numberWithInt: i] stringValue]];
-	}
-	
-	columnsArr = [[NSMutableArray alloc] init];
-	for (int i = [Constants shared].columnsMin; i <= [Constants shared].columnsMax; i = i + 1)
-	{
-		[columnsArr addObject: [[NSNumber numberWithInt: i] stringValue]];
-	}
-}
-
 - (void)viewWillAppear: (BOOL)animated
 {
 	[super viewWillAppear: animated];
 	
-    self->maze = [[Maze alloc] init];
-    
-	self->maze.rows = [Constants shared].rowsMin;
-	self->maze.columns = [Constants shared].columnsMin;
+	[EditViewController shared].maze.rows = [Constants shared].rowsMin;
+	[EditViewController shared].maze.columns = [Constants shared].columnsMin;
 	
+    [[EditViewController shared].maze.locations populateWithRows: [EditViewController shared].maze.rows
+                                                         columns: [EditViewController shared].maze.columns];
+    
 	[self.pickerView selectRow: 0 inComponent: 0 animated: NO];
 	[self.pickerView selectRow: 0 inComponent: 1 animated: NO];
 	
+    self.gridView.maze = [EditViewController shared].maze;
 	[self.gridView setNeedsDisplay];
 }
 
@@ -76,66 +69,111 @@
 - (CGFloat)pickerView: (UIPickerView *)pickerView widthForComponent: (NSInteger)component
 {
 	float width = 0.0;
-	
-	if (component == 0)
-		width = 100.0;
-	else if (component == 1)
-		width = 132.0;
-	
+
+	switch (component)
+    {
+        case 0:
+            width = 100.0;
+            break;
+            
+        case 1:
+            width = 132.0;
+            break;
+
+        default:
+            [Utilities logWithClass: [self class] format: @"component set to an illegal value: %d", component];
+            break;
+    }
+    
 	return width;
 }
 
 - (NSInteger)pickerView: (UIPickerView *)thePickerView numberOfRowsInComponent: (NSInteger)component 
 {	
-	NSInteger pickerRows = 0;
+	int rowCount = 0;
 	
-	if (component == 0)
-		pickerRows = [rowsArr count];
-	else if (component == 1)
-		pickerRows = [columnsArr count];
+	switch (component)
+    {
+        case 0:
+            rowCount = ([Constants shared].rowsMax - [Constants shared].rowsMin) + 1;
+            break;
+            
+        case 1:
+            rowCount = ([Constants shared].columnsMax - [Constants shared].columnsMin) + 1;
+            break;
+    }
 	
-	return pickerRows;
+	return rowCount;
 }
 
 - (NSString *)pickerView: (UIPickerView *)thePickerView titleForRow: (NSInteger)row forComponent: (NSInteger)component 
 {	
-	NSString *pickerRow = 0;
+	NSString *title = @"";
 	
-	if (component == 0)
-		pickerRow = [rowsArr objectAtIndex: row];
-	else if (component == 1)
-		pickerRow = [columnsArr objectAtIndex: row];
-	
-	return pickerRow;
+	switch (component)
+    {
+        case 0:
+            title = [NSString stringWithFormat: @"%d", [Constants shared].rowsMin + row];
+            break;
+            
+        case 1:
+            title = [NSString stringWithFormat: @"%d", [Constants shared].columnsMin + row];
+            break;
+    }
+
+	return title;
 }
 
 - (void)pickerView:(UIPickerView *)thePickerView didSelectRow: (NSInteger)row inComponent: (NSInteger)component 
 {	
-	if (component == 0)
-	{
-		self->maze.rows = [[rowsArr objectAtIndex: row] intValue];
-		self->maze.columns = [[columnsArr objectAtIndex: [thePickerView selectedRowInComponent: 1]] intValue];
-	}
-	else if (component == 1)
-	{
-		self->maze.rows = [[rowsArr objectAtIndex: [thePickerView selectedRowInComponent: 0]] intValue];
-		self->maze.columns = [[columnsArr objectAtIndex: row] intValue];
-	}
+	switch (component)
+    {
+        case 0:
+            [EditViewController shared].maze.rows = [Constants shared].rowsMin + row;
+            break;
+            
+        case 1:
+            [EditViewController shared].maze.columns = [Constants shared].columnsMin + row;
+            break;
+    }
+    
+    [[EditViewController shared].maze.locations populateWithRows: [EditViewController shared].maze.rows
+                                                         columns: [EditViewController shared].maze.columns];
     
 	[self.gridView setNeedsDisplay];
 }
 
-- (IBAction)btnContinueTouchDown: (id)sender
+- (IBAction)continueButtonTouchDown: (id)sender
 {
-    [self->maze.locations populateWithRows: self->maze.rows
-                                   columns: self->maze.columns];
-	   
-	[self.navigationController popViewControllerAnimated: NO];
+    [[MainViewController shared] transitionFromViewController: self
+                                             toViewController: [EditViewController shared]
+                                                   transition: MATransitionCrossDissolve];
 }
 
-- (IBAction)btnMazesTouchDown: (id)sender
+- (IBAction)mazesButtonTouchDown: (id)sender
 {
-	[self.navigationController popToRootViewControllerAnimated: NO];
+    [EditViewController shared].maze.rows = 0;
+    [EditViewController shared].maze.columns = 0;
+    [[EditViewController shared].maze.locations removeAll];
+    
+    [[MainViewController shared] transitionFromViewController: self
+                                             toViewController: [MainListViewController shared]
+                                                   transition: MATransitionCrossDissolve];
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

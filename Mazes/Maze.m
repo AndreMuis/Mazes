@@ -25,9 +25,9 @@
         _active = NO;
         _public = NO;
         _backgroundSoundId = 0;
-        _wallTextureId = 38; // blue
-        _floorTextureId = 33; // white
-        _ceilingTextureId = 33; // white
+        _wallTextureId = 0;
+        _floorTextureId = 0;
+        _ceilingTextureId = 0;
         _createdDate = nil;
         _updatedDate = nil;
         
@@ -67,6 +67,8 @@
     desc = [NSString stringWithFormat: @"%@, ceilingTextureId = %d", desc, self.ceilingTextureId];
     desc = [NSString stringWithFormat: @"%@, createdDate = %@", desc, self.createdDate];
     desc = [NSString stringWithFormat: @"%@, updatedDate = %@", desc, self.updatedDate];
+    
+    desc = [NSString stringWithFormat: @"%@, locations = %@", desc, self.locations];
 
     return desc;
 }

@@ -9,16 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface Sound : NSManagedObject
-{
-	AVAudioPlayer *audioPlayer;
-}
 
 @property (strong, nonatomic) NSNumber *id;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSDate *createdDate;
 @property (strong, nonatomic) NSDate *updatedDate;
-
-- (void)setup;
 
 - (void)playWithNumberOfLoops: (int)numberOfLoops;
 

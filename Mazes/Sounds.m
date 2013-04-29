@@ -13,6 +13,12 @@
 #import "Sound.h"
 #import "Utilities.h"
 
+@interface Sounds ()
+
+@property (strong, nonatomic) NSOperationQueue *operationQueue;
+
+@end
+
 @implementation Sounds
 
 + (Sounds *)shared
@@ -36,7 +42,7 @@
 	
 	if (self)
 	{
-        self->operationQueue = [[NSOperationQueue alloc] init];
+        _operationQueue = [[NSOperationQueue alloc] init];
         
         _count = 0;
 	}
@@ -46,7 +52,7 @@
 
 - (void)download
 {
-    [self->operationQueue addOperation: [[ServerOperations shared] getSoundsOperationWithDelegate: self]];
+    [self.operationQueue addOperation: [[ServerOperations shared] getSoundsOperationWithDelegate: self]];
 }
 
 - (void)serverOperationsGetSounds: (NSError *)error

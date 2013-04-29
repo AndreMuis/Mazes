@@ -14,11 +14,8 @@
 
 @property (strong, nonatomic) id textureDelegate;
 @property (assign, nonatomic) SEL textureSelector;
+
 @property (strong, nonatomic) id exitDelegate;
 @property (assign, nonatomic) SEL exitSelector;
-
-- (void)setupScrollView;
-
-- (void)handleTapFrom: (UITapGestureRecognizer *)recognizer; 
 
 @end

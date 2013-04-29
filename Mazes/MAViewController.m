@@ -8,6 +8,12 @@
 
 #import "MAViewController.h"
 
+@interface MAViewController ()
+
+@property (assign, nonatomic) BOOL didLayoutSubviews;
+
+@end
+
 @implementation MAViewController
 
 - (id)initWithNibName: (NSString *)nibNameOrNil bundle: (NSBundle *)nibBundleOrNil
@@ -16,8 +22,8 @@
     
     if (self)
     {
-        self->movingToParentViewController = NO;
-        self->didLayoutSubviews = NO;
+        self.movingToParentViewController = NO;
+        self.didLayoutSubviews = NO;
     }
     
     return self;
@@ -29,23 +35,23 @@
     
     if (parent != nil)
     {
-        self->movingToParentViewController = YES;
-        self->didLayoutSubviews = NO;
+        self.movingToParentViewController = YES;
+        self.didLayoutSubviews = NO;
     }
 }
 
 - (void)didMoveToParentViewController: (UIViewController *)parent
 {
-    self->movingToParentViewController = NO;
+    self.movingToParentViewController = NO;
 
     [super didMoveToParentViewController: parent];
 }
 
 - (void)viewDidLayoutSubviews
 {
-    if (self->movingToParentViewController == YES && self->didLayoutSubviews == NO)
+    if (self.movingToParentViewController == YES && self.didLayoutSubviews == NO)
     {
-        self->didLayoutSubviews = YES;
+        self.didLayoutSubviews = YES;
     }
     
     [super viewDidLayoutSubviews];

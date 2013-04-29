@@ -16,7 +16,7 @@
 	
     if (self)
 	{
-        self->list = nil;
+        _list = nil;
     }
 	
 	return self;
@@ -24,7 +24,7 @@
 
 - (void)populateWithRows: (int)rows columns: (int)columns
 {
-    self->list = [[NSMutableArray alloc] init];
+    self.list = [[NSMutableArray alloc] init];
 
 	for (int LocX = 1; LocX <= columns + 1; LocX = LocX + 1)
 	{
@@ -34,39 +34,21 @@
 			location.X = LocX;
 			location.Y = LocY;
 			
-			[self->list addObject: location];
+			[self.list addObject: location];
 		}
 	}
 }
 
-- (void)populateWithArray: (NSArray *)locations
-{
-    self->list = [NSMutableArray arrayWithArray: locations];
-}
-
-- (NSArray *)all
-{
-    return self->list;
-}
-
 - (void)removeAll
 {
-	[self->list removeAllObjects];
-}
-
-- (void)updateMazeId: (int)mazeId
-{
-	for (Location *loc in self->list)
-	{
-		loc.MazeId = mazeId;
-	}	
+	[self.list removeAllObjects];
 }
 
 - (Location *)getLocationByX: (int)x y: (int)y
 {
 	Location *location = nil;
 	
-	for (Location *loc in self->list)
+	for (Location *loc in self.list)
 	{
 		if (loc.x == x && loc.y == y)
         {
@@ -81,7 +63,7 @@
 {
 	Location *location = nil;
 	
-	for (Location *loc in self->list)
+	for (Location *loc in self.list)
 	{
 		if (loc.action == action)
         {
@@ -265,212 +247,13 @@
     }
 }
 
-- (void)drawGridWithCurrLoc: (Location *)currLoc currWallLoc: (Location *)currWallLoc currWallDir: (MADirectionType)currWallDir rows: (int)rows columns: (int)columns
-{
-	CGRect segmentRect;
-	
-	CGContextRef context = UIGraphicsGetCurrentContext();	
-
-	for (Location *location in self->list)
-	{
-		if (location.x <= columns && location.y <= rows)
-		{
-			segmentRect = [self getSegmentRectFromLocation: location segmentType: MAMazeObjectLocation];
-			
-			if (location.action == MALocationActionStart)
-			{
-				CGContextSetFillColorWithColor(context, [Styles shared].grid.startColor.CGColor);
-			}
-			else if (location.action == MALocationActionEnd)
-			{
-				CGContextSetFillColorWithColor(context, [Styles shared].grid.endColor.CGColor);
-			}
-			else if (location.action == MALocationActionStartOver)
-			{
-				CGContextSetFillColorWithColor(context, [Styles shared].grid.startOverColor.CGColor);
-			}
-			else if (location.action == MALocationActionTeleport)
-			{
-				CGContextSetFillColorWithColor(context, [Styles shared].grid.teleportationColor.CGColor);
-			}
-			else if ([location.message isEqualToString: @""] == NO)
-			{
-				CGContextSetFillColorWithColor(context, [Styles shared].grid.messageColor.CGColor);
-			}
-			else
-			{
-				CGContextSetFillColorWithColor(context, [Styles shared].grid.doNothingColor.CGColor);
-			}
-			
-			CGContextFillRect(context, segmentRect);
-			
-			if (location.action == MALocationActionStart || location.action == MALocationActionTeleport)
-			{
-				[Utilities drawArrowInRect: segmentRect angleDegrees: location.direction scale: 0.8];
-				
-				if (location.action == MALocationActionTeleport)
-				{
-					CGContextSetFillColorWithColor(context, [Styles shared].grid.teleportIdColor.CGColor);
-				
-					NSString *num = [NSString stringWithFormat: @"%d", location.teleportId];
-				
-					[num drawInRect: segmentRect
-                           withFont: [UIFont systemFontOfSize: [Styles shared].grid.teleportFontSize]
-                      lineBreakMode: NSLineBreakByClipping
-                          alignment: NSTextAlignmentCenter];
-				}
-			}				
-			
-			if (location.floorTextureId != 0 || location.ceilingTextureId != 0)
-			{
-				[Utilities drawBorderInsideRect: segmentRect
-                                      withWidth: [Styles shared].grid.textureHighlightWidth
-                                          color: [Styles shared].grid.textureHighlightColor];
-			}	
-				
-			if (currLoc != nil)
-			{
-				if (location.x == currLoc.x && location.y == currLoc.y)
-				{
-					[Utilities drawBorderInsideRect: segmentRect
-                                          withWidth: [Styles shared].grid.locationHighlightWidth
-                                              color: [Styles shared].grid.locationHighlightColor];
-				}
-			}
-		}
-		
-		// Wall North
-		
-		if (location.x <= columns)
-		{
-			segmentRect = [self getSegmentRectFromLocation: location segmentType: MAMazeObjectWallNorth];
-						
-			// outer wall
-			if (location.y == 1 || location.y == rows + 1)
-			{
-				CGContextSetFillColorWithColor(context, [Styles shared].grid.borderColor.CGColor);
-				CGContextFillRect(context, segmentRect);
-			}
-			else
-			{
-				MAWallType wallType = [self getWallTypeLocX: location.x locY: location.y direction: MADirectionNorth];
-				
-				if (wallType == MAWallNone)
-                {
-					CGContextSetFillColorWithColor(context, [Styles shared].grid.noWallColor.CGColor);
-                }
-				else if (wallType == MAWallSolid)
-                {
-					CGContextSetFillColorWithColor(context, [Styles shared].grid.solidColor.CGColor);
-                }
-				else if (wallType == MAWallInvisible)
-                {
-					CGContextSetFillColorWithColor(context, [Styles shared].grid.invisibleColor.CGColor);
-                }
-				else if (wallType == MAWallFake)
-                {
-					CGContextSetFillColorWithColor(context, [Styles shared].grid.fakeColor.CGColor);
-                }
-									
-				CGContextFillRect(context, segmentRect);
-			}
-			
-			if (location.wallNorthTextureId != 0)
-			{
-				[Utilities drawBorderInsideRect: segmentRect
-                                      withWidth: [Styles shared].grid.textureHighlightWidth
-                                          color: [Styles shared].grid.textureHighlightColor];
-			}	
-						
-			if (currWallLoc != nil)
-			{
-				if (location.x == currWallLoc.x && location.y == currWallLoc.y && currWallDir == MADirectionNorth)
-				{
-					[Utilities drawBorderInsideRect: segmentRect
-                                          withWidth: [Styles shared].grid.wallHighlightWidth
-                                              color: [Styles shared].grid.locationHighlightColor];
-				}
-			}
-		}
-		
-		// Wall West
-		
-		if (location.y <= rows)
-		{
-			segmentRect = [self getSegmentRectFromLocation: location segmentType: MAMazeObjectWallWest];
-
-			// outer wall
-			if (location.x == 1 || location.x == columns + 1)
-			{
-				CGContextSetFillColorWithColor(context, [Styles shared].grid.borderColor.CGColor);
-				CGContextFillRect(context, segmentRect);
-			}
-			else
-			{
-				MAWallType wallType = [self getWallTypeLocX: location.x locY: location.y direction: MADirectionWest];
-				
-				if (wallType == MAWallNone)
-                {
-					CGContextSetFillColorWithColor(context, [Styles shared].grid.noWallColor.CGColor);
-                }
-				else if (wallType == MAWallSolid)
-                {
-					CGContextSetFillColorWithColor(context, [Styles shared].grid.solidColor.CGColor);
-                }
-				else if (wallType == MAWallInvisible)
-                {
-					CGContextSetFillColorWithColor(context, [Styles shared].grid.invisibleColor.CGColor);
-                }
-				else if (wallType == MAWallFake)
-                {
-					CGContextSetFillColorWithColor(context, [Styles shared].grid.fakeColor.CGColor);
-                }
-				
-				CGContextFillRect(context, segmentRect);
-			}
-
-			if (location.wallNorthTextureId != 0)
-			{
-				[Utilities drawBorderInsideRect: segmentRect
-                                      withWidth: [Styles shared].grid.textureHighlightWidth
-                                          color: [Styles shared].grid.textureHighlightColor];
-			}	
-			
-			if (currWallLoc != nil)
-			{
-				if (location.x == currWallLoc.x && location.y == currWallLoc.y && currWallDir == MADirectionWest)
-				{
-					[Utilities drawBorderInsideRect: segmentRect
-                                          withWidth: [Styles shared].grid.wallHighlightWidth
-                                              color: [Styles shared].grid.locationHighlightColor];
-				}
-			}
-		}
-		
-		// Corner
-
-		segmentRect = [self getSegmentRectFromLocation: location segmentType: MAMazeObjectCorner];
-
-		if (location.y > 1 && location.y <= rows && location.x > 1 && location.x <= columns)
-		{
-			CGContextSetFillColorWithColor(context, [Styles shared].grid.cornerColor.CGColor);
-			CGContextFillRect(context, segmentRect);
-		}	
-		else
-		{
-			CGContextSetFillColorWithColor(context, [Styles shared].grid.borderColor.CGColor);
-			CGContextFillRect(context, segmentRect);
-		}
-	}
-}
-
 - (Location *)getGridLocationFromTouchPoint: (CGPoint)touchPoint rows: (int)rows columns: (int)columns
 {
 	Location *loc = nil;
 	
 	CGRect segmentRect = CGRectZero, touchRect = CGRectZero;
 	
-	for (Location *location in self->list)
+	for (Location *location in self.list)
 	{	
 		segmentRect = [self getSegmentRectFromLocation: location segmentType: MAMazeObjectLocation];
 
@@ -494,7 +277,7 @@
 	float tx = 0.0, ty = 0.0;
 	float b = ([Styles shared].grid.segmentLengthLong + [Styles shared].grid.segmentLengthShort) / 2.0;
 	
-	for (Location *location in self->list)
+	for (Location *location in self.list)
 	{	
 		for (int i = 1; i <= 2; i = i + 1)
 		{
@@ -599,7 +382,7 @@
 
 - (NSString *)description 
 {
-    return [NSString stringWithFormat: @"%@", self->list];
+    return [NSString stringWithFormat: @"%@", self.list];
 }
 
 @end

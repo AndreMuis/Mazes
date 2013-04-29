@@ -13,20 +13,9 @@
 @class MAEvent;
 
 @interface ServerQueue : NSObject <MAServerOperationsSaveMazeUserDelegate, MAServerOperationsSaveMazeRatingDelegate>
-{
-    NSOperationQueue *operationQueue;
-    
-    MAEvent *enqueueOldestObjectEvent;
-    
-    NSMutableArray *pendingObjects;
-}
 
 + (ServerQueue *)shared;
 
 - (void)addObject: (NSObject *)object;
-
-- (void)reset;
-
-- (void)enqueueOldestObject;
 
 @end

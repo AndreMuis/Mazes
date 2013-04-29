@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface CurrentUser : NSObject
-{
-    NSString *userIdKey;
-}
 
 @property (assign, nonatomic) int id;
 

@@ -8,25 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Maze.h"
-#import "GridView.h"
+#import "MAViewController.h"
 
-@interface CreateViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
-{
-    Maze *maze;
-    
-	NSMutableArray *rowsArr;
-	NSMutableArray *columnsArr;
-}
+@class GridView;
+
+@interface CreateViewController : MAViewController <UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
-
 @property (weak, nonatomic) IBOutlet GridView *gridView;
 
 + (CreateViewController *)shared;
 
-- (IBAction)btnContinueTouchDown: (id)sender;
+- (IBAction)continueButtonTouchDown: (id)sender;
 
-- (IBAction)btnMazesTouchDown: (id)sender;
+- (IBAction)mazesButtonTouchDown: (id)sender;
 
 @end

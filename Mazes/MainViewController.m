@@ -110,7 +110,7 @@
             [self transitionFromViewController: fromViewController
                               toViewController: toViewController
                                       duration: [Styles shared].mainView.transitionDuration
-                                       options: transition
+                                       options: (UIViewAnimationOptions)transition
                                     animations: ^
              {
              }

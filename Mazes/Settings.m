@@ -8,6 +8,12 @@
 
 #import "Settings.h"
 
+@interface Settings ()
+
+@property (strong, nonatomic) NSUserDefaults *userDefaults;
+
+@end
+
 @implementation Settings
 
 + (Settings *)shared
@@ -34,7 +40,7 @@
         NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: YES], @"useTutorial", nil];
         [[NSUserDefaults standardUserDefaults] registerDefaults: defaults];
         
-        self->userDefaults = [NSUserDefaults standardUserDefaults];
+        self.userDefaults = [NSUserDefaults standardUserDefaults];
     }
     
     return self;
@@ -42,12 +48,12 @@
 
 - (BOOL)useTutorial
 {
-    return [userDefaults boolForKey: @"useTutorial"];
+    return [self.userDefaults boolForKey: @"useTutorial"];
 }
 
 - (void)setUseTutorial: (BOOL)anUseTutorial
 {
-    [userDefaults setBool: anUseTutorial forKey: @"useTutorial"];
+    [self.userDefaults setBool: anUseTutorial forKey: @"useTutorial"];
 }
 
 @end

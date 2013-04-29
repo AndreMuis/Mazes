@@ -13,7 +13,7 @@
 #import "RatingView.h"
 #import "ServerOperations.h"
 
-typedef enum
+typedef enum : int
 {
 	MAMovementBackward = 1,
 	MAMovementForward = 2,
@@ -30,54 +30,11 @@ typedef enum
 
 @interface GameViewController : MAViewController
     <MAServerOperationsGetMazeDelegate,
-    MAServerOperationsGetLocationsDelegate,
     MAServerOperationsGetMazeUserDelegate,
     UIGestureRecognizerDelegate,
     UIAlertViewDelegate,
     MARatingViewDelegate,
     UIPopoverControllerDelegate>
-{
-    NSOperationQueue *operationQueue;
-    
-    MAEvent *getGameDataEvent;
-    MAEvent *saveMazeUserEvent;
-    
-    Maze *maze;
-    NSArray *locations;
-    
-    MazeUser *mazeUser;
-    
-	Location *prevLoc;
-	Location *currLoc;
-
-	MADirectionType currDir;
-	
-	NSDate *movementStartDate;
-		
-	NSMutableArray *movements;
-	BOOL isMoving;
-	
-	MADirectionType movementDir;
-	
-	int dLocX;
-	int dLocY;
-
-	float dglx_step;
-	float dglz_step;
-	float dTheta_step;
-	
-	int steps;
-	int stepCount;
-
-	float moveStepDurationAvg;
-	float turnStepDurationAvg;
-	
-	BOOL wallRemoved;
-	BOOL directionReversed;
-
-    UIAlertView *startOverAlertView;
-	UIAlertView *endAlertView;
-}
 
 @property (assign, nonatomic) int mazeId;
 
@@ -99,45 +56,17 @@ typedef enum
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
-@property (strong, nonatomic) UIPopoverController *popoverController2;
-
 + (GameViewController *)shared;
 
 - (void)getGameData;
 
 - (void)setup;
-- (void)setupNewLocation: (Location *)newLoc;
-
-- (void)handleTapFrom: (UITapGestureRecognizer *)recognizer;
-- (void)handleSwipeFrom: (UISwipeGestureRecognizer *)recognizer;
-
-- (void)processMovements;
-
-- (void)moveForwardBackward: (MAMovementType)movement;
-- (void)moveStep: (NSTimer *) timer;
-- (void)moveEnd;
-
-- (void)turn: (MAMovementType)movement;
-- (void)turnStep: (NSTimer *)timer;
-- (void)turnEnd;
-
-- (void)locationChanged;
-
-- (void)displayMessage;
-- (void)clearMessage;
-
-- (void)showEndAlert;
-- (void)dismissEndAlertView;
 
 - (IBAction)backButtonTouchDown: (id)sender;
 - (IBAction)backButtonTouchUpInside: (id)sender;
 
-- (void)goBack;
-
 - (IBAction)instructionsButtonTouchDown: (id)sender;
 - (IBAction)instructionsButtonTouchUpInside: (id)sender;
-
-- (void)displayHelp;
 
 @end
 

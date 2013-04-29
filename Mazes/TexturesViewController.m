@@ -56,7 +56,7 @@
 		
 		CGRect imageViewFrame = CGRectMake(x, y, [Styles shared].editView.textureImageLength, [Styles shared].editView.textureImageLength);
 		
-		texture.imageViewFrame = imageViewFrame;
+		//texture.imageViewFrame = imageViewFrame;
 		
 		imageView.frame = imageViewFrame;
 		

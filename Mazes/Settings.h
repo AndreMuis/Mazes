@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface Settings : NSObject
-{
-    NSUserDefaults *userDefaults;
-}
 
 @property (assign, nonatomic) BOOL useTutorial;
 

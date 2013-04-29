@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MAViewController : UIViewController
-{
-    BOOL movingToParentViewController;
-    BOOL didLayoutSubviews;
-}
+
+@property (assign, nonatomic) BOOL movingToParentViewController;
 
 @end

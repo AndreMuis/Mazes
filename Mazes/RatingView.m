@@ -14,6 +14,21 @@
 #import "Styles.h"
 #import "Utilities.h"
 
+@interface RatingView ()
+
+@property (weak, nonatomic) id<MARatingViewDelegate> delegate;
+
+@property (assign, nonatomic) float rating;
+@property (strong, nonatomic) UIColor *starColor;
+@property (assign, nonatomic) MARatingViewType type;
+
+@property (assign, nonatomic) CGFloat starWidth;
+@property (assign, nonatomic) CGFloat starHeight;
+    
+@property (strong, nonatomic) UIPopoverController* popoverController;
+
+@end
+
 @implementation RatingView
 
 - (id)initWithCoder: (NSCoder*)coder
@@ -40,8 +55,8 @@
     
     self.backgroundColor = [UIColor clearColor];
     
-    self->starWidth = self.frame.size.width / 5.0;
-	self->starHeight = self.frame.size.height;
+    self.starWidth = self.frame.size.width / 5.0;
+	self.starHeight = self.frame.size.height;
 
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapFrom:)];
 	[self addGestureRecognizer: tapGestureRecognizer];
@@ -51,19 +66,19 @@
 {
 	for (float i = 1.0; i <= 5.0; i = i + 1.0)
 	{
-		float starX = self->starWidth * (i - 1);
+		float starX = self.starWidth * (i - 1);
 		float starY = rect.origin.y;
 		
 		if (i <= self.rating)
 		{
-			[Utilities drawStarInRect: CGRectMake(starX, starY, self->starWidth, self->starHeight)
+			[Utilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
                              clipRect: CGRectZero
                                 color: self.starColor
                               outline: NO];
 		}
 		else if (i > ceilf(self.rating))
 		{
-			[Utilities drawStarInRect: CGRectMake(starX, starY, self->starWidth, self->starHeight)
+			[Utilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
                              clipRect: CGRectZero
                                 color: self.starColor
                               outline: YES];
@@ -72,13 +87,13 @@
 		{
 			float fract = self.rating - floorf(self.rating);
 			
-			[Utilities drawStarInRect: CGRectMake(starX, starY, self->starWidth, self->starHeight)
-                             clipRect: CGRectMake(starX, starY, fract * self->starWidth, self->starHeight)
+			[Utilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
+                             clipRect: CGRectMake(starX, starY, fract * self.starWidth, self.starHeight)
                                 color: self.starColor
                               outline: NO];
 			
-			[Utilities drawStarInRect: CGRectMake(starX, starY, self->starWidth, self->starHeight)
-                             clipRect: CGRectMake(starX + fract * self->starWidth, starY, self->starWidth - fract * self->starWidth, self->starHeight)
+			[Utilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
+                             clipRect: CGRectMake(starX + fract * self.starWidth, starY, self.starWidth - fract * self.starWidth, self.starHeight)
                                 color: self.starColor
                               outline: YES];
 		}
@@ -100,19 +115,19 @@
         {
             RatingViewController *ratingViewController = [[RatingViewController alloc] initWithNibName: @"RatingViewController" bundle: nil];
 
-            self->popoverController = [[UIPopoverController alloc] initWithContentViewController: ratingViewController];
+            self.popoverController = [[UIPopoverController alloc] initWithContentViewController: ratingViewController];
             
             [ratingViewController.ratingView setupWithDelegate: self
                                                         rating: self.rating
                                                           type: MARatingViewSelectable
                                                      starColor: self.starColor];
 
-            self->popoverController.popoverContentSize = ratingViewController.view.frame.size;
+            self.popoverController.popoverContentSize = ratingViewController.view.frame.size;
             
-            [self->popoverController presentPopoverFromRect: self.bounds
-                                                     inView: self
-                                   permittedArrowDirections: UIPopoverArrowDirectionAny
-                                                   animated: YES];
+            [self.popoverController presentPopoverFromRect: self.bounds
+                                                    inView: self
+                                  permittedArrowDirections: UIPopoverArrowDirectionAny
+                                                  animated: YES];
             
             break;
         }
@@ -121,7 +136,7 @@
         {
             for (int star = 1; star <= 5; star = star + 1)
             {
-                if (tapPoint.x >= (star - 1) * starWidth && tapPoint.x <= star * starWidth)
+                if (tapPoint.x >= (star - 1) * self.starWidth && tapPoint.x <= star * self.starWidth)
                 {
                     self.rating = (float)star;
                 }
@@ -143,7 +158,7 @@
 
 - (void)ratingView: (RatingView *)ratingView ratingChanged: (float)newRating
 {
-    [self->popoverController dismissPopoverAnimated: YES];
+    [self.popoverController dismissPopoverAnimated: YES];
 
     if (newRating != self.rating)
     {

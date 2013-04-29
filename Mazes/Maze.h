@@ -28,8 +28,4 @@
 
 @property (strong, nonatomic) Locations *locations;
 
-- (void)setWallTextureIdWithNumber: (NSNumber *)textureId;
-- (void)setFloorTextureIdWithNumber: (NSNumber *)textureId;
-- (void)setCeilingTextureIdWithNumber: (NSNumber *)textureId;
-
 @end

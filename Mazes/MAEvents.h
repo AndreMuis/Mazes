@@ -11,11 +11,6 @@
 @class MAEvent;
 
 @interface MAEvents : NSObject
-{
-    NSTimer *timer;
-    
-    NSMutableArray *events;
-}
 
 + (MAEvents *)shared;
 
@@ -24,7 +19,5 @@
 
 - (void)removeEvent: (MAEvent *)gameEvent;
 - (void)removeEventsWithTarget: (id)target;
-
-- (void)timerFired: (NSTimer *)timer;
 
 @end

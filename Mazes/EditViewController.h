@@ -10,165 +10,99 @@
 
 #import "Constants.h"
 #import "Location.h"
+#import "MAViewController.h"
+#import "ServerOperations.h"
 
 @class GridView;
+@class MAEvent;
 @class Maze;
 
-@interface EditViewController : UIViewController <UIGestureRecognizerDelegate, UITableViewDelegate, UITextViewDelegate, UITextFieldDelegate, UIAlertViewDelegate, UIPopoverControllerDelegate>
-{
-	int selectedTabIndex;
-	
-	NSArray *locationActions;
-	NSArray *locationActionLabels;
-
-	NSArray *directionThetas;
-	NSArray	*directionLabels;
-	
-	NSArray *wallTypes;
-	NSArray	*wallTypeLabels;
-	
-	UIPopoverController *popoverControllerTextures;
-	
-	Location *currLoc, *prevLoc;
-	
-	Location *currWallLoc;
-	MADirectionType currWallDir;
-	
-	NSMutableArray *locationsVisited;
-}
+@interface EditViewController : MAViewController <
+    MAServerOperationsSaveMazeDelegate,
+    MAServerOperationsDeleteMazeDelegate,
+    UIGestureRecognizerDelegate,
+    UITableViewDelegate,
+    UITextViewDelegate,
+    UITextFieldDelegate,
+    UIAlertViewDelegate,
+    UIPopoverControllerDelegate>
 
 @property (strong, nonatomic) Maze *maze;
 
-@property (weak, nonatomic) IBOutlet UIButton *btnMain;
-@property (weak, nonatomic) IBOutlet UIButton *btnLocation;
-@property (weak, nonatomic) IBOutlet UIButton *btnWall;
-@property (weak, nonatomic) IBOutlet UIButton *btnGraphics;
-@property (weak, nonatomic) IBOutlet UIButton *btnAudio;
+@property (weak, nonatomic) IBOutlet UIButton *mainButton;
+@property (weak, nonatomic) IBOutlet UIButton *locationButton;
+@property (weak, nonatomic) IBOutlet UIButton *wallButton;
+@property (weak, nonatomic) IBOutlet UIButton *graphicsButton;
+@property (weak, nonatomic) IBOutlet UIButton *audioButton;
 
-@property (weak, nonatomic) IBOutlet UIView *viewPlaceHolder;
-@property (weak, nonatomic) IBOutlet UIView *viewMain;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollViewLocation;
-@property (weak, nonatomic) IBOutlet UIView *viewWall;
-@property (weak, nonatomic) IBOutlet UIView *viewGraphics;
-@property (weak, nonatomic) IBOutlet UIView *viewAudio;
+@property (weak, nonatomic) IBOutlet UIView *contentView;
 
-@property (weak, nonatomic) IBOutlet UITextField *textFieldName;
-@property (weak, nonatomic) IBOutlet UISwitch *switchPublic;
-@property (weak, nonatomic) IBOutlet UISwitch *switchTutorial;
+@property (weak, nonatomic) IBOutlet UIView *mainView;
+
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UISwitch *publicSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *tutorialSwitch;
+
+@property (weak, nonatomic) IBOutlet UIScrollView *locationScrollView;
 
 @property (weak, nonatomic) IBOutlet UITableView *locationTypeTableView;
 @property (weak, nonatomic) IBOutlet UITableView *directionTableView;
 
-@property (weak, nonatomic) IBOutlet UITextView *textViewMessage;
+@property (weak, nonatomic) IBOutlet UITextView *messageTextView;
 @property (weak, nonatomic) IBOutlet UILabel *messageDisplaysLabel;
+
+@property (weak, nonatomic) IBOutlet UIImageView *floorImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *ceilingImageView;
+
+@property (weak, nonatomic) IBOutlet UIView *wallView;
 
 @property (weak, nonatomic) IBOutlet UITableView *wallTypeTableView;
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewFloor;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewCeiling;
+@property (weak, nonatomic) IBOutlet UIImageView *wallImageView;
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewWall;
+@property (weak, nonatomic) IBOutlet UIView *graphicsView;
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewWallDefault;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewFloorDefault;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewCeilingDefault;
+@property (weak, nonatomic) IBOutlet UIImageView *wallDefaultImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *floorDefaultImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *ceilingDefaultImageView;
 
-@property (weak, nonatomic) IBOutlet UITableView *tableViewBackgroundSound;
+@property (weak, nonatomic) IBOutlet UIView *audioView;
 
-@property (weak, nonatomic) IBOutlet UIView *viewButtons;
+@property (weak, nonatomic) IBOutlet UITableView *backgroundSoundTableView;
 
-@property (weak, nonatomic) IBOutlet UILabel *lblMessage1;
-@property (weak, nonatomic) IBOutlet UILabel *lblMessage2;
+@property (weak, nonatomic) IBOutlet UIView *buttonsView;
+
+@property (weak, nonatomic) IBOutlet UILabel *message1Label;
+@property (weak, nonatomic) IBOutlet UILabel *message2Label;
 
 @property (weak, nonatomic) IBOutlet GridView *gridView;
 
 + (EditViewController *)shared;
 
-- (void)initTexturesPopover;
-
-- (void)animateScrollView;
-
-- (void)setup;
-
-- (IBAction)btnMainTouchDown: (id)sender;
-- (IBAction)btnLocationTouchDown: (id)sender;
-- (IBAction)btnWallTochhDown: (id)sender;
-- (IBAction)btnGraphicsTouchDown: (id)sender;
-- (IBAction)btnAudioTouchDown: (id)sender;
-
-- (void)setupTabBarWithSelectedIndex: (int)selectedIndex;
-
-- (void)handleTapFrom: (UITapGestureRecognizer *)recognizer;
-- (void)handleLongPressFrom: (UILongPressGestureRecognizer *)recognizer;
-
-- (void)locationChangedToCoord: (CGPoint)coord;
-- (BOOL)setNextLocationAsTeleportation;
-
-- (void)resetCurrentLocation;
-
-- (int)getNextTeleportId;
-
-- (void)setupLocationActionTableViewLocationAction: (MALocationActionType)locationAction theta: (int)theta;
-- (void)setupDirectionTableViewLocationAction: (MALocationActionType)locationAction theta: (int)theta;
-- (void)setupMessageDisplaysLabelLocationAction: (MALocationActionType)locationAction;
-
-- (void)setupWallTypeTableViewWallType: (int)wallType;
-
-- (void)clearAccessoriesInTableView: (UITableView *)tableView;
-
-- (BOOL)wallPassesTeleportationSurroundedCheck;
-- (void)teleportationSurroundedAlert;
+- (IBAction)mainButtonTouchDown: (id)sender;
+- (IBAction)locationButtonTouchDown: (id)sender;
+- (IBAction)wallButtonTochhDown: (id)sender;
+- (IBAction)graphicsButtonTouchDown: (id)sender;
+- (IBAction)audioButtonTouchDown: (id)sender;
 
 - (IBAction)switchPublicValueChanged: (id)sender;
-- (BOOL)pathExists;
-- (void)findExitLocation: (Location *)location; 
 
-- (void)setupLocationPanel;
+- (IBAction)floorButtonTouchDown;
+- (IBAction)ceilingButtonTouchDown;
 
-- (IBAction)btnFloorTouchDown;
-- (IBAction)btnCeilingTouchDown;
+- (IBAction)wallButtonTouchDown;
 
-- (void)setupWallPanel;
+- (IBAction)wallDefaultButtonTouchDown;
+- (IBAction)floorDefaultButtonTouchDown;
+- (IBAction)ceilingDefaultButtonTouchDown;
 
-- (IBAction)btnWallTouchDown;
+- (IBAction)saveButtonTouchDown: (id)sender;
 
-- (void)setupGraphicsPanel;
+- (IBAction)deleteButtonTouchDown: (id)sender;
 
-- (IBAction)btnWallDefaultTouchDown;
-- (IBAction)btnFloorDefaultTouchDown;
-- (IBAction)btnCeilingDefaultTouchDown;
-
-- (IBAction)save: (id)sender;
-
-- (void)createMaze;
-- (void)createMazeResponse;
-
-- (void)updateMaze;
-- (void)updateMazeResponse;
-
-- (void)setLocations;
-- (void)setLocationsResponse;
-
-- (void)setLocations;
-
-- (BOOL)validate;
-
-- (IBAction)delete: (id)sender;
-
-- (void)deleteMaze;
-- (void)deleteMazeResponse;
-
-- (void)setupCreateView;
-
-- (IBAction)btnMazesTouchDown: (id)sender;
-
-- (void)stopBackgroundSound;
+- (IBAction)mazesButtonTouchDown: (id)sender;
 
 - (IBAction)swtichTutorialValueChanged: (id)sender;
-
-- (void)showTutorialHelpForTopic: (NSString *)topic;
-
-- (void)setTableView: (UITableView *)tableView disabled: (BOOL)disabled;
 
 @end
 

@@ -40,7 +40,7 @@
  
     NSEntityDescription *projectEntity = [NSEntityDescription entityForName:@"Project" inManagedObjectContext:managedObjectContext];
     NSRelationshipDescription *userRelationship = [projectEntity relationshipsByName][@"user"];
-    RKConnectionDescription *connection = [[RKConnectionDescription alloc] initWithRelationship:relationship attributes:@{ @"userID": @"userID" }];
+    RKConnectionDescription *connection = [[RKConnectionDescription alloc] initWithRelationship:userRelationship attributes:@{ @"userID": @"userID" }];
  
  Note that the value for the `attributes` argument is provided as a dictionary. Each pair within the dictionary correspond to an attribute pair in which the key is an attribute on the source entity (in this case, the `Project`) and the value is the destination entity (in this case, the `User`).
  
@@ -62,7 +62,7 @@
  
      NSEntityDescription *projectEntity = [NSEntityDescription entityForName:@"Project" inManagedObjectContext:managedObjectContext];
      NSRelationshipDescription *teamMembers = [projectEntity relationshipsByName][@"teamMembers"]; // To many relationship for the `User` entity
-     RKConnectionDescription *connection = [[RKConnectionDescription alloc] initWithRelationship:relationship attributes:@{ @"teamMemberIDs": @"userID" }];
+     RKConnectionDescription *connection = [[RKConnectionDescription alloc] initWithRelationship:teamMembers attributes:@{ @"teamMemberIDs": @"userID" }];
  
  When evaluating the above JSON, the connection would be established for the 'teamMembers' relationship to the `User` entities whose userID's are 1, 2, 3 or 4.
  
@@ -88,7 +88,7 @@
  @param sourceToDestinationEntityAttributes A dictionary specifying how attributes on the source entity correspond to attributes on the destination entity.
  @return The receiver, initialized with the given relationship and attributes.
  */
-- (instancetype)initWithRelationship:(NSRelationshipDescription *)relationship attributes:(NSDictionary *)sourceToDestinationEntityAttributes;
+- (id)initWithRelationship:(NSRelationshipDescription *)relationship attributes:(NSDictionary *)sourceToDestinationEntityAttributes;
 
 /**
  The dictionary of attributes specifying how attributes on the source entity for the relationship correspond to attributes on the destination entity.
@@ -115,7 +115,7 @@
  @param keyPath The key path from which to read the value that is to be set for the relationship.
  @return The receiver, initialized with the given relationship and key path.
  */
-- (instancetype)initWithRelationship:(NSRelationshipDescription *)relationship keyPath:(NSString *)keyPath;
+- (id)initWithRelationship:(NSRelationshipDescription *)relationship keyPath:(NSString *)keyPath;
 
 /**
  The key path that is to be evaluated to obtain the value for the relationship.

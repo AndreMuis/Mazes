@@ -13,7 +13,7 @@
 #import "Styles.h"
 #import "Utilities.h"
 
-typedef enum
+typedef enum : int
 {
 	MAMazeObjectLocation = 1,
 	MAMazeObjectWallNorth = 2,
@@ -22,19 +22,12 @@ typedef enum
 } MAMazeObjectType;
 
 @interface Locations : NSObject 
-{
-    NSMutableArray *list;
-}
+
+@property (strong, nonatomic) NSMutableArray *list;
 
 - (void)populateWithRows: (int)rows columns: (int)columns;
 
-- (void)populateWithArray: (NSArray *)locations;
-
-- (NSArray *)all;
-
 - (void)removeAll;
-
-- (void)updateMazeId: (int)mazeId;
 
 - (Location *)getLocationByX: (int)x y: (int)y;
 - (Location *)getLocationByAction: (MALocationActionType)action;
@@ -49,8 +42,6 @@ typedef enum
 - (void)setWallTypeLocX: (int)locX locY: (int)locY direction: (MADirectionType)direction type: (MAWallType)type;
 - (void)setWallHitLocX: (int)locX locY: (int)locY direction: (MADirectionType)direction;
 
-
-- (void)drawGridWithCurrLoc: (Location *)currLoc currWallLoc: (Location *)currWallLoc currWallDir: (MADirectionType)currWallDir rows: (int)rows columns: (int)columns;
 
 - (Location *)getGridLocationFromTouchPoint: (CGPoint)touchPoint rows: (int)rows columns: (int)columns;
 - (Location *)getGridWallLocationSegType: (MAMazeObjectType *)segType fromTouchPoint: (CGPoint)touchPoint rows: (int)rows columns: (int)columns;

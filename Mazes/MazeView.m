@@ -18,8 +18,16 @@
 
 @property (strong, nonatomic) EAGLContext *context;
 
-- (BOOL) createFramebuffer;
-- (void) destroyFramebuffer;
+@property (assign, nonatomic) GLint backingWidth;
+@property (assign, nonatomic) GLint backingHeight;
+
+@property (assign, nonatomic) GLuint viewFramebuffer;
+@property (assign, nonatomic) GLuint viewRenderbuffer;
+@property (assign, nonatomic) GLuint depthRenderbuffer;
+
+@property (assign, nonatomic) GLuint *glTextures;
+
+@property (strong, nonatomic) NSMutableArray *rectangles;
 
 @end
 
@@ -41,14 +49,14 @@
 		eaglLayer.opaque = YES;
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: NO], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
         
-        self.context = [[EAGLContext alloc] initWithAPI: kEAGLRenderingAPIOpenGLES1];
+        _context = [[EAGLContext alloc] initWithAPI: kEAGLRenderingAPIOpenGLES1];
         
         if (!self.context || ![EAGLContext setCurrentContext: self.context])
 		{
             return nil;
         }
 
-		rectangles = [[NSMutableArray alloc] init];
+		_rectangles = [[NSMutableArray alloc] init];
 	}
 
 	return self;
@@ -93,16 +101,16 @@
 
 - (void)setupOpenGLTextures
 {
-	glTextures = (GLuint *)malloc(([Textures shared].maxId + 1) * sizeof(GLuint));
+	self.glTextures = (GLuint *)malloc(([Textures shared].maxId + 1) * sizeof(GLuint));
 	
-	glGenTextures([Textures shared].maxId + 1, glTextures);
+	glGenTextures([Textures shared].maxId + 1, self.glTextures);
 
 	for (Texture *texture in [[Textures shared] all])
 	{		
 		NSString *path = [[NSBundle mainBundle] pathForResource: texture.name ofType: @"pvrtc"];
 		NSData *texData = [[NSData alloc] initWithContentsOfFile: path];
 	
-		glBindTexture(GL_TEXTURE_2D, glTextures[texture.id]);
+		glBindTexture(GL_TEXTURE_2D, self.glTextures[texture.id]);
 		glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB_PVRTC_4BPPV1_IMG, texture.width, texture.height, 0, (texture.width * texture.height) / 2, [texData bytes]);
 	
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -111,12 +119,12 @@
 
 - (void)setupOpenGLVerticies
 {
-	[rectangles removeAllObjects];
+	[self.rectangles removeAllObjects];
 	
 	// Draw Maze Rectangles
 	
 	// Walls
-	for (Location *location in [self.maze.locations all])
+	for (Location *location in self.maze.locations.list)
 	{
 		float glx = (location.x - 1) * [Constants shared].wallWidth;
 		float glz = (location.y - 1) * [Constants shared].wallWidth;
@@ -440,7 +448,7 @@
 	}		
 		
 	// Floor
-	for (Location *location in [self.maze.locations all])
+	for (Location *location in self.maze.locations.list)
 	{
 		float glx = (location.x - 1) * [Constants shared].wallWidth;
 		float glz = (location.y - 1) * [Constants shared].wallWidth;
@@ -458,7 +466,7 @@
 	}
 	
 	// Ceiling
-	for (Location *location in [self.maze.locations all])
+	for (Location *location in self.maze.locations.list)
 	{
 		float glx = (location.x - 1) * [Constants shared].wallWidth;
 		float glz = (location.y - 1) * [Constants shared].wallWidth;
@@ -596,20 +604,20 @@ texCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2
 	
 	NSData *data = [[NSData alloc] initWithBytes: &rectangle length: sizeof(RectangleType)];
 	
-	[rectangles addObject: data];
+	[self.rectangles addObject: data];
 }
 		 
 - (void)drawMaze
 {
 	[EAGLContext setCurrentContext: self.context];
 	
-	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
+	glBindFramebufferOES(GL_FRAMEBUFFER_OES, self.viewFramebuffer);
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	int currTextureId = -1;
 	
-	for (NSData *data in rectangles)
+	for (NSData *data in self.rectangles)
 	{	
 		RectangleType rectangle;
 		[data getBytes: &rectangle length: sizeof(RectangleType)];
@@ -621,7 +629,7 @@ texCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2
 		{
 			currTextureId = rectangle.textureId;
 			
-			glBindTexture(GL_TEXTURE_2D, glTextures[rectangle.textureId]);
+			glBindTexture(GL_TEXTURE_2D, self.glTextures[rectangle.textureId]);
 		}
 		
 		// draw single rectangle
@@ -631,7 +639,7 @@ texCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	
-	glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);	
+	glBindRenderbufferOES(GL_RENDERBUFFER_OES, self.viewRenderbuffer);	
 	
     [self.context presentRenderbuffer: GL_RENDERBUFFER_OES];
 }
@@ -640,11 +648,11 @@ texCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2
 {
 	[EAGLContext setCurrentContext: self.context];
 	
-	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
+	glBindFramebufferOES(GL_FRAMEBUFFER_OES, self.viewFramebuffer);
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);	
+	glBindRenderbufferOES(GL_RENDERBUFFER_OES, self.viewRenderbuffer);	
 	
     [self.context presentRenderbuffer: GL_RENDERBUFFER_OES];
 }
@@ -679,23 +687,23 @@ texCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2
 
 - (BOOL)createFramebuffer 
 {    
-    glGenFramebuffersOES(1, &viewFramebuffer);
-    glGenRenderbuffersOES(1, &viewRenderbuffer);
+    glGenFramebuffersOES(1, &_viewFramebuffer);
+    glGenRenderbuffersOES(1, &_viewRenderbuffer);
     
-    glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
-    glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
+    glBindFramebufferOES(GL_FRAMEBUFFER_OES, _viewFramebuffer);
+    glBindRenderbufferOES(GL_RENDERBUFFER_OES, _viewRenderbuffer);
     [self.context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:(CAEAGLLayer*)self.layer];
-    glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, viewRenderbuffer);
+    glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, _viewRenderbuffer);
     
-    glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_WIDTH_OES, &backingWidth);
-    glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_HEIGHT_OES, &backingHeight);
+    glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_WIDTH_OES, &_backingWidth);
+    glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_HEIGHT_OES, &_backingHeight);
     
     if (USE_DEPTH_BUFFER) 
 	{
-        glGenRenderbuffersOES(1, &depthRenderbuffer);
-        glBindRenderbufferOES(GL_RENDERBUFFER_OES, depthRenderbuffer);
-        glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES, backingWidth, backingHeight);
-        glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_DEPTH_ATTACHMENT_OES, GL_RENDERBUFFER_OES, depthRenderbuffer);
+        glGenRenderbuffersOES(1, &_depthRenderbuffer);
+        glBindRenderbufferOES(GL_RENDERBUFFER_OES, _depthRenderbuffer);
+        glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES, _backingWidth, _backingHeight);
+        glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_DEPTH_ATTACHMENT_OES, GL_RENDERBUFFER_OES, _depthRenderbuffer);
     }
     
     if(glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES) != GL_FRAMEBUFFER_COMPLETE_OES) 
@@ -709,21 +717,21 @@ texCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2
 
 - (void)destroyFramebuffer 
 {    
-    glDeleteFramebuffersOES(1, &viewFramebuffer);
-    viewFramebuffer = 0;
-    glDeleteRenderbuffersOES(1, &viewRenderbuffer);
-    viewRenderbuffer = 0;
+    glDeleteFramebuffersOES(1, &_viewFramebuffer);
+    _viewFramebuffer = 0;
+    glDeleteRenderbuffersOES(1, &_viewRenderbuffer);
+    _viewRenderbuffer = 0;
     
-    if(depthRenderbuffer) 
+    if(_depthRenderbuffer)
 	{
-        glDeleteRenderbuffersOES(1, &depthRenderbuffer);
-        depthRenderbuffer = 0;
+        glDeleteRenderbuffersOES(1, &_depthRenderbuffer);
+        _depthRenderbuffer = 0;
     }
 }
 
 - (void)deleteTextures;
 {
-	glDeleteTextures([Textures shared].maxId + 1, glTextures);
+	glDeleteTextures([Textures shared].maxId + 1, self.glTextures);
 }
 
 @end

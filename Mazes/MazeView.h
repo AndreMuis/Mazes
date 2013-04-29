@@ -17,7 +17,7 @@ typedef struct
 	int textureId;
 } RectangleType;
 
-typedef enum
+typedef enum : int
 {
 	MAOrientationNorthSouth = 1,
 	MAOrientationWestEast = 2,
@@ -25,18 +25,6 @@ typedef enum
 } MAOrientationType;
 
 @interface MazeView : UIView
-{
-    GLint backingWidth;
-    GLint backingHeight;
-    
-    GLuint viewFramebuffer;
-    GLuint viewRenderbuffer;
-	GLuint depthRenderbuffer;
-		
-	GLuint *glTextures;
-	
-	NSMutableArray *rectangles;
-}
 
 @property (strong, nonatomic) Maze *maze;
 
@@ -49,17 +37,6 @@ typedef enum
 - (void)setupOpenGLViewport;
 - (void)setupOpenGLTextures;
 - (void)setupOpenGLVerticies;
-
-- (void)addRectWithX: (float)x
-                   y: (float)y
-                   z: (float)z
-			   width: (float)width
-              length: (float)length
-		 orientation: (MAOrientationType)orientation
-               texId: (int)texId
-        defaultTexId: (int)defaultTexId
-texCoordsWidthPrcnt1: (float)texCoordsWidthPrcnt1
-texCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2;
 
 - (void)drawMaze;
 - (void)clearMaze;

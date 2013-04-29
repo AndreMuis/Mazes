@@ -38,14 +38,20 @@
 - (void)serverOperationsGetUser: (User *)user error: (NSError *)error;
 @end
 
+
 @protocol MAServerOperationsGetMazeDelegate <NSObject>
 @required
 - (void)serverOperationsGetMaze: (Maze *)maze error: (NSError *)error;
 @end
 
-@protocol MAServerOperationsGetLocationsDelegate <NSObject>
+@protocol MAServerOperationsSaveMazeDelegate <NSObject>
 @required
-- (void)serverOperationsGetLocations: (NSArray *)locations error: (NSError *)error;
+- (void)serverOperationsSaveMaze: (Maze *)maze error: (NSError *)error;
+@end
+
+@protocol MAServerOperationsDeleteMazeDelegate <NSObject>
+@required
+- (void)serverOperationsDeleteMazeWithError: (NSError *)error;
 @end
 
 
@@ -81,11 +87,6 @@
 @end
 
 @interface ServerOperations : NSObject
-{
-    RKManagedObjectStore *managedObjectStore;
-    
-    RKResponseDescriptor *mainListItemResponseDescriptor;
-}
 
 + (ServerOperations *)shared;
 
@@ -101,7 +102,11 @@
 
 - (RKObjectRequestOperation *)getMazeOperationWithDelegate: (id<MAServerOperationsGetMazeDelegate>)delegate mazeId: (int)mazeId;
 
-- (RKObjectRequestOperation *)getLocationsOperationWithDelegate: (id<MAServerOperationsGetLocationsDelegate>)delegate mazeId: (int)mazeId;
+- (RKObjectRequestOperation *)getMazeOperationWithDelegate: (id<MAServerOperationsGetMazeDelegate>)delegate userId: (int)userId;
+
+- (RKObjectRequestOperation *)saveMazeOperationWithDelegate: (id<MAServerOperationsSaveMazeDelegate>)delegate maze: (Maze *)maze;
+
+- (RKObjectRequestOperation *)deleteMazeOperationWithDelegate: (id<MAServerOperationsDeleteMazeDelegate>)delegate mazeId: (int)mazeId;
 
 
 - (RKObjectRequestOperation *)getMazeUserOperationWithDelegate: (id<MAServerOperationsGetMazeUserDelegate>)delegate mazeId: (int)mazeId userId: (int)userId;

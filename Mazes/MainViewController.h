@@ -10,7 +10,7 @@
 
 #import "MAViewController.h"
 
-typedef enum
+typedef enum : int
 {
     MATransitionNone = 0,
     MATransitionCrossDissolve = UIViewAnimationOptionTransitionCrossDissolve,

@@ -19,50 +19,30 @@
     UITableViewDelegate,
     MAServerOperationsHighestRatedListDelegate,
     MAServerOperationsNewestListDelegate,
-    MAServerOperationsYoursListDelegate>
-{
-    NSOperationQueue *operationQueue;;
-    
-    MAEvent *setupOperationQueueEvent;
-    
-    NSArray *highestRatedMainListItems;
-    BOOL highestRatedListHasLoaded;
-    
-    NSArray *newestMainListItems;
-    BOOL newestMainListHasLoaded;
-    
-    NSArray *yoursMainListItems;
-    BOOL yoursMainListHasLoaded;
-    
-    int selectedSegmentIndex;
-    
-    BOOL viewAppearingFirstTime;
-}
+    MAServerOperationsYoursListDelegate,
+    MAServerOperationsGetMazeDelegate>
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewHighestRated;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewNewest;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewYours;
+@property (weak, nonatomic) IBOutlet UIImageView *highestRatedImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *newestImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *yoursImageView;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet MainListTableViewCell *tableViewCell;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewMazes;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewCreate;
+@property (weak, nonatomic) IBOutlet UIImageView *createImageView;
+@property (weak, nonatomic) IBOutlet UIButton *createButton;
 
 + (MainListViewController *)shared;
 
-- (IBAction)btnHighestRatedTouchDown: (id)sender;
-- (IBAction)btnNewestTouchDown: (id)sender;
-- (IBAction)btnYoursTouchDown: (id)sender;
+- (IBAction)highestRatedButtonTouchDown: (id)sender;
+- (IBAction)newestButtonTouchDown: (id)sender;
+- (IBAction)yoursButtonTouchDown: (id)sender;
 
-- (void)refreshSegments;
+- (void)getMazeLists;
 
-- (void)setupOperationQueue;
-
-- (NSArray *)currentMainListItems;
-
-- (IBAction)btnCreateTouchDown: (id)sender;
+- (void)savedMazeUser: (MazeUser *)mazeUser;
+- (void)savedRating: (Rating *)rating;
 
 @end

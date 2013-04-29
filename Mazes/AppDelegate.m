@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
-#import <AVFoundation/AVFoundation.h>
-
 #import "AppDelegate.h"
 
 #import "Constants.h"
@@ -22,6 +20,12 @@
 #import "User.h"
 #import "Version.h"
 
+@interface AppDelegate ()
+
+@property (strong, nonatomic) NSOperationQueue *operationQueue;
+
+@end
+
 @implementation AppDelegate
 
 - (id)init
@@ -30,7 +34,7 @@
 	
 	if (self)
 	{
-        self->operationQueue = [[NSOperationQueue alloc] init];
+        _operationQueue = [[NSOperationQueue alloc] init];
         
         _bannerView = [[ADBannerView alloc] init];
         _bannerView.delegate = self;
@@ -41,15 +45,22 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // only need to expose public methods
+    
     [Flurry startSession: [Constants shared].flurryAPIKey];
 
+    #ifndef DEBUG
     [Crittercism enableWithAppID: [Constants shared].crittercismAppId];
+    #endif
     
     [MagicalRecord setupCoreDataStack];
     
     #if TARGET_IPHONE_SIMULATOR
-    [CurrentUser shared].id = 6766;
-    #endif 
+    //[CurrentUser shared].id = 6766;
+    
+    [CurrentUser shared].id = 100000;
+    
+    #endif
     
     self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
     
@@ -70,7 +81,7 @@
     {
         [self getUser];
     }
-    #endif
+    #endif    
     
     return YES;
 }
@@ -89,13 +100,13 @@
 
 - (void)getVersion
 {
-    [self->operationQueue addOperation: [[ServerOperations shared] getVersionOperationWithDelegate: self]];
+    [self.operationQueue addOperation: [[ServerOperations shared] getVersionOperationWithDelegate: self]];
 }
 
 - (void)getUser
 {
     #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-    [self->operationQueue addOperation: [[ServerOperations shared] getUserOperationWithDelegate: self
+    [self.   operationQueue addOperation: [[ServerOperations shared] getUserOperationWithDelegate: self
                                                                                            udid: [UIDevice currentDevice].uniqueIdentifier]];
     #pragma GCC diagnostic warning "-Wdeprecated-declarations"
 }
@@ -135,7 +146,7 @@
         
         NSLog(@"id after %d", [CurrentUser shared].id);
         
-        [[MainListViewController shared] setupOperationQueue];
+        [[MainListViewController shared] getMazeLists];
     }
     else
     {
