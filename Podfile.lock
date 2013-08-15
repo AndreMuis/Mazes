@@ -1,0 +1,13 @@
+PODS:
+  - CrittercismSDK (4.0.6)
+  - FlurrySDK (4.2.3)
+
+DEPENDENCIES:
+  - CrittercismSDK
+  - FlurrySDK
+
+SPEC CHECKSUMS:
+  CrittercismSDK: a8e58ae22bee55a85fdb43983c9a3848e3260251
+  FlurrySDK: d9fde25656775494a8d486b92f1ba7c665b15c9d
+
+COCOAPODS: 0.23.0
