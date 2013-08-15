@@ -9,10 +9,12 @@
 #import "RatingView.h"
 
 #import "GameViewController.h"
-#import "MainListViewController.h"
+
+#import "MATopMazesViewController.h"
+#import "MAUtilities.h"
+
 #import "RatingViewController.h"
 #import "Styles.h"
-#import "Utilities.h"
 
 @interface RatingView ()
 
@@ -71,14 +73,14 @@
 		
 		if (i <= self.rating)
 		{
-			[Utilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
+			[MAUtilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
                              clipRect: CGRectZero
                                 color: self.starColor
                               outline: NO];
 		}
 		else if (i > ceilf(self.rating))
 		{
-			[Utilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
+			[MAUtilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
                              clipRect: CGRectZero
                                 color: self.starColor
                               outline: YES];
@@ -87,12 +89,12 @@
 		{
 			float fract = self.rating - floorf(self.rating);
 			
-			[Utilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
+			[MAUtilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
                              clipRect: CGRectMake(starX, starY, fract * self.starWidth, self.starHeight)
                                 color: self.starColor
                               outline: NO];
 			
-			[Utilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
+			[MAUtilities drawStarInRect: CGRectMake(starX, starY, self.starWidth, self.starHeight)
                              clipRect: CGRectMake(starX + fract * self.starWidth, starY, self.starWidth - fract * self.starWidth, self.starHeight)
                                 color: self.starColor
                               outline: YES];
@@ -150,7 +152,7 @@
             
         default:
         {
-            [Utilities logWithClass: [self class] format: @"type set to an illegal value: %d", self.type];
+            [MAUtilities logWithClass: [self class] format: @"type set to an illegal value: %d", self.type];
             break;
         }
     }

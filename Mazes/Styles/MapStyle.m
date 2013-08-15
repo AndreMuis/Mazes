@@ -18,7 +18,7 @@
 	{
         self.wallWidth = 3.0;
         self.squareWidth = 15.0;
-        self.length = self.squareWidth * [Constants shared].columnsMax + self.wallWidth * ([Constants shared].columnsMax + 1);
+        self.length = self.squareWidth * [MAConstants shared].columnsMax + self.wallWidth * ([MAConstants shared].columnsMax + 1);
 		
         self.backgroundColor = [[UIColor alloc] initWithRed: 0.81 green: 0.81 blue: 0.81 alpha: 1.0];
         

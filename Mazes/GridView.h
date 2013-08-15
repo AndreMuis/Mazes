@@ -8,16 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Constants.h"
+#import "MAConstants.h"
 
-@class Location;
-@class Maze;
+@class MALocation;
+@class MAMaze;
 
 @interface GridView : UIView 
 
-@property (strong, nonatomic) Maze *maze;
-@property (strong, nonatomic) Location *currentLocation;
-@property (strong, nonatomic) Location *currentWallLocation;
+@property (strong, nonatomic) MAMaze *maze;
+@property (strong, nonatomic) MALocation *currentLocation;
+@property (strong, nonatomic) MALocation *currentWallLocation;
 @property (assign, nonatomic) MADirectionType currentWallDirection;
 
 @end

@@ -12,11 +12,14 @@
 
 @property (strong, nonatomic) id target;
 @property (assign, nonatomic) SEL action;
+@property (strong, nonatomic) id object;
 @property (assign, nonatomic, assign) float intervalSecs;
 @property (assign, nonatomic) BOOL repeats;
 
 @property (assign, nonatomic, assign) float elapsedSecs;
 
-- (id)initWithTarget: (id)aTarget action: (SEL)anAction intervalSecs: (int)anIntervalSecs repeats: (BOOL)aRepeats;
+- (id)initWithTarget: (id)target action: (SEL)action intervalSecs: (int)intervalSecs repeats: (BOOL)repeats;
+
+- (id)initWithTarget: (id)target action: (SEL)action object: (id)object intervalSecs: (int)intervalSecs repeats: (BOOL)repeats;
 
 @end

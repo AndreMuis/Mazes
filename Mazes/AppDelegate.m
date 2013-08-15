@@ -8,21 +8,33 @@
 
 #import "AppDelegate.h"
 
-#import "Constants.h"
 #import "Crittercism.h"
-#import "CurrentUser.h"
 #import "Flurry.h"
-#import "Sounds.h"
-#import "Textures.h"
-#import "MainViewController.h"
-#import "MainListViewController.h"
-#import "Utilities.h"
-#import "User.h"
-#import "Version.h"
+
+#import "GameViewController.h"
+
+#import "MACloud.h"
+#import "MAConstants.h"
+#import "MALocation.h"
+#import "MAMainViewController.h"
+#import "MAMaze.h"
+#import "MASoundManager.h"
+#import "MASound.h"
+#import "MATextureManager.h"
+#import "MATexture.h"
+#import "MATopMazesViewController.h"
+#import "MAUserManager.h"
+#import "MAUser.h"
+#import "MAUtilities.h"
+#import "MAVersionManager.h"
+#import "MAVersion.h"
+
+#import "MATest.h"
 
 @interface AppDelegate ()
 
-@property (strong, nonatomic) NSOperationQueue *operationQueue;
+@property (nonatomic, strong) MAMaze *maze;
+@property (nonatomic, strong) PFQuery *mazeQuery;
 
 @end
 
@@ -34,8 +46,6 @@
 	
 	if (self)
 	{
-        _operationQueue = [[NSOperationQueue alloc] init];
-        
         _bannerView = [[ADBannerView alloc] init];
         _bannerView.delegate = self;
 	}
@@ -45,45 +55,124 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // only need to expose public methods
-    
-    [Flurry startSession: [Constants shared].flurryAPIKey];
+    [Flurry startSession: [MAConstants shared].flurryAPIKey];
 
     #ifndef DEBUG
-    [Crittercism enableWithAppID: [Constants shared].crittercismAppId];
+    [Crittercism enableWithAppID: [MAConstants shared].crittercismAppId];
     #endif
     
-    [MagicalRecord setupCoreDataStack];
+    // Parse
+    [MALocation registerSubclass];
+    [MAMaze registerSubclass];
+    [MASound registerSubclass];
+    [MATexture registerSubclass];
+    [MAUser registerSubclass];
+    [MAVersion registerSubclass];
+
+    [MATest registerSubclass];
     
-    #if TARGET_IPHONE_SIMULATOR
-    //[CurrentUser shared].id = 6766;
+    [Parse setApplicationId: [MAConstants shared].parseApplicationId
+                  clientKey: [MAConstants shared].parseClientKey];
     
-    [CurrentUser shared].id = 100000;
+    [PFAnalytics trackAppOpenedWithLaunchOptions: launchOptions];
     
-    #endif
     
     self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
     
-    self.window.rootViewController = [MainViewController shared];
+    self.window.rootViewController = [MAMainViewController shared];
     [self.window makeKeyAndVisible];
-
-    [self getVersion];
     
-    [[Sounds shared] download];
-    
-    [[Textures shared] download];
-
-    // iPad UDID: 7db970c5dc91e0129515c096ae1b07f8fd04ec3f
-    // [Utilities cleariCloudStore];
-
-    #if !TARGET_IPHONE_SIMULATOR
-    if ([CurrentUser shared].id == 0)
+    [[MAVersionManager shared] downloadWithCompletionHandler: ^(MAVersion *version)
     {
-        [self getUser];
-    }
-    #endif    
+        [self versionDownloaded: version];
+    }];
+    
+    [[MASoundManager shared] downloadWithCompletionHandler:^
+    {
+        if ([MASoundManager shared].count > 0 && [MATextureManager shared].count > 0)
+        {
+            [[GameViewController shared] setup];
+            
+            [self test];
+        }
+    }];
+
+    [[MATextureManager shared] downloadWithCompletionHandler:^
+    {
+        if ([MASoundManager shared].count > 0 && [MATextureManager shared].count > 0)
+        {
+            [[GameViewController shared] setup];
+            
+            [self test];
+        }
+    }];
+
+    [[MAUserManager shared] getCurrentUserWithCompletionHandler:^
+    {
+        [[MATopMazesViewController shared] refreshCurrentMazes];
+
+        [self test];
+    }];
     
     return YES;
+}
+
+- (void)test
+{
+    if ([MASoundManager shared].count > 0 && [MATextureManager shared].count > 0 && [MAUserManager shared].currentUser != nil)
+    {
+        NSLog(@"sounds = %d", [MASoundManager shared].count);
+        NSLog(@"textures = %d", [MATextureManager shared].count);
+        NSLog(@"current user = %@", [MAUserManager shared].currentUser);
+        
+        /*
+        self.maze = [MAMaze object];
+
+        self.maze.user = [MAUserManager shared].currentUser;
+        self.maze.name = @"Andre's Maze";
+        self.maze.rows = [NSNumber numberWithInt: 3];
+        self.maze.columns = [NSNumber numberWithInt: 4];
+        self.maze.public = [NSNumber numberWithBool: YES];
+        self.maze.backgroundSound = [[MASoundManager shared] soundWithObjectId: @"FQMGEca3Vy"];
+        self.maze.wallTexture = [[MATextureManager shared] textureWithObjectId: @"cbsJjC84oh"];
+        self.maze.floorTexture = [[MATextureManager shared] textureWithObjectId: @"MlchXCbQSI"];
+        self.maze.ceilingTexture = [[MATextureManager shared] textureWithObjectId: @"sqrne1z3Z1"];
+
+        [self.maze saveInBackground];
+
+        self.mazeQuery = [MAMaze query];
+
+        [self.mazeQuery getObjectInBackgroundWithId: @"o9lPBXCjS3" block: ^(PFObject *object, NSError *error)
+        {
+            MAMaze *maze = (MAMaze *)object;
+            
+            NSLog(@"maze = %@", maze);
+
+            MALocation *location = [MALocation object];
+            
+            location.maze = maze;
+            location.xx = 10;
+            location.yy = 11;
+            location.direction = 12;
+            location.wallNorth = 13;
+            location.wallWest = 14;
+            location.action = 15;
+            location.message = @"message";
+            location.teleportId = 16;
+            location.teleportX = 17;
+            location.teleportY = 18;
+            location.wallNorthTexture = [[MATextureManager shared] textureWithObjectId: @"cbsJjC84oh"];
+            location.wallWestTexture = [[MATextureManager shared] textureWithObjectId: @"MlchXCbQSI"];
+            location.floorTexture = [[MATextureManager shared] textureWithObjectId: @"sqrne1z3Z1"];
+            location.ceilingTexture = [[MATextureManager shared] textureWithObjectId: @"NdTbggxoQg"];
+            location.visited = YES;
+            location.wallNorthHit = YES;
+            location.wallWestHit = YES;
+            
+            [location saveInBackground];
+        }];
+        */
+    }
 }
 
 - (void)bannerViewDidLoadAd: (ADBannerView *)banner
@@ -98,65 +187,29 @@
       withParameters: @{[[NSLocale currentLocale] localeIdentifier] : @"localeIdentifier", [error localizedDescription] : @"error"}];
 }
 
-- (void)getVersion
+- (void)versionDownloaded: (MAVersion *)version
 {
-    [self.operationQueue addOperation: [[ServerOperations shared] getVersionOperationWithDelegate: self]];
-}
-
-- (void)getUser
-{
-    #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-    [self.   operationQueue addOperation: [[ServerOperations shared] getUserOperationWithDelegate: self
-                                                                                           udid: [UIDevice currentDevice].uniqueIdentifier]];
-    #pragma GCC diagnostic warning "-Wdeprecated-declarations"
-}
-
-- (void)serverOperationsGetVersion: (Version *)version error: (NSError *)error
-{
-    float appVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleShortVersionString"] floatValue];
+    NSNumber *appVersion = @([[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleShortVersionString"] floatValue]);
     
-    //NSLog(@"appVersion = %f, currentVersion = %f", appVersion, currentVersion);
+    // NSLog(@"appVersion = %@, version = %@", appVersion, version.number);
     
-    if (error == nil)
+    if ([appVersion floatValue] < version.number)
     {
-        if (appVersion < version.number)
-        {
-            NSString *message = [NSString stringWithFormat: @"This app is Version %0.1f. Version %0.1f is now available. It is recommended that you upgrade to the latest version.", appVersion, version.number];
-            
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                message: message
-                                                               delegate: nil
-                                                      cancelButtonTitle: @"OK"
-                                                      otherButtonTitles: nil];
-            
-            [alertView show];
-        }
-    }
-    else
-    {
-        [self performSelector: @selector(getVersion) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
-    }
-}
-
-- (void)serverOperationsGetUser: (User *)user error: (NSError *)error
-{
-    if (error == nil)
-    {
-        [CurrentUser shared].id = user.id;
+        NSString *message = [NSString stringWithFormat: @"This app is Version %0.1f. Version %0.1f is now available. It is recommended that you upgrade to the latest version.", [appVersion floatValue], version.number];
         
-        NSLog(@"id after %d", [CurrentUser shared].id);
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
+                                                            message: message
+                                                           delegate: nil
+                                                  cancelButtonTitle: @"OK"
+                                                  otherButtonTitles: nil];
         
-        [[MainListViewController shared] getMazeLists];
+        [alertView show];
     }
-    else
-    {
-        [self performSelector: @selector(getUser) withObject: nil afterDelay: [Constants shared].serverRetryDelaySecs];
-    }    
 }
 
 - (void)applicationDidReceiveMemoryWarning: (UIApplication *)application
 {
-    [Utilities logWithClass: [self class] format: @"applicationDidReceiveMemoryWarning:"];
+    [MAUtilities logWithClass: [self class] format: @"applicationDidReceiveMemoryWarning:"];
 }
 
 @end

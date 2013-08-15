@@ -19,6 +19,8 @@
 
 + (CreateViewController *)shared;
 
+- (void)reset;
+
 - (IBAction)continueButtonTouchDown: (id)sender;
 
 - (IBAction)mazesButtonTouchDown: (id)sender;

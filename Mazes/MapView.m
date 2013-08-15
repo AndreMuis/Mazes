@@ -8,11 +8,11 @@
 
 #import "MapView.h"
 
-#import "Location.h"
+#import "MALocation.h"
+#import "MAMaze.h"
+#import "MAUtilities.h"
 #import "MapSegment.h"
-#import "Maze.h"
 #import "Styles.h"
-#import "Utilities.h"
 
 @interface MapView ()
 
@@ -67,7 +67,7 @@ int MapSquares[8][3][3] =
 	{
         _segments = [[NSMutableArray alloc] init];
         
-		UIImage *directionArrowImage = [Utilities createDirectionArrowImageWidth: [Styles shared].map.squareWidth
+		UIImage *directionArrowImage = [MAUtilities createDirectionArrowImageWidth: [Styles shared].map.squareWidth
                                                                           height: [Styles shared].map.squareWidth];
 		
 		_directionArrowImageView = [[UIImageView alloc] initWithImage: directionArrowImage];
@@ -114,7 +114,10 @@ int MapSquares[8][3][3] =
 			// only consider rows with directions specified
 			if (MapWalls[i][j][2] != 0)
 			{
-				wallType = [self.maze.locations getWallTypeLocX: self.currLoc.x + wallLocX locY: self.currLoc.y + wallLocY direction: wallDir];
+				wallType = [self.maze wallTypeWithLocationX: self.currLoc.xx + wallLocX
+                                                  locationY: self.currLoc.yy + wallLocY
+                                                  direction: wallDir];
+                
 				if (wallType == MAWallSolid || wallType == MAWallFake)
                 {
 					visible = NO;
@@ -129,37 +132,42 @@ int MapSquares[8][3][3] =
 			[self rotateCoordinatesX: MapWalls[i][0][0] y: MapWalls[i][0][1] dir: MapWalls[i][0][2] rx: &wallLocX ry: &wallLocY rdir: &wallDir];
 			
 			// get drawing location where the wall is North or West
-			Location *drawLoc = nil;
+			MALocation *drawLoc = nil;
 			if (wallDir == MADirectionNorth || wallDir == MADirectionWest)
 			{
-				drawLoc = [self.maze.locations getLocationByX: self.currLoc.x + wallLocX y: self.currLoc.y + wallLocY];
+				drawLoc = [self.maze locationWithLocationX: self.currLoc.xx + wallLocX
+                                                 locationY: self.currLoc.yy + wallLocY];
 			}
 			else if (wallDir == MADirectionSouth)
 			{
-				drawLoc = [self.maze.locations getLocationByX: self.currLoc.x + wallLocX y: self.currLoc.y + wallLocY + 1];
+				drawLoc = [self.maze locationWithLocationX: self.currLoc.xx + wallLocX
+                                                 locationY: self.currLoc.yy + wallLocY + 1];
 				wallDir = MADirectionNorth;
 			}	
 			else if (wallDir == MADirectionEast)
 			{
-				drawLoc = [self.maze.locations getLocationByX: self.currLoc.x + wallLocX + 1 y: self.currLoc.y + wallLocY];
+				drawLoc = [self.maze locationWithLocationX: self.currLoc.xx + wallLocX + 1
+                                                 locationY: self.currLoc.yy + wallLocY];
 				wallDir = MADirectionWest;
 			}	
 			
 			// draw wall
-			wallType = [self.maze.locations getWallTypeLocX: drawLoc.x locY: drawLoc.y direction: wallDir];
+			wallType = [self.maze wallTypeWithLocationX: drawLoc.xx
+                                              locationY: drawLoc.yy
+                                              direction: wallDir];
 			
 			if (wallDir == MADirectionNorth)
 			{
-				wallStartX = offset.x + (drawLoc.x - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
-				wallStartY = offset.y + (drawLoc.y - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth);
+				wallStartX = offset.x + (drawLoc.xx - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
+				wallStartY = offset.y + (drawLoc.yy - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth);
 				
 				wallWidth = [Styles shared].map.squareWidth;
 				wallHeight = [Styles shared].map.wallWidth;
 			}
 			else if (wallDir == MADirectionWest)
 			{
-				wallStartX = offset.x + (drawLoc.x - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth);
-				wallStartY = offset.y + (drawLoc.y - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
+				wallStartX = offset.x + (drawLoc.xx - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth);
+				wallStartY = offset.y + (drawLoc.yy - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
 				
 				wallWidth = [Styles shared].map.wallWidth;
 				wallHeight = [Styles shared].map.squareWidth;
@@ -169,7 +177,9 @@ int MapSquares[8][3][3] =
 			{				
 				wallColor = [Styles shared].map.wallColor;
 			}
-			else if (wallType == MAWallInvisible && [self.maze.locations hasHitWallAtLocX: drawLoc.x locY: drawLoc.y direction: wallDir] == YES)
+			else if (wallType == MAWallInvisible && [self.maze hasHitWallWithLocationX: drawLoc.xx
+                                                                             locationY: drawLoc.yy
+                                                                             direction: wallDir] == YES)
 			{
 				wallColor = [Styles shared].map.invisibleColor;
 			}
@@ -180,7 +190,7 @@ int MapSquares[8][3][3] =
 			
 			[self addSegmentRect: CGRectMake(wallStartX, wallStartY, wallWidth, wallHeight) color: wallColor];
 			
-			Location *cornerLoc = nil;
+			MALocation *cornerLoc = nil;
 			
 			// draw corners on either side of wall
 			if (wallDir == MADirectionNorth)
@@ -188,7 +198,9 @@ int MapSquares[8][3][3] =
 				cornerLoc = drawLoc;
 				[self drawCornerWithLocation: cornerLoc offset: offset];
 				
-				cornerLoc = [self.maze.locations getLocationByX: drawLoc.x + 1 y: drawLoc.y];
+				cornerLoc = [self.maze locationWithLocationX: drawLoc.xx + 1
+                                                   locationY: drawLoc.yy];
+                
 				[self drawCornerWithLocation: cornerLoc offset: offset];
 			}
 			else if (wallDir == MADirectionWest)
@@ -196,7 +208,9 @@ int MapSquares[8][3][3] =
 				cornerLoc = drawLoc;
 				[self drawCornerWithLocation: cornerLoc offset: offset];
 				
-				cornerLoc = [self.maze.locations getLocationByX: drawLoc.x y: drawLoc.y + 1];
+				cornerLoc = [self.maze locationWithLocationX: drawLoc.xx
+                                                   locationY: drawLoc.yy + 1];
+                
 				[self drawCornerWithLocation: cornerLoc offset: offset];
 			}
 		}
@@ -224,7 +238,10 @@ int MapSquares[8][3][3] =
 			
 			if (MapSquares[i][j][2] != 0)
 			{
-				wallType = [self.maze.locations getWallTypeLocX: self.currLoc.x + squareX locY: self.currLoc.y + squareY direction: wallDir];
+				wallType = [self.maze wallTypeWithLocationX: self.currLoc.xx + squareX
+                                                  locationY: self.currLoc.yy + squareY
+                                                  direction: wallDir];
+                
 				if (wallType == MAWallSolid || wallType == MAWallFake)
                 {
 					visible = NO;
@@ -236,10 +253,11 @@ int MapSquares[8][3][3] =
 		{
 			[self rotateCoordinatesX: MapSquares[i][0][0] y: MapSquares[i][0][1] dir: MapSquares[i][0][2] rx: &squareX ry: &squareY rdir: &wallDir];
 			
-			Location *drawLoc = [self.maze.locations getLocationByX: self.currLoc.x + squareX y: self.currLoc.y + squareY];
+			MALocation *drawLoc = [self.maze locationWithLocationX: self.currLoc.xx + squareX
+                                                         locationY: self.currLoc.yy + squareY];
 			
-			squareStartX = offset.x + (drawLoc.x - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
-			squareStartY = offset.y + (drawLoc.y - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
+			squareStartX = offset.x + (drawLoc.xx - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
+			squareStartY = offset.y + (drawLoc.yy - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
 			
 			squareWidth = [Styles shared].map.squareWidth;
 			squareHeight = [Styles shared].map.squareWidth;
@@ -278,8 +296,8 @@ int MapSquares[8][3][3] =
 		self.directionArrowImageView.alpha = 1.0;
 	}
     
-	float arrowX = offset.x + (self.currLoc.x - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
-	float arrowY = offset.y + (self.currLoc.y - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
+	float arrowX = offset.x + (self.currLoc.xx - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
+	float arrowY = offset.y + (self.currLoc.yy - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth) + [Styles shared].map.wallWidth;
 	
 	self.directionArrowImageView.frame = CGRectMake(arrowX, arrowY, [Styles shared].map.squareWidth, [Styles shared].map.squareWidth);
 	
@@ -288,14 +306,14 @@ int MapSquares[8][3][3] =
 	if (self.currDir == MADirectionEast) theta = 90.0;
 	if (self.currDir == MADirectionSouth) theta = 180.0;
 	if (self.currDir == MADirectionWest) theta = 270.0;
-	[Utilities rotateImageView: self.directionArrowImageView angleDegrees: theta];
+	[MAUtilities rotateImageView: self.directionArrowImageView angleDegrees: theta];
 }
 
 // corner is at top-left of location
-- (void)drawCornerWithLocation: (Location *)cornerLoc offset: (CGPoint)offset
+- (void)drawCornerWithLocation: (MALocation *)cornerLoc offset: (CGPoint)offset
 {
-	int cornerStartX = offset.x + (cornerLoc.x - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth);
-	int cornerStartY = offset.y + (cornerLoc.y - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth);
+	int cornerStartX = offset.x + (cornerLoc.xx - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth);
+	int cornerStartY = offset.y + (cornerLoc.yy - 1) * ([Styles shared].map.squareWidth + [Styles shared].map.wallWidth);
 	
 	int cornerWidth = [Styles shared].map.wallWidth;
 	int cornerHeight = [Styles shared].map.wallWidth;
@@ -303,15 +321,37 @@ int MapSquares[8][3][3] =
 	UIColor *cornerColor = nil;
 	
 	// relative to corner
-	MAWallType wallTypeNorth = [self.maze.locations getWallTypeLocX: cornerLoc.x locY: cornerLoc.y - 1 direction: MADirectionWest];
-	MAWallType wallTypeEast = [self.maze.locations getWallTypeLocX: cornerLoc.x locY: cornerLoc.y direction: MADirectionNorth];
-	MAWallType wallTypeSouth = [self.maze.locations getWallTypeLocX: cornerLoc.x locY: cornerLoc.y direction: MADirectionWest];
-	MAWallType wallTypeWest = [self.maze.locations getWallTypeLocX: cornerLoc.x - 1 locY: cornerLoc.y direction: MADirectionNorth];
+	MAWallType wallTypeNorth = [self.maze wallTypeWithLocationX: cornerLoc.xx
+                                                      locationY: cornerLoc.yy - 1
+                                                      direction: MADirectionWest];
+    
+	MAWallType wallTypeEast = [self.maze wallTypeWithLocationX: cornerLoc.xx
+                                                     locationY: cornerLoc.yy
+                                                     direction: MADirectionNorth];
+    
+	MAWallType wallTypeSouth = [self.maze wallTypeWithLocationX: cornerLoc.xx
+                                                      locationY: cornerLoc.yy
+                                                      direction: MADirectionWest];
+    
+	MAWallType wallTypeWest = [self.maze wallTypeWithLocationX: cornerLoc.xx - 1
+                                                     locationY: cornerLoc.yy
+                                                     direction: MADirectionNorth];
 	
-	MAWallType wallHitNorth = [self.maze.locations hasHitWallAtLocX: cornerLoc.x locY: cornerLoc.y - 1 direction: MADirectionWest];
-	MAWallType wallHitEast = [self.maze.locations hasHitWallAtLocX: cornerLoc.x locY: cornerLoc.y direction: MADirectionNorth];
-	MAWallType wallHitSouth = [self.maze.locations hasHitWallAtLocX: cornerLoc.x locY: cornerLoc.y direction: MADirectionWest];
-	MAWallType wallHitWest = [self.maze.locations hasHitWallAtLocX: cornerLoc.x - 1 locY: cornerLoc.y direction: MADirectionNorth];
+	MAWallType wallHitNorth = [self.maze hasHitWallWithLocationX: cornerLoc.xx
+                                                       locationY: cornerLoc.yy - 1
+                                                       direction: MADirectionWest];
+    
+	MAWallType wallHitEast = [self.maze hasHitWallWithLocationX: cornerLoc.xx
+                                                      locationY: cornerLoc.yy
+                                                      direction: MADirectionNorth];
+    
+	MAWallType wallHitSouth = [self.maze hasHitWallWithLocationX: cornerLoc.xx
+                                                       locationY: cornerLoc.yy
+                                                       direction: MADirectionWest];
+    
+	MAWallType wallHitWest = [self.maze hasHitWallWithLocationX: cornerLoc.xx - 1
+                                                      locationY: cornerLoc.yy
+                                                      direction: MADirectionNorth];
 	
 	if ((wallTypeNorth == MAWallNone || (wallTypeNorth == MAWallInvisible && wallHitNorth == NO)) &&
 		(wallTypeEast == MAWallNone || (wallTypeEast == MAWallInvisible && wallHitEast == NO)) &&

@@ -10,15 +10,19 @@
 
 #import "CreateViewController.h"
 #import "GridView.h"
+
 #import "MAEvents.h"
 #import "MAEvent.h"
-#import "MainListViewController.h"
-#import "Maze.h"
+#import "MALocation.h"
+#import "MAMaze.h"
+#import "MASoundManager.h"
+#import "MASound.h"
+#import "MATextureManager.h"
+#import "MATexture.h"
+#import "MATopMazesViewController.h"
+#import "MAUtilities.h"
+
 #import "Settings.h"
-#import "Sounds.h"
-#import "Sound.h"
-#import "Textures.h"
-#import "Texture.h"
 #import "TexturesViewController.h"
 
 @interface EditViewController ()
@@ -41,10 +45,10 @@
 	
 @property (strong, nonatomic) UIPopoverController *popoverControllerTextures;
 	
-@property (strong, nonatomic) Location *currentLocation;
-@property (strong, nonatomic) Location *previousLocation;
+@property (strong, nonatomic) MALocation *currentLocation;
+@property (strong, nonatomic) MALocation *previousLocation;
 	
-@property (strong, nonatomic) Location *currentWallLocation;
+@property (strong, nonatomic) MALocation *currentWallLocation;
 @property (assign, nonatomic) MADirectionType currentWallDirection;
 	
 @property (strong, nonatomic) NSMutableArray *locationsVisited;
@@ -78,12 +82,13 @@
         
         _saveMazeEvent = [[MAEvent alloc] initWithTarget: self
                                                   action: @selector(saveMaze)
-                                            intervalSecs: [Constants shared].serverRetryDelaySecs
+                                            intervalSecs: [MAConstants
+                                                           shared].serverRetryDelaySecs
                                                  repeats: NO];
 
         _deleteMazeEvent = [[MAEvent alloc] initWithTarget: self
                                                     action: @selector(deleteMaze)
-                                              intervalSecs: [Constants shared].serverRetryDelaySecs
+                                              intervalSecs: [MAConstants shared].serverRetryDelaySecs
                                                    repeats: NO];
         
         _maze = nil;
@@ -96,7 +101,7 @@
 {
     [super viewDidLoad];
 
-	self.view.frame = [MainListViewController shared].view.frame;
+	self.view.frame = [MATopMazesViewController shared].view.frame;
     
 	self.mainView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
 	self.mainView.backgroundColor = [Styles shared].editView.panelBackgroundColor;
@@ -299,7 +304,7 @@
 	}
     else
     {
-        [Utilities logWithClass: [self class] format: @"Selected index set to an illegal value: %d", selectedIndex];
+        [MAUtilities logWithClass: [self class] format: @"Selected index set to an illegal value: %d", selectedIndex];
     }
 }
 
@@ -312,10 +317,10 @@
 	CGPoint touchPoint = [recognizer locationInView: self.gridView];
 
 	MAMazeObjectType segType = 0;
-	Location *location = [self.maze.locations getGridWallLocationSegType: &segType 
-                                                          fromTouchPoint: touchPoint
-                                                                    rows: self.maze.rows
-                                                                 columns: self.maze.columns];
+	MALocation *location = [self.maze gridWallLocationWithSegType: &segType
+                                                       touchPoint: touchPoint
+                                                             rows: self.maze.rows
+                                                          columns: self.maze.columns];
 
 	if (location != nil)
 	{
@@ -335,11 +340,16 @@
 	
 		self.gridView.currentWallDirection = self.currentWallDirection;
 		
-		if ([self.maze.locations isInnerWallWithLocation: location rows: self.maze.rows columns: self.maze.columns wallDir: self.currentWallDirection] == YES)
+		if ([self.maze isInnerWallWithLocation: location
+                                          rows: self.maze.rows
+                                       columns: self.maze.columns
+                                       wallDir: self.currentWallDirection] == YES)
 		{
 			[self setTableView: self.wallTypeTableView disabled:	NO];
 			
-			MAWallType oldWallType = [self.maze.locations getWallTypeLocX: self.currentWallLocation.x locY: self.currentWallLocation.y direction: self.currentWallDirection];
+			MAWallType oldWallType = [self.maze wallTypeWithLocationX: self.currentWallLocation.xx
+                                                            locationY: self.currentWallLocation.yy
+                                                            direction: self.currentWallDirection];
 			
 			MAWallType newWallType = 0;
 			if (oldWallType == MAWallNone)
@@ -351,13 +361,19 @@
 				newWallType = MAWallNone;
             }
             
-			[self.maze.locations setWallTypeLocX: self.currentWallLocation.x locY: self.currentWallLocation.y direction: self.currentWallDirection type: newWallType];
+			[self.maze setWallTypeWithLocationX: self.currentWallLocation.xx
+                                      locationY: self.currentWallLocation.yy
+                                      direction: self.currentWallDirection
+                                           type: newWallType];
 			
 			if ([self wallPassesTeleportationSurroundedCheck] == NO)
 			{
 				newWallType = oldWallType;
 				
-				[self.maze.locations setWallTypeLocX: self.currentWallLocation.x locY: self.currentWallLocation.y direction: self.currentWallDirection type: newWallType];
+				[self.maze setWallTypeWithLocationX: self.currentWallLocation.xx
+                                          locationY: self.currentWallLocation.yy
+                                          direction: self.currentWallDirection
+                                               type: newWallType];
 				
 				[self teleportationSurroundedAlert];
 			}
@@ -370,7 +386,9 @@
 		{
 			[self setTableView: self.wallTypeTableView disabled:	YES];
 
-			int wallType = [self.maze.locations getWallTypeLocX: self.currentWallLocation.x locY: self.currentWallLocation.y direction: self.currentWallDirection];
+			int wallType = [self.maze wallTypeWithLocationX: self.currentWallLocation.xx
+                                                  locationY: self.currentWallLocation.yy
+                                                  direction: self.currentWallDirection];
 
 			[self setupWallTypeTableViewWallType: wallType];
 		}
@@ -387,11 +405,13 @@
 	{
 		CGPoint touchPoint = [recognizer locationInView: self.gridView];
 
-		Location *location = [self.maze.locations getGridLocationFromTouchPoint: touchPoint rows: self.maze.rows columns: self.maze.columns];
+		MALocation *location = [self.maze gridLocationWithTouchPoint: touchPoint
+                                                                rows: self.maze.rows
+                                                             columns: self.maze.columns];
 		
 		if (location != nil)
 		{			
-			[self locationChangedToCoord: CGPointMake(location.x, location.y)];
+			[self locationChangedToCoord: CGPointMake(location.xx, location.yy)];
 		}
 	}
 }	
@@ -400,11 +420,11 @@
 {
 	[self setTableView: self.locationTypeTableView disabled: NO];
 	
-	Location *newLocation = [self.maze.locations getLocationByX: coord.x y: coord.y];
+	MALocation *newLocation = [self.maze locationWithLocationX: coord.x locationY: coord.y];
 	
 	BOOL setAsTeleportation = [self setNextLocationAsTeleportation];
 	
-	if (setAsTeleportation == YES && [self.maze.locations isSurroundedByWallsLocation: newLocation] == YES)
+	if (setAsTeleportation == YES && [self.maze isSurroundedByWallsWithLocation: newLocation] == YES)
 	{
 		[self teleportationSurroundedAlert];
 		return;
@@ -419,13 +439,13 @@
 	{
 		[self resetCurrentLocation];
 		
-		self.previousLocation.teleportX = self.currentLocation.x;
-		self.previousLocation.teleportY = self.currentLocation.y;
+		self.previousLocation.teleportX = self.currentLocation.xx;
+		self.previousLocation.teleportY = self.currentLocation.yy;
 				
 		self.currentLocation.action = MALocationActionTeleport;
 		self.currentLocation.teleportId = self.previousLocation.teleportId;
-		self.currentLocation.teleportX = self.previousLocation.x;
-		self.currentLocation.teleportY = self.previousLocation.y;
+		self.currentLocation.teleportX = self.previousLocation.xx;
+		self.currentLocation.teleportY = self.previousLocation.yy;
 		
 		[self showTutorialHelpForTopic: @"TeleportDirection"];
 	}
@@ -434,7 +454,8 @@
 		[self showTutorialHelpForTopic: @"LocationTypes"];	
 	}
 		
-	[self setupLocationActionTableViewLocationAction: self.currentLocation.action theta: self.currentLocation.direction];
+	[self setupLocationActionTableViewLocationAction: self.currentLocation.action
+                                               theta: self.currentLocation.direction];
 	
 	self.messageTextView.editable = YES;
 	
@@ -493,7 +514,7 @@
 	}
     else
     {
-        [Utilities logWithClass: [self class] format: @"Table view not handled: %@", tableView];
+        [MAUtilities logWithClass: [self class] format: @"Table view not handled: %@", tableView];
     }
 	
 	[headerView addSubview: headerLabel];
@@ -509,7 +530,7 @@
     }
     else
     {
-        [Utilities logWithClass: [self class] format: @"Table view not handled: %@", tableView];
+        [MAUtilities logWithClass: [self class] format: @"Table view not handled: %@", tableView];
         return 0;
     }
 }
@@ -530,11 +551,11 @@
 	}
 	else if (tableView == self.backgroundSoundTableView)
 	{
-		return [Sounds shared].count + 1;
+		return [MASoundManager shared].count + 1;
 	}
     else
     {
-        [Utilities logWithClass: [self class] format: @"Table view not handled: %@", tableView];
+        [MAUtilities logWithClass: [self class] format: @"Table view not handled: %@", tableView];
         return 0;
     }
 }
@@ -574,13 +595,13 @@
 		// add directional arrows to table
 		
 		float directionArrowLength = self.directionTableView.rowHeight * 0.6;
-		UIImage *directionArrowImage = [Utilities createDirectionArrowImageWidth: directionArrowLength height: directionArrowLength];
+		UIImage *directionArrowImage = [MAUtilities createDirectionArrowImageWidth: directionArrowLength height: directionArrowLength];
 		
 		cell.imageView.contentMode = UIViewContentModeCenter;
 		cell.imageView.image = directionArrowImage;
 		
 		CGFloat angleDegrees = [[self.directionThetas objectAtIndex: indexPath.row] floatValue];
-		[Utilities rotateImageView: cell.imageView angleDegrees: angleDegrees];
+		[MAUtilities rotateImageView: cell.imageView angleDegrees: angleDegrees];
 	}
 	else if (tableView == self.wallTypeTableView)
 	{
@@ -611,7 +632,7 @@
 		{
 			[cell.textLabel setText: @"None"];
 			
-			if (self.maze.backgroundSoundId == 0)
+			if (self.maze.backgroundSound == nil)
             {
 				cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
@@ -622,13 +643,13 @@
 		}
 		else 
 		{
-			NSArray	*backgroundSounds = [[Sounds shared] sortedByName];
+			NSArray	*backgroundSounds = [[MASoundManager shared] sortedByName];
 		
-			Sound *sound = [backgroundSounds objectAtIndex: indexPath.row - 1];
+			MASound *sound = [backgroundSounds objectAtIndex: indexPath.row - 1];
 		
 			[cell.textLabel setText: sound.name];
 
-			if (self.maze.backgroundSoundId == [sound.id intValue])
+			if ([self.maze.backgroundSound.objectId isEqualToString: sound.objectId] == YES)
             {
 				cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
@@ -670,7 +691,7 @@
             {
                 [self resetCurrentLocation];
                 
-                Location *startLoc = [self.maze.locations getLocationByAction: MALocationActionStart];
+                MALocation *startLoc = [self.maze locationWithAction: MALocationActionStart];
                 
                 if (startLoc != nil)
                 {
@@ -686,7 +707,7 @@
             {
                 [self resetCurrentLocation];
                 
-                Location *endLoc = [self.maze.locations getLocationByAction: MALocationActionEnd];
+                MALocation *endLoc = [self.maze locationWithAction: MALocationActionEnd];
                 
                 if (endLoc != nil)
                 {
@@ -709,7 +730,7 @@
                 
             case MALocationActionTeleport:
             {
-                if ([self.maze.locations isSurroundedByWallsLocation: self.currentLocation])
+                if ([self.maze isSurroundedByWallsWithLocation: self.currentLocation])
                 {
                     [self teleportationSurroundedAlert];
                     
@@ -725,32 +746,42 @@
             }
 
             default:
-                [Utilities logWithClass: [self class] format: @"Location action set to an illegal value: %d", action];
+                [MAUtilities logWithClass: [self class] format: @"Location action set to an illegal value: %d", action];
                 
                 break;
         }
         
 		self.currentLocation.action = action;
 		
-		[self setupLocationActionTableViewLocationAction: self.currentLocation.action theta: self.currentLocation.direction];
+		[self setupLocationActionTableViewLocationAction: self.currentLocation.action
+                                                   theta: self.currentLocation.direction];
 	}
 	else if (tableView == self.directionTableView)
 	{
 		self.currentLocation.Direction = [[self.directionThetas objectAtIndex: indexPath.row] intValue];
 		
-		[self setupDirectionTableViewLocationAction: self.currentLocation.action theta: self.currentLocation.direction];
+		[self setupDirectionTableViewLocationAction: self.currentLocation.action
+                                              theta: self.currentLocation.direction];
 	}	
 	else if (tableView == self.wallTypeTableView)
 	{
-		MAWallType oldWallType = [self.maze.locations getWallTypeLocX: self.currentWallLocation.x locY: self.currentWallLocation.y direction: self.currentWallDirection];
+		MAWallType oldWallType = [self.maze wallTypeWithLocationX: self.currentWallLocation.xx
+                                                        locationY: self.currentWallLocation.yy
+                                                        direction: self.currentWallDirection];
 		
 		MAWallType newWallType = [[self.wallTypes objectAtIndex: indexPath.row] intValue];
 		
-		[self.maze.locations setWallTypeLocX: self.currentWallLocation.x locY: self.currentWallLocation.y direction: self.currentWallDirection type: newWallType];
+		[self.maze setWallTypeWithLocationX: self.currentWallLocation.xx
+                                  locationY: self.currentWallLocation.yy
+                                  direction: self.currentWallDirection
+                                       type: newWallType];
 		
 		if ([self wallPassesTeleportationSurroundedCheck] == NO)
 		{
-			[self.maze.locations setWallTypeLocX: self.currentWallLocation.x locY: self.currentWallLocation.y direction: self.currentWallDirection type: oldWallType];
+			[self.maze setWallTypeWithLocationX: self.currentWallLocation.xx
+                                      locationY: self.currentWallLocation.yy
+                                      direction: self.currentWallDirection
+                                           type: oldWallType];
 		
 			[self.wallTypeTableView deselectRowAtIndexPath: indexPath animated: YES];
 			
@@ -776,12 +807,12 @@
 	}	
 	else if (tableView == self.backgroundSoundTableView)
 	{
-		NSArray	*backgroundSounds = [[Sounds shared] sortedByName];
+		NSArray	*backgroundSounds = [[MASoundManager shared] sortedByName];
 		
 		// previous
 		
 		int row = 0;
-		if (self.maze.backgroundSoundId == 0)
+		if (self.maze.backgroundSound == nil)
 		{
 			row = 0;
 		}
@@ -789,9 +820,7 @@
 		{
 			[self stopBackgroundSound];
 			
-			Sound *sound = [[Sounds shared] soundWithId: self.maze.backgroundSoundId];
-			
-			row = [backgroundSounds indexOfObject: sound] + 1;
+			row = [backgroundSounds indexOfObject: self.maze.backgroundSound] + 1;
 		}
 		
 		NSIndexPath	*prevIndexPath = [NSIndexPath indexPathForRow: row inSection: 0];	
@@ -803,13 +832,13 @@
 		
 		if (indexPath.row == 0)
 		{
-			self.maze.backgroundSoundId = 0;
+			self.maze.backgroundSound = nil;
 		}
 		else 
 		{
-			Sound *sound = [backgroundSounds objectAtIndex: indexPath.row - 1];
+			MASound *sound = [backgroundSounds objectAtIndex: indexPath.row - 1];
 			
-			self.maze.backgroundSoundId = [sound.id intValue];
+			self.maze.backgroundSound = sound;
 			
 			[sound playWithNumberOfLoops: 0];
 		}
@@ -829,7 +858,8 @@
 	{
 		[self showTutorialHelpForTopic: @"None"];
 		
-		Location *teleportLoc = [self.maze.locations getLocationByX: self.currentLocation.teleportX y: self.currentLocation.teleportY];
+		MALocation *teleportLoc = [self.maze locationWithLocationX: self.currentLocation.teleportX
+                                                         locationY: self.currentLocation.teleportY];
 
 		if (teleportLoc != nil)
 			[teleportLoc reset];
@@ -847,9 +877,9 @@
 		teleportId = teleportId + 1;
 		
 		idexists = NO;
-		for (Location *loc in self.maze.locations.list)
+		for (MALocation *location in self.maze.locations)
 		{
-			if (loc.teleportId == teleportId)
+			if (location.teleportId == teleportId)
             {
 				idexists = YES;
             }
@@ -922,7 +952,7 @@
             break;
             
         default:
-            [Utilities logWithClass: [self class] format: @"locationAction set to an illegal value: %d", locationAction];
+            [MAUtilities logWithClass: [self class] format: @"locationAction set to an illegal value: %d", locationAction];
             break;
     }
 }
@@ -957,22 +987,24 @@
 {
 	BOOL passes = YES;
 	
-	Location *location1 = nil;
-	Location *location2 = nil;
+	MALocation *location1 = nil;
+	MALocation *location2 = nil;
 
 	if (self.currentWallDirection == MADirectionNorth)
 	{
-		location1 = [self.maze.locations getLocationByX: self.currentWallLocation.x y: self.currentWallLocation.y];
-		location2 = [self.maze.locations getLocationByX: self.currentWallLocation.x y: self.currentWallLocation.y - 1];
+		location1 = [self.maze locationWithLocationX: self.currentWallLocation.xx
+                                           locationY: self.currentWallLocation.yy];
+        
+		location2 = [self.maze locationWithLocationX: self.currentWallLocation.xx locationY: self.currentWallLocation.yy - 1];
 	}
 	else if (self.currentWallDirection == MADirectionWest)
 	{
-		location1 = [self.maze.locations getLocationByX: self.currentWallLocation.x y: self.currentWallLocation.y];
-		location2 = [self.maze.locations getLocationByX: self.currentWallLocation.x - 1 y: self.currentWallLocation.y];
+		location1 = [self.maze locationWithLocationX: self.currentWallLocation.xx locationY: self.currentWallLocation.yy];
+		location2 = [self.maze locationWithLocationX: self.currentWallLocation.xx - 1 locationY: self.currentWallLocation.yy];
 	}
 
-	if ((location1.action == MALocationActionTeleport && [self.maze.locations isSurroundedByWallsLocation: location1] == YES) ||
-		(location2.action == MALocationActionTeleport && [self.maze.locations isSurroundedByWallsLocation: location2] == YES))
+	if ((location1.action == MALocationActionTeleport && [self.maze isSurroundedByWallsWithLocation: location1] == YES) ||
+		(location2.action == MALocationActionTeleport && [self.maze isSurroundedByWallsWithLocation: location2] == YES))
 	{
 		passes = NO;
 	}
@@ -1020,13 +1052,13 @@ BOOL exists;
 	[self.locationsVisited removeAllObjects];
 	exists = NO;
 	
-	Location *startLoc = [self.maze.locations getLocationByAction: MALocationActionStart];
+	MALocation *startLoc = [self.maze locationWithAction: MALocationActionStart];
 	[self findExitLocation: startLoc];
 	
 	return exists;
 }
 
-- (void)findExitLocation: (Location *)location
+- (void)findExitLocation: (MALocation *)location
 {
 	if ([self.locationsVisited indexOfObject: location] == NSNotFound)
     {
@@ -1049,37 +1081,37 @@ BOOL exists;
     
 	MAWallType wallType;
 	
-	wallType = [self.maze.locations getWallTypeLocX: location.x locY: location.y direction: MADirectionNorth];
+	wallType = [self.maze wallTypeWithLocationX: location.xx locationY: location.yy direction: MADirectionNorth];
 	if (wallType == MAWallNone || wallType == MAWallFake)
 	{
-		Location *newLocation = [self.maze.locations getLocationByX: location.x y: location.y - 1];
+		MALocation *newLocation = [self.maze locationWithLocationX: location.xx locationY: location.yy - 1];
 		[self findExitLocation: newLocation];
 	}
 		 
-	wallType = [self.maze.locations getWallTypeLocX: location.x locY: location.y direction: MADirectionEast];
+	wallType = [self.maze wallTypeWithLocationX: location.xx locationY: location.yy direction: MADirectionEast];
 	if (wallType == MAWallNone || wallType == MAWallFake)
 	{
-		Location *newLocation = [self.maze.locations getLocationByX: location.x + 1 y: location.y];
+		MALocation *newLocation = [self.maze locationWithLocationX: location.xx + 1 locationY: location.yy];
 		[self findExitLocation: newLocation];
 	}
 	
-	wallType = [self.maze.locations getWallTypeLocX: location.x locY: location.y direction: MADirectionSouth];
+	wallType = [self.maze wallTypeWithLocationX: location.xx locationY: location.yy direction: MADirectionSouth];
 	if (wallType == MAWallNone || wallType == MAWallFake)
 	{
-		Location *newLocation = [self.maze.locations getLocationByX: location.x y: location.y + 1];
+		MALocation *newLocation = [self.maze locationWithLocationX: location.xx locationY: location.yy + 1];
 		[self findExitLocation: newLocation];
 	}
 	
-	wallType = [self.maze.locations getWallTypeLocX: location.x locY: location.y direction: MADirectionWest];
+	wallType = [self.maze wallTypeWithLocationX: location.xx locationY: location.yy direction: MADirectionWest];
 	if (wallType == MAWallNone || wallType == MAWallFake)
 	{
-		Location *newLocation = [self.maze.locations getLocationByX: location.x - 1 y: location.y];
+		MALocation *newLocation = [self.maze locationWithLocationX: location.xx - 1 locationY: location.yy];
 		[self findExitLocation: newLocation];
 	}
 	
 	if (location.action == MALocationActionTeleport)
 	{
-		Location *newLocation = [self.maze.locations getLocationByX: location.teleportX y: location.teleportY];
+		MALocation *newLocation = [self.maze locationWithLocationX: location.teleportX locationY: location.teleportY];
 		[self findExitLocation: newLocation];
 	}
 }
@@ -1093,33 +1125,31 @@ BOOL exists;
 	if (self.currentLocation != nil)
 	{
 		if (self.popoverControllerTextures.popoverVisible == YES)
+        {
 			[self.popoverControllerTextures dismissPopoverAnimated: YES];
-		
-		int floorTextureId = 0;
-		if (self.currentLocation.floorTextureId != 0)
+		}
+        
+		MATexture *floorTexture = nil;
+		if (self.currentLocation.floorTexture != nil)
 		{
-			floorTextureId = self.currentLocation.floorTextureId;
+			floorTexture = self.currentLocation.floorTexture;
 		}
 		else
 		{
-			floorTextureId = self.maze.floorTextureId;
+			floorTexture = self.maze.floorTexture;
 		}
 
-		Texture *floorTexture = [[Textures shared] textureWithId: floorTextureId];
-		
 		self.floorImageView.image = [UIImage imageNamed: [floorTexture.name stringByAppendingString: @".png"]];
 
-		int ceilingTextureId = 0;
-		if (self.currentLocation.ceilingTextureId != 0)
+		MATexture *ceilingTexture = nil;
+		if (self.currentLocation.ceilingTexture != nil)
 		{
-			ceilingTextureId = self.currentLocation.ceilingTextureId;
+			ceilingTexture = self.currentLocation.ceilingTexture;
 		}
 		else
 		{
-			ceilingTextureId = self.maze.ceilingTextureId;
+			ceilingTexture = self.maze.ceilingTexture;
 		}
-		
-		Texture *ceilingTexture = [[Textures shared] textureWithId: ceilingTextureId];
 		
 		self.ceilingImageView.image = [UIImage imageNamed: [ceilingTexture.name stringByAppendingString: @".png"]];
 	}
@@ -1178,28 +1208,27 @@ BOOL exists;
 			[self.popoverControllerTextures dismissPopoverAnimated: YES];
 		}
         
-		int locationTextureId = 0, textureId = 0;
+		MATexture *locationTexture = nil;
+        MATexture *texture = nil;
 		
 		if (self.currentWallDirection == MADirectionNorth)
 		{
-			locationTextureId = self.currentWallLocation.wallNorthTextureId;
+			locationTexture = self.currentWallLocation.wallNorthTexture;
 		}
 		else if (self.currentWallDirection == MADirectionWest)
 		{
-			locationTextureId = self.currentWallLocation.wallWestTextureId;
+			locationTexture = self.currentWallLocation.wallWestTexture;
 		}
 		
-		if (locationTextureId != 0)
+		if (locationTexture != nil)
 		{
-			textureId = locationTextureId;
+			texture = locationTexture;
 		}
 		else 
 		{
-			textureId = self.maze.wallTextureId;			
+			texture = self.maze.wallTexture;
 		}
 						
-		Texture *texture = [[Textures shared] textureWithId: textureId];
-		
 		self.wallImageView.image = [UIImage imageNamed: [texture.name stringByAppendingString: @".png"]];
 	}
 	else 
@@ -1245,13 +1274,13 @@ BOOL exists;
 		[self.popoverControllerTextures dismissPopoverAnimated: YES];
 	}
     
-	Texture *wallTexture = [[Textures shared] textureWithId: self.maze.wallTextureId];
+	MATexture *wallTexture = nil; // [[MATextureManager shared] textureWithId: [self.maze.wallTextureId intValue]];
 	self.wallDefaultImageView.image = [UIImage imageNamed: [wallTexture.name stringByAppendingString: @".png"]];
 	
-	Texture *floorTexture = [[Textures shared] textureWithId: self.maze.floorTextureId];
+	MATexture *floorTexture = nil; //  [[MATextureManager shared] textureWithId: [self.maze.floorTextureId intValue]];
 	self.floorDefaultImageView.image = [UIImage imageNamed: [floorTexture.name stringByAppendingString: @".png"]];
 	
-	Texture *ceilingTexture = [[Textures shared] textureWithId: self.maze.ceilingTextureId];
+	MATexture *ceilingTexture = nil; //  [[MATextureManager shared] textureWithId: [self.maze.ceilingTextureId intValue]];
 	self.ceilingDefaultImageView.image = [UIImage imageNamed: [ceilingTexture.name stringByAppendingString: @".png"]];
 }
 
@@ -1336,10 +1365,10 @@ BOOL exists;
 
 - (void)saveMaze
 {
-    [self.operationQueue addOperation: [[ServerOperations shared] saveMazeOperationWithDelegate: self maze: self.maze]];
+    // [self.operationQueue addOperation: [[ServerOperations shared] saveMazeOperationWithDelegate: self maze: self.maze]];
 }
 
-- (void)serverOperationsSaveMaze: (Maze *)maze error: (NSError *)error
+- (void)serverOperationsSaveMaze: (MAMaze *)maze error: (NSError *)error
 {
     if (error == nil)
     {
@@ -1375,7 +1404,7 @@ BOOL exists;
 	
 	NSString *mazeName = [self.nameTextField.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-	Location *startLoc = [self.maze.locations getLocationByAction: MALocationActionStart];
+	MALocation *startLoc = [self.maze locationWithAction: MALocationActionStart];
 
 	if ([mazeName isEqualToString: @""] == true)
 	{
@@ -1404,7 +1433,7 @@ BOOL exists;
 	}
 	else if (self.publicSwitch.on == YES)
 	{
-		Location *endLoc = [self.maze.locations getLocationByAction: MALocationActionEnd];
+		MALocation *endLoc = [self.maze locationWithAction: MALocationActionEnd];
 				
 		if (endLoc == nil)
 		{
@@ -1461,7 +1490,7 @@ BOOL exists;
 	{
 		[self stopBackgroundSound];
 		
-		if (self.maze.id != 0)
+		if (self.maze.objectId != nil)
 		{	
 			[self deleteMaze];
 		}
@@ -1474,7 +1503,7 @@ BOOL exists;
 
 - (void)deleteMaze
 {
-    [self.operationQueue addOperation: [[ServerOperations shared] deleteMazeOperationWithDelegate: self mazeId: self.maze.id]];
+    // [self.operationQueue addOperation: [[ServerOperations shared] deleteMazeOperationWithDelegate: self mazeId: [self.maze.objectId intValue]]];
 }
 
 - (void)serverOperationsDeleteMazeWithError: (NSError *)error
@@ -1493,6 +1522,8 @@ BOOL exists;
 {
 	[self setup];
 	
+    [[CreateViewController shared] reset];
+    
 	[self.navigationController pushViewController: [CreateViewController shared] animated: NO];
 }
 
@@ -1507,9 +1538,7 @@ BOOL exists;
 
 - (void)stopBackgroundSound
 {
-	Sound *sound = [[Sounds shared] soundWithId: self.maze.backgroundSoundId];
-
-	[sound stop];
+	[self.maze.backgroundSound stop];
 }
 
 //
@@ -1536,7 +1565,7 @@ BOOL exists;
 
 		[self.messageTextView resignFirstResponder];
 	}
-	else if (range.location >= [Constants shared].locationMessageMaxLength)
+	else if (range.location >= [MAConstants shared].locationMessageMaxLength)
 	{
 		if (rangeBackspace.location == NSNotFound)
         {
@@ -1571,7 +1600,7 @@ BOOL exists;
 		
 		[self.nameTextField resignFirstResponder];
 	}
-	else if (range.location >= [Constants shared].mazeNameMaxLength)
+	else if (range.location >= [MAConstants shared].mazeNameMaxLength)
 	{
 		changeText = NO;
     }
@@ -1650,7 +1679,7 @@ BOOL exists;
 		}
         else
         {
-            [Utilities logWithClass: [self class] format: @"topic set to an illegal value: %@", topic];
+            [MAUtilities logWithClass: [self class] format: @"topic set to an illegal value: %@", topic];
         }
 	}
 }

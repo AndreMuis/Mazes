@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Constants.h"
 #import "Colors.h"
+#import "MAConstants.h"
 
 @interface MapStyle : NSObject
 

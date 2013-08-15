@@ -2,21 +2,64 @@
 #import <UIKit/UIKit.h>
 #endif
 
-#ifdef __OBJC__
+#import "Pods-environment.h"
 #import <Availability.h>
+
+#define _AFNETWORKING_PIN_SSL_CERTIFICATES_
+
 #if __IPHONE_OS_VERSION_MIN_REQUIRED
   #import <SystemConfiguration/SystemConfiguration.h>
   #import <MobileCoreServices/MobileCoreServices.h>
+  #import <Security/Security.h>
 #else
   #import <SystemConfiguration/SystemConfiguration.h>
   #import <CoreServices/CoreServices.h>
+  #import <Security/Security.h>
 #endif
-#endif /* __OBJC__*/
+
+
+
+
+
 
 #ifdef __OBJC__
 #import <CoreData/CoreData.h>
 #endif /* __OBJC__*/
+
+
 #ifdef __OBJC__
-#define MR_SHORTHAND
-#import "CoreData+MagicalRecord.h"
+#import <CoreData/CoreData.h>
+#endif /* __OBJC__*/
+
+
+#ifdef __OBJC__
+#import <CoreData/CoreData.h>
+#endif /* __OBJC__*/
+
+
+#import <Availability.h>
+
+#define _AFNETWORKING_PIN_SSL_CERTIFICATES_
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED
+  #import <SystemConfiguration/SystemConfiguration.h>
+  #import <MobileCoreServices/MobileCoreServices.h>
+  #import <Security/Security.h>
+#else
+  #import <SystemConfiguration/SystemConfiguration.h>
+  #import <CoreServices/CoreServices.h>
+  #import <Security/Security.h>
 #endif
+
+
+#ifdef __OBJC__
+#import <CoreData/CoreData.h>
+#endif /* __OBJC__*/
+
+
+#ifdef __OBJC__
+#import <CoreData/CoreData.h>
+#endif /* __OBJC__*/
+
+
+

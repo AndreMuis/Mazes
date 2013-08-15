@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class Maze;
+@class MAMaze;
 
 typedef struct
 {
@@ -26,7 +26,7 @@ typedef enum : int
 
 @interface MazeView : UIView
 
-@property (strong, nonatomic) Maze *maze;
+@property (strong, nonatomic) MAMaze *maze;
 
 @property (assign, nonatomic) float glX;
 @property (assign, nonatomic) float glY;

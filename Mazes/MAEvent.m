@@ -8,26 +8,46 @@
 
 #import "MAEvent.h"
 
-#import "Constants.h"
-#import "Utilities.h"
+#import "MAConstants.h"
+#import "MAUtilities.h"
 
 @implementation MAEvent
 
-- (id)initWithTarget: (id)aTarget action: (SEL)anAction intervalSecs: (int)anIntervalSecs repeats: (BOOL)aRepeats
+- (id)initWithTarget: (id)target action: (SEL)action intervalSecs: (int)intervalSecs repeats: (BOOL)repeats
 {
     self = [super init];
     
     if (self) 
     {
-        _target = aTarget;
-        _action = anAction;
-        _intervalSecs = anIntervalSecs;
-        _repeats = aRepeats;
+        _target = target;
+        _action = action;
+        _object = nil;
+        _intervalSecs = intervalSecs;
+        _repeats = repeats;
         
         _elapsedSecs = 0.0;
     }
     
     return self;
+}
+
+- (id)initWithTarget: (id)target action: (SEL)action object: (id)object intervalSecs: (int)intervalSecs repeats: (BOOL)repeats;
+{
+    self = [super init];
+    
+    if (self)
+    {
+        _target = target;
+        _action = action;
+        _object = object;
+        _intervalSecs = intervalSecs;
+        _repeats = repeats;
+        
+        _elapsedSecs = 0.0;
+    }
+    
+    return self;
+
 }
 
 - (NSString *)description

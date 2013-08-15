@@ -1,11 +1,9 @@
-platform :ios, '5.0'
+platform :ios, '6.0'
 
 pod 'RestKit', :git => 'https://github.com/RestKit/RestKit.git', :branch => 'development'
-
-pod 'RestKit/Testing',  :git => 'https://github.com/RestKit/RestKit.git', :branch => 'development'
 
 pod 'FlurrySDK'
 
 pod 'CrittercismSDK'
 
-pod 'MagicalRecord'
+pod 'Parse'

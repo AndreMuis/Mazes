@@ -8,18 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Constants.h"
-#import "Location.h"
+#import "MAConstants.h"
+#import "MALocation.h"
 #import "MAViewController.h"
-#import "ServerOperations.h"
 
 @class GridView;
 @class MAEvent;
-@class Maze;
+@class MAMaze;
 
 @interface EditViewController : MAViewController <
-    MAServerOperationsSaveMazeDelegate,
-    MAServerOperationsDeleteMazeDelegate,
     UIGestureRecognizerDelegate,
     UITableViewDelegate,
     UITextViewDelegate,
@@ -27,7 +24,7 @@
     UIAlertViewDelegate,
     UIPopoverControllerDelegate>
 
-@property (strong, nonatomic) Maze *maze;
+@property (strong, nonatomic) MAMaze *maze;
 
 @property (weak, nonatomic) IBOutlet UIButton *mainButton;
 @property (weak, nonatomic) IBOutlet UIButton *locationButton;

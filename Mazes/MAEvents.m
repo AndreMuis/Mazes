@@ -8,9 +8,9 @@
 
 #import "MAEvents.h"
 
-#import "Constants.h"
+#import "MAConstants.h"
 #import "MAEvent.h"
-#import "Utilities.h"
+#import "MAUtilities.h"
 
 @interface MAEvents ()
 
@@ -42,7 +42,7 @@
     
     if (self) 
     {
-        _timer = [NSTimer timerWithTimeInterval: [Constants shared].eventTimerIntervalSecs
+        _timer = [NSTimer timerWithTimeInterval: [MAConstants shared].eventTimerIntervalSecs
                                          target: self
                                        selector: @selector(timerFired:)
                                        userInfo: nil
@@ -65,7 +65,7 @@
     }
     else
     {
-        [Utilities logWithClass: [self class]
+        [MAUtilities logWithClass: [self class]
                          format: @"Event already exists with target: %@ and action: %@", event.target, NSStringFromSelector(event.action)];
     }
 }
@@ -93,7 +93,7 @@
     }
     else
     {
-        [Utilities logWithClass: [self class] format: @"Collection does not contain event: %@", event];
+        [MAUtilities logWithClass: [self class] format: @"Collection does not contain event: %@", event];
     }
 }
 
@@ -124,12 +124,12 @@
             {
                 #pragma clang diagnostic push
                 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-                [event.target performSelector: event.action];
+                [event.target performSelector: event.action withObject: event.object];
                 #pragma clang diagnostic pop
             }
             else
             {
-                [Utilities logWithClass: [self class] format: @"Target: %@ does not respond to selector: %@", event.target, NSStringFromSelector(event.action)];
+                [MAUtilities logWithClass: [self class] format: @"Target: %@ does not respond to selector: %@", event.target, NSStringFromSelector(event.action)];
             }
 
             if (event.repeats == NO)
@@ -138,7 +138,7 @@
             }
         }
 
-        event.elapsedSecs = event.elapsedSecs + [Constants shared].eventTimerIntervalSecs;
+        event.elapsedSecs = event.elapsedSecs + [MAConstants shared].eventTimerIntervalSecs;
     }
 }
 

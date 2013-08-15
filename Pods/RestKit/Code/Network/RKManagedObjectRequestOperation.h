@@ -33,7 +33,7 @@
 
  Every `RKManagedObjectRequestOperation` object must be assigned an `NSManagedObjectContext` in which to persist the results of the underlying object mapping operation. This context is used as the parent context for a new, private `NSManagedObjectContext` with a concurrency type of `NSPrivateQueueConcurrencyType` in which the object mapping is actually performed. The use of this parent context has a number of benefits:
 
- 1. If the context that was assigned to the managed object request operation has a concurrency type of `NSMainQueueConcurrencyType`, then directly mapping into the context would block the execution of the main thread for the duration of the mapping process. The use of the private child context isolates the mapping process from the main thread entirely.
+ 1. If the context that was assigned to the managed object request operation has a concurrency type of `NSMainQueueConcurrencyType`, then directly mapping into the context would block the execution of the main thread for the duration of the mapping process. The use of the private child context isolates the mapping process from the main thread.
  1. In the event of an error, the private context can be discarded, leaving the state of the parent context unchanged. On successful completion, the private context is saved and 'pushes' its changes up one level into the parent context.
 
  ## Permanent Managed Object IDs
@@ -66,8 +66,7 @@
         if (match) {
             airportID = [argsDict objectForKey:@"airport_id"];
             NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Terminal"];
-            NSEntityDescription *entity = [NSEntityDescription entityForName:@"Airport" inManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];
-            fetchRequest.predicate = [NSPredication predicateWithFormat:@"airportID = %@", @([airportID integerValue])]; // NOTE: Coerced from string to number
+            fetchRequest.predicate = [NSPredicate predicateWithFormat:@"airportID = %@", @([airportID integerValue])]; // NOTE: Coerced from string to number
             fetchRequest.sortDescriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES] ];
             return fetchRequest;
         }
@@ -93,6 +92,16 @@
  
  In the event that a managed object request operation loads a 304 'Not Modified' response for an HTTP request no object mapping is performed as Core Data is assumed to contain a managed object representation of the resource requested. No object mapping is performed on the cached response body, making a cache hit for a managed object request operation a very lightweight operation. To build the mapping result returned to the caller, all of the fetch request blocks matching the request URL will be invoked and each fetch request returned is executed against the managed object context and the objects returned are added to the mapping result. Please note that all managed objects returned in the mapping result for a 'Not Modified' response will be returned under the `[NSNull null]` key path.
  
+ Note that `NSURLConnection` supports conditional GET transparently when the cache policy is set to `NSURLRequestUseProtocolCachePolicy`. Because of this the `NSHTTPURLResponse` loaded does not have the 304 (Not Modified) status code. In order to determine if a 304 response has resulted in the loading of an existing response from `NSURLCache`, the managed object request operation evaluates the following heuristic on the response:
+ 
+ 1. Before the HTTP request is loaded, a reference to any existing `NSCachedURLResponse` is obtained.
+ 1. When the response is loaded, the request is evaluated for cacheability. A request is considered cacheable if and only if its HTTP method is either "GET" or "HEAD" and its status code is 200, 304, 203, 300, 301, 302, 307, or 410.
+ 1. If the request is found to be cacheable, the Etag of the current response is matched against the reference to the existing cache entry obtained before the request was loaded.
+ 1. If the Etags match, the response data of the loaded response is matched against the cache entry reference.
+ 1. If the data is found to match, then the `userInfo` dictionary of the cache entry for the current request is checked for the existence of Boolean value under the `RKResponseHasBeenMappedCacheUserInfoKey` key. If the value of this key is `YES`, it indicates that the response was previously mapped to completion by an object request operation.
+ 
+ If this heuristic evaluates positively, then the response is determined to have been loaded from the cache and no mapping or managed object deletion cleanup is performed. This optimization greatly improves performance in applications where HTTP caching is leveraged.
+ 
  ## Subclassing Notes
  
  This class relies on the following `RKMapperOperationDelegate` method methods to do its work:
@@ -104,7 +113,6 @@
  ## Limitations and Caveats
 
  1. `RKManagedObjectRequestOperation` **does NOT** support object mapping that targets an `NSManagedObjectContext` with a `concurrencyType` of `NSConfinementConcurrencyType`.
- 1. `RKManagedObjectRequestOperation` can become deadlocked if configured to perform mapping onto an `NSManagedObjectContext` with the `NSMainQueueConcurrencyType` and is invoked synchronously from the main thread via `start` or an attempt is made to await completion of the operation via `waitUntilFinished`. This occurs because managed object contexts with the `NSMainQueueConcurrencyType` are dependent upon the execution of the main thread's run loop to perform their work and `waitUntilFinished` blocks the calling thread, leading to a deadlock when called from the main thread. Rather than awaiting completion of the operation via `waitUntilFinishes`, consider using a completion block, key-value observation, or spinning the run-loop via `[[NSRunLoop currentRunLoop] runUntilDate:]`.
 
  @see `RKObjectRequestOperation`
  @see `RKEntityMapping`
@@ -162,6 +170,15 @@
  **Default**: `YES`
  */
 @property (nonatomic, assign) BOOL savesToPersistentStore;
+
+/**
+ Sets a block to be invoked just before the operation saves the private mapping context.
+ 
+ The mapping context is saved just before the object request operation completes its work and transitions into the finished state. All managed objects mapped during the operation will have permanent object ID's. The `mappingResult` will contain managed object instances local to the context yielded to the block. The block will be invoked synchronously on the private queue of the context. After the block is executed, the save operation will take place, optionally saving the mapping results back to the persistent store.
+ 
+ @param block The block to execute just before the context is saved.
+ */
+- (void)setWillSaveMappingContextBlock:(void (^)(NSManagedObjectContext *mappingContext))block;
 
 @end
 

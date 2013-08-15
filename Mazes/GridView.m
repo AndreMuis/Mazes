@@ -9,11 +9,10 @@
 #import "GridView.h"
 
 #import "GridStyle.h"
-#import "Locations.h"
-#import "Location.h"
-#import "Maze.h"
+#import "MALocation.h"
+#import "MAMaze.h"
+#import "MAUtilities.h"
 #import "Styles.h"
-#import "Utilities.h"
 
 @implementation GridView
 
@@ -40,13 +39,13 @@
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
     
-	for (Location *location in self.maze.locations.list)
+	for (MALocation *location in self.maze.locations)
 	{
         // Locations
         
-		if (location.x <= self.maze.columns && location.y <= self.maze.rows)
+		if (location.xx <= self.maze.columns && location.yy <= self.maze.rows)
 		{
-			segmentRect = [self.maze.locations getSegmentRectFromLocation: location segmentType: MAMazeObjectLocation];
+			segmentRect = [self.maze segmentRectWithLocation: location segmentType: MAMazeObjectLocation];
 			
 			if (location.action == MALocationActionStart)
 			{
@@ -74,14 +73,14 @@
 			}
             else
             {
-                [Utilities logWithClass: [self class] format: @"action set to an illegal value: %d", location.action];
+                [MAUtilities logWithClass: [self class] format: @"action set to an illegal value: %d", location.action];
             }
 			
 			CGContextFillRect(context, segmentRect);
 			
 			if (location.action == MALocationActionStart || location.action == MALocationActionTeleport)
 			{
-				[Utilities drawArrowInRect: segmentRect angleDegrees: location.direction scale: 0.8];
+				[MAUtilities drawArrowInRect: segmentRect angleDegrees: location.direction scale: 0.8];
 				
 				if (location.action == MALocationActionTeleport)
 				{
@@ -96,18 +95,18 @@
 				}
 			}
 			
-			if (location.floorTextureId != 0 || location.ceilingTextureId != 0)
+			if (location.floorTexture != nil || location.ceilingTexture != nil)
 			{
-				[Utilities drawBorderInsideRect: segmentRect
+				[MAUtilities drawBorderInsideRect: segmentRect
                                       withWidth: [Styles shared].grid.textureHighlightWidth
                                           color: [Styles shared].grid.textureHighlightColor];
 			}
             
 			if (self.currentLocation != nil)
 			{
-				if (location.x == self.currentLocation.x && location.y == self.currentLocation.y)
+				if (location.xx == self.currentLocation.xx && location.yy == self.currentLocation.yy)
 				{
-					[Utilities drawBorderInsideRect: segmentRect
+					[MAUtilities drawBorderInsideRect: segmentRect
                                           withWidth: [Styles shared].grid.locationHighlightWidth
                                               color: [Styles shared].grid.locationHighlightColor];
 				}
@@ -116,11 +115,13 @@
 		
 		// Wall North
 		
-		if (location.x <= self.maze.columns)
+		if (location.xx <= self.maze.columns)
 		{
-			segmentRect = [self.maze.locations getSegmentRectFromLocation: location segmentType: MAMazeObjectWallNorth];
+			segmentRect = [self.maze segmentRectWithLocation: location segmentType: MAMazeObjectWallNorth];
             
-            MAWallType wallType = [self.maze.locations getWallTypeLocX: location.x locY: location.y direction: MADirectionNorth];
+            MAWallType wallType = [self.maze wallTypeWithLocationX: location.xx
+                                                         locationY: location.yy
+                                                         direction: MADirectionNorth];
             
             switch (wallType)
             {
@@ -129,7 +130,7 @@
                     break;
                     
                 case MAWallSolid:
-                    if (location.y == 1 || location.y == self.maze.rows + 1)
+                    if (location.yy == 1 || location.yy == self.maze.rows + 1)
                     {
                         CGContextSetFillColorWithColor(context, [Styles shared].grid.borderColor.CGColor);
                     }
@@ -148,24 +149,24 @@
                     break;
                     
                 default:
-                    [Utilities logWithClass: [self class] format: @"Wall type set to an illegal value: %d", wallType];
+                    [MAUtilities logWithClass: [self class] format: @"Wall type set to an illegal value: %d", wallType];
                     break;
             }
             
             CGContextFillRect(context, segmentRect);
 			
-			if (location.wallNorthTextureId != 0)
+			if (location.wallNorthTexture != nil)
 			{
-				[Utilities drawBorderInsideRect: segmentRect
+				[MAUtilities drawBorderInsideRect: segmentRect
                                       withWidth: [Styles shared].grid.textureHighlightWidth
                                           color: [Styles shared].grid.textureHighlightColor];
 			}
             
 			if (self.currentWallLocation != nil)
 			{
-				if (location.x == self.currentWallLocation.x && location.y == self.currentWallLocation.y && self.currentWallDirection == MADirectionNorth)
+				if (location.xx == self.currentWallLocation.xx && location.yy == self.currentWallLocation.yy && self.currentWallDirection == MADirectionNorth)
 				{
-					[Utilities drawBorderInsideRect: segmentRect
+					[MAUtilities drawBorderInsideRect: segmentRect
                                           withWidth: [Styles shared].grid.wallHighlightWidth
                                               color: [Styles shared].grid.locationHighlightColor];
 				}
@@ -174,11 +175,13 @@
 		
 		// Wall West
 		
-		if (location.y <= self.maze.rows)
+		if (location.yy <= self.maze.rows)
 		{
-			segmentRect = [self.maze.locations getSegmentRectFromLocation: location segmentType: MAMazeObjectWallWest];
+			segmentRect = [self.maze segmentRectWithLocation: location segmentType: MAMazeObjectWallWest];
             
-            MAWallType wallType = [self.maze.locations getWallTypeLocX: location.x locY: location.y direction: MADirectionWest];            
+            MAWallType wallType = [self.maze wallTypeWithLocationX: location.xx
+                                                         locationY: location.yy
+                                                         direction: MADirectionWest];
             
             switch (wallType)
             {
@@ -187,7 +190,7 @@
                     break;
                     
                 case MAWallSolid:
-                    if (location.x == 1 || location.x == self.maze.columns + 1)
+                    if (location.xx == 1 || location.xx == self.maze.columns + 1)
                     {
                         CGContextSetFillColorWithColor(context, [Styles shared].grid.borderColor.CGColor);
                     }
@@ -206,24 +209,24 @@
                     break;
                     
                 default:
-                    [Utilities logWithClass: [self class] format: @"Wall type set to an illegal value: %d", wallType];
+                    [MAUtilities logWithClass: [self class] format: @"Wall type set to an illegal value: %d", wallType];
                     break;
             }
 
             CGContextFillRect(context, segmentRect);
             
-			if (location.wallNorthTextureId != 0)
+			if (location.wallNorthTexture != nil)
 			{
-				[Utilities drawBorderInsideRect: segmentRect
+				[MAUtilities drawBorderInsideRect: segmentRect
                                       withWidth: [Styles shared].grid.textureHighlightWidth
                                           color: [Styles shared].grid.textureHighlightColor];
 			}
 			
 			if (self.currentWallLocation != nil)
 			{
-				if (location.x == self.currentWallLocation.x && location.y == self.currentWallLocation.y && self.currentWallDirection == MADirectionWest)
+				if (location.xx == self.currentWallLocation.xx && location.yy == self.currentWallLocation.yy && self.currentWallDirection == MADirectionWest)
 				{
-					[Utilities drawBorderInsideRect: segmentRect
+					[MAUtilities drawBorderInsideRect: segmentRect
                                           withWidth: [Styles shared].grid.wallHighlightWidth
                                               color: [Styles shared].grid.locationHighlightColor];
 				}
@@ -232,9 +235,9 @@
 		
 		// Corner
         
-		segmentRect = [self.maze.locations getSegmentRectFromLocation: location segmentType: MAMazeObjectCorner];
+		segmentRect = [self.maze segmentRectWithLocation: location segmentType: MAMazeObjectCorner];
         
-		if (location.y > 1 && location.y <= self.maze.rows && location.x > 1 && location.x <= self.maze.columns)
+		if (location.yy > 1 && location.yy <= self.maze.rows && location.xx > 1 && location.xx <= self.maze.columns)
 		{
 			CGContextSetFillColorWithColor(context, [Styles shared].grid.cornerColor.CGColor);
 			CGContextFillRect(context, segmentRect);

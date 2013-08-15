@@ -8,16 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Constants.h"
+#import "MAConstants.h"
 
-@class Maze;
-@class Location;
+@class MALocation;
+@class MAMaze;
 
 @interface MapView : UIView 
 
-@property (strong, nonatomic) Maze *maze;
+@property (strong, nonatomic) MAMaze *maze;
 
-@property (strong, nonatomic) Location *currLoc;
+@property (strong, nonatomic) MALocation *currLoc;
 @property (assign, nonatomic) MADirectionType currDir;
 
 - (void)drawSurroundings;

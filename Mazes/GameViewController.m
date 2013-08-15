@@ -11,22 +11,24 @@
 #import "ActivityViewStyle.h"
 #import "AppDelegate.h"
 #import "Colors.h"
-#import "CurrentUser.h"
+
+#import "MACloud.h"
 #import "MAEvents.h"
 #import "MAEvent.h"
-#import "MainListItem.h"
-#import "MainListViewController.h"
-#import "MainViewController.h"
+#import "MALocation.h"
+#import "MAMainViewController.h"
+#import "MAMaze.h"
+#import "MASoundManager.h"
+#import "MASound.h"
+#import "MATextureManager.h"
+#import "MATopMazeItem.h"
+#import "MATopMazesViewController.h"
+#import "MAUtilities.h"
+
 #import "MapView.h"
-#import "Maze.h"
-#import "MazeUser.h"
 #import "MazeView.h"
 #import "RatingViewStyle.h"
-#import "ServerQueue.h"
-#import "Sounds.h"
-#import "Sound.h"
-#import "Textures.h"
-#import "Utilities.h"
+#import "Styles.h"
 
 @interface GameViewController ()
 
@@ -35,12 +37,10 @@
 @property (strong, nonatomic) MAEvent *getGameDataEvent;
 @property (strong, nonatomic) MAEvent *saveMazeUserEvent;
 
-@property (strong, nonatomic) Maze *maze;
+@property (strong, nonatomic) MAMaze *maze;
 
-@property (strong, nonatomic) MazeUser *mazeUser;
-
-@property (strong, nonatomic) Location *prevLoc;
-@property (strong, nonatomic) Location *currLoc;
+@property (strong, nonatomic) MALocation *prevLoc;
+@property (strong, nonatomic) MALocation *currLoc;
 
 @property (assign, nonatomic) MADirectionType currDir;
 
@@ -102,25 +102,35 @@
         
         _getGameDataEvent = [[MAEvent alloc] initWithTarget: self
                                                      action: @selector(getGameData)
-                                               intervalSecs: [Constants shared].serverRetryDelaySecs
+                                               intervalSecs: [MAConstants shared].serverRetryDelaySecs
                                                     repeats: NO];
 
         _saveMazeUserEvent = [[MAEvent alloc] initWithTarget: self
                                                       action: @selector(saveMazeUser)
-                                                intervalSecs: [Constants shared].serverRetryDelaySecs
+                                                intervalSecs: [MAConstants shared].serverRetryDelaySecs
                                                      repeats: NO];
 
         _maze = nil;
         
-        _mazeUser = nil;
-        
         _movements = [[NSMutableArray alloc] init];
 		
-        _moveStepDurationAvg = [Constants shared].stepDurationAvgStart;
-        _turnStepDurationAvg = [Constants shared].stepDurationAvgStart;
+        _moveStepDurationAvg = [MAConstants shared].stepDurationAvgStart;
+        _turnStepDurationAvg = [MAConstants shared].stepDurationAvgStart;
     }
     
     return self;
+}
+
+- (void)observeValueForKeyPath: (NSString *)keyPath ofObject: (id)object change: (NSDictionary *)change context: (void *)context
+{
+    if ((object == [MASoundManager shared]) && ([keyPath isEqualToString: @"downloadComplete"] == YES))
+    {
+        [self setup];
+    }
+    else if ((object == [MATextureManager shared]) && ([keyPath isEqualToString: @"downloadComplete"] == YES))
+    {
+        [self setup];
+    }
 }
 
 - (void)viewDidLoad 
@@ -143,7 +153,7 @@
 	self.mazeBorderView.backgroundColor = [Styles shared].gameView.borderColor;
 
 	[self.mazeView setupOpenGLViewport];
-	[self.mazeView translateDGLX: 0.0 dGLY: [Constants shared].eyeHeight dGLZ: 0.0];
+	[self.mazeView translateDGLX: 0.0 dGLY: [MAConstants shared].eyeHeight dGLZ: 0.0];
 
 	[self.mazeView setupOpenGLTextures];
 	
@@ -197,15 +207,17 @@
 {
     [self.operationQueue cancelAllOperations];
     
+    /*
     [self.operationQueue addOperation: [[ServerOperations shared] getMazeOperationWithDelegate: self
                                                                                         mazeId: self.mazeId]];
     
     [self.operationQueue addOperation: [[ServerOperations shared] getMazeUserOperationWithDelegate: self
                                                                                             mazeId: self.mazeId
-                                                                                            userId: [CurrentUser shared].id]];
+                                                                                      userObjectId: [MACloud shared].currentUserObjectId]];
+     */
 }
 
-- (void)serverOperationsGetMaze: (Maze *)aMaze error: (NSError *)error
+- (void)serverOperationsGetMaze: (MAMaze *)aMaze error: (NSError *)error
 {
     if (error == nil)
     {
@@ -222,6 +234,7 @@
     }
 }
 
+/*
 - (void)serverOperationsGetMazeUser: (MazeUser *)aMazeUser error: (NSError *)error
 {
     if (error == nil)
@@ -238,6 +251,7 @@
         }
     }
 }
+*/
 
 - (void)setup
 {
@@ -246,7 +260,7 @@
     //NSLog(@"sounds = %d", [Sounds shared].count);
     //NSLog(@"textures = %d", [Textures shared].count);
     
-    if (self.maze != nil && self.mazeUser != nil && [Sounds shared].count > 0 && [Textures shared].count > 0)
+    if (self.maze != nil && [MASoundManager shared].count > 0 && [MATextureManager shared].count > 0)
     {
         if ([[MAEvents shared] hasEvent: self.getGameDataEvent] == YES)
         {
@@ -255,15 +269,17 @@
         
         if (self.operationQueue.operationCount != 0)
         {
-            [Utilities logWithClass: [self class] format: @"Operation queue should be empty. Operation count = %d", self.operationQueue.operationCount];
+            [MAUtilities logWithClass: [self class] format: @"Operation queue should be empty. Operation count = %d", self.operationQueue.operationCount];
         }
         
+        /*
         if (self.mazeUser.started == NO)
         {
             self.mazeUser.started = YES;
 
             [[ServerQueue shared] addObject: self.mazeUser];
         }
+        */
         
         self.activityIndicatorView.hidden = YES;
         [self.activityIndicatorView stopAnimating];
@@ -285,20 +301,19 @@
         
         
         self.prevLoc = nil;
-        Location *startLoc = [self.maze.locations getLocationByAction: MALocationActionStart];
+        MALocation *startLoc = [self.maze locationWithAction: MALocationActionStart];
         [self setupNewLocation: startLoc];
         
-        if (self.maze.backgroundSoundId != 0)
+        if (self.maze.backgroundSound != nil)
         {
-            Sound *sound = [[Sounds shared] soundWithId: self.maze.backgroundSoundId];
-            [sound playWithNumberOfLoops: -1];
+           [self.maze.backgroundSound playWithNumberOfLoops: -1];
         }
         
         self.isMoving = NO;
     }
 }
 
-- (void)setupNewLocation: (Location *)newLoc
+- (void)setupNewLocation: (MALocation *)newLoc
 {
 	self.prevLoc = self.currLoc;
 	
@@ -307,8 +322,8 @@
 
 	[self.mazeView translateDGLX: -self.mazeView.glX dGLY: 0.0 dGLZ: -self.mazeView.glZ];
 	
-	float glX = [Constants shared].wallDepth / 2.0 + [Constants shared].wallWidth / 2.0 + (self.currLoc.x - 1) * [Constants shared].wallWidth;
-	float glZ = [Constants shared].wallDepth / 2.0 + [Constants shared].wallWidth / 2.0 + (self.currLoc.y - 1) * [Constants shared].wallWidth;
+	float glX = [MAConstants shared].wallDepth / 2.0 + [MAConstants shared].wallWidth / 2.0 + (self.currLoc.xx - 1) * [MAConstants shared].wallWidth;
+	float glZ = [MAConstants shared].wallDepth / 2.0 + [MAConstants shared].wallWidth / 2.0 + (self.currLoc.yy - 1) * [MAConstants shared].wallWidth;
 	
 	[self.mazeView translateDGLX: glX dGLY: 0.0 dGLZ: glZ];
 	
@@ -339,7 +354,7 @@
                 break;
                 
             default:
-                [Utilities logWithClass: [self class] format: @"theta set to an illegal value: %d", theta];
+                [MAUtilities logWithClass: [self class] format: @"theta set to an illegal value: %d", theta];
                 break;
         }
 	}
@@ -426,7 +441,7 @@
 			self.dLocY = -1;
 			
 			dglx = 0.0;
-			dglz = -[Constants shared].wallWidth;
+			dglz = -[MAConstants shared].wallWidth;
 			
 			self.movementDir = MADirectionNorth;
 		}
@@ -435,7 +450,7 @@
 			self.dLocX = 1;
 			self.dLocY = 0;
 			
-			dglx = [Constants shared].wallWidth;
+			dglx = [MAConstants shared].wallWidth;
 			dglz = 0.0;
 			
 			self.movementDir = MADirectionEast;
@@ -446,7 +461,7 @@
 			self.dLocY = 1;
 			
 			dglx = 0.0;
-			dglz = [Constants shared].wallWidth;
+			dglz = [MAConstants shared].wallWidth;
 			
 			self.movementDir = MADirectionSouth;
 		}
@@ -455,7 +470,7 @@
 			self.dLocX = -1;
 			self.dLocY = 0;
 			
-			dglx = -[Constants shared].wallWidth;
+			dglx = -[MAConstants shared].wallWidth;
 			dglz = 0.0;
 			
 			self.movementDir = MADirectionWest;
@@ -469,7 +484,7 @@
 			self.dLocY = 1;
 			
 			dglx = 0.0;
-			dglz = [Constants shared].wallWidth;
+			dglz = [MAConstants shared].wallWidth;
 			
 			self.movementDir = MADirectionSouth;
 		}
@@ -478,7 +493,7 @@
 			self.dLocX = -1;
 			self.dLocY = 0;
 			
-			dglx = -[Constants shared].wallWidth;
+			dglx = -[MAConstants shared].wallWidth;
 			dglz = 0.0;
 
 			self.movementDir = MADirectionWest;
@@ -489,7 +504,7 @@
 			self.dLocY = -1;
 			
 			dglx = 0.0;
-			dglz = -[Constants shared].wallWidth;
+			dglz = -[MAConstants shared].wallWidth;
 			
 			self.movementDir = MADirectionNorth;
 		}
@@ -498,19 +513,21 @@
 			self.dLocX = 1;
 			self.dLocY = 0;
 			
-			dglx = [Constants shared].wallWidth;
+			dglx = [MAConstants shared].wallWidth;
 			dglz = 0.0;
 			
 			self.movementDir = MADirectionEast;
 		}
 	}
 	
-	MAWallType wallType = [self.maze.locations getWallTypeLocX: self.currLoc.x locY: self.currLoc.y direction: self.movementDir];
+	MAWallType wallType = [self.maze wallTypeWithLocationX: self.currLoc.xx
+                                                 locationY: self.currLoc.yy
+                                                 direction: self.movementDir];
 	
 	// Animate Movement
 	
 	self.stepCount = 1;
-	self.steps = (int)([Constants shared].movementDuration / self.moveStepDurationAvg);
+	self.steps = (int)([MAConstants shared].movementDuration / self.moveStepDurationAvg);
 	
 	// steps must be even for bounce back
 	if (self.steps % 2 == 1)
@@ -544,11 +561,17 @@
 	[self.mazeView translateDGLX: self.dglx_step dGLY: 0.0 dGLZ: self.dglz_step];
 	[self.mazeView drawMaze];
 
-	MAWallType wallType = [self.maze.locations getWallTypeLocX: self.currLoc.x locY: self.currLoc.y direction: self.movementDir];
+	MAWallType wallType = [self.maze wallTypeWithLocationX: self.currLoc.xx
+                                                 locationY: self.currLoc.yy
+                                                 direction: self.movementDir];
 	
-	if (wallType == MAWallFake && self.stepCount >= self.steps * [Constants shared].fakeMovementPrcnt && self.wallRemoved == NO)
+	if (wallType == MAWallFake && self.stepCount >= self.steps * [MAConstants shared].fakeMovementPrcnt && self.wallRemoved == NO)
 	{
-		[self.maze.locations setWallTypeLocX: self.currLoc.x locY: self.currLoc.y direction: self.movementDir type: MAWallNone];
+		[self.maze setWallTypeWithLocationX: self.currLoc.xx
+                                  locationY: self.currLoc.yy
+                                  direction: self.movementDir
+                                       type: MAWallNone];
+        
 		[self.mazeView setupOpenGLVerticies];
 		[self.mazeView drawMaze];
 		
@@ -580,13 +603,16 @@
 
 	float moveDuration = [end timeIntervalSinceDate: self.movementStartDate];
 	
-	MAWallType wallType = [self.maze.locations getWallTypeLocX: self.currLoc.x locY: self.currLoc.y direction: self.movementDir];
+	MAWallType wallType = [self.maze wallTypeWithLocationX: self.currLoc.xx
+                                                 locationY: self.currLoc.yy
+                                                 direction: self.movementDir];
 	
 	if (wallType == MAWallNone || wallType == MAWallFake)
 	{
 		self.prevLoc = self.currLoc;
 		
-		self.currLoc = [self.maze.locations getLocationByX: self.currLoc.x + self.dLocX y: self.currLoc.y + self.dLocY];
+		self.currLoc = [self.maze locationWithLocationX: self.currLoc.xx + self.dLocX
+                                              locationY: self.currLoc.yy + self.dLocY];
 		self.currLoc.Visited = YES;
 		
 		self.moveStepDurationAvg = moveDuration / self.steps;
@@ -602,7 +628,9 @@
 	{
 		[self.movements removeAllObjects];
 
-		[self.maze.locations setWallHitLocX: self.currLoc.x locY: self.currLoc.y direction: self.movementDir];
+		[self.maze setWallHitWithLocationX: self.currLoc.xx
+                                 locationY: self.currLoc.yy
+                                 direction: self.movementDir];
 
 		self.mapView.currLoc = self.currLoc;
 		self.mapView.currDir = self.currDir;
@@ -655,7 +683,7 @@
                 break;
                 
             default:
-                [Utilities logWithClass: [self class] format: @"Current direction set to an illegal value: %d", self.currDir];
+                [MAUtilities logWithClass: [self class] format: @"Current direction set to an illegal value: %d", self.currDir];
                 break;
         }
 	}
@@ -682,13 +710,13 @@
                 break;
                 
             default:
-                [Utilities logWithClass: [self class] format: @"Current direction set to an illegal value: %d", self.currDir];
+                [MAUtilities logWithClass: [self class] format: @"Current direction set to an illegal value: %d", self.currDir];
                 break;
         }
 	}
 	
 	self.stepCount = 1;
-	self.steps = (int)([Constants shared].movementDuration / self.turnStepDurationAvg);
+	self.steps = (int)([MAConstants shared].movementDuration / self.turnStepDurationAvg);
 	
 	self.dTheta_step = dTheta / (float)self.steps;
 
@@ -749,12 +777,14 @@
 	{
 		[self.movements removeAllObjects];
 		
+        /*
         if (self.mazeUser.finished == NO)
         {
             self.mazeUser.finished = YES;
             
             [[ServerQueue shared] addObject: self.mazeUser];
         }
+        */
         
         [self showEndAlert];
 	}
@@ -773,7 +803,9 @@
 	{
 		[self.movements removeAllObjects];
 		
-		Location *teleportLoc = [self.maze.locations getLocationByX: self.currLoc.teleportX y: self.currLoc.teleportY];
+		MALocation *teleportLoc = [self.maze locationWithLocationX: self.currLoc.teleportX
+                                                         locationY: self.currLoc.teleportY];
+        
 		[self setupNewLocation: teleportLoc];
 	}
 	else 
@@ -810,6 +842,7 @@
 - (void)showEndAlert
 {
 	NSString *cancelButtonTitle = @"";
+    /*
 	if (self.mazeUser.rating == 0.0)
 	{
 		cancelButtonTitle = @"Don't Rate";
@@ -818,7 +851,8 @@
 	{
 		cancelButtonTitle = @"OK";
 	}
-		
+     */
+    
 	self.endAlertView = [[UIAlertView alloc] initWithTitle: @""
                                                    message: self.currLoc.message
                                                   delegate: self
@@ -830,7 +864,7 @@
 
 - (void)willPresentAlertView: (UIAlertView *)alertView
 {
-	if (alertView == self.endAlertView && self.mazeUser.rating == 0.0)
+	if (alertView == self.endAlertView) // && self.mazeUser.rating == 0.0)
 	{
 		UIView *buttonView = [alertView.subviews objectAtIndex: 3];
 
@@ -845,10 +879,12 @@
 		ratingView.frame = CGRectMake(ratingViewX, ratingViewY, ratingViewWidth, ratingViewHeight);
 		ratingView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent: 0.0];
 		
+        /*
         [ratingView setupWithDelegate: self
                                rating: self.mazeUser.rating
                                  type: MARatingViewSelectable
                             starColor: [Styles shared].ratingView.mazeFinishedStarColor];
+        */
         
 		[alertView addSubview: ratingView];
 		
@@ -878,12 +914,14 @@
 
 - (void)ratingView: (RatingView *)ratingView ratingChanged: (float)newRating
 {
+    /*
     if (newRating != self.mazeUser.rating)
     {
         self.mazeUser.rating = newRating;
         
         [[ServerQueue shared] addObject: self.mazeUser];
     }
+    */
     
     [self dismissEndAlertView];
 }
@@ -892,7 +930,7 @@
 {
 	if (alertView == self.startOverAlertView)
 	{
-		Location *startLoc = [self.maze.locations getLocationByAction: MALocationActionStart];
+		MALocation *startLoc = [self.maze locationWithAction: MALocationActionStart];
 		[self setupNewLocation: startLoc];
 	}
 	else if (alertView == self.endAlertView)
@@ -922,10 +960,9 @@
 
 - (void)goBack
 {
-	if (self.maze.backgroundSoundId != 0)
+	if (self.maze.backgroundSound != nil)
 	{
-		Sound *sound = [[Sounds shared] soundWithId: self.maze.backgroundSoundId];
-		[sound stop];	
+		[self.maze.backgroundSound stop];
 	}
 	
     [self.operationQueue cancelAllOperations];
@@ -934,9 +971,9 @@
     self.activityIndicatorView.hidden = YES;
     [self.activityIndicatorView stopAnimating];
     
-	[[MainViewController shared] transitionFromViewController: self
-                                             toViewController: [MainListViewController shared]
-                                                   transition: MATransitionFlipFromRight];
+	[[MAMainViewController shared] transitionFromViewController: self
+                                               toViewController: [MATopMazesViewController shared]
+                                                     transition: MATransitionFlipFromRight];
 }
 
 // How To Play Button
@@ -1001,7 +1038,6 @@
     if (self.movingToParentViewController)
     {
         self.maze = nil;
-        self.mazeUser = nil;
         
         [self.mapView clear];
         [self clearMessage];

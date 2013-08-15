@@ -8,8 +8,8 @@
 
 #import "TexturesViewController.h"
 
-#import "Textures.h"
-#import "Texture.h"
+#import "MATextureManager.h"
+#import "MATexture.h"
 
 @implementation TexturesViewController
 
@@ -33,13 +33,13 @@
 {
 	self.view.backgroundColor = [Styles shared].editView.viewTexturesBackgroundColor;
 	
-	NSArray *textures = [[Textures shared] sortedByKindThenOrder];
+	NSArray *textures = [[MATextureManager shared] sortedByKindThenOrder];
 	
 	float padding = ([Styles shared].editView.popoverTexturesWidth - [Styles shared].editView.texturesPerRow * [Styles shared].editView.textureImageLength) / ([Styles shared].editView.texturesPerRow + 1);
 	
 	int row = 1, column = 1;
 	float x = 0.0, y = 0.0;
-	for (Texture *texture in textures)
+	for (MATexture *texture in textures)
 	{
 		if (column > [Styles shared].editView.texturesPerRow)
 		{
@@ -73,16 +73,16 @@
 {
 	CGPoint touchPoint = [recognizer locationInView: self.view];
 
-	NSArray *textures = [[Textures shared] sortedByKindThenOrder];
+	NSArray *textures = [[MATextureManager shared] sortedByKindThenOrder];
 
-	for (Texture *texture in textures)
+	for (MATexture *texture in textures)
 	{
 		if (CGRectContainsPoint(texture.imageViewFrame, touchPoint) == YES)
 		{
             #pragma clang diagnostic push
             #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
             
-			[self.textureDelegate performSelector: self.textureSelector withObject: [NSNumber numberWithInt: texture.id]];
+			[self.textureDelegate performSelector: self.textureSelector withObject: texture];
 			
 			[self.exitDelegate performSelector: self.exitSelector];
             

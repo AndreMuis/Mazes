@@ -6,14 +6,11 @@
 //  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
-#import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 
-#import <RestKit/RestKit.h>
+#import <Parse/Parse.h>
 
-#import "ServerOperations.h"
-
-@interface AppDelegate : UIResponder <UIApplicationDelegate, MAServerOperationsGetVersionDelegate, MAServerOperationsGetUserDelegate, ADBannerViewDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, ADBannerViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

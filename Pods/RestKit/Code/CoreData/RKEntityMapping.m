@@ -164,6 +164,7 @@ static BOOL entityIdentificationInferenceEnabled = YES;
     self = [self initWithClass:objectClass];
     if (self) {
         self.entity = entity;
+        self.discardsInvalidObjectsOnInsert = NO;
         if ([RKEntityMapping isEntityIdentificationInferenceEnabled]) self.identificationAttributes = RKIdentificationAttributesInferredFromEntity(entity);
     }
 
@@ -187,6 +188,7 @@ static BOOL entityIdentificationInferenceEnabled = YES;
     copy.identificationAttributes = self.identificationAttributes;
     copy.identificationPredicate = self.identificationPredicate;
     copy.deletionPredicate = self.deletionPredicate;
+    copy.mutableConnections = [NSMutableArray array];
     
     for (RKConnectionDescription *connection in self.connections) {
         [copy addConnection:[connection copy]];
@@ -291,6 +293,23 @@ static BOOL entityIdentificationInferenceEnabled = YES;
     return propertyClass;
 }
 
+- (void)setModificationAttribute:(NSAttributeDescription *)modificationAttribute
+{
+    if (modificationAttribute && ![self.entity.properties containsObject:modificationAttribute]) [NSException raise:NSInvalidArgumentException format:@"The attribute given is not a property of the '%@' entity.", [self.entity name]];
+    _modificationAttribute = modificationAttribute;
+}
+
+- (void)setModificationAttributeForName:(NSString *)attributeName
+{
+    if (attributeName) {
+        NSAttributeDescription *attribute = [[self.entity attributesByName] objectForKey:attributeName];
+        if (!attribute) [NSException raise:NSInvalidArgumentException format:@"No attribute with the name '%@' was found in the '%@' entity.", attributeName, self.entity.name];
+        self.modificationAttribute = attribute;
+    } else {
+        self.modificationAttribute = nil;
+    }
+}
+
 + (void)setEntityIdentificationInferenceEnabled:(BOOL)enabled
 {
     entityIdentificationInferenceEnabled = enabled;
@@ -300,5 +319,24 @@ static BOOL entityIdentificationInferenceEnabled = YES;
 {
     return entityIdentificationInferenceEnabled;
 }
+
+@end
+
+@implementation RKEntityMapping (Deprecations)
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
+- (NSString *)modificationKey
+{
+    return self.modificationAttribute.name;
+}
+
+- (void)setModificationKey:(NSString *)modificationKey
+{
+    [self setModificationAttributeForName:modificationKey];
+}
+
+#pragma clang diagnostic pop
 
 @end

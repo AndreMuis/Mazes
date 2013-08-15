@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -794,7 +794,6 @@
 								<int key="NSvFlags">274</int>
 								<string key="NSFrame">{{20, 20}, {203, 175}}</string>
 								<reference key="NSSuperview" ref="633836307"/>
-								<reference key="NSNextKeyView"/>
 								<reference key="IBUIBackgroundColor" ref="471447442"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -1460,10 +1459,10 @@
 							<reference ref="873085800"/>
 							<reference ref="477289037"/>
 							<reference ref="496908050"/>
-							<reference ref="145304991"/>
 							<reference ref="898404653"/>
 							<reference ref="261825021"/>
 							<reference ref="1071050491"/>
+							<reference ref="145304991"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -1949,7 +1948,393 @@
 			<nil key="sourceID"/>
 			<int key="maxID">326</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<object class="IBPartialClassDescription">
+					<string key="className">EditViewController</string>
+					<string key="superclassName">MAViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>audioButtonTouchDown:</string>
+							<string>ceilingButtonTouchDown</string>
+							<string>ceilingDefaultButtonTouchDown</string>
+							<string>deleteButtonTouchDown:</string>
+							<string>floorButtonTouchDown</string>
+							<string>floorDefaultButtonTouchDown</string>
+							<string>graphicsButtonTouchDown:</string>
+							<string>locationButtonTouchDown:</string>
+							<string>mainButtonTouchDown:</string>
+							<string>mazesButtonTouchDown:</string>
+							<string>saveButtonTouchDown:</string>
+							<string>switchPublicValueChanged:</string>
+							<string>swtichTutorialValueChanged:</string>
+							<string>wallButtonTochhDown:</string>
+							<string>wallButtonTouchDown</string>
+							<string>wallDefaultButtonTouchDown</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>audioButtonTouchDown:</string>
+							<string>ceilingButtonTouchDown</string>
+							<string>ceilingDefaultButtonTouchDown</string>
+							<string>deleteButtonTouchDown:</string>
+							<string>floorButtonTouchDown</string>
+							<string>floorDefaultButtonTouchDown</string>
+							<string>graphicsButtonTouchDown:</string>
+							<string>locationButtonTouchDown:</string>
+							<string>mainButtonTouchDown:</string>
+							<string>mazesButtonTouchDown:</string>
+							<string>saveButtonTouchDown:</string>
+							<string>switchPublicValueChanged:</string>
+							<string>swtichTutorialValueChanged:</string>
+							<string>wallButtonTochhDown:</string>
+							<string>wallButtonTouchDown</string>
+							<string>wallDefaultButtonTouchDown</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">audioButtonTouchDown:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">ceilingButtonTouchDown</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">ceilingDefaultButtonTouchDown</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">deleteButtonTouchDown:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">floorButtonTouchDown</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">floorDefaultButtonTouchDown</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">graphicsButtonTouchDown:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">locationButtonTouchDown:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">mainButtonTouchDown:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">mazesButtonTouchDown:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveButtonTouchDown:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">switchPublicValueChanged:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">swtichTutorialValueChanged:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">wallButtonTochhDown:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">wallButtonTouchDown</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">wallDefaultButtonTouchDown</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>audioButton</string>
+							<string>audioView</string>
+							<string>backgroundSoundTableView</string>
+							<string>buttonsView</string>
+							<string>ceilingDefaultImageView</string>
+							<string>ceilingImageView</string>
+							<string>contentView</string>
+							<string>directionTableView</string>
+							<string>floorDefaultImageView</string>
+							<string>floorImageView</string>
+							<string>graphicsButton</string>
+							<string>graphicsView</string>
+							<string>gridView</string>
+							<string>locationButton</string>
+							<string>locationScrollView</string>
+							<string>locationTypeTableView</string>
+							<string>mainButton</string>
+							<string>mainView</string>
+							<string>message1Label</string>
+							<string>message2Label</string>
+							<string>messageDisplaysLabel</string>
+							<string>messageTextView</string>
+							<string>nameTextField</string>
+							<string>publicSwitch</string>
+							<string>tutorialSwitch</string>
+							<string>wallButton</string>
+							<string>wallDefaultImageView</string>
+							<string>wallImageView</string>
+							<string>wallTypeTableView</string>
+							<string>wallView</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIButton</string>
+							<string>UIView</string>
+							<string>UITableView</string>
+							<string>UIView</string>
+							<string>UIImageView</string>
+							<string>UIImageView</string>
+							<string>UIView</string>
+							<string>UITableView</string>
+							<string>UIImageView</string>
+							<string>UIImageView</string>
+							<string>UIButton</string>
+							<string>UIView</string>
+							<string>GridView</string>
+							<string>UIButton</string>
+							<string>UIScrollView</string>
+							<string>UITableView</string>
+							<string>UIButton</string>
+							<string>UIView</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UITextView</string>
+							<string>UITextField</string>
+							<string>UISwitch</string>
+							<string>UISwitch</string>
+							<string>UIButton</string>
+							<string>UIImageView</string>
+							<string>UIImageView</string>
+							<string>UITableView</string>
+							<string>UIView</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>audioButton</string>
+							<string>audioView</string>
+							<string>backgroundSoundTableView</string>
+							<string>buttonsView</string>
+							<string>ceilingDefaultImageView</string>
+							<string>ceilingImageView</string>
+							<string>contentView</string>
+							<string>directionTableView</string>
+							<string>floorDefaultImageView</string>
+							<string>floorImageView</string>
+							<string>graphicsButton</string>
+							<string>graphicsView</string>
+							<string>gridView</string>
+							<string>locationButton</string>
+							<string>locationScrollView</string>
+							<string>locationTypeTableView</string>
+							<string>mainButton</string>
+							<string>mainView</string>
+							<string>message1Label</string>
+							<string>message2Label</string>
+							<string>messageDisplaysLabel</string>
+							<string>messageTextView</string>
+							<string>nameTextField</string>
+							<string>publicSwitch</string>
+							<string>tutorialSwitch</string>
+							<string>wallButton</string>
+							<string>wallDefaultImageView</string>
+							<string>wallImageView</string>
+							<string>wallTypeTableView</string>
+							<string>wallView</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">audioButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">audioView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">backgroundSoundTableView</string>
+								<string key="candidateClassName">UITableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">buttonsView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">ceilingDefaultImageView</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">ceilingImageView</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">contentView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">directionTableView</string>
+								<string key="candidateClassName">UITableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">floorDefaultImageView</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">floorImageView</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">graphicsButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">graphicsView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">gridView</string>
+								<string key="candidateClassName">GridView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">locationButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">locationScrollView</string>
+								<string key="candidateClassName">UIScrollView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">locationTypeTableView</string>
+								<string key="candidateClassName">UITableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">mainButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">mainView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">message1Label</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">message2Label</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">messageDisplaysLabel</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">messageTextView</string>
+								<string key="candidateClassName">UITextView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">nameTextField</string>
+								<string key="candidateClassName">UITextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">publicSwitch</string>
+								<string key="candidateClassName">UISwitch</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">tutorialSwitch</string>
+								<string key="candidateClassName">UISwitch</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">wallButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">wallDefaultImageView</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">wallImageView</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">wallTypeTableView</string>
+								<string key="candidateClassName">UITableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">wallView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/EditViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">GridView</string>
+					<string key="superclassName">UIView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/GridView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">MAViewController</string>
+					<string key="superclassName">UIViewController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/MAViewController.h</string>
+					</object>
+				</object>
+			</object>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBIPadFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">

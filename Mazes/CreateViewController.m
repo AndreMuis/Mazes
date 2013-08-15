@@ -8,13 +8,14 @@
 
 #import "CreateViewController.h"
 
-#import "Constants.h"
 #import "EditViewController.h"
 #import "GridView.h"
-#import "MainListViewController.h"
-#import "MainViewController.h"
-#import "Maze.h"
-#import "Utilities.h"
+
+#import "MAConstants.h"
+#import "MAMainViewController.h"
+#import "MAMaze.h"
+#import "MATopMazesViewController.h"
+#import "MAUtilities.h"
 
 @implementation CreateViewController
 
@@ -44,21 +45,27 @@
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self reset];
+}
+
+- (void)reset
+{
+	[EditViewController shared].maze.rows = [MAConstants shared].rowsMin;
+	[EditViewController shared].maze.columns = [MAConstants shared].columnsMin;
+	
+    [[EditViewController shared].maze populateWithRows: [EditViewController shared].maze.rows
+                                               columns: [EditViewController shared].maze.columns];
+}
+
 - (void)viewWillAppear: (BOOL)animated
 {
-	[super viewWillAppear: animated];
-	
-	[EditViewController shared].maze.rows = [Constants shared].rowsMin;
-	[EditViewController shared].maze.columns = [Constants shared].columnsMin;
-	
-    [[EditViewController shared].maze.locations populateWithRows: [EditViewController shared].maze.rows
-                                                         columns: [EditViewController shared].maze.columns];
+    [super viewWillAppear: animated];
     
-	[self.pickerView selectRow: 0 inComponent: 0 animated: NO];
-	[self.pickerView selectRow: 0 inComponent: 1 animated: NO];
-	
     self.gridView.maze = [EditViewController shared].maze;
-	[self.gridView setNeedsDisplay];
 }
 
 - (NSInteger)numberOfComponentsInPickerView: (UIPickerView *)thePickerView 
@@ -81,7 +88,7 @@
             break;
 
         default:
-            [Utilities logWithClass: [self class] format: @"component set to an illegal value: %d", component];
+            [MAUtilities logWithClass: [self class] format: @"component set to an illegal value: %d", component];
             break;
     }
     
@@ -95,11 +102,11 @@
 	switch (component)
     {
         case 0:
-            rowCount = ([Constants shared].rowsMax - [Constants shared].rowsMin) + 1;
+            rowCount = ([MAConstants shared].rowsMax - [MAConstants shared].rowsMin) + 1;
             break;
             
         case 1:
-            rowCount = ([Constants shared].columnsMax - [Constants shared].columnsMin) + 1;
+            rowCount = ([MAConstants shared].columnsMax - [MAConstants shared].columnsMin) + 1;
             break;
     }
 	
@@ -113,52 +120,48 @@
 	switch (component)
     {
         case 0:
-            title = [NSString stringWithFormat: @"%d", [Constants shared].rowsMin + row];
+            title = [NSString stringWithFormat: @"%d", [MAConstants shared].rowsMin + row];
             break;
             
         case 1:
-            title = [NSString stringWithFormat: @"%d", [Constants shared].columnsMin + row];
+            title = [NSString stringWithFormat: @"%d", [MAConstants shared].columnsMin + row];
             break;
     }
 
 	return title;
 }
 
-- (void)pickerView:(UIPickerView *)thePickerView didSelectRow: (NSInteger)row inComponent: (NSInteger)component 
+- (void)pickerView: (UIPickerView *)thePickerView didSelectRow: (NSInteger)row inComponent: (NSInteger)component 
 {	
 	switch (component)
     {
         case 0:
-            [EditViewController shared].maze.rows = [Constants shared].rowsMin + row;
+            [EditViewController shared].maze.rows = [MAConstants shared].rowsMin + row;
             break;
             
         case 1:
-            [EditViewController shared].maze.columns = [Constants shared].columnsMin + row;
+            [EditViewController shared].maze.columns = [MAConstants shared].columnsMin + row;
             break;
     }
     
-    [[EditViewController shared].maze.locations populateWithRows: [EditViewController shared].maze.rows
-                                                         columns: [EditViewController shared].maze.columns];
+    [[EditViewController shared].maze populateWithRows: [EditViewController shared].maze.rows
+                                               columns: [EditViewController shared].maze.columns];
     
 	[self.gridView setNeedsDisplay];
 }
 
 - (IBAction)continueButtonTouchDown: (id)sender
 {
-    [[MainViewController shared] transitionFromViewController: self
-                                             toViewController: [EditViewController shared]
-                                                   transition: MATransitionCrossDissolve];
+    [[MAMainViewController shared] transitionFromViewController: self
+                                               toViewController: [EditViewController shared]
+                                                     transition: MATransitionCrossDissolve];
 }
 
 - (IBAction)mazesButtonTouchDown: (id)sender
 {
-    [EditViewController shared].maze.rows = 0;
-    [EditViewController shared].maze.columns = 0;
-    [[EditViewController shared].maze.locations removeAll];
-    
-    [[MainViewController shared] transitionFromViewController: self
-                                             toViewController: [MainListViewController shared]
-                                                   transition: MATransitionCrossDissolve];
+    [[MAMainViewController shared] transitionFromViewController: self
+                                               toViewController: [MATopMazesViewController shared]
+                                                     transition: MATransitionCrossDissolve];
 }
 
 @end

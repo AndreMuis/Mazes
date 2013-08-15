@@ -94,9 +94,9 @@
  */
 @property (nonatomic, strong) NSEntityDescription *entity;
 
-///----------------------------------
-/// @name Identifying Managed Objects
-///----------------------------------
+///------------------------------------------------
+/// @name Configuring Managed Object Identification
+///------------------------------------------------
 
 /**
  The array of `NSAttributeDescription` objects specifying the attributes of the receiver's entity that are used during mapping to determine whether an existing object should be updated or a new managed object should be inserted. Please see the "Entity Identification" section of this document for more information.
@@ -114,6 +114,39 @@
  */
 @property (nonatomic, copy) NSPredicate *identificationPredicate;
 
+/**
+ An optional attribute of the receiver's entity that can be used to detect modification of a given instance. This is used to improve the performance of mapping operations by skipping the property mappings for a given object if it is found to be not modified.
+ 
+ A common modification attribute is a 'last modified' or 'updated at' timestamp that specifies the timestamp of the last change to an object. When the `modificationAttribute` is non-nil, the mapper will compare the value returned of the attribute on an existing object instance with the value in the representation being mapped. 
+ 
+ The semantics of the comparison are dependent on the data type of the modification attribute. If the attribute is a string, then the values are compared for equality. If the attribute is a date or a numeric value, then the values will be compared numerically and mapping will be skipped if the value in the representation is greater than the value of the modification attribute stored on the object.
+ 
+ @raises NSInvalidArgumentException Raised if the attribute given is not a property of the receiver's entity.
+ */
+@property (nonatomic, strong) NSAttributeDescription *modificationAttribute;
+
+/**
+ Sets the `modificationAttribute` to the receiver to the attribute with the specified name.
+ 
+ The given name must correspond to the name of an attribute within the receiver's entity.
+ 
+ @param attributeName The name of an attribute in the entity of the receiver.
+ @raises NSInvalidArgumentException Raised if no attribute could be found with the given name.
+ */
+- (void)setModificationAttributeForName:(NSString *)attributeName;
+
+///---------------------------------------------------------------
+/// @name Specifying a Persistent Store for Newly Inserted Objects
+///---------------------------------------------------------------
+
+/**
+ The persistent store in which new object instances mapped with the receiver should be inserted.
+ 
+ If your application makes use of more than one persistent store (i.e. a combination of an in-memory store and a SQLite store), then it can be desirable to specify the persistent store in which newly created managed objects will be assigned.
+ 
+ **Default**: `nil`
+ */
+@property (nonatomic, weak) NSPersistentStore *persistentStore;
 
 ///-------------------------------------------
 /// @name Configuring Relationship Connections
@@ -177,6 +210,19 @@
  */
 - (RKConnectionDescription *)connectionForRelationship:(id)relationshipOrName;
 
+///-----------------------------
+/// @name Configuring Validation
+///-----------------------------
+
+/**
+ A Boolean value that determines if newly created `NSManagedObject` instances mapped with the receiver should be discarded when they fail `validateForInsert:`.
+ 
+ This property allows for the deletion of managed objects that fail validation such that `NSManagedObjectContext` save will complete successfully. Typically an invalid managed object in the graph will result in a failure to save the `NSManagedObjectContext` due to an NSValidation error. In some cases it is desirable to persist only the subset of objects that pass validation and discard the invalid content rather than failing the entire operation. Setting this property to `YES` will result in the deletion of in any newly created `NSManagedObject` instances that fail to return `YES` when sent the `validateForInsert:` message.
+ 
+ **Default**: `NO`
+ */
+@property (nonatomic, assign) BOOL discardsInvalidObjectsOnInsert;
+
 ///------------------------------------
 /// @name Flagging Objects for Deletion
 ///------------------------------------
@@ -184,7 +230,16 @@
 /**
  A predicate that identifies objects for the receiver's entity that are to be deleted from the local store.
 
- This property provides support for local deletion of managed objects mapped as a 'tombstone' record from the source representation.
+ This property provides support for local deletion of managed objects mapped as a 'tombstone' record from the source representation. The deletion predicate is used in conjunction with the entity associated with the receiver to construct an `NSFetchRequest` that identifies managed objects that should be deleted when a mapping operation is committed. For example, given the following JSON:
+ 
+    { "userID": 12345, "is_deleted": true }
+ 
+ We could map the `is_deleted` key to a Boolean attribute on the model such as `shouldBeDeleted` and configure a deletion predicate using this attribute:
+ 
+    [entityMapping addAttributeMappingsFromDictionary:@{ @"is_deleted": @"shouldBeDeleted" }];
+    entityMapping.deletionPredicate = [NSPredicate predicateWithFormat:@"shouldBeDeleted = true"];
+ 
+ When a mapping operation completes, a `NSFetchRequest` will be constructed and executed. Any objects in the store whose `shouldBeDeleted` value is true will be deleted.
  */
 @property (nonatomic, copy) NSPredicate *deletionPredicate;
 
@@ -238,3 +293,8 @@ extern NSString * const RKEntityIdentificationAttributesUserInfoKey;
  @return An array containing identifying attributes inferred from the given entity or `nil` if none could be inferred.
  */
 NSArray *RKIdentificationAttributesInferredFromEntity(NSEntityDescription *entity);
+
+
+@interface RKEntityMapping (Deprecations)
+@property (nonatomic, copy) NSString *modificationKey DEPRECATED_ATTRIBUTE_MESSAGE("Use `setModificationAttributeForName:` instead");
+@end

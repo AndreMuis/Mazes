@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Constants.h"
+#import "MAConstants.h"
 #import "MAViewController.h"
 #import "RatingView.h"
-#import "ServerOperations.h"
 
 typedef enum : int
 {
@@ -21,22 +20,21 @@ typedef enum : int
 	MAMovementTurnRight = 4
 } MAMovementType;
 
-@class Location;
-@class MainListItem;
 @class MapView;
-@class Maze;
 @class MazeView;
+
 @class MAEvent;
+@class MALocation;
+@class MAMaze;
+@class MATopMazeItem;
 
 @interface GameViewController : MAViewController
-    <MAServerOperationsGetMazeDelegate,
-    MAServerOperationsGetMazeUserDelegate,
-    UIGestureRecognizerDelegate,
+    <UIGestureRecognizerDelegate,
     UIAlertViewDelegate,
     MARatingViewDelegate,
     UIPopoverControllerDelegate>
 
-@property (assign, nonatomic) int mazeId;
+@property (strong, nonatomic) NSString *mazeObjectId;
 
 @property (weak, nonatomic) IBOutlet UIImageView *backImageView;
 

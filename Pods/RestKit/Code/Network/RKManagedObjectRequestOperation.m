@@ -22,7 +22,7 @@
 #import "RKLog.h"
 #import "RKHTTPUtilities.h"
 #import "RKResponseMapperOperation.h"
-#import "RKRequestOperationSubclass.h"
+#import "RKObjectRequestOperationSubclass.h"
 #import "NSManagedObjectContext+RKAdditions.h"
 #import "NSManagedObject+RKAdditions.h"
 #import "RKObjectUtilities.h"
@@ -35,17 +35,50 @@
 
 // Set Logging Component
 #undef RKLogComponent
-#define RKLogComponent RKlcl_cRestKitCoreData
+#define RKLogComponent RKlcl_cRestKitNetworkCoreData
 
 @interface RKEntityMappingEvent : NSObject
 @property (nonatomic, copy) id rootKey;
 @property (nonatomic, copy) NSString *keyPath;
 @property (nonatomic, strong) RKEntityMapping *entityMapping;
 
++ (NSArray *)entityMappingEventsForMappingInfo:(NSDictionary *)mappingInfo;
 + (instancetype)eventWithRootKey:(id)rootKey keyPath:(NSString *)keyPath entityMapping:(RKEntityMapping *)entityMapping;
 @end
 
 @implementation RKEntityMappingEvent
+
++ (NSArray *)entityMappingEventsForMappingInfo:(NSDictionary *)mappingInfo
+{
+    NSMutableArray *entityMappingEvents = [NSMutableArray array];
+    for (id rootKey in mappingInfo) {
+        NSArray *mappingInfoArray = [mappingInfo objectForKey:rootKey];
+        for (RKMappingInfo *mappingInfo in mappingInfoArray) {                        
+            [entityMappingEvents addObjectsFromArray:[self entityMappingEventsWithMappingInfo:mappingInfo rootKey:rootKey keyPath:nil]];
+        }
+    }    
+    return entityMappingEvents;
+}
+
++ (NSArray *)entityMappingEventsWithMappingInfo:(RKMappingInfo *)mappingInfo rootKey:(id)rootKey keyPath:(NSString *)keyPath
+{
+    NSMutableArray *entityMappingEvents = [NSMutableArray array];
+    if ([mappingInfo.objectMapping isKindOfClass:[RKEntityMapping class]]) {
+        [entityMappingEvents addObject:[RKEntityMappingEvent eventWithRootKey:rootKey
+                                                                      keyPath:keyPath
+                                                                entityMapping:(RKEntityMapping *)mappingInfo.objectMapping]];
+    }
+    
+    for (NSString *destinationKeyPath in mappingInfo.relationshipMappingInfo) {
+        NSString *nestedKeyPath = keyPath ? [@[ keyPath, destinationKeyPath] componentsJoinedByString:@"."] : destinationKeyPath;
+        NSArray *arrayOfMappingInfoForRelationship = [mappingInfo.relationshipMappingInfo objectForKey:destinationKeyPath];
+        for (RKMappingInfo *mappingInfo in arrayOfMappingInfoForRelationship) {
+            [entityMappingEvents addObjectsFromArray:[self entityMappingEventsWithMappingInfo:mappingInfo rootKey:rootKey keyPath:nestedKeyPath]];
+        }
+    }
+    return entityMappingEvents;
+}
+
 + (instancetype)eventWithRootKey:(id)rootKey keyPath:(NSString *)keyPath entityMapping:(RKEntityMapping *)entityMapping
 {
     RKEntityMappingEvent *event = [RKEntityMappingEvent new];
@@ -88,14 +121,15 @@ NSSet *RKSetByRemovingSubkeypathsFromSet(NSSet *setOfKeyPaths)
 static NSManagedObject *RKRefetchManagedObjectInContext(NSManagedObject *managedObject, NSManagedObjectContext *managedObjectContext)
 {
     NSManagedObjectID *managedObjectID = [managedObject objectID];
-    if (! [managedObject managedObjectContext]) return nil; // Object has been deleted
     if ([managedObjectID isTemporaryID]) {
         RKLogWarning(@"Unable to refetch managed object %@: the object has a temporary managed object ID.", managedObject);
         return managedObject;
     }
     NSError *error = nil;
     NSManagedObject *refetchedObject = [managedObjectContext existingObjectWithID:managedObjectID error:&error];
-    NSCAssert(refetchedObject, @"Failed to find existing object with ID %@ in context %@: %@", managedObjectID, managedObjectContext, error);
+    if (! refetchedObject) {
+        RKLogWarning(@"Failed to refetch managed object with ID %@: %@", managedObjectID, error);
+    }
     return refetchedObject;
 }
 
@@ -104,31 +138,28 @@ static id RKRefetchedValueInManagedObjectContext(id value, NSManagedObjectContex
     if (! value) {
         return value;
     } else if ([value isKindOfClass:[NSArray class]]) {
-        BOOL isMutable = [value isKindOfClass:[NSMutableArray class]];
         NSMutableArray *newValue = [[NSMutableArray alloc] initWithCapacity:[value count]];
         for (__strong id object in value) {
             if ([object isKindOfClass:[NSManagedObject class]]) object = RKRefetchManagedObjectInContext(object, managedObjectContext);
             if (object) [newValue addObject:object];
         }
-        value = (isMutable) ? newValue : [newValue copy];
+        return newValue;
     } else if ([value isKindOfClass:[NSSet class]]) {
-        BOOL isMutable = [value isKindOfClass:[NSMutableSet class]];
         NSMutableSet *newValue = [[NSMutableSet alloc] initWithCapacity:[value count]];
         for (__strong id object in value) {
             if ([object isKindOfClass:[NSManagedObject class]]) object = RKRefetchManagedObjectInContext(object, managedObjectContext);
             if (object) [newValue addObject:object];
         }
-        value = (isMutable) ? newValue : [newValue copy];
+        return newValue;
     } else if ([value isKindOfClass:[NSOrderedSet class]]) {
-        BOOL isMutable = [value isKindOfClass:[NSMutableOrderedSet class]];
         NSMutableOrderedSet *newValue = [NSMutableOrderedSet orderedSet];
         [(NSOrderedSet *)value enumerateObjectsUsingBlock:^(id object, NSUInteger index, BOOL *stop) {
             if ([object isKindOfClass:[NSManagedObject class]]) object = RKRefetchManagedObjectInContext(object, managedObjectContext);
             if (object) [newValue setObject:object atIndex:index];
         }];
-        value = (isMutable) ? newValue : [newValue copy];
+        return newValue;
     } else if ([value isKindOfClass:[NSManagedObject class]]) {
-        value = RKRefetchManagedObjectInContext(value, managedObjectContext);
+        return RKRefetchManagedObjectInContext(value, managedObjectContext);
     }
     
     return value;
@@ -141,13 +172,13 @@ static id RKRefetchedValueInManagedObjectContext(id value, NSManagedObjectContex
 
 - (id)initWithMappingResult:(RKMappingResult *)mappingResult
        managedObjectContext:(NSManagedObjectContext *)managedObjectContext
-        entityMappingEvents:(NSArray *)entityMappingEvents;
+                mappingInfo:(NSDictionary *)mappingInfo;
 @end
 
 @interface RKRefetchingMappingResult ()
 @property (nonatomic, strong) RKMappingResult *mappingResult;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong) NSArray *entityMappingEvents;
+@property (nonatomic, strong) NSDictionary *mappingInfo;
 @property (nonatomic, assign) BOOL refetched;
 @end
 
@@ -158,13 +189,23 @@ static id RKRefetchedValueInManagedObjectContext(id value, NSManagedObjectContex
     return [[super description] stringByAppendingString:@"_RKRefetchingMappingResult"];
 }
 
+/**
+ Add explicit ordering of deallocations to fight `cxx_destruct` crashes
+ */
+- (void)dealloc
+{
+    _mappingResult = nil;
+    _mappingInfo = nil;
+    _managedObjectContext = nil;
+}
+
 - (id)initWithMappingResult:(RKMappingResult *)mappingResult
        managedObjectContext:(NSManagedObjectContext *)managedObjectContext
-        entityMappingEvents:(NSArray *)entityMappingEvents;
+                mappingInfo:(NSDictionary *)mappingInfo;
 {
     self.mappingResult = mappingResult;
     self.managedObjectContext = managedObjectContext;
-    self.entityMappingEvents = entityMappingEvents;
+    self.mappingInfo = mappingInfo;
     return self;
 }
 
@@ -187,6 +228,11 @@ static id RKRefetchedValueInManagedObjectContext(id value, NSManagedObjectContex
     return [self.mappingResult description];
 }
 
+- (NSUInteger)count
+{
+    return [self.mappingResult count];
+}
+
 - (RKMappingResult *)refetchedMappingResult
 {
     NSAssert(!self.refetched, @"Mapping result should only be refetched once");
@@ -194,9 +240,10 @@ static id RKRefetchedValueInManagedObjectContext(id value, NSManagedObjectContex
     
     NSMutableDictionary *newDictionary = [self.mappingResult.dictionary mutableCopy];
     [self.managedObjectContext performBlockAndWait:^{
-        NSSet *rootKeys = [NSSet setWithArray:[self.entityMappingEvents valueForKey:@"rootKey"]];
+        NSArray *entityMappingEvents = [RKEntityMappingEvent entityMappingEventsForMappingInfo:self.mappingInfo];
+        NSSet *rootKeys = [NSSet setWithArray:[entityMappingEvents valueForKey:@"rootKey"]];
         for (id rootKey in rootKeys) {
-            NSArray *eventsForRootKey = [self.entityMappingEvents filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"rootKey = %@", rootKey]];
+            NSArray *eventsForRootKey = [entityMappingEvents filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"rootKey = %@", rootKey]];
             NSSet *keyPaths = [NSSet setWithArray:[eventsForRootKey valueForKey:@"keyPath"]];
             // If keyPaths contains null, then the root object is a managed object and we only need to refetch it
             NSSet *nonNestedKeyPaths = ([keyPaths containsObject:[NSNull null]]) ? [NSSet setWithObject:[NSNull null]] : RKSetByRemovingSubkeypathsFromSet(keyPaths);
@@ -215,9 +262,11 @@ static id RKRefetchedValueInManagedObjectContext(id value, NSManagedObjectContex
                     if (RKObjectIsCollection(sourceObject)) {
                         // This is a to-many relationship, we want to refetch each item at the keyPath
                         for (id nestedObject in sourceObject) {
-                            // Refetch this object. Set it on the destination.
-                            NSManagedObject *managedObject = [nestedObject valueForKey:destinationKey];
-                            [nestedObject setValue:RKRefetchedValueInManagedObjectContext(managedObject, self.managedObjectContext) forKey:destinationKey];
+                            // NOTE: If this collection was mapped with a dynamic mapping then each instance may not respond to the key
+                            if ([nestedObject respondsToSelector:NSSelectorFromString(destinationKey)]) {
+                                NSManagedObject *managedObject = [nestedObject valueForKey:destinationKey];
+                                [nestedObject setValue:RKRefetchedValueInManagedObjectContext(managedObject, self.managedObjectContext) forKey:destinationKey];
+                            }
                         }
                     } else {
                         // This is a singular relationship. We want to refetch the object and set it directly.
@@ -233,12 +282,6 @@ static id RKRefetchedValueInManagedObjectContext(id value, NSManagedObjectContex
 }
 
 @end
-
-static NSString *RKKeyPathByDeletingLastComponent(NSString *keyPath)
-{
-    NSArray *keyPathComponents = [keyPath componentsSeparatedByString:@"."];
-    return ([keyPathComponents count] > 1) ? [[keyPathComponents subarrayWithRange:NSMakeRange(0, [keyPathComponents count] - 1)] componentsJoinedByString:@"."] : nil;
-}
 
 NSArray *RKArrayOfFetchRequestFromBlocksWithURL(NSArray *fetchRequestBlocks, NSURL *URL)
 {
@@ -289,6 +332,87 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
     return URL;
 }
 
+static NSSet *RKGatherManagedObjectsFromObjectWithRelationshipMapping(id object, RKRelationshipMapping *relationshipMapping)
+{
+    NSMutableSet *managedObjects = [NSMutableSet set];
+    NSSet *relationshipValue = RKFlattenCollectionToSet([object valueForKeyPath:relationshipMapping.destinationKeyPath]);
+    for (id relatedObject in relationshipValue) {
+        if ([relatedObject isKindOfClass:[NSManagedObject class]]) [managedObjects addObject:relatedObject];
+        
+        if ([relationshipMapping.mapping isKindOfClass:[RKObjectMapping class]]) {
+            for (RKRelationshipMapping *childRelationshipMapping in [(RKObjectMapping *)relationshipMapping.mapping relationshipMappings]) {
+                [managedObjects unionSet:RKGatherManagedObjectsFromObjectWithRelationshipMapping(relatedObject, childRelationshipMapping)];
+            }
+        } else if ([relationshipMapping.mapping isKindOfClass:[RKDynamicMapping class]]) {
+            for (RKObjectMapping *objectMapping in [(RKDynamicMapping *)relationshipMapping.mapping objectMappings]) {
+                @try {
+                    for (RKRelationshipMapping *childRelationshipMapping in objectMapping.relationshipMappings) {
+                        [managedObjects unionSet:RKGatherManagedObjectsFromObjectWithRelationshipMapping(relatedObject, childRelationshipMapping)];
+                    }
+                }
+                @catch (NSException *exception) {
+                    continue;
+                }
+            }
+        }
+    }
+    return managedObjects;
+}
+
+static NSSet *RKManagedObjectsFromObjectWithMappingInfo(id object, RKMappingInfo *mappingInfo)
+{
+    NSMutableSet *managedObjects = [NSMutableSet set];
+    
+    if ([mappingInfo.objectMapping isKindOfClass:[RKEntityMapping class]]) {
+        [managedObjects unionSet:RKFlattenCollectionToSet(object)];
+    }
+    
+    if ([[mappingInfo propertyMappings] count] == 0) {
+        // This object was matched, but no changes were made. Gather all related objects
+        for (RKRelationshipMapping *relationshipMapping in [mappingInfo.objectMapping relationshipMappings]) {
+            [managedObjects unionSet:RKGatherManagedObjectsFromObjectWithRelationshipMapping(object, relationshipMapping)];
+        }
+    } else {    
+        for (NSString *destinationKeyPath in mappingInfo.relationshipMappingInfo) {
+            id relationshipValue = [object valueForKeyPath:destinationKeyPath];
+            NSArray *mappingInfos = [mappingInfo.relationshipMappingInfo objectForKey:destinationKeyPath];
+            for (RKMappingInfo *relationshipMappingInfo in mappingInfos) {
+                NSUInteger index = [mappingInfos indexOfObject:relationshipMappingInfo];
+                id mappedObjectAtIndex = ([relationshipValue respondsToSelector:@selector(objectAtIndex:)]) ? [NSSet setWithObject:[relationshipValue objectAtIndex:index]] : relationshipValue;
+                [managedObjects unionSet:RKFlattenCollectionToSet(RKManagedObjectsFromObjectWithMappingInfo(mappedObjectAtIndex, relationshipMappingInfo))];
+            }
+        }
+    }
+    
+    return ([managedObjects count]) ? managedObjects : nil;
+}
+
+static NSSet *RKManagedObjectsFromMappingResultWithMappingInfo(RKMappingResult *mappingResult, NSDictionary *mappingInfo)
+{
+    NSMutableSet *managedObjectsInMappingResult = nil;
+    NSDictionary *mappingResultDictionary = [mappingResult dictionary];
+
+    for (id rootKey in mappingInfo) {
+        NSArray *mappingInfoArray = [mappingInfo objectForKey:rootKey];
+        id objectsAtRoot = [mappingResultDictionary objectForKey:rootKey];
+        for (RKMappingInfo *mappingInfo in mappingInfoArray) {
+            NSUInteger index = [mappingInfoArray indexOfObject:mappingInfo];
+            id mappedObjectAtIndex = ([objectsAtRoot respondsToSelector:@selector(objectAtIndex:)]) ? [NSSet setWithObject:[objectsAtRoot objectAtIndex:index]] : objectsAtRoot;
+            
+            NSSet *managedObjects = RKManagedObjectsFromObjectWithMappingInfo(mappedObjectAtIndex, mappingInfo);
+            if (managedObjects) {
+                if (! managedObjectsInMappingResult) managedObjectsInMappingResult = [NSMutableSet set];
+                [managedObjectsInMappingResult unionSet:managedObjects];
+            }
+        }
+    };
+
+    return managedObjectsInMappingResult;
+}
+
+// Defined in RKObjectManager.h
+BOOL RKDoesArrayOfResponseDescriptorsContainOnlyEntityMappings(NSArray *responseDescriptors);
+
 @interface RKManagedObjectRequestOperation ()
 // Core Data specific
 @property (nonatomic, strong) NSManagedObjectContext *privateContext;
@@ -297,12 +421,17 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
 @property (nonatomic, strong, readwrite) NSError *error;
 @property (nonatomic, strong, readwrite) RKMappingResult *mappingResult;
 @property (nonatomic, copy) id (^willMapDeserializedResponseBlock)(id deserializedResponseBody);
-@property (nonatomic, strong) NSArray *entityMappingEvents;
+@property (nonatomic, strong) NSDictionary *mappingInfo;
+@property (nonatomic, strong) NSCachedURLResponse *cachedResponse;
+@property (nonatomic, readonly) BOOL canSkipMapping;
+@property (nonatomic, assign) BOOL hasMemoizedCanSkipMapping;
+@property (nonatomic, copy) void (^willSaveMappingContextBlock)(NSManagedObjectContext *mappingContext);
 @end
 
 @implementation RKManagedObjectRequestOperation
 
 @dynamic willMapDeserializedResponseBlock;
+@synthesize canSkipMapping = _canSkipMapping;
 
 // Designated initializer
 - (id)initWithHTTPRequestOperation:(RKHTTPRequestOperation *)requestOperation responseDescriptors:(NSArray *)responseDescriptors
@@ -311,8 +440,20 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
     if (self) {
         self.savesToPersistentStore = YES;
         self.deletesOrphanedObjects = YES;
+        self.cachedResponse = [[NSURLCache sharedURLCache] cachedResponseForRequest:requestOperation.request];
     }
     return self;
+}
+
+/**
+ NOTE: This dealloc implementation attempts to avoid crashes coming from Core Data due to the ordering of deallocations under ARC. If the MOC is deallocated before its managed objects, it can trigger a crash. We dispose of the mapping result and reset the private context to avoid this situation. The crash manifests itself in `cxx_destruct`
+ [sbw - 2/25/2013]
+ */
+- (void)dealloc
+{
+    _mappingResult = nil;
+    _responseMapperOperation = nil;
+    _privateContext = nil;
 }
 
 - (void)setTargetObject:(id)targetObject
@@ -338,6 +479,28 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
     _managedObjectContext = managedObjectContext;
 
     if (managedObjectContext) {
+        [managedObjectContext performBlockAndWait:^{
+            if ([managedObjectContext hasChanges]) {
+                if ([managedObjectContext.insertedObjects count] && [self.managedObjectCache respondsToSelector:@selector(didCreateObject:)]) {
+                    for (NSManagedObject *managedObject in managedObjectContext.insertedObjects) {
+                        [self.managedObjectCache didCreateObject:managedObject];
+                    }
+                }
+                
+                if ([managedObjectContext.updatedObjects count] && [self.managedObjectCache respondsToSelector:@selector(didFetchObject:)]) {
+                    for (NSManagedObject *managedObject in managedObjectContext.updatedObjects) {
+                        [self.managedObjectCache didFetchObject:managedObject];
+                    }
+                }
+                
+                if ([managedObjectContext.deletedObjects count] && [self.managedObjectCache respondsToSelector:@selector(didDeleteObject:)]) {
+                    for (NSManagedObject *managedObject in managedObjectContext.deletedObjects) {
+                        [self.managedObjectCache didDeleteObject:managedObject];
+                    }
+                }
+            }
+        }];
+        
         // Create a private context
         NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         [privateContext setParentContext:managedObjectContext];
@@ -357,12 +520,52 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
     [self.responseMapperOperation cancel];
 }
 
-- (RKMappingResult *)performMappingOnResponse:(NSError **)error
+// RKResponseHasBeenMappedCacheUserInfoKey is stored by RKObjectRequestOperation
+- (BOOL)canSkipMapping
 {
-    if (self.HTTPRequestOperation.wasNotModified) {
-        RKLogDebug(@"Managed object mapping requested for cached response: skipping mapping...");
-        NSURL *URL = RKRelativeURLFromURLAndResponseDescriptors(self.HTTPRequestOperation.response.URL, self.responseDescriptors);
-        NSArray *fetchRequests = RKArrayOfFetchRequestFromBlocksWithURL(self.fetchRequestBlocks, URL);
+    BOOL (^shouldSkipMapping)(void) = ^{
+        // Is the request cacheable
+        if (!self.cachedResponse) return NO;
+        if (!self.managedObjectCache) return NO;
+        NSURLRequest *request = self.HTTPRequestOperation.request;
+        if (! [[request HTTPMethod] isEqualToString:@"GET"] && ! [[request HTTPMethod] isEqualToString:@"HEAD"]) return NO;
+        NSHTTPURLResponse *response = (NSHTTPURLResponse *)self.HTTPRequestOperation.response;
+        if (! [RKCacheableStatusCodes() containsIndex:response.statusCode]) return NO;
+        
+        // Check if all the response descriptors are backed by Core Data
+        NSMutableArray *matchingResponseDescriptors = [NSMutableArray array];
+        for (RKResponseDescriptor *responseDescriptor in self.responseDescriptors) {
+            if ([responseDescriptor matchesResponse:response]) [matchingResponseDescriptors addObject:responseDescriptor];
+        }
+        if (! RKDoesArrayOfResponseDescriptorsContainOnlyEntityMappings(matchingResponseDescriptors)) return NO;
+
+        // Check for a change in the Etag
+        NSString *cachedEtag = [[(NSHTTPURLResponse *)[self.cachedResponse response] allHeaderFields] objectForKey:@"Etag"];
+        NSString *responseEtag = [[response allHeaderFields] objectForKey:@"Etag"];
+        if (! [cachedEtag isEqualToString:responseEtag]) return NO;
+        
+        // Response data has changed
+        NSData *responseData = self.HTTPRequestOperation.responseData;
+        if (! [responseData isEqualToData:[self.cachedResponse data]]) return NO;
+        
+        // Check that we have mapped this response previously
+        NSCachedURLResponse *cachedResponse = [[NSURLCache sharedURLCache] cachedResponseForRequest:request];
+        return [[cachedResponse.userInfo objectForKey:RKResponseHasBeenMappedCacheUserInfoKey] boolValue];
+    };
+    
+    if (! self.hasMemoizedCanSkipMapping) {
+        _canSkipMapping = shouldSkipMapping();
+        self.hasMemoizedCanSkipMapping = YES;
+    }
+    return _canSkipMapping;
+}
+
+- (void)performMappingOnResponseWithCompletionBlock:(void(^)(RKMappingResult *mappingResult, NSError *error))completionBlock
+{
+    NSURL *URL = RKRelativeURLFromURLAndResponseDescriptors(self.HTTPRequestOperation.response.URL, self.responseDescriptors);
+    NSArray *fetchRequests = RKArrayOfFetchRequestFromBlocksWithURL(self.fetchRequestBlocks, URL);
+    if ([fetchRequests count] && [self canSkipMapping]) {
+        RKLogDebug(@"Managed object mapping requested for cached response which was previously mapped: skipping...");
         NSMutableArray *managedObjects = [NSMutableArray array];
         [self.privateContext performBlockAndWait:^{
             NSError *error = nil;
@@ -375,7 +578,9 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
                 }
             }
         }];
-        return [[RKMappingResult alloc] initWithDictionary:@{ [NSNull null]: managedObjects }];
+        RKMappingResult *mappingResult = [[RKMappingResult alloc] initWithDictionary:@{ [NSNull null]: managedObjects }];
+        completionBlock(mappingResult, nil);
+        return;
     }
 
     self.responseMapperOperation = [[RKManagedObjectResponseMapperOperation alloc] initWithRequest:self.HTTPRequestOperation.request
@@ -384,31 +589,63 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
                                                                                responseDescriptors:self.responseDescriptors];
     self.responseMapperOperation.mapperDelegate = self;
     self.responseMapperOperation.mappingMetadata = self.mappingMetadata;
+    self.responseMapperOperation.targetObject = self.targetObject;
     self.responseMapperOperation.targetObjectID = self.targetObjectID;
     self.responseMapperOperation.managedObjectContext = self.privateContext;
     self.responseMapperOperation.managedObjectCache = self.managedObjectCache;
     [self.responseMapperOperation setWillMapDeserializedResponseBlock:self.willMapDeserializedResponseBlock];
-    [self.responseMapperOperation setQueuePriority:[self queuePriority]];
+    [self.responseMapperOperation setQueuePriority:[self queuePriority]];    
+    __weak __typeof(&*self)weakSelf = self;
+    [self.responseMapperOperation setDidFinishMappingBlock:^(RKMappingResult *mappingResult, NSError *responseMappingError) {
+        if ([weakSelf isCancelled]) return completionBlock(mappingResult, responseMappingError);
+        
+        BOOL success;
+        NSError *error = nil;
+        
+        // Handle any cleanup
+        if (weakSelf.targetObjectID
+            && NSLocationInRange(weakSelf.HTTPRequestOperation.response.statusCode, RKStatusCodeRangeForClass(RKStatusCodeClassSuccessful))
+            && [[[weakSelf.HTTPRequestOperation.request HTTPMethod] uppercaseString] isEqualToString:@"DELETE"]) {
+            success = [weakSelf deleteTargetObject:&error];
+            if (! success || [weakSelf isCancelled]) {
+                return completionBlock(nil, error);
+            }
+        }
+        
+        success = [weakSelf deleteLocalObjectsMissingFromMappingResult:mappingResult error:&error];
+        if (! success || [weakSelf isCancelled]) {
+            return completionBlock(nil, error);
+        }
+        
+        // Persist our mapped objects
+        success = [weakSelf obtainPermanentObjectIDsForInsertedObjects:&error];
+        if (! success || [weakSelf isCancelled]) {
+            return completionBlock(nil, error);
+        }
+        
+        success = [weakSelf saveContext:&error];
+        if (! success || [weakSelf isCancelled]) {
+            return completionBlock(nil, error);
+        }
+        
+        // Refetch all managed objects nested at key paths within the results dictionary before returning
+        if (mappingResult) {
+            RKRefetchingMappingResult *refetchingMappingResult = [[RKRefetchingMappingResult alloc] initWithMappingResult:mappingResult
+                                                                                                     managedObjectContext:weakSelf.managedObjectContext
+                                                                                                              mappingInfo:weakSelf.mappingInfo];
+            return completionBlock((RKMappingResult *)refetchingMappingResult, nil);
+        }
+        completionBlock(nil, responseMappingError);
+    }];
     [[RKObjectRequestOperation responseMappingQueue] addOperation:self.responseMapperOperation];
-    [self.responseMapperOperation waitUntilFinished];
-    if ([self isCancelled]) return nil;
-    if (self.responseMapperOperation.error) {
-        if (error) *error = self.responseMapperOperation.error;
-        return nil;
-    }
-
-    return self.responseMapperOperation.mappingResult;
 }
 
-- (BOOL)deleteTargetObjectIfAppropriate:(NSError **)error
+- (BOOL)deleteTargetObject:(NSError **)error
 {
     __block BOOL _blockSuccess = YES;
 
-    if (self.targetObjectID
-        && NSLocationInRange(self.HTTPRequestOperation.response.statusCode, RKStatusCodeRangeForClass(RKStatusCodeClassSuccessful))
-        && [[[self.HTTPRequestOperation.request HTTPMethod] uppercaseString] isEqualToString:@"DELETE"]) {
-
-        // 2xx DELETE request, proceed with deletion from the MOC
+    if (self.targetObjectID) {
+        // 2xx/404/410 DELETE request, proceed with deletion from the MOC
         __block NSError *_blockError = nil;
         [self.privateContext performBlockAndWait:^{
             NSManagedObject *backgroundThreadObject = [self.privateContext existingObjectWithID:self.targetObjectID error:&_blockError];
@@ -427,7 +664,7 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
     return _blockSuccess;
 }
 
-- (NSSet *)localObjectsFromFetchRequestsMatchingRequestURL:(NSError **)error
+- (NSSet *)localObjectsFromFetchRequests:(NSArray *)fetchRequests matchingRequestURL:(NSError **)error
 {
     NSMutableSet *localObjects = [NSMutableSet set];    
     __block NSError *_blockError;
@@ -438,6 +675,8 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
     for (RKFetchRequestBlock fetchRequestBlock in [self.fetchRequestBlocks reverseObjectEnumerator]) {
         NSFetchRequest *fetchRequest = fetchRequestBlock(URL);
         if (fetchRequest) {
+            // Workaround for iOS 5 -- The log statement crashes if the entity is not assigned before logging
+            [fetchRequest setEntity:[[[[self.privateContext persistentStoreCoordinator] managedObjectModel] entitiesByName] objectForKey:[fetchRequest entityName]]];
             RKLogDebug(@"Found fetch request matching URL '%@': %@", URL, fetchRequest);
 
             [self.privateContext performBlockAndWait:^{
@@ -451,14 +690,31 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
             RKLogTrace(@"Fetched local objects matching URL '%@' with fetch request '%@': %@", URL, fetchRequest, _blockObjects);
             [localObjects addObjectsFromArray:_blockObjects];
         } else {
-            RKLogDebug(@"Fetch request block %@ returned nil fetch request for URL: '%@'", fetchRequestBlock, URL);
+            RKLogTrace(@"Fetch request block %@ returned nil fetch request for URL: '%@'", fetchRequestBlock, URL);
         }
     }
 
     return localObjects;
 }
 
-- (BOOL)deleteLocalObjectsMissingFromMappingResult:(NSError **)error
+- (NSArray *)fetchRequestsMatchingResponseURL
+{
+    // Pass the fetch request blocks a relative `NSURL` object if possible
+    NSMutableArray *fetchRequests = [NSMutableArray array];
+    NSURL *URL = RKRelativeURLFromURLAndResponseDescriptors(self.HTTPRequestOperation.response.URL, self.responseDescriptors);
+    for (RKFetchRequestBlock fetchRequestBlock in [self.fetchRequestBlocks reverseObjectEnumerator]) {
+        NSFetchRequest *fetchRequest = fetchRequestBlock(URL);
+        if (fetchRequest) {
+            // Workaround for iOS 5 -- The log statement crashes if the entity is not assigned before logging
+            [fetchRequest setEntity:[[[[self.privateContext persistentStoreCoordinator] managedObjectModel] entitiesByName] objectForKey:[fetchRequest entityName]]];
+            RKLogDebug(@"Found fetch request matching URL '%@': %@", URL, fetchRequest);
+            [fetchRequests addObject:fetchRequest];
+        }
+    }
+    return fetchRequests;
+}
+
+- (BOOL)deleteLocalObjectsMissingFromMappingResult:(RKMappingResult *)mappingResult error:(NSError **)error
 {
     if (! self.deletesOrphanedObjects) {
         RKLogDebug(@"Skipping deletion of orphaned objects: disabled as deletesOrphanedObjects=NO");
@@ -470,32 +726,34 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
         return YES;
     }
     
-    if (self.HTTPRequestOperation.wasNotModified) {
+    if ([self canSkipMapping]) {
         RKLogDebug(@"Skipping deletion of orphaned objects: 304 (Not Modified) status code encountered");
         return YES;
     }
-
-    // Build an aggregate collection of all the managed objects in the mapping result
-    NSMutableSet *managedObjectsInMappingResult = [NSMutableSet set];
-    NSDictionary *mappingResultDictionary = self.mappingResult.dictionary;
     
-    for (RKEntityMappingEvent *event in self.entityMappingEvents) {
-        id objectsAtRoot = [mappingResultDictionary objectForKey:event.rootKey];
-        id managedObjects = event.keyPath ? [objectsAtRoot valueForKeyPath:event.keyPath] : objectsAtRoot;
-        NSSet *flattenedSet = RKFlattenCollectionToSet(managedObjects);
-        [managedObjectsInMappingResult unionSet:flattenedSet];
+    // Determine if there are any fetch request blocks to use for orphaned object cleanup
+    NSArray *fetchRequests = [self fetchRequestsMatchingResponseURL];
+    if (! [fetchRequests count]) return YES;
+    
+    // Proceed with cleanup
+    NSSet *managedObjectsInMappingResult = RKManagedObjectsFromMappingResultWithMappingInfo(mappingResult, self.mappingInfo) ?: [NSSet set];
+    NSSet *localObjects = [self localObjectsFromFetchRequests:fetchRequests matchingRequestURL:error];
+    if (! localObjects) {
+        RKLogError(@"Failed when attempting to fetch local candidate objects for orphan cleanup: %@", error ? *error : nil);
+        return NO;
     }
-
-    NSSet *localObjects = [self localObjectsFromFetchRequestsMatchingRequestURL:error];
-    if (! localObjects) return NO;
     RKLogDebug(@"Checking mappings result of %ld objects for %ld potentially orphaned local objects...", (long) [managedObjectsInMappingResult count], (long) [localObjects count]);
-    for (id object in localObjects) {
-        if (NO == [managedObjectsInMappingResult containsObject:object]) {
-            RKLogDebug(@"Deleting orphaned object %@: not found in result set and expected at this URL", object);
-            [self.privateContext performBlockAndWait:^{
-                [self.privateContext deleteObject:object];
-            }];
-        }
+    
+    NSMutableSet *orphanedObjects = [localObjects mutableCopy];
+    [orphanedObjects minusSet:managedObjectsInMappingResult];
+    RKLogDebug(@"Deleting %lu orphaned objects found in local database, but missing from mapping result", (unsigned long) [orphanedObjects count]);
+    
+    if ([orphanedObjects count]) {
+        [self.privateContext performBlockAndWait:^{
+            for (NSManagedObject *orphanedObject in orphanedObjects) {
+                [self.privateContext deleteObject:orphanedObject];
+            }
+        }];
     }
 
     return YES;
@@ -554,7 +812,7 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
         }
     } else {
         if (error) *error = localError;
-        RKLogError(@"Failed saving managed object context %@ %@", (self.savesToPersistentStore ? @"to the persistent store" : @""),  context);
+        RKLogError(@"Failed saving managed object context %@ %@: %@", (self.savesToPersistentStore ? @"to the persistent store" : @""),  context, localError);
         RKLogCoreDataError(localError);
     }
 
@@ -563,11 +821,22 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
 
 - (BOOL)saveContext:(NSError **)error
 {
+    if (self.willSaveMappingContextBlock) {
+        [self.privateContext performBlockAndWait:^{
+            self.willSaveMappingContextBlock(self.privateContext);
+        }];
+    }
+    
     if ([self.privateContext hasChanges]) {
         return [self saveContext:self.privateContext error:error];
-    } else if ([self.targetObject isKindOfClass:[NSManagedObject class]] && [(NSManagedObject *)self.targetObject isNew]) {
+    } else if ([self.targetObject isKindOfClass:[NSManagedObject class]]) {
+        NSManagedObjectContext *context = [(NSManagedObject *)self.targetObject managedObjectContext];
+        __block BOOL isNew = NO;
+        [context performBlockAndWait:^{
+            isNew = [(NSManagedObject *)self.targetObject isNew];
+        }];
         // Object was like POST'd in an unsaved state and we wish to persist
-        return [self saveContext:[self.targetObject managedObjectContext] error:error];
+        if (isNew) [self saveContext:context error:error];
     }
 
     return YES;
@@ -587,63 +856,45 @@ static NSURL *RKRelativeURLFromURLAndResponseDescriptors(NSURL *URL, NSArray *re
     return _blockSuccess;;
 }
 
+- (void)mapperDidFinishMapping:(RKMapperOperation *)mapper
+{
+    self.mappingInfo = mapper.mappingInfo;
+}
+
 - (void)willFinish
 {
-    if ([self isCancelled]) return;
-    
-    BOOL success;
-    NSError *error = nil;
-
-    // Handle any cleanup
-    success = [self deleteTargetObjectIfAppropriate:&error];
-    if (! success || [self isCancelled]) {
-        self.error = error;
-        return;
-    }
-
-    success = [self deleteLocalObjectsMissingFromMappingResult:&error];
-    if (! success || [self isCancelled]) {
-        self.error = error;
-        return;
-    }
-
-    // Persist our mapped objects
-    success = [self obtainPermanentObjectIDsForInsertedObjects:&error];
-    if (! success || [self isCancelled]) {
-        self.error = error;
-        return;
-    }
-    success = [self saveContext:&error];
-    if (! success || [self isCancelled]) {
-        self.error = error;
-        return;
-    }
-    
-    // Refetch all managed objects nested at key paths within the results dictionary before returning
-    if (self.mappingResult) {
-        self.mappingResult = (RKMappingResult *)[[RKRefetchingMappingResult alloc] initWithMappingResult:self.mappingResult managedObjectContext:self.managedObjectContext entityMappingEvents:self.entityMappingEvents];
+    NSMutableIndexSet *deleteableStatusCodes = [NSMutableIndexSet indexSet];
+    [deleteableStatusCodes addIndex:404]; // Not Found
+    [deleteableStatusCodes addIndex:410]; // Gone
+    if (self.error && self.targetObjectID
+        && [[[self.HTTPRequestOperation.request HTTPMethod] uppercaseString] isEqualToString:@"DELETE"]
+        && [deleteableStatusCodes containsIndex:self.HTTPRequestOperation.response.statusCode]) {
+        NSError *error = nil;
+        if (! [self deleteTargetObject:&error]) {
+            RKLogWarning(@"Secondary error encountered while attempting to delete target object in response to 404 (Not Found) or 410 (Gone) status code: %@", error);
+            self.error = error;
+        } else {
+            if (! [self saveContext:&error]) {
+                
+            } else {
+                // All good, clear any errors
+                self.error = nil;
+            }
+        }
     }
 }
 
-- (void)mapperDidFinishMapping:(RKMapperOperation *)mapper
-{
-    NSMutableArray *entityMappingEvents = [NSMutableArray array];
-    [mapper.mappingInfo enumerateKeysAndObjectsUsingBlock:^(id rootKey, NSDictionary *keyPathsToPropertyMappings, BOOL *stop) {
-        [keyPathsToPropertyMappings enumerateKeysAndObjectsUsingBlock:^(NSString *keyPath, RKPropertyMapping *propertyMapping, BOOL *stop) {
-            if ([propertyMapping.objectMapping isKindOfClass:[RKEntityMapping class]]) {
-                // If the parent object mapping is an `RKEntityMapping`, add a mapping event at its keyPath
-                [entityMappingEvents addObject:[RKEntityMappingEvent eventWithRootKey:rootKey
-                                                                              keyPath:RKKeyPathByDeletingLastComponent(keyPath)
-                                                                        entityMapping:(RKEntityMapping *)propertyMapping.objectMapping]];
-            }
-            if ([propertyMapping isKindOfClass:[RKRelationshipMapping class]]) {
-                if ([[(RKRelationshipMapping *)propertyMapping mapping] isKindOfClass:[RKEntityMapping class]]) {
-                    [entityMappingEvents addObject:[RKEntityMappingEvent eventWithRootKey:rootKey keyPath:keyPath entityMapping:(RKEntityMapping *)[(RKRelationshipMapping *)propertyMapping mapping]]];
-                }
-            }
-        }];
-    }];    
-    self.entityMappingEvents = entityMappingEvents;
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    RKManagedObjectRequestOperation *operation = (RKManagedObjectRequestOperation *)[super copyWithZone:zone];
+    operation.managedObjectContext = self.managedObjectContext;
+    operation.managedObjectCache = self.managedObjectCache;
+    operation.fetchRequestBlocks = self.fetchRequestBlocks;
+    operation.deletesOrphanedObjects = self.deletesOrphanedObjects;
+    operation.savesToPersistentStore = self.savesToPersistentStore;
+    
+    return operation;
 }
 
 @end

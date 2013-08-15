@@ -20,9 +20,6 @@
 
 #import "RKRoute.h"
 
-// Wildcard matches on objects
-extern RKRequestMethod const RKRequestMethodAny;
-
 /**
  The `RKRouteSet` class provides for the storage and retrieval of `RKRoute` objects. Route objects are added and removed the route set to manipulate the routing table of the application.
 
@@ -41,6 +38,13 @@ extern RKRequestMethod const RKRequestMethodAny;
  @raises NSInvalidArgumentException Raised if the route already exists in the receiver or overlaps an existing name.
  */
 - (void)addRoute:(RKRoute *)route;
+
+/**
+ Adds all routes from the given array to the receiver. All objects within the given array must be an instance of `RKRoute` or else an `NSInvalidArgumentException` will be raised.
+ 
+ @param routes An array of `RKRoute` objects to be added to the receiver.
+ */
+- (void)addRoutes:(NSArray *)routes;
 
 /**
  Removes a route from the receiver.

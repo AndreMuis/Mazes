@@ -46,16 +46,16 @@
  
  To combat this repetition, a block can be designated to perform a transformation on source keys to produce corresponding destination keys:
  
-    [userMapping setDefaultSourceToDestinationKeyTransformationBlock:^NSString *(NSString *sourceKey) {
+    [userMapping setSourceToDestinationKeyTransformationBlock:^NSString *(RKObjectMapping *mapping, NSString *sourceKey) {
         // Value transformer compliments of TransformerKit (See https://github.com/mattt/TransformerKit)
-        return [[NSValueTransformer valueTransformerForName:TKLlamaCaseStringTransformerName] transformedValue:key];
+        return [[NSValueTransformer valueTransformerForName:TKLlamaCaseStringTransformerName] transformedValue:sourceKey];
     }];
  
  With the block configured, the original configuration can be changed into a simpler array based invocation:
  
     [userMapping addAttributeMappingsFromArray:@[ @"first_name", @"last_name", @"email_address" ]];
  
- Transformation blocks can be configured on a per-mapping basis or globally via `[RKObjectMapping setDefaultSourceToDestinationKeyTransformationBlock:]`.
+ Transformation blocks can be configured on a per-mapping basis via `setSourceToDestinationKeyTransformationBlock:` or globally via `[RKObjectMapping setDefaultSourceToDestinationKeyTransformationBlock:]`.
 
  @see `RKAttributeMapping`
  @see `RKRelationshipMapping`
@@ -159,7 +159,7 @@
 /**
  Adds an array of `RKAttributeMapping` or `RKRelationshipMapping` objects to the receiver.
 
- @param propertyMappings The array of property mappings to be added to the object mapping.
+ @param arrayOfPropertyMappings The array of property mappings to be added to the object mapping.
  */
 - (void)addPropertyMappingsFromArray:(NSArray *)arrayOfPropertyMappings;
 
@@ -182,7 +182,7 @@
 
  The array can contain `RKAttributeMapping` objects or `NSString` values. If an `NSString` is given, then a new `RKAttributeMapping` object is instantiated with a `sourceKeyPath` and `destinationKeyPath` equal to the string value.
 
- @param An array of `RKAttributeMapping` or `NSString` values to be added to the receiver's set of attribute mappings,
+ @param arrayOfAttributeNamesOrMappings An array of `RKAttributeMapping` or `NSString` values to be added to the receiver's set of attribute mappings,
  */
 - (void)addAttributeMappingsFromArray:(NSArray *)arrayOfAttributeNamesOrMappings;
 
@@ -231,8 +231,8 @@
 
      { "users":
          {
-             "blake": { "id": 1234, "email": "blake@restkit.org" },
-             "rachit": { "id": 5678", "email": "rachit@restkit.org" }
+             "blake": {  "id": 1234, "email": "blake@restkit.org" },
+             "rachit": { "id": 5678, "email": "rachit@restkit.org" }
          }
      }
 
@@ -325,6 +325,10 @@
  */
 @property (nonatomic, strong) NSFormatter *preferredDateFormatter;
 
+///----------------------------------
+/// @name Generating Inverse Mappings
+///----------------------------------
+
 /**
  Generates an inverse mapping for the rules specified within this object mapping. 
  
@@ -333,6 +337,15 @@
  @return A new mapping that will map the inverse of the receiver.
  */
 - (instancetype)inverseMapping;
+
+/**
+ Generates an inverse mapping with all property mappings of the receiver that pass the given test. Each `RKAttributeMapping` and `RKRelationshipMapping` added to the receiver is yielded to the block for evaluation. The block is also invoked for any nested relationships that are traversed during the inversion process.
+
+ @param predicate A block object to be invoked for each `RKPropertyMapping` that is considered for inversion. The block has a Boolean return value and accepts a single argument: the property mapping that is being evaluated for inversion.
+ @return A new mapping that will map the inverse of the receiver.
+ @see inverseMapping
+ */
+- (instancetype)inverseMappingWithPropertyMappingsPassingTest:(BOOL (^)(RKPropertyMapping *propertyMapping))predicate;
 
 ///---------------------------------------------------
 /// @name Obtaining Information About the Target Class
@@ -353,7 +366,7 @@
 
  Given a key path to a string property, this will return an `NSString`, etc.
 
- @param propertyName The name of the property we would like to retrieve the type of.
+ @param keyPath The name of the property we would like to retrieve the type of.
  @return The class of the property at the given key path.
  */
 - (Class)classForKeyPath:(NSString *)keyPath;
@@ -400,7 +413,6 @@
 
  @param dateFormatString The dateFormat string to assign to the newly constructed `NSDateFormatter` instance
  @param nilOrTimeZone The NSTimeZone object to configure on the `NSDateFormatter` instance. Defaults to UTC time.
- @return A new `NSDateFormatter` will be prepended to the `defaultDateFormatters` with the specified date format and time zone
  @see `NSDateFormatter`
  */
 + (void)addDefaultDateFormatterForString:(NSString *)dateFormatString inTimeZone:(NSTimeZone *)nilOrTimeZone;
