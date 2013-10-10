@@ -10,8 +10,11 @@
 
 @interface MACloud : NSObject
 
-@property (strong, nonatomic) NSString *currentUserObjectId;
+@property (readonly, assign, nonatomic) BOOL isAvailable;
 
-+ (MACloud *)shared;
+@property (readwrite, strong, nonatomic) NSString *username;
+@property (readwrite, strong, nonatomic) NSString *password;
+
+- (void)clear;
 
 @end

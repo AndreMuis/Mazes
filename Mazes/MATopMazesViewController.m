@@ -8,68 +8,81 @@
 
 #import "MATopMazesViewController.h"
 
-#import "ActivityViewStyle.h"
-#import "AppDelegate.h"
-#import "CreateViewController.h"
-#import "EditViewController.h"
-#import "GameViewController.h"
-
-#import "MAEvents.h"
-#import "MAEvent.h"
+#import "MAActivityViewStyle.h"
+#import "MAConstants.h"
+#import "MACreateViewController.h"
+#import "MAEditViewController.h"
+#import "MAGameViewController.h"
+#import "MAMainListViewStyle.h"
 #import "MAMainViewController.h"
 #import "MAMazeManager.h"
 #import "MAMaze.h"
 #import "MAMazeRating.h"
+#import "MARatingView.h"
+#import "MASoundManager.h"
+#import "MAStyles.h"
 #import "MATextureManager.h"
 #import "MATopMazeItem.h"
 #import "MATopMazeTableViewCell.h"
 #import "MATopMazesViewController.h"
-#import "MAUserManager.h"
-#import "MAUser.h"
 #import "MAUtilities.h"
 
-#import "RatingView.h"
-#import "Styles.h"
+@interface MATopMazesViewController () <UITableViewDataSource, UITableViewDelegate>
 
-@interface MATopMazesViewController ()
+@property (readonly, strong, nonatomic) AMFatFractal *amFatFractal;
+
+@property (readonly, strong, nonatomic) MAConstants *constants;
+@property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
+@property (readonly, strong, nonatomic) MASoundManager *soundManager;
+@property (readonly, strong, nonatomic) MAStyles *styles;
+@property (readonly, strong, nonatomic) MATextureManager *textureManager;
+
+@property (readonly, strong, nonatomic) ADBannerView *bannerView;
 
 @property (assign, nonatomic) int selectedSegmentIndex;
-
 @property (assign, nonatomic) BOOL viewAppearingFirstTime;
+@property (readonly, strong, nonatomic) NSString *topMazeCellIdentifier;
+@property (readonly, strong, nonatomic) NSArray *currentTopMazeItems;
 
-@property (strong, nonatomic) NSString *topMazeCellIdentifier;
+@property (weak, nonatomic) IBOutlet UIImageView *highestRatedImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *newestImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *yoursImageView;
 
-@property (strong, nonatomic, readonly) NSArray *currentTopMazeItems;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+
+@property (weak, nonatomic) IBOutlet UIImageView *createImageView;
+@property (weak, nonatomic) IBOutlet UIButton *createButton;
 
 @end
 
 @implementation MATopMazesViewController
 
-+ (MATopMazesViewController *)shared
+- (id)initWithAMFatFractal: (AMFatFractal *)amFatFractal
+                 constants: (MAConstants *)constants
+               mazeManager: (MAMazeManager *)mazeManager
+            textureManager: (MATextureManager *)textureManager
+              soundManager: (MASoundManager *)soundManager
+                    styles: (MAStyles *)styles
+                bannerView: (ADBannerView *)bannerView;
 {
-	static MATopMazesViewController *instance = nil;
-	
-	@synchronized(self)
-	{
-		if (instance == nil)
-		{
-			instance = [[MATopMazesViewController alloc] initWithNibName: @"MainListViewController" bundle: nil];
-		}
-	}
-	
-	return instance;
-}
-
-- (id)initWithNibName: (NSString *)nibNameOrNil bundle: (NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName: nibNameOrNil bundle: nibBundleOrNil];
+    self = [[MATopMazesViewController alloc] initWithNibName: NSStringFromClass([self class]) bundle: nil];
     
     if (self)
     {
+        _amFatFractal = amFatFractal;
+        
+        _constants = constants;
+        _mazeManager = mazeManager;
+        _soundManager = soundManager;
+        _styles = styles;
+        _textureManager = textureManager;
+        
+        _bannerView = bannerView;
+
         _selectedSegmentIndex = 0;
-        
         _viewAppearingFirstTime = YES;
-        
         _topMazeCellIdentifier = @"TopMazeTableViewCell";
     }
     
@@ -81,15 +94,15 @@
     switch (self.selectedSegmentIndex)
     {
         case 0:
-            return [MAMazeManager shared].highestRatedTopMazeItems;
+            return self.mazeManager.highestRatedTopMazeItems;
             break;
             
         case 1:
-            return [MAMazeManager shared].newestTopMazeItems;
+            return self.mazeManager.newestTopMazeItems;
             break;
             
         case 2:
-            return [MAMazeManager shared].yoursTopMazeItems;
+            return self.mazeManager.yoursTopMazeItems;
             break;
             
         default:
@@ -103,9 +116,8 @@
 {
 	[super viewDidLoad];
 	
-	self.tableView.backgroundColor = [Styles shared].mainListView.tableBackgroundColor;
-
-    self.activityIndicatorView.color = [Styles shared].activityView.color;
+	self.tableView.backgroundColor = self.styles.mainListView.tableBackgroundColor;
+    self.activityIndicatorView.color = self.styles.activityView.color;
 }
 
 - (void)viewWillAppear: (BOOL)animated
@@ -120,54 +132,136 @@
     
     if (self.movingToParentViewController == YES || self.viewAppearingFirstTime == YES)
     {
-        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-
-        if ([appDelegate.bannerView isDescendantOfView: self.view] == NO)
+        if ([self.bannerView isDescendantOfView: self.view] == NO)
         {
-            appDelegate.bannerView.frame = CGRectMake(appDelegate.bannerView.frame.origin.x,
-                                                      self.tableView.frame.origin.y + self.tableView.frame.size.height,
-                                                      appDelegate.bannerView.frame.size.width,
-                                                      appDelegate.bannerView.frame.size.height);
+            self.bannerView.frame = CGRectMake(self.bannerView.frame.origin.x,
+                                               self.tableView.frame.origin.y + self.tableView.frame.size.height,
+                                               self.bannerView.frame.size.width,
+                                               self.bannerView.frame.size.height);
             
-            [self.view addSubview: appDelegate.bannerView];
+            [self.view addSubview: self.bannerView];
         }
     }
     
-    [[MAMazeManager shared] addObserver: self
-                             forKeyPath: @"highestRatedTopMazeItems"
-                                options: (NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew)
-                                context: NULL];
-    
-    [[MAMazeManager shared] addObserver: self
-                             forKeyPath: @"newestTopMazeItems"
-                                options: (NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew)
-                                context: NULL];
-
-    [[MAMazeManager shared] addObserver: self
-                             forKeyPath: @"yoursTopMazeItems"
-                                options: (NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew)
-                                context: NULL];
-
     self.viewAppearingFirstTime = NO;
 }
 
-- (void)observeValueForKeyPath: (NSString *)keyPath ofObject: (id)object change: (NSDictionary *)change context: (void *)context
+- (void)downloadTopMazeItems
 {
-    if (object == [MAMazeManager shared] &&
-        ([keyPath isEqualToString: @"highestRatedTopMazeItems"] == YES ||
-         [keyPath isEqualToString: @"newestTopMazeItems"] == YES ||
-         [keyPath isEqualToString: @"yoursTopMazeItems"] == YES))
-    {
-        if (([keyPath isEqualToString: @"highestRatedTopMazeItems"] == YES && self.selectedSegmentIndex == 0) ||
-            ([keyPath isEqualToString: @"newestTopMazeItems"] == YES && self.selectedSegmentIndex == 1) ||
-            ([keyPath isEqualToString: @"yoursTopMazeItems"] == YES && self.selectedSegmentIndex == 2))
-        
-        {
-            [self.tableView reloadData];
-        }
+    [self downloadHighestRatedTopMazeItems];
+}
 
-        [self refreshActivityIndicatorView];
-        [self downloadOtherMazes];
+- (void)downloadHighestRatedTopMazeItems
+{
+    if (self.mazeManager.isDownloadingHighestRatedMazes == NO)
+    {
+        NSLog(@"downloading highest rated");
+
+        [self.mazeManager getHighestRatedMazesWithCompletionHandler: ^
+        {
+            NSLog(@"downloaded highest rated");
+
+            if (self.selectedSegmentIndex == 0)
+            {
+                [self.tableView reloadData];
+                [self refreshActivityIndicatorView];
+            }
+
+            [self downloadOtherMazes];
+        }];
+    }
+}
+
+- (void)downloadNewestTopMazeItems
+{
+    if (self.mazeManager.isDownloadingNewestMazes == NO)
+    {
+        NSLog(@"downloading newest");
+
+        [self.mazeManager getNewestMazesWithCompletionHandler: ^
+        {
+            NSLog(@"downloaded newest");
+
+            if (self.selectedSegmentIndex == 1)
+            {
+                [self.tableView reloadData];
+                [self refreshActivityIndicatorView];
+            }
+
+            [self downloadOtherMazes];
+        }];
+    }
+}
+
+- (void)downloadYoursTopMazeItems
+{
+    if (self.mazeManager.isDownloadingYoursMazes == NO)
+    {
+        NSLog(@"downloading yours");
+
+        [self.mazeManager getYoursMazesWithCompletionHandler: ^
+        {
+            NSLog(@"downloaded yours");
+
+            if (self.selectedSegmentIndex == 2)
+            {
+                [self.tableView reloadData];
+                [self refreshActivityIndicatorView];
+            }
+            
+            [self downloadOtherMazes];
+        }];
+    }
+}
+
+- (void)downloadOtherMazes
+{
+    if (self.mazeManager.highestRatedTopMazeItems == nil)
+    {
+        NSLog(@"downloading other highest rated");
+        
+        [self.mazeManager getHighestRatedMazesWithCompletionHandler: ^
+         {
+             NSLog(@"downloaded other highest rated");
+
+             if (self.selectedSegmentIndex == 0)
+             {
+                 [self.tableView reloadData];
+                 [self refreshActivityIndicatorView];
+             }
+         }];
+    }
+    
+    if (self.mazeManager.newestTopMazeItems == nil)
+    {
+        NSLog(@"downloading other newest");
+        
+        [self.mazeManager getNewestMazesWithCompletionHandler: ^
+         {
+             NSLog(@"downloaded other newest");
+             
+             if (self.selectedSegmentIndex == 1)
+             {
+                 [self.tableView reloadData];
+                 [self refreshActivityIndicatorView];
+             }
+         }];
+    }
+    
+    if (self.mazeManager.yoursTopMazeItems == nil)
+    {
+        NSLog(@"downloading other yours");
+        
+        [self.mazeManager getYoursMazesWithCompletionHandler: ^
+         {
+             NSLog(@"downloaded other yours");
+             
+             if (self.selectedSegmentIndex == 2)
+             {
+                 [self.tableView reloadData];
+                 [self refreshActivityIndicatorView];
+             }
+         }];
     }
 }
 
@@ -178,8 +272,10 @@
         self.selectedSegmentIndex = 0;
 		
         [self refreshSegments];
-        [self refreshCurrentMazes];
+        [self.tableView reloadData];
         [self refreshActivityIndicatorView];
+        
+        [self downloadHighestRatedTopMazeItems];
 	}
 }
 
@@ -190,8 +286,10 @@
         self.selectedSegmentIndex = 1;
 
 		[self refreshSegments];
-        [self refreshCurrentMazes];
+        [self.tableView reloadData];
         [self refreshActivityIndicatorView];
+
+        [self downloadNewestTopMazeItems];
 	}
 }
 
@@ -202,8 +300,10 @@
         self.selectedSegmentIndex = 2;
 
 		[self refreshSegments];
-        [self refreshCurrentMazes];
+        [self.tableView reloadData];
         [self refreshActivityIndicatorView];
+
+        [self downloadYoursTopMazeItems];
 	}
 }
 
@@ -237,94 +337,11 @@
     }
 }
 
-- (void)refreshCurrentMazes
-{
-    NSLog(@"refreshCurrentMazes");
-    
-    [self.tableView reloadData];
-    
-    switch (self.selectedSegmentIndex)
-    {
-        case 0:
-            if ([MAMazeManager shared].highestRatedTopMazeItems == nil || [MAMazeManager shared].isDownloadingHighestRatedMazes == NO)
-            {
-                NSLog(@"downloading highest rated");
-                
-                [[MAMazeManager shared] getHighestRatedMazesWithCompletionHandler: ^
-                {
-                    NSLog(@"downloaded highest rated");
-                }];
-            }
-            break;
-            
-        case 1:
-            if ([MAMazeManager shared].newestTopMazeItems == nil || [MAMazeManager shared].isDownloadingNewestMazes == NO)
-            {
-                NSLog(@"downloading newest");
-                
-                [[MAMazeManager shared] getNewestMazesWithCompletionHandler: ^
-                 {
-                     NSLog(@"downloaded newest");
-                 }];
-            }
-            break;
-            
-        case 2:
-            if ([MAMazeManager shared].yoursTopMazeItems == nil || [MAMazeManager shared].isDownloadingYoursMazes == NO)
-            {
-                NSLog(@"downloading yours");
-
-                [[MAMazeManager shared] getYoursMazesWithCompletionHandler: ^
-                 {
-                     NSLog(@"downloaded yours");
-                 }];
-            }
-            break;
-            
-        default:
-            [MAUtilities logWithClass: [self class] format: @"selectedSegmentIndex set to an illegal value: %d", self.selectedSegmentIndex];
-            break;
-    }
-}
-
-- (void)downloadOtherMazes
-{
-    if (self.selectedSegmentIndex != 0 && [MAMazeManager shared].highestRatedTopMazeItems == nil)
-    {
-        NSLog(@"downloading other highest rated");
-        
-        [[MAMazeManager shared] getHighestRatedMazesWithCompletionHandler: ^
-        {
-            NSLog(@"downloaded other highest rated");
-        }];
-    }
-
-    if (self.selectedSegmentIndex != 1 && [MAMazeManager shared].newestTopMazeItems == nil)
-    {
-        NSLog(@"downloading other newest");
-
-        [[MAMazeManager shared] getNewestMazesWithCompletionHandler: ^
-        {
-            NSLog(@"downloaded other newest");
-        }];
-    }
-    
-    if (self.selectedSegmentIndex != 2 && [MAMazeManager shared].yoursTopMazeItems == nil)
-    {
-        NSLog(@"downloading other yours");
-
-        [[MAMazeManager shared] getYoursMazesWithCompletionHandler: ^
-        {
-            NSLog(@"downloaded other yours");
-        }];
-    }
-}
-
 - (void)refreshActivityIndicatorView
 {
-    if ((self.selectedSegmentIndex == 0 && [MAMazeManager shared].highestRatedTopMazeItems == nil) ||
-        (self.selectedSegmentIndex == 1 && [MAMazeManager shared].newestTopMazeItems == nil) ||
-        (self.selectedSegmentIndex == 2 && [MAMazeManager shared].yoursTopMazeItems == nil))
+    if ((self.selectedSegmentIndex == 0 && self.mazeManager.highestRatedTopMazeItems == nil) ||
+        (self.selectedSegmentIndex == 1 && self.mazeManager.newestTopMazeItems == nil) ||
+        (self.selectedSegmentIndex == 2 && self.mazeManager.yoursTopMazeItems == nil))
     {
         self.activityIndicatorView.hidden = NO;
         [self.activityIndicatorView startAnimating];
@@ -378,7 +395,8 @@
         topMazeItem2 = [self.currentTopMazeItems objectAtIndex: 2 * indexPath.row + 1];
     }
     
-    [cell setupWithTopMazeItem1: topMazeItem1 topMazeItem2: topMazeItem2];
+    [cell setupWithTopMazeItem1: topMazeItem1
+                   topMazeItem2: topMazeItem2];
     
     return cell;
 }
@@ -393,70 +411,73 @@
 	{
         MATopMazeItem *topMazeItem = [self.currentTopMazeItems objectAtIndex: i];
         
-        [GameViewController shared].mazeObjectId = topMazeItem.maze.objectId;
+        self.gameViewController.maze = topMazeItem.maze;
+        [topMazeItem.maze decompressLocationsDataAndWallsData];
         
-        [[MAMainViewController shared] transitionFromViewController: self
-                                                   toViewController: [GameViewController shared]
-                                                         transition: MATransitionFlipFromLeft];
+        [self.mainViewController transitionFromViewController: self
+                                             toViewController: self.gameViewController
+                                                   transition: MATransitionFlipFromLeft];
     }
 }
 
 - (IBAction)createButtonTouchDown: (id)sender
 {
-    if ([EditViewController shared].maze == nil)
-    {
-        // [self getUserMaze];
-    }
-    else
-    {
-        if ([EditViewController shared].maze.locationCount == 0)
-        {
-            [[MAMainViewController shared] transitionFromViewController: self
-                                                       toViewController: [CreateViewController shared]
-                                                             transition: MATransitionCrossDissolve];
-        }
-        else
-        {
-            [[MAMainViewController shared] transitionFromViewController: self
-                                                       toViewController: [EditViewController shared]
-                                                             transition: MATransitionCrossDissolve];
-        }
-    }
-}
-
-- (void)serverOperationsGetMaze: (MAMaze *)maze error: (NSError *)error
-{
-    NSLog(@"maze = %@", maze);
+    [self.mazeManager cancelDownloads];
     
-    if (error == nil)
+    if ([self.mazeManager allUserMazes].count == 0)
     {
-        if (maze == nil)
+        [self.mazeManager getUserMazesWithCompletionHandler: ^
         {
-            [EditViewController shared].maze = [[MAMaze alloc] init];
+            if ([self.mazeManager allUserMazes].count == 0)
+            {
+                MAMaze *newMaze = [MAMaze newMazeWithCurrentUser: self.currentUser
+                                                            rows: self.constants.rowsMin
+                                                         columns: self.constants.columnsMin
+                                                 backgroundSound: nil
+                                                     wallTexture: [self.textureManager textureWithTextureId: self.constants.alternatingBrickTextureId]
+                                                    floorTexture: [self.textureManager textureWithTextureId: self.constants.lightSwirlMarbleTextureId]
+                                                  ceilingTexture: [self.textureManager textureWithTextureId: self.constants.creamyWhiteMarbleTextureId]];
+                
+                [self.mazeManager addMaze: newMaze];
+                
+                self.mazeManager.isFirstUserMazeSizeChosen = NO;
 
-            [EditViewController shared].maze.user = [MAUserManager shared].currentUser;
-            [EditViewController shared].maze.active = YES;
-            
-            [EditViewController shared].maze.wallTexture = [[MATextureManager shared] textureWithObjectId: @"1"];
-            [EditViewController shared].maze.floorTexture = [[MATextureManager shared] textureWithObjectId: @"20"];
-            [EditViewController shared].maze.ceilingTexture = [[MATextureManager shared] textureWithObjectId: @"15"];
-            
-            [[MAMainViewController shared] transitionFromViewController: self
-                                                       toViewController: [CreateViewController shared]
-                                                             transition: MATransitionCrossDissolve];
-        }
-        else
-        {
-            [EditViewController shared].maze = maze;
-
-            [[MAMainViewController shared] transitionFromViewController: self
-                                                       toViewController: [EditViewController shared]
-                                                             transition: MATransitionCrossDissolve];
-        }
+                self.createViewController.maze = self.mazeManager.firstUserMaze;
+                
+                [self.mainViewController transitionFromViewController: self
+                                                     toViewController: self.createViewController
+                                                           transition: MATransitionCrossDissolve];
+            }
+            else
+            {
+                self.mazeManager.isFirstUserMazeSizeChosen = YES;
+                
+                self.editViewController.maze = self.mazeManager.firstUserMaze;
+                
+                [self.mainViewController transitionFromViewController: self
+                                                     toViewController: self.editViewController
+                                                           transition: MATransitionCrossDissolve];
+            }
+        }];
     }
     else
     {
-        [self performSelector: @selector(getUserMaze) withObject: nil afterDelay: [MAConstants shared].serverRetryDelaySecs];
+        if (self.mazeManager.isFirstUserMazeSizeChosen == NO)
+        {
+            self.createViewController.maze = self.mazeManager.firstUserMaze;
+
+            [self.mainViewController transitionFromViewController: self
+                                                 toViewController: self.createViewController
+                                                       transition: MATransitionCrossDissolve];
+        }
+        else
+        {
+            self.editViewController.maze = self.mazeManager.firstUserMaze;
+
+            [self.mainViewController transitionFromViewController: self
+                                                 toViewController: self.editViewController
+                                                       transition: MATransitionCrossDissolve];
+        }
     }
 }
 

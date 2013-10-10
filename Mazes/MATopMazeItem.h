@@ -12,16 +12,14 @@
 
 @interface MATopMazeItem : NSObject
 
-@property (assign, nonatomic) MAMaze *maze;
-@property (strong, nonatomic) NSString *mazeName;
-@property (assign, nonatomic) float averageRating;
-@property (assign, nonatomic) int ratingCount;
-@property (assign, nonatomic) BOOL userStarted;
-@property (assign, nonatomic) float userRating;
+@property (readwrite, assign, nonatomic) MAMaze *maze;
+@property (readwrite, strong, nonatomic) NSString *mazeName;
+@property (readwrite, assign, nonatomic) float averageRating;
+@property (readwrite, assign, nonatomic) int ratingCount;
+@property (readwrite, assign, nonatomic) BOOL userStarted;
+@property (readwrite, assign, nonatomic) float userRating;
 
-@property (strong, nonatomic) NSDate *updatedAt;
-@property (strong, nonatomic) NSString *updatedAtFormatted;
-
-- (id)initWithDictionary: (NSDictionary *)dictionary;
+@property (readwrite, strong, nonatomic) NSDate *modifiedAt;
+@property (readonly, strong, nonatomic) NSString *modifiedAtFormatted;
 
 @end

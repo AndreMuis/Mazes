@@ -10,6 +10,8 @@
 
 #import "MAViewController.h"
 
+@class MAStyles;
+
 typedef enum : int
 {
     MATransitionNone = 0,
@@ -28,7 +30,9 @@ typedef enum : int
 
 @interface MAMainViewController : MAViewController
 
-+ (MAMainViewController *)shared;
+@property (readwrite, strong, nonatomic) UIViewController *rootViewController;
+
+- (id)initWithStyles: (MAStyles *)styles;
 
 - (void)transitionFromViewController: (UIViewController *)fromViewController
                     toViewController: (UIViewController *)toViewController

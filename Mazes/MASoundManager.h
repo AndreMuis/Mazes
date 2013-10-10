@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import <AMFatFractal/AMFatFractal.h>
+
 @class MASound;
 
 typedef void (^SoundsDownloadCompletionHandler)();
@@ -16,14 +18,11 @@ typedef void (^SoundsDownloadCompletionHandler)();
 
 @property (assign, nonatomic, readonly) int count;
 
-+ (MASoundManager *)shared;
+- (id)initWithAMFatFractal: (AMFatFractal *)amFatFractal;
 
 - (void)downloadWithCompletionHandler: (SoundsDownloadCompletionHandler)handler;
-
 - (void)cancelDownload;
 
 - (NSArray *)sortedByName;
-
-- (MASound *)soundWithObjectId: (NSString *)objectId;
 
 @end

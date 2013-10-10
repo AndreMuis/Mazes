@@ -7,19 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		476EE451899B44D292F604E7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB012DB6A094990B0DD29FC /* libPods.a */; };
-		F42D06C017AF438F009026A9 /* MATest.m in Sources */ = {isa = PBXBuildFile; fileRef = F42D06BF17AF438F009026A9 /* MATest.m */; };
-		F4451BA117A4C84300D5DE73 /* MAVersionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F4451BA017A4C84300D5DE73 /* MAVersionManager.m */; };
+		423E315F4DB84BC7AEBA7375 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2739B721EF9C40EAA5260DC7 /* libPods.a */; };
 		F454E19216923CB5008D10C1 /* MAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F454E18F16923CB4008D10C1 /* MAEvent.m */; };
 		F454E19316923CB5008D10C1 /* MAEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = F454E19116923CB5008D10C1 /* MAEvents.m */; };
-		F45A4164154FAEC200B90753 /* MAVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = F45A4163154FAEC200B90753 /* MAVersion.m */; };
-		F49161FE167D1B6D00F4A346 /* MAUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F49161FD167D1B6D00F4A346 /* MAUser.m */; };
-		F49748031694DFD5009B200B /* MAMazeRating.m in Sources */ = {isa = PBXBuildFile; fileRef = F49748021694DFD0009B200B /* MAMazeRating.m */; };
-		F4974809169539E2009B200B /* RatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4974808169539DD009B200B /* RatingViewController.m */; };
+		F4974809169539E2009B200B /* MARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4974808169539DD009B200B /* MARatingViewController.m */; };
 		F497481116961B76009B200B /* MACloud.m in Sources */ = {isa = PBXBuildFile; fileRef = F497481016961B71009B200B /* MACloud.m */; };
-		F49FC75317A6C6B100AED5FD /* MAUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F49FC75217A6C6B100AED5FD /* MAUserManager.m */; };
-		F4A0E1DF15F5C96300151192 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A0E1DE15F5C96200151192 /* Settings.m */; };
+		F49ED74417FDA9CA00D9BABD /* MASize.m in Sources */ = {isa = PBXBuildFile; fileRef = F49ED74317FDA9CA00D9BABD /* MASize.m */; };
+		F49ED74717FDA9E200D9BABD /* MACoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = F49ED74617FDA9E200D9BABD /* MACoordinate.m */; };
+		F49ED74D17FDACAD00D9BABD /* MAWall.m in Sources */ = {isa = PBXBuildFile; fileRef = F49ED74C17FDACAD00D9BABD /* MAWall.m */; };
+		F49ED75017FE699F00D9BABD /* MAMapWall.m in Sources */ = {isa = PBXBuildFile; fileRef = F49ED74F17FE699F00D9BABD /* MAMapWall.m */; };
+		F49FADC817FF6174001E7980 /* MAMapLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = F49FADC717FF6174001E7980 /* MAMapLocation.m */; };
+		F49FADCC18059EA7001E7980 /* MATexturesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F49FADCB18059EA7001E7980 /* MATexturesViewController.xib */; };
+		F4A0E1DF15F5C96300151192 /* MASettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A0E1DE15F5C96200151192 /* MASettings.m */; };
+		F4A44A7017BD4E3F00AF63EB /* FFEF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A44A6F17BD4E3F00AF63EB /* FFEF.framework */; };
+		F4A6D06917FB6C610003D645 /* MALatestVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D05A17FB6C610003D645 /* MALatestVersion.m */; };
+		F4A6D06A17FB6C610003D645 /* MALocation.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D05C17FB6C610003D645 /* MALocation.m */; };
+		F4A6D06B17FB6C610003D645 /* MAMaze.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D05E17FB6C610003D645 /* MAMaze.m */; };
+		F4A6D06C17FB6C610003D645 /* MAMazeProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D06017FB6C610003D645 /* MAMazeProgress.m */; };
+		F4A6D06D17FB6C610003D645 /* MAMazeRating.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D06217FB6C610003D645 /* MAMazeRating.m */; };
+		F4A6D06E17FB6C610003D645 /* MASound.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D06417FB6C610003D645 /* MASound.m */; };
+		F4A6D06F17FB6C610003D645 /* MATexture.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D06617FB6C610003D645 /* MATexture.m */; };
+		F4A6D07017FB6C610003D645 /* MAUserCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D06817FB6C610003D645 /* MAUserCounter.m */; };
 		F4B953BA17B2A3C800FA106B /* MAMazeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B953B917B2A3C800FA106B /* MAMazeManager.m */; };
+		F4DC63C617FA376800A40DE8 /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F4DC63C517FA376800A40DE8 /* libbz2.dylib */; };
 		F4E4A9CA154CB92C006AA64D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9C9154CB92C006AA64D /* UIKit.framework */; };
 		F4E4A9CC154CB92C006AA64D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9CB154CB92C006AA64D /* Foundation.framework */; };
 		F4E4A9CE154CB92C006AA64D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9CD154CB92C006AA64D /* CoreGraphics.framework */; };
@@ -71,15 +81,15 @@
 		F4E4AA5B154CBB58006AA64D /* Submarine.caf in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AA4B154CBB58006AA64D /* Submarine.caf */; };
 		F4E4AA5C154CBB58006AA64D /* The Hour of Triumph.caf in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AA4C154CBB58006AA64D /* The Hour of Triumph.caf */; };
 		F4E4AA5D154CBB58006AA64D /* Wind.caf in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AA4D154CBB58006AA64D /* Wind.caf */; };
-		F4E4AA75154CBB64006AA64D /* ActivityViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA60154CBB64006AA64D /* ActivityViewStyle.m */; };
-		F4E4AA77154CBB64006AA64D /* EditViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA64154CBB64006AA64D /* EditViewStyle.m */; };
-		F4E4AA78154CBB64006AA64D /* EndAlertViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA66154CBB64006AA64D /* EndAlertViewStyle.m */; };
-		F4E4AA79154CBB64006AA64D /* GameViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA68154CBB64006AA64D /* GameViewStyle.m */; };
-		F4E4AA7A154CBB64006AA64D /* GridStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA6A154CBB64006AA64D /* GridStyle.m */; };
-		F4E4AA7B154CBB64006AA64D /* MapStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA6C154CBB64006AA64D /* MapStyle.m */; };
-		F4E4AA7C154CBB64006AA64D /* MainListViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA6E154CBB64006AA64D /* MainListViewStyle.m */; };
-		F4E4AA7D154CBB64006AA64D /* RatingViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA70154CBB64006AA64D /* RatingViewStyle.m */; };
-		F4E4AA7F154CBB64006AA64D /* Styles.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA74154CBB64006AA64D /* Styles.m */; };
+		F4E4AA75154CBB64006AA64D /* MAActivityViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA60154CBB64006AA64D /* MAActivityViewStyle.m */; };
+		F4E4AA77154CBB64006AA64D /* MAEditViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA64154CBB64006AA64D /* MAEditViewStyle.m */; };
+		F4E4AA78154CBB64006AA64D /* MAEndAlertViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA66154CBB64006AA64D /* MAEndAlertViewStyle.m */; };
+		F4E4AA79154CBB64006AA64D /* MAGameViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA68154CBB64006AA64D /* MAGameViewStyle.m */; };
+		F4E4AA7A154CBB64006AA64D /* MAGridStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA6A154CBB64006AA64D /* MAGridStyle.m */; };
+		F4E4AA7B154CBB64006AA64D /* MAMapStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA6C154CBB64006AA64D /* MAMapStyle.m */; };
+		F4E4AA7C154CBB64006AA64D /* MAMainListViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA6E154CBB64006AA64D /* MAMainListViewStyle.m */; };
+		F4E4AA7D154CBB64006AA64D /* MARatingViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA70154CBB64006AA64D /* MARatingViewStyle.m */; };
+		F4E4AA7F154CBB64006AA64D /* MAStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AA74154CBB64006AA64D /* MAStyles.m */; };
 		F4E4AAD7154CBB7B006AA64D /* Alternating Brick.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AA81154CBB7B006AA64D /* Alternating Brick.png */; };
 		F4E4AAD8154CBB7B006AA64D /* Alternating Brick.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AA82154CBB7B006AA64D /* Alternating Brick.pvrtc */; };
 		F4E4AAD9154CBB7B006AA64D /* Black.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AA83154CBB7B006AA64D /* Black.png */; };
@@ -167,30 +177,25 @@
 		F4E4AB2B154CBB7B006AA64D /* Yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AAD5154CBB7B006AA64D /* Yellow.png */; };
 		F4E4AB2C154CBB7B006AA64D /* Yellow.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AAD6154CBB7B006AA64D /* Yellow.pvrtc */; };
 		F4E4AB39154CBF4B006AA64D /* MAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB2E154CBC85006AA64D /* MAConstants.m */; };
-		F4E4AB3D154CBFBD006AA64D /* CreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB3B154CBFB7006AA64D /* CreateViewController.m */; };
-		F4E4AB3E154CBFBD006AA64D /* CreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AB3C154CBFBA006AA64D /* CreateViewController.xib */; };
-		F4E4AB4F154CC18D006AA64D /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB40154CC168006AA64D /* EditViewController.m */; };
-		F4E4AB50154CC193006AA64D /* EditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AB41154CC16C006AA64D /* EditViewController.xib */; };
-		F4E4AB51154CC198006AA64D /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB43154CC172006AA64D /* GameViewController.m */; };
-		F4E4AB52154CC19C006AA64D /* GameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AB44154CC175006AA64D /* GameViewController.xib */; };
-		F4E4AB54154CC1A6006AA64D /* GridView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB48154CC183006AA64D /* GridView.m */; };
-		F4E4AB5F154CC1F6006AA64D /* MALocation.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB56154CC1CF006AA64D /* MALocation.m */; };
-		F4E4AB61154CC1F6006AA64D /* MapSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB5A154CC1DF006AA64D /* MapSegment.m */; };
-		F4E4AB62154CC1F6006AA64D /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB5C154CC1E8006AA64D /* MapView.m */; };
-		F4E4AB63154CC1F6006AA64D /* MAMaze.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB5E154CC1F2006AA64D /* MAMaze.m */; };
-		F4E4AB71154CC26F006AA64D /* MazeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB65154CC231006AA64D /* MazeView.m */; };
-		F4E4AB72154CC26F006AA64D /* RatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AB66154CC238006AA64D /* RatingViewController.xib */; };
-		F4E4AB73154CC26F006AA64D /* RatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB68154CC242006AA64D /* RatingView.m */; };
-		F4E4AB74154CC26F006AA64D /* MASound.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB6A154CC24D006AA64D /* MASound.m */; };
+		F4E4AB3D154CBFBD006AA64D /* MACreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB3B154CBFB7006AA64D /* MACreateViewController.m */; };
+		F4E4AB3E154CBFBD006AA64D /* MACreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AB3C154CBFBA006AA64D /* MACreateViewController.xib */; };
+		F4E4AB4F154CC18D006AA64D /* MAEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB40154CC168006AA64D /* MAEditViewController.m */; };
+		F4E4AB50154CC193006AA64D /* MAEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AB41154CC16C006AA64D /* MAEditViewController.xib */; };
+		F4E4AB51154CC198006AA64D /* MAGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB43154CC172006AA64D /* MAGameViewController.m */; };
+		F4E4AB52154CC19C006AA64D /* MAGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AB44154CC175006AA64D /* MAGameViewController.xib */; };
+		F4E4AB54154CC1A6006AA64D /* MAGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB48154CC183006AA64D /* MAGridView.m */; };
+		F4E4AB62154CC1F6006AA64D /* MAMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB5C154CC1E8006AA64D /* MAMapView.m */; };
+		F4E4AB71154CC26F006AA64D /* MAMazeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB65154CC231006AA64D /* MAMazeView.m */; };
+		F4E4AB72154CC26F006AA64D /* MARatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AB66154CC238006AA64D /* MARatingViewController.xib */; };
+		F4E4AB73154CC26F006AA64D /* MARatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB68154CC242006AA64D /* MARatingView.m */; };
 		F4E4AB75154CC26F006AA64D /* MASoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB6C154CC257006AA64D /* MASoundManager.m */; };
-		F4E4AB77154CC26F006AA64D /* MATexture.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB70154CC26A006AA64D /* MATexture.m */; };
-		F4E4AB91154CC326006AA64D /* TexturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB7B154CC2C6006AA64D /* TexturesViewController.m */; };
+		F4E4AB91154CC326006AA64D /* MATexturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB7B154CC2C6006AA64D /* MATexturesViewController.m */; };
 		F4E4AB92154CC32C006AA64D /* MATopMazeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB7D154CC2D1006AA64D /* MATopMazeItem.m */; };
 		F4E4AB93154CC331006AA64D /* MATopMazeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB7F154CC2DF006AA64D /* MATopMazeTableViewCell.m */; };
 		F4E4AB94154CC33A006AA64D /* MATopMazesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB82154CC2F7006AA64D /* MATopMazesViewController.m */; };
 		F4E4AB95154CC33E006AA64D /* MATopMazesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AB83154CC2FF006AA64D /* MATopMazesViewController.xib */; };
 		F4E4AB96154CC344006AA64D /* MAUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB85154CC30B006AA64D /* MAUtilities.m */; };
-		F4E4AB99154CC3DA006AA64D /* GameHelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AB98154CC3D3006AA64D /* GameHelpViewController.xib */; };
+		F4E4AB99154CC3DA006AA64D /* MAGameHelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AB98154CC3D3006AA64D /* MAGameHelpViewController.xib */; };
 		F4E4AB9D154CD0DC006AA64D /* MATextureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4AB79154CC2B6006AA64D /* MATextureManager.m */; };
 		F4E4AB9E154CD0EA006AA64D /* MATopMazeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4AB80154CC2E7006AA64D /* MATopMazeTableViewCell.xib */; };
 		F4E4ABA4154CD21B006AA64D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABA3154CD20D006AA64D /* AVFoundation.framework */; };
@@ -198,14 +203,14 @@
 		F4E4ABA8154CD26B006AA64D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABA7154CD25E006AA64D /* OpenGLES.framework */; };
 		F4E4ABAA154CD28C006AA64D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABA9154CD283006AA64D /* QuartzCore.framework */; };
 		F4E4ABAC154CD2CB006AA64D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABAB154CD2BF006AA64D /* libxml2.dylib */; };
-		F4E4ABAF154CDC97006AA64D /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4ABAE154CDC93006AA64D /* Colors.m */; };
+		F4E4ABAF154CDC97006AA64D /* MAColors.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4ABAE154CDC93006AA64D /* MAColors.m */; };
 		F4E4ABEA154E349E006AA64D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABE9154E348F006AA64D /* CFNetwork.framework */; };
 		F4E4ABEC154E34BE006AA64D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABEB154E34AA006AA64D /* Security.framework */; };
 		F4E4ABEE154E34D2006AA64D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABED154E34C8006AA64D /* MobileCoreServices.framework */; };
 		F4E4ABF0154E34E7006AA64D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABEF154E34DA006AA64D /* SystemConfiguration.framework */; };
 		F4E4B9A4168E745800F6CCC3 /* MAMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4B9A2168E745800F6CCC3 /* MAMainViewController.m */; };
 		F4E4B9A5168E745800F6CCC3 /* MAMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E4B9A3168E745800F6CCC3 /* MAMainViewController.xib */; };
-		F4E4B9A8168E779600F6CCC3 /* MainViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4B9A7168E779600F6CCC3 /* MainViewStyle.m */; };
+		F4E4B9A8168E779600F6CCC3 /* MAMainViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4B9A7168E779600F6CCC3 /* MAMainViewStyle.m */; };
 		F4E4B9AB168E8BE500F6CCC3 /* MAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4B9AA168E8BE400F6CCC3 /* MAViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -220,33 +225,49 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		122A96D44809491DA9B335B4 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
-		2FB012DB6A094990B0DD29FC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		F42D06BE17AF438F009026A9 /* MATest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATest.h; sourceTree = "<group>"; };
-		F42D06BF17AF438F009026A9 /* MATest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATest.m; sourceTree = "<group>"; };
-		F4451B9F17A4C84300D5DE73 /* MAVersionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAVersionManager.h; sourceTree = "<group>"; };
-		F4451BA017A4C84300D5DE73 /* MAVersionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVersionManager.m; sourceTree = "<group>"; };
+		2739B721EF9C40EAA5260DC7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F454E18E16923CB4008D10C1 /* MAEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAEvent.h; sourceTree = "<group>"; };
 		F454E18F16923CB4008D10C1 /* MAEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAEvent.m; sourceTree = "<group>"; };
 		F454E19016923CB4008D10C1 /* MAEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAEvents.h; sourceTree = "<group>"; };
 		F454E19116923CB5008D10C1 /* MAEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAEvents.m; sourceTree = "<group>"; };
-		F45A4162154FAEC200B90753 /* MAVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAVersion.h; sourceTree = "<group>"; };
-		F45A4163154FAEC200B90753 /* MAVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAVersion.m; sourceTree = "<group>"; };
-		F49161FC167D1B6D00F4A346 /* MAUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAUser.h; sourceTree = "<group>"; };
-		F49161FD167D1B6D00F4A346 /* MAUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAUser.m; sourceTree = "<group>"; };
-		F49748011694DFCD009B200B /* MAMazeRating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMazeRating.h; sourceTree = "<group>"; };
-		F49748021694DFD0009B200B /* MAMazeRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMazeRating.m; sourceTree = "<group>"; };
-		F4974807169539DA009B200B /* RatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingViewController.h; sourceTree = "<group>"; };
-		F4974808169539DD009B200B /* RatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingViewController.m; sourceTree = "<group>"; };
+		F4974807169539DA009B200B /* MARatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MARatingViewController.h; sourceTree = "<group>"; };
+		F4974808169539DD009B200B /* MARatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MARatingViewController.m; sourceTree = "<group>"; };
 		F497480E16960F67009B200B /* Mazes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Mazes.entitlements; sourceTree = "<group>"; };
 		F497480F16961B6D009B200B /* MACloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACloud.h; sourceTree = "<group>"; };
 		F497481016961B71009B200B /* MACloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MACloud.m; sourceTree = "<group>"; };
-		F49FC75117A6C6B000AED5FD /* MAUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAUserManager.h; sourceTree = "<group>"; };
-		F49FC75217A6C6B100AED5FD /* MAUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAUserManager.m; sourceTree = "<group>"; };
-		F4A0E1DD15F5C96200151192 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
-		F4A0E1DE15F5C96200151192 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
+		F49ED74217FDA9CA00D9BABD /* MASize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASize.h; path = Model/MASize.h; sourceTree = "<group>"; };
+		F49ED74317FDA9CA00D9BABD /* MASize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASize.m; path = Model/MASize.m; sourceTree = "<group>"; };
+		F49ED74517FDA9E200D9BABD /* MACoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MACoordinate.h; path = Model/MACoordinate.h; sourceTree = "<group>"; };
+		F49ED74617FDA9E200D9BABD /* MACoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MACoordinate.m; path = Model/MACoordinate.m; sourceTree = "<group>"; };
+		F49ED74B17FDACAD00D9BABD /* MAWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAWall.h; path = Model/MAWall.h; sourceTree = "<group>"; };
+		F49ED74C17FDACAD00D9BABD /* MAWall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAWall.m; path = Model/MAWall.m; sourceTree = "<group>"; };
+		F49ED74E17FE699F00D9BABD /* MAMapWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMapWall.h; sourceTree = "<group>"; };
+		F49ED74F17FE699F00D9BABD /* MAMapWall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMapWall.m; sourceTree = "<group>"; };
+		F49FADC617FF6174001E7980 /* MAMapLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMapLocation.h; sourceTree = "<group>"; };
+		F49FADC717FF6174001E7980 /* MAMapLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMapLocation.m; sourceTree = "<group>"; };
+		F49FADCB18059EA7001E7980 /* MATexturesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MATexturesViewController.xib; sourceTree = "<group>"; };
+		F4A0E1DD15F5C96200151192 /* MASettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASettings.h; sourceTree = "<group>"; };
+		F4A0E1DE15F5C96200151192 /* MASettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASettings.m; sourceTree = "<group>"; };
+		F4A44A6F17BD4E3F00AF63EB /* FFEF.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FFEF.framework; sourceTree = "<group>"; };
+		F4A6D05917FB6C610003D645 /* MALatestVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MALatestVersion.h; path = Model/MALatestVersion.h; sourceTree = "<group>"; };
+		F4A6D05A17FB6C610003D645 /* MALatestVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MALatestVersion.m; path = Model/MALatestVersion.m; sourceTree = "<group>"; };
+		F4A6D05B17FB6C610003D645 /* MALocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MALocation.h; path = Model/MALocation.h; sourceTree = "<group>"; };
+		F4A6D05C17FB6C610003D645 /* MALocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MALocation.m; path = Model/MALocation.m; sourceTree = "<group>"; };
+		F4A6D05D17FB6C610003D645 /* MAMaze.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMaze.h; path = Model/MAMaze.h; sourceTree = "<group>"; };
+		F4A6D05E17FB6C610003D645 /* MAMaze.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMaze.m; path = Model/MAMaze.m; sourceTree = "<group>"; };
+		F4A6D05F17FB6C610003D645 /* MAMazeProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMazeProgress.h; path = Model/MAMazeProgress.h; sourceTree = "<group>"; };
+		F4A6D06017FB6C610003D645 /* MAMazeProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMazeProgress.m; path = Model/MAMazeProgress.m; sourceTree = "<group>"; };
+		F4A6D06117FB6C610003D645 /* MAMazeRating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMazeRating.h; path = Model/MAMazeRating.h; sourceTree = "<group>"; };
+		F4A6D06217FB6C610003D645 /* MAMazeRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMazeRating.m; path = Model/MAMazeRating.m; sourceTree = "<group>"; };
+		F4A6D06317FB6C610003D645 /* MASound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASound.h; path = Model/MASound.h; sourceTree = "<group>"; };
+		F4A6D06417FB6C610003D645 /* MASound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASound.m; path = Model/MASound.m; sourceTree = "<group>"; };
+		F4A6D06517FB6C610003D645 /* MATexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MATexture.h; path = Model/MATexture.h; sourceTree = "<group>"; };
+		F4A6D06617FB6C610003D645 /* MATexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MATexture.m; path = Model/MATexture.m; sourceTree = "<group>"; };
+		F4A6D06717FB6C610003D645 /* MAUserCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAUserCounter.h; path = Model/MAUserCounter.h; sourceTree = "<group>"; };
+		F4A6D06817FB6C610003D645 /* MAUserCounter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAUserCounter.m; path = Model/MAUserCounter.m; sourceTree = "<group>"; };
 		F4B953B817B2A3C800FA106B /* MAMazeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMazeManager.h; sourceTree = "<group>"; };
 		F4B953B917B2A3C800FA106B /* MAMazeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMazeManager.m; sourceTree = "<group>"; };
+		F4DC63C517FA376800A40DE8 /* libbz2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.dylib; path = usr/lib/libbz2.dylib; sourceTree = SDKROOT; };
 		F4E4A9C5154CB92C006AA64D /* Mazes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mazes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E4A9C9154CB92C006AA64D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F4E4A9CB154CB92C006AA64D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -302,24 +323,24 @@
 		F4E4AA4B154CBB58006AA64D /* Submarine.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Submarine.caf; sourceTree = "<group>"; };
 		F4E4AA4C154CBB58006AA64D /* The Hour of Triumph.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "The Hour of Triumph.caf"; sourceTree = "<group>"; };
 		F4E4AA4D154CBB58006AA64D /* Wind.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Wind.caf; sourceTree = "<group>"; };
-		F4E4AA5F154CBB64006AA64D /* ActivityViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewStyle.h; sourceTree = "<group>"; };
-		F4E4AA60154CBB64006AA64D /* ActivityViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewStyle.m; sourceTree = "<group>"; };
-		F4E4AA63154CBB64006AA64D /* EditViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewStyle.h; sourceTree = "<group>"; };
-		F4E4AA64154CBB64006AA64D /* EditViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewStyle.m; sourceTree = "<group>"; };
-		F4E4AA65154CBB64006AA64D /* EndAlertViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndAlertViewStyle.h; sourceTree = "<group>"; };
-		F4E4AA66154CBB64006AA64D /* EndAlertViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndAlertViewStyle.m; sourceTree = "<group>"; };
-		F4E4AA67154CBB64006AA64D /* GameViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewStyle.h; sourceTree = "<group>"; };
-		F4E4AA68154CBB64006AA64D /* GameViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewStyle.m; sourceTree = "<group>"; };
-		F4E4AA69154CBB64006AA64D /* GridStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridStyle.h; sourceTree = "<group>"; };
-		F4E4AA6A154CBB64006AA64D /* GridStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridStyle.m; sourceTree = "<group>"; };
-		F4E4AA6B154CBB64006AA64D /* MapStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapStyle.h; sourceTree = "<group>"; };
-		F4E4AA6C154CBB64006AA64D /* MapStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapStyle.m; sourceTree = "<group>"; };
-		F4E4AA6D154CBB64006AA64D /* MainListViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainListViewStyle.h; sourceTree = "<group>"; };
-		F4E4AA6E154CBB64006AA64D /* MainListViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainListViewStyle.m; sourceTree = "<group>"; };
-		F4E4AA6F154CBB64006AA64D /* RatingViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingViewStyle.h; sourceTree = "<group>"; };
-		F4E4AA70154CBB64006AA64D /* RatingViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingViewStyle.m; sourceTree = "<group>"; };
-		F4E4AA73154CBB64006AA64D /* Styles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Styles.h; sourceTree = "<group>"; };
-		F4E4AA74154CBB64006AA64D /* Styles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Styles.m; sourceTree = "<group>"; };
+		F4E4AA5F154CBB64006AA64D /* MAActivityViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAActivityViewStyle.h; sourceTree = "<group>"; };
+		F4E4AA60154CBB64006AA64D /* MAActivityViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAActivityViewStyle.m; sourceTree = "<group>"; };
+		F4E4AA63154CBB64006AA64D /* MAEditViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAEditViewStyle.h; sourceTree = "<group>"; };
+		F4E4AA64154CBB64006AA64D /* MAEditViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAEditViewStyle.m; sourceTree = "<group>"; };
+		F4E4AA65154CBB64006AA64D /* MAEndAlertViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAEndAlertViewStyle.h; sourceTree = "<group>"; };
+		F4E4AA66154CBB64006AA64D /* MAEndAlertViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAEndAlertViewStyle.m; sourceTree = "<group>"; };
+		F4E4AA67154CBB64006AA64D /* MAGameViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGameViewStyle.h; sourceTree = "<group>"; };
+		F4E4AA68154CBB64006AA64D /* MAGameViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGameViewStyle.m; sourceTree = "<group>"; };
+		F4E4AA69154CBB64006AA64D /* MAGridStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGridStyle.h; sourceTree = "<group>"; };
+		F4E4AA6A154CBB64006AA64D /* MAGridStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGridStyle.m; sourceTree = "<group>"; };
+		F4E4AA6B154CBB64006AA64D /* MAMapStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMapStyle.h; sourceTree = "<group>"; };
+		F4E4AA6C154CBB64006AA64D /* MAMapStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMapStyle.m; sourceTree = "<group>"; };
+		F4E4AA6D154CBB64006AA64D /* MAMainListViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMainListViewStyle.h; sourceTree = "<group>"; };
+		F4E4AA6E154CBB64006AA64D /* MAMainListViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMainListViewStyle.m; sourceTree = "<group>"; };
+		F4E4AA6F154CBB64006AA64D /* MARatingViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MARatingViewStyle.h; sourceTree = "<group>"; };
+		F4E4AA70154CBB64006AA64D /* MARatingViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MARatingViewStyle.m; sourceTree = "<group>"; };
+		F4E4AA73154CBB64006AA64D /* MAStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAStyles.h; sourceTree = "<group>"; };
+		F4E4AA74154CBB64006AA64D /* MAStyles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAStyles.m; sourceTree = "<group>"; };
 		F4E4AA81154CBB7B006AA64D /* Alternating Brick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Alternating Brick.png"; sourceTree = "<group>"; };
 		F4E4AA82154CBB7B006AA64D /* Alternating Brick.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Alternating Brick.pvrtc"; sourceTree = "<group>"; };
 		F4E4AA83154CBB7B006AA64D /* Black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Black.png; sourceTree = "<group>"; };
@@ -408,40 +429,30 @@
 		F4E4AAD6154CBB7B006AA64D /* Yellow.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Yellow.pvrtc; sourceTree = "<group>"; };
 		F4E4AB2D154CBC85006AA64D /* MAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAConstants.h; sourceTree = "<group>"; };
 		F4E4AB2E154CBC85006AA64D /* MAConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAConstants.m; sourceTree = "<group>"; };
-		F4E4AB3A154CBFB4006AA64D /* CreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateViewController.h; sourceTree = "<group>"; };
-		F4E4AB3B154CBFB7006AA64D /* CreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateViewController.m; sourceTree = "<group>"; };
-		F4E4AB3C154CBFBA006AA64D /* CreateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateViewController.xib; sourceTree = "<group>"; };
-		F4E4AB3F154CC165006AA64D /* EditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewController.h; sourceTree = "<group>"; };
-		F4E4AB40154CC168006AA64D /* EditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewController.m; sourceTree = "<group>"; };
-		F4E4AB41154CC16C006AA64D /* EditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditViewController.xib; sourceTree = "<group>"; };
-		F4E4AB42154CC16F006AA64D /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
-		F4E4AB43154CC172006AA64D /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
-		F4E4AB44154CC175006AA64D /* GameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameViewController.xib; sourceTree = "<group>"; };
-		F4E4AB47154CC17F006AA64D /* GridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridView.h; sourceTree = "<group>"; };
-		F4E4AB48154CC183006AA64D /* GridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridView.m; sourceTree = "<group>"; };
-		F4E4AB55154CC1CC006AA64D /* MALocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MALocation.h; sourceTree = "<group>"; };
-		F4E4AB56154CC1CF006AA64D /* MALocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MALocation.m; sourceTree = "<group>"; };
-		F4E4AB59154CC1DC006AA64D /* MapSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapSegment.h; sourceTree = "<group>"; };
-		F4E4AB5A154CC1DF006AA64D /* MapSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapSegment.m; sourceTree = "<group>"; };
-		F4E4AB5B154CC1E5006AA64D /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
-		F4E4AB5C154CC1E8006AA64D /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
-		F4E4AB5D154CC1ED006AA64D /* MAMaze.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMaze.h; sourceTree = "<group>"; };
-		F4E4AB5E154CC1F2006AA64D /* MAMaze.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMaze.m; sourceTree = "<group>"; };
-		F4E4AB64154CC22C006AA64D /* MazeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MazeView.h; sourceTree = "<group>"; };
-		F4E4AB65154CC231006AA64D /* MazeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MazeView.m; sourceTree = "<group>"; };
-		F4E4AB66154CC238006AA64D /* RatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatingViewController.xib; sourceTree = "<group>"; };
-		F4E4AB67154CC23C006AA64D /* RatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingView.h; sourceTree = "<group>"; };
-		F4E4AB68154CC242006AA64D /* RatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingView.m; sourceTree = "<group>"; };
-		F4E4AB69154CC246006AA64D /* MASound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASound.h; sourceTree = "<group>"; };
-		F4E4AB6A154CC24D006AA64D /* MASound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASound.m; sourceTree = "<group>"; };
+		F4E4AB3A154CBFB4006AA64D /* MACreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACreateViewController.h; sourceTree = "<group>"; };
+		F4E4AB3B154CBFB7006AA64D /* MACreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MACreateViewController.m; sourceTree = "<group>"; };
+		F4E4AB3C154CBFBA006AA64D /* MACreateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MACreateViewController.xib; sourceTree = "<group>"; };
+		F4E4AB3F154CC165006AA64D /* MAEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAEditViewController.h; sourceTree = "<group>"; };
+		F4E4AB40154CC168006AA64D /* MAEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAEditViewController.m; sourceTree = "<group>"; };
+		F4E4AB41154CC16C006AA64D /* MAEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAEditViewController.xib; sourceTree = "<group>"; };
+		F4E4AB42154CC16F006AA64D /* MAGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGameViewController.h; sourceTree = "<group>"; };
+		F4E4AB43154CC172006AA64D /* MAGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGameViewController.m; sourceTree = "<group>"; };
+		F4E4AB44154CC175006AA64D /* MAGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAGameViewController.xib; sourceTree = "<group>"; };
+		F4E4AB47154CC17F006AA64D /* MAGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGridView.h; sourceTree = "<group>"; };
+		F4E4AB48154CC183006AA64D /* MAGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGridView.m; sourceTree = "<group>"; };
+		F4E4AB5B154CC1E5006AA64D /* MAMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMapView.h; sourceTree = "<group>"; };
+		F4E4AB5C154CC1E8006AA64D /* MAMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMapView.m; sourceTree = "<group>"; };
+		F4E4AB64154CC22C006AA64D /* MAMazeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMazeView.h; sourceTree = "<group>"; };
+		F4E4AB65154CC231006AA64D /* MAMazeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMazeView.m; sourceTree = "<group>"; };
+		F4E4AB66154CC238006AA64D /* MARatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MARatingViewController.xib; sourceTree = "<group>"; };
+		F4E4AB67154CC23C006AA64D /* MARatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MARatingView.h; sourceTree = "<group>"; };
+		F4E4AB68154CC242006AA64D /* MARatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MARatingView.m; sourceTree = "<group>"; };
 		F4E4AB6B154CC251006AA64D /* MASoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASoundManager.h; sourceTree = "<group>"; };
 		F4E4AB6C154CC257006AA64D /* MASoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASoundManager.m; sourceTree = "<group>"; };
-		F4E4AB6F154CC266006AA64D /* MATexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATexture.h; sourceTree = "<group>"; };
-		F4E4AB70154CC26A006AA64D /* MATexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATexture.m; sourceTree = "<group>"; };
 		F4E4AB78154CC2AF006AA64D /* MATextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATextureManager.h; sourceTree = "<group>"; };
 		F4E4AB79154CC2B6006AA64D /* MATextureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATextureManager.m; sourceTree = "<group>"; };
-		F4E4AB7A154CC2C0006AA64D /* TexturesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TexturesViewController.h; sourceTree = "<group>"; };
-		F4E4AB7B154CC2C6006AA64D /* TexturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TexturesViewController.m; sourceTree = "<group>"; };
+		F4E4AB7A154CC2C0006AA64D /* MATexturesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATexturesViewController.h; sourceTree = "<group>"; };
+		F4E4AB7B154CC2C6006AA64D /* MATexturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MATexturesViewController.m; sourceTree = "<group>"; };
 		F4E4AB7C154CC2CC006AA64D /* MATopMazeItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATopMazeItem.h; sourceTree = "<group>"; };
 		F4E4AB7D154CC2D1006AA64D /* MATopMazeItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATopMazeItem.m; sourceTree = "<group>"; };
 		F4E4AB7E154CC2D8006AA64D /* MATopMazeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATopMazeTableViewCell.h; sourceTree = "<group>"; };
@@ -452,14 +463,14 @@
 		F4E4AB83154CC2FF006AA64D /* MATopMazesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MATopMazesViewController.xib; sourceTree = "<group>"; };
 		F4E4AB84154CC304006AA64D /* MAUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAUtilities.h; sourceTree = "<group>"; };
 		F4E4AB85154CC30B006AA64D /* MAUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAUtilities.m; sourceTree = "<group>"; };
-		F4E4AB98154CC3D3006AA64D /* GameHelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameHelpViewController.xib; sourceTree = "<group>"; };
+		F4E4AB98154CC3D3006AA64D /* MAGameHelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAGameHelpViewController.xib; sourceTree = "<group>"; };
 		F4E4ABA3154CD20D006AA64D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F4E4ABA5154CD237006AA64D /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		F4E4ABA7154CD25E006AA64D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		F4E4ABA9154CD283006AA64D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F4E4ABAB154CD2BF006AA64D /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		F4E4ABAD154CDC90006AA64D /* Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colors.h; sourceTree = "<group>"; };
-		F4E4ABAE154CDC93006AA64D /* Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colors.m; sourceTree = "<group>"; };
+		F4E4ABAD154CDC90006AA64D /* MAColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAColors.h; sourceTree = "<group>"; };
+		F4E4ABAE154CDC93006AA64D /* MAColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAColors.m; sourceTree = "<group>"; };
 		F4E4ABE9154E348F006AA64D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F4E4ABEB154E34AA006AA64D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F4E4ABED154E34C8006AA64D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -467,10 +478,11 @@
 		F4E4B9A1168E745800F6CCC3 /* MAMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMainViewController.h; sourceTree = "<group>"; };
 		F4E4B9A2168E745800F6CCC3 /* MAMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMainViewController.m; sourceTree = "<group>"; };
 		F4E4B9A3168E745800F6CCC3 /* MAMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAMainViewController.xib; sourceTree = "<group>"; };
-		F4E4B9A6168E779600F6CCC3 /* MainViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewStyle.h; sourceTree = "<group>"; };
-		F4E4B9A7168E779600F6CCC3 /* MainViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewStyle.m; sourceTree = "<group>"; };
+		F4E4B9A6168E779600F6CCC3 /* MAMainViewStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMainViewStyle.h; sourceTree = "<group>"; };
+		F4E4B9A7168E779600F6CCC3 /* MAMainViewStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMainViewStyle.m; sourceTree = "<group>"; };
 		F4E4B9A9168E8BE400F6CCC3 /* MAViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAViewController.h; sourceTree = "<group>"; };
 		F4E4B9AA168E8BE400F6CCC3 /* MAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAViewController.m; sourceTree = "<group>"; };
+		FDD54367CCBB419990517295 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -482,6 +494,7 @@
 				F4E4ABEA154E349E006AA64D /* CFNetwork.framework in Frameworks */,
 				F4E4A9D0154CB92C006AA64D /* CoreData.framework in Frameworks */,
 				F4E4A9CE154CB92C006AA64D /* CoreGraphics.framework in Frameworks */,
+				F4A44A7017BD4E3F00AF63EB /* FFEF.framework in Frameworks */,
 				F4E4A9CC154CB92C006AA64D /* Foundation.framework in Frameworks */,
 				F4E4ABA6154CD244006AA64D /* iAd.framework in Frameworks */,
 				F4E4ABEE154E34D2006AA64D /* MobileCoreServices.framework in Frameworks */,
@@ -490,8 +503,9 @@
 				F4E4ABEC154E34BE006AA64D /* Security.framework in Frameworks */,
 				F4E4ABF0154E34E7006AA64D /* SystemConfiguration.framework in Frameworks */,
 				F4E4A9CA154CB92C006AA64D /* UIKit.framework in Frameworks */,
+				F4DC63C617FA376800A40DE8 /* libbz2.dylib in Frameworks */,
 				F4E4ABAC154CD2CB006AA64D /* libxml2.dylib in Frameworks */,
-				476EE451899B44D292F604E7 /* libPods.a in Frameworks */,
+				423E315F4DB84BC7AEBA7375 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,6 +523,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F4A6D05817FB6C2A0003D645 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F49ED74217FDA9CA00D9BABD /* MASize.h */,
+				F49ED74317FDA9CA00D9BABD /* MASize.m */,
+				F49ED74517FDA9E200D9BABD /* MACoordinate.h */,
+				F49ED74617FDA9E200D9BABD /* MACoordinate.m */,
+				F4B953B817B2A3C800FA106B /* MAMazeManager.h */,
+				F4B953B917B2A3C800FA106B /* MAMazeManager.m */,
+				F4A6D05D17FB6C610003D645 /* MAMaze.h */,
+				F4A6D05E17FB6C610003D645 /* MAMaze.m */,
+				F4A6D05F17FB6C610003D645 /* MAMazeProgress.h */,
+				F4A6D06017FB6C610003D645 /* MAMazeProgress.m */,
+				F4A6D06117FB6C610003D645 /* MAMazeRating.h */,
+				F4A6D06217FB6C610003D645 /* MAMazeRating.m */,
+				F4A6D05B17FB6C610003D645 /* MALocation.h */,
+				F4A6D05C17FB6C610003D645 /* MALocation.m */,
+				F49ED74B17FDACAD00D9BABD /* MAWall.h */,
+				F49ED74C17FDACAD00D9BABD /* MAWall.m */,
+				F4E4AB78154CC2AF006AA64D /* MATextureManager.h */,
+				F4E4AB79154CC2B6006AA64D /* MATextureManager.m */,
+				F4A6D06517FB6C610003D645 /* MATexture.h */,
+				F4A6D06617FB6C610003D645 /* MATexture.m */,
+				F4E4AB6B154CC251006AA64D /* MASoundManager.h */,
+				F4E4AB6C154CC257006AA64D /* MASoundManager.m */,
+				F4A6D06317FB6C610003D645 /* MASound.h */,
+				F4A6D06417FB6C610003D645 /* MASound.m */,
+				F4A6D05917FB6C610003D645 /* MALatestVersion.h */,
+				F4A6D05A17FB6C610003D645 /* MALatestVersion.m */,
+				F4A6D06717FB6C610003D645 /* MAUserCounter.h */,
+				F4A6D06817FB6C610003D645 /* MAUserCounter.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		F4E4A9BA154CB92B006AA64D = {
 			isa = PBXGroup;
 			children = (
@@ -516,7 +565,7 @@
 				F4E4A9ED154CB92C006AA64D /* MazesTests */,
 				F4E4A9C8154CB92C006AA64D /* Frameworks */,
 				F4E4A9C6154CB92C006AA64D /* Products */,
-				122A96D44809491DA9B335B4 /* Pods.xcconfig */,
+				FDD54367CCBB419990517295 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -536,6 +585,7 @@
 				F4E4ABE9154E348F006AA64D /* CFNetwork.framework */,
 				F4E4A9CF154CB92C006AA64D /* CoreData.framework */,
 				F4E4A9CD154CB92C006AA64D /* CoreGraphics.framework */,
+				F4A44A6F17BD4E3F00AF63EB /* FFEF.framework */,
 				F4E4A9CB154CB92C006AA64D /* Foundation.framework */,
 				F4E4ABA5154CD237006AA64D /* iAd.framework */,
 				F4E4ABED154E34C8006AA64D /* MobileCoreServices.framework */,
@@ -545,8 +595,9 @@
 				F4E4A9E6154CB92C006AA64D /* SenTestingKit.framework */,
 				F4E4ABEF154E34DA006AA64D /* SystemConfiguration.framework */,
 				F4E4A9C9154CB92C006AA64D /* UIKit.framework */,
+				F4DC63C517FA376800A40DE8 /* libbz2.dylib */,
 				F4E4ABAB154CD2BF006AA64D /* libxml2.dylib */,
-				2FB012DB6A094990B0DD29FC /* libPods.a */,
+				2739B721EF9C40EAA5260DC7 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -556,47 +607,47 @@
 			children = (
 				F4E4A9DA154CB92C006AA64D /* AppDelegate.h */,
 				F4E4A9DB154CB92C006AA64D /* AppDelegate.m */,
-				F4E4AB3A154CBFB4006AA64D /* CreateViewController.h */,
-				F4E4AB3B154CBFB7006AA64D /* CreateViewController.m */,
-				F4E4AB3C154CBFBA006AA64D /* CreateViewController.xib */,
-				F4E4AB3F154CC165006AA64D /* EditViewController.h */,
-				F4E4AB40154CC168006AA64D /* EditViewController.m */,
-				F4E4AB41154CC16C006AA64D /* EditViewController.xib */,
-				F4E4AB98154CC3D3006AA64D /* GameHelpViewController.xib */,
-				F4E4AB42154CC16F006AA64D /* GameViewController.h */,
-				F4E4AB43154CC172006AA64D /* GameViewController.m */,
-				F4E4AB44154CC175006AA64D /* GameViewController.xib */,
-				F4E4AB47154CC17F006AA64D /* GridView.h */,
-				F4E4AB48154CC183006AA64D /* GridView.m */,
 				F497480F16961B6D009B200B /* MACloud.h */,
 				F497481016961B71009B200B /* MACloud.m */,
 				F4E4AB2D154CBC85006AA64D /* MAConstants.h */,
 				F4E4AB2E154CBC85006AA64D /* MAConstants.m */,
+				F4E4AB3A154CBFB4006AA64D /* MACreateViewController.h */,
+				F4E4AB3B154CBFB7006AA64D /* MACreateViewController.m */,
+				F4E4AB3C154CBFBA006AA64D /* MACreateViewController.xib */,
+				F4E4AB3F154CC165006AA64D /* MAEditViewController.h */,
+				F4E4AB40154CC168006AA64D /* MAEditViewController.m */,
+				F4E4AB41154CC16C006AA64D /* MAEditViewController.xib */,
+				F4E4AB42154CC16F006AA64D /* MAGameViewController.h */,
+				F4E4AB43154CC172006AA64D /* MAGameViewController.m */,
+				F4E4AB44154CC175006AA64D /* MAGameViewController.xib */,
+				F4E4AB98154CC3D3006AA64D /* MAGameHelpViewController.xib */,
+				F4E4AB47154CC17F006AA64D /* MAGridView.h */,
+				F4E4AB48154CC183006AA64D /* MAGridView.m */,
 				F454E19016923CB4008D10C1 /* MAEvents.h */,
 				F454E19116923CB5008D10C1 /* MAEvents.m */,
 				F454E18E16923CB4008D10C1 /* MAEvent.h */,
 				F454E18F16923CB4008D10C1 /* MAEvent.m */,
-				F4E4AB55154CC1CC006AA64D /* MALocation.h */,
-				F4E4AB56154CC1CF006AA64D /* MALocation.m */,
 				F4E4B9A1168E745800F6CCC3 /* MAMainViewController.h */,
 				F4E4B9A2168E745800F6CCC3 /* MAMainViewController.m */,
 				F4E4B9A3168E745800F6CCC3 /* MAMainViewController.xib */,
-				F4B953B817B2A3C800FA106B /* MAMazeManager.h */,
-				F4B953B917B2A3C800FA106B /* MAMazeManager.m */,
-				F4E4AB5D154CC1ED006AA64D /* MAMaze.h */,
-				F4E4AB5E154CC1F2006AA64D /* MAMaze.m */,
-				F49748011694DFCD009B200B /* MAMazeRating.h */,
-				F49748021694DFD0009B200B /* MAMazeRating.m */,
-				F4E4AB6B154CC251006AA64D /* MASoundManager.h */,
-				F4E4AB6C154CC257006AA64D /* MASoundManager.m */,
-				F4E4AB69154CC246006AA64D /* MASound.h */,
-				F4E4AB6A154CC24D006AA64D /* MASound.m */,
-				F42D06BE17AF438F009026A9 /* MATest.h */,
-				F42D06BF17AF438F009026A9 /* MATest.m */,
-				F4E4AB78154CC2AF006AA64D /* MATextureManager.h */,
-				F4E4AB79154CC2B6006AA64D /* MATextureManager.m */,
-				F4E4AB6F154CC266006AA64D /* MATexture.h */,
-				F4E4AB70154CC26A006AA64D /* MATexture.m */,
+				F4E4AB5B154CC1E5006AA64D /* MAMapView.h */,
+				F4E4AB5C154CC1E8006AA64D /* MAMapView.m */,
+				F49FADC617FF6174001E7980 /* MAMapLocation.h */,
+				F49FADC717FF6174001E7980 /* MAMapLocation.m */,
+				F49ED74E17FE699F00D9BABD /* MAMapWall.h */,
+				F49ED74F17FE699F00D9BABD /* MAMapWall.m */,
+				F4E4AB64154CC22C006AA64D /* MAMazeView.h */,
+				F4E4AB65154CC231006AA64D /* MAMazeView.m */,
+				F4974807169539DA009B200B /* MARatingViewController.h */,
+				F4974808169539DD009B200B /* MARatingViewController.m */,
+				F4E4AB66154CC238006AA64D /* MARatingViewController.xib */,
+				F4E4AB67154CC23C006AA64D /* MARatingView.h */,
+				F4E4AB68154CC242006AA64D /* MARatingView.m */,
+				F4A0E1DD15F5C96200151192 /* MASettings.h */,
+				F4A0E1DE15F5C96200151192 /* MASettings.m */,
+				F4E4AB7A154CC2C0006AA64D /* MATexturesViewController.h */,
+				F4E4AB7B154CC2C6006AA64D /* MATexturesViewController.m */,
+				F49FADCB18059EA7001E7980 /* MATexturesViewController.xib */,
 				F4E4AB81154CC2EF006AA64D /* MATopMazesViewController.h */,
 				F4E4AB82154CC2F7006AA64D /* MATopMazesViewController.m */,
 				F4E4AB83154CC2FF006AA64D /* MATopMazesViewController.xib */,
@@ -605,33 +656,11 @@
 				F4E4AB80154CC2E7006AA64D /* MATopMazeTableViewCell.xib */,
 				F4E4AB7C154CC2CC006AA64D /* MATopMazeItem.h */,
 				F4E4AB7D154CC2D1006AA64D /* MATopMazeItem.m */,
-				F49FC75117A6C6B000AED5FD /* MAUserManager.h */,
-				F49FC75217A6C6B100AED5FD /* MAUserManager.m */,
-				F49161FC167D1B6D00F4A346 /* MAUser.h */,
-				F49161FD167D1B6D00F4A346 /* MAUser.m */,
 				F4E4AB84154CC304006AA64D /* MAUtilities.h */,
 				F4E4AB85154CC30B006AA64D /* MAUtilities.m */,
-				F4451B9F17A4C84300D5DE73 /* MAVersionManager.h */,
-				F4451BA017A4C84300D5DE73 /* MAVersionManager.m */,
-				F45A4162154FAEC200B90753 /* MAVersion.h */,
-				F45A4163154FAEC200B90753 /* MAVersion.m */,
 				F4E4B9A9168E8BE400F6CCC3 /* MAViewController.h */,
 				F4E4B9AA168E8BE400F6CCC3 /* MAViewController.m */,
-				F4E4AB5A154CC1DF006AA64D /* MapSegment.m */,
-				F4E4AB59154CC1DC006AA64D /* MapSegment.h */,
-				F4E4AB5B154CC1E5006AA64D /* MapView.h */,
-				F4E4AB5C154CC1E8006AA64D /* MapView.m */,
-				F4E4AB64154CC22C006AA64D /* MazeView.h */,
-				F4E4AB66154CC238006AA64D /* RatingViewController.xib */,
-				F4974807169539DA009B200B /* RatingViewController.h */,
-				F4E4AB65154CC231006AA64D /* MazeView.m */,
-				F4974808169539DD009B200B /* RatingViewController.m */,
-				F4E4AB67154CC23C006AA64D /* RatingView.h */,
-				F4E4AB68154CC242006AA64D /* RatingView.m */,
-				F4A0E1DD15F5C96200151192 /* Settings.h */,
-				F4A0E1DE15F5C96200151192 /* Settings.m */,
-				F4E4AB7A154CC2C0006AA64D /* TexturesViewController.h */,
-				F4E4AB7B154CC2C6006AA64D /* TexturesViewController.m */,
+				F4A6D05817FB6C2A0003D645 /* Model */,
 				F4E4AA0C154CBB3C006AA64D /* Images */,
 				F4E4AA3D154CBB58006AA64D /* Sounds */,
 				F4E4AA5E154CBB64006AA64D /* Styles */,
@@ -751,28 +780,28 @@
 		F4E4AA5E154CBB64006AA64D /* Styles */ = {
 			isa = PBXGroup;
 			children = (
-				F4E4AA73154CBB64006AA64D /* Styles.h */,
-				F4E4AA74154CBB64006AA64D /* Styles.m */,
-				F4E4ABAD154CDC90006AA64D /* Colors.h */,
-				F4E4ABAE154CDC93006AA64D /* Colors.m */,
-				F4E4AA5F154CBB64006AA64D /* ActivityViewStyle.h */,
-				F4E4AA60154CBB64006AA64D /* ActivityViewStyle.m */,
-				F4E4AA63154CBB64006AA64D /* EditViewStyle.h */,
-				F4E4AA64154CBB64006AA64D /* EditViewStyle.m */,
-				F4E4AA65154CBB64006AA64D /* EndAlertViewStyle.h */,
-				F4E4AA66154CBB64006AA64D /* EndAlertViewStyle.m */,
-				F4E4AA67154CBB64006AA64D /* GameViewStyle.h */,
-				F4E4AA68154CBB64006AA64D /* GameViewStyle.m */,
-				F4E4AA69154CBB64006AA64D /* GridStyle.h */,
-				F4E4AA6A154CBB64006AA64D /* GridStyle.m */,
-				F4E4AA6D154CBB64006AA64D /* MainListViewStyle.h */,
-				F4E4AA6E154CBB64006AA64D /* MainListViewStyle.m */,
-				F4E4B9A6168E779600F6CCC3 /* MainViewStyle.h */,
-				F4E4B9A7168E779600F6CCC3 /* MainViewStyle.m */,
-				F4E4AA6B154CBB64006AA64D /* MapStyle.h */,
-				F4E4AA6C154CBB64006AA64D /* MapStyle.m */,
-				F4E4AA6F154CBB64006AA64D /* RatingViewStyle.h */,
-				F4E4AA70154CBB64006AA64D /* RatingViewStyle.m */,
+				F4E4AA73154CBB64006AA64D /* MAStyles.h */,
+				F4E4AA74154CBB64006AA64D /* MAStyles.m */,
+				F4E4ABAD154CDC90006AA64D /* MAColors.h */,
+				F4E4ABAE154CDC93006AA64D /* MAColors.m */,
+				F4E4AA5F154CBB64006AA64D /* MAActivityViewStyle.h */,
+				F4E4AA60154CBB64006AA64D /* MAActivityViewStyle.m */,
+				F4E4AA63154CBB64006AA64D /* MAEditViewStyle.h */,
+				F4E4AA64154CBB64006AA64D /* MAEditViewStyle.m */,
+				F4E4AA65154CBB64006AA64D /* MAEndAlertViewStyle.h */,
+				F4E4AA66154CBB64006AA64D /* MAEndAlertViewStyle.m */,
+				F4E4AA67154CBB64006AA64D /* MAGameViewStyle.h */,
+				F4E4AA68154CBB64006AA64D /* MAGameViewStyle.m */,
+				F4E4AA69154CBB64006AA64D /* MAGridStyle.h */,
+				F4E4AA6A154CBB64006AA64D /* MAGridStyle.m */,
+				F4E4AA6D154CBB64006AA64D /* MAMainListViewStyle.h */,
+				F4E4AA6E154CBB64006AA64D /* MAMainListViewStyle.m */,
+				F4E4B9A6168E779600F6CCC3 /* MAMainViewStyle.h */,
+				F4E4B9A7168E779600F6CCC3 /* MAMainViewStyle.m */,
+				F4E4AA6B154CBB64006AA64D /* MAMapStyle.h */,
+				F4E4AA6C154CBB64006AA64D /* MAMapStyle.m */,
+				F4E4AA6F154CBB64006AA64D /* MARatingViewStyle.h */,
+				F4E4AA70154CBB64006AA64D /* MARatingViewStyle.m */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -877,10 +906,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4E4A9F8154CB92C006AA64D /* Build configuration list for PBXNativeTarget "Mazes" */;
 			buildPhases = (
+				B971AB1A319C488FA94A78B8 /* Check Pods Manifest.lock */,
 				F4E4A9C1154CB92C006AA64D /* Sources */,
 				F4E4A9C2154CB92C006AA64D /* Frameworks */,
 				F4E4A9C3154CB92C006AA64D /* Resources */,
-				625C93FA9F1243A3A1C3F5C1 /* Copy Pods Resources */,
+				92603C5DED3942D48661D410 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -917,7 +947,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MA;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Andre Muis";
 			};
 			buildConfigurationList = F4E4A9BF154CB92C006AA64D /* Build configuration list for PBXProject "Mazes" */;
@@ -1068,12 +1098,13 @@
 				F4E4AB2A154CBB7B006AA64D /* Worn Brown Brickwork.pvrtc in Resources */,
 				F4E4AB2B154CBB7B006AA64D /* Yellow.png in Resources */,
 				F4E4AB2C154CBB7B006AA64D /* Yellow.pvrtc in Resources */,
-				F4E4AB3E154CBFBD006AA64D /* CreateViewController.xib in Resources */,
-				F4E4AB50154CC193006AA64D /* EditViewController.xib in Resources */,
-				F4E4AB52154CC19C006AA64D /* GameViewController.xib in Resources */,
-				F4E4AB72154CC26F006AA64D /* RatingViewController.xib in Resources */,
+				F4E4AB3E154CBFBD006AA64D /* MACreateViewController.xib in Resources */,
+				F49FADCC18059EA7001E7980 /* MATexturesViewController.xib in Resources */,
+				F4E4AB50154CC193006AA64D /* MAEditViewController.xib in Resources */,
+				F4E4AB52154CC19C006AA64D /* MAGameViewController.xib in Resources */,
+				F4E4AB72154CC26F006AA64D /* MARatingViewController.xib in Resources */,
 				F4E4AB95154CC33E006AA64D /* MATopMazesViewController.xib in Resources */,
-				F4E4AB99154CC3DA006AA64D /* GameHelpViewController.xib in Resources */,
+				F4E4AB99154CC3DA006AA64D /* MAGameHelpViewController.xib in Resources */,
 				F4E4AB9E154CD0EA006AA64D /* MATopMazeTableViewCell.xib in Resources */,
 				F4E4B9A5168E745800F6CCC3 /* MAMainViewController.xib in Resources */,
 			);
@@ -1090,7 +1121,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		625C93FA9F1243A3A1C3F5C1 /* Copy Pods Resources */ = {
+		92603C5DED3942D48661D410 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1103,6 +1134,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B971AB1A319C488FA94A78B8 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 		F4E4A9E3154CB92C006AA64D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1124,52 +1171,54 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4A6D06A17FB6C610003D645 /* MALocation.m in Sources */,
+				F4A6D06F17FB6C610003D645 /* MATexture.m in Sources */,
 				F4E4A9D8154CB92C006AA64D /* main.m in Sources */,
 				F4E4A9DC154CB92C006AA64D /* AppDelegate.m in Sources */,
-				F4E4AA75154CBB64006AA64D /* ActivityViewStyle.m in Sources */,
-				F4E4AA77154CBB64006AA64D /* EditViewStyle.m in Sources */,
-				F4E4AA78154CBB64006AA64D /* EndAlertViewStyle.m in Sources */,
-				F4E4AA79154CBB64006AA64D /* GameViewStyle.m in Sources */,
-				F4E4AA7A154CBB64006AA64D /* GridStyle.m in Sources */,
-				F4E4AA7B154CBB64006AA64D /* MapStyle.m in Sources */,
-				F4E4AA7C154CBB64006AA64D /* MainListViewStyle.m in Sources */,
-				F4E4AA7D154CBB64006AA64D /* RatingViewStyle.m in Sources */,
-				F4E4AA7F154CBB64006AA64D /* Styles.m in Sources */,
+				F4E4AA75154CBB64006AA64D /* MAActivityViewStyle.m in Sources */,
+				F49FADC817FF6174001E7980 /* MAMapLocation.m in Sources */,
+				F4E4AA77154CBB64006AA64D /* MAEditViewStyle.m in Sources */,
+				F4E4AA78154CBB64006AA64D /* MAEndAlertViewStyle.m in Sources */,
+				F4A6D06B17FB6C610003D645 /* MAMaze.m in Sources */,
+				F4A6D07017FB6C610003D645 /* MAUserCounter.m in Sources */,
+				F4E4AA79154CBB64006AA64D /* MAGameViewStyle.m in Sources */,
+				F4E4AA7A154CBB64006AA64D /* MAGridStyle.m in Sources */,
+				F4E4AA7B154CBB64006AA64D /* MAMapStyle.m in Sources */,
+				F4E4AA7C154CBB64006AA64D /* MAMainListViewStyle.m in Sources */,
+				F4A6D06D17FB6C610003D645 /* MAMazeRating.m in Sources */,
+				F4E4AA7D154CBB64006AA64D /* MARatingViewStyle.m in Sources */,
+				F4E4AA7F154CBB64006AA64D /* MAStyles.m in Sources */,
 				F4E4AB39154CBF4B006AA64D /* MAConstants.m in Sources */,
-				F4E4AB3D154CBFBD006AA64D /* CreateViewController.m in Sources */,
-				F4E4AB4F154CC18D006AA64D /* EditViewController.m in Sources */,
-				F4E4AB51154CC198006AA64D /* GameViewController.m in Sources */,
-				F4E4AB54154CC1A6006AA64D /* GridView.m in Sources */,
-				F4E4AB5F154CC1F6006AA64D /* MALocation.m in Sources */,
-				F4E4AB61154CC1F6006AA64D /* MapSegment.m in Sources */,
-				F4E4AB62154CC1F6006AA64D /* MapView.m in Sources */,
-				F4E4AB63154CC1F6006AA64D /* MAMaze.m in Sources */,
-				F4E4AB71154CC26F006AA64D /* MazeView.m in Sources */,
-				F4E4AB73154CC26F006AA64D /* RatingView.m in Sources */,
-				F4E4AB74154CC26F006AA64D /* MASound.m in Sources */,
+				F49ED74D17FDACAD00D9BABD /* MAWall.m in Sources */,
+				F4E4AB3D154CBFBD006AA64D /* MACreateViewController.m in Sources */,
+				F4E4AB4F154CC18D006AA64D /* MAEditViewController.m in Sources */,
+				F4E4AB51154CC198006AA64D /* MAGameViewController.m in Sources */,
+				F4E4AB54154CC1A6006AA64D /* MAGridView.m in Sources */,
+				F4A6D06C17FB6C610003D645 /* MAMazeProgress.m in Sources */,
+				F4E4AB62154CC1F6006AA64D /* MAMapView.m in Sources */,
+				F4E4AB71154CC26F006AA64D /* MAMazeView.m in Sources */,
+				F4E4AB73154CC26F006AA64D /* MARatingView.m in Sources */,
+				F49ED74417FDA9CA00D9BABD /* MASize.m in Sources */,
 				F4E4AB75154CC26F006AA64D /* MASoundManager.m in Sources */,
-				F4E4AB77154CC26F006AA64D /* MATexture.m in Sources */,
-				F4E4AB91154CC326006AA64D /* TexturesViewController.m in Sources */,
+				F4E4AB91154CC326006AA64D /* MATexturesViewController.m in Sources */,
+				F49ED75017FE699F00D9BABD /* MAMapWall.m in Sources */,
 				F4E4AB92154CC32C006AA64D /* MATopMazeItem.m in Sources */,
 				F4E4AB93154CC331006AA64D /* MATopMazeTableViewCell.m in Sources */,
 				F4E4AB94154CC33A006AA64D /* MATopMazesViewController.m in Sources */,
 				F4E4AB96154CC344006AA64D /* MAUtilities.m in Sources */,
+				F4A6D06E17FB6C610003D645 /* MASound.m in Sources */,
 				F4E4AB9D154CD0DC006AA64D /* MATextureManager.m in Sources */,
-				F4E4ABAF154CDC97006AA64D /* Colors.m in Sources */,
-				F45A4164154FAEC200B90753 /* MAVersion.m in Sources */,
-				F4A0E1DF15F5C96300151192 /* Settings.m in Sources */,
-				F49161FE167D1B6D00F4A346 /* MAUser.m in Sources */,
+				F4E4ABAF154CDC97006AA64D /* MAColors.m in Sources */,
+				F4A0E1DF15F5C96300151192 /* MASettings.m in Sources */,
+				F49ED74717FDA9E200D9BABD /* MACoordinate.m in Sources */,
 				F4E4B9A4168E745800F6CCC3 /* MAMainViewController.m in Sources */,
-				F4E4B9A8168E779600F6CCC3 /* MainViewStyle.m in Sources */,
+				F4E4B9A8168E779600F6CCC3 /* MAMainViewStyle.m in Sources */,
 				F4E4B9AB168E8BE500F6CCC3 /* MAViewController.m in Sources */,
 				F454E19216923CB5008D10C1 /* MAEvent.m in Sources */,
+				F4A6D06917FB6C610003D645 /* MALatestVersion.m in Sources */,
 				F454E19316923CB5008D10C1 /* MAEvents.m in Sources */,
-				F49748031694DFD5009B200B /* MAMazeRating.m in Sources */,
-				F4974809169539E2009B200B /* RatingViewController.m in Sources */,
+				F4974809169539E2009B200B /* MARatingViewController.m in Sources */,
 				F497481116961B76009B200B /* MACloud.m in Sources */,
-				F4451BA117A4C84300D5DE73 /* MAVersionManager.m in Sources */,
-				F49FC75317A6C6B100AED5FD /* MAUserManager.m in Sources */,
-				F42D06C017AF438F009026A9 /* MATest.m in Sources */,
 				F4B953BA17B2A3C800FA106B /* MAMazeManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1216,9 +1265,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1233,10 +1283,14 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1246,9 +1300,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1256,8 +1311,11 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
@@ -1269,15 +1327,36 @@
 		};
 		F4E4A9F9154CB92C006AA64D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 122A96D44809491DA9B335B4 /* Pods.xcconfig */;
+			baseConfigurationReference = FDD54367CCBB419990517295 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Mazes/Mazes.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Mazes/Mazes-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Mazes/Mazes-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lCrittercism_v4_0_7",
+					"-lFlurry_4.2.3",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					FFEF,
+					"-framework",
+					Foundation,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+					"-framework",
+					UIKit,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1287,25 +1366,49 @@
 		};
 		F4E4A9FA154CB92C006AA64D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 122A96D44809491DA9B335B4 /* Pods.xcconfig */;
+			baseConfigurationReference = FDD54367CCBB419990517295 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Mazes/Mazes.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Mazes/Mazes-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=2";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Mazes/Mazes-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lCrittercism_v4_0_7",
+					"-lFlurry_4.2.3",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					FFEF,
+					"-framework",
+					Foundation,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+					"-framework",
+					UIKit,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
 		F4E4A9FC154CB92C006AA64D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FDD54367CCBB419990517295 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Mazes.app/Mazes";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1324,6 +1427,7 @@
 		};
 		F4E4A9FD154CB92C006AA64D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FDD54367CCBB419990517295 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Mazes.app/Mazes";
 				FRAMEWORK_SEARCH_PATHS = (

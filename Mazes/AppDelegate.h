@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import <Parse/Parse.h>
+@class MAStyles;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, ADBannerViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) ADBannerView *bannerView;
+@property (readonly, strong, nonatomic) MAStyles *styles;
 
 @end

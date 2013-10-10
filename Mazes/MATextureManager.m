@@ -8,52 +8,28 @@
 
 #import "MATextureManager.h"
 
-#import "MAConstants.h"
-#import "MAEvents.h"
-#import "MAEvent.h"
-#import "MAUtilities.h"
 #import "MATexture.h"
+#import "MAUtilities.h"
 
 @interface  MATextureManager ()
 
-@property (strong, nonatomic, readonly) NSArray *list;
-
-@property (strong, nonatomic, readonly) PFQuery *query;
-@property (strong, nonatomic, readonly) MAEvent *downloadEvent;
+@property (strong, nonatomic, readonly) AMFatFractal *amFatFractal;
+@property (strong, nonatomic) AMRequest *amRequest;
+@property (strong, nonatomic, readonly) NSArray *textures;
 
 @end
 
 @implementation MATextureManager
 
-+ (MATextureManager *)shared
-{
-	static MATextureManager *shared = nil;
-	
-	@synchronized(self)
-	{
-		if (shared == nil)
-		{
-			shared = [[MATextureManager alloc] init];
-		}
-	}
-	
-	return shared;
-}
-
-- (id)init
+- (id)initWithAMFatFractal: (AMFatFractal *)amFatFractal
 {
     self = [super init];
 	
 	if (self)
 	{
-        _list = [NSArray array];
-        
-        _query = [MATexture query];
-        
-        _downloadEvent = [[MAEvent alloc] initWithTarget: self
-                                                  action: @selector(download)
-                                            intervalSecs: [MAConstants shared].serverRetryDelaySecs
-                                                 repeats: NO];
+        _amFatFractal = amFatFractal;
+        _amRequest = nil;
+        _textures = nil;
 	}
 	
     return self;
@@ -61,47 +37,30 @@
 
 - (void)downloadWithCompletionHandler: (TexturesDownloadCompletionHandler)handler
 {
-    [self.query findObjectsInBackgroundWithBlock: ^(NSArray *objects, NSError *error)
-     {
-         if (error == nil)
-         {
-             _list = objects;
-             
-             for (MATexture *texture in self.list)
-             {
-                 texture.glId = [self.list indexOfObject: texture];
-             }
-             
-             handler();
-         }
-         else
-         {
-             [MAUtilities logWithClass: [self class] format: @"Unable to get textures from server. Error: %@", error];
-             
-             [[MAEvents shared] addEvent: self.downloadEvent];
-         }
-     }];
+    self.amRequest = [self.amFatFractal amGetArrayFromURI: @"/MATexture"
+                                        completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+    {
+        if (theErr == nil && theResponse.statusCode == 200)
+        {
+            _textures = (NSArray *)theObj;
+            handler();
+        }
+        else
+        {
+             [MAUtilities logWithClass: [self class]
+                                format: @"Unable to get textures from server. StatusCode: %d. Error: %@", theResponse.statusCode, theErr];
+        }
+    }];
 }
 
 - (void)cancelDownload
 {
-    [self.query cancel];
-    [[MAEvents shared] removeEventsWithTarget: self];
-}
-
-- (int)count
-{
-	return self.list.count;
-}
-
-- (int)maxGLId
-{
-    return self.list.count - 1;
+    [self.amFatFractal amCancelRequest: self.amRequest];
 }
 
 - (NSArray *)all
 {
-	return self.list;
+	return self.textures;
 }
 
 - (NSArray *)sortedByKindThenOrder
@@ -109,27 +68,27 @@
     NSSortDescriptor *kindSortDescriptor = [NSSortDescriptor sortDescriptorWithKey: @"kind" ascending: YES];
     NSSortDescriptor *orderSortDescriptor = [NSSortDescriptor sortDescriptorWithKey: @"order" ascending: YES];
 
-    NSArray *sortedArray = [self.list sortedArrayUsingDescriptors: [NSArray arrayWithObjects: kindSortDescriptor, orderSortDescriptor, nil]];
+    NSArray *sortedArray = [self.textures sortedArrayUsingDescriptors: [NSArray arrayWithObjects: kindSortDescriptor, orderSortDescriptor, nil]];
 
     return sortedArray;
 }
 
-- (MATexture *)textureWithObjectId: (NSString *)objectId
+- (MATexture *)textureWithTextureId: (NSString *)textureId
 {
     MATexture *texture = nil;
     
-    NSUInteger index = [self.list indexOfObjectPassingTest: ^BOOL(id obj, NSUInteger idx, BOOL *stop)
+    NSUInteger index = [self.textures indexOfObjectPassingTest: ^BOOL(id obj, NSUInteger idx, BOOL *stop)
                         {
-                            return [((MATexture *)obj).objectId isEqualToString: objectId] == YES;
+                            return [((MATexture *)obj).textureId isEqualToString: textureId];
                         }];
     
     if (index != NSNotFound)
     {
-        texture = [self.list objectAtIndex: index];
+        texture = [self.textures objectAtIndex: index];
     }
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Unable to find texture with objectId: %@", objectId];
+        [MAUtilities logWithClass: [self class] format: @"Unable to find texture with textureId: %d", textureId];
     }
     
     return texture;
@@ -137,7 +96,10 @@
 
 - (NSString *)description 
 {
-    return [NSString stringWithFormat: @"%@", [self all]];
+    NSString *desc = [NSString stringWithFormat: @"<%@: %p; ", [self class], self];
+    desc = [desc stringByAppendingFormat: @"textures = %@>", self.textures];
+    
+    return desc;
 }
 
 @end

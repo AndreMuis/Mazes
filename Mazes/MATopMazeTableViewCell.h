@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "RatingView.h"
+#import "MARatingView.h"
 
+@class MAStyles;
 @class MATopMazeItem;
 
 @interface MATopMazeTableViewCell : UITableViewCell <MARatingViewDelegate>
@@ -18,10 +19,10 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *name1Label;
 
-@property (weak, nonatomic) IBOutlet RatingView *averageRating1View;
+@property (weak, nonatomic) IBOutlet MARatingView *averageRating1View;
 @property (weak, nonatomic) IBOutlet UILabel *ratingCount1Label;
 
-@property (weak, nonatomic) IBOutlet RatingView *userRating1View;
+@property (weak, nonatomic) IBOutlet MARatingView *userRating1View;
 
 @property (weak, nonatomic) IBOutlet UILabel *date1Label;
 
@@ -29,13 +30,14 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *name2Label;
 
-@property (weak, nonatomic) IBOutlet RatingView *averageRating2View;
+@property (weak, nonatomic) IBOutlet MARatingView *averageRating2View;
 @property (weak, nonatomic) IBOutlet UILabel *ratingCount2Label;
 
-@property (weak, nonatomic) IBOutlet RatingView *userRating2View;
+@property (weak, nonatomic) IBOutlet MARatingView *userRating2View;
 
 @property (weak, nonatomic) IBOutlet UILabel *date2Label;
 
-- (void)setupWithTopMazeItem1: (MATopMazeItem *)topMazeItem1 topMazeItem2: (MATopMazeItem *)topMazeItem2;
+- (void)setupWithTopMazeItem1: (MATopMazeItem *)topMazeItem1
+                 topMazeItem2: (MATopMazeItem *)topMazeItem2;
 
 @end

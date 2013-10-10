@@ -8,171 +8,270 @@
 
 #import "AppDelegate.h"
 
-#import "Crittercism.h"
-#import "Flurry.h"
-
-#import "GameViewController.h"
+#import <AMFatFractal/AMFatFractal.h>
+#import <CrittercismSDK/Crittercism.h>
+#import <FlurrySDK/Flurry.h>
 
 #import "MACloud.h"
+#import "MAColors.h"
 #import "MAConstants.h"
-#import "MALocation.h"
+#import "MACreateViewController.h"
+#import "MAEditViewController.h"
+#import "MAEvents.h"
+#import "MAGameViewController.h"
+#import "MALatestVersion.h"
 #import "MAMainViewController.h"
-#import "MAMaze.h"
+#import "MAMazeManager.h"
+#import "MASettings.h"
 #import "MASoundManager.h"
-#import "MASound.h"
+#import "MAStyles.h"
 #import "MATextureManager.h"
-#import "MATexture.h"
 #import "MATopMazesViewController.h"
-#import "MAUserManager.h"
-#import "MAUser.h"
+#import "MAUserCounter.h"
 #import "MAUtilities.h"
-#import "MAVersionManager.h"
-#import "MAVersion.h"
 
-#import "MATest.h"
+#import "MALocation.h"
 
 @interface AppDelegate ()
 
-@property (nonatomic, strong) MAMaze *maze;
-@property (nonatomic, strong) PFQuery *mazeQuery;
+@property (readonly, strong, nonatomic) AMFatFractal *amFatFractal;
+@property (readonly, strong, nonatomic) FFUser *currentUser;
+
+@property (readonly, strong, nonatomic) MACloud *cloud;
+@property (readonly, strong, nonatomic) MAColors *colors;
+@property (readonly, strong, nonatomic) MAConstants *constants;
+@property (readonly, strong, nonatomic) MAEvents *events;
+@property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
+@property (readonly, strong, nonatomic) MASettings *settings;
+@property (readonly, strong, nonatomic) MASoundManager *soundManager;
+@property (readonly, strong, nonatomic) MATextureManager *textureManager;
+
+@property (readonly, strong, nonatomic) MACreateViewController *createViewController;
+@property (readonly, strong, nonatomic) MAEditViewController *editViewController;
+@property (readonly, strong, nonatomic) MAGameViewController *gameViewController;
+@property (readonly, strong, nonatomic) MAMainViewController *mainViewController;
+@property (readonly, strong, nonatomic) MATopMazesViewController *topMazesViewController;
+
+@property (readonly, strong, nonatomic) ADBannerView *bannerView;
 
 @end
 
 @implementation AppDelegate
 
-- (id)init
+- (BOOL)application: (UIApplication *)application didFinishLaunchingWithOptions: (NSDictionary *)launchOptions
 {
-    self = [super init];
-	
-	if (self)
-	{
-        _bannerView = [[ADBannerView alloc] init];
-        _bannerView.delegate = self;
-	}
+    [self startAnalytics];
+    [self startCrashReporting];
     
-    return self;
-}
+    [self setupAppObjects];
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    [Flurry startSession: [MAConstants shared].flurryAPIKey];
+    self.cloud.username = @"TestUser3";
+    self.cloud.password = @"password";
+    
+    [self loginWithCompletionHandler: ^
+     {
+         self.mazeManager.currentUser = self.currentUser;
+         
+         self.topMazesViewController.currentUser = self.currentUser;
+         [self.topMazesViewController downloadTopMazeItems];
+         
+         [self checkVersion];
+         [self downloadTextures];
+         [self downloadSounds];
+     }];
+    
+    [self setupUI];
 
-    #ifndef DEBUG
-    [Crittercism enableWithAppID: [MAConstants shared].crittercismAppId];
-    #endif
-    
-    // Parse
-    [MALocation registerSubclass];
-    [MAMaze registerSubclass];
-    [MASound registerSubclass];
-    [MATexture registerSubclass];
-    [MAUser registerSubclass];
-    [MAVersion registerSubclass];
-
-    [MATest registerSubclass];
-    
-    [Parse setApplicationId: [MAConstants shared].parseApplicationId
-                  clientKey: [MAConstants shared].parseClientKey];
-    
-    [PFAnalytics trackAppOpenedWithLaunchOptions: launchOptions];
-    
-    
-    self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
-    
-    self.window.rootViewController = [MAMainViewController shared];
-    [self.window makeKeyAndVisible];
-    
-    [[MAVersionManager shared] downloadWithCompletionHandler: ^(MAVersion *version)
-    {
-        [self versionDownloaded: version];
-    }];
-    
-    [[MASoundManager shared] downloadWithCompletionHandler:^
-    {
-        if ([MASoundManager shared].count > 0 && [MATextureManager shared].count > 0)
-        {
-            [[GameViewController shared] setup];
-            
-            [self test];
-        }
-    }];
-
-    [[MATextureManager shared] downloadWithCompletionHandler:^
-    {
-        if ([MASoundManager shared].count > 0 && [MATextureManager shared].count > 0)
-        {
-            [[GameViewController shared] setup];
-            
-            [self test];
-        }
-    }];
-
-    [[MAUserManager shared] getCurrentUserWithCompletionHandler:^
-    {
-        [[MATopMazesViewController shared] refreshCurrentMazes];
-
-        [self test];
-    }];
+    /*
+     for (int i = 1; i <= 43; i = i + 1)
+     {
+     NSLog(@"%@", [MAUtilities uuid]);
+     }
+     */
     
     return YES;
 }
 
-- (void)test
+- (void)startAnalytics
 {
-    if ([MASoundManager shared].count > 0 && [MATextureManager shared].count > 0 && [MAUserManager shared].currentUser != nil)
+    [Flurry startSession: self.constants.flurryAPIKey];
+}
+
+- (void)startCrashReporting
+{
+    #ifndef DEBUG
+    [Crittercism enableWithAppID: [MAConstants shared].crittercismAppId];
+    #endif
+}
+
+- (void)setupAppObjects
+{
+    _constants = [[MAConstants alloc] init];
+    
+    _amFatFractal = [[AMFatFractal alloc] initWithBaseSSLURL: [self.constants.baseSSLURL absoluteString]
+                                           retryDelaySeconds: self.constants.serverRetryDelaySecs];
+    _currentUser = nil;
+    
+    _cloud = [[MACloud alloc] init];
+    _colors = [[MAColors alloc] init];
+    _events = [[MAEvents alloc] initWithConstants: self.constants];
+    _mazeManager = [[MAMazeManager alloc] initWithAMFatFractal: self.amFatFractal];
+    _settings = [[MASettings alloc] init];
+    _soundManager = [[MASoundManager alloc] initWithAMFatFractal: self.amFatFractal];
+    _styles = [[MAStyles alloc] initWithConstants: self.constants colors: self.colors];
+    _textureManager = [[MATextureManager alloc] initWithAMFatFractal: self.amFatFractal];
+    
+    _bannerView = [[ADBannerView alloc] init];
+    self.bannerView.delegate = self;
+    
+    _createViewController = [[MACreateViewController alloc] initWithConstants: self.constants
+                                                                  mazeManager: self.mazeManager
+                                                               textureManager: self.textureManager
+                                                                       styles: self.styles];
+    
+    _editViewController = [[MAEditViewController alloc] initWithConstants: self.constants
+                                                                   events: self.events
+                                                              mazeManager: self.mazeManager
+                                                             soundManager: self.soundManager
+                                                           textureManager: self.textureManager
+                                                                 settings: self.settings
+                                                                   colors: self.colors
+                                                                   styles: self.styles];
+    
+    _gameViewController = [[MAGameViewController alloc] initWithConstants: self.constants
+                                                             soundManager: self.soundManager
+                                                                   styles: self.styles
+                                                           textureManager: self.textureManager
+                                                               bannerView: self.bannerView];
+    
+    _mainViewController = [[MAMainViewController alloc] initWithStyles: self.styles];
+    
+    _topMazesViewController = [[MATopMazesViewController alloc] initWithAMFatFractal: self.amFatFractal
+                                                                           constants: self.constants
+                                                                         mazeManager: self.mazeManager
+                                                                      textureManager: self.textureManager
+                                                                        soundManager: self.soundManager
+                                                                              styles: self.styles
+                                                                          bannerView: self.bannerView];
+    
+    self.createViewController.editViewController = self.editViewController;
+    self.createViewController.mainViewController = self.mainViewController;
+    self.createViewController.topMazesViewController = self.topMazesViewController;
+    
+    self.editViewController.mainViewController = self.mainViewController;
+    self.editViewController.createViewController = self.createViewController;
+    self.editViewController.topMazesViewController = self.topMazesViewController;
+    
+    self.gameViewController.mainViewController = self.mainViewController;
+    self.gameViewController.topMazesViewController = self.topMazesViewController;
+    
+    self.mainViewController.rootViewController = self.topMazesViewController;
+    
+    self.topMazesViewController.createViewController = self.createViewController;
+    self.topMazesViewController.editViewController = self.editViewController;
+    self.topMazesViewController.gameViewController = self.gameViewController;
+    self.topMazesViewController.mainViewController = self.mainViewController;
+}
+
+- (void)loginWithCompletionHandler: (void(^)())completionHandler
+{
+    if (self.cloud.username == nil)
     {
-        NSLog(@"sounds = %d", [MASoundManager shared].count);
-        NSLog(@"textures = %d", [MATextureManager shared].count);
-        NSLog(@"current user = %@", [MAUserManager shared].currentUser);
-        
-        /*
-        self.maze = [MAMaze object];
-
-        self.maze.user = [MAUserManager shared].currentUser;
-        self.maze.name = @"Andre's Maze";
-        self.maze.rows = [NSNumber numberWithInt: 3];
-        self.maze.columns = [NSNumber numberWithInt: 4];
-        self.maze.public = [NSNumber numberWithBool: YES];
-        self.maze.backgroundSound = [[MASoundManager shared] soundWithObjectId: @"FQMGEca3Vy"];
-        self.maze.wallTexture = [[MATextureManager shared] textureWithObjectId: @"cbsJjC84oh"];
-        self.maze.floorTexture = [[MATextureManager shared] textureWithObjectId: @"MlchXCbQSI"];
-        self.maze.ceilingTexture = [[MATextureManager shared] textureWithObjectId: @"sqrne1z3Z1"];
-
-        [self.maze saveInBackground];
-
-        self.mazeQuery = [MAMaze query];
-
-        [self.mazeQuery getObjectInBackgroundWithId: @"o9lPBXCjS3" block: ^(PFObject *object, NSError *error)
-        {
-            MAMaze *maze = (MAMaze *)object;
-            
-            NSLog(@"maze = %@", maze);
-
-            MALocation *location = [MALocation object];
-            
-            location.maze = maze;
-            location.xx = 10;
-            location.yy = 11;
-            location.direction = 12;
-            location.wallNorth = 13;
-            location.wallWest = 14;
-            location.action = 15;
-            location.message = @"message";
-            location.teleportId = 16;
-            location.teleportX = 17;
-            location.teleportY = 18;
-            location.wallNorthTexture = [[MATextureManager shared] textureWithObjectId: @"cbsJjC84oh"];
-            location.wallWestTexture = [[MATextureManager shared] textureWithObjectId: @"MlchXCbQSI"];
-            location.floorTexture = [[MATextureManager shared] textureWithObjectId: @"sqrne1z3Z1"];
-            location.ceilingTexture = [[MATextureManager shared] textureWithObjectId: @"NdTbggxoQg"];
-            location.visited = YES;
-            location.wallNorthHit = YES;
-            location.wallWestHit = YES;
-            
-            [location saveInBackground];
-        }];
-        */
+        [self.amFatFractal amGetObjectFromURI: @"/MAUserCounter"
+                            completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+         {
+             if (theErr == nil && theResponse.statusCode == 200)
+             {
+                 MAUserCounter *userCounter = (MAUserCounter *)theObj;
+                 
+                 NSString *username = [NSString stringWithFormat: @"User%d", userCounter.count];
+                 NSString *password = [MAUtilities randomStringWithLength: self.constants.randomPasswordLength];
+                 
+                 [self.amFatFractal loginWithUserName: username
+                                          andPassword: password
+                                           onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+                  {
+                      if (theErr == nil && theResponse.statusCode == 200)
+                      {
+                          _currentUser = (FFUser *)theObj;
+                          
+                          self.cloud.username = username;
+                          self.cloud.password = password;
+                          
+                          completionHandler();
+                      }
+                  }];
+             }
+         }];
     }
+    else
+    {
+        [self.amFatFractal loginWithUserName: self.cloud.username
+                                 andPassword: self.cloud.password
+                                  onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+         {
+             if (theErr == nil && theResponse.statusCode == 200)
+             {                 
+                 _currentUser = (FFUser *)theObj;
+
+                 completionHandler();
+             }
+         }];
+    }
+}
+
+- (void)checkVersion
+{
+    [self.amFatFractal amGetObjectFromURI: @"/MALatestVersion"
+                        completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+    {
+        if (theErr == nil && theResponse.statusCode == 200)
+        {
+            MALatestVersion *latestVersion = (MALatestVersion *)theObj;
+            
+            float appVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleShortVersionString"] floatValue];
+             
+            // NSLog(@"appVersion = %f, latestVersion = %f", appVersion, latestVersion.number);
+             
+            if (appVersion < latestVersion.latestVersion)
+            {
+                NSString *message = [NSString stringWithFormat: @"This app is Version %0.1f. Version %0.1f is now available."
+                                     "It is recommended that you upgrade to the latest version.", appVersion, latestVersion.latestVersion];
+                 
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                    message: message
+                                                                   delegate: nil
+                                                          cancelButtonTitle: @"OK"
+                                                          otherButtonTitles: nil];
+                 
+                [alertView show];
+            }
+        }
+    }];
+}
+
+- (void)downloadTextures
+{
+    [self.textureManager downloadWithCompletionHandler: ^
+    {
+        [self.gameViewController setup];
+    }];
+}
+
+- (void)downloadSounds
+{
+    [self.soundManager downloadWithCompletionHandler:^
+    {
+        [self.gameViewController setup];
+    }];
+}
+
+- (void)setupUI
+{
+    self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
+    
+    self.window.rootViewController = self.mainViewController;
+    [self.window makeKeyAndVisible];
 }
 
 - (void)bannerViewDidLoadAd: (ADBannerView *)banner
@@ -187,32 +286,15 @@
       withParameters: @{[[NSLocale currentLocale] localeIdentifier] : @"localeIdentifier", [error localizedDescription] : @"error"}];
 }
 
-- (void)versionDownloaded: (MAVersion *)version
-{
-    NSNumber *appVersion = @([[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleShortVersionString"] floatValue]);
-    
-    // NSLog(@"appVersion = %@, version = %@", appVersion, version.number);
-    
-    if ([appVersion floatValue] < version.number)
-    {
-        NSString *message = [NSString stringWithFormat: @"This app is Version %0.1f. Version %0.1f is now available. It is recommended that you upgrade to the latest version.", [appVersion floatValue], version.number];
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
-                                                            message: message
-                                                           delegate: nil
-                                                  cancelButtonTitle: @"OK"
-                                                  otherButtonTitles: nil];
-        
-        [alertView show];
-    }
-}
-
 - (void)applicationDidReceiveMemoryWarning: (UIApplication *)application
 {
     [MAUtilities logWithClass: [self class] format: @"applicationDidReceiveMemoryWarning:"];
 }
 
 @end
+
+
+
 
 
 

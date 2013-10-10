@@ -14,35 +14,24 @@
 
 @interface MAEvents ()
 
-@property (strong, nonatomic) NSTimer *timer;
-@property (strong, nonatomic) NSMutableArray *events;
+@property (readonly, strong, nonatomic) MAConstants *constants;
+
+@property (readonly, strong, nonatomic) NSTimer *timer;
+@property (readonly, strong, nonatomic) NSMutableArray *events;
 
 @end
 
 @implementation MAEvents
 
-+ (MAEvents *)shared
-{
-	static MAEvents *instance = nil;
-	
-	@synchronized(self)
-	{
-		if (instance == nil)
-		{
-            instance = [[MAEvents alloc] init];
-		}
-	}
-	
-	return instance;
-}
-
-- (id)init
+- (id)initWithConstants: (MAConstants *)constants
 {
     self = [super init];
     
     if (self) 
     {
-        _timer = [NSTimer timerWithTimeInterval: [MAConstants shared].eventTimerIntervalSecs
+        _constants = constants;
+        
+        _timer = [NSTimer timerWithTimeInterval: self.constants.eventTimerIntervalSecs
                                          target: self
                                        selector: @selector(timerFired:)
                                        userInfo: nil
@@ -138,7 +127,7 @@
             }
         }
 
-        event.elapsedSecs = event.elapsedSecs + [MAConstants shared].eventTimerIntervalSecs;
+        event.elapsedSecs = event.elapsedSecs + self.constants.eventTimerIntervalSecs;
     }
 }
 

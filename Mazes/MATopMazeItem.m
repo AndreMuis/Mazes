@@ -12,43 +12,26 @@
 
 @implementation MATopMazeItem
 
-- (id)initWithDictionary: (NSDictionary *)dictionary
-{
-    self = [super init];
-	
-	if (self)
-	{
-        _maze = [dictionary valueForKey: @"maze"];
-        _mazeName = [dictionary valueForKey: @"mazeName"];
-        _averageRating = [[dictionary valueForKey: @"averageRating"] floatValue];
-        _ratingCount = [[dictionary valueForKey: @"ratingCount"] intValue];
-        _userStarted = [[dictionary valueForKey: @"userStarted"] boolValue];
-        _userRating = [[dictionary valueForKey: @"userRating"] floatValue];
-        _updatedAt = [dictionary valueForKey: @"updatedAt"];
-	}
-	
-    return self;
-}
-
-- (NSString *)lastModifiedFormatted
+- (NSString *)modifiedAtFormatted
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     
     [dateFormatter setDateStyle: NSDateFormatterShortStyle];
     [dateFormatter setTimeStyle: NSDateFormatterNoStyle];
     
-    return [dateFormatter stringFromDate: self.updatedAt];
+    return [dateFormatter stringFromDate: self.modifiedAt];
 }
 
 - (NSString *)description
 {
-    NSString *desc = [NSString stringWithFormat: @"maze = %@", self.maze];
-    desc = [NSString stringWithFormat: @"%@, mazeName = %@", desc, self.mazeName];
-    desc = [NSString stringWithFormat: @"%@, averageRating = %f", desc, self.averageRating];
-    desc = [NSString stringWithFormat: @"%@, ratingCount = %d", desc, self.ratingCount];
-    desc = [NSString stringWithFormat: @"%@, userStarted = %d", desc, self.userStarted];
-    desc = [NSString stringWithFormat: @"%@, userRating = %f", desc, self.userRating];
-    desc = [NSString stringWithFormat: @"%@, updatedAt = %@", desc, self.updatedAt];
+    NSString *desc = [NSString stringWithFormat: @"<%@: %p; ", [self class], self];
+    desc = [desc stringByAppendingFormat: @"maze = %@; ", self.maze];
+    desc = [desc stringByAppendingFormat: @"mazeName = %@; ", self.mazeName];
+    desc = [desc stringByAppendingFormat: @"averageRating = %f; ", self.averageRating];
+    desc = [desc stringByAppendingFormat: @"ratingCount = %d; ", self.ratingCount];
+    desc = [desc stringByAppendingFormat: @"userStarted = %d; ", self.userStarted];
+    desc = [desc stringByAppendingFormat: @"userRating = %f; ", self.userRating];
+    desc = [desc stringByAppendingFormat: @"modifiedAt = %@>", self.modifiedAt];
     
     return desc;
 }

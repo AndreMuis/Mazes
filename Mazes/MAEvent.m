@@ -52,14 +52,36 @@
 
 - (NSString *)description
 {
-    NSString *desc = [NSString stringWithFormat: @"target = %@\n", self.target];
-    desc = [NSString stringWithFormat: @"%@action = %@\n", desc, NSStringFromSelector(self.action)];
-    desc = [NSString stringWithFormat: @"%@intervalSecs = %f\n", desc, self.intervalSecs];
-    desc = [NSString stringWithFormat: @"%@repeats = %d\n", desc, self.repeats];
+    NSString *desc = [NSString stringWithFormat: @"<%@: %p; ", [self class], self];
+
+    desc = [desc stringByAppendingFormat: @"target = %@; ", self.target];
+    desc = [desc stringByAppendingFormat: @"action = %@; ", NSStringFromSelector(self.action)];
+    desc = [desc stringByAppendingFormat: @"intervalSecs = %f; ", self.intervalSecs];
+    desc = [desc stringByAppendingFormat: @"repeats = %d; ", self.repeats];
     
-    desc = [NSString stringWithFormat: @"%@elapsedSecs = %f\n", desc, self.elapsedSecs];
+    desc = [desc stringByAppendingFormat: @"elapsedSecs = %f>", self.elapsedSecs];
     
     return desc;
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

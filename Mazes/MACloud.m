@@ -11,26 +11,13 @@
 @interface MACloud ()
 
 @property (strong, nonatomic) NSUserDefaults *userDefaults;
-@property (strong, nonatomic) NSString *currentUserObjectIdKey;
+
+@property (strong, nonatomic) NSString *usernameKey;
+@property (strong, nonatomic) NSString *passwordKey;
 
 @end
 
 @implementation MACloud
-
-+ (MACloud *)shared
-{
-	static MACloud *shared = nil;
-	
-	@synchronized(self)
-	{
-		if (shared == nil)
-		{
-			shared = [[MACloud alloc] init];
-		}
-	}
-	
-	return shared;
-}
 
 - (id)init
 {
@@ -38,7 +25,8 @@
     
     if (self)
     {
-        _currentUserObjectIdKey = @"currentUserObjectIdKey";
+        _usernameKey = @"usernameKey";
+        _passwordKey = @"passwordKey";
         
         #if TARGET_IPHONE_SIMULATOR
         
@@ -50,7 +38,8 @@
         
         if ([[NSUbiquitousKeyValueStore defaultStore] dictionaryRepresentation].count == 0)
         {
-            [self setCurrentUserObjectId: nil];
+            [self setUsername: nil];
+            [self setPassword: nil];
         }
 
         #endif
@@ -59,29 +48,88 @@
     return self;
 }
 
-- (NSString *)currentUserObjectId
+- (BOOL)isAvailable
+{
+    NSURL *url = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier: nil];
+    
+    if (url != nil)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+- (void)clear
+{
+    #if TARGET_IPHONE_SIMULATOR
+    
+    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+    [self.userDefaults removePersistentDomainForName: appDomain];
+    
+    #else
+    
+    for (NSString *key in [[NSUbiquitousKeyValueStore defaultStore] dictionaryRepresentation].allKeys)
+    {
+        [[NSUbiquitousKeyValueStore defaultStore] removeObjectForKey: key];
+    }
+
+    #endif
+}
+
+- (NSString *)username
 {
     #if TARGET_IPHONE_SIMULATOR
 
-    return [self.userDefaults stringForKey: self.currentUserObjectIdKey];
+    return [self.userDefaults stringForKey: self.usernameKey];
 
     #else
     
-    return [[NSUbiquitousKeyValueStore defaultStore] stringForKey: self.currentUserObjectIdKey];
+    return [[NSUbiquitousKeyValueStore defaultStore] stringForKey: self.usernameKey];
     
     #endif
 }
 
-- (void)setCurrentUserObjectId: (NSString *)currentUserObjectId
+- (void)setUsername: (NSString *)username
 {
     #if TARGET_IPHONE_SIMULATOR
     
-    [self.userDefaults setObject: currentUserObjectId forKey: self.currentUserObjectIdKey];
+    [self.userDefaults setObject: username forKey: self.usernameKey];
     [self.userDefaults synchronize];
     
     #else
     
-    [[NSUbiquitousKeyValueStore defaultStore]: currentUserObjectId forKey: self.currentUserObjectIdKey];
+    [[NSUbiquitousKeyValueStore defaultStore] setObject: username forKey: self.usernameKey];
+    [[NSUbiquitousKeyValueStore defaultStore] synchronize];
+    
+    #endif
+}
+
+- (NSString *)password
+{
+    #if TARGET_IPHONE_SIMULATOR
+    
+    return [self.userDefaults stringForKey: self.passwordKey];
+    
+    #else
+    
+    return [[NSUbiquitousKeyValueStore defaultStore] stringForKey: self.passwordKey];
+    
+    #endif
+}
+
+- (void)setPassword: (NSString *)password
+{
+    #if TARGET_IPHONE_SIMULATOR
+    
+    [self.userDefaults setObject: password forKey: self.passwordKey];
+    [self.userDefaults synchronize];
+    
+    #else
+    
+    [[NSUbiquitousKeyValueStore defaultStore] setObject: password forKey: self.passwordKey];
     [[NSUbiquitousKeyValueStore defaultStore] synchronize];
     
     #endif

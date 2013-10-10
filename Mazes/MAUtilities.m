@@ -11,7 +11,7 @@
 #import "MAUtilities.h"
 
 #import "AppDelegate.h"
-#import "Styles.h"
+#import "MAGridStyle.h"
 
 @implementation MAUtilities
 
@@ -41,26 +41,35 @@
     #endif
 }
 
-+ (BOOL)iCloudAvavilable
++ (double)radiansFromDegrees: (double)degrees
 {
-    NSURL *url = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier: nil];
-    
-    if (url != nil)
-    {
-        return YES;
-    }
-    else
-    {
-        return NO;
-    }
+	return degrees * ((2.0 * M_PI) / 360.0);
 }
 
-+ (void)cleariCloudStore
++ (double)degreesFromRadians: (double)radians
 {
-    for (NSString *key in [[NSUbiquitousKeyValueStore defaultStore] dictionaryRepresentation].allKeys)
+	return radians * (360.0 / (2.0 * M_PI));
+}
+
++ (NSString *)uuid
+{
+    CFUUIDRef uuidRef = CFUUIDCreate(NULL);
+    CFStringRef uuidStringRef = CFUUIDCreateString(NULL, uuidRef);
+    CFRelease(uuidRef);
+    
+    return (__bridge NSString *)uuidStringRef;
+}
+
++ (NSString *)randomStringWithLength: (NSUInteger)length
+{
+    NSMutableString *string = [NSMutableString stringWithCapacity: length];
+    
+    for (NSUInteger i = 0; i < length; i = i + 1)
     {
-        [[NSUbiquitousKeyValueStore defaultStore] removeObjectForKey: key];
+        [string appendFormat: @"%c", (char)('a' + arc4random_uniform(25))];
     }
+    
+    return string;
 }
 
 + (void)drawBorderInsideRect: (CGRect)rect withWidth: (CGFloat)width color: (UIColor *)color
@@ -141,11 +150,6 @@
 	CGContextRestoreGState(context);
 }
 
-+ (void)rotateImageView: (UIImageView *)imageView angleDegrees: (CGFloat)angleDegrees
-{
-	imageView.transform = CGAffineTransformMakeRotation(angleDegrees * (M_PI / 180.0));
-}
-
 + (UIImage *)createDirectionArrowImageWidth: (CGFloat)width height: (CGFloat)height
 {
 	NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
@@ -161,7 +165,7 @@
 	return directionArrowImageScaled;
 }
 
-+ (void)drawArrowInRect: (CGRect)rect angleDegrees: (double)angle scale: (float)scale
++ (void)drawArrowInRect: (CGRect)rect angleDegrees: (double)angle scale: (float)scale gridStyle: (MAGridStyle *)gridStyle
 {
 	CGContextRef context = UIGraphicsGetCurrentContext();	
 	
@@ -203,7 +207,7 @@
 	CGContextAddLineToPoint(context, origin.x + x4, origin.y + y4);
 	CGContextClosePath(context);
 	
-	CGContextSetFillColorWithColor(context, [Styles shared].grid.arrowColor.CGColor);
+	CGContextSetFillColorWithColor(context, gridStyle.arrowColor.CGColor);
 	CGContextFillPath(context);
 }
 
@@ -225,16 +229,6 @@
 	
 	*x = r * cos(angle);
 	*y = r * sin(angle);
-}
-
-+ (double)radiansFromDegrees: (double)degrees
-{
-	return degrees * ((2.0 * M_PI) / 360.0);
-}
-
-+ (double)degreesFromRadians: (double)radians
-{
-	return radians * (360.0 / (2.0 * M_PI));
 }
 
 @end

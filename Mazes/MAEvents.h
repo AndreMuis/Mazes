@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+@class MAConstants;
 @class MAEvent;
 
 @interface MAEvents : NSObject
 
-+ (MAEvents *)shared;
+- (id)initWithConstants: (MAConstants *)constants;
 
 - (void)addEvent: (MAEvent *)event;
 - (BOOL)hasEvent: (MAEvent *)event;

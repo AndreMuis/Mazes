@@ -8,53 +8,29 @@
 
 #import "MASoundManager.h"
 
-#import "GameViewController.h"
-#import "MAConstants.h"
-#import "MAEvents.h"
-#import "MAEvent.h"
+#import "MAGameViewController.h"
 #import "MASound.h"
 #import "MAUtilities.h"
 
 @interface MASoundManager ()
 
-@property (strong, nonatomic, readonly) NSArray *list;
-
-@property (strong, nonatomic, readonly) PFQuery *query;
-@property (strong, nonatomic, readonly) MAEvent *downloadEvent;
+@property (strong, nonatomic, readonly) AMFatFractal *amFatFractal;
+@property (strong, nonatomic, readonly) AMRequest *amRequest;
+@property (strong, nonatomic, readonly) NSArray *sounds;
 
 @end
 
 @implementation MASoundManager
 
-+ (MASoundManager *)shared
-{
-	static MASoundManager *shared = nil;
-	
-	@synchronized(self)
-	{
-		if (shared == nil)
-		{
-			shared = [[MASoundManager alloc] init];
-		}
-	}
-	
-	return shared;
-}
-
-- (id)init
+- (id)initWithAMFatFractal: (AMFatFractal *)amFatFractal
 {
     self = [super init];
 	
 	if (self)
 	{
-        _list = [NSArray array];
-        
-        _query = [MASound query];
-        
-        _downloadEvent = [[MAEvent alloc] initWithTarget: self
-                                                  action: @selector(download)
-                                            intervalSecs: [MAConstants shared].serverRetryDelaySecs
-                                                 repeats: NO];
+        _amFatFractal = amFatFractal;
+        _amRequest = nil;
+        _sounds = nil;
 	}
 	
     return self;
@@ -62,42 +38,41 @@
 
 - (int)count
 {
-    return self.list.count;
+    return self.sounds.count;
 }
 
 - (void)downloadWithCompletionHandler: (SoundsDownloadCompletionHandler)handler
 {
-    [self.query findObjectsInBackgroundWithBlock: ^(NSArray *objects, NSError *error)
+    _amRequest = [self.amFatFractal amGetArrayFromURI: @"/MASound"
+                                    completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
     {
-        if (error == nil)
+        if (theErr == nil && theResponse.statusCode == 200)
         {
-            _list = objects;
-            
-            for (MASound *sound in self.list)
+            _sounds = (NSArray *)theObj;
+
+            for (MASound *sound in self.sounds)
             {
                 [sound setup];
             }
-            
+          
             handler();
         }
         else
         {
-            [MAUtilities logWithClass: [self class] format: @"Unable to get sounds from server. Error: %@", error];
-             
-            [[MAEvents shared] addEvent: self.downloadEvent];
+            [MAUtilities logWithClass: [self class]
+                               format: @"Unable to get sounds from server. StatusCode: %d. Error: %@", theResponse.statusCode, theErr];
         }
     }];
 }
 
 - (void)cancelDownload
 {
-    [self.query cancel];
-    [[MAEvents shared] removeEventsWithTarget: self];
+    [self.amFatFractal amCancelRequest: self.amRequest];
 }
 
 - (NSArray *)sortedByName
 {
-    NSArray *sortedArray = [self.list sortedArrayUsingComparator: ^NSComparisonResult(id obj1, id obj2)
+    NSArray *sortedArray = [self.sounds sortedArrayUsingComparator: ^NSComparisonResult(id obj1, id obj2)
     {
         NSString *name1 = ((MASound *)obj1).name;
         NSString *name2 = ((MASound *)obj2).name;
@@ -108,30 +83,12 @@
     return sortedArray;
 }
 
-- (MASound *)soundWithObjectId: (NSString *)objectId
-{
-    MASound *sound = nil;
-    
-    NSUInteger index = [self.list indexOfObjectPassingTest: ^BOOL(id obj, NSUInteger idx, BOOL *stop)
-    {
-        return [((MASound *)obj).objectId isEqualToString: objectId] == YES;
-    }];
-    
-    if (index != NSNotFound)
-    {
-        sound = [self.list objectAtIndex: index];
-    }
-    else
-    {
-        [MAUtilities logWithClass: [self class] format: @"Unable to find sound with objectId: %@", objectId];
-    }
-    
-    return sound;
-}
-
 - (NSString *)description 
 {
-    return [NSString stringWithFormat: @"%@", [self sortedByName]];
+    NSString *desc = [NSString stringWithFormat: @"<%@: %p; ", [self class], self];
+    desc = [desc stringByAppendingFormat: @"sounds = %@>", self.sounds];
+
+    return desc;
 }
 
 @end

@@ -2,37 +2,39 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>34E52247-103D-4126-9CEF-4B3A5DE7E67D</string>
+	<string>C46D747F-820F-4989-909F-96FCC171A099</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Mazes</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>3EA22F68-BB7F-4DD5-9A2A-3A4672A3207B</key>
-		<string>ssh://github.com/AndreMuis/Mazes.git</string>
+		<key>61520EAE-BADF-48F6-92CC-6F06C784DD42</key>
+		<string>ssh://github.com/AndreMuis/iOSMazes.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Mazes.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>3EA22F68-BB7F-4DD5-9A2A-3A4672A3207B</key>
+		<key>61520EAE-BADF-48F6-92CC-6F06C784DD42</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/AndreMuis/Mazes.git</string>
+	<string>ssh://github.com/AndreMuis/iOSMazes.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>3EA22F68-BB7F-4DD5-9A2A-3A4672A3207B</string>
+	<string>61520EAE-BADF-48F6-92CC-6F06C784DD42</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>3EA22F68-BB7F-4DD5-9A2A-3A4672A3207B</string>
+			<string>61520EAE-BADF-48F6-92CC-6F06C784DD42</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Mazes</string>
+			<string>iOSMazes</string>
 		</dict>
 	</array>
 </dict>

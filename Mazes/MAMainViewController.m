@@ -8,34 +8,26 @@
 
 #import "MAMainViewController.h"
 
+#import "MAMainViewStyle.h"
+#import "MAStyles.h"
 #import "MAUtilities.h"
-#import "MATopMazesViewController.h"
-#import "MainViewStyle.h"
-#import "Styles.h"
+
+@interface MAMainViewController ()
+
+@property (readwrite, strong, nonatomic) MAStyles *styles;
+
+@end
 
 @implementation MAMainViewController
 
-+ (MAMainViewController *)shared
+- (id)initWithStyles: (MAStyles *)styles
 {
-	static MAMainViewController *instance = nil;
-	
-	@synchronized(self)
-	{
-		if (instance == nil)
-		{
-            instance = [[MAMainViewController alloc] initWithNibName: @"MainViewController" bundle: nil];
-		}
-	}
-	
-	return instance;
-}
-
-- (id)initWithNibName: (NSString *)nibNameOrNil bundle: (NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName: nibNameOrNil bundle: nibBundleOrNil];
+    self = [super initWithNibName: NSStringFromClass([self class])
+                           bundle: nil];
     
     if (self)
     {
+        _styles = styles;
     }
     
     return self;
@@ -47,9 +39,9 @@
     
     self.view.backgroundColor = [UIColor redColor];
     
-    [self addChildViewController: [MATopMazesViewController shared]];
-    [self.view addSubview: [MATopMazesViewController shared].view];
-    [[MATopMazesViewController shared] didMoveToParentViewController: self];
+    [self addChildViewController: self.rootViewController];
+    [self.view addSubview: self.rootViewController.view];
+    [self.rootViewController didMoveToParentViewController: self];
 }
 
 - (void)transitionFromViewController: (UIViewController *)fromViewController
@@ -75,7 +67,7 @@
             
             [self transitionFromViewController: fromViewController
                               toViewController: toViewController
-                                      duration: [Styles shared].mainView.transitionDuration
+                                      duration: self.styles.mainView.transitionDuration
                                        options: 0
                                     animations: ^
              {
@@ -109,7 +101,7 @@
             
             [self transitionFromViewController: fromViewController
                               toViewController: toViewController
-                                      duration: [Styles shared].mainView.transitionDuration
+                                      duration: self.styles.mainView.transitionDuration
                                        options: (UIViewAnimationOptions)transition
                                     animations: ^
              {
@@ -136,7 +128,7 @@
             
             [self transitionFromViewController: fromViewController
                               toViewController: toViewController
-                                      duration: [Styles shared].mainView.transitionDuration
+                                      duration: self.styles.mainView.transitionDuration
                                        options: 0
                                     animations: ^
              {
@@ -173,7 +165,7 @@
             
             [self transitionFromViewController: fromViewController
                               toViewController: toViewController
-                                      duration: [Styles shared].mainView.transitionDuration
+                                      duration: self.styles.mainView.transitionDuration
                                        options: 0
                                     animations: ^
              {
@@ -210,7 +202,7 @@
             
             [self transitionFromViewController: fromViewController
                               toViewController: toViewController
-                                      duration: [Styles shared].mainView.transitionDuration
+                                      duration: self.styles.mainView.transitionDuration
                                        options: 0
                                     animations: ^
              {
@@ -247,7 +239,7 @@
             
             [self transitionFromViewController: fromViewController
                               toViewController: toViewController
-                                      duration: [Styles shared].mainView.transitionDuration
+                                      duration: self.styles.mainView.transitionDuration
                                        options: 0
                                     animations: ^
              {

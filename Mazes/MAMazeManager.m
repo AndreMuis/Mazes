@@ -9,161 +9,444 @@
 #import "MAMazeManager.h"
 
 #import "MAConstants.h"
-#import "MAEvents.h"
-#import "MAEvent.h"
 #import "MAMaze.h"
+#import "MAMazeProgress.h"
+#import "MAMazeRating.h"
+#import "MASound.h"
+#import "MAStyles.h"
+#import "MATextureManager.h"
 #import "MATopMazeItem.h"
-#import "MAUserManager.h"
-#import "MAUser.h"
 #import "MAUtilities.h"
 
 @interface MAMazeManager ()
 
-@property (strong, nonatomic, readonly) MAEvent *getHighestRatedMazesEvent;
-@property (strong, nonatomic, readonly) MAEvent *getNewestMazesEvent;
-@property (strong, nonatomic, readonly) MAEvent *getYoursMazesEvent;
+@property (readonly, strong, nonatomic) AMFatFractal *amFatFractal;
+
+@property (readonly, strong, nonatomic) NSMutableArray *userMazes;
+
+@property (strong, nonatomic) AMRequest *getUserMazesRequest;
+@property (strong, nonatomic) AMRequest *saveMazeRequest;
+
+@property (strong, nonatomic) AMRequest *getHighestRatedRequest;
+@property (strong, nonatomic) AMRequest *getHighestRatedProgressRequest;
+@property (strong, nonatomic) AMRequest *getHighestRatedRatingsRequest;
+
+@property (strong, nonatomic) AMRequest *getNewestRequest;
+@property (strong, nonatomic) AMRequest *getNewestProgressRequest;
+@property (strong, nonatomic) AMRequest *getNewestRatingsRequest;
+
+@property (strong, nonatomic) AMRequest *getYoursRequest;
+@property (strong, nonatomic) AMRequest *getYoursProgressRequest;
+@property (strong, nonatomic) AMRequest *getYoursRatingsRequest;
 
 @end
 
 @implementation MAMazeManager
 
-+ (MAMazeManager *)shared
-{
-	static MAMazeManager *shared = nil;
-	
-	@synchronized(self)
-	{
-		if (shared == nil)
-		{
-			shared = [[MAMazeManager alloc] init];
-		}
-	}
-	
-	return shared;
-}
-
-- (id)init
+- (id)initWithAMFatFractal: (AMFatFractal *)amFatFractal
 {
     self = [super init];
 	
 	if (self)
 	{
+        _amFatFractal = amFatFractal;
+        
+        _userMazes = nil;
+        
+        _isFirstUserMazeSizeChosen = NO;
+        
         _highestRatedTopMazeItems = nil;
         _newestTopMazeItems = nil;
         _yoursTopMazeItems = nil;
-        
-        _isDownloadingHighestRatedMazes = NO;
-        _isDownloadingNewestMazes = NO;
-        _isDownloadingYoursMazes = NO;
 
-        _getHighestRatedMazesEvent = [[MAEvent alloc] initWithTarget: self
-                                                              action: @selector(getHighestRatedMazesWithCompletionHandler:)
-                                                        intervalSecs: [MAConstants shared].serverRetryDelaySecs
-                                                             repeats: NO];
+        _getHighestRatedRequest = nil;
+        _getHighestRatedProgressRequest = nil;
+        _getHighestRatedRatingsRequest = nil;
         
-        _getNewestMazesEvent = [[MAEvent alloc] initWithTarget: self
-                                                        action: @selector(getNewestMazesWithCompletionHandler:)
-                                                  intervalSecs: [MAConstants shared].serverRetryDelaySecs
-                                                       repeats: NO];
-
-        _getYoursMazesEvent = [[MAEvent alloc] initWithTarget: self
-                                                       action: @selector(getYoursMazesWithCompletionHandler:)
-                                                 intervalSecs: [MAConstants shared].serverRetryDelaySecs
-                                                      repeats: NO];
+        _getNewestRequest = nil;
+        _getNewestProgressRequest = nil;
+        _getNewestRatingsRequest = nil;
+        
+        _getYoursRequest = nil;
+        _getYoursProgressRequest = nil;
+        _getYoursRatingsRequest = nil;
+        
+        _getUserMazesRequest = nil;
+        _saveMazeRequest = nil;
 	}
 	
     return self;
 }
 
-- (void)getHighestRatedMazesWithCompletionHandler: (DownloadCompletionHandler)handler
+- (NSArray *)allUserMazes
 {
-    _isDownloadingHighestRatedMazes = YES;
-    
-    [PFCloud callFunctionInBackground: @"getHighestRatedMazes"
-                       withParameters: @{@"userObjectId" : [MAUserManager shared].currentUser.objectId}
-                                block: ^(id object, NSError *error)
-     {
-         if (error == nil)
-         {
-             NSArray *dictionaries = (NSArray *)object;
-             
-             self.highestRatedTopMazeItems = [self topMazeItemsWithDictionaries: dictionaries];
+    return self.userMazes;
+}
 
-             _isDownloadingHighestRatedMazes = NO;
-         }
-         else
-         {
-             [MAUtilities logWithClass: [self class] format: @"Unable to get highest rated mazes from server. Error: %@", error];
+- (void)addMaze: (MAMaze *)maze
+{
+    [self.userMazes addObject: maze];
+}
+
+- (MAMaze *)firstUserMaze
+{
+    return self.userMazes[0];
+}
+
+- (BOOL)isDownloadingHighestRatedMazes
+{
+    return (self.getHighestRatedRequest != nil || self.getHighestRatedProgressRequest != nil || self.getHighestRatedRatingsRequest);
+}
+
+- (BOOL)isDownloadingNewestMazes
+{
+    return (self.getNewestRequest != nil || self.getNewestProgressRequest || self.getNewestRatingsRequest);
+}
+
+- (BOOL)isDownloadingYoursMazes
+{
+    return (self.getYoursRequest != nil || self.getYoursProgressRequest != nil || self.getYoursRatingsRequest != nil);
+}
+
+- (void)getUserMazesWithCompletionHandler: (DownloadMazesCompletionHandler)handler
+{
+    self.getUserMazesRequest = [self.amFatFractal amGetArrayFromURI: [NSString stringWithFormat: @"/FFUser/(userName eq '%@')/BackReferences.MAMaze.user/()", self.currentUser.userName]
+                                                 completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+                                {
+                                    if (theErr == nil && theResponse.statusCode == 200)
+                                    {
+                                        _userMazes = [NSMutableArray arrayWithArray: (NSArray *)theObj];
+                                       
+                                        for (MAMaze *maze in self.userMazes)
+                                        {
+                                            [maze decompressLocationsDataAndWallsData];
+                                        }
+
+                                        handler();
+                                    }
+                                }];
+}
+
+- (void)cancelGetUserMazes
+{
+    [self.amFatFractal amCancelRequest: self.getUserMazesRequest];
+}
+
+- (void)saveMaze: (MAMaze *)maze completionHandler: (SaveMazeCompletionHandler)handler
+{
+    if (maze.mazeId == nil)
+    {
+        maze.mazeId = [MAUtilities uuid];
+
+        [maze compressLocationsAndWallsData];
+        
+        self.saveMazeRequest = [self.amFatFractal amCreateObject: maze
+                                                           atURI: @"/MAMaze"
+                                               completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+                                {
+                                    if (theErr == nil && theResponse.statusCode == 201)
+                                    {
+                                        handler();
+                                    }
+                                }];
+    }
+    else
+    {
+        self.saveMazeRequest = [self.amFatFractal amUpdateObject: maze
+                                               completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+                                {
+                                    if (theErr == nil && theResponse.statusCode == 200)
+                                    {
+                                        [maze compressLocationsAndWallsData];
+
+                                        [self.amFatFractal updateBlob: maze.locationsData
+                                                         withMimeType: @"application/octet-stream"
+                                                               forObj: maze
+                                                           memberName: @"locationsData"
+                                                           onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+                                         {
+                                             if (theErr == nil && theResponse.statusCode == 200)
+                                             {
+                                                 [maze compressLocationsAndWallsData];
+                                                 
+                                                 [self.amFatFractal updateBlob: maze.wallsData
+                                                                  withMimeType: @"application/octet-stream"
+                                                                        forObj: maze
+                                                                    memberName: @"wallsData"
+                                                                    onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+                                                  {
+                                                      handler();
+                                                  }];
+                                             }
+                                         }];
+                                    }
+                                }];
+    }
+}
+
+- (void)cancelSaveMaze
+{
+    [self.amFatFractal amCancelRequest: self.saveMazeRequest];
+}
+
+- (void)getHighestRatedMazesWithCompletionHandler: (DownloadMazesCompletionHandler)handler
+{
+    self.getHighestRatedRequest = [self.amFatFractal amGetArrayFromURI: @"/MAMaze/(public eq true)?sort=averageRating desc&count=100&start=0"
+                                                     completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+    {
+        if (theErr == nil && theResponse.statusCode == 200)
+        {
+            NSArray *highestRatedMazes = (NSArray *)theObj;
+
+            self.getHighestRatedProgressRequest = [self.amFatFractal amGetArrayFromURI: [NSString stringWithFormat: @"/FFUser/(userName eq '%@')/BackReferences.MAMazeProgress.user/()", self.currentUser.userName]
+                                                                    completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+            {
+                if (theErr == nil && theResponse.statusCode == 200)
+                {
+                    NSArray *mazeProgresses = (NSArray *)theObj;
+                   
+                    self.getHighestRatedRatingsRequest = [self.amFatFractal amGetArrayFromURI: [NSString stringWithFormat: @"/FFUser/(userName eq '%@')/BackReferences.MAMazeRating.user/()", self.currentUser.userName]
+                                                                            completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+                    {
+                        if (theErr == nil && theResponse.statusCode == 200)
+                        {
+                            NSArray *mazeRatings = (NSArray *)theObj;
+                          
+                            _highestRatedTopMazeItems = [self topMazeItemsWithMazes: highestRatedMazes
+                                                                     mazeProgresses: mazeProgresses
+                                                                        mazeRatings: mazeRatings];
+                          
+                            handler();
+                          
+                            self.getHighestRatedRequest = nil;
+                            self.getHighestRatedProgressRequest = nil;
+                            self.getHighestRatedRatingsRequest = nil;
+                        }
+                        else
+                        {
+                            [MAUtilities logWithClass: [self class]
+                                               format: @"Unable to get maze progress from server. StatusCode: %d. Error: %@", theResponse.statusCode, theObj];
+                        }
+                    }];
+                   
+                }
+                else
+                {
+                    [MAUtilities logWithClass: [self class]
+                                       format: @"Unable to get maze rating from server. StatusCode: %d. Error: %@", theResponse.statusCode, theObj];
+                }
+            }];
+        }
+        else
+        {
+            [MAUtilities logWithClass: [self class]
+                               format: @"Unable to get highest rated mazes from server. StatusCode: %d. Error: %@", theResponse.statusCode, theObj];
+        }
+    }];
+}
+
+- (void)getNewestMazesWithCompletionHandler: (DownloadMazesCompletionHandler)handler
+{
+    self.getNewestProgressRequest = [self.amFatFractal amGetArrayFromURI: @"/MAMaze/(public eq true)?sort=modifiedAt desc&count=100&start=0"
+                                                       completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+    {
+        if (theErr == nil && theResponse.statusCode == 200)
+        {
+            NSArray *newestMazes = (NSArray *)theObj;
+           
+            self.getNewestProgressRequest = [self.amFatFractal amGetArrayFromURI: [NSString stringWithFormat: @"/FFUser/(userName eq '%@')/BackReferences.MAMazeProgress.user/()", self.currentUser.userName]
+                                                               completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+            {
+                if (theErr == nil && theResponse.statusCode == 200)
+                {
+                    NSArray *mazeProgresses = (NSArray *)theObj;
          
-             self.getHighestRatedMazesEvent.object = handler;
-             [[MAEvents shared] addEvent: self.getHighestRatedMazesEvent];
-         }
-     }];
+                    self.getNewestRatingsRequest = [self.amFatFractal amGetArrayFromURI: [NSString stringWithFormat: @"/FFUser/(userName eq '%@')/BackReferences.MAMazeRating.user/()", self.currentUser.userName]
+                                                                      completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+                    {
+                        if (theErr == nil && theResponse.statusCode == 200)
+                        {
+                            NSArray *mazeRatings = (NSArray *)theObj;
+                
+                            _newestTopMazeItems = [self topMazeItemsWithMazes: newestMazes
+                                                               mazeProgresses: mazeProgresses
+                                                                  mazeRatings: mazeRatings];
+                
+                            handler();
+                
+                            self.getNewestRequest = nil;
+                            self.getNewestProgressRequest = nil;
+                            self.getNewestRatingsRequest = nil;
+                        }
+                        else
+                        {
+                            [MAUtilities logWithClass: [self class]
+                                               format: @"Unable to get maze progress from server. StatusCode: %d. Error: %@", theResponse.statusCode, theObj];
+                        }
+                    }];
+                }
+                else
+                {
+                    [MAUtilities logWithClass: [self class]
+                                       format: @"Unable to get maze rating from server. StatusCode: %d. Error: %@", theResponse.statusCode, theObj];
+                }
+            }];
+        }
+        else
+        {
+            [MAUtilities logWithClass: [self class]
+                               format: @"Unable to get newest mazes from server. StatusCode: %d. Error: %@", theResponse.statusCode, theObj];
+        }
+    }];
 }
 
-- (void)getNewestMazesWithCompletionHandler: (DownloadCompletionHandler)handler
+- (void)getYoursMazesWithCompletionHandler: (DownloadMazesCompletionHandler)handler
 {
-    _isDownloadingNewestMazes = YES;
-    
-    [PFCloud callFunctionInBackground: @"getNewestMazes"
-                       withParameters: @{@"userObjectId" : [MAUserManager shared].currentUser.objectId}
-                                block: ^(id object, NSError *error)
-     {
-         if (error == nil)
-         {
-             NSArray *dictionaries = (NSArray *)object;
-             
-             self.newestTopMazeItems = [self topMazeItemsWithDictionaries: dictionaries];
-             
-             _isDownloadingNewestMazes = NO;
-         }
-         else
-         {
-             [MAUtilities logWithClass: [self class] format: @"Unable to get newest mazes from server. Error: %@", error];
-             
-             self.getNewestMazesEvent.object = handler;
-             [[MAEvents shared] addEvent: self.getNewestMazesEvent];
-         }
-     }];
+    self.getYoursRequest = [self.amFatFractal amGetArrayFromURI: [NSString stringWithFormat: @"/FFUser/(userName eq '%@')/BackReferences.MAMaze.user/()?sort=name asc", self.currentUser.userName]
+                                              completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+    {
+        if (theErr == nil && theResponse.statusCode == 200)
+        {
+            NSArray *yoursMazes = (NSArray *)theObj;
+         
+            self.getYoursProgressRequest = [self.amFatFractal amGetArrayFromURI: [NSString stringWithFormat: @"/FFUser/(userName eq '%@')/BackReferences.MAMazeProgress.user/()", self.currentUser.userName]
+                                                              completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+            {
+                if (theErr == nil && theResponse.statusCode == 200)
+                {
+                    NSArray *mazeProgresses = (NSArray *)theObj;
+                      
+                    self.getYoursRatingsRequest = [self.amFatFractal amGetArrayFromURI: [NSString stringWithFormat: @"/FFUser/(userName eq '%@')/BackReferences.MAMazeRating.user/()", self.currentUser.userName]
+                                                                     completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+                    {
+                        if (theErr == nil && theResponse.statusCode == 200)
+                        {
+                            NSArray *mazeRatings = (NSArray *)theObj;
+                              
+                            _yoursTopMazeItems = [self topMazeItemsWithMazes: yoursMazes
+                                                              mazeProgresses: mazeProgresses
+                                                                 mazeRatings: mazeRatings];
+                              
+                            handler();
+                              
+                            self.getYoursRequest = nil;
+                            self.getYoursProgressRequest = nil;
+                            self.getYoursRatingsRequest = nil;
+                        }
+                        else
+                        {
+                            [MAUtilities logWithClass: [self class]
+                                               format: @"Unable to get maze progress from server. StatusCode: %d. Error: %@", theResponse.statusCode, theObj];
+                        }
+                    }];
+                }
+                else
+                {
+                    [MAUtilities logWithClass: [self class]
+                                       format: @"Unable to get maze rating from server. StatusCode: %d. Error: %@", theResponse.statusCode, theObj];
+                }
+            }];
+        }
+        else
+        {
+            [MAUtilities logWithClass: [self class]
+                               format: @"Unable to get yours mazes from server. StatusCode: %d. Error: %@", theResponse.statusCode, theObj];
+        }
+    }];
 }
 
-- (void)getYoursMazesWithCompletionHandler: (DownloadCompletionHandler)handler
+- (void)cancelDownloads
 {
-    _isDownloadingYoursMazes = YES;
+    if (self.getHighestRatedRequest != nil)
+    {
+        [self.amFatFractal amCancelRequest: self.getHighestRatedRequest];
+        self.getHighestRatedRequest = nil;
+    }
     
-    [PFCloud callFunctionInBackground: @"getCurrentUserMazes"
-                       withParameters: @{@"userObjectId" : [MAUserManager shared].currentUser.objectId}
-                                block: ^(id object, NSError *error)
-     {
-         if (error == nil)
-         {
-             NSArray *dictionaries = (NSArray *)object;
-             
-             self.yoursTopMazeItems = [self topMazeItemsWithDictionaries: dictionaries];
-             
-             _isDownloadingYoursMazes = NO;
-         }
-         else
-         {
-             [MAUtilities logWithClass: [self class] format: @"Unable to get current user's mazes from server. Error: %@", error];
-             
-             self.getYoursMazesEvent.object = handler;
-             [[MAEvents shared] addEvent: self.getYoursMazesEvent];
-         }
-     }];
+    if (self.getHighestRatedProgressRequest != nil)
+    {
+        [self.amFatFractal amCancelRequest: self.getHighestRatedProgressRequest];
+        self.getHighestRatedProgressRequest = nil;
+    }
+
+    if (self.getHighestRatedRatingsRequest != nil)
+    {
+        [self.amFatFractal amCancelRequest: self.getHighestRatedRatingsRequest];
+        self.getHighestRatedRatingsRequest = nil;
+    }
+    
+
+    if (self.getNewestRequest != nil)
+    {
+        [self.amFatFractal amCancelRequest: self.getNewestRequest];
+        self.getNewestRequest = nil;
+    }
+    
+    if (self.getNewestProgressRequest != nil)
+    {
+        [self.amFatFractal amCancelRequest: self.getNewestProgressRequest];
+        self.getNewestProgressRequest = nil;
+    }
+    
+    if (self.getNewestRatingsRequest != nil)
+    {
+        [self.amFatFractal amCancelRequest: self.getNewestRatingsRequest];
+        self.getNewestRatingsRequest = nil;
+    }
+    
+    
+    if (self.getYoursRequest != nil)
+    {
+        [self.amFatFractal amCancelRequest: self.getYoursRequest];
+        self.getYoursRequest = nil;
+    }
+
+    if (self.getYoursProgressRequest != nil)
+    {
+        [self.amFatFractal amCancelRequest: self.getYoursProgressRequest];
+        self.getYoursProgressRequest = nil;
+    }
+
+    if (self.getYoursRatingsRequest != nil)
+    {
+        [self.amFatFractal amCancelRequest: self.getYoursRatingsRequest];
+        self.getYoursRatingsRequest = nil;
+    }
 }
 
-- (NSArray *)topMazeItemsWithDictionaries: (NSArray *)dictionaries
+- (NSArray *)topMazeItemsWithMazes: (NSArray *)mazes mazeProgresses: (NSArray *)mazeProgresses mazeRatings: (NSArray *)mazeRatings
 {
     NSMutableArray *topMazeItems = [NSMutableArray array];
-
-    for (NSDictionary *dictionary in dictionaries)
+    
+    for (MAMaze *maze in mazes)
     {
-        MATopMazeItem *topMazeItem = [[MATopMazeItem alloc] initWithDictionary: dictionary];
+        MATopMazeItem *topMazeItem = [[MATopMazeItem alloc] init];
+        
+        topMazeItem.maze = maze;
+        topMazeItem.mazeName = maze.name;
+        topMazeItem.averageRating = maze.averageRating;
+        topMazeItem.ratingCount = maze.ratingCount;
+        topMazeItem.modifiedAt = maze.modifiedAt;
+
+        for (MAMazeProgress *mazeProgress in mazeProgresses)
+        {
+            if (mazeProgress.user == self.currentUser && mazeProgress.maze == maze)
+            {
+                topMazeItem.userStarted = mazeProgress.started;
+            }
+        }
+
+        for (MAMazeRating *mazeRating in mazeRatings)
+        {
+            if (mazeRating.maze == maze && mazeRating.user == self.currentUser)
+            {
+                topMazeItem.userRating = mazeRating.userRating;
+            }
+        }
         
         [topMazeItems addObject: topMazeItem];
     }
-    
+
     return topMazeItems;
 }
 

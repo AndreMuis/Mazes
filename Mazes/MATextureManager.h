@@ -8,16 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+#import <AMFatFractal/AMFatFractal.h>
+
 @class MATexture;
 
 typedef void (^TexturesDownloadCompletionHandler)();
 
 @interface MATextureManager : NSObject
 
-@property (assign, nonatomic, readonly) int count;
-@property (assign, nonatomic, readonly) int maxGLId;
-
-+ (MATextureManager *)shared;
+- (id)initWithAMFatFractal: (AMFatFractal *)amFatFractal;
 
 - (void)downloadWithCompletionHandler: (TexturesDownloadCompletionHandler)handler;
 - (void)cancelDownload;
@@ -26,6 +25,6 @@ typedef void (^TexturesDownloadCompletionHandler)();
 
 - (NSArray *)sortedByKindThenOrder;
 
-- (MATexture *)textureWithObjectId: (NSString *)objectId;
+- (MATexture *)textureWithTextureId: (NSString *)textureId;
 
 @end

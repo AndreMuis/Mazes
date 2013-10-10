@@ -10,21 +10,6 @@
 
 @implementation MAConstants
 
-+ (MAConstants *)shared
-{
-	static MAConstants *shared = nil;
-	
-	@synchronized(self)
-	{
-		if (shared == nil)
-		{
-			shared = [[MAConstants alloc] init];
-		}
-	}
-	
-	return shared;
-}
-
 - (id)init
 {
     self = [super init];
@@ -32,24 +17,24 @@
 	if (self)
 	{
         _flurryAPIKey = @"72C58XPN2XTXVRTP27BN";
-        
         _crittercismAppId = @"50cbd3ed4f633a03f0000003";
         
-        _parseApplicationId = @"0crSF5gsVRPZgaN3HJ3bIy5ewKSrHrYTZK6s7pPr";
-        _parseClientKey = @"MLITmcTevFmrXxbKUD2smL4vxmyXKogdk3V5xMdG";
-        
         _eventTimerIntervalSecs = 0.01;
+
+        _localBaseSSLURL = [[NSURL alloc] initWithString: @"https://localhost:8443/mazes"];
+
+        _remoteBaseSSLURL = [[NSURL alloc] initWithString: @"https://muis.fatfractal.com/mazes"];
         
-        #if TARGET_IPHONE_SIMULATOR
-        _serverBaseURL = [[NSURL alloc] initWithString: @"http://localhost:3000"];
+        #ifdef DEBUG
+        _baseSSLURL = _localBaseSSLURL;
         #else
-        _serverBaseURL = [[NSURL alloc] initWithString: @"http://173.45.249.212:3000"];
+        _baseSSLURL = _remoteBaseSSLURL;
         #endif
 
         _serverRetryDelaySecs = 5.0;
         
-        _receiveResponseTimeoutSecs = 5.0;
-
+        _randomPasswordLength = 4;
+        
 		_rowsMin = 3;
 		_rowsMax = 15;
 		_columnsMin = _rowsMin;
@@ -70,9 +55,12 @@
 		_mazeNameMaxLength = 50;
 		_nameExists = -1;
         
-        _defaultWallTextureId = 1;
-        _defaultFloorTextureId = 20;
-        _defaultCeilingTextureId = 15;
+        _greenTextureId = @"92A1B17C-5F19-4A6C-B70F-1C961A8A2FB5";
+        _redTextureId = @"E774E067-D4D4-44D6-BC8D-6999B9FFA76E";
+        
+        _alternatingBrickTextureId = @"03C76469-321E-4D2D-A69C-D413670866CC";
+        _lightSwirlMarbleTextureId = @"E4293FC5-74B5-460C-BD28-D71E1DB225E3";
+        _creamyWhiteMarbleTextureId = @"91185953-544C-4D64-BEE5-F42F7778480E";
 	}
 	
     return self;

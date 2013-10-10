@@ -8,26 +8,47 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Parse/Parse.h>
+#import <AMFatFractal/AMFatFractal.h>
 
-typedef void (^DownloadCompletionHandler)();
+@class MAMaze;
+@class MASound;
+@class MAStyles;
+@class MATextureManager;
+@class MATexture;
+
+typedef void (^DownloadMazesCompletionHandler)();
+typedef void (^SaveMazeCompletionHandler)();
 
 @interface MAMazeManager : NSObject
 
-@property (strong, nonatomic) NSArray *highestRatedTopMazeItems;
-@property (strong, nonatomic) NSArray *newestTopMazeItems;
-@property (strong, nonatomic) NSArray *yoursTopMazeItems;
+@property (readwrite, strong, nonatomic) FFUser *currentUser;
 
-@property (assign, nonatomic, readonly) BOOL isDownloadingHighestRatedMazes;
-@property (assign, nonatomic, readonly) BOOL isDownloadingNewestMazes;
-@property (assign, nonatomic, readonly) BOOL isDownloadingYoursMazes;
+@property (readonly, strong, nonatomic) MAMaze *firstUserMaze;
+@property (readwrite, assign, nonatomic) BOOL isFirstUserMazeSizeChosen;
 
-+ (MAMazeManager *)shared;
+@property (readonly, strong, nonatomic) NSArray *highestRatedTopMazeItems;
+@property (readonly, strong, nonatomic) NSArray *newestTopMazeItems;
+@property (readonly, strong, nonatomic) NSArray *yoursTopMazeItems;
 
-- (void)getHighestRatedMazesWithCompletionHandler: (DownloadCompletionHandler)handler;
+@property (readonly, assign, nonatomic) BOOL isDownloadingHighestRatedMazes;
+@property (readonly, assign, nonatomic) BOOL isDownloadingNewestMazes;
+@property (readonly, assign, nonatomic) BOOL isDownloadingYoursMazes;
 
-- (void)getNewestMazesWithCompletionHandler: (DownloadCompletionHandler)handler;
+- (id)initWithAMFatFractal: (AMFatFractal *)amFatFractal;
 
-- (void)getYoursMazesWithCompletionHandler: (DownloadCompletionHandler)handler;
+- (NSArray *)allUserMazes;
+- (void)addMaze: (MAMaze *)maze;
+
+- (void)getUserMazesWithCompletionHandler: (DownloadMazesCompletionHandler)handler;
+- (void)cancelGetUserMazes;
+
+- (void)saveMaze: (MAMaze *)maze completionHandler: (SaveMazeCompletionHandler)handler;
+- (void)cancelSaveMaze;
+
+- (void)getHighestRatedMazesWithCompletionHandler: (DownloadMazesCompletionHandler)handler;
+- (void)getNewestMazesWithCompletionHandler: (DownloadMazesCompletionHandler)handler;
+- (void)getYoursMazesWithCompletionHandler: (DownloadMazesCompletionHandler)handler;
+
+- (void)cancelDownloads;
 
 @end

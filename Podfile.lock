@@ -1,13 +1,19 @@
 PODS:
-  - CrittercismSDK (4.0.6)
+  - AMFatFractal (0.0.11)
+  - BZipCompression (1.0.1)
+  - CrittercismSDK (4.0.7)
   - FlurrySDK (4.2.3)
 
 DEPENDENCIES:
+  - AMFatFractal
+  - BZipCompression
   - CrittercismSDK
   - FlurrySDK
 
 SPEC CHECKSUMS:
-  CrittercismSDK: a8e58ae22bee55a85fdb43983c9a3848e3260251
-  FlurrySDK: d9fde25656775494a8d486b92f1ba7c665b15c9d
+  AMFatFractal: ab7834829170d9bf7262df9358004860ec3e5fbf
+  BZipCompression: a77808fe8fb296ddc5c52b736a042268036d64a8
+  CrittercismSDK: 23b8193df3619a74597a1f81b9c09ab7e53a1508
+  FlurrySDK: 20b3fd669eeafd005ca8ff65a1406d1befbc8031
 
-COCOAPODS: 0.23.0
+COCOAPODS: 0.25.0
