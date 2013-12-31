@@ -8,47 +8,54 @@
 
 #import <Foundation/Foundation.h>
 
-#import <AMFatFractal/AMFatFractal.h>
-
 @class MAMaze;
 @class MASound;
 @class MAStyles;
 @class MATextureManager;
 @class MATexture;
+@class MAWebServices;
 
-typedef void (^DownloadMazesCompletionHandler)();
-typedef void (^SaveMazeCompletionHandler)();
+typedef enum : NSUInteger
+{
+	MATopMazesUnknown = 0,
+	MATopMazesHighestRated = 1,
+	MATopMazesNewest = 2,
+	MATopMazesYours = 3
+} MATopMazesType;
+
+typedef void (^DownloadTopMazeSummariesCompletionHandler)(NSError *error);
 
 @interface MAMazeManager : NSObject
 
-@property (readwrite, strong, nonatomic) FFUser *currentUser;
+@property (readonly, strong, nonatomic) MAMaze *maze;
 
 @property (readonly, strong, nonatomic) MAMaze *firstUserMaze;
 @property (readwrite, assign, nonatomic) BOOL isFirstUserMazeSizeChosen;
 
-@property (readonly, strong, nonatomic) NSArray *highestRatedTopMazeItems;
-@property (readonly, strong, nonatomic) NSArray *newestTopMazeItems;
-@property (readonly, strong, nonatomic) NSArray *yoursTopMazeItems;
-
-@property (readonly, assign, nonatomic) BOOL isDownloadingHighestRatedMazes;
-@property (readonly, assign, nonatomic) BOOL isDownloadingNewestMazes;
-@property (readonly, assign, nonatomic) BOOL isDownloadingYoursMazes;
-
-- (id)initWithAMFatFractal: (AMFatFractal *)amFatFractal;
+- (id)initWithWebServices: (MAWebServices *)webServices;
 
 - (NSArray *)allUserMazes;
 - (void)addMaze: (MAMaze *)maze;
 
-- (void)getUserMazesWithCompletionHandler: (DownloadMazesCompletionHandler)handler;
-- (void)cancelGetUserMazes;
+- (void)downloadTopMazeSummariesWithType: (MATopMazesType)topMazesType
+                       completionHandler: (DownloadTopMazeSummariesCompletionHandler)completionHandler;
 
-- (void)saveMaze: (MAMaze *)maze completionHandler: (SaveMazeCompletionHandler)handler;
-- (void)cancelSaveMaze;
-
-- (void)getHighestRatedMazesWithCompletionHandler: (DownloadMazesCompletionHandler)handler;
-- (void)getNewestMazesWithCompletionHandler: (DownloadMazesCompletionHandler)handler;
-- (void)getYoursMazesWithCompletionHandler: (DownloadMazesCompletionHandler)handler;
-
-- (void)cancelDownloads;
+- (NSArray *)topMazeSummariesOfType: (MATopMazesType)topMazesType;
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

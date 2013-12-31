@@ -62,6 +62,18 @@
 	self.audioPlayer.currentTime = 0.0;
 }
 
+- (BOOL)isEqual: (id)object
+{
+    if ([object isKindOfClass: [MASound class]])
+    {
+        MASound *sound = object;
+        
+        return [self.soundId isEqualToString: sound.soundId];
+    }
+    
+    return NO;
+}
+
 - (NSString *)description
 {
     NSString *desc = [NSString stringWithFormat: @"<%@: %p; ", [self class], self];

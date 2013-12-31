@@ -21,7 +21,6 @@
 
 @interface MACreateViewController ()
 
-@property (readonly, strong, nonatomic) MAConstants *constants;
 @property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
 @property (readonly, strong, nonatomic) MATextureManager *textureManager;
 @property (readonly, strong, nonatomic) MAStyles *styles;
@@ -33,17 +32,15 @@
 
 @implementation MACreateViewController
 
-- (id)initWithConstants: (MAConstants *)constants
-            mazeManager: (MAMazeManager *)mazeManager
-         textureManager: (MATextureManager *)textureManager
-                 styles: (MAStyles *)styles
+- (id)initWithMazeManager: (MAMazeManager *)mazeManager
+           textureManager: (MATextureManager *)textureManager
+                   styles: (MAStyles *)styles
 {
     self = [super initWithNibName: NSStringFromClass([self class])
                            bundle: nil];
     
     if (self)
     {
-        _constants = constants;
         _mazeManager = mazeManager;
         _textureManager = textureManager;
         _styles = styles;
@@ -94,11 +91,11 @@
 	switch (component)
     {
         case 0:
-            rowCount = (self.constants.rowsMax - self.constants.rowsMin) + 1;
+            rowCount = (MARowsMax - MARowsMin) + 1;
             break;
             
         case 1:
-            rowCount = (self.constants.columnsMax - self.constants.columnsMin) + 1;
+            rowCount = (MAColumnsMax - MAColumnsMin) + 1;
             break;
     }
 	
@@ -112,11 +109,11 @@
 	switch (component)
     {
         case 0:
-            title = [NSString stringWithFormat: @"%d", self.constants.rowsMin + row];
+            title = [NSString stringWithFormat: @"%d", MARowsMin + row];
             break;
             
         case 1:
-            title = [NSString stringWithFormat: @"%d", self.constants.columnsMin + row];
+            title = [NSString stringWithFormat: @"%d", MAColumnsMin + row];
             break;
     }
 
@@ -128,17 +125,17 @@
 	switch (component)
     {
         case 0:
-            self.maze.rows = self.constants.rowsMin + row;
+            self.maze.rows = MARowsMin + row;
             break;
             
         case 1:
-            self.maze.columns = self.constants.columnsMin + row;
+            self.maze.columns = MAColumnsMin + row;
             break;
     }
     
     [self.maze populateLocationsAndWalls];
     
-	[self.gridView setNeedsDisplay];
+	[self.gridView refresh];
 }
 
 - (IBAction)continueButtonTouchDown: (id)sender

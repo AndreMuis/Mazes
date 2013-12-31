@@ -8,25 +8,28 @@
 
 #import "MAMainViewController.h"
 
-#import "MAMainViewStyle.h"
+#import "MAColors.h"
+#import "MAMainScreenStyle.h"
 #import "MAStyles.h"
 #import "MAUtilities.h"
 
 @interface MAMainViewController ()
 
+@property (readwrite, strong, nonatomic) MAColors *colors;
 @property (readwrite, strong, nonatomic) MAStyles *styles;
 
 @end
 
 @implementation MAMainViewController
 
-- (id)initWithStyles: (MAStyles *)styles
+- (id)initWithStyles: (MAStyles *)styles colors: (MAColors *)colors
 {
     self = [super initWithNibName: NSStringFromClass([self class])
                            bundle: nil];
     
     if (self)
     {
+        _colors = colors;
         _styles = styles;
     }
     
@@ -37,7 +40,7 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = self.colors.redColor;
     
     [self addChildViewController: self.rootViewController];
     [self.view addSubview: self.rootViewController.view];
@@ -67,7 +70,7 @@
             
             [self transitionFromViewController: fromViewController
                               toViewController: toViewController
-                                      duration: self.styles.mainView.transitionDuration
+                                      duration: self.styles.mainScreen.transitionDuration
                                        options: 0
                                     animations: ^
              {
@@ -101,7 +104,7 @@
             
             [self transitionFromViewController: fromViewController
                               toViewController: toViewController
-                                      duration: self.styles.mainView.transitionDuration
+                                      duration: self.styles.mainScreen.transitionDuration
                                        options: (UIViewAnimationOptions)transition
                                     animations: ^
              {
@@ -128,7 +131,7 @@
             
             [self transitionFromViewController: fromViewController
                               toViewController: toViewController
-                                      duration: self.styles.mainView.transitionDuration
+                                      duration: self.styles.mainScreen.transitionDuration
                                        options: 0
                                     animations: ^
              {
@@ -165,7 +168,7 @@
             
             [self transitionFromViewController: fromViewController
                               toViewController: toViewController
-                                      duration: self.styles.mainView.transitionDuration
+                                      duration: self.styles.mainScreen.transitionDuration
                                        options: 0
                                     animations: ^
              {
@@ -202,7 +205,7 @@
             
             [self transitionFromViewController: fromViewController
                               toViewController: toViewController
-                                      duration: self.styles.mainView.transitionDuration
+                                      duration: self.styles.mainScreen.transitionDuration
                                        options: 0
                                     animations: ^
              {
@@ -239,7 +242,7 @@
             
             [self transitionFromViewController: fromViewController
                               toViewController: toViewController
-                                      duration: self.styles.mainView.transitionDuration
+                                      duration: self.styles.mainScreen.transitionDuration
                                        options: 0
                                     animations: ^
              {

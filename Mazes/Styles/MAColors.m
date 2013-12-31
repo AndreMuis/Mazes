@@ -16,37 +16,58 @@
 	
 	if (self) 
 	{
-        _backgroundColor = [[UIColor alloc] initWithRed: 254.0 / 255.0 green: 244.0 / 255.0 blue: 221.0 / 255.0 alpha: 1.0];
+        _blackColor = [UIColor blackColor];
         
-        _blackColor = [[UIColor alloc] initWithRed: 0.0 green: 0.0 blue: 0.0 alpha: 1.0];
+        _whiteColor  = [UIColor whiteColor];
+        _whiteOpaqueColor = [UIColor colorWithWhite: 1.0 alpha: 0.75];
+    
+        _grayColor = [UIColor colorWithWhite: 0.5 alpha: 1.0];
+        _lightGray1Color = [UIColor colorWithWhite: 0.6 alpha: 1.0];
+        _lightGray2Color = [UIColor colorWithWhite: 0.7 alpha: 1.0];
+        _lightGray3Color = [UIColor colorWithWhite: 0.8 alpha: 1.0];
+        _lightGray4Color = [UIColor colorWithWhite: 0.85 alpha: 1.0];
+        _lightGray5Color = [UIColor colorWithWhite: 0.9 alpha: 1.0];
         
-        _whiteColor  = [[UIColor alloc] initWithRed: 1.0 green: 1.0 blue: 1.0 alpha: 1.0];
-        _whiteOpaqueColor = [[UIColor alloc] initWithRed: 1.0 green: 1.0 blue: 1.0 alpha: 0.75];
+        _brownColor = [UIColor colorWithRed: 0.6 green: 0.4 blue: 0.2 alpha: 1.0];
+        _lightBrownColor = [UIColor colorWithRed: 0.89 green: 0.78 blue: 0.55 alpha: 1.0];
+        _darkBrown1Color = [UIColor colorWithRed: 0.5 green: 0.25 blue: 0.0 alpha: 1.0];
+        _darkBrown2Color = [UIColor colorWithRed: 0.3 green: 0.15 blue: 0.0 alpha: 1.0];
         
-        _lightGrayColor = [[UIColor alloc] initWithRed: 0.9 green: 0.9 blue: 0.9 alpha: 1.0];
-        _darkGrayColor = [[UIColor alloc] initWithRed: 0.6 green: 0.6 blue: 0.6 alpha: 1.0];
+        _redColor = [UIColor redColor];
+        _greenColor = [UIColor greenColor];
         
-        _darkBrownColor = [[UIColor alloc] initWithRed: 0.3 green: 0.15 blue: 0.0 alpha: 1.0];
+        _blueColor = [UIColor colorWithRed: 0.0 green: 0.0 blue: 1.0 alpha: 1.0];
+        _darkBlueColor = [UIColor colorWithRed: 0.0 green: 0.0 blue: 0.60 alpha: 1.0];
         
-        _redColor = [[UIColor alloc] initWithRed: 1.0 green: 0.0 blue: 0.0 alpha: 1.0];
-        _greenColor = [[UIColor alloc] initWithRed: 0.0 green: 1.0 blue: 0.0 alpha: 1.0];
+        _yellowColor = [UIColor colorWithRed: 1.0 green: 1.0 blue: 0.0 alpha: 1.0];
+        _lightYellow1Color = [UIColor colorWithRed: 1.0 green: 0.96 blue: 0.65 alpha: 1.0];
+        _lightYellow2Color = [UIColor colorWithRed: 1.0 green: 1.0 blue: 0.9 alpha: 1.0];
+        _darkYellowColor = [UIColor colorWithRed: 0.8 green: 0.8 blue: 0.6 alpha: 1.0];
         
-        _blueColor = [[UIColor alloc] initWithRed: 0.0 green: 0.0 blue: 1.0 alpha: 1.0];
-        _darkBlueColor = [[UIColor alloc] initWithRed: 0.0 green: 0.0 blue: 0.60 alpha: 1.0];
+        _orangeColor = [UIColor colorWithRed: 1.0 green: 0.5 blue: 0.0 alpha: 1.0];
+        _lightOrange1Color = [UIColor colorWithRed: 1.0 green: 0.65 blue: 0.3 alpha: 1.0];
+        _lightOrange2Color = [UIColor colorWithRed: 1.0 green: 0.96 blue: 0.87 alpha: 1.0];
         
-        _lightYellowColor = [[UIColor alloc] initWithRed: 1.0 green: 1.0 blue: 0.9 alpha: 1.0];
-        _yellowColor = [[UIColor alloc] initWithRed: 1.0 green: 1.0 blue: 0.0 alpha: 1.0];
-        _darkYellowColor = [[UIColor alloc] initWithRed: 0.8 green: 0.8 blue: 0.6 alpha: 1.0];
+        _orangeRedColor = [UIColor colorWithRed: 1.0 green: 0.37 blue: 0.0 alpha: 1.0];
         
-        _orangeColor = [[UIColor alloc] initWithRed: 1.0 green: 0.5 blue: 0.0 alpha: 1.0];
-        _lightOrangeColor = [[UIColor alloc] initWithRed: 1.0 green: 0.65 blue: 0.3 alpha: 1.0];
-        _orangeRedColor = [[UIColor alloc] initWithRed: 1.0 green: 0.37 blue: 0.0 alpha: 1.0];
-        
-        _purpleColor = [[UIColor alloc] initWithRed: 0.5 green: 0.0 blue: 0.5 alpha: 1.0];
-        _lightPurpleColor = [[UIColor alloc] initWithRed: 0.65 green: 0.3 blue: 0.65 alpha: 1.0];
+        _purpleColor = [UIColor colorWithRed: 0.5 green: 0.0 blue: 0.5 alpha: 1.0];
+        _lightPurpleColor = [UIColor colorWithRed: 0.65 green: 0.3 blue: 0.65 alpha: 1.0];
+    
+        _backgroundColor = self.lightOrange2Color;
     }
 	
     return self;
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+

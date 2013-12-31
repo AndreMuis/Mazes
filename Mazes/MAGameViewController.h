@@ -10,7 +10,7 @@
 
 #import "MAConstants.h"
 #import "MARatingView.h"
-#import "MAViewController.h"
+#import "MAWebServices.h"
 
 typedef enum : int
 {
@@ -20,36 +20,37 @@ typedef enum : int
 	MAMovementTurnRight = 4
 } MAMovementType;
 
-@class MAConstants;
 @class MAEvent;
 @class MALocation;
 @class MAMainViewController;
 @class MAMapView;
+@class MAMazeManager;
 @class MAMaze;
+@class MAMazeSummary;
 @class MAMazeView;
 @class MASoundManager;
 @class MAStyles;
 @class MATextureManager;
-@class MATopMazeItem;
 @class MATopMazesViewController;
 
-@interface MAGameViewController : MAViewController
+@interface MAGameViewController : UIViewController
     <UIGestureRecognizerDelegate,
-    UIAlertViewDelegate,
     MARatingViewDelegate,
     UIPopoverControllerDelegate>
 
+@property (strong, nonatomic) MAMazeSummary *mazeSummary;
 @property (strong, nonatomic) MAMaze *maze;
 @property (strong, nonatomic) MAMainViewController *mainViewController;
 @property (strong, nonatomic) MATopMazesViewController *topMazesViewController;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
-- (id)initWithConstants: (MAConstants *)constants
-           soundManager: (MASoundManager *)soundManager
-                 styles: (MAStyles *)styles
-         textureManager: (MATextureManager *)textureManager
-             bannerView: (ADBannerView *)bannerView;
+- (id)initWithWebServices: (MAWebServices *)webServices
+              mazeManager: (MAMazeManager *)mazeManager
+           textureManager: (MATextureManager *)textureManager
+             soundManager: (MASoundManager *)soundManager
+                   styles: (MAStyles *)styles
+               bannerView: (ADBannerView *)bannerView;
 
 - (void)setup;
 

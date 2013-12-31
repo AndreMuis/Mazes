@@ -8,11 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import <AMFatFractal/AMFatFractal.h>
+#import "MATopMazeTableViewCell.h"
 
-#import "MAViewController.h"
-
-@class MAConstants;
 @class MACreateViewController;
 @class MAEditViewController;
 @class MAGameViewController;
@@ -21,25 +18,22 @@
 @class MASoundManager;
 @class MAStyles;
 @class MATextureManager;
-@class MATopMazesTableViewCell;
+@class MAWebServices;
 
-@interface MATopMazesViewController : MAViewController
-
-@property (readwrite, strong, nonatomic) FFUser *currentUser;
+@interface MATopMazesViewController : UIViewController <MATopMazeTableViewCellDelegate>
 
 @property (readwrite, strong, nonatomic) MACreateViewController *createViewController;
 @property (readwrite, strong, nonatomic) MAEditViewController *editViewController;
 @property (readwrite, strong, nonatomic) MAGameViewController *gameViewController;
 @property (readwrite, strong, nonatomic) MAMainViewController *mainViewController;
 
-- (id)initWithAMFatFractal: (AMFatFractal *)amFatFractal
-                 constants: (MAConstants *)constants
-               mazeManager: (MAMazeManager *)mazeManager
-            textureManager: (MATextureManager *)textureManager
-              soundManager: (MASoundManager *)soundManager
-                    styles: (MAStyles *)styles
-                bannerView: (ADBannerView *)bannerView;
+- (id)initWithWebServices: (MAWebServices *)webServices
+              mazeManager: (MAMazeManager *)mazeManager
+           textureManager: (MATextureManager *)textureManager
+             soundManager: (MASoundManager *)soundManager
+                   styles: (MAStyles *)styles
+               bannerView: (ADBannerView *)bannerView;
 
-- (void)downloadTopMazeItems;
+- (void)downloadTopMazeSummaries;
 
 @end

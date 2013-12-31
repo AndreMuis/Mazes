@@ -46,15 +46,15 @@
 	return self;
 }
 
-- (void)setupWithDelegate: (id<MARatingViewDelegate>)aDelegate
-                   rating: (float)aRating
-                     type: (MARatingViewType)aType
-                starColor: (UIColor *)aStarColor
+- (void)setupWithDelegate: (id<MARatingViewDelegate>)delegate
+                   rating: (float)rating
+                     type: (MARatingViewType)type
+                starColor: (UIColor *)starColor
 {
-    self.delegate = aDelegate;
-    self.rating = aRating;
-    self.starColor = aStarColor;
-    self.type = aType;
+    self.delegate = delegate;
+    self.rating = rating;
+    self.starColor = starColor;
+    self.type = type;
     
     self.backgroundColor = [UIColor clearColor];
     

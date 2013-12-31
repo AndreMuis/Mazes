@@ -10,8 +10,14 @@
 
 #import "MARatingView.h"
 
+@class MAMazeSummary;
 @class MAStyles;
-@class MATopMazeItem;
+@class MATopMazeTableViewCell;
+
+@protocol MATopMazeTableViewCellDelegate <NSObject>
+@required
+- (void)topMazeTableViewCell: (MATopMazeTableViewCell *)topMazeTableViewCell didUpdateRating: (float)rating forMazeWithMazeId: (NSString *)mazeId;
+@end
 
 @interface MATopMazeTableViewCell : UITableViewCell <MARatingViewDelegate>
 
@@ -37,7 +43,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *date2Label;
 
-- (void)setupWithTopMazeItem1: (MATopMazeItem *)topMazeItem1
-                 topMazeItem2: (MATopMazeItem *)topMazeItem2;
+- (void)setupWithDelegate: (id<MATopMazeTableViewCellDelegate>)delegate
+             mazeSummary1: (MAMazeSummary *)mazeSummary1
+             mazeSummary2: (MAMazeSummary *)mazeSummary2;
 
 @end

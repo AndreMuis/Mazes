@@ -11,7 +11,7 @@
 #import "MAUtilities.h"
 
 #import "AppDelegate.h"
-#import "MAGridStyle.h"
+#import "MACanvasStyle.h"
 
 @implementation MAUtilities
 
@@ -165,7 +165,7 @@
 	return directionArrowImageScaled;
 }
 
-+ (void)drawArrowInRect: (CGRect)rect angleDegrees: (double)angle scale: (float)scale gridStyle: (MAGridStyle *)gridStyle
++ (void)drawArrowInRect: (CGRect)rect angleDegrees: (double)angle scale: (float)scale canvasStyle: (MACanvasStyle *)canvasStyle
 {
 	CGContextRef context = UIGraphicsGetCurrentContext();	
 	
@@ -207,7 +207,7 @@
 	CGContextAddLineToPoint(context, origin.x + x4, origin.y + y4);
 	CGContextClosePath(context);
 	
-	CGContextSetFillColorWithColor(context, gridStyle.arrowColor.CGColor);
+	CGContextSetFillColorWithColor(context, canvasStyle.arrowColor.CGColor);
 	CGContextFillPath(context);
 }
 

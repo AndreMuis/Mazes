@@ -36,20 +36,6 @@
         _mapLocations = [[NSMutableArray alloc] init];
         _mapWalls = [[NSMutableArray alloc] init];
         
-        /*
-         int MapSquares[8][3][3] =
-         {
-         {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-         {{-1, 0, 0}, {0, 0, MADirectionWest}, {0, 0, 0}},
-         {{-1, -1, 0}, {-1, 0, MADirectionNorth}, {0, 0, MADirectionWest}},
-         {{-1, -1, 0}, {0, -1, MADirectionWest}, {0, 0, MADirectionNorth}},
-         {{0, -1, 0}, {0, 0, MADirectionNorth}, {0, 0, 0}},
-         {{1, -1, 0}, {0, -1, MADirectionEast}, {0, 0, MADirectionNorth}},
-         {{1, -1, 0}, {1, 0, MADirectionNorth}, {0, 0, MADirectionEast}},
-         {{1, 0, 0}, {0, 0, MADirectionEast}, {0, 0, 0}}
-         };
-         */
-        
         MAMapWall *blockingWall1 = nil;
         MAMapWall *blockingWall2 = nil;
 
@@ -93,12 +79,6 @@
         
         MAMapWall *mapWall = nil;
         
-        /*
-         {{-1, 0, MADirectionSouth}, {-1, 0, MADirectionEast}, {0, 0, 0}},
-         {{0, 0, MADirectionSouth}, {0, 0, 0}, {0, 0, 0}},
-         {{1, 0, MADirectionSouth}, {1, 0, MADirectionWest}, {0, 0, 0}},
-         */
-        
         blockingWall1 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: -1 direction: MADirectionEast blockingWalls: @[]];
         mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: -1 direction: MADirectionSouth blockingWalls: @[blockingWall1]];
         [_mapWalls addObject: mapWall];
@@ -110,11 +90,6 @@
         mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 1 direction: MADirectionSouth blockingWalls: @[blockingWall1]];
         [_mapWalls addObject: mapWall];
         
-        /*
-         {{0, 0, MADirectionWest}, {0, 0, 0}, {0, 0, 0}},
-         {{0, 0, MADirectionNorth}, {0, 0, 0}, {0, 0, 0}},
-         {{0, 0, MADirectionEast}, {0, 0, 0}, {0, 0, 0}},
-         */
 
         mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
         [_mapWalls addObject: mapWall];
@@ -125,17 +100,6 @@
         mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
         [_mapWalls addObject: mapWall];
 
-        /*
-        {{-1, 0, MADirectionWest}, {0, 0, MADirectionWest}, {0, 0, 0}},
-        {{-1, 0, MADirectionNorth}, {0, 0, MADirectionWest}, {0, 0, 0}},
-        
-        {{0, -1, MADirectionWest}, {0, -1, MADirectionSouth}, {0, 0, 0}},
-        {{0, -1, MADirectionNorth}, {0, -1, MADirectionSouth}, {0, 0, 0}},
-        {{0, -1, MADirectionEast}, {0, -1, MADirectionSouth}, {0, 0, 0}},
-        
-        {{1, 0, MADirectionNorth}, {0, 0, MADirectionEast}, {0, 0, 0}},
-        {{1, 0, MADirectionEast}, {0, 0, MADirectionEast}, {0, 0, 0}},
-         */
         
         blockingWall1 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
         mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: -1 direction: MADirectionWest blockingWalls: @[blockingWall1]];
@@ -167,12 +131,6 @@
         mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 1 direction: MADirectionEast blockingWalls: @[blockingWall1]];
         [_mapWalls addObject: mapWall];
     
-        /*
-        {{-1, -1, MADirectionWest}, {-1, -1, MADirectionSouth}, {0, 0, MADirectionWest}},
-        {{-1, -1, MADirectionNorth}, {-1, -1, MADirectionEast}, {0, 0, MADirectionNorth}},
-        {{1, -1, MADirectionNorth}, {1, -1, MADirectionWest}, {0, 0, MADirectionNorth}},
-        {{1, -1, MADirectionEast}, {1, -1, MADirectionSouth}, {0, 0, MADirectionEast}},
-        */
         
         blockingWall1 = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: -1 direction: MADirectionSouth blockingWalls: @[]];
         blockingWall2 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];

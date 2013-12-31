@@ -28,6 +28,18 @@
     return self;
 }
 
+- (BOOL)isEqual: (id)object
+{
+    if ([object isKindOfClass: [MATexture class]])
+    {
+        MATexture *texture = object;
+        
+        return [self.textureId isEqualToString: texture.textureId];
+    }
+    
+    return NO;
+}
+
 - (NSString *)description
 {
     NSString *desc = [NSString stringWithFormat: @"<%@: %p; ", [self class], self];

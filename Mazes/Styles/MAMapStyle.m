@@ -13,7 +13,7 @@
 
 @implementation MAMapStyle
 
-- (id)initWithConstants: (MAConstants *)constants colors: (MAColors *)colors
+- (id)initWithColors: (MAColors *)colors
 {
     self = [super init];
 	
@@ -21,19 +21,19 @@
 	{
         _wallWidth = 3.0;
         _squareWidth = 15.0;
-        _length = _squareWidth * constants.columnsMax + _wallWidth * (constants.columnsMax + 1);
+        _length = _squareWidth * MAColumnsMax + _wallWidth * (MAColumnsMax + 1);
 		
-        _backgroundColor = [[UIColor alloc] initWithRed: 0.81 green: 0.81 blue: 0.81 alpha: 1.0];
+        _backgroundColor = colors.lightGray3Color;
         
         _doNothingColor = colors.whiteColor;
         _startColor = colors.greenColor;
         _endColor = colors.redColor;
         _startOverColor = colors.lightPurpleColor;
-        _teleportationColor = colors.lightOrangeColor;
+        _teleportationColor = colors.lightOrange1Color;
         
         _wallColor = colors.blackColor;
         _noWallColor = colors.whiteColor;
-        _invisibleColor = [[UIColor alloc] initWithRed: 0.7 green: 0.7 blue: 0.7 alpha: 1.0];
+        _invisibleColor = colors.lightGray2Color;
     }
     
     return self;

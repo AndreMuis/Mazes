@@ -8,32 +8,33 @@
 
 #import <Foundation/Foundation.h>
 
-@class MAActivityViewStyle;
+@class MAActivityIndicatorStyle;
+@class MACanvasStyle;
 @class MAColors;
-@class MAConstants;
-@class MAEditViewStyle;
-@class MAEndAlertViewStyle;
-@class MAGameViewStyle;
-@class MAGridStyle;
-@class MAMainListViewStyle;
-@class MAMainViewStyle;
+@class MADesignScreenStyle;
+@class MAFoundExitPopupStyle;
+@class MAGameScreenStyle;
+@class MAMainScreenStyle;
 @class MAMapStyle;
-@class MARatingViewStyle;
+@class MAPopupStyle;
+@class MARatingPopupStyle;
+@class MATopMazesScreenStyle;
 
 @interface MAStyles : NSObject 
 
 @property (strong, nonatomic) UIFont *defaultFont;
 
-@property (strong, nonatomic) MAActivityViewStyle *activityView;
-@property (strong, nonatomic) MAEditViewStyle *editView;
-@property (strong, nonatomic) MAEndAlertViewStyle *endAlertView;
-@property (strong, nonatomic) MAGameViewStyle *gameView;
-@property (strong, nonatomic) MAGridStyle *grid;
-@property (strong, nonatomic) MAMainViewStyle *mainView;
+@property (strong, nonatomic) MAActivityIndicatorStyle *activityIndicator;
+@property (strong, nonatomic) MACanvasStyle *canvas;
+@property (strong, nonatomic) MADesignScreenStyle *designScreen;
+@property (strong, nonatomic) MAFoundExitPopupStyle *foundExitPopup;
+@property (strong, nonatomic) MAGameScreenStyle *gameScreen;
+@property (strong, nonatomic) MAMainScreenStyle *mainScreen;
 @property (strong, nonatomic) MAMapStyle *map;
-@property (strong, nonatomic) MAMainListViewStyle *mainListView;
-@property (strong, nonatomic) MARatingViewStyle *ratingView;
+@property (strong, nonatomic) MAPopupStyle *popup;
+@property (strong, nonatomic) MARatingPopupStyle *ratingPopup;
+@property (strong, nonatomic) MATopMazesScreenStyle *topMazesScreen;
 
-- (id)initWithConstants: (MAConstants *)constants colors: (MAColors *)colors;
+- (id)initWithColors: (MAColors *)colors;
 
 @end

@@ -8,34 +8,38 @@
 
 #import "MAGameViewController.h"
 
-#import "MAActivityViewStyle.h"
+#import "MAActivityIndicatorStyle.h"
 #import "MAColors.h"
 #import "MAConstants.h"
-#import "MACloud.h"
-#import "MAEndAlertViewStyle.h"
+#import "MAFoundExitPopupView.h"
 #import "MALocation.h"
-#import "MAGameViewStyle.h"
+#import "MAGameScreenStyle.h"
+#import "MAInfoPopupView.h"
 #import "MAMainViewController.h"
 #import "MAMapStyle.h"
 #import "MAMapView.h"
+#import "MAMazeManager.h"
 #import "MAMaze.h"
+#import "MAMazeSummary.h"
 #import "MAMazeView.h"
-#import "MARatingViewStyle.h"
+#import "MARatingPopupStyle.h"
 #import "MASoundManager.h"
 #import "MASound.h"
 #import "MAStyles.h"
 #import "MATextureManager.h"
-#import "MATopMazeItem.h"
 #import "MATopMazesViewController.h"
 #import "MAUtilities.h"
 #import "MAWall.h"
+#import "MAWebServices.h"
 
 @interface MAGameViewController ()
 
-@property (readonly, strong, nonatomic) MAConstants *constants;
+@property (readonly, strong, nonatomic) MAWebServices *webServices;
+
+@property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
+@property (readonly, strong, nonatomic) MATextureManager *textureManager;
 @property (readonly, strong, nonatomic) MASoundManager *soundManager;
 @property (readonly, strong, nonatomic) MAStyles *styles;
-@property (readonly, strong, nonatomic) MATextureManager *textureManager;
 
 @property (strong, nonatomic) ADBannerView *bannerView;
 
@@ -67,10 +71,6 @@
 @property (assign, nonatomic) BOOL wallRemoved;
 @property (assign, nonatomic) BOOL directionReversed;
 
-@property (strong, nonatomic) UIAlertView *startOverAlertView;
-@property (strong, nonatomic) UIAlertView *endAlertView;
-
-// TODO: why 2?
 @property (strong, nonatomic) UIPopoverController *popoverController2;
 
 @property (weak, nonatomic) IBOutlet UIImageView *backImageView;
@@ -93,21 +93,24 @@
 
 @implementation MAGameViewController
 
-- (id)initWithConstants: (MAConstants *)constants
-           soundManager: (MASoundManager *)soundManager
-                 styles: (MAStyles *)styles
-         textureManager: (MATextureManager *)textureManager
-             bannerView: (ADBannerView *)bannerView;
+- (id)initWithWebServices: (MAWebServices *)webServices
+              mazeManager: (MAMazeManager *)mazeManager
+           textureManager: (MATextureManager *)textureManager
+             soundManager: (MASoundManager *)soundManager
+                   styles: (MAStyles *)styles
+               bannerView: (ADBannerView *)bannerView
 {
     self = [[MAGameViewController alloc] initWithNibName: NSStringFromClass([self class])
                                                   bundle: nil];
     
     if (self)
     {
-        _constants = constants;
+        _webServices = webServices;
+        
+        _mazeManager = mazeManager;
+        _textureManager = textureManager;
         _soundManager = soundManager;
         _styles = styles;
-        _textureManager = textureManager;
     
         _bannerView = bannerView;
         
@@ -115,8 +118,8 @@
         
         _movements = [[NSMutableArray alloc] init];
 		
-        _moveStepDurationAvg = self.constants.stepDurationAvgStart;
-        _turnStepDurationAvg = self.constants.stepDurationAvgStart;
+        _moveStepDurationAvg = MAStepDurationAvgStart;
+        _turnStepDurationAvg = MAStepDurationAvgStart;
     }
     
     return self;
@@ -126,28 +129,27 @@
 {
     [super viewDidLoad];
 	
-	self.titleLabel.backgroundColor = self.styles.gameView.titleBackgroundColor;
-	self.titleLabel.font = self.styles.gameView.titleFont;
-	self.titleLabel.textColor = self.styles.gameView.titleTextColor;
+	self.titleLabel.backgroundColor = self.styles.gameScreen.titleBackgroundColor;
+	self.titleLabel.font = self.styles.gameScreen.titleFont;
+	self.titleLabel.textColor = self.styles.gameScreen.titleTextColor;
 	
-	self.mapBorderView.backgroundColor = self.styles.gameView.borderColor;
+	self.mapBorderView.backgroundColor = self.styles.gameScreen.borderColor;
 	
     [self.mapView setupWithStyles: self.styles];
     self.mapView.directionArrowImageView.hidden = YES;
 
-	self.messageBorderView.backgroundColor = self.styles.gameView.borderColor;
+	self.messageBorderView.backgroundColor = self.styles.gameScreen.borderColor;
 	
-	self.messageTextView.backgroundColor = self.styles.gameView.messageBackgroundColor;
+	self.messageTextView.backgroundColor = self.styles.gameScreen.messageBackgroundColor;
 	self.messageTextView.font = self.styles.defaultFont;
-	self.messageTextView.textColor = self.styles.gameView.messageTextColor;
+	self.messageTextView.textColor = self.styles.gameScreen.messageTextColor;
 	
-	self.mazeBorderView.backgroundColor = self.styles.gameView.borderColor;
+	self.mazeBorderView.backgroundColor = self.styles.gameScreen.borderColor;
 
-    self.mazeView.constants = self.constants;
     self.mazeView.textureManager = self.textureManager;
     
 	[self.mazeView setupOpenGLViewport];
-	[self.mazeView translateDGLX: 0.0 dGLY: self.constants.eyeHeight dGLZ: 0.0];
+	[self.mazeView translateDGLX: 0.0 dGLY: MAEyeHeight dGLZ: 0.0];
 
 	[self.mazeView setupOpenGLTextures];
 	
@@ -167,14 +169,14 @@
     swipeDownRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
 	[self.view addGestureRecognizer: swipeDownRecognizer];
     
-    self.activityIndicatorView.color = self.styles.activityView.color;
+    self.activityIndicatorView.color = self.styles.activityIndicator.color;
 }
 
 - (void)viewWillAppear: (BOOL)animated
 {	
 	[super viewWillAppear: animated];
 
-    if (self.movingToParentViewController == YES)
+    if (self.isMovingToParentViewController == YES)
     {
         self.titleLabel.text = self.maze.name;
         
@@ -189,8 +191,20 @@
         
         self.activityIndicatorView.hidden = NO;
         [self.activityIndicatorView startAnimating];
-        
-        [self getMaze];
+
+        [self.webServices getMazeWithMazeId: self.mazeSummary.mazeId
+                          completionHandler: ^(MAMaze *maze, NSError *error)
+        {
+            if (error == nil)
+            {
+                self.maze = self.mazeManager.maze;
+                [self setup];
+            }
+            else
+            {
+            
+            }
+        }];
     }
 }
 
@@ -201,11 +215,6 @@
     self.mapView.directionArrowImageView.hidden = NO;
 }
 
-- (void)getMaze
-{
-    [self setup];
-}
-
 - (void)setup
 {
     //NSLog(@"maze = %@", self->maze);
@@ -213,16 +222,19 @@
     //NSLog(@"sounds = %d", [Sounds shared].count);
     //NSLog(@"textures = %d", [Textures shared].count);
     
-    if (self.maze != nil && self.soundManager.count > 0 && [self.textureManager all].count > 0)
+    if (self.maze != nil && self.soundManager != nil && self.textureManager != nil)
     {
-        /*
-        if (self.mazeUser.started == NO)
+        if (self.mazeSummary.userStarted == NO)
         {
-            self.mazeUser.started = YES;
-
-            [[ServerQueue shared] addObject: self.mazeUser];
+            [self.webServices saveStartedWithUserName: self.webServices.loggedInUser.userName
+                                               mazeId: self.maze.mazeId
+                                    completionHandler: ^(NSError *error)
+            {
+                if (error != nil)
+                {
+                }
+            }];
         }
-        */
         
         self.activityIndicatorView.hidden = YES;
         [self.activityIndicatorView stopAnimating];
@@ -261,8 +273,8 @@
 
 	[self.mazeView translateDGLX: -self.mazeView.glX dGLY: 0.0 dGLZ: -self.mazeView.glZ];
 	
-	float glX = self.constants.wallDepth / 2.0 + self.constants.wallWidth / 2.0 + (self.currentLocation.column - 1) * self.constants.wallWidth;
-	float glZ = self.constants.wallDepth / 2.0 + self.constants.wallWidth / 2.0 + (self.currentLocation.row - 1) * self.constants.wallWidth;
+	float glX = MAWallDepth / 2.0 + MAWallWidth / 2.0 + (self.currentLocation.column - 1) * MAWallWidth;
+	float glZ = MAWallDepth / 2.0 + MAWallWidth / 2.0 + (self.currentLocation.row - 1) * MAWallWidth;
 	
 	[self.mazeView translateDGLX: glX dGLY: 0.0 dGLZ: glZ];
 	
@@ -380,7 +392,7 @@
 			self.dLocY = -1;
 			
 			dglx = 0.0;
-			dglz = -self.constants.wallWidth;
+			dglz = -MAWallWidth;
 			
 			self.movementDirection = MADirectionNorth;
 		}
@@ -389,7 +401,7 @@
 			self.dLocX = 1;
 			self.dLocY = 0;
 			
-			dglx = self.constants.wallWidth;
+			dglx = MAWallWidth;
 			dglz = 0.0;
 			
 			self.movementDirection = MADirectionEast;
@@ -400,7 +412,7 @@
 			self.dLocY = 1;
 			
 			dglx = 0.0;
-			dglz = self.constants.wallWidth;
+			dglz = MAWallWidth;
 			
 			self.movementDirection = MADirectionSouth;
 		}
@@ -409,7 +421,7 @@
 			self.dLocX = -1;
 			self.dLocY = 0;
 			
-			dglx = -self.constants.wallWidth;
+			dglx = -MAWallWidth;
 			dglz = 0.0;
 			
 			self.movementDirection = MADirectionWest;
@@ -423,7 +435,7 @@
 			self.dLocY = 1;
 			
 			dglx = 0.0;
-			dglz = self.constants.wallWidth;
+			dglz = MAWallWidth;
 			
 			self.movementDirection = MADirectionSouth;
 		}
@@ -432,7 +444,7 @@
 			self.dLocX = -1;
 			self.dLocY = 0;
 			
-			dglx = -self.constants.wallWidth;
+			dglx = -MAWallWidth;
 			dglz = 0.0;
 
 			self.movementDirection = MADirectionWest;
@@ -443,7 +455,7 @@
 			self.dLocY = -1;
 			
 			dglx = 0.0;
-			dglz = -self.constants.wallWidth;
+			dglz = -MAWallWidth;
 			
 			self.movementDirection = MADirectionNorth;
 		}
@@ -452,7 +464,7 @@
 			self.dLocX = 1;
 			self.dLocY = 0;
 			
-			dglx = self.constants.wallWidth;
+			dglx = MAWallWidth;
 			dglz = 0.0;
 			
 			self.movementDirection = MADirectionEast;
@@ -466,7 +478,7 @@
 	// Animate Movement
 	
 	self.stepCount = 1;
-	self.steps = (int)(self.constants.movementDuration / self.moveStepDurationAvg);
+	self.steps = (int)(MAMovementDuration / self.moveStepDurationAvg);
 	
 	// steps must be even for bounce back
 	if (self.steps % 2 == 1)
@@ -504,7 +516,7 @@
                                    column: self.currentLocation.column
                                 direction: self.movementDirection];
 	
-	if (wall.type == MAWallFake && self.stepCount >= self.steps * self.constants.fakeMovementPrcnt && self.wallRemoved == NO)
+	if (wall.type == MAWallFake && self.stepCount >= self.steps * MAFakeMovementPrcnt && self.wallRemoved == NO)
 	{
         wall.type = MAWallNone;
         
@@ -651,7 +663,7 @@
 	}
 	
 	self.stepCount = 1;
-	self.steps = (int)(self.constants.movementDuration / self.turnStepDurationAvg);
+	self.steps = (int)(MAMovementDuration / self.turnStepDurationAvg);
 	
 	self.dTheta_step = dTheta / (float)self.steps;
 
@@ -712,14 +724,17 @@
 	{
 		[self.movements removeAllObjects];
 		
-        /*
-        if (self.mazeUser.finished == NO)
+        if (self.mazeSummary.userFoundExit == NO)
         {
-            self.mazeUser.finished = YES;
-            
-            [[ServerQueue shared] addObject: self.mazeUser];
+            [self.webServices saveFoundExitWithUserName: self.webServices.loggedInUser.userName
+                                                 mazeId: self.maze.mazeId
+                                      completionHandler: ^(NSError *error)
+            {
+                if (error != nil)
+                {
+                }
+            }];
         }
-        */
         
         [self showEndAlert];
 	}
@@ -727,12 +742,16 @@
 	{
 		[self.movements removeAllObjects];
 		
-        self.startOverAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                             message: self.currentLocation.message
-                                                            delegate: self
-                                                   cancelButtonTitle: @"Start Over"
-                                                   otherButtonTitles: nil];
-        [self.startOverAlertView show];
+        MAInfoPopupView *infoPopupView = [MAInfoPopupView infoPopupView];
+        
+        [infoPopupView showWithStyles: self.styles
+                           parentView: self.view
+                              message: self.currentLocation.message
+                    cancelButtonTitle: @"Start Over"
+                     dismissedHandler: ^
+         {
+             [self setupNewLocation: self.maze.startLocation];
+         }];
 	}
 	else if (self.currentLocation.action == MALocationActionTeleport)
 	{
@@ -777,106 +796,48 @@
 
 - (void)showEndAlert
 {
-	NSString *cancelButtonTitle = @"";
-    /*
-	if (self.mazeUser.rating == 0.0)
+	if (self.mazeSummary.rating == -1.0)
 	{
-		cancelButtonTitle = @"Don't Rate";
+        MAFoundExitPopupView *foundExitPopupView = [MAFoundExitPopupView foundExitPopupView];
+        
+        [foundExitPopupView showWithStyles: self.styles
+                                parentView: self.view
+                        ratingViewDelegate: self
+                                    rating: self.mazeSummary.rating
+                          dismissedHandler: ^
+        {
+            [self goBack];
+        }];
 	}
 	else 
 	{
-		cancelButtonTitle = @"OK";
-	}
-     */
-    
-	self.endAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                   message: self.currentLocation.message
-                                                  delegate: self
-                                         cancelButtonTitle: cancelButtonTitle
-                                         otherButtonTitles: nil];
+        MAInfoPopupView *infoPopupView = [MAInfoPopupView infoPopupView];
 
-	[self.endAlertView show];
-}
-
-- (void)willPresentAlertView: (UIAlertView *)alertView
-{
-	if (alertView == self.endAlertView) // && self.mazeUser.rating == 0.0)
-	{
-		UIView *buttonView = [alertView.subviews objectAtIndex: 3];
-
-		// add rating view
-		float ratingViewX = 20.0;
-		float ratingViewY = buttonView.frame.origin.y - 2.0;
-		float ratingViewWidth = alertView.frame.size.width - 2.0 * ratingViewX;		
-		float ratingViewHeight = 45.0;
-		
-		MARatingView *ratingView = [[MARatingView alloc] init];
-		
-		ratingView.frame = CGRectMake(ratingViewX, ratingViewY, ratingViewWidth, ratingViewHeight);
-		ratingView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent: 0.0];
-		
-        /*
-        [ratingView setupWithDelegate: self
-                               rating: self.mazeUser.rating
-                                 type: MARatingViewSelectable
-                            starColor: [Styles shared].ratingView.mazeFinishedStarColor];
-        */
-        
-		[alertView addSubview: ratingView];
-		
-		// add rating label
-		float labelX = 0.0;
-		float labelY = ratingView.frame.origin.y + ratingView.frame.size.height + 5.0;
-		float labelWidth = alertView.frame.size.width;		
-		float labelHeight = 20.0;
-		
-		UILabel *ratingLabel = [[UILabel alloc] initWithFrame: CGRectMake(labelX, labelY, labelWidth, labelHeight)];
-		ratingLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent: 0.0];
-		[ratingLabel setTextAlignment: NSTextAlignmentCenter];
-		[ratingLabel setTextColor: self.styles.endAlertView.textColor];
-		ratingLabel.font = [UIFont systemFontOfSize: 14.0];  
-		ratingLabel.text = @"Click a star above to rate.";
-
-		[alertView addSubview: ratingLabel];
-		
-		float buttonViewY = ratingLabel.frame.origin.y + ratingLabel.frame.size.height + 22.0;
-		float addedHeight = buttonViewY - buttonView.frame.origin.y;
-		
-		buttonView.frame = CGRectMake(buttonView.frame.origin.x, buttonViewY, buttonView.frame.size.width, buttonView.frame.size.height);
-				
-		alertView.frame = CGRectMake(alertView.frame.origin.x, alertView.frame.origin.y - addedHeight / 2.0, alertView.frame.size.width, alertView.frame.size.height + addedHeight);
+        [infoPopupView showWithStyles: self.styles
+                           parentView: self.view
+                              message: self.currentLocation.message
+                    cancelButtonTitle: @"OK"
+                     dismissedHandler: ^
+         {
+             [self goBack];
+         }];
 	}
 }
 
 - (void)ratingView: (MARatingView *)ratingView ratingChanged: (float)newRating
 {
-    /*
-    if (newRating != self.mazeUser.rating)
+    if (newRating != self.mazeSummary.rating)
     {
-        self.mazeUser.rating = newRating;
-        
-        [[ServerQueue shared] addObject: self.mazeUser];
+        [self.webServices saveMazeRatingWithUserName: self.webServices.loggedInUser.userName
+                                              mazeId: self.maze.mazeId
+                                              rating: newRating
+                                   completionHandler: ^(NSError *error)
+        {
+            if (error != nil)
+            {
+            }
+        }];
     }
-    */
-    
-    [self dismissEndAlertView];
-}
-
-- (void)alertView: (UIAlertView *)alertView didDismissWithButtonIndex: (NSInteger)buttonIndex
-{
-	if (alertView == self.startOverAlertView)
-	{
-		[self setupNewLocation: self.maze.startLocation];
-	}
-	else if (alertView == self.endAlertView)
-	{		
-		[self goBack];
-	}
-}
-
-- (void)dismissEndAlertView
-{
-	[self.endAlertView dismissWithClickedButtonIndex: 0 animated: YES];
 }
 
 // Back Button
@@ -931,10 +892,10 @@
 	}
 	
 	UIViewController *vcHelp = [[UIViewController alloc] initWithNibName: @"GameHelpViewController" bundle: nil];
-	vcHelp.view.backgroundColor = self.styles.gameView.helpBackgroundColor;
+	vcHelp.view.backgroundColor = self.styles.gameScreen.helpBackgroundColor;
 	
 	UILabel *label = (UILabel *)[vcHelp.view.subviews objectAtIndex: 0];
-	label.textColor = self.styles.gameView.helpTextColor;
+	label.textColor = self.styles.gameScreen.helpTextColor;
 	
 	UIPopoverController *pcPopover = [[UIPopoverController alloc] initWithContentViewController: vcHelp];
 
@@ -967,7 +928,7 @@
 
 - (void)viewDidDisappear: (BOOL)animated
 {
-    if (self.movingToParentViewController)
+    if (self.isMovingToParentViewController)
     {
         self.maze = nil;
         

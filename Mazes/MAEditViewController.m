@@ -12,7 +12,7 @@
 #import "MAConstants.h"
 #import "MACoordinate.h"
 #import "MACreateViewController.h"
-#import "MAEditViewStyle.h"
+#import "MADesignScreenStyle.h"
 #import "MAEvents.h"
 #import "MAEvent.h"
 #import "MAGridView.h"
@@ -31,10 +31,12 @@
 #import "MATopMazesViewController.h"
 #import "MAUtilities.h"
 #import "MAWall.h"
+#import "MAWebServices.h"
 
 @interface MAEditViewController ()
 
-@property (readonly, strong, nonatomic) MAConstants *constants;
+@property (readonly, strong, nonatomic) MAWebServices *webServices;
+
 @property (readonly, strong, nonatomic) MAEvents *events;
 @property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
 @property (readonly, strong, nonatomic) MASettings *settings;
@@ -63,21 +65,22 @@
 
 @implementation MAEditViewController
 
-- (id)initWithConstants: (MAConstants *)constants
-                 events: (MAEvents *)events
-            mazeManager: (MAMazeManager *)mazeManager
-           soundManager: (MASoundManager *)soundManager
-         textureManager: (MATextureManager *)textureManager
-               settings: (MASettings *)settings
-                 colors: (MAColors *)colors
-                 styles: (MAStyles *)styles
+- (id)initWithWebServices: (MAWebServices *)webServices
+                   events: (MAEvents *)events
+              mazeManager: (MAMazeManager *)mazeManager
+             soundManager: (MASoundManager *)soundManager
+           textureManager: (MATextureManager *)textureManager
+                 settings: (MASettings *)settings
+                   colors: (MAColors *)colors
+                   styles: (MAStyles *)styles
 {
     self = [super initWithNibName: NSStringFromClass([self class])
                            bundle: nil];
     
     if (self)
     {
-        _constants = constants;
+        _webServices = webServices;
+        
         _events = events;
         _mazeManager = mazeManager;
         _textureManager = textureManager;
@@ -100,30 +103,30 @@
     [super viewDidLoad];
 
 	self.mainView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-	self.mainView.backgroundColor = self.styles.editView.panelBackgroundColor;
+	self.mainView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
 	[self.contentView addSubview: self.mainView];
     
 	self.locationScrollView.contentSize = self.locationScrollView.frame.size;
 	self.locationScrollView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-	self.locationScrollView.backgroundColor = self.styles.editView.panelBackgroundColor;
+	self.locationScrollView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
     self.floorTextureButton.backgroundColor = [UIColor clearColor];
     self.ceilingTextureButton.backgroundColor = [UIColor clearColor];
 	[self.contentView addSubview: self.locationScrollView];
 	
 	self.wallView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-	self.wallView.backgroundColor = self.styles.editView.panelBackgroundColor;
+	self.wallView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
     self.wallTextureButton.backgroundColor = [UIColor clearColor];
 	[self.contentView addSubview: self.wallView];
 	
 	self.graphicsView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-	self.graphicsView.backgroundColor = self.styles.editView.panelBackgroundColor;
+	self.graphicsView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
     self.defaultWallTextureButton.backgroundColor = [UIColor clearColor];
     self.defaultFloorTextureButton.backgroundColor = [UIColor clearColor];
     self.defaultCeilingTextureButton.backgroundColor = [UIColor clearColor];
 	[self.contentView addSubview: self.graphicsView];
 	
 	self.audioView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-	self.audioView.backgroundColor = self.styles.editView.panelBackgroundColor;
+	self.audioView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
 	[self.contentView addSubview: self.audioView];
 
 	self.locationActions = @[@(MALocationActionDoNothing), @(MALocationActionStart), @(MALocationActionEnd), @(MALocationActionStartOver), @(MALocationActionTeleport)];
@@ -142,17 +145,17 @@
 
 	[self.wallTypeTableView setRowHeight: (self.wallTypeTableView.frame.size.height - self.wallTypeTableView.sectionHeaderHeight) / self.wallTypes.count];
 	
-	[self.backgroundSoundTableView setRowHeight: (self.backgroundSoundTableView.frame.size.height - self.backgroundSoundTableView.sectionHeaderHeight) / self.styles.editView.tableViewBackgroundSoundRows];
+	[self.backgroundSoundTableView setRowHeight: (self.backgroundSoundTableView.frame.size.height - self.backgroundSoundTableView.sectionHeaderHeight) / self.styles.designScreen.tableViewBackgroundSoundRows];
 
-	self.messageDisplaysLabel.backgroundColor = self.styles.editView.panelBackgroundColor;
+	self.messageDisplaysLabel.backgroundColor = self.styles.designScreen.panelBackgroundColor;
 	
-	self.buttonsView.backgroundColor = self.styles.editView.buttonsViewBackgroundColor;
+	self.buttonsView.backgroundColor = self.styles.designScreen.buttonsViewBackgroundColor;
 	
-	self.message1Label.backgroundColor = self.styles.editView.messageBackgroundColor;
-	self.message1Label.textColor = self.styles.editView.messageTextColor;
+	self.message1Label.backgroundColor = self.styles.designScreen.messageBackgroundColor;
+	self.message1Label.textColor = self.styles.designScreen.messageTextColor;
 	
-	self.message2Label.backgroundColor = self.styles.editView.messageBackgroundColor;
-	self.message2Label.textColor = self.styles.editView.messageTextColor;
+	self.message2Label.backgroundColor = self.styles.designScreen.messageBackgroundColor;
+	self.message2Label.textColor = self.styles.designScreen.messageTextColor;
 	
     self.gridView.maze = self.maze;
     self.gridView.styles = self.styles;
@@ -176,7 +179,7 @@
 {
 	[super viewWillAppear: animated];
 	
-	[self.gridView setNeedsDisplay];
+	[self.gridView refresh];
 
     [self setupTexturesPopover];
 }
@@ -185,8 +188,8 @@
 {
     [self.texturesViewController setup];
     
-    _texturesPopoverController.popoverContentSize = CGSizeMake(self.styles.editView.texturesPopoverWidth,
-                                                               self.styles.editView.texturesPopoverHeight);
+    _texturesPopoverController.popoverContentSize = CGSizeMake(self.styles.designScreen.texturesPopoverWidth,
+                                                               self.styles.designScreen.texturesPopoverHeight);
     _texturesPopoverController.delegate = self;
 }
 
@@ -239,7 +242,7 @@
 	[self setupTabBarWithSelectedIndex: 2];
 }
 
-- (IBAction)wallButtonTochhDown: (id)sender
+- (IBAction)wallButtonTouchDown: (id)sender
 {
 	[self setupTabBarWithSelectedIndex: 3];
 }
@@ -256,39 +259,39 @@
 
 - (void)setupTabBarWithSelectedIndex: (int)selectedIndex
 {
-	self.mainButton.backgroundColor = self.styles.editView.tabDarkColor;
-	self.locationButton.backgroundColor = self.styles.editView.tabDarkColor;
-	self.wallButton.backgroundColor = self.styles.editView.tabDarkColor;
-	self.graphicsButton.backgroundColor = self.styles.editView.tabDarkColor;
-	self.audioButton.backgroundColor = self.styles.editView.tabDarkColor;
+	self.mainButton.backgroundColor = self.styles.designScreen.tabDarkColor;
+	self.locationButton.backgroundColor = self.styles.designScreen.tabDarkColor;
+	self.wallButton.backgroundColor = self.styles.designScreen.tabDarkColor;
+	self.graphicsButton.backgroundColor = self.styles.designScreen.tabDarkColor;
+	self.audioButton.backgroundColor = self.styles.designScreen.tabDarkColor;
 
 	if (selectedIndex == 1)
 	{
-		self.mainButton.backgroundColor = self.styles.editView.panelBackgroundColor;
+		self.mainButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
 		
 		[self.contentView bringSubviewToFront: self.mainView];
 	}
 	else if (selectedIndex == 2)
 	{
-		self.locationButton.backgroundColor = self.styles.editView.panelBackgroundColor;
+		self.locationButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
 		
 		[self.contentView bringSubviewToFront: self.locationScrollView];
 	}
 	else if (selectedIndex == 3)
 	{
-		self.wallButton.backgroundColor = self.styles.editView.panelBackgroundColor;
+		self.wallButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
 		
 		[self.contentView bringSubviewToFront: self.wallView];
 	}
 	else if (selectedIndex == 4)
 	{
-		self.graphicsButton.backgroundColor = self.styles.editView.panelBackgroundColor;
+		self.graphicsButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
 		
 		[self.contentView bringSubviewToFront: self.graphicsView];
 	}
 	else if (selectedIndex == 5)
 	{
-		self.audioButton.backgroundColor = self.styles.editView.panelBackgroundColor;
+		self.audioButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
 		
 		[self.contentView bringSubviewToFront: self.audioView];
 	}
@@ -349,7 +352,7 @@
 		
 		[self setupWallPanel];
 
-		[self.gridView setNeedsDisplay];
+		[self.gridView refresh];
 	}		
 }
 
@@ -418,7 +421,7 @@
 
 	[self setupLocationPanel];
 	
-	[self.gridView setNeedsDisplay];
+	[self.gridView refresh];
 }
 
 - (BOOL)setNextLocationAsTeleportation
@@ -445,10 +448,10 @@
 
 	UILabel *headerLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, tableView.bounds.size.width, tableView.sectionHeaderHeight)];
 	
-	headerLabel.backgroundColor = self.styles.editView.tableHeaderBackgroundColor;
-	headerLabel.font = self.styles.editView.tableHeaderFont;
-	headerLabel.textColor = self.styles.editView.tableHeaderTextColor;
-	headerLabel.textAlignment = self.styles.editView.tableHeaderTextAlignment;
+	headerLabel.backgroundColor = self.styles.designScreen.tableHeaderBackgroundColor;
+	headerLabel.font = self.styles.designScreen.tableHeaderFont;
+	headerLabel.textColor = self.styles.designScreen.tableHeaderTextColor;
+	headerLabel.textAlignment = self.styles.designScreen.tableHeaderTextAlignment;
 	
 	if (tableView == self.locationTypeTableView)
 	{
@@ -651,7 +654,7 @@
                     self.maze.startLocation.floorTextureId = self.maze.floorTexture.textureId;
                 }
                 
-                self.maze.currentSelectedLocation.floorTextureId = self.constants.greenTextureId;
+                self.maze.currentSelectedLocation.floorTextureId = MAGreenTextureId;
                 
                 [self showTutorialHelpForTopic: @"StartDirection"];
 
@@ -668,7 +671,7 @@
                     [self.maze.endLocation reset];
                 }
                 
-                self.maze.currentSelectedLocation.floorTextureId = self.constants.redTextureId;
+                self.maze.currentSelectedLocation.floorTextureId = MARedTextureId;
 
                 [self showTutorialHelpForTopic: @"None"];
 
@@ -793,7 +796,7 @@
 		[self.backgroundSoundTableView deselectRowAtIndexPath: indexPath animated: YES];	
 	}	
 	
-	[self.gridView setNeedsDisplay];
+	[self.gridView refresh];
 }
 
 - (void)resetCurrentLocation
@@ -1128,7 +1131,7 @@ BOOL exists;
     }
 }
 
-- (IBAction)floorTextureButtonTouchDown
+- (IBAction)floorTextureButtonTouchDown: (id)sender
 {
 	if (self.maze.currentSelectedLocation != nil)
 	{
@@ -1147,7 +1150,13 @@ BOOL exists;
 	}
 }
 
-- (IBAction)ceilingTextureButtonTouchDown
+- (IBAction)floorTextureResetButtonTouchDown: (id)sender
+{
+    self.maze.currentSelectedLocation.floorTextureId = nil;
+    [self setupLocationPanel];
+}
+
+- (IBAction)ceilingTextureButtonTouchDown: (id)sender
 {
 	if (self.maze.currentSelectedLocation != nil)
 	{
@@ -1164,6 +1173,12 @@ BOOL exists;
                                       permittedArrowDirections: UIPopoverArrowDirectionAny
                                                       animated: YES];
 	}
+}
+
+- (IBAction)ceilingTextureResetButtonTouchDown: (id)sender
+{
+    self.maze.currentSelectedLocation.ceilingTextureId = nil;
+    [self setupLocationPanel];
 }
 
 //
@@ -1198,7 +1213,7 @@ BOOL exists;
     }
 }
 
-- (void)wallTextureButtonTouchDown
+- (void)wallTextureButtonTouchDown: (id)sender
 {
 	if (self.maze.currentSelectedWall != nil)
 	{
@@ -1207,7 +1222,6 @@ BOOL exists;
 		self.texturesViewController.textureSelectedHandler = ^(MATexture *texture)
         {
             weakSelf.maze.currentSelectedWall.textureId = texture.textureId;
-            
             [weakSelf setupWallPanel];
         };
 				
@@ -1215,6 +1229,12 @@ BOOL exists;
                                                         inView: self.wallView
                                       permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
 	}
+}
+
+- (IBAction)wallTextureResetButtonTouchDown: (id)sender
+{
+    self.maze.currentSelectedWall.textureId = nil;
+    [self setupWallPanel];
 }
 
 //
@@ -1238,7 +1258,7 @@ BOOL exists;
                                       forState: UIControlStateNormal];
 }
 
-- (void)defaultWallTextureButtonTouchDown
+- (void)defaultWallTextureButtonTouchDown: (id)sender
 {
     __weak typeof(self) weakSelf = self;
     
@@ -1253,7 +1273,7 @@ BOOL exists;
                                   permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
 }
 
-- (void)defaultFloorTextureButtonTouchDown
+- (void)defaultFloorTextureButtonTouchDown: (id)sender
 {
     __weak typeof(self) weakSelf = self;
     
@@ -1268,7 +1288,7 @@ BOOL exists;
                                   permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
 }
 
-- (void)defaultCeilingTextureButtonTouchDown
+- (void)defaultCeilingTextureButtonTouchDown: (id)sender
 {
     __weak typeof(self) weakSelf = self;
     
@@ -1322,18 +1342,35 @@ BOOL exists;
 
 - (void)saveMaze
 {
-    [self.mazeManager saveMaze: self.maze completionHandler: ^
+    [self.webServices saveMaze: self.maze
+             completionHandler: ^(NSError *error)
     {
-        /*
-         if (retVal == [Constants shared].nameExists)
-         {
-         [self setupTabBarWithSelectedIndex: 1];
-         
-         NSString *message = [NSString stringWithFormat: @"There is already a maze with the name %@.", [Globals instance].mazeEdit.name];
-         
-         [Utilities ShowAlertWithDelegate: self Message: message CancelButtonTitle: @"OK" OtherButtonTitle: @"" Tag: 0 Bounds: CGRectZero];
-         }
-         */
+        if (error == nil)
+        {
+            if ([[error.userInfo allKeys] indexOfObject: MAStatusCodeKey] != NSNotFound)
+            {
+                NSNumber *statusCode = [error.userInfo objectForKey: MAStatusCodeKey];
+                
+                if ([statusCode integerValue] == 450)
+                {
+                    [self setupTabBarWithSelectedIndex: 1];
+                 
+                    NSString *message = [NSString stringWithFormat: @"There is already a maze with the name %@.", self.maze.name];
+                 
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                        message: message
+                                                                       delegate: nil
+                                                              cancelButtonTitle: @"OK"
+                                                              otherButtonTitles: nil];
+                    
+                    [alertView show];
+                }
+            }
+        }
+        else
+        {
+        
+        }
     }];
 }
 
@@ -1407,13 +1444,13 @@ BOOL exists;
 }
 
 //
-//   DELETE
+//   RESET
 //
 
-- (IBAction)deleteButtonTouchDown: (id)sender
+- (IBAction)resetButtonTouchDown: (id)sender
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
-                                                        message: @"Delete maze?"
+                                                        message: @"Reset maze?"
                                                        delegate: self
                                               cancelButtonTitle: @"Yes"
                                               otherButtonTitles: @"No", nil];
@@ -1429,55 +1466,36 @@ BOOL exists;
 	{
 		[self stopBackgroundSound];
 		
-		if (self.maze != nil)
-		{	
-			[self deleteMaze];
-		}
-		else 
-		{
-			[self setupCreateView];
-		}
+        [self.maze resetWithRows: MARowsMin
+                         columns: MAColumnsMin
+                 backgroundSound: nil
+                     wallTexture: [self.textureManager textureWithTextureId: MAAlternatingBrickTextureId]
+                    floorTexture: [self.textureManager textureWithTextureId: MALightSwirlMarbleTextureId]
+                  ceilingTexture: [self.textureManager textureWithTextureId: MACreamyWhiteMarbleTextureId]];
+
+        [self setup];
+        
+        self.mazeManager.isFirstUserMazeSizeChosen = NO;
+        
+        self.createViewController.maze = self.maze;
+        
+        [self.mainViewController transitionFromViewController: self
+                                             toViewController: self.createViewController
+                                                   transition: MATransitionCrossDissolve];
 	}
-}
-
-- (void)deleteMaze
-{
-    // [self.operationQueue addOperation: [[ServerOperations shared] deleteMazeOperationWithDelegate: self mazeId: [self.maze.objectId intValue]]];
-}
-
-- (void)serverOperationsDeleteMazeWithError: (NSError *)error
-{
-    if (error == nil)
-    {
-        [self setupCreateView];
-    }
-    else
-    {
-        //[self.events addEvent: self.deleteMazeEvent];
-    }
-}
-
-- (void)setupCreateView
-{
-	[self setup];
-
-	self.mazeManager.isFirstUserMazeSizeChosen = NO;
-    
-	[self.navigationController pushViewController: self.createViewController animated: NO];
 }
 
 - (IBAction)mazesButtonTouchDown: (id)sender
 {
 	[self stopBackgroundSound];
 	
-	[self.topMazesViewController downloadTopMazeItems];
+	[self.topMazesViewController downloadTopMazeSummaries];
 	
 	[self.navigationController popViewControllerAnimated: NO];
 
     [self.mainViewController transitionFromViewController: self
                                          toViewController: self.topMazesViewController
                                                transition: MATransitionCrossDissolve];
-    
 }
 
 - (void)stopBackgroundSound
@@ -1509,7 +1527,7 @@ BOOL exists;
 
 		[self.messageTextView resignFirstResponder];
 	}
-	else if (range.location >= self.constants.locationMessageMaxLength)
+	else if (range.location >= MALocationMessageMaxLength)
 	{
 		if (rangeBackspace.location == NSNotFound)
         {
@@ -1522,7 +1540,7 @@ BOOL exists;
 
 - (void)textViewDidEndEditing: (UITextView *)textView
 {
-	[self.gridView setNeedsDisplay];
+	[self.gridView refresh];
 }
 
 - (void)textViewDidChange:(UITextView *)textView
@@ -1544,7 +1562,7 @@ BOOL exists;
 		
 		[self.nameTextField resignFirstResponder];
 	}
-	else if (range.location >= self.constants.mazeNameMaxLength)
+	else if (range.location >= MAMazeNameMaxLength)
 	{
 		changeText = NO;
     }
@@ -1632,12 +1650,12 @@ BOOL exists;
 {
 	if (disabled == YES && tableView.allowsSelection == YES)
 	{
-		tableView.backgroundColor =	self.styles.editView.tableViewDisabledBackgroundColor;
+		tableView.backgroundColor =	self.styles.designScreen.tableViewDisabledBackgroundColor;
 		tableView.allowsSelection = NO;
 	}
 	else if (disabled == NO && tableView.allowsSelection == NO)
 	{
-		tableView.backgroundColor =	self.styles.editView.tableViewBackgroundColor;
+		tableView.backgroundColor =	self.styles.designScreen.tableViewBackgroundColor;
 		tableView.allowsSelection = YES;
 	}
 }

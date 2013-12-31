@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class MAConstants;
 @class MAMaze;
 @class MATextureManager;
 
@@ -28,7 +27,6 @@ typedef enum : int
 
 @interface MAMazeView : UIView
 
-@property (readwrite, strong, nonatomic) MAConstants *constants;
 @property (readwrite, strong, nonatomic) MATextureManager *textureManager;
 
 @property (strong, nonatomic) MAMaze *maze;

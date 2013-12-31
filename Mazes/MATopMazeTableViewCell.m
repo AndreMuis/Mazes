@@ -9,22 +9,26 @@
 #import "MATopMazeTableViewCell.h"
 
 #import "AppDelegate.h"
-#import "MACloud.h"
 #import "MAConstants.h"
-#import "MAMainListViewStyle.h"
 #import "MAMaze.h"
-#import "MAMazeRating.h"
+#import "MAMazeManager.h"
+#import "MAMazeSummary.h"
 #import "MARatingView.h"
-#import "MARatingViewStyle.h"
+#import "MARatingPopupStyle.h"
 #import "MAStyles.h"
-#import "MATopMazeItem.h"
+#import "MATopMazesScreenStyle.h"
 #import "MAUtilities.h"
+#import "MAWebServices.h"
 
 @interface MATopMazeTableViewCell ()
 
-@property (strong, nonatomic) MATopMazeItem *topMazeItem1;
-@property (strong, nonatomic) MATopMazeItem *topMazeItem2;
+@property (readonly, strong, nonatomic) id<MATopMazeTableViewCellDelegate> delegate;
 
+@property (readonly, strong, nonatomic) MAMazeSummary *mazeSummary1;
+@property (readonly, strong, nonatomic) MAMazeSummary *mazeSummary2;
+
+@property (readonly, strong, nonatomic) MAWebServices *webServices;
+@property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
 @property (readonly, strong, nonatomic) MAStyles *styles;
 
 @end
@@ -37,10 +41,13 @@
     
     if (self)
 	{
-        _topMazeItem1 = nil;
-        _topMazeItem2 = nil;
+        _mazeSummary1 = nil;
+        _mazeSummary2 = nil;
         
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        
+        _webServices = appDelegate.webServices;
+        _mazeManager = appDelegate.mazeManager;
         _styles = appDelegate.styles;
         
         _selectedColumn = 0;
@@ -53,21 +60,24 @@
 	return self;
 }
 
-- (void)setupWithTopMazeItem1: (MATopMazeItem *)topMazeItem1
-                 topMazeItem2: (MATopMazeItem *)topMazeItem2
+- (void)setupWithDelegate: (id<MATopMazeTableViewCellDelegate>)delegate
+             mazeSummary1: (MAMazeSummary *)mazeSummary1
+             mazeSummary2: (MAMazeSummary *)mazeSummary2
 {
-    self.topMazeItem1 = topMazeItem1;
-    self.topMazeItem2 = topMazeItem2;
+    _delegate = delegate;
+    
+    _mazeSummary1 = mazeSummary1;
+    _mazeSummary2 = mazeSummary2;
  
-    self.name1Label.textColor = self.styles.mainListView.textColor;
-    self.name1Label.text = self.topMazeItem1.mazeName;
+    self.name1Label.textColor = self.styles.topMazesScreen.textColor;
+    self.name1Label.text = self.mazeSummary1.name;
     
-    self.date1Label.textColor = self.styles.mainListView.textColor;
-    self.date1Label.text = self.topMazeItem1.modifiedAtFormatted;
+    self.date1Label.textColor = self.styles.topMazesScreen.textColor;
+    self.date1Label.text = self.mazeSummary1.modifiedAtFormatted;
     
-    self.ratingCount1Label.textColor = self.styles.mainListView.textColor;
+    self.ratingCount1Label.textColor = self.styles.topMazesScreen.textColor;
 
-    if (self.topMazeItem1.averageRating == 0.0)
+    if (self.mazeSummary1.averageRating == -1.0)
     {
         self.averageRating1View.hidden = YES;
         
@@ -78,14 +88,14 @@
         self.averageRating1View.hidden = NO;
         
         [self.averageRating1View setupWithDelegate: self
-                                            rating: self.topMazeItem1.averageRating
+                                            rating: self.mazeSummary1.averageRating
                                               type: MARatingViewDisplayOnly
-                                         starColor: self.styles.ratingView.averageRatingStarColor];
+                                         starColor: self.styles.topMazesScreen.averageRatingStarColor];
         
-        self.ratingCount1Label.text = [NSString stringWithFormat: @"%d ratings", self.topMazeItem1.ratingCount];
+        self.ratingCount1Label.text = [NSString stringWithFormat: @"%d ratings", self.mazeSummary1.ratingCount];
     }
     
-    if (self.topMazeItem1.userStarted == NO)
+    if (self.mazeSummary1.userStarted == NO)
     {
         self.userRating1View.hidden = YES;
     }
@@ -94,21 +104,21 @@
         self.userRating1View.hidden = NO;
         
         [self.userRating1View setupWithDelegate: self
-                                         rating: self.topMazeItem1.userRating
+                                         rating: self.mazeSummary1.rating
                                            type: MARatingViewEditable
-                                      starColor: self.styles.ratingView.userRatingStarColor];
+                                      starColor: self.styles.topMazesScreen.userRatingStarColor];
     }
     
-    if (self.topMazeItem2 != nil)
+    if (self.mazeSummary2 != nil)
     {
-        self.name2Label.textColor = self.styles.mainListView.textColor;
-        self.name2Label.text = self.topMazeItem2.mazeName;
+        self.name2Label.textColor = self.styles.topMazesScreen.textColor;
+        self.name2Label.text = self.mazeSummary2.name;
         
-        self.date2Label.textColor = self.styles.mainListView.textColor;
-        self.date2Label.text = self.topMazeItem2.modifiedAtFormatted;
+        self.date2Label.textColor = self.styles.topMazesScreen.textColor;
+        self.date2Label.text = self.mazeSummary2.modifiedAtFormatted;
         
-        self.ratingCount2Label.textColor = self.styles.mainListView.textColor;
-        if (self.topMazeItem2.averageRating == 0.0)
+        self.ratingCount2Label.textColor = self.styles.topMazesScreen.textColor;
+        if (self.mazeSummary2.averageRating == -1.0)
         {
             self.averageRating2View.hidden = YES;
             
@@ -119,14 +129,15 @@
             self.averageRating2View.hidden = NO;
             
             [self.averageRating2View setupWithDelegate: self
-                                                rating: self.topMazeItem2.averageRating
+                                                rating: self.mazeSummary2.averageRating
                                                   type: MARatingViewDisplayOnly
-                                             starColor: self.styles.ratingView.averageRatingStarColor];
+                                             starColor: self.styles.topMazesScreen.averageRatingStarColor];
             
-            self.ratingCount2Label.text = [NSString stringWithFormat: @"%d ratings", self.topMazeItem2.ratingCount];
+            
+            self.ratingCount2Label.text = [NSString stringWithFormat: @"%d ratings", self.mazeSummary2.ratingCount];
         }
         
-        if (self.topMazeItem2.userStarted == NO)
+        if (self.mazeSummary2.userStarted == NO)
         {
             self.userRating2View.hidden = YES;
         }
@@ -135,9 +146,9 @@
             self.userRating2View.hidden = NO;
             
             [self.userRating2View setupWithDelegate: self
-                                             rating: self.topMazeItem2.userRating
+                                             rating: self.mazeSummary2.rating
                                                type: MARatingViewEditable
-                                          starColor: self.styles.ratingView.userRatingStarColor];
+                                          starColor: self.styles.topMazesScreen.userRatingStarColor];
         }
     }
     else
@@ -170,25 +181,22 @@
 
 - (void)ratingView: (MARatingView *)ratingView ratingChanged: (float)newRating
 {
-    MAMazeRating *rating = [[MAMazeRating alloc] init];
+    NSString *mazeId = nil;
     
     if (ratingView == self.userRating1View)
     {
-        rating.maze = self.topMazeItem1.maze;
+        mazeId = self.mazeSummary1.mazeId;
     }
     else if (ratingView == self.userRating2View)
     {
-        rating.maze = self.topMazeItem2.maze;
+        mazeId = self.mazeSummary2.mazeId;
     }
     else
     {
         [MAUtilities logWithClass: [self class] format: @"Rating view %@ cannot be selectable.", ratingView];
     }
     
-    // rating.user = [MAUserManager shared].currentUser;
-    rating.userRating = newRating;
-    
-    // [[ServerQueue shared] addObject: rating];
+    [self.delegate topMazeTableViewCell: self didUpdateRating: newRating forMazeWithMazeId: mazeId];
 }
 
 @end

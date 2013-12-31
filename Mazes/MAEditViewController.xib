@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MAEditViewController">
@@ -95,7 +95,7 @@
                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                     </state>
                     <connections>
-                        <action selector="wallButtonTochhDown:" destination="-1" eventType="touchDown" id="277"/>
+                        <action selector="wallButtonTouchDown:" destination="-1" eventType="touchDown" id="F7C-w5-IvG"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="216" userLabel="graphicsButton">
@@ -140,7 +140,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8" userLabel="saveButton">
-                            <rect key="frame" x="17" y="110" width="72" height="37"/>
+                            <rect key="frame" x="17" y="20" width="72" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="Save">
@@ -150,19 +150,8 @@
                                 <action selector="saveButtonTouchDown:" destination="-1" eventType="touchDown" id="283"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7" userLabel="deleteButton">
-                            <rect key="frame" x="17" y="65" width="72" height="37"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
-                            <state key="normal" title="Delete">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="deleteButtonTouchDown:" destination="-1" eventType="touchDown" id="284"/>
-                            </connections>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="189" userLabel="mazesButton">
-                            <rect key="frame" x="17" y="20" width="72" height="37"/>
+                            <rect key="frame" x="17" y="65" width="72" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                             <state key="normal" title="Mazes">
@@ -170,6 +159,17 @@
                             </state>
                             <connections>
                                 <action selector="mazesButtonTouchDown:" destination="-1" eventType="touchDown" id="285"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7" userLabel="resetButton">
+                            <rect key="frame" x="17" y="110" width="72" height="37"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
+                            <state key="normal" title="Reset">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="resetButtonTouchDown:" destination="-1" eventType="touchDown" id="VOf-ox-Gvc"/>
                             </connections>
                         </button>
                     </subviews>
@@ -205,6 +205,9 @@
                         <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="6" userLabel="publicSwitch">
                             <rect key="frame" x="161" y="59" width="51" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <connections>
+                                <action selector="switchPublicValueChanged:" destination="-1" eventType="valueChanged" id="BGz-n8-Gvj"/>
+                            </connections>
                         </switch>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tutorial:" lineBreakMode="tailTruncation" minimumFontSize="10" id="163">
                             <rect key="frame" x="76" y="94" width="62" height="24"/>
@@ -299,7 +302,17 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="floorTextureButtonTouchDown" destination="-1" eventType="touchDown" id="6hW-4X-GCr"/>
+                                <action selector="floorTextureButtonTouchDown:" destination="-1" eventType="touchDown" id="OgX-mJ-Ium"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gQF-qs-dIN" userLabel="floorTextureResetButton">
+                            <rect key="frame" x="574" y="169" width="49" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Default">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="floorTextureResetButtonTouchDown:" destination="-1" eventType="touchDown" id="OhH-35-faQ"/>
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Ceiling Texture:" lineBreakMode="tailTruncation" minimumFontSize="10" id="250">
@@ -322,7 +335,17 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="ceilingTextureButtonTouchDown" destination="-1" eventType="touchDown" id="zYv-JT-X5j"/>
+                                <action selector="ceilingTextureButtonTouchDown:" destination="-1" eventType="touchDown" id="x2l-YD-sLl"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="mEu-OU-RaX" userLabel="ceilingTextureResetButton">
+                            <rect key="frame" x="729" y="169" width="49" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Default">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="ceilingTextureResetButtonTouchDown:" destination="-1" eventType="touchDown" id="eaG-Xk-704"/>
                             </connections>
                         </button>
                     </subviews>
@@ -341,6 +364,13 @@
                                 <outlet property="delegate" destination="-1" id="133"/>
                             </connections>
                         </tableView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Texture:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="urP-q7-T5K">
+                            <rect key="frame" x="167" y="20" width="61" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="245" userLabel="wallTextureButton">
                             <rect key="frame" x="167" y="49" width="115" height="115"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -354,16 +384,19 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="wallTextureButtonTouchDown" destination="-1" eventType="touchDown" id="b3K-3M-xtF"/>
+                                <action selector="wallTextureButtonTouchDown:" destination="-1" eventType="touchDown" id="Dbm-WU-mee"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Texture:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="urP-q7-T5K">
-                            <rect key="frame" x="167" y="20" width="61" height="21"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="CAs-fD-0J2" userLabel="wallTextureResetButton">
+                            <rect key="frame" x="200" y="169" width="49" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                            <state key="normal" title="Default">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="wallTextureResetButtonTouchDown:" destination="-1" eventType="touchDown" id="gX5-IR-Xm8"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
@@ -391,7 +424,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="defaultWallTextureButtonTouchDown" destination="-1" eventType="touchDown" id="vjQ-Mr-7qA"/>
+                                <action selector="defaultWallTextureButtonTouchDown:" destination="-1" eventType="touchDown" id="YFf-E2-0JA"/>
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Default Floor:" lineBreakMode="tailTruncation" minimumFontSize="10" id="227">
@@ -414,7 +447,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="defaultFloorTextureButtonTouchDown" destination="-1" eventType="touchDown" id="mZk-Ho-xUZ"/>
+                                <action selector="defaultFloorTextureButtonTouchDown:" destination="-1" eventType="touchDown" id="826-gt-Miy"/>
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Default Ceiling:" lineBreakMode="tailTruncation" minimumFontSize="10" id="228">
@@ -437,7 +470,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="defaultCeilingTextureButtonTouchDown" destination="-1" eventType="touchDown" id="dGo-RB-M9i"/>
+                                <action selector="defaultCeilingTextureButtonTouchDown:" destination="-1" eventType="touchDown" id="Bts-Ft-ias"/>
                             </connections>
                         </button>
                     </subviews>

@@ -10,10 +10,8 @@
 
 #import "MAConstants.h"
 #import "MALocation.h"
-#import "MAViewController.h"
 
 @class MAColors;
-@class MAConstants;
 @class MACreateViewController;
 @class MAEvents;
 @class MAEvent;
@@ -26,8 +24,9 @@
 @class MAStyles;
 @class MATextureManager;
 @class MATopMazesViewController;
+@class MAWebServices;
 
-@interface MAEditViewController : MAViewController <
+@interface MAEditViewController : UIViewController <
     UIGestureRecognizerDelegate,
     UITableViewDelegate,
     UITextViewDelegate,
@@ -82,37 +81,51 @@
 
 @property (weak, nonatomic) IBOutlet MAGridView *gridView;
 
-- (id)initWithConstants: (MAConstants *)constants
-                 events: (MAEvents *)events
-            mazeManager: (MAMazeManager *)mazeManager
-           soundManager: (MASoundManager *)soundManager
-         textureManager: (MATextureManager *)textureManager
-               settings: (MASettings *)settings
-                 colors: (MAColors *)colors
-                 styles: (MAStyles *)styles;
+- (id)initWithWebServices: (MAWebServices *)webServices
+                   events: (MAEvents *)events
+              mazeManager: (MAMazeManager *)mazeManager
+             soundManager: (MASoundManager *)soundManager
+           textureManager: (MATextureManager *)textureManager
+                 settings: (MASettings *)settings
+                   colors: (MAColors *)colors
+                   styles: (MAStyles *)styles;
 
 - (IBAction)mainButtonTouchDown: (id)sender;
 - (IBAction)locationButtonTouchDown: (id)sender;
-- (IBAction)wallButtonTochhDown: (id)sender;
+- (IBAction)wallButtonTouchDown: (id)sender;
 - (IBAction)graphicsButtonTouchDown: (id)sender;
 - (IBAction)audioButtonTouchDown: (id)sender;
 
 - (IBAction)saveButtonTouchDown: (id)sender;
-- (IBAction)deleteButtonTouchDown: (id)sender;
 - (IBAction)mazesButtonTouchDown: (id)sender;
+- (IBAction)resetButtonTouchDown: (id)sender;
 
 - (IBAction)switchPublicValueChanged: (id)sender;
 
-- (IBAction)floorTextureButtonTouchDown;
-- (IBAction)ceilingTextureButtonTouchDown;
+- (IBAction)floorTextureButtonTouchDown: (id)sender;
+- (IBAction)floorTextureResetButtonTouchDown: (id)sender;
 
-- (IBAction)wallTextureButtonTouchDown;
+- (IBAction)ceilingTextureButtonTouchDown: (id)sender;
+- (IBAction)ceilingTextureResetButtonTouchDown: (id)sender;
 
-- (IBAction)defaultWallTextureButtonTouchDown;
-- (IBAction)defaultFloorTextureButtonTouchDown;
-- (IBAction)defaultCeilingTextureButtonTouchDown;
+- (IBAction)wallTextureButtonTouchDown: (id)sender;
+- (IBAction)wallTextureResetButtonTouchDown: (id)sender;
+
+- (IBAction)defaultWallTextureButtonTouchDown: (id)sender;
+- (IBAction)defaultFloorTextureButtonTouchDown: (id)sender;
+- (IBAction)defaultCeilingTextureButtonTouchDown: (id)sender;
 
 - (IBAction)swtichTutorialValueChanged: (id)sender;
 
 @end
+
+
+
+
+
+
+
+
+
+
 

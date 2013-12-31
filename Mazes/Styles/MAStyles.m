@@ -8,47 +8,47 @@
 
 #import "MAStyles.h"
 
-#import "MAActivityViewStyle.h"
+#import "MAActivityIndicatorStyle.h"
+#import "MACanvasStyle.h"
 #import "MAColors.h"
 #import "MAConstants.h"
-#import "MAEditViewStyle.h"
-#import "MAEndAlertViewStyle.h"
-#import "MAGameViewStyle.h"
-#import "MAGridStyle.h"
-#import "MAMainListViewStyle.h"
-#import "MAMainViewStyle.h"
+#import "MADesignScreenStyle.h"
+#import "MAFoundExitPopupStyle.h"
+#import "MAGameScreenStyle.h"
+#import "MAMainScreenStyle.h"
 #import "MAMapStyle.h"
-#import "MARatingViewStyle.h"
+#import "MAPopupStyle.h"
+#import "MARatingPopupStyle.h"
+#import "MATopMazesScreenStyle.h"
 
 @interface MAStyles ()
 
 @property (strong, nonatomic) MAColors *colors;
-@property (strong, nonatomic) MAConstants *constants;
 
 @end
 
 @implementation MAStyles
 
-- (id)initWithConstants: (MAConstants *)constants colors: (MAColors *)colors
+- (id)initWithColors: (MAColors *)colors
 {
     self = [super init];
 	
 	if (self) 
 	{
         _colors = colors;
-        _constants = constants;
         
         _defaultFont = [UIFont systemFontOfSize: [UIFont labelFontSize]];
         
-        _activityView = [[MAActivityViewStyle alloc] initWithColors: self.colors];
-        _editView = [[MAEditViewStyle alloc] initWithColors: self.colors];
-        _endAlertView = [[MAEndAlertViewStyle alloc] initWithColors: self.colors];
-        _gameView = [[MAGameViewStyle alloc] initWithColors: self.colors];
-        _grid = [[MAGridStyle alloc] initWithColors: self.colors];
-        _mainView = [[MAMainViewStyle alloc] init];
-        _map = [[MAMapStyle alloc] initWithConstants: self.constants colors: self.colors];
-        _mainListView = [[MAMainListViewStyle alloc] initWithColors: self.colors];
-        _ratingView = [[MARatingViewStyle alloc] initWithColors: self.colors];
+        _activityIndicator = [[MAActivityIndicatorStyle alloc] initWithColors: self.colors];
+        _canvas = [[MACanvasStyle alloc] initWithColors: self.colors];
+        _designScreen = [[MADesignScreenStyle alloc] initWithColors: self.colors];
+        _foundExitPopup = [[MAFoundExitPopupStyle alloc] initWithColors: self.colors];
+        _gameScreen = [[MAGameScreenStyle alloc] initWithColors: self.colors];
+        _mainScreen = [[MAMainScreenStyle alloc] init];
+        _map = [[MAMapStyle alloc] initWithColors: self.colors];
+        _popup = [[MAPopupStyle alloc] initWithColors: colors];
+        _ratingPopup = [[MARatingPopupStyle alloc] initWithColors: self.colors];
+        _topMazesScreen = [[MATopMazesScreenStyle alloc] initWithColors: self.colors];
     }
 	
     return self;

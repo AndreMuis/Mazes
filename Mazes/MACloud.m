@@ -12,7 +12,7 @@
 
 @property (strong, nonatomic) NSUserDefaults *userDefaults;
 
-@property (strong, nonatomic) NSString *usernameKey;
+@property (strong, nonatomic) NSString *userNameKey;
 @property (strong, nonatomic) NSString *passwordKey;
 
 @end
@@ -25,7 +25,7 @@
     
     if (self)
     {
-        _usernameKey = @"usernameKey";
+        _userNameKey = @"userNameKey";
         _passwordKey = @"passwordKey";
         
         #if TARGET_IPHONE_SIMULATOR
@@ -38,7 +38,7 @@
         
         if ([[NSUbiquitousKeyValueStore defaultStore] dictionaryRepresentation].count == 0)
         {
-            [self setUsername: nil];
+            [self setUserName: nil];
             [self setPassword: nil];
         }
 
@@ -79,29 +79,29 @@
     #endif
 }
 
-- (NSString *)username
+- (NSString *)userName
 {
     #if TARGET_IPHONE_SIMULATOR
 
-    return [self.userDefaults stringForKey: self.usernameKey];
+    return [self.userDefaults stringForKey: self.userNameKey];
 
     #else
     
-    return [[NSUbiquitousKeyValueStore defaultStore] stringForKey: self.usernameKey];
+    return [[NSUbiquitousKeyValueStore defaultStore] stringForKey: self.userNameKey];
     
     #endif
 }
 
-- (void)setUsername: (NSString *)username
+- (void)setUserName: (NSString *)userName
 {
     #if TARGET_IPHONE_SIMULATOR
     
-    [self.userDefaults setObject: username forKey: self.usernameKey];
+    [self.userDefaults setObject: userName forKey: self.userNameKey];
     [self.userDefaults synchronize];
     
     #else
     
-    [[NSUbiquitousKeyValueStore defaultStore] setObject: username forKey: self.usernameKey];
+    [[NSUbiquitousKeyValueStore defaultStore] setObject: userName forKey: self.userNameKey];
     [[NSUbiquitousKeyValueStore defaultStore] synchronize];
     
     #endif

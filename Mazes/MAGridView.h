@@ -20,6 +20,8 @@
 @property (readwrite, strong, nonatomic) MAMaze *maze;
 @property (readwrite, strong, nonatomic) MAStyles *styles;
 
+- (void)refresh;
+
 - (MALocation *)locationWithTouchPoint: (CGPoint)touchPoint;
 - (MAWall *)wallWithTouchPoint: (CGPoint)touchPoint;
 

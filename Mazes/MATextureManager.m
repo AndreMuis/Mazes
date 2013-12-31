@@ -13,49 +13,27 @@
 
 @interface  MATextureManager ()
 
-@property (strong, nonatomic, readonly) AMFatFractal *amFatFractal;
-@property (strong, nonatomic) AMRequest *amRequest;
 @property (strong, nonatomic, readonly) NSArray *textures;
 
 @end
 
 @implementation MATextureManager
 
-- (id)initWithAMFatFractal: (AMFatFractal *)amFatFractal
+- (id)initWithTextures: (NSArray *)textures
 {
     self = [super init];
 	
 	if (self)
 	{
-        _amFatFractal = amFatFractal;
-        _amRequest = nil;
-        _textures = nil;
+        _textures = textures;
 	}
 	
     return self;
 }
 
-- (void)downloadWithCompletionHandler: (TexturesDownloadCompletionHandler)handler
+- (int)count
 {
-    self.amRequest = [self.amFatFractal amGetArrayFromURI: @"/MATexture"
-                                        completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
-    {
-        if (theErr == nil && theResponse.statusCode == 200)
-        {
-            _textures = (NSArray *)theObj;
-            handler();
-        }
-        else
-        {
-             [MAUtilities logWithClass: [self class]
-                                format: @"Unable to get textures from server. StatusCode: %d. Error: %@", theResponse.statusCode, theErr];
-        }
-    }];
-}
-
-- (void)cancelDownload
-{
-    [self.amFatFractal amCancelRequest: self.amRequest];
+    return self.textures.count;
 }
 
 - (NSArray *)all

@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @class MAColors;
-@class MAConstants;
 
 @interface MAMapStyle : NSObject
 
@@ -26,6 +25,6 @@
 @property (strong, nonatomic) UIColor *noWallColor;
 @property (strong, nonatomic) UIColor *invisibleColor;	
 
-- (id)initWithConstants: (MAConstants *)constants colors: (MAColors *)colors;
+- (id)initWithColors: (MAColors *)colors;
 
 @end

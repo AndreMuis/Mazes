@@ -135,18 +135,18 @@
 	// walls
 	for (MAWall *wall in [self.maze allWalls])
 	{
-		float glx = (wall.column - 1) * self.constants.wallWidth;
-		float glz = (wall.row - 1) * self.constants.wallWidth;
+		float glx = (wall.column - 1) * MAWallWidth;
+		float glz = (wall.row - 1) * MAWallWidth;
 			
         if (wall.direction == MADirectionNorth &&
             (wall.type == MAWallSolid || wall.type == MAWallBorder || wall.type == MAWallFake))
         {
             // wall far
-            [self addRectWithX: glx + self.constants.wallDepth / 2.0
+            [self addRectWithX: glx + MAWallDepth / 2.0
                              y: 0.0
                              z: glz
-                         width: self.constants.wallWidth
-                        length: self.constants.wallHeight
+                         width: MAWallWidth
+                        length: MAWallHeight
                    orientation: MAOrientationWestEast
                      textureId: wall.textureId
                 defaultTexture: self.maze.wallTexture
@@ -154,11 +154,11 @@
           texCoordsWidthPrcnt2: 1.0];
     
             // wall near
-            [self addRectWithX: glx + self.constants.wallDepth / 2.0
+            [self addRectWithX: glx + MAWallDepth / 2.0
                              y: 0.0
-                             z: glz + self.constants.wallDepth
-                         width: self.constants.wallWidth
-                        length: self.constants.wallHeight
+                             z: glz + MAWallDepth
+                         width: MAWallWidth
+                        length: MAWallHeight
                    orientation: MAOrientationWestEast
                      textureId: wall.textureId
                 defaultTexture: self.maze.wallTexture
@@ -171,9 +171,9 @@
 			// wall far
 			[self addRectWithX: glx
                              y: 0.0
-                             z: glz + self.constants.wallDepth / 2.0
-						 width: self.constants.wallWidth
-                        length: self.constants.wallHeight
+                             z: glz + MAWallDepth / 2.0
+						 width: MAWallWidth
+                        length: MAWallHeight
 				   orientation: MAOrientationNorthSouth
                      textureId: wall.textureId
                 defaultTexture: self.maze.wallTexture
@@ -181,11 +181,11 @@
           texCoordsWidthPrcnt2: 1.0];
 
 			// wall near
-			[self addRectWithX: glx + self.constants.wallDepth
+			[self addRectWithX: glx + MAWallDepth
                              y: 0.0
-                             z: glz + self.constants.wallDepth / 2.0
-						 width: self.constants.wallWidth
-                        length: self.constants.wallHeight
+                             z: glz + MAWallDepth / 2.0
+						 width: MAWallWidth
+                        length: MAWallHeight
 				   orientation: MAOrientationNorthSouth
                      textureId: wall.textureId
                 defaultTexture: self.maze.wallTexture
@@ -198,8 +198,8 @@
     // determine which wall segments of corner should be drawn
     for (MALocation *location in [self.maze allLocations])
 	{
-        float glx = (location.column - 1) * self.constants.wallWidth;
-		float glz = (location.row - 1) * self.constants.wallWidth;
+        float glx = (location.column - 1) * MAWallWidth;
+		float glz = (location.row - 1) * MAWallWidth;
         
 		// relative to corner:
 		BOOL northWallExists = NO;
@@ -381,15 +381,15 @@
 			bottomRightWallTextureId = westWall.textureId;
 		}
 		
-		float wallWidthPrcnt = (self.constants.wallDepth / 2.0) / self.constants.wallWidth;
+		float wallWidthPrcnt = (MAWallDepth / 2.0) / MAWallWidth;
 		
 		if (topLeftWallExists == YES)
 		{
 			[self addRectWithX: glx
                              y: 0.0
                              z: glz
-						 width: self.constants.wallDepth / 2.0
-                        length: self.constants.wallHeight
+						 width: MAWallDepth / 2.0
+                        length: MAWallHeight
 				   orientation: MAOrientationWestEast
                      textureId: topLeftWallTextureId
                 defaultTexture: self.maze.wallTexture
@@ -399,11 +399,11 @@
 
 		if (topRightWallExists == YES)
 		{
-			[self addRectWithX: glx + self.constants.wallDepth / 2.0
+			[self addRectWithX: glx + MAWallDepth / 2.0
                              y: 0.0
                              z: glz
-						 width: self.constants.wallDepth / 2.0
-                        length: self.constants.wallHeight
+						 width: MAWallDepth / 2.0
+                        length: MAWallHeight
 				   orientation: MAOrientationWestEast
                      textureId: topRightWallTextureId
                 defaultTexture: self.maze.wallTexture
@@ -415,9 +415,9 @@
 		{
 			[self addRectWithX: glx
                              y: 0.0
-                             z: glz + self.constants.wallDepth
-						 width: self.constants.wallDepth / 2.0
-                        length: self.constants.wallHeight
+                             z: glz + MAWallDepth
+						 width: MAWallDepth / 2.0
+                        length: MAWallHeight
 				   orientation: MAOrientationWestEast
                      textureId: bottomLeftWallTextureId
                 defaultTexture: self.maze.wallTexture
@@ -427,11 +427,11 @@
 		
 		if (bottomRightWallExists == YES)
 		{
-			[self addRectWithX: glx + self.constants.wallDepth / 2.0
+			[self addRectWithX: glx + MAWallDepth / 2.0
                              y: 0.0
-                             z: glz + self.constants.wallDepth
-						 width: self.constants.wallDepth / 2.0
-                        length: self.constants.wallHeight
+                             z: glz + MAWallDepth
+						 width: MAWallDepth / 2.0
+                        length: MAWallHeight
 				   orientation: MAOrientationWestEast
                      textureId: bottomRightWallTextureId
                 defaultTexture: self.maze.wallTexture
@@ -444,8 +444,8 @@
 			[self addRectWithX: glx
                              y: 0.0
                              z: glz
-						 width: self.constants.wallDepth / 2.0
-                        length: self.constants.wallHeight
+						 width: MAWallDepth / 2.0
+                        length: MAWallHeight
 				   orientation: MAOrientationNorthSouth
                      textureId: leftTopWallTextureId
                 defaultTexture: self.maze.wallTexture
@@ -457,9 +457,9 @@
 		{
 			[self addRectWithX: glx
                              y: 0.0
-                             z: glz + self.constants.wallDepth / 2.0
-						 width: self.constants.wallDepth / 2.0
-                        length: self.constants.wallHeight
+                             z: glz + MAWallDepth / 2.0
+						 width: MAWallDepth / 2.0
+                        length: MAWallHeight
 				   orientation: MAOrientationNorthSouth
                      textureId: leftBottomWallTextureId
                 defaultTexture: self.maze.wallTexture
@@ -469,11 +469,11 @@
 		
 		if (rightTopWallExists == YES)
 		{
-			[self addRectWithX: glx + self.constants.wallDepth
+			[self addRectWithX: glx + MAWallDepth
                              y: 0.0
                              z: glz
-						 width: self.constants.wallDepth / 2.0
-                        length: self.constants.wallHeight
+						 width: MAWallDepth / 2.0
+                        length: MAWallHeight
 				   orientation: MAOrientationNorthSouth
                      textureId: rightTopWallTextureId
                 defaultTexture: self.maze.wallTexture
@@ -483,11 +483,11 @@
 		
 		if (rightBottomWallExists == YES)
 		{
-			[self addRectWithX: glx + self.constants.wallDepth
+			[self addRectWithX: glx + MAWallDepth
                              y: 0.0
-                             z: glz + self.constants.wallDepth / 2.0
-						 width: self.constants.wallDepth / 2.0
-                        length: self.constants.wallHeight
+                             z: glz + MAWallDepth / 2.0
+						 width: MAWallDepth / 2.0
+                        length: MAWallHeight
 				   orientation: MAOrientationNorthSouth
                      textureId: rightBottomWallTextureId
                 defaultTexture: self.maze.wallTexture
@@ -499,14 +499,14 @@
 	// floor
 	for (MALocation *location in [self.maze allLocations])
 	{
-		float glx = (location.column - 1) * self.constants.wallWidth;
-		float glz = (location.row - 1) * self.constants.wallWidth;
+		float glx = (location.column - 1) * MAWallWidth;
+		float glz = (location.row - 1) * MAWallWidth;
 		
-		[self addRectWithX: glx + self.constants.wallDepth / 2.0
+		[self addRectWithX: glx + MAWallDepth / 2.0
                          y: 0.0
-                         z: glz + self.constants.wallDepth / 2.0
-					 width: self.constants.wallWidth
-                    length: self.constants.wallWidth
+                         z: glz + MAWallDepth / 2.0
+					 width: MAWallWidth
+                    length: MAWallWidth
 			   orientation: MAOrientationHorizontal
                  textureId: location.floorTextureId
             defaultTexture: self.maze.floorTexture
@@ -517,14 +517,14 @@
 	// ceiling
 	for (MALocation *location in [self.maze allLocations])
 	{
-		float glx = (location.column - 1) * self.constants.wallWidth;
-		float glz = (location.row - 1) * self.constants.wallWidth;
+		float glx = (location.column - 1) * MAWallWidth;
+		float glz = (location.row - 1) * MAWallWidth;
 
-		[self addRectWithX: glx + self.constants.wallDepth / 2.0
-                         y: self.constants.wallHeight
-                         z: glz + self.constants.wallDepth / 2.0
-					 width: self.constants.wallWidth
-                    length: self.constants.wallWidth
+		[self addRectWithX: glx + MAWallDepth / 2.0
+                         y: MAWallHeight
+                         z: glz + MAWallDepth / 2.0
+					 width: MAWallWidth
+                    length: MAWallWidth
 			   orientation: MAOrientationHorizontal
                  textureId: location.ceilingTextureId
             defaultTexture: self.maze.ceilingTexture

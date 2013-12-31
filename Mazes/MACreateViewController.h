@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "MAViewController.h"
-
-@class MAConstants;
 @class MAEditViewController;
 @class MAMainViewController;
 @class MAMazeManager;
@@ -19,7 +16,7 @@
 @class MATextureManager;
 @class MATopMazesViewController;
 
-@interface MACreateViewController : MAViewController <UIPickerViewDataSource, UIPickerViewDelegate>
+@interface MACreateViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (readwrite, strong, nonatomic) MAMaze *maze;
 
@@ -27,9 +24,8 @@
 @property (readwrite, strong, nonatomic) MAMainViewController *mainViewController;
 @property (readwrite, strong, nonatomic) MATopMazesViewController *topMazesViewController;
 
-- (id)initWithConstants: (MAConstants *)constants
-            mazeManager: (MAMazeManager *)mazeManager
-         textureManager: (MATextureManager *)textureManager
-                 styles: (MAStyles *)styles;
+- (id)initWithMazeManager: (MAMazeManager *)mazeManager
+           textureManager: (MATextureManager *)textureManager
+                   styles: (MAStyles *)styles;
 
 @end

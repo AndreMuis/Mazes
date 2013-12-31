@@ -12,7 +12,7 @@
 
 @property (readonly, assign, nonatomic) BOOL isAvailable;
 
-@property (readwrite, strong, nonatomic) NSString *username;
+@property (readwrite, strong, nonatomic) NSString *userName;
 @property (readwrite, strong, nonatomic) NSString *password;
 
 - (void)clear;

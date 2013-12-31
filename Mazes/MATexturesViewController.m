@@ -9,7 +9,7 @@
 #import "MATexturesViewController.h"
 
 #import "MAColors.h"
-#import "MAEditViewStyle.h"
+#import "MADesignScreenStyle.h"
 #import "MAStyles.h"
 #import "MATextureManager.h"
 #import "MATexture.h"
@@ -42,26 +42,26 @@
 
 - (void)setup
 {
-    self.preferredContentSize = CGSizeMake(self.styles.editView.texturesPopoverWidth,
-                                           self.styles.editView.texturesPopoverHeight);
+    self.preferredContentSize = CGSizeMake(self.styles.designScreen.texturesPopoverWidth,
+                                           self.styles.designScreen.texturesPopoverHeight);
     
-	self.view.backgroundColor = self.styles.editView.texturesViewBackgroundColor;
+	self.view.backgroundColor = self.styles.designScreen.texturesViewBackgroundColor;
 	
-	float padding = (self.styles.editView.texturesPopoverWidth - self.styles.editView.texturesPerRow * self.styles.editView.textureImageLength) /
-                    (self.styles.editView.texturesPerRow + 1);
+	float padding = (self.styles.designScreen.texturesPopoverWidth - self.styles.designScreen.texturesPerRow * self.styles.designScreen.textureImageLength) /
+                    (self.styles.designScreen.texturesPerRow + 1);
 	
 	int row = 1, column = 1;
 	float x = 0.0, y = 0.0;
 	for (MATexture *texture in [self.textureManager sortedByKindThenOrder])
 	{
-		if (column > self.styles.editView.texturesPerRow)
+		if (column > self.styles.designScreen.texturesPerRow)
 		{
 			column = 1;
 			row = row + 1;
 		}
 		
-		x = padding + (column - 1) * (self.styles.editView.textureImageLength + padding);
-		y = padding + (row - 1) * (self.styles.editView.textureImageLength + padding);
+		x = padding + (column - 1) * (self.styles.designScreen.textureImageLength + padding);
+		y = padding + (row - 1) * (self.styles.designScreen.textureImageLength + padding);
 		
 		UIImage *image = [UIImage imageNamed: [texture.name stringByAppendingString: @".png"]];
 		
@@ -71,31 +71,19 @@
         imageView.userInteractionEnabled = YES;
 		imageView.frame = CGRectMake(x,
                                      y,
-                                     self.styles.editView.textureImageLength,
-                                     self.styles.editView.textureImageLength);
+                                     self.styles.designScreen.textureImageLength,
+                                     self.styles.designScreen.textureImageLength);
 		
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapFrom:)];
         [imageView addGestureRecognizer: tapGestureRecognizer];
         
-		[self.view addSubview: imageView];
+		[self.scrollView addSubview: imageView];
 		
 		column = column + 1;
 	}
 	
-    self.scrollView.contentSize = CGSizeMake(self.styles.editView.texturesPopoverWidth,
-                                             padding + row * (self.styles.editView.textureImageLength + padding));
-
-    NSLog(@"%f", padding);
-    NSLog(@"%d", row);
-}
-
-- (void)viewDidAppear: (BOOL)animated
-{
-    [super viewDidAppear: animated];
-    
-    NSLog(@"%@", NSStringFromCGRect(self.view.frame));
-    NSLog(@"%@", NSStringFromCGRect(self.scrollView.frame));
-    NSLog(@"%@", NSStringFromCGSize(self.scrollView.contentSize));
+    self.scrollView.contentSize = CGSizeMake(self.styles.designScreen.texturesPopoverWidth,
+                                             padding + row * (self.styles.designScreen.textureImageLength + padding));
 }
 
 - (void)handleTapFrom: (UITapGestureRecognizer *)tapGestureRecognizer

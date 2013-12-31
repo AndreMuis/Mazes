@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <AMFatFractal/AMFatFractal.h>
+#import <FFEF/FatFractal.h>
 
 #import "MALocation.h"
 
@@ -31,6 +31,7 @@
 @property (readwrite, strong, nonatomic) MATexture *ceilingTexture;
 @property (readwrite, assign, nonatomic) float averageRating;
 @property (readwrite, assign, nonatomic) int ratingCount;
+
 @property (readwrite, strong, nonatomic) NSDate *modifiedAt;
 
 @property (readwrite, assign, nonatomic) NSUInteger rows;
@@ -46,13 +47,20 @@
 @property (readwrite, strong, nonatomic) MAWall *previousSelectedWall;
 @property (readwrite, strong, nonatomic) MAWall *currentSelectedWall;
 
-+ (MAMaze *)newMazeWithCurrentUser: (FFUser *)currentUser
-                              rows: (NSUInteger)rows
-                           columns: (NSUInteger)columns
-                   backgroundSound: (MASound *)backgroundSound
-                       wallTexture: (MATexture *)wallTexture
-                      floorTexture: (MATexture *)floorTexture
-                    ceilingTexture: (MATexture *)ceilingTexture;
++ (MAMaze *)mazeWithLoggedInUser: (FFUser *)loggedInUser
+                            rows: (NSUInteger)rows
+                         columns: (NSUInteger)columns
+                 backgroundSound: (MASound *)backgroundSound
+                     wallTexture: (MATexture *)wallTexture
+                    floorTexture: (MATexture *)floorTexture
+                  ceilingTexture: (MATexture *)ceilingTexture;
+
+- (void)resetWithRows: (NSUInteger)rows
+              columns: (NSUInteger)columns
+      backgroundSound: (MASound *)backgroundSound
+          wallTexture: (MATexture *)wallTexture
+         floorTexture: (MATexture *)floorTexture
+       ceilingTexture: (MATexture *)ceilingTexture;
 
 - (void)populateLocationsAndWalls;
 

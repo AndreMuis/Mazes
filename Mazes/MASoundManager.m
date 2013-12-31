@@ -14,23 +14,19 @@
 
 @interface MASoundManager ()
 
-@property (strong, nonatomic, readonly) AMFatFractal *amFatFractal;
-@property (strong, nonatomic, readonly) AMRequest *amRequest;
 @property (strong, nonatomic, readonly) NSArray *sounds;
 
 @end
 
 @implementation MASoundManager
 
-- (id)initWithAMFatFractal: (AMFatFractal *)amFatFractal
+- (id)initWithSounds: (NSArray *)sounds
 {
     self = [super init];
 	
 	if (self)
 	{
-        _amFatFractal = amFatFractal;
-        _amRequest = nil;
-        _sounds = nil;
+        _sounds = sounds;
 	}
 	
     return self;
@@ -39,35 +35,6 @@
 - (int)count
 {
     return self.sounds.count;
-}
-
-- (void)downloadWithCompletionHandler: (SoundsDownloadCompletionHandler)handler
-{
-    _amRequest = [self.amFatFractal amGetArrayFromURI: @"/MASound"
-                                    completionHandler: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
-    {
-        if (theErr == nil && theResponse.statusCode == 200)
-        {
-            _sounds = (NSArray *)theObj;
-
-            for (MASound *sound in self.sounds)
-            {
-                [sound setup];
-            }
-          
-            handler();
-        }
-        else
-        {
-            [MAUtilities logWithClass: [self class]
-                               format: @"Unable to get sounds from server. StatusCode: %d. Error: %@", theResponse.statusCode, theErr];
-        }
-    }];
-}
-
-- (void)cancelDownload
-{
-    [self.amFatFractal amCancelRequest: self.amRequest];
 }
 
 - (NSArray *)sortedByName

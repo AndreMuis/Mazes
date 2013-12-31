@@ -23,6 +23,18 @@
     return self;
 }
 
+- (BOOL)isEqual: (id)object
+{
+    if ([object isKindOfClass: [MAUserCounter class]])
+    {
+        MAUserCounter *userCounter = object;
+        
+        return [self.userCounterId isEqualToString: userCounter.userCounterId];
+    }
+    
+    return NO;
+}
+
 - (NSString *)description
 {
     NSString *desc = [NSString stringWithFormat: @"<%@: %p; ", [self class], self];

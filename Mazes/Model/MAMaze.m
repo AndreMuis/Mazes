@@ -10,8 +10,8 @@
 
 #import "MAMaze.h"
 
+#import "MACanvasStyle.h"
 #import "MACoordinate.h"
-#import "MAGridStyle.h"
 #import "MASize.h"
 #import "MASound.h"
 #import "MATexture.h"
@@ -111,18 +111,18 @@
     return [self locationWithAction: MALocationActionEnd];
 }
 
-+ (MAMaze *)newMazeWithCurrentUser: (FFUser *)currentUser
-                              rows: (NSUInteger)rows
-                           columns: (NSUInteger)columns
-                   backgroundSound: (MASound *)backgroundSound
-                       wallTexture: (MATexture *)wallTexture
-                      floorTexture: (MATexture *)floorTexture
-                    ceilingTexture: (MATexture *)ceilingTexture
++ (MAMaze *)mazeWithLoggedInUser: (FFUser *)loggedInUser
+                            rows: (NSUInteger)rows
+                         columns: (NSUInteger)columns
+                 backgroundSound: (MASound *)backgroundSound
+                     wallTexture: (MATexture *)wallTexture
+                    floorTexture: (MATexture *)floorTexture
+                  ceilingTexture: (MATexture *)ceilingTexture
 {
     MAMaze *maze = [[MAMaze alloc] init];
     
-    maze.mazeId = nil;
-    maze.user = currentUser;
+    maze.mazeId = [MAUtilities uuid];
+    maze.user = loggedInUser;
     maze.name = @"";
     
     maze.size = [[MASize alloc] init];
@@ -149,6 +149,35 @@
     [maze populateLocationsAndWalls];
     
     return maze;
+}
+
+- (void)resetWithRows: (NSUInteger)rows
+              columns: (NSUInteger)columns
+      backgroundSound: (MASound *)backgroundSound
+          wallTexture: (MATexture *)wallTexture
+         floorTexture: (MATexture *)floorTexture
+       ceilingTexture: (MATexture *)ceilingTexture
+{
+    self.name = @"";
+    
+    self.rows = rows;
+    self.columns = columns;
+    
+    self.public = NO;
+    self.backgroundSound = backgroundSound;
+    self.wallTexture = wallTexture;
+    self.floorTexture = floorTexture;
+    self.ceilingTexture = ceilingTexture;
+    
+    self.locationsData = nil;
+    self.previousSelectedLocation = nil;
+    self.currentSelectedLocation = nil;
+    
+    self.wallsData = nil;
+    self.previousSelectedWall = nil;
+    self.currentSelectedWall = nil;
+    
+    [self populateLocationsAndWalls];
 }
 
 - (void)populateLocationsAndWalls
@@ -470,6 +499,18 @@
     {
 		return NO;
     }
+}
+
+- (BOOL)isEqual: (id)object
+{
+    if ([object isKindOfClass: [MAMaze class]])
+    {
+        MAMaze *maze = object;
+        
+        return [self.mazeId isEqualToString: maze.mazeId];
+    }
+    
+    return NO;
 }
 
 - (NSString *)description

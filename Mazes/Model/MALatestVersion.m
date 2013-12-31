@@ -23,6 +23,18 @@
     return self;
 }
 
+- (BOOL)isEqual: (id)object
+{
+    if ([object isKindOfClass: [MALatestVersion class]])
+    {
+        MALatestVersion *latestVersion = object;
+        
+        return [self.latestVersionId isEqualToString: latestVersion.latestVersionId];
+    }
+    
+    return NO;
+}
+
 - (NSString *)description
 {
     NSString *desc = [NSString stringWithFormat: @"<%@: %p; ", [self class], self];

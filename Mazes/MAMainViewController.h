@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "MAViewController.h"
-
+@class MAColors;
 @class MAStyles;
 
 typedef enum : int
@@ -28,11 +27,11 @@ typedef enum : int
     MATransitionTranslateBothRight = 103
 } MATransitionType;
 
-@interface MAMainViewController : MAViewController
+@interface MAMainViewController : UIViewController
 
 @property (readwrite, strong, nonatomic) UIViewController *rootViewController;
 
-- (id)initWithStyles: (MAStyles *)styles;
+- (id)initWithStyles: (MAStyles *)styles colors: (MAColors *)colors;
 
 - (void)transitionFromViewController: (UIViewController *)fromViewController
                     toViewController: (UIViewController *)toViewController

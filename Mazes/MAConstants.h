@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum : int
+typedef enum : NSUInteger
 {
 	MADirectionUnknown = 0,
 	MADirectionNorth = 1,
@@ -17,51 +17,49 @@ typedef enum : int
 	MADirectionWest = 4
 } MADirectionType;
 
-@interface MAConstants : NSObject
+extern NSString* const MAFlurryAPIKey;
+extern NSString* const MACrittercismAppId;
 
-@property (readonly, strong, nonatomic) NSString *flurryAPIKey;
-@property (readonly, strong, nonatomic) NSString *crittercismAppId;
+extern NSTimeInterval const MAEventTimerIntervalSecs;
 
-@property (readonly, assign, nonatomic) NSTimeInterval eventTimerIntervalSecs;
+extern NSString* const MAReachabilityHostname;
 
-@property (readonly, strong, nonatomic) NSURL *localBaseSSLURL;
-@property (readonly, strong, nonatomic) NSURL *remoteBaseSSLURL;
+extern NSString* const MALocalBaseSSLURLString;
+extern NSString* const MARemoteBaseSSLURLString;
 
-@property (readonly, strong, nonatomic) NSURL *baseSSLURL;
+extern NSString* const MAStatusCodeKey;
+extern NSUInteger const MAMazeNameExistsStatusCode;
 
-@property (readonly, assign, nonatomic) NSTimeInterval serverRetryDelaySecs;
+extern NSString* const MANoInternetMessage;
+extern NSString* const MARequestErrorUnknownMessage;
 
-@property (readonly, assign, nonatomic) NSUInteger randomPasswordLength;
+extern NSUInteger const MARandomPasswordLength;
 
-@property (readonly, assign, nonatomic) int rowsMin;
-@property (readonly, assign, nonatomic) int rowsMax;
-@property (readonly, assign, nonatomic) int columnsMin;
-@property (readonly, assign, nonatomic) int columnsMax;
+extern int const MARowsMin;
+extern int const MARowsMax;
+extern int const MAColumnsMin;
+extern int const MAColumnsMax;
 
-@property (readonly, assign, nonatomic) float wallHeight;
-@property (readonly, assign, nonatomic) float eyeHeight;
-@property (readonly, assign, nonatomic) float wallWidth;
-@property (readonly, assign, nonatomic) float wallDepth;
+extern float const MAWallHeight;
+extern float const MAEyeHeight;
+extern float const MAWallWidth;
+extern float const MAWallDepth;
 
-@property (readonly, assign, nonatomic) int textureCount;
+extern int const MATextureCount;
 
-@property (readonly, assign, nonatomic) float movementDuration;
-@property (readonly, assign, nonatomic) float stepDurationAvgStart;
-@property (readonly, assign, nonatomic) float fakeMovementPrcnt;
+extern float const MAMovementDuration;
+extern float const MAStepDurationAvgStart;
+extern float const MAFakeMovementPrcnt;
 
-@property (readonly, assign, nonatomic) int locationMessageMaxLength;
-@property (readonly, assign, nonatomic) int mazeNameMaxLength;
-@property (readonly, assign, nonatomic) int nameExists;
+extern int const MALocationMessageMaxLength;
+extern int const MAMazeNameMaxLength;
 
-@property (readonly, strong, nonatomic) NSString *greenTextureId;
-@property (readonly, strong, nonatomic) NSString *redTextureId;
+extern NSString* const MAGreenTextureId;
+extern NSString* const MARedTextureId;
 
-@property (readonly, strong, nonatomic) NSString *alternatingBrickTextureId;
-@property (readonly, strong, nonatomic) NSString *lightSwirlMarbleTextureId;
-@property (readonly, strong, nonatomic) NSString *creamyWhiteMarbleTextureId;
-
-@end
-
+extern NSString* const MAAlternatingBrickTextureId;
+extern NSString* const MALightSwirlMarbleTextureId;
+extern NSString* const MACreamyWhiteMarbleTextureId;
 
 
 

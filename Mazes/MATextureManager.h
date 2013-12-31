@@ -8,18 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-#import <AMFatFractal/AMFatFractal.h>
-
 @class MATexture;
-
-typedef void (^TexturesDownloadCompletionHandler)();
 
 @interface MATextureManager : NSObject
 
-- (id)initWithAMFatFractal: (AMFatFractal *)amFatFractal;
+@property (assign, nonatomic, readonly) int count;
 
-- (void)downloadWithCompletionHandler: (TexturesDownloadCompletionHandler)handler;
-- (void)cancelDownload;
+- (id)initWithTextures: (NSArray *)textures;
 
 - (NSArray *)all;
 

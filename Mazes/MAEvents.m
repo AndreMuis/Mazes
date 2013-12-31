@@ -14,8 +14,6 @@
 
 @interface MAEvents ()
 
-@property (readonly, strong, nonatomic) MAConstants *constants;
-
 @property (readonly, strong, nonatomic) NSTimer *timer;
 @property (readonly, strong, nonatomic) NSMutableArray *events;
 
@@ -23,15 +21,13 @@
 
 @implementation MAEvents
 
-- (id)initWithConstants: (MAConstants *)constants
+- (id)init
 {
     self = [super init];
     
     if (self) 
     {
-        _constants = constants;
-        
-        _timer = [NSTimer timerWithTimeInterval: self.constants.eventTimerIntervalSecs
+        _timer = [NSTimer timerWithTimeInterval: MAEventTimerIntervalSecs
                                          target: self
                                        selector: @selector(timerFired:)
                                        userInfo: nil
@@ -127,7 +123,7 @@
             }
         }
 
-        event.elapsedSecs = event.elapsedSecs + self.constants.eventTimerIntervalSecs;
+        event.elapsedSecs = event.elapsedSecs + MAEventTimerIntervalSecs;
     }
 }
 
