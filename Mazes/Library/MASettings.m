@@ -16,6 +16,12 @@
 
 @implementation MASettings
 
++ (MASettings *)settings
+{
+    MASettings *settings = [[MASettings alloc] init];
+    return settings;
+}
+
 - (id)init
 {
     self = [super init];

@@ -18,6 +18,6 @@
 @property (strong, nonatomic) UIColor *averageRatingStarColor;
 @property (strong, nonatomic) UIColor *userRatingStarColor;
 
-- (id)initWithColors: (MAColors *)colors;
++ (MATopMazesScreenStyle *)topMazesScreenStyle;
 
 @end

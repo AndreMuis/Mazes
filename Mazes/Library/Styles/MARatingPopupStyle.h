@@ -14,6 +14,6 @@
 
 @property (strong, nonatomic) UIColor *backgroundColor;
 
-- (id)initWithColors: (MAColors *)colors;
++ (MARatingPopupStyle *)ratingPopupStyle;
 
 @end

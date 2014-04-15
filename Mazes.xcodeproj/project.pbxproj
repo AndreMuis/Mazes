@@ -187,11 +187,11 @@
 		2AECE2E518F8DB600094C8CB /* MAInfoPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2DE18F8DB600094C8CB /* MAInfoPopupView.m */; };
 		2AECE2E618F8DB600094C8CB /* MAInfoPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2DF18F8DB600094C8CB /* MAInfoPopupView.xib */; };
 		2AECE2E718F8DB600094C8CB /* MAPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2E218F8DB600094C8CB /* MAPopupView.m */; };
+		2AECE2E918F91F640094C8CB /* FFEF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AECE2E818F91F640094C8CB /* FFEF.framework */; };
 		423E315F4DB84BC7AEBA7375 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2739B721EF9C40EAA5260DC7 /* libPods.a */; };
 		F49ED74417FDA9CA00D9BABD /* MASize.m in Sources */ = {isa = PBXBuildFile; fileRef = F49ED74317FDA9CA00D9BABD /* MASize.m */; };
 		F49ED74717FDA9E200D9BABD /* MACoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = F49ED74617FDA9E200D9BABD /* MACoordinate.m */; };
 		F49ED74D17FDACAD00D9BABD /* MAWall.m in Sources */ = {isa = PBXBuildFile; fileRef = F49ED74C17FDACAD00D9BABD /* MAWall.m */; };
-		F4A4C2AA186CA7AF003377BF /* FFEF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A4C2A9186CA7AF003377BF /* FFEF.framework */; };
 		F4A6D06917FB6C610003D645 /* MALatestVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D05A17FB6C610003D645 /* MALatestVersion.m */; };
 		F4A6D06A17FB6C610003D645 /* MALocation.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D05C17FB6C610003D645 /* MALocation.m */; };
 		F4A6D06B17FB6C610003D645 /* MAMaze.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D05E17FB6C610003D645 /* MAMaze.m */; };
@@ -456,13 +456,13 @@
 		2AECE2DF18F8DB600094C8CB /* MAInfoPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAInfoPopupView.xib; sourceTree = "<group>"; };
 		2AECE2E118F8DB600094C8CB /* MAPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAPopupView.h; sourceTree = "<group>"; };
 		2AECE2E218F8DB600094C8CB /* MAPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAPopupView.m; sourceTree = "<group>"; };
+		2AECE2E818F91F640094C8CB /* FFEF.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FFEF.framework; sourceTree = "<group>"; };
 		F49ED74217FDA9CA00D9BABD /* MASize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASize.h; path = Model/MASize.h; sourceTree = "<group>"; };
 		F49ED74317FDA9CA00D9BABD /* MASize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASize.m; path = Model/MASize.m; sourceTree = "<group>"; };
 		F49ED74517FDA9E200D9BABD /* MACoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MACoordinate.h; path = Model/MACoordinate.h; sourceTree = "<group>"; };
 		F49ED74617FDA9E200D9BABD /* MACoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MACoordinate.m; path = Model/MACoordinate.m; sourceTree = "<group>"; };
 		F49ED74B17FDACAD00D9BABD /* MAWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAWall.h; path = Model/MAWall.h; sourceTree = "<group>"; };
 		F49ED74C17FDACAD00D9BABD /* MAWall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAWall.m; path = Model/MAWall.m; sourceTree = "<group>"; };
-		F4A4C2A9186CA7AF003377BF /* FFEF.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FFEF.framework; sourceTree = "<group>"; };
 		F4A6D05917FB6C610003D645 /* MALatestVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MALatestVersion.h; path = Model/MALatestVersion.h; sourceTree = "<group>"; };
 		F4A6D05A17FB6C610003D645 /* MALatestVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MALatestVersion.m; path = Model/MALatestVersion.m; sourceTree = "<group>"; };
 		F4A6D05B17FB6C610003D645 /* MALocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MALocation.h; path = Model/MALocation.h; sourceTree = "<group>"; };
@@ -505,10 +505,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4E4ABA4154CD21B006AA64D /* AVFoundation.framework in Frameworks */,
+				2AECE2E918F91F640094C8CB /* FFEF.framework in Frameworks */,
 				F4E4ABEA154E349E006AA64D /* CFNetwork.framework in Frameworks */,
 				F4E4A9D0154CB92C006AA64D /* CoreData.framework in Frameworks */,
 				F4E4A9CE154CB92C006AA64D /* CoreGraphics.framework in Frameworks */,
-				F4A4C2AA186CA7AF003377BF /* FFEF.framework in Frameworks */,
 				F4E4A9CC154CB92C006AA64D /* Foundation.framework in Frameworks */,
 				F4E4ABA6154CD244006AA64D /* iAd.framework in Frameworks */,
 				F4E4ABEE154E34D2006AA64D /* MobileCoreServices.framework in Frameworks */,
@@ -803,7 +803,6 @@
 				2AECE2AD18F8D9930094C8CB /* RatingViewController */,
 				2AECE2B118F8D9930094C8CB /* TexturesViewController */,
 				2AECE2B518F8D9930094C8CB /* TopMazesViewController */,
-				2AECE2B918F8D9930094C8CB /* TopMazeTableViewCell */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -929,6 +928,7 @@
 				2AECE2B618F8D9930094C8CB /* MATopMazesViewController.h */,
 				2AECE2B718F8D9930094C8CB /* MATopMazesViewController.m */,
 				2AECE2B818F8D9930094C8CB /* MATopMazesViewController.xib */,
+				2AECE2B918F8D9930094C8CB /* TopMazeTableViewCell */,
 			);
 			name = TopMazesViewController;
 			path = Views/TopMazesViewController;
@@ -942,7 +942,7 @@
 				2AECE2BC18F8D9930094C8CB /* MATopMazeTableViewCell.xib */,
 			);
 			name = TopMazeTableViewCell;
-			path = Views/TopMazeTableViewCell;
+			path = ../TopMazeTableViewCell;
 			sourceTree = "<group>";
 		};
 		2AECE2D718F8DB4D0094C8CB /* Popups */ = {
@@ -1045,7 +1045,7 @@
 				F4E4ABE9154E348F006AA64D /* CFNetwork.framework */,
 				F4E4A9CF154CB92C006AA64D /* CoreData.framework */,
 				F4E4A9CD154CB92C006AA64D /* CoreGraphics.framework */,
-				F4A4C2A9186CA7AF003377BF /* FFEF.framework */,
+				2AECE2E818F91F640094C8CB /* FFEF.framework */,
 				F4E4A9CB154CB92C006AA64D /* Foundation.framework */,
 				F4E4ABA5154CD237006AA64D /* iAd.framework */,
 				F4E4ABED154E34C8006AA64D /* MobileCoreServices.framework */,
@@ -1548,6 +1548,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Mazes/Application/Mazes-Prefix.pch";
@@ -1588,6 +1589,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Mazes/Application/Mazes-Prefix.pch";

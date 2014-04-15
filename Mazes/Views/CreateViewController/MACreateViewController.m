@@ -15,6 +15,7 @@
 #import "MAMazeManager.h"
 #import "MAMaze.h"
 #import "MASize.h"
+#import "MAStyles.h"
 #import "MATextureManager.h"
 #import "MATopMazesViewController.h"
 #import "MAUtilities.h"
@@ -34,7 +35,6 @@
 
 - (id)initWithMazeManager: (MAMazeManager *)mazeManager
            textureManager: (MATextureManager *)textureManager
-                   styles: (MAStyles *)styles
 {
     self = [super initWithNibName: NSStringFromClass([self class])
                            bundle: nil];
@@ -43,7 +43,7 @@
     {
         _mazeManager = mazeManager;
         _textureManager = textureManager;
-        _styles = styles;
+        _styles = [MAStyles styles];
     }
     
     return self;

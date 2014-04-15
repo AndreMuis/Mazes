@@ -785,7 +785,7 @@ texCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2
     }
 }
 
-- (void)deleteTextures;
+- (void)deleteTextures
 {
 	glDeleteTextures([self.textureManager all].count, self.glTextures);
 }

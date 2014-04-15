@@ -12,12 +12,20 @@
 
 @implementation MAInfoPopupStyle
 
-- (id)initWithColors: (MAColors *)colors
++ (MAInfoPopupStyle *)infoPopupStyle
+{
+    MAInfoPopupStyle *infoPopupStyle = [[MAInfoPopupStyle alloc] init];
+    return infoPopupStyle;
+}
+
+- (id)init
 {
     self = [super init];
 	
     if (self)
 	{
+        MAColors *colors = [MAColors colors];
+
         _textColor = colors.darkBrown1Color;
         _font = [UIFont boldSystemFontOfSize: 20.0];
     }

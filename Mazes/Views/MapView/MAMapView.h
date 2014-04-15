@@ -12,11 +12,8 @@
 
 @class MALocation;
 @class MAMaze;
-@class MAStyles;
 
 @interface MAMapView : UIView 
-
-@property (readwrite, strong, nonatomic) MAStyles *styles;
 
 @property (strong, nonatomic) MAMaze *maze;
 
@@ -25,7 +22,7 @@
 
 @property (strong, nonatomic) UIImageView *directionArrowImageView;
 
-- (void)setupWithStyles: (MAStyles *)styles;
+- (void)setup;
 
 - (void)drawSurroundings;
 

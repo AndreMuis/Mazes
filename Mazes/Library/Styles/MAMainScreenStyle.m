@@ -10,6 +10,12 @@
 
 @implementation MAMainScreenStyle
 
++ (MAMainScreenStyle *)mainScreenStyle
+{
+    MAMainScreenStyle *mainScreenStyle = [[MAMainScreenStyle alloc] init];
+    return mainScreenStyle;
+}
+
 - (id)init
 {
     self = [super init];

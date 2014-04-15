@@ -22,6 +22,6 @@
 @property (strong, nonatomic) UIColor *messageBackgroundColor;
 @property (strong, nonatomic) UIColor *messageTextColor;
 
-- (id)initWithColors: (MAColors *)colors;
++ (MAGameScreenStyle *)gameScreenStyle;
 
 @end

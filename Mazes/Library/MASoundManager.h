@@ -8,13 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
-@class MASound;
+#import <Reachability/Reachability.h>
 
-@interface MASoundManager : NSObject
+@class MAWebServices;
+@class Reachability;
 
-@property (assign, nonatomic, readonly) int count;
+@interface MASoundManager : NSObject <UIAlertViewDelegate>
 
-- (id)initWithSounds: (NSArray *)sounds;
+@property (assign, nonatomic, readonly) NSUInteger count;
+
++ (id)soundManagerWithReachability: (Reachability *)reachability
+                       webServices: (MAWebServices *)webServices;
+
+- (id)initWithReachability: (Reachability *)reachability
+               webServices: (MAWebServices *)webServices;
+
+- (void)downloadSounds;
 
 - (NSArray *)sortedByName;
 

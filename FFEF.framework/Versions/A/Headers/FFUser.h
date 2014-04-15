@@ -2,24 +2,31 @@
 //  FFUser.h
 //  FatFractal
 //
-//  Copyright (c) 2012 FatFractal, Inc. All rights reserved.
+//  Copyright (c) 2012, 2013 FatFractal, Inc. All rights reserved.
 //
 #import <Foundation/Foundation.h>
 
 @class FFUserGroup;
 @class FatFractal;
 
+@protocol FFUserProtocol
+@property (strong, nonatomic) NSString          *guid;
+@property (strong, nonatomic) NSString          *userName;
+@end
+
 /*! \brief A special kind of FatFractal object for managing users of your application. */
 /*! 
  This is the special class for managing users in the FatFractal Emergent Framework.
  */ 
-@interface FFUser : NSObject <NSCoding> {
+@interface FFUser : NSObject <NSCoding, FFUserProtocol> {
     /*! The FatFractal instance which is managing this FFUser object */
     FatFractal          *ff;
     NSMutableDictionary *_groupsDict;
     BOOL                 _groupsLoaded;
 }
 
+/*! An NSString with the unique identifier for the user. */
+@property (strong, nonatomic) NSString          *guid;
 /*! An NSString with the unique username for the user. */
 @property (strong, nonatomic) NSString          *userName;
 /*! An NSString with the first name of the user. */

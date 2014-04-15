@@ -12,13 +12,21 @@
 
 @implementation MADesignScreenStyle
 
-- (id)initWithColors: (MAColors *)colors
++ (MADesignScreenStyle *)designScreenStyle
+{
+    MADesignScreenStyle *designScreenStyle = [[MADesignScreenStyle alloc] init];
+    return designScreenStyle;
+}
+
+- (id)init
 {
     self = [super init];
 	
     if (self)
 	{
-        _panelBackgroundColor =
+        MAColors *colors = [MAColors colors];
+        
+        _panelBackgroundColor = colors.lightYellow1Color;
         _tabDarkColor = colors.darkYellowColor;
         
         _tableHeaderBackgroundColor = colors.orangeRedColor;

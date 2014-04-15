@@ -22,15 +22,15 @@
 
 @implementation MAMainViewController
 
-- (id)initWithStyles: (MAStyles *)styles colors: (MAColors *)colors
+- (id)init
 {
     self = [super initWithNibName: NSStringFromClass([self class])
                            bundle: nil];
     
     if (self)
     {
-        _colors = colors;
-        _styles = styles;
+        _colors = [MAColors colors];
+        _styles = [MAStyles styles];
     }
     
     return self;

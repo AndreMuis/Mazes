@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class MAStyles;
 @class MATextureManager;
 @class MATexture;
 
@@ -18,8 +17,7 @@ typedef void (^TextureSelectedHandler)(MATexture *texture);
 
 @property (readwrite, strong, nonatomic) TextureSelectedHandler textureSelectedHandler;
 
-- (id)initWithTextureManager: (MATextureManager *)textureManager
-                      styles: (MAStyles *)styles;
+- (id)initWithTextureManager: (MATextureManager *)textureManager;
 
 - (void)setup;
 

@@ -106,7 +106,7 @@
     }
 }
 
-- (void)handleTapFrom: (UITapGestureRecognizer *)tapGestureRecognizer;
+- (void)handleTapFrom: (UITapGestureRecognizer *)tapGestureRecognizer
 {
     CGPoint tapPoint = [tapGestureRecognizer locationInView: self];
 

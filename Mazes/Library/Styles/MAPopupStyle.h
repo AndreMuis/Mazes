@@ -26,6 +26,6 @@
 
 @property (readonly, assign, nonatomic) CGFloat bounceScalePercent;
 
-- (id)initWithColors: (MAColors *)colors;
++ (MAPopupStyle *)popupStyle;
 
 @end

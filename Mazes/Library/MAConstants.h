@@ -17,6 +17,10 @@ typedef enum : NSUInteger
 	MADirectionWest = 4
 } MADirectionType;
 
+extern NSString* const MAWebServicesIsLoggedInKeyPath;
+extern NSString* const MASoundManagerCountKeyPath;
+extern NSString* const MATextureManagerCountKeyPath;
+
 extern NSString* const MAFlurryAPIKey;
 extern NSString* const MACrittercismAppId;
 
@@ -31,7 +35,12 @@ extern NSString* const MAStatusCodeKey;
 extern NSUInteger const MAMazeNameExistsStatusCode;
 
 extern NSString* const MANoInternetMessage;
-extern NSString* const MARequestErrorUnknownMessage;
+extern NSString* const MARequestErrorMessage;
+extern NSString* const MADownloadTopMazesSummariesErrorMessage;
+extern NSString* const MASaveMazeRatingErrorMessage;
+extern NSString* const MADownloadUserMazeErrorMessage;
+extern NSString* const MADownloadMazeErrorMessage;
+extern NSString* const MASaveMazeStartedErrorMessage;
 
 extern NSUInteger const MARandomPasswordLength;
 

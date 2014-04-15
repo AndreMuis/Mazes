@@ -38,9 +38,7 @@
 	{
         _webServices = webServices;
         
-        _maze = nil;
-        
-        _userMazes = nil;
+        _userMazes = [NSMutableArray array];
         
         _isFirstUserMazeSizeChosen = NO;
         
@@ -67,101 +65,121 @@
     return self.userMazes[0];
 }
 
-- (void)downloadTopMazeSummariesWithType: (MATopMazesType)topMazesType
+- (void)downloadTopMazeSummariesWithType: (MATopMazeSummariesType)topMazeSummariesType
                        completionHandler: (DownloadTopMazeSummariesCompletionHandler)completionHandler
 {
-    switch (topMazesType)
+    switch (topMazeSummariesType)
     {
-        case MATopMazesHighestRated:
-            if (self.webServices.isDownloadingHighestRatedMazeSummaries == NO)
-            {
-                NSLog(@"downloading highest rated");
-                
-                [self.webServices getHighestRatedMazeSummariesWithCompletionHandler: ^(NSArray *topMazeSummaries, NSError *error)
-                 {
-                     NSLog(@"downloaded highest rated");
-                     
-                     if (error == nil)
-                     {
-                         _highestRatedMazeSummaries = topMazeSummaries;
-                         completionHandler(nil);
-                     }
-                     else
-                     {
-                         completionHandler(error);
-                     }
-                 }];
-            }
-            break;
+        case MATopMazeSummariesHighestRated:
+        {
+            NSLog(@"downloading highest rated");
             
-        case MATopMazesNewest:
-            if (self.webServices.isDownloadingNewestMazeSummaries == NO)
-            {
-                NSLog(@"downloading newest");
-                
-                [self.webServices getNewestMazeSummariesWithCompletionHandler: ^(NSArray *topMazeSummaries, NSError *error)
+            [self.webServices getHighestRatedMazeSummariesWithCompletionHandler: ^(NSArray *topMazeSummaries, NSError *error)
+             {
+                 NSLog(@"downloaded highest rated");
+                 
+                 if (error == nil)
                  {
-                     NSLog(@"downloaded newest");
-                     
-                     if (error == nil)
-                     {
-                         _newestMazeSummaries = topMazeSummaries;
-                         completionHandler(nil);
-                     }
-                     else
-                     {
-                         completionHandler(error);
-                     }
-                 }];
-            }
-            break;
-        
-        case MATopMazesYours:
-            if (self.webServices.isDownloadingYoursMazeSummaries == NO)
-            {
-                NSLog(@"downloading yours");
-                
-                [self.webServices getYoursMazeSummariesWithCompletionHandler: ^(NSArray *topMazeSummaries, NSError *error)
+                     _highestRatedMazeSummaries = topMazeSummaries;
+                     completionHandler(nil);
+                 }
+                 else
                  {
-                     NSLog(@"downloaded yours");
-                     
-                     if (error == nil)
-                     {
-                         _yoursMazeSummaries  = topMazeSummaries;
-                         completionHandler(nil);
-                     }
-                     else
-                     {
-                         completionHandler(error);
-                     }
-                 }];
-            }
+                     completionHandler(error);
+                 }
+             }];
             break;
-
+        }
+            
+        case MATopMazeSummariesNewest:
+        {
+            NSLog(@"downloading newest");
+            
+            [self.webServices getNewestMazeSummariesWithCompletionHandler: ^(NSArray *topMazeSummaries, NSError *error)
+             {
+                 NSLog(@"downloaded newest");
+                 
+                 if (error == nil)
+                 {
+                     _newestMazeSummaries = topMazeSummaries;
+                     completionHandler(nil);
+                 }
+                 else
+                 {
+                     completionHandler(error);
+                 }
+             }];
+            break;
+        }
+            
+        case MATopMazeSummariesYours:
+        {
+            NSLog(@"downloading yours");
+            
+            [self.webServices getYoursMazeSummariesWithCompletionHandler: ^(NSArray *topMazeSummaries, NSError *error)
+             {
+                 NSLog(@"downloaded yours");
+                 
+                 if (error == nil)
+                 {
+                     _yoursMazeSummaries  = topMazeSummaries;
+                     completionHandler(nil);
+                 }
+                 else
+                 {
+                     completionHandler(error);
+                 }
+             }];
+            break;
+        }
+            
         default:
-            [MAUtilities logWithClass: [self class] format: @"topMazesType set to an illegal value: %d", topMazesType];
+            [MAUtilities logWithClass: [self class] format: @"topMazeSummariesType set to an illegal value: %d", topMazeSummariesType];
             break;
     }
 }
 
-- (NSArray *)topMazeSummariesOfType: (MATopMazesType)topMazesType
+- (BOOL)isDownloadingTopMazeSummariesOfType: (MATopMazeSummariesType)topMazeSummariesType
 {
-    switch (topMazesType)
+    switch (topMazeSummariesType)
     {
-        case MATopMazesHighestRated:
+        case MATopMazeSummariesHighestRated:
+            return self.webServices.isDownloadingHighestRatedMazeSummaries;;
+            break;
+            
+        case MATopMazeSummariesNewest:
+            return self.webServices.isDownloadingNewestMazeSummaries;
+            break;
+            
+        case MATopMazeSummariesYours:
+            return self.webServices.isDownloadingYoursMazeSummaries;
+            break;
+            
+        default:
+            [MAUtilities logWithClass: [self class] format: @"topMazeSummariesType set to an illegal value: %d", topMazeSummariesType];
+            return NO;
+            break;
+    }
+}
+
+- (NSArray *)topMazeSummariesOfType: (MATopMazeSummariesType)topMazeSummariesType
+{
+    switch (topMazeSummariesType)
+    {
+        case MATopMazeSummariesHighestRated:
             return self.highestRatedMazeSummaries;
             break;
             
-        case MATopMazesNewest:
+        case MATopMazeSummariesNewest:
             return self.newestMazeSummaries;
             break;
             
-        case MATopMazesYours:
+        case MATopMazeSummariesYours:
             return self.yoursMazeSummaries;
             break;
             
         default:
-            [MAUtilities logWithClass: [self class] format: @"topMazesType set to an illegal value: %d", topMazesType];
+            [MAUtilities logWithClass: [self class] format: @"topMazeSummariesType set to an illegal value: %d", topMazeSummariesType];
             return nil;
             break;
     }

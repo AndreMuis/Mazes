@@ -16,11 +16,10 @@
 @class MAMainViewController;
 @class MAMazeManager;
 @class MASoundManager;
-@class MAStyles;
 @class MATextureManager;
 @class MAWebServices;
 
-@interface MATopMazesViewController : UIViewController <MATopMazeTableViewCellDelegate>
+@interface MATopMazesViewController : UIViewController <MATopMazeTableViewCellDelegate, ADBannerViewDelegate, UIAlertViewDelegate>
 
 @property (readwrite, strong, nonatomic) MACreateViewController *createViewController;
 @property (readwrite, strong, nonatomic) MADesignViewController *designViewController;
@@ -31,9 +30,6 @@
               mazeManager: (MAMazeManager *)mazeManager
            textureManager: (MATextureManager *)textureManager
              soundManager: (MASoundManager *)soundManager
-                   styles: (MAStyles *)styles
                bannerView: (ADBannerView *)bannerView;
-
-- (void)downloadTopMazeSummaries;
 
 @end

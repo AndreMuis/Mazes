@@ -12,4 +12,6 @@
 
 @property (assign, nonatomic) BOOL useTutorial;
 
++ (MASettings *)settings;
+
 @end

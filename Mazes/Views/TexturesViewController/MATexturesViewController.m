@@ -26,7 +26,6 @@
 @implementation MATexturesViewController
 
 - (id)initWithTextureManager: (MATextureManager *)textureManager
-                      styles: (MAStyles *)styles
 {
     self = [super initWithNibName: NSStringFromClass([self class])
                            bundle: nil];
@@ -34,7 +33,7 @@
 	if (self)
 	{
         _textureManager = textureManager;
-        _styles = styles;
+        _styles = [MAStyles styles];
 	}
 	
     return self;

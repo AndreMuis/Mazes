@@ -21,8 +21,8 @@
 @property (readonly, strong, nonatomic) FatFractal *fatFractal;
 @property (readonly, strong, nonatomic) MACloud *cloud;
 
-@property (readwrite, assign, nonatomic) BOOL versionChecked;
-@property (readwrite, assign, nonatomic) BOOL hasAttemptedFirstLogin;
+@property (readwrite, assign, nonatomic) BOOL isLoggedIn;
+@property (readwrite, assign, nonatomic) BOOL isLoggingIn;
 
 @end
 
@@ -48,8 +48,8 @@
         
         _cloud = [[MACloud alloc] init];
         
-        _versionChecked = NO;
-        _hasAttemptedFirstLogin = NO;
+        _isLoggedIn = NO;
+        _isLoggingIn = NO;
         
         _isDownloadingHighestRatedMazeSummaries = NO;
         _isDownloadingNewestMazeSummaries = NO;
@@ -59,20 +59,17 @@
     return self;
 }
 
-- (FFUser *)loggedInUser
+- (id<FFUserProtocol>)loggedInUser
 {
     return self.fatFractal.loggedInUser;
 }
 
-- (BOOL)loggedIn
-{
-    return self.fatFractal.loggedIn;
-}
-
 - (void)autologinWithCompletionHandler: (AutoLoginCompletionHandler)handler
 {
-    self.cloud.userName = @"TestUser1";
+    self.cloud.userName = @"TestUser3";
     self.cloud.password = @"Password1";
+ 
+    self.isLoggingIn = YES;
     
     if (self.cloud.userName == nil)
     {
@@ -98,11 +95,14 @@
                       {
                           handler(error);
                       }
+
+                      self.isLoggingIn = NO;
                   }];
              }
              else
              {
                  handler(error);
+                 self.isLoggingIn = NO;
              }
          }];
     }
@@ -120,6 +120,8 @@
              {
                  handler(error);
              }
+             
+             self.isLoggingIn = NO;
          }];
     }
 }
@@ -156,6 +158,8 @@
      {
          if (theErr == nil && theResponse.statusCode == 200)
          {
+             self.isLoggedIn = YES;
+             
              handler(nil);
          }
          else
@@ -168,8 +172,6 @@
              
              handler(error);
          }
-
-         self.hasAttemptedFirstLogin = YES;
      }];
 }
 
@@ -564,8 +566,6 @@
              
              handler(nil, error);
          }
-         
-         self.versionChecked = YES;
      }];
 }
 

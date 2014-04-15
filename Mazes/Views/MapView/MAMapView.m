@@ -20,6 +20,8 @@
 
 @interface MAMapView ()
 
+@property (readonly, strong, nonatomic) MAStyles *styles;
+
 @property (strong, nonatomic) NSMutableArray *mapLocations;
 @property (strong, nonatomic) NSMutableArray *mapWalls;
 
@@ -33,6 +35,8 @@
     
     if (self) 
 	{
+        _styles = [MAStyles styles];
+        
         _mapLocations = [[NSMutableArray alloc] init];
         _mapWalls = [[NSMutableArray alloc] init];
         
@@ -156,10 +160,8 @@
 	return self;
 }
 
-- (void)setupWithStyles: (MAStyles *)styles
+- (void)setup
 {
-    self.styles = styles;
-    
     self.backgroundColor = self.styles.map.backgroundColor;
     
     UIImage *directionArrowImage = [MAUtilities createDirectionArrowImageWidth: self.styles.map.squareWidth

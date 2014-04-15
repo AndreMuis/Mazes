@@ -37,8 +37,9 @@
 @property (readonly, strong, nonatomic) MATextureManager *textureManager;
 
 @property (readonly, strong, nonatomic) ADBannerView *bannerView;
+@property (readwrite, assign, nonatomic) BOOL showingFullScreenAd;
 
-@property (readwrite, assign, nonatomic) MATopMazesType selectedTopMazesType;
+@property (readwrite, assign, nonatomic) MATopMazeSummariesType selectedTopMazeSummariesType;
 @property (readonly, strong, nonatomic) NSString *topMazeCellIdentifier;
 
 @property (weak, nonatomic) IBOutlet UIImageView *highestRatedImageView;
@@ -52,6 +53,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *createImageView;
 @property (weak, nonatomic) IBOutlet UIButton *createButton;
 
+@property (readonly, strong, nonatomic) UIAlertView *downloadTopMazeSummariesErrorAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *saveMazeRatingErrorAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *downloadUserMazeErrorAlertView;
+
 @end
 
 @implementation MATopMazesViewController
@@ -60,7 +65,6 @@
               mazeManager: (MAMazeManager *)mazeManager
            textureManager: (MATextureManager *)textureManager
              soundManager: (MASoundManager *)soundManager
-                   styles: (MAStyles *)styles
                bannerView: (ADBannerView *)bannerView;
 {
     self = [[MATopMazesViewController alloc] initWithNibName: NSStringFromClass([self class]) bundle: nil];
@@ -71,16 +75,54 @@
         
         _mazeManager = mazeManager;
         _soundManager = soundManager;
-        _styles = styles;
+        _styles = [MAStyles styles];
         _textureManager = textureManager;
         
         _bannerView = bannerView;
 
-        _selectedTopMazesType = MATopMazesHighestRated;
+        _showingFullScreenAd = NO;
+        
+        _selectedTopMazeSummariesType = MATopMazeSummariesHighestRated;
         _topMazeCellIdentifier = @"TopMazeTableViewCell";
+        
+        _downloadTopMazeSummariesErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                             message: MADownloadTopMazesSummariesErrorMessage
+                                                                            delegate: self
+                                                                   cancelButtonTitle: @"OK"
+                                                                   otherButtonTitles: nil];
+        
+        _saveMazeRatingErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                   message: MASaveMazeRatingErrorMessage
+                                                                  delegate: self
+                                                         cancelButtonTitle: @"OK"
+                                                         otherButtonTitles: nil];
+        
+        _downloadUserMazeErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                   message: MADownloadUserMazeErrorMessage
+                                                                  delegate: self
+                                                         cancelButtonTitle: @"OK"
+                                                         otherButtonTitles: nil];
     }
     
     return self;
+}
+
+- (void)observeValueForKeyPath: (NSString *)keyPath ofObject: (id)object change: (NSDictionary *)change context: (void *)context
+{
+    if (object == self.webServices && [keyPath isEqualToString: MAWebServicesIsLoggedInKeyPath] == YES)
+    {
+        BOOL isLoggedIn = [change[@"new"] boolValue];
+        
+        if (isLoggedIn == YES)
+        {
+            [self downloadTopMazeSummariesWithType: self.selectedTopMazeSummariesType];
+            self.createButton.enabled = YES;
+        }        
+    }
+    else
+    {
+        [MAUtilities logWithClass: [self class] format: @"Change of value for keyPath: %@ of object: %@ not handled.", keyPath, object];
+    }
 }
 
 - (void)viewDidLoad
@@ -88,6 +130,8 @@
 	[super viewDidLoad];
 	
 	self.tableView.backgroundColor = self.styles.topMazesScreen.tableBackgroundColor;
+    self.createButton.enabled = NO;
+    
     self.activityIndicatorView.color = self.styles.activityIndicator.color;
 }
 
@@ -95,78 +139,123 @@
 {
 	[super viewWillAppear: animated];
 
-    [self refreshSegments];
-    [self refreshActivityIndicatorView];
-
-    if ([self.bannerView isDescendantOfView: self.view] == NO)
+    if (self.showingFullScreenAd == NO)
     {
-        self.bannerView.frame = CGRectMake(self.bannerView.frame.origin.x,
-                                           self.tableView.frame.origin.y + self.tableView.frame.size.height,
-                                           self.bannerView.frame.size.width,
-                                           self.bannerView.frame.size.height);
-        
-        [self.view addSubview: self.bannerView];
+        [self refreshSegments];
+        [self refreshActivityIndicatorView];
+
+        if ([self.mazeManager isDownloadingTopMazeSummariesOfType: self.selectedTopMazeSummariesType] == NO &&
+            self.webServices.isLoggedIn == YES)
+        {
+            [self downloadTopMazeSummariesWithType: self.selectedTopMazeSummariesType];
+        }
+
+        if ([self.bannerView isDescendantOfView: self.view] == NO)
+        {
+            self.bannerView.frame = CGRectMake(self.bannerView.frame.origin.x,
+                                               self.tableView.frame.origin.y + self.tableView.frame.size.height,
+                                               self.bannerView.frame.size.width,
+                                               self.bannerView.frame.size.height);
+            self.bannerView.delegate = self;
+            
+            [self.view addSubview: self.bannerView];
+        }
     }
 }
 
-- (void)downloadTopMazeSummaries
+- (BOOL)bannerViewActionShouldBegin: (ADBannerView *)banner willLeaveApplication: (BOOL)willLeave
 {
-    [self downloadTopMazeSummariesWithType: MATopMazesHighestRated];
-    [self downloadTopMazeSummariesWithType: MATopMazesNewest];
-    [self downloadTopMazeSummariesWithType: MATopMazesYours];
+    self.showingFullScreenAd = YES;
+    return YES;
 }
 
-- (void)downloadTopMazeSummariesWithType: (MATopMazesType)topMazesType
+- (void)bannerViewActionDidFinish: (ADBannerView *)banner
 {
-    [self.mazeManager downloadTopMazeSummariesWithType: topMazesType completionHandler: ^(NSError *error)
-    {
-        if (error == nil && self.selectedTopMazesType == topMazesType)
-        {
-            [self.tableView reloadData];
-            [self refreshActivityIndicatorView];
-        }
-        else if (error != nil)
-        {
-        }
-    }];
+    self.showingFullScreenAd = NO;
 }
 
 - (IBAction)highestRatedButtonTouchDown: (id)sender
 {
-    self.selectedTopMazesType = MATopMazesHighestRated;
+    self.selectedTopMazeSummariesType = MATopMazeSummariesHighestRated;
     
     [self refreshSegments];
     [self.tableView reloadData];
     [self refreshActivityIndicatorView];
     
-    [self downloadTopMazeSummariesWithType: MATopMazesHighestRated];
+    if ([self.mazeManager isDownloadingTopMazeSummariesOfType: MATopMazeSummariesHighestRated] == NO)
+    {
+        [self downloadTopMazeSummariesWithType: MATopMazeSummariesHighestRated];
+    }
 }
 
 - (IBAction)newestButtonTouchDown: (id)sender
 {
-    self.selectedTopMazesType = MATopMazesNewest;
+    self.selectedTopMazeSummariesType = MATopMazeSummariesNewest;
 
     [self refreshSegments];
     [self.tableView reloadData];
     [self refreshActivityIndicatorView];
 
-    [self downloadTopMazeSummariesWithType: MATopMazesNewest];
+    if ([self.mazeManager isDownloadingTopMazeSummariesOfType: MATopMazeSummariesNewest] == NO)
+    {
+        [self downloadTopMazeSummariesWithType: MATopMazeSummariesNewest];
+    }
 }
 
 - (IBAction)yoursButtonTouchDown: (id)sender
 {
-    self.selectedTopMazesType = MATopMazesYours;
+    self.selectedTopMazeSummariesType = MATopMazeSummariesYours;
 
     [self refreshSegments];
     [self.tableView reloadData];
     [self refreshActivityIndicatorView];
 
-    [self downloadTopMazeSummariesWithType: MATopMazesYours];
+    if ([self.mazeManager isDownloadingTopMazeSummariesOfType: MATopMazeSummariesYours] == NO)
+    {
+        [self downloadTopMazeSummariesWithType: MATopMazeSummariesYours];
+    }
+}
+
+- (void)downloadTopMazeSummariesWithType: (MATopMazeSummariesType)topMazeSummariesType
+{
+    [self.mazeManager downloadTopMazeSummariesWithType: topMazeSummariesType completionHandler: ^(NSError *error)
+     {
+         if (error == nil)
+         {
+             if (self.selectedTopMazeSummariesType == topMazeSummariesType)
+             {
+                 [self.tableView reloadData];
+                 [self refreshActivityIndicatorView];
+             }
+             
+             if ([self.mazeManager topMazeSummariesOfType: MATopMazeSummariesHighestRated] == nil &&
+                 [self.mazeManager isDownloadingTopMazeSummariesOfType: MATopMazeSummariesHighestRated] == NO)
+             {
+                 [self downloadTopMazeSummariesWithType: MATopMazeSummariesHighestRated];
+             }
+             
+             if ([self.mazeManager topMazeSummariesOfType: MATopMazeSummariesNewest] == nil &&
+                 [self.mazeManager isDownloadingTopMazeSummariesOfType: MATopMazeSummariesNewest] == NO)
+             {
+                 [self downloadTopMazeSummariesWithType: MATopMazeSummariesNewest];
+             }
+             
+             if ([self.mazeManager topMazeSummariesOfType: MATopMazeSummariesYours] == nil &&
+                 [self.mazeManager isDownloadingTopMazeSummariesOfType: MATopMazeSummariesYours] == NO)
+             {
+                 [self downloadTopMazeSummariesWithType: MATopMazeSummariesYours];
+             }
+         }
+         else
+         {
+             [self.downloadTopMazeSummariesErrorAlertView show];
+         }
+     }];
 }
 
 - (void)refreshSegments
 {
-	if (self.selectedTopMazesType == MATopMazesHighestRated)
+	if (self.selectedTopMazeSummariesType == MATopMazeSummariesHighestRated)
     {
 		self.highestRatedImageView.image = [UIImage imageNamed: @"btnHighestRatedOrange.png"];
     }
@@ -175,7 +264,7 @@
 		self.highestRatedImageView.image = [UIImage imageNamed: @"btnHighestRatedBlue.png"];
     }
     
-	if (self.selectedTopMazesType == MATopMazesNewest)
+	if (self.selectedTopMazeSummariesType == MATopMazeSummariesNewest)
     {
 		self.newestImageView.image = [UIImage imageNamed: @"btnNewestOrange.png"];
     }
@@ -184,7 +273,7 @@
 		self.newestImageView.image = [UIImage imageNamed: @"btnNewestBlue.png"];
     }
     
-	if (self.selectedTopMazesType == MATopMazesYours)
+	if (self.selectedTopMazeSummariesType == MATopMazeSummariesYours)
     {
 		self.yoursImageView.image = [UIImage imageNamed: @"btnYoursOrange.png"];
     }
@@ -203,7 +292,7 @@
 {
 	NSInteger rows = 0;
 	
-    NSArray *topMazeSummaries = [self.mazeManager topMazeSummariesOfType: self.selectedTopMazesType];
+    NSArray *topMazeSummaries = [self.mazeManager topMazeSummariesOfType: self.selectedTopMazeSummariesType];
     
 	if (topMazeSummaries == nil)
     {
@@ -230,7 +319,7 @@
         cell = (MATopMazeTableViewCell *)[[[NSBundle mainBundle] loadNibNamed: @"MATopMazeTableViewCell" owner: nil options: nil] objectAtIndex: 0];
     }
     
-    NSArray *topMazeSummaries = [self.mazeManager topMazeSummariesOfType: self.selectedTopMazesType];
+    NSArray *topMazeSummaries = [self.mazeManager topMazeSummariesOfType: self.selectedTopMazeSummariesType];
 
     MAMazeSummary *mazeSummary1 = [topMazeSummaries objectAtIndex: 2 * indexPath.row];
     
@@ -240,7 +329,11 @@
         mazeSummary2 = [topMazeSummaries objectAtIndex: 2 * indexPath.row + 1];
     }
     
-    [cell setupWithDelegate: self mazeSummary1: mazeSummary1 mazeSummary2: mazeSummary2];
+    [cell setupWithDelegate: self
+                webServices: self.webServices
+                mazeManager: self.mazeManager
+               mazeSummary1: mazeSummary1
+               mazeSummary2: mazeSummary2];
     
     return cell;
 }
@@ -251,7 +344,7 @@
 	
 	int i = indexPath.row * 2 + (cell.selectedColumn - 1);
 	
-    NSArray *topMazeSummaries = [self.mazeManager topMazeSummariesOfType: self.selectedTopMazesType];
+    NSArray *topMazeSummaries = [self.mazeManager topMazeSummariesOfType: self.selectedTopMazeSummariesType];
 
 	if (i < topMazeSummaries.count)
 	{
@@ -259,7 +352,7 @@
         
         [self.mainViewController transitionFromViewController: self
                                              toViewController: self.gameViewController
-                                                   transition: MATransitionFlipFromLeft];
+                                                   transition: MATransitionFlipFromRight];
     }
 }
 
@@ -272,13 +365,11 @@
                                           rating: rating
                                completionHandler: ^(NSError *error)
     {
-        NSLog(@"%f", rating);
-        
         if (error == nil)
         {
             BOOL refreshMazeSummaries = NO;
             
-            NSArray *topMazeSummaries = [self.mazeManager topMazeSummariesOfType: self.selectedTopMazesType];
+            NSArray *topMazeSummaries = [self.mazeManager topMazeSummariesOfType: self.selectedTopMazeSummariesType];
 
             for (MAMazeSummary *mazeSummary in topMazeSummaries)
             {
@@ -290,21 +381,37 @@
             
             if (refreshMazeSummaries == YES)
             {
-                [self downloadTopMazeSummariesWithType: self.selectedTopMazesType];
+                [self downloadTopMazeSummariesWithType: self.selectedTopMazeSummariesType];
             }
         }
         else
         {
-            NSLog(@"ERROR: didUpdateRating");
+            [self.saveMazeRatingErrorAlertView show];
         }
     }];
 }
 
+- (void)alertView: (UIAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
+{
+    if (alertView == self.downloadTopMazeSummariesErrorAlertView)
+    {
+        ;
+    }
+    else if (alertView == self.saveMazeRatingErrorAlertView)
+    {
+        ;
+    }
+    else
+    {
+        [MAUtilities logWithClass: [self class] format: [NSString stringWithFormat: @"AlertView not handled. AlertView: %@", alertView]];
+    }
+}
+
 - (void)refreshActivityIndicatorView
 {
-    if ((self.selectedTopMazesType == MATopMazesHighestRated && [self.mazeManager topMazeSummariesOfType: MATopMazesHighestRated] == nil) ||
-        (self.selectedTopMazesType == MATopMazesNewest && [self.mazeManager topMazeSummariesOfType: MATopMazesNewest] == nil) ||
-        (self.selectedTopMazesType == MATopMazesYours && [self.mazeManager topMazeSummariesOfType: MATopMazesYours] == nil))
+    if ((self.selectedTopMazeSummariesType == MATopMazeSummariesHighestRated && [self.mazeManager topMazeSummariesOfType: MATopMazeSummariesHighestRated] == nil) ||
+        (self.selectedTopMazeSummariesType == MATopMazeSummariesNewest && [self.mazeManager topMazeSummariesOfType: MATopMazeSummariesNewest] == nil) ||
+        (self.selectedTopMazeSummariesType == MATopMazeSummariesYours && [self.mazeManager topMazeSummariesOfType: MATopMazeSummariesYours] == nil))
     {
         self.activityIndicatorView.hidden = NO;
         [self.activityIndicatorView startAnimating];
@@ -322,35 +429,47 @@
     {
         [self.webServices getUserMazesWithCompletionHandler: ^(NSArray *userMazes, NSError *error)
         {
-            if ([self.mazeManager allUserMazes].count == 0)
+            if (error == nil)
             {
-                MAMaze *newMaze = [MAMaze mazeWithLoggedInUser: self.webServices.loggedInUser
-                                                          rows: MARowsMin
-                                                       columns: MAColumnsMin
-                                               backgroundSound: nil
-                                                   wallTexture: [self.textureManager textureWithTextureId: MAAlternatingBrickTextureId]
-                                                  floorTexture: [self.textureManager textureWithTextureId: MALightSwirlMarbleTextureId]
-                                                ceilingTexture: [self.textureManager textureWithTextureId: MACreamyWhiteMarbleTextureId]];
-                
-                [self.mazeManager addMaze: newMaze];
-                
-                self.mazeManager.isFirstUserMazeSizeChosen = NO;
+                if (userMazes.count == 0)
+                {
+                    MAMaze *newMaze = [MAMaze mazeWithLoggedInUser: self.webServices.loggedInUser
+                                                              rows: MARowsMin
+                                                           columns: MAColumnsMin
+                                                   backgroundSound: nil
+                                                       wallTexture: [self.textureManager textureWithTextureId: MAAlternatingBrickTextureId]
+                                                      floorTexture: [self.textureManager textureWithTextureId: MALightSwirlMarbleTextureId]
+                                                    ceilingTexture: [self.textureManager textureWithTextureId: MACreamyWhiteMarbleTextureId]];
+                    
+                    [self.mazeManager addMaze: newMaze];
+                    
+                    self.mazeManager.isFirstUserMazeSizeChosen = NO;
 
-                self.createViewController.maze = self.mazeManager.firstUserMaze;
-                
-                [self.mainViewController transitionFromViewController: self
-                                                     toViewController: self.createViewController
-                                                           transition: MATransitionCrossDissolve];
+                    self.createViewController.maze = self.mazeManager.firstUserMaze;
+                    
+                    [self.mainViewController transitionFromViewController: self
+                                                         toViewController: self.createViewController
+                                                               transition: MATransitionCrossDissolve];
+                }
+                else
+                {
+                    for (MAMaze *userMaze in userMazes)
+                    {
+                        [self.mazeManager addMaze: userMaze];
+                    }
+                    
+                    self.mazeManager.isFirstUserMazeSizeChosen = YES;
+                    
+                    self.designViewController.maze = self.mazeManager.firstUserMaze;
+                    
+                    [self.mainViewController transitionFromViewController: self
+                                                         toViewController: self.designViewController
+                                                               transition: MATransitionCrossDissolve];
+                }
             }
             else
             {
-                self.mazeManager.isFirstUserMazeSizeChosen = YES;
-                
-                self.designViewController.maze = self.mazeManager.firstUserMaze;
-                
-                [self.mainViewController transitionFromViewController: self
-                                                     toViewController: self.designViewController
-                                                           transition: MATransitionCrossDissolve];
+                [self.downloadUserMazeErrorAlertView show];
             }
         }];
     }

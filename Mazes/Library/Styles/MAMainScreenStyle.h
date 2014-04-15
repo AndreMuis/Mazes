@@ -12,4 +12,6 @@
 
 @property (nonatomic, assign, readonly) NSTimeInterval transitionDuration;
 
++ (MAMainScreenStyle *)mainScreenStyle;
+
 @end

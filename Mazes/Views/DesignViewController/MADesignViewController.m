@@ -70,9 +70,6 @@
               mazeManager: (MAMazeManager *)mazeManager
              soundManager: (MASoundManager *)soundManager
            textureManager: (MATextureManager *)textureManager
-                 settings: (MASettings *)settings
-                   colors: (MAColors *)colors
-                   styles: (MAStyles *)styles
 {
     self = [super initWithNibName: NSStringFromClass([self class])
                            bundle: nil];
@@ -85,12 +82,11 @@
         _mazeManager = mazeManager;
         _textureManager = textureManager;
         _soundManager = soundManager;
-        _settings = settings;
-        _colors = colors;
-        _styles = styles;
+        _settings = [MASettings settings];
+        _colors = [MAColors colors];
+        _styles = [MAStyles styles];
         
-        _texturesViewController = [[MATexturesViewController alloc] initWithTextureManager: textureManager
-                                                                                    styles: styles];
+        _texturesViewController = [[MATexturesViewController alloc] initWithTextureManager: textureManager];
         
         _texturesPopoverController = [[UIPopoverController alloc] initWithContentViewController: _texturesViewController];
     }
@@ -1488,8 +1484,6 @@ BOOL exists;
 - (IBAction)mazesButtonTouchDown: (id)sender
 {
 	[self stopBackgroundSound];
-	
-	[self.topMazesViewController downloadTopMazeSummaries];
 	
 	[self.navigationController popViewControllerAnimated: NO];
 

@@ -10,7 +10,6 @@
 
 @class MAActivityIndicatorStyle;
 @class MACanvasStyle;
-@class MAColors;
 @class MADesignScreenStyle;
 @class MAFoundExitPopupStyle;
 @class MAGameScreenStyle;
@@ -35,6 +34,6 @@
 @property (strong, nonatomic) MARatingPopupStyle *ratingPopup;
 @property (strong, nonatomic) MATopMazesScreenStyle *topMazesScreen;
 
-- (id)initWithColors: (MAColors *)colors;
++ (MAStyles *)styles;
 
 @end

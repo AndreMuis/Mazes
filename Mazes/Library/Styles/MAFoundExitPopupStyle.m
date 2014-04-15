@@ -12,12 +12,20 @@
 
 @implementation MAFoundExitPopupStyle
 
-- (id)initWithColors: (MAColors *)colors
++ (MAFoundExitPopupStyle *)foundExitPopupStyle
+{
+    MAFoundExitPopupStyle *foundExitPopupStyle = [[MAFoundExitPopupStyle alloc] init];
+    return foundExitPopupStyle;
+}
+
+- (id)init
 {
     self = [super init];
 	
     if (self)
 	{
+        MAColors *colors = [MAColors colors];
+
         _ratingStarColor = colors.blueColor;
         
         _textColor = colors.darkBrown1Color;

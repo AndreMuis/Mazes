@@ -12,12 +12,20 @@
 
 @implementation MATopMazesScreenStyle
 
-- (id)initWithColors: (MAColors *)colors
++ (MATopMazesScreenStyle *)topMazesScreenStyle
+{
+    MATopMazesScreenStyle *topMazesScreenStyle = [[MATopMazesScreenStyle alloc] init];
+    return topMazesScreenStyle;
+}
+
+- (id)init
 {
     self = [super init];
 	
     if (self)
 	{
+        MAColors *colors = [MAColors colors];
+
         _tableBackgroundColor = [UIColor clearColor];
         _textColor = colors.darkBrown2Color;
         

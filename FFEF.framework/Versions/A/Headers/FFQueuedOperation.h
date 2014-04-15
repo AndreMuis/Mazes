@@ -2,7 +2,7 @@
 //  FFQueuedOperation.h
 //  FF-IOS-Framework
 //
-//  Copyright (c) 2012 FatFractal, Inc. All rights reserved.
+//  Copyright (c) 2012, 2013 FatFractal, Inc. All rights reserved.
 //
 
 #import "FFMetaData.h"
@@ -43,6 +43,9 @@
 
 /** Session ID for the session during which the operation was created */
 @property (strong, nonatomic, readonly)     NSString    *queuedSessionId;
+
+/** SSL uri for the FatFractal backend for which this operation was created */
+@property (strong, nonatomic, readonly)     NSString    *appUri;
 
 /** Metadata resulting from an executed operation */
 @property (strong, nonatomic, readonly)     FFMetaData  *resultMetaData;
@@ -102,6 +105,9 @@
 
 /** Session ID for the session during which the operation was created */
 @property (strong, nonatomic)   NSString    *queuedSessionId;
+
+/** SSL uri for the FatFractal backend for which this operation was created */
+@property (strong, nonatomic)     NSString    *appUri;
 
 /** Metadata resulting from an executed operation */
 @property (strong, nonatomic)   FFMetaData  *resultMetaData;

@@ -14,6 +14,6 @@
 
 @property (strong, nonatomic) UIColor *color;
 
-- (id)initWithColors: (MAColors *)colors;
++ (MAActivityIndicatorStyle *)activityIndicatorStyle;
 
 @end

@@ -10,7 +10,6 @@
 
 #import "MAActivityIndicatorStyle.h"
 #import "MACanvasStyle.h"
-#import "MAColors.h"
 #import "MAConstants.h"
 #import "MADesignScreenStyle.h"
 #import "MAFoundExitPopupStyle.h"
@@ -21,34 +20,32 @@
 #import "MARatingPopupStyle.h"
 #import "MATopMazesScreenStyle.h"
 
-@interface MAStyles ()
-
-@property (strong, nonatomic) MAColors *colors;
-
-@end
-
 @implementation MAStyles
 
-- (id)initWithColors: (MAColors *)colors
++ (MAStyles *)styles
+{
+    MAStyles *styles = [[MAStyles alloc] init];
+    return styles;
+}
+
+- (id)init
 {
     self = [super init];
 	
 	if (self) 
 	{
-        _colors = colors;
-        
         _defaultFont = [UIFont systemFontOfSize: [UIFont labelFontSize]];
         
-        _activityIndicator = [[MAActivityIndicatorStyle alloc] initWithColors: self.colors];
-        _canvas = [[MACanvasStyle alloc] initWithColors: self.colors];
-        _designScreen = [[MADesignScreenStyle alloc] initWithColors: self.colors];
-        _foundExitPopup = [[MAFoundExitPopupStyle alloc] initWithColors: self.colors];
-        _gameScreen = [[MAGameScreenStyle alloc] initWithColors: self.colors];
-        _mainScreen = [[MAMainScreenStyle alloc] init];
-        _map = [[MAMapStyle alloc] initWithColors: self.colors];
-        _popup = [[MAPopupStyle alloc] initWithColors: colors];
-        _ratingPopup = [[MARatingPopupStyle alloc] initWithColors: self.colors];
-        _topMazesScreen = [[MATopMazesScreenStyle alloc] initWithColors: self.colors];
+        _activityIndicator = [MAActivityIndicatorStyle activityIndicatorStyle];
+        _canvas = [MACanvasStyle canvasStyle];
+        _designScreen = [MADesignScreenStyle designScreenStyle];
+        _foundExitPopup = [MAFoundExitPopupStyle foundExitPopupStyle];
+        _gameScreen = [MAGameScreenStyle gameScreenStyle];
+        _mainScreen = [MAMainScreenStyle mainScreenStyle];
+        _map = [MAMapStyle mapStyle];
+        _popup = [MAPopupStyle popupStyle];
+        _ratingPopup = [MARatingPopupStyle ratingPopupStyle];
+        _topMazesScreen = [MATopMazesScreenStyle topMazesScreenStyle];
     }
 	
     return self;

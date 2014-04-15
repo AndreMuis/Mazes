@@ -44,28 +44,36 @@
         _mazeSummary1 = nil;
         _mazeSummary2 = nil;
         
-        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        
-        _webServices = appDelegate.webServices;
-        _mazeManager = appDelegate.mazeManager;
-        _styles = appDelegate.styles;
+        _webServices = nil;
+        _mazeManager = nil;
+        _styles = [MAStyles styles];
         
         _selectedColumn = 0;
-        
-        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapFrom:)];
-        tapGestureRecognizer.cancelsTouchesInView = NO;
-        [self addGestureRecognizer: tapGestureRecognizer];
     }
 	
 	return self;
 }
 
+- (void)awakeFromNib
+{
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapFrom:)];
+    tapGestureRecognizer.cancelsTouchesInView = NO;
+    [self addGestureRecognizer: tapGestureRecognizer];
+}
+
 - (void)setupWithDelegate: (id<MATopMazeTableViewCellDelegate>)delegate
+              webServices: (MAWebServices *)webServices
+              mazeManager: (MAMazeManager *)mazeManager
              mazeSummary1: (MAMazeSummary *)mazeSummary1
              mazeSummary2: (MAMazeSummary *)mazeSummary2
 {
+    self.backgroundColor = [UIColor clearColor];
+
     _delegate = delegate;
     
+    _webServices = webServices;
+    _mazeManager = mazeManager;
+
     _mazeSummary1 = mazeSummary1;
     _mazeSummary2 = mazeSummary2;
  

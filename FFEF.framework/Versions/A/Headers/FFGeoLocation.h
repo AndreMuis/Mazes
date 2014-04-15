@@ -2,7 +2,7 @@
 //  FFGeoLocation.h
 //  FF-IOS-Framework
 //
-//  Copyright (c) 2012 FatFractal, Inc. All rights reserved.
+//  Copyright (c) 2012, 2013 FatFractal, Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -67,5 +67,10 @@
        altitudeAccuracy:(double)theAltitudeAccuracy
                 heading:(double)theHeading
                   speed:(double)theSpeed;
+
+/*! Initializer that accepts a dictionary from which we will extract
+ latitude, longitude, altitude, accuracy, altitudeAccuracy, heading and speed.
+ */
+- (id) initWithDictionary:(NSDictionary *)dict;
 
 @end

@@ -17,17 +17,16 @@
 
 typedef enum : NSUInteger
 {
-	MATopMazesUnknown = 0,
-	MATopMazesHighestRated = 1,
-	MATopMazesNewest = 2,
-	MATopMazesYours = 3
-} MATopMazesType;
+	MATopMazeSummariesUnknown = 0,
+	MATopMazeSummariesHighestRated = 1,
+	MATopMazeSummariesNewest = 2,
+	MATopMazeSummariesYours = 3
+} MATopMazeSummariesType;
 
 typedef void (^DownloadTopMazeSummariesCompletionHandler)(NSError *error);
 
 @interface MAMazeManager : NSObject
 
-@property (readonly, strong, nonatomic) MAMaze *maze;
 
 @property (readonly, strong, nonatomic) MAMaze *firstUserMaze;
 @property (readwrite, assign, nonatomic) BOOL isFirstUserMazeSizeChosen;
@@ -37,10 +36,12 @@ typedef void (^DownloadTopMazeSummariesCompletionHandler)(NSError *error);
 - (NSArray *)allUserMazes;
 - (void)addMaze: (MAMaze *)maze;
 
-- (void)downloadTopMazeSummariesWithType: (MATopMazesType)topMazesType
+- (void)downloadTopMazeSummariesWithType: (MATopMazeSummariesType)topMazeSummariesType
                        completionHandler: (DownloadTopMazeSummariesCompletionHandler)completionHandler;
 
-- (NSArray *)topMazeSummariesOfType: (MATopMazesType)topMazesType;
+- (BOOL)isDownloadingTopMazeSummariesOfType: (MATopMazeSummariesType)topMazeSummariesType;
+
+- (NSArray *)topMazeSummariesOfType: (MATopMazeSummariesType)topMazeSummariesType;
 
 @end
 

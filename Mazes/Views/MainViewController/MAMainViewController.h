@@ -31,8 +31,6 @@ typedef enum : int
 
 @property (readwrite, strong, nonatomic) UIViewController *rootViewController;
 
-- (id)initWithStyles: (MAStyles *)styles colors: (MAColors *)colors;
-
 - (void)transitionFromViewController: (UIViewController *)fromViewController
                     toViewController: (UIViewController *)toViewController
                           transition: (MATransitionType)transition;

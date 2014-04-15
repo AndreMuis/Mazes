@@ -12,12 +12,20 @@
 
 @implementation MAPopupStyle
 
-- (id)initWithColors: (MAColors *)colors
++ (MAPopupStyle *)popupStyle
+{
+    MAPopupStyle *popupStyle = [[MAPopupStyle alloc] init];
+    return popupStyle;
+}
+
+- (id)init
 {
     self = [super init];
 	
     if (self)
 	{
+        MAColors *colors = [MAColors colors];
+
         _translucentBackgroundColor = [UIColor colorWithWhite: 0.0 alpha: 0.15];
 
         _backgroundColor = colors.lightYellow1Color;

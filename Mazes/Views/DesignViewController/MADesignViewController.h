@@ -11,7 +11,6 @@
 #import "MAConstants.h"
 #import "MALocation.h"
 
-@class MAColors;
 @class MACreateViewController;
 @class MAEventManager;
 @class MAEvent;
@@ -21,7 +20,6 @@
 @class MAMaze;
 @class MASettings;
 @class MASoundManager;
-@class MAStyles;
 @class MATextureManager;
 @class MATopMazesViewController;
 @class MAWebServices;
@@ -85,10 +83,7 @@
              eventManager: (MAEventManager *)eventManager
               mazeManager: (MAMazeManager *)mazeManager
              soundManager: (MASoundManager *)soundManager
-           textureManager: (MATextureManager *)textureManager
-                 settings: (MASettings *)settings
-                   colors: (MAColors *)colors
-                   styles: (MAStyles *)styles;
+           textureManager: (MATextureManager *)textureManager;
 
 - (IBAction)mainButtonTouchDown: (id)sender;
 - (IBAction)locationButtonTouchDown: (id)sender;

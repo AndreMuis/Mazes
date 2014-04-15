@@ -8,6 +8,10 @@
 
 #import "MAConstants.h"
 
+NSString* const MAWebServicesIsLoggedInKeyPath = @"isLoggedIn";
+NSString* const MASoundManagerCountKeyPath = @"count";
+NSString* const MATextureManagerCountKeyPath = @"count";
+
 NSString* const MAFlurryAPIKey = @"72C58XPN2XTXVRTP27BN";
 NSString* const MACrittercismAppId = @"50cbd3ed4f633a03f0000003";
 
@@ -24,8 +28,23 @@ NSUInteger const MAMazeNameExistsStatusCode = 450;
 NSString* const MANoInternetMessage = @"This device is not connected to the internet."
     "This app needs an internet connection to run. Please connect if possible.";
 
-NSString* const MARequestErrorUnknownMessage = @"An unknown problem occured while trying to communicate with the server."
-    "Please try again later. If the problem persists an update should be available shortly.";
+NSString* const MARequestErrorMessage = @"A problem occured while trying to communicate with the server."
+    "Please try again. If the problem persists an update should be available shortly.";
+
+NSString* const MADownloadTopMazesSummariesErrorMessage = @"A problem occured while trying to download the list of mazes from the server."
+    "Please try again. If the problem persists an update should be available shortly.";
+
+NSString* const MASaveMazeRatingErrorMessage = @"A problem occured while trying to save the maze rating to the server."
+    "Please try again. If the problem persists an update should be available shortly.";
+
+NSString* const MADownloadUserMazeErrorMessage = @"A problem occured while trying to download your maze from the server."
+    "Please try again. If the problem persists an update should be available shortly.";
+
+NSString* const MADownloadMazeErrorMessage = @"A problem occured while trying to download the maze from the server."
+    "Please try again. If the problem persists an update should be available shortly.";
+
+NSString* const MASaveMazeStartedErrorMessage = @"A problem occured while trying to save your game progress the server."
+    "Please try again. If the problem persists an update should be available shortly.";
 
 NSUInteger const MARandomPasswordLength = 4.0;
 

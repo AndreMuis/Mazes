@@ -29,14 +29,14 @@ typedef enum : int
 @class MAMazeSummary;
 @class MAMazeView;
 @class MASoundManager;
-@class MAStyles;
 @class MATextureManager;
 @class MATopMazesViewController;
 
 @interface MAGameViewController : UIViewController
     <UIGestureRecognizerDelegate,
     MARatingViewDelegate,
-    UIPopoverControllerDelegate>
+    UIPopoverControllerDelegate,
+    UIAlertViewDelegate>
 
 @property (strong, nonatomic) MAMazeSummary *mazeSummary;
 @property (strong, nonatomic) MAMaze *maze;
@@ -49,10 +49,9 @@ typedef enum : int
               mazeManager: (MAMazeManager *)mazeManager
            textureManager: (MATextureManager *)textureManager
              soundManager: (MASoundManager *)soundManager
-                   styles: (MAStyles *)styles
                bannerView: (ADBannerView *)bannerView;
 
-- (void)setup;
+- (void)startSetup;
 
 @end
 

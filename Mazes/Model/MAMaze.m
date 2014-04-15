@@ -111,7 +111,7 @@
     return [self locationWithAction: MALocationActionEnd];
 }
 
-+ (MAMaze *)mazeWithLoggedInUser: (FFUser *)loggedInUser
++ (MAMaze *)mazeWithLoggedInUser: (id<FFUserProtocol>)loggedInUser
                             rows: (NSUInteger)rows
                          columns: (NSUInteger)columns
                  backgroundSound: (MASound *)backgroundSound

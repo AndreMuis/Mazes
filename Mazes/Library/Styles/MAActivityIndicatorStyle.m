@@ -12,12 +12,20 @@
 
 @implementation MAActivityIndicatorStyle
 
-- (id)initWithColors: (MAColors *)colors
++ (MAActivityIndicatorStyle *)activityIndicatorStyle
+{
+    MAActivityIndicatorStyle *activityIndicatorStyle = [[MAActivityIndicatorStyle alloc] init];
+    return activityIndicatorStyle;
+}
+
+- (id)init
 {
     self = [super init];
 
     if (self)
 	{
+        MAColors *colors = [MAColors colors];
+        
         _color = colors.lightGray1Color;
     }
                       

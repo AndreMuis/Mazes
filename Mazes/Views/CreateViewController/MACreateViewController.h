@@ -12,7 +12,6 @@
 @class MAMainViewController;
 @class MAMazeManager;
 @class MAMaze;
-@class MAStyles;
 @class MATextureManager;
 @class MATopMazesViewController;
 
@@ -25,7 +24,6 @@
 @property (readwrite, strong, nonatomic) MATopMazesViewController *topMazesViewController;
 
 - (id)initWithMazeManager: (MAMazeManager *)mazeManager
-           textureManager: (MATextureManager *)textureManager
-                   styles: (MAStyles *)styles;
+           textureManager: (MATextureManager *)textureManager;
 
 @end

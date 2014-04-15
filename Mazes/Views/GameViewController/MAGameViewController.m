@@ -32,7 +32,7 @@
 #import "MAWall.h"
 #import "MAWebServices.h"
 
-@interface MAGameViewController ()
+@interface MAGameViewController () <ADBannerViewDelegate>
 
 @property (readonly, strong, nonatomic) MAWebServices *webServices;
 
@@ -42,6 +42,7 @@
 @property (readonly, strong, nonatomic) MAStyles *styles;
 
 @property (strong, nonatomic) ADBannerView *bannerView;
+@property (readwrite, assign, nonatomic) BOOL showingFullScreenAd;
 
 @property (strong, nonatomic) MALocation *previousLocation;
 @property (strong, nonatomic) MALocation *currentLocation;
@@ -89,6 +90,9 @@
 @property (weak, nonatomic) IBOutlet UIView *mazeBorderView;
 @property (weak, nonatomic) IBOutlet MAMazeView *mazeView;
 
+@property (readonly, strong, nonatomic) UIAlertView *downloadMazeErrorAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *saveMazeStartedErrorAlertView;;
+
 @end
 
 @implementation MAGameViewController
@@ -97,7 +101,6 @@
               mazeManager: (MAMazeManager *)mazeManager
            textureManager: (MATextureManager *)textureManager
              soundManager: (MASoundManager *)soundManager
-                   styles: (MAStyles *)styles
                bannerView: (ADBannerView *)bannerView
 {
     self = [[MAGameViewController alloc] initWithNibName: NSStringFromClass([self class])
@@ -110,9 +113,11 @@
         _mazeManager = mazeManager;
         _textureManager = textureManager;
         _soundManager = soundManager;
-        _styles = styles;
+        _styles = [MAStyles styles];
     
         _bannerView = bannerView;
+        
+        _showingFullScreenAd = NO;
         
         _maze = nil;
         
@@ -125,6 +130,24 @@
     return self;
 }
 
+- (void)observeValueForKeyPath: (NSString *)keyPath ofObject: (id)object change: (NSDictionary *)change context: (void *)context
+{
+    if ((object == self.textureManager && [keyPath isEqualToString: MATextureManagerCountKeyPath] == YES) ||
+        (object == self.soundManager && [keyPath isEqualToString: MASoundManagerCountKeyPath] == YES))
+    {
+        NSUInteger count = [change[@"new"] integerValue];
+        
+        if (count >= 1)
+        {
+            [self startSetup];
+        }
+    }
+    else
+    {
+        [MAUtilities logWithClass: [self class] format: @"Change of value for keyPath: %@ of object: %@ not handled.", keyPath, object];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -135,7 +158,7 @@
 	
 	self.mapBorderView.backgroundColor = self.styles.gameScreen.borderColor;
 	
-    [self.mapView setupWithStyles: self.styles];
+    [self.mapView setup];
     self.mapView.directionArrowImageView.hidden = YES;
 
 	self.messageBorderView.backgroundColor = self.styles.gameScreen.borderColor;
@@ -170,41 +193,27 @@
 	[self.view addGestureRecognizer: swipeDownRecognizer];
     
     self.activityIndicatorView.color = self.styles.activityIndicator.color;
+    
+    _downloadMazeErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                             message: MADownloadMazeErrorMessage
+                                                            delegate: self
+                                                   cancelButtonTitle: @"Cancel"
+                                                   otherButtonTitles: @"Retry", nil];
+
+    _saveMazeStartedErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                message: MASaveMazeStartedErrorMessage
+                                                               delegate: self
+                                                      cancelButtonTitle: @"Cancel"
+                                                      otherButtonTitles: @"Retry", nil];
 }
 
 - (void)viewWillAppear: (BOOL)animated
 {	
 	[super viewWillAppear: animated];
 
-    if (self.isMovingToParentViewController == YES)
+    if (self.showingFullScreenAd == NO)
     {
-        self.titleLabel.text = self.maze.name;
-        
-        self.mazeView.userInteractionEnabled = NO;
-        
-        self.bannerView.frame = CGRectMake(self.bannerView.frame.origin.x,
-                                           self.view.frame.size.height - self.bannerView.frame.size.height,
-                                           self.bannerView.frame.size.width,
-                                           self.bannerView.frame.size.height);
-        
-        [self.view addSubview: self.bannerView];
-        
-        self.activityIndicatorView.hidden = NO;
-        [self.activityIndicatorView startAnimating];
-
-        [self.webServices getMazeWithMazeId: self.mazeSummary.mazeId
-                          completionHandler: ^(MAMaze *maze, NSError *error)
-        {
-            if (error == nil)
-            {
-                self.maze = self.mazeManager.maze;
-                [self setup];
-            }
-            else
-            {
-            
-            }
-        }];
+        [self startSetup];
     }
 }
 
@@ -212,56 +221,159 @@
 {
     [super viewDidAppear: animated];
     
-    self.mapView.directionArrowImageView.hidden = NO;
+    if (self.showingFullScreenAd == NO)
+    {
+        self.mapView.directionArrowImageView.hidden = NO;
+    }
 }
 
-- (void)setup
+- (BOOL)bannerViewActionShouldBegin: (ADBannerView *)banner willLeaveApplication: (BOOL)willLeave
 {
-    //NSLog(@"maze = %@", self->maze);
-    //NSLog(@"mazeUser = %@", self->mazeUser);
-    //NSLog(@"sounds = %d", [Sounds shared].count);
-    //NSLog(@"textures = %d", [Textures shared].count);
-    
-    if (self.maze != nil && self.soundManager != nil && self.textureManager != nil)
-    {
-        if (self.mazeSummary.userStarted == NO)
-        {
-            [self.webServices saveStartedWithUserName: self.webServices.loggedInUser.userName
-                                               mazeId: self.maze.mazeId
-                                    completionHandler: ^(NSError *error)
-            {
-                if (error != nil)
-                {
-                }
-            }];
-        }
-        
-        self.activityIndicatorView.hidden = YES;
-        [self.activityIndicatorView stopAnimating];
-        
-        self.mapView.maze = self.maze;
-        
-        self.mazeView.userInteractionEnabled = YES;
-        self.mazeView.maze = self.maze;
-        
-        [self.mazeView setupOpenGLVerticies];
+    self.showingFullScreenAd = YES;
+    return YES;
+}
 
-        self.mazeView.glX = 0.0;
-        self.mazeView.glY = 0.0;
-        self.mazeView.glZ = 0.0;
-        self.mazeView.theta = 0.0;
+- (void)bannerViewActionDidFinish: (ADBannerView *)banner
+{
+    self.showingFullScreenAd = NO;
+}
+
+- (void)startSetup
+{
+    if (self.mazeSummary != nil && self.soundManager.count >= 1 && self.textureManager.count >= 1)
+    {
+        self.titleLabel.text = self.maze.name;
         
-        self.previousLocation = nil;
+        self.mazeView.userInteractionEnabled = NO;
         
-        [self setupNewLocation: self.maze.startLocation];
         
-        if (self.maze.backgroundSound != nil)
-        {
-           [self.maze.backgroundSound playWithNumberOfLoops: -1];
-        }
         
-        self.isMoving = NO;
+        UIView *view = [[UIView alloc] initWithFrame: CGRectMake(self.bannerView.frame.origin.x,
+                                                                 self.view.frame.size.height - self.bannerView.frame.size.height,
+                                                                 self.bannerView.frame.size.width,
+                                                                 self.bannerView.frame.size.height)];
+        view.backgroundColor = [UIColor redColor];
+        
+        [self.view addSubview: view];
+        
+        
+        
+        self.bannerView.frame = CGRectMake(self.bannerView.frame.origin.x,
+                                           self.view.frame.size.height - self.bannerView.frame.size.height,
+                                           self.bannerView.frame.size.width,
+                                           self.bannerView.frame.size.height);
+        self.bannerView.delegate = self;
+        
+        //[self.view addSubview: self.bannerView];
+        
+        self.activityIndicatorView.hidden = NO;
+        [self.activityIndicatorView startAnimating];
+
+        [self downloadMaze];
     }
+}
+
+- (void)downloadMaze
+{
+    [self.webServices getMazeWithMazeId: self.mazeSummary.mazeId completionHandler: ^(MAMaze *maze, NSError *error)
+    {
+        if (error == nil)
+        {
+            self.maze = maze;
+            [self saveMazeStarted];
+        }
+        else
+        {
+            [self.downloadMazeErrorAlertView show];
+        }
+    }];
+}
+
+- (void)saveMazeStarted
+{
+    if (self.mazeSummary.userStarted == NO)
+    {
+        [self.webServices saveStartedWithUserName: self.webServices.loggedInUser.userName
+                                           mazeId: self.maze.mazeId
+                                completionHandler: ^(NSError *error)
+         {
+             if (error == nil)
+             {
+                 [self finishSetup];
+             }
+             else
+             {
+                 [self.saveMazeStartedErrorAlertView show];
+             }
+         }];
+    }
+    else
+    {
+        [self finishSetup];
+    }
+}
+
+- (void)alertView: (UIAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
+{
+    if (alertView == self.downloadMazeErrorAlertView)
+    {
+        switch (buttonIndex)
+        {
+            case 0:
+                [self goBack];
+                break;
+            case 1:
+                [self downloadMaze];
+            default:
+                break;
+        }
+    }
+    else if (alertView == self.saveMazeStartedErrorAlertView)
+    {
+        switch (buttonIndex)
+        {
+            case 0:
+                [self goBack];
+                break;
+            case 1:
+                [self saveMazeStarted];
+            default:
+                break;
+        }
+    }
+    else
+    {
+        [MAUtilities logWithClass: [self class] format: [NSString stringWithFormat: @"AlertView not handled. AlertView: %@", alertView]];
+    }
+}
+
+- (void)finishSetup
+{
+    self.mapView.maze = self.maze;
+
+    self.mazeView.userInteractionEnabled = YES;
+    self.mazeView.maze = self.maze;
+
+    [self.mazeView setupOpenGLVerticies];
+
+    self.mazeView.glX = 0.0;
+    self.mazeView.glY = 0.0;
+    self.mazeView.glZ = 0.0;
+    self.mazeView.theta = 0.0;
+
+    self.previousLocation = nil;
+
+    [self setupNewLocation: self.maze.startLocation];
+
+    if (self.maze.backgroundSound != nil)
+    {
+        [self.maze.backgroundSound playWithNumberOfLoops: -1];
+    }
+
+    self.isMoving = NO;
+
+    self.activityIndicatorView.hidden = YES;
+    [self.activityIndicatorView stopAnimating];
 }
 
 - (void)setupNewLocation: (MALocation *)newLocation
@@ -271,12 +383,16 @@
 	self.currentLocation = newLocation;
 	self.currentLocation.visited = YES;
 
-	[self.mazeView translateDGLX: -self.mazeView.glX dGLY: 0.0 dGLZ: -self.mazeView.glZ];
+	[self.mazeView translateDGLX: -self.mazeView.glX
+                            dGLY: 0.0
+                            dGLZ: -self.mazeView.glZ];
 	
 	float glX = MAWallDepth / 2.0 + MAWallWidth / 2.0 + (self.currentLocation.column - 1) * MAWallWidth;
 	float glZ = MAWallDepth / 2.0 + MAWallWidth / 2.0 + (self.currentLocation.row - 1) * MAWallWidth;
 	
-	[self.mazeView translateDGLX: glX dGLY: 0.0 dGLZ: glZ];
+	[self.mazeView translateDGLX: glX
+                            dGLY: 0.0
+                            dGLZ: glZ];
 	
 	if (self.currentLocation.action == MALocationActionStart || self.currentLocation.action == MALocationActionTeleport)
 	{
@@ -379,7 +495,8 @@
 
 - (void)moveForwardBackward: (MAMovementType)movement
 {
-	float dglx = 0.0, dglz = 0.0;
+	float dglx = 0.0;
+    float dglz = 0.0;
 
 	self.dLocX = 0;
 	self.dLocY = 0;
@@ -587,14 +704,6 @@
 		self.moveStepDurationAvg = moveDuration / self.steps;
 	}
 
-	//NSLog(@"x = %f, z = %f", mazeView.GLX, mazeView.GLZ);	
-	
-	//NSLog(@"movement steps = %d", steps);
-	//NSLog(@"movement duration = %g", moveDuration);
-	//NSLog(@"movement duration (60 fps) = %f", (1.0 / 60.0) * steps);
-	//NSLog(@"step duration avg = %f", moveStepDurationAvg);	
-	//NSLog(@" ");
-	
 	self.isMoving = NO;
 	[self processMovements];			
 	
@@ -667,10 +776,6 @@
 	
 	self.dTheta_step = dTheta / (float)self.steps;
 
-	//NSLog(@"theta = %f", mazeView.Theta);	
-	
-	//NSLog(@"step duration avg = %f", turnStepDurationAvg);
-		
 	self.movementStartDate = [[NSDate alloc] init];
 	
 	[self turnStep: nil];
@@ -700,14 +805,6 @@
 	float turnDuration = [end timeIntervalSinceDate: self.movementStartDate];
 	
 	self.turnStepDurationAvg = turnDuration / self.steps;
-	
-	//NSLog(@"theta = %f", mazeView.Theta);	
-	
-	//NSLog(@"turn steps = %d", steps);
-	//NSLog(@"turn duration = %g", turnDuration);
-	//NSLog(@"turn duration (60 fps) = %f", (1.0 / 60.0) * steps);
-	//NSLog(@"step duration avg = %f", turnStepDurationAvg);	
-	//NSLog(@" ");	
 	
 	self.mapView.currentLocation = self.currentLocation;
 	self.mapView.facingDirection = self.facingDirection;
@@ -866,7 +963,7 @@
     
 	[self.mainViewController transitionFromViewController: self
                                          toViewController: self.topMazesViewController
-                                               transition: MATransitionFlipFromRight];
+                                               transition: MATransitionFlipFromLeft];
 }
 
 // How To Play Button
@@ -931,6 +1028,7 @@
     if (self.isMovingToParentViewController)
     {
         self.maze = nil;
+        self.mazeSummary = nil;
         
         [self.mapView clear];
         [self clearMessage];

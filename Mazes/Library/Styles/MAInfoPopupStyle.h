@@ -15,6 +15,6 @@
 @property (readonly, strong, nonatomic) UIColor *textColor;
 @property (readonly, strong, nonatomic) UIFont *font;
 
-- (id)initWithColors: (MAColors *)colors;
++ (MAInfoPopupStyle *)infoPopupStyle;
 
 @end

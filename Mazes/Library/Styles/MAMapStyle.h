@@ -25,6 +25,6 @@
 @property (strong, nonatomic) UIColor *noWallColor;
 @property (strong, nonatomic) UIColor *invisibleColor;	
 
-- (id)initWithColors: (MAColors *)colors;
++ (MAMapStyle *)mapStyle;
 
 @end

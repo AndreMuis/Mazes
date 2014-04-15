@@ -27,13 +27,13 @@
 #import "MAUtilities.h"
 #import "MAWebServices.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <UIAlertViewDelegate>
 
+@property (readonly, strong, nonatomic) MAWebServices *webServices;
 @property (readonly, strong, nonatomic) Reachability *reachability;
 
-@property (readonly, strong, nonatomic) MAColors *colors;
 @property (readonly, strong, nonatomic) MAEventManager *eventManager;
-@property (readonly, strong, nonatomic) MASettings *settings;
+@property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
 @property (readonly, strong, nonatomic) MASoundManager *soundManager;
 @property (readonly, strong, nonatomic) MATextureManager *textureManager;
 
@@ -45,20 +45,55 @@
 
 @property (readonly, strong, nonatomic) ADBannerView *bannerView;
 
+@property (readwrite, assign, nonatomic) BOOL versionChecked;
+
+@property (readonly, strong, nonatomic) UIAlertView *appVersionOutdatedAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *noInternetAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *autologinErrorAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *checkVersionErrorAlertView;
+
 @end
 
 @implementation AppDelegate
 
 - (BOOL)application: (UIApplication *)application didFinishLaunchingWithOptions: (NSDictionary *)launchOptions
 {
+    self.versionChecked = NO;
+    
+    _appVersionOutdatedAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                              message: @""
+                                                             delegate: self
+                                                    cancelButtonTitle: @"OK"
+                                                    otherButtonTitles: nil];
+
+    _noInternetAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                      message: MANoInternetMessage
+                                                     delegate: self
+                                            cancelButtonTitle: @"OK"
+                                            otherButtonTitles: nil];
+
+    _autologinErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                          message: MARequestErrorMessage
+                                                         delegate: self
+                                                cancelButtonTitle: @"Cancel"
+                                                otherButtonTitles: @"Retry", nil];
+    
+    _checkVersionErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                             message: MARequestErrorMessage
+                                                            delegate: self
+                                                   cancelButtonTitle: @"Cancel"
+                                                   otherButtonTitles: @"Retry", nil];
+
     [self startAnalytics];
     [self startCrashReporting];
     
     [self setupAppObjects];
+
+    [self setupKVO];
+    
+    [self autologin];
     
     [self setupReachability];
-
-    [self autologin];
     
     [self setupUI];
 
@@ -82,45 +117,38 @@
     _reachability = [Reachability reachabilityWithHostname: MAReachabilityHostname];
     _webServices = [[MAWebServices alloc] initWithReachability: self.reachability];
     
-    _colors = [[MAColors alloc] init];
     _eventManager = [[MAEventManager alloc] init];
     _mazeManager = [[MAMazeManager alloc] initWithWebServices: self.webServices];
-    _settings = [[MASettings alloc] init];
-    _soundManager = nil;
-    _styles = [[MAStyles alloc] initWithColors: self.colors];
-    _textureManager = nil;
+    
+    _soundManager = [MASoundManager soundManagerWithReachability: self.reachability
+                                                     webServices: self.webServices];
+    
+    _textureManager = [MATextureManager textureManagerWithReachability: self.reachability
+                                                           webServices: self.webServices];
     
     _bannerView = [[ADBannerView alloc] init];
-    self.bannerView.delegate = self;
+    
+    _mainViewController = [[MAMainViewController alloc] init];
     
     _createViewController = [[MACreateViewController alloc] initWithMazeManager: self.mazeManager
-                                                                 textureManager: self.textureManager
-                                                                         styles: self.styles];
+                                                                 textureManager: self.textureManager];
     
     _designViewController = [[MADesignViewController alloc] initWithWebServices: self.webServices
                                                                    eventManager: self.eventManager
                                                                     mazeManager: self.mazeManager
                                                                    soundManager: self.soundManager
-                                                                 textureManager: self.textureManager
-                                                                       settings: self.settings
-                                                                         colors: self.colors
-                                                                         styles: self.styles];
+                                                                 textureManager: self.textureManager];
     
     _gameViewController = [[MAGameViewController alloc] initWithWebServices: self.webServices
                                                                 mazeManager: self.mazeManager
                                                              textureManager: self.textureManager
                                                                soundManager: self.soundManager
-                                                                     styles: self.styles
                                                                  bannerView: self.bannerView];
-    
-    _mainViewController = [[MAMainViewController alloc] initWithStyles: self.styles
-                                                                colors: self.colors];
     
     _topMazesViewController = [[MATopMazesViewController alloc] initWithWebServices: self.webServices
                                                                         mazeManager: self.mazeManager
                                                                      textureManager: self.textureManager
                                                                        soundManager: self.soundManager
-                                                                             styles: self.styles
                                                                          bannerView: self.bannerView];
     
     self.createViewController.designViewController = self.designViewController;
@@ -142,33 +170,68 @@
     self.topMazesViewController.mainViewController = self.mainViewController;
 }
 
+- (void)setupKVO
+{
+    [self.webServices addObserver: self.topMazesViewController
+                       forKeyPath: MAWebServicesIsLoggedInKeyPath
+                          options: NSKeyValueObservingOptionNew
+                          context: NULL];
+    
+    [self.textureManager addObserver: self.gameViewController
+                          forKeyPath: MASoundManagerCountKeyPath
+                             options: NSKeyValueObservingOptionNew
+                             context: NULL];
+    
+    [self.soundManager addObserver: self.gameViewController
+                        forKeyPath: MATextureManagerCountKeyPath
+                           options: NSKeyValueObservingOptionNew
+                           context: NULL];
+}
+
+- (void)autologin
+{
+    [self.webServices autologinWithCompletionHandler: ^(NSError *error)
+     {
+         if (error == nil)
+         {
+             [self checkVersion];
+             [self.textureManager downloadTextures];
+             [self.soundManager downloadSounds];
+         }
+         else if (self.reachability.isReachable == YES)
+         {
+             [self.autologinErrorAlertView show];
+         }
+     }];
+}
+
 - (void)setupReachability
 {
     __weak AppDelegate *weakAppDelegate = self;
     
     self.reachability.reachableBlock = ^(Reachability *reachability)
     {
-        if (weakAppDelegate.webServices.hasAttemptedFirstLogin == YES)
+        if (weakAppDelegate.webServices.isLoggingIn == NO)
         {
-            if (weakAppDelegate.webServices.loggedIn == NO)
+            if (weakAppDelegate.webServices.isLoggedIn == NO)
             {
                 [weakAppDelegate autologin];
             }
             else
             {
-                if (weakAppDelegate.webServices.versionChecked == NO)
+                if (weakAppDelegate.versionChecked == NO)
                 {
                     [weakAppDelegate checkVersion];
                 }
                 
-                if (weakAppDelegate.textureManager == nil)
+                if (weakAppDelegate.textureManager.count == 0)
                 {
-                    [weakAppDelegate downloadTextures];
+                    [weakAppDelegate.textureManager downloadTextures];
                 }
 
-                if (weakAppDelegate.soundManager == nil)
+                if (weakAppDelegate.soundManager.count == 0)
                 {
-                    [weakAppDelegate downloadSounds];
+                    [weakAppDelegate.soundManager downloadSounds];
                 }
             }
         }
@@ -176,39 +239,10 @@
     
     self.reachability.unreachableBlock = ^(Reachability *reachability)
     {
-        UIAlertView *noInternetAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                      message: MANoInternetMessage
-                                                                     delegate: nil
-                                                            cancelButtonTitle: @"OK"
-                                                            otherButtonTitles: nil];
-        [noInternetAlertView show];
+        [weakAppDelegate.noInternetAlertView show];
     };
     
     [self.reachability startNotifier];
-}
-
-- (void)autologin
-{
-    [self.webServices autologinWithCompletionHandler: ^(NSError *error)
-    {
-        if (error == nil)
-        {
-            [self.topMazesViewController downloadTopMazeSummaries];
-             
-            [self checkVersion];
-            [self downloadTextures];
-            [self downloadSounds];
-        }
-        else if (self.reachability.isReachable == YES)
-        {
-            UIAlertView *requestErrorUnknownAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                                   message: MARequestErrorUnknownMessage
-                                                                                  delegate: nil
-                                                                         cancelButtonTitle: @"OK"
-                                                                         otherButtonTitles: nil];
-            [requestErrorUnknownAlertView show];
-        }
-    }];
 }
 
 - (void)checkVersion
@@ -226,68 +260,40 @@
                 NSString *message = [NSString stringWithFormat: @"This app is version %0.1f. Version %0.1f is now available."
                                      "It is recommended that you upgrade to the latest version.", appVersion, latestVersion.latestVersion];
                 
-                UIAlertView *appVersionOutdatedAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                                      message: message
-                                                                                     delegate: nil
-                                                                            cancelButtonTitle: @"OK"
-                                                                            otherButtonTitles: nil];
-                [appVersionOutdatedAlertView show];
+                self.appVersionOutdatedAlertView.message = message;
+                
+                [self.appVersionOutdatedAlertView show];
             }
         }
         else if (self.reachability.isReachable == YES)
         {
-            UIAlertView *requestErrorUnknownAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                                   message: MARequestErrorUnknownMessage
-                                                                                  delegate: nil
-                                                                         cancelButtonTitle: @"OK"
-                                                                         otherButtonTitles: nil];
-            [requestErrorUnknownAlertView show];
+            [self.checkVersionErrorAlertView show];
         }
     }];
 }
 
-- (void)downloadTextures
+- (void)alertView: (UIAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
 {
-    [self.webServices getTexturesWithCompletionHandler: ^(NSArray *textures, NSError *error)
+    if (alertView == self.appVersionOutdatedAlertView)
     {
-        if (error == nil)
-        {
-            _textureManager = [[MATextureManager alloc] initWithTextures: textures];
-            
-            [self.gameViewController setup];
-        }
-        else if (self.reachability.isReachable == YES)
-        {
-            UIAlertView *requestErrorUnknownAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                                   message: MARequestErrorUnknownMessage
-                                                                                  delegate: nil
-                                                                         cancelButtonTitle: @"OK"
-                                                                         otherButtonTitles: nil];
-            [requestErrorUnknownAlertView show];
-        }
-    }];
-}
-
-- (void)downloadSounds
-{
-    [self.webServices getSoundsWithCompletionHandler: ^(NSArray *sounds, NSError *error)
+        ;
+    }
+    else if (alertView == self.noInternetAlertView)
     {
-        if (error == nil)
-        {
-            _soundManager = [[MASoundManager alloc] initWithSounds: sounds];
-            
-            [self.gameViewController setup];
-        }
-        else if (self.reachability.isReachable == YES)
-        {
-            UIAlertView *requestErrorUnknownAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                                   message: MARequestErrorUnknownMessage
-                                                                                  delegate: nil
-                                                                         cancelButtonTitle: @"OK"
-                                                                         otherButtonTitles: nil];
-            [requestErrorUnknownAlertView show];
-        }
-    }];
+        ;
+    }
+    else if (alertView == self.autologinErrorAlertView && buttonIndex == 1)
+    {
+        [self autologin];
+    }
+    else if (alertView == self.checkVersionErrorAlertView && buttonIndex == 1)
+    {
+        [self checkVersion];
+    }
+    else
+    {
+        [MAUtilities logWithClass: [self class] format: [NSString stringWithFormat: @"AlertView not handled. AlertView: %@", alertView]];
+    }
 }
 
 - (void)setupUI
@@ -296,18 +302,6 @@
     
     self.window.rootViewController = self.mainViewController;
     [self.window makeKeyAndVisible];
-}
-
-- (void)bannerViewDidLoadAd: (ADBannerView *)banner
-{
-    [Flurry logEvent: @"bannerViewDidLoadAd:"
-      withParameters: @{[[NSLocale currentLocale] localeIdentifier] : @"localeIdentifier"}];
-}
-
-- (void)bannerView: (ADBannerView *)banner didFailToReceiveAdWithError: (NSError *)error
-{
-    [Flurry logEvent: @"bannerView: didFailToReceiveAdWithError:"
-      withParameters: @{[[NSLocale currentLocale] localeIdentifier] : @"localeIdentifier", [error localizedDescription] : @"error"}];
 }
 
 - (void)applicationDidReceiveMemoryWarning: (UIApplication *)application

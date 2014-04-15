@@ -12,12 +12,20 @@
 
 @implementation MAGameScreenStyle
 
-- (id)initWithColors: (MAColors *)colors
++ (MAGameScreenStyle *)gameScreenStyle
+{
+    MAGameScreenStyle *gameScreenStyle = [[MAGameScreenStyle alloc] init];
+    return gameScreenStyle;
+}
+
+- (id)init
 {
     self = [super init];
 	
     if (self)
 	{
+        MAColors *colors = [MAColors colors];
+
         _titleBackgroundColor = [UIColor clearColor];
         _titleFont = [UIFont boldSystemFontOfSize: 19];
         _titleTextColor = colors.darkBrown1Color;

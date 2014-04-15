@@ -49,4 +49,6 @@
 
 @property (readonly, strong, nonatomic) UIColor *backgroundColor;
 
++ (MAColors *)colors;
+
 @end

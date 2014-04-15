@@ -36,11 +36,9 @@ typedef void (^GetLatestVersionCompletionHandler)(MALatestVersion *latestVersion
 
 @interface MAWebServices : NSObject
 
-@property (readonly, assign, nonatomic) BOOL versionChecked;
-@property (readonly, assign, nonatomic) BOOL hasAttemptedFirstLogin;
-
-@property (readonly, strong, nonatomic) FFUser *loggedInUser;
-@property (readonly, assign, nonatomic) BOOL loggedIn;
+@property (readonly, strong, nonatomic) id<FFUserProtocol> loggedInUser;
+@property (readonly, assign, nonatomic) BOOL isLoggedIn;
+@property (readonly, assign, nonatomic) BOOL isLoggingIn;
 
 @property (readonly, assign, nonatomic) BOOL isDownloadingHighestRatedMazeSummaries;
 @property (readonly, assign, nonatomic) BOOL isDownloadingNewestMazeSummaries;

@@ -13,12 +13,20 @@
 
 @implementation MAMapStyle
 
-- (id)initWithColors: (MAColors *)colors
++ (MAMapStyle *)mapStyle
+{
+    MAMapStyle *mapStyle = [[MAMapStyle alloc] init];
+    return mapStyle;
+}
+
+- (id)init
 {
     self = [super init];
 	
     if (self)
 	{
+        MAColors *colors = [MAColors colors];
+
         _wallWidth = 3.0;
         _squareWidth = 15.0;
         _length = _squareWidth * MAColumnsMax + _wallWidth * (MAColumnsMax + 1);

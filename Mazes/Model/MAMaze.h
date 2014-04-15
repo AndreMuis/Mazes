@@ -21,7 +21,7 @@
 @interface MAMaze : NSObject <FFAnnotation>
 
 @property (readwrite, strong, nonatomic) NSString *mazeId;
-@property (readwrite, strong, nonatomic) FFUser *user;
+@property (readwrite, strong, nonatomic) id<FFUserProtocol> user;
 @property (readwrite, strong, nonatomic) NSString *name;
 @property (readwrite, strong, nonatomic) MASize *size;
 @property (readwrite, assign, nonatomic) BOOL public;
@@ -47,7 +47,7 @@
 @property (readwrite, strong, nonatomic) MAWall *previousSelectedWall;
 @property (readwrite, strong, nonatomic) MAWall *currentSelectedWall;
 
-+ (MAMaze *)mazeWithLoggedInUser: (FFUser *)loggedInUser
++ (MAMaze *)mazeWithLoggedInUser: (id<FFUserProtocol>)loggedInUser
                             rows: (NSUInteger)rows
                          columns: (NSUInteger)columns
                  backgroundSound: (MASound *)backgroundSound

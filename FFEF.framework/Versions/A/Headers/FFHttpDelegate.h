@@ -2,7 +2,7 @@
 //  FFHttpDelegate.h
 //  FatFractal
 //
-//  Copyright (c) 2012 FatFractal, Inc. All rights reserved.
+//  Copyright (c) 2012, 2013 FatFractal, Inc. All rights reserved.
 //
 #import <Foundation/Foundation.h>
 
@@ -49,7 +49,11 @@ typedef void (^FFHttpMethodCompletion) /*!< Type definition of the block which i
  */
 @property (strong, nonatomic)   NSHTTPURLResponse       *httpResponse;
 
-- (id) initWithOnComplete:(FFHttpMethodCompletion)onComplete;
+@property (strong, nonatomic) NSURLRequest *request;
+
+@property (nonatomic) BOOL debug;
+
+- (id) initWithRequest:(NSURLRequest *)request andOnComplete:(FFHttpMethodCompletion)onComplete;
 
 /*!
  Need to call this method if you are using self-issued SSL certs.

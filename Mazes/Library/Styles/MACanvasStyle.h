@@ -36,6 +36,6 @@
 @property (strong, nonatomic) UIColor *fakeColor;	
 @property (strong, nonatomic) UIColor *cornerColor;
 
-- (id)initWithColors: (MAColors *)colors;
++ (MACanvasStyle *)canvasStyle;
 
 @end

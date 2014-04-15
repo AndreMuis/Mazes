@@ -2,7 +2,7 @@
 //  FFMetaData.h
 //  FatFractal
 //
-//  Copyright (c) 2012 FatFractal, Inc. All rights reserved.
+//  Copyright (c) 2012, 2013 FatFractal, Inc. All rights reserved.
 //
 /*! \brief Framework-generated data about your objects you can access. */
 /*! 

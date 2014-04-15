@@ -12,12 +12,20 @@
 
 @implementation MACanvasStyle
 
-- (id)initWithColors: (MAColors *)colors
++ (MACanvasStyle *)canvasStyle
+{
+    MACanvasStyle *canvasStyle = [[MACanvasStyle alloc] init];
+    return canvasStyle;
+}
+
+- (id)init
 {
     self = [super init];
 	
     if (self)
 	{
+        MAColors *colors = [MAColors colors];
+
      	_segmentLengthShort = 15.0;
         _segmentLengthLong = 33.0;
         

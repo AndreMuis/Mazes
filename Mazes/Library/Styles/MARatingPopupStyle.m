@@ -12,12 +12,20 @@
 
 @implementation MARatingPopupStyle
 
-- (id)initWithColors: (MAColors *)colors
++ (MARatingPopupStyle *)ratingPopupStyle
+{
+    MARatingPopupStyle *ratingPopupStyle = [[MARatingPopupStyle alloc] init];
+    return ratingPopupStyle;
+}
+
+- (id)init
 {
     self = [super init];
 	
     if (self)
 	{
+        MAColors *colors = [MAColors colors];
+
         _backgroundColor = colors.lightYellow2Color;
     }
   

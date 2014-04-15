@@ -2,12 +2,12 @@
 //  FFUserGroup.h
 //  FatFractal
 //
-//  Copyright (c) 2012 FatFractal, Inc. All rights reserved.
+//  Copyright (c) 2012, 2013 FatFractal, Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@class FFUser;
+@protocol FFUserProtocol;
 @class FatFractal;
 
 /*! \brief A special kind of FatFractal object for managing user groups in your application. */
@@ -33,25 +33,25 @@
 
 /*!
  Add a user to this group's list of users
- @param FFUser - the user to be added
+ @param id<FFUserProtocol> - the user to be added
  @param NSError - will be set to non-nil if an error occurs
  */
-- (void) addUser:(FFUser *)user error:(NSError **)outErr;
+- (void) addUser:(id<FFUserProtocol>)user error:(NSError **)outErr;
 
 /*!
  Remove a user from this group's list of users
- @param FFUser - the user to be removed
+ @param id<FFUserProtocol> - the user to be removed
  @param NSError - will be set to non-nil if an error occurs
  */
-- (void) removeUser:(FFUser *)user error:(NSError **)outErr;
+- (void) removeUser:(id<FFUserProtocol>)user error:(NSError **)outErr;
 
 /*!
  Find a specific user in this group's list of users
  @param NSString - the user name
  @param NSError - will be set to non-nil if an error occurs
- @return FFUser - the user, if found, or nil otherwise
+ @return id<FFUserProtocol> - the user, if found, or nil otherwise
  */
-- (FFUser *) userWithName:(NSString *)userName error:(NSError **)outErr;
+- (id<FFUserProtocol>) userWithName:(NSString *)userName error:(NSError **)outErr;
 
 /*!
  Get all of this group's users.

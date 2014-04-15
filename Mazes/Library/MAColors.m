@@ -10,6 +10,12 @@
 
 @implementation MAColors
 
++ (MAColors *)colors
+{
+    MAColors *colors = [[MAColors alloc] init];
+    return colors;
+}
+
 - (id)init
 {
     self = [super init];
