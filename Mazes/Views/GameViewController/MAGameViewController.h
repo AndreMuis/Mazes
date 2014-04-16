@@ -35,7 +35,6 @@ typedef enum : int
 @interface MAGameViewController : UIViewController
     <UIGestureRecognizerDelegate,
     MARatingViewDelegate,
-    UIPopoverControllerDelegate,
     UIAlertViewDelegate>
 
 @property (strong, nonatomic) MAMazeSummary *mazeSummary;

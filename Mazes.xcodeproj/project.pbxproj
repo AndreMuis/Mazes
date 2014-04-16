@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A890CA618FE3CCC00F96157 /* MATopMazeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A890CA418FE3CCC00F96157 /* MATopMazeTableViewCell.m */; };
+		2A890CA718FE3CCC00F96157 /* MATopMazeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A890CA518FE3CCC00F96157 /* MATopMazeTableViewCell.xib */; };
+		2A890CA918FE528200F96157 /* MAInstructionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A890CA818FE528200F96157 /* MAInstructionsViewController.xib */; };
+		2A890CAC18FE52AD00F96157 /* MAInstructionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A890CAB18FE52AD00F96157 /* MAInstructionsViewController.m */; };
 		2AECE0E318F8CDCA0094C8CB /* Development Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE0E218F8CDCA0094C8CB /* Development Notes.txt */; };
 		2AECE0EB18F8CDF90094C8CB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE0E518F8CDF90094C8CB /* AppDelegate.m */; };
 		2AECE0EC18F8CDF90094C8CB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE0E618F8CDF90094C8CB /* InfoPlist.strings */; };
@@ -165,7 +169,6 @@
 		2AECE2BE18F8D9930094C8CB /* MACreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE28718F8D9930094C8CB /* MACreateViewController.xib */; };
 		2AECE2BF18F8D9930094C8CB /* MADesignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE28A18F8D9930094C8CB /* MADesignViewController.m */; };
 		2AECE2C018F8D9930094C8CB /* MADesignViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE28B18F8D9930094C8CB /* MADesignViewController.xib */; };
-		2AECE2C318F8D9930094C8CB /* MAGameHelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE29118F8D9930094C8CB /* MAGameHelpViewController.xib */; };
 		2AECE2C418F8D9930094C8CB /* MAGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE29418F8D9930094C8CB /* MAGameViewController.m */; };
 		2AECE2C518F8D9930094C8CB /* MAGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE29518F8D9930094C8CB /* MAGameViewController.xib */; };
 		2AECE2C618F8D9930094C8CB /* MAGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE29818F8D9930094C8CB /* MAGridView.m */; };
@@ -180,8 +183,6 @@
 		2AECE2D218F8D9930094C8CB /* MATexturesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2B418F8D9930094C8CB /* MATexturesViewController.xib */; };
 		2AECE2D318F8D9930094C8CB /* MATopMazesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2B718F8D9930094C8CB /* MATopMazesViewController.m */; };
 		2AECE2D418F8D9930094C8CB /* MATopMazesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2B818F8D9930094C8CB /* MATopMazesViewController.xib */; };
-		2AECE2D518F8D9930094C8CB /* MATopMazeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2BB18F8D9930094C8CB /* MATopMazeTableViewCell.m */; };
-		2AECE2D618F8D9930094C8CB /* MATopMazeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2BC18F8D9930094C8CB /* MATopMazeTableViewCell.xib */; };
 		2AECE2E318F8DB600094C8CB /* MAFoundExitPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2DA18F8DB600094C8CB /* MAFoundExitPopupView.m */; };
 		2AECE2E418F8DB600094C8CB /* MAFoundExitPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2DB18F8DB600094C8CB /* MAFoundExitPopupView.xib */; };
 		2AECE2E518F8DB600094C8CB /* MAInfoPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2DE18F8DB600094C8CB /* MAInfoPopupView.m */; };
@@ -232,6 +233,12 @@
 
 /* Begin PBXFileReference section */
 		2739B721EF9C40EAA5260DC7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A890CA318FE3CCC00F96157 /* MATopMazeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MATopMazeTableViewCell.h; path = Mazes/Views/TopMazesViewController/TopMazeTableViewCell/MATopMazeTableViewCell.h; sourceTree = SOURCE_ROOT; };
+		2A890CA418FE3CCC00F96157 /* MATopMazeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MATopMazeTableViewCell.m; path = Mazes/Views/TopMazesViewController/TopMazeTableViewCell/MATopMazeTableViewCell.m; sourceTree = SOURCE_ROOT; };
+		2A890CA518FE3CCC00F96157 /* MATopMazeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MATopMazeTableViewCell.xib; path = Mazes/Views/TopMazesViewController/TopMazeTableViewCell/MATopMazeTableViewCell.xib; sourceTree = SOURCE_ROOT; };
+		2A890CA818FE528200F96157 /* MAInstructionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MAInstructionsViewController.xib; path = Mazes/Views/GameViewController/InstructionsViewController/MAInstructionsViewController.xib; sourceTree = SOURCE_ROOT; };
+		2A890CAA18FE52AD00F96157 /* MAInstructionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAInstructionsViewController.h; path = Mazes/Views/GameViewController/InstructionsViewController/MAInstructionsViewController.h; sourceTree = SOURCE_ROOT; };
+		2A890CAB18FE52AD00F96157 /* MAInstructionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAInstructionsViewController.m; path = Mazes/Views/GameViewController/InstructionsViewController/MAInstructionsViewController.m; sourceTree = SOURCE_ROOT; };
 		2AECE0E218F8CDCA0094C8CB /* Development Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Development Notes.txt"; path = "Documentation/Development Notes.txt"; sourceTree = "<group>"; };
 		2AECE0E418F8CDF90094C8CB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Application/AppDelegate.h; sourceTree = "<group>"; };
 		2AECE0E518F8CDF90094C8CB /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Application/AppDelegate.m; sourceTree = "<group>"; };
@@ -421,7 +428,6 @@
 		2AECE28918F8D9930094C8CB /* MADesignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADesignViewController.h; sourceTree = "<group>"; };
 		2AECE28A18F8D9930094C8CB /* MADesignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADesignViewController.m; sourceTree = "<group>"; };
 		2AECE28B18F8D9930094C8CB /* MADesignViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MADesignViewController.xib; sourceTree = "<group>"; };
-		2AECE29118F8D9930094C8CB /* MAGameHelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAGameHelpViewController.xib; sourceTree = "<group>"; };
 		2AECE29318F8D9930094C8CB /* MAGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGameViewController.h; sourceTree = "<group>"; };
 		2AECE29418F8D9930094C8CB /* MAGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGameViewController.m; sourceTree = "<group>"; };
 		2AECE29518F8D9930094C8CB /* MAGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAGameViewController.xib; sourceTree = "<group>"; };
@@ -445,9 +451,6 @@
 		2AECE2B618F8D9930094C8CB /* MATopMazesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATopMazesViewController.h; sourceTree = "<group>"; };
 		2AECE2B718F8D9930094C8CB /* MATopMazesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATopMazesViewController.m; sourceTree = "<group>"; };
 		2AECE2B818F8D9930094C8CB /* MATopMazesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MATopMazesViewController.xib; sourceTree = "<group>"; };
-		2AECE2BA18F8D9930094C8CB /* MATopMazeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATopMazeTableViewCell.h; sourceTree = "<group>"; };
-		2AECE2BB18F8D9930094C8CB /* MATopMazeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATopMazeTableViewCell.m; sourceTree = "<group>"; };
-		2AECE2BC18F8D9930094C8CB /* MATopMazeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MATopMazeTableViewCell.xib; sourceTree = "<group>"; };
 		2AECE2D918F8DB600094C8CB /* MAFoundExitPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAFoundExitPopupView.h; sourceTree = "<group>"; };
 		2AECE2DA18F8DB600094C8CB /* MAFoundExitPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAFoundExitPopupView.m; sourceTree = "<group>"; };
 		2AECE2DB18F8DB600094C8CB /* MAFoundExitPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAFoundExitPopupView.xib; sourceTree = "<group>"; };
@@ -793,7 +796,6 @@
 				2AECE2D718F8DB4D0094C8CB /* Popups */,
 				2AECE28418F8D9930094C8CB /* CreateViewController */,
 				2AECE28818F8D9930094C8CB /* DesignViewController */,
-				2AECE29018F8D9930094C8CB /* GameHelpViewController */,
 				2AECE29218F8D9930094C8CB /* GameViewController */,
 				2AECE29618F8D9930094C8CB /* GridView */,
 				2AECE29D18F8D9930094C8CB /* MainViewController */,
@@ -829,13 +831,15 @@
 			path = Views/DesignViewController;
 			sourceTree = "<group>";
 		};
-		2AECE29018F8D9930094C8CB /* GameHelpViewController */ = {
+		2AECE29018F8D9930094C8CB /* InstructionsViewController */ = {
 			isa = PBXGroup;
 			children = (
-				2AECE29118F8D9930094C8CB /* MAGameHelpViewController.xib */,
+				2A890CAA18FE52AD00F96157 /* MAInstructionsViewController.h */,
+				2A890CAB18FE52AD00F96157 /* MAInstructionsViewController.m */,
+				2A890CA818FE528200F96157 /* MAInstructionsViewController.xib */,
 			);
-			name = GameHelpViewController;
-			path = Views/GameHelpViewController;
+			name = InstructionsViewController;
+			path = ../GameHelpViewController;
 			sourceTree = "<group>";
 		};
 		2AECE29218F8D9930094C8CB /* GameViewController */ = {
@@ -844,6 +848,7 @@
 				2AECE29318F8D9930094C8CB /* MAGameViewController.h */,
 				2AECE29418F8D9930094C8CB /* MAGameViewController.m */,
 				2AECE29518F8D9930094C8CB /* MAGameViewController.xib */,
+				2AECE29018F8D9930094C8CB /* InstructionsViewController */,
 			);
 			name = GameViewController;
 			path = Views/GameViewController;
@@ -937,9 +942,9 @@
 		2AECE2B918F8D9930094C8CB /* TopMazeTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				2AECE2BA18F8D9930094C8CB /* MATopMazeTableViewCell.h */,
-				2AECE2BB18F8D9930094C8CB /* MATopMazeTableViewCell.m */,
-				2AECE2BC18F8D9930094C8CB /* MATopMazeTableViewCell.xib */,
+				2A890CA318FE3CCC00F96157 /* MATopMazeTableViewCell.h */,
+				2A890CA418FE3CCC00F96157 /* MATopMazeTableViewCell.m */,
+				2A890CA518FE3CCC00F96157 /* MATopMazeTableViewCell.xib */,
 			);
 			name = TopMazeTableViewCell;
 			path = ../TopMazeTableViewCell;
@@ -1203,7 +1208,6 @@
 				2AECE1DB18F8D3B20094C8CB /* Direction Arrow.png in Resources */,
 				2AECE17018F8D3060094C8CB /* Black.pvrtc in Resources */,
 				2AECE19C18F8D3060094C8CB /* Metal 2.pvrtc in Resources */,
-				2AECE2C318F8D9930094C8CB /* MAGameHelpViewController.xib in Resources */,
 				2AECE19E18F8D3060094C8CB /* Night Sky.pvrtc in Resources */,
 				2AECE1DF18F8D3B20094C8CB /* btnMazesBackOrange.png in Resources */,
 				2AECE2D018F8D9930094C8CB /* MARatingViewController.xib in Resources */,
@@ -1286,8 +1290,8 @@
 				2AECE1B318F8D3060094C8CB /* Teddy Bear.png in Resources */,
 				2AECE2C018F8D9930094C8CB /* MADesignViewController.xib in Resources */,
 				2AECE2D218F8D9930094C8CB /* MATexturesViewController.xib in Resources */,
-				2AECE2D618F8D9930094C8CB /* MATopMazeTableViewCell.xib in Resources */,
 				2AECE1E218F8D3B20094C8CB /* btnCreateOrange.png in Resources */,
+				2A890CA718FE3CCC00F96157 /* MATopMazeTableViewCell.xib in Resources */,
 				2AECE1DA18F8D3B20094C8CB /* DesignBackground.png in Resources */,
 				2AECE11318F8D2EF0094C8CB /* Speedalizer.caf in Resources */,
 				2AECE1AF18F8D3060094C8CB /* Sky 2.png in Resources */,
@@ -1300,6 +1304,7 @@
 				2AECE17318F8D3060094C8CB /* Blue.png in Resources */,
 				2AECE1AE18F8D3060094C8CB /* Sky 1.pvrtc in Resources */,
 				2AECE0E318F8CDCA0094C8CB /* Development Notes.txt in Resources */,
+				2A890CA918FE528200F96157 /* MAInstructionsViewController.xib in Resources */,
 				2AECE1A518F8D3060094C8CB /* Purple Marble.png in Resources */,
 				2AECE1BD18F8D3060094C8CB /* Wood 3.png in Resources */,
 				2AECE1C218F8D3060094C8CB /* Yellow.pvrtc in Resources */,
@@ -1411,6 +1416,7 @@
 				2AECE21518F8D5090094C8CB /* MATopMazesScreenStyle.m in Sources */,
 				2AECE2BF18F8D9930094C8CB /* MADesignViewController.m in Sources */,
 				2AECE2C418F8D9930094C8CB /* MAGameViewController.m in Sources */,
+				2A890CAC18FE52AD00F96157 /* MAInstructionsViewController.m in Sources */,
 				2AECE2C918F8D9930094C8CB /* MAMainViewController.m in Sources */,
 				2AECE27518F8D62E0094C8CB /* MATextureManager.m in Sources */,
 				2AECE27018F8D62E0094C8CB /* MAEvent.m in Sources */,
@@ -1420,8 +1426,8 @@
 				2AECE2CC18F8D9930094C8CB /* MAMazeView.m in Sources */,
 				2AECE27D18F8D6A40094C8CB /* MAMazeSummary.m in Sources */,
 				2AECE2E518F8DB600094C8CB /* MAInfoPopupView.m in Sources */,
-				2AECE2D518F8D9930094C8CB /* MATopMazeTableViewCell.m in Sources */,
 				F49ED74417FDA9CA00D9BABD /* MASize.m in Sources */,
+				2A890CA618FE3CCC00F96157 /* MATopMazeTableViewCell.m in Sources */,
 				2AECE27118F8D62E0094C8CB /* MAEventManager.m in Sources */,
 				2AECE0ED18F8CDF90094C8CB /* main.m in Sources */,
 				2AECE20C18F8D5090094C8CB /* MADesignScreenStyle.m in Sources */,

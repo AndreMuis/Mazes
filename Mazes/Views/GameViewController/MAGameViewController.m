@@ -15,6 +15,7 @@
 #import "MALocation.h"
 #import "MAGameScreenStyle.h"
 #import "MAInfoPopupView.h"
+#import "MAInstructionsViewController.h"
 #import "MAMainViewController.h"
 #import "MAMapStyle.h"
 #import "MAMapView.h"
@@ -41,7 +42,7 @@
 @property (readonly, strong, nonatomic) MASoundManager *soundManager;
 @property (readonly, strong, nonatomic) MAStyles *styles;
 
-@property (strong, nonatomic) ADBannerView *bannerView;
+@property (readonly, strong, nonatomic) ADBannerView *bannerView;
 @property (readwrite, assign, nonatomic) BOOL showingFullScreenAd;
 
 @property (strong, nonatomic) MALocation *previousLocation;
@@ -72,7 +73,7 @@
 @property (assign, nonatomic) BOOL wallRemoved;
 @property (assign, nonatomic) BOOL directionReversed;
 
-@property (strong, nonatomic) UIPopoverController *popoverController2;
+@property (strong, nonatomic) UIPopoverController *instructionsPopoverController;
 
 @property (weak, nonatomic) IBOutlet UIImageView *backImageView;
 
@@ -116,7 +117,6 @@
         _styles = [MAStyles styles];
     
         _bannerView = bannerView;
-        
         _showingFullScreenAd = NO;
         
         _maze = nil;
@@ -147,6 +147,8 @@
         [MAUtilities logWithClass: [self class] format: @"Change of value for keyPath: %@ of object: %@ not handled.", keyPath, object];
     }
 }
+
+#pragma mark - UIViewController
 
 - (void)viewDidLoad
 {
@@ -213,7 +215,28 @@
 
     if (self.showingFullScreenAd == NO)
     {
+        self.mazeView.userInteractionEnabled = NO;
+        
+        self.activityIndicatorView.hidden = NO;
+        [self.activityIndicatorView startAnimating];
+        
         [self startSetup];
+    }
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    if ([self.bannerView isDescendantOfView: self.view] == NO)
+    {
+        self.bannerView.frame = CGRectMake(self.bannerView.frame.origin.x,
+                                           self.view.frame.size.height - self.bannerView.frame.size.height,
+                                           self.bannerView.frame.size.width,
+                                           self.bannerView.frame.size.height);
+        self.bannerView.delegate = self;
+    
+        [self.view addSubview: self.bannerView];
     }
 }
 
@@ -223,8 +246,49 @@
     
     if (self.showingFullScreenAd == NO)
     {
-        self.mapView.directionArrowImageView.hidden = NO;
+        self.mapView.directionArrowImageView.hidden = NO;        
     }
+}
+
+- (void)viewWillDisappear: (BOOL)animated
+{
+	[super viewWillDisappear: animated];
+    
+    if (self.showingFullScreenAd == NO)
+    {
+        // reset GL coordinates
+        [self.mazeView translateDGLX: -self.mazeView.glX dGLY: 0.0 dGLZ: -self.mazeView.glZ];
+        [self.mazeView rotateDTheta: -self.mazeView.theta];
+        
+        [self.movements removeAllObjects];
+        
+        if (self.instructionsPopoverController.popoverVisible == YES)
+        {
+            [self.instructionsPopoverController dismissPopoverAnimated: YES];
+        }
+    }
+}
+
+- (void)viewDidDisappear: (BOOL)animated
+{
+    if (self.showingFullScreenAd == NO)
+    {
+        self.maze = nil;
+        self.mazeSummary = nil;
+        
+        [self.mapView clear];
+        [self clearMessage];
+        [self.mazeView clearMaze];
+    }
+    
+    [super viewDidDisappear: animated];
+}
+
+- (void)viewDidUnload
+{
+	[self.mazeView deleteTextures];
+    
+	[super viewDidUnload];
 }
 
 - (BOOL)bannerViewActionShouldBegin: (ADBannerView *)banner willLeaveApplication: (BOOL)willLeave
@@ -242,33 +306,8 @@
 {
     if (self.mazeSummary != nil && self.soundManager.count >= 1 && self.textureManager.count >= 1)
     {
-        self.titleLabel.text = self.maze.name;
+        self.titleLabel.text = self.mazeSummary.name;
         
-        self.mazeView.userInteractionEnabled = NO;
-        
-        
-        
-        UIView *view = [[UIView alloc] initWithFrame: CGRectMake(self.bannerView.frame.origin.x,
-                                                                 self.view.frame.size.height - self.bannerView.frame.size.height,
-                                                                 self.bannerView.frame.size.width,
-                                                                 self.bannerView.frame.size.height)];
-        view.backgroundColor = [UIColor redColor];
-        
-        [self.view addSubview: view];
-        
-        
-        
-        self.bannerView.frame = CGRectMake(self.bannerView.frame.origin.x,
-                                           self.view.frame.size.height - self.bannerView.frame.size.height,
-                                           self.bannerView.frame.size.width,
-                                           self.bannerView.frame.size.height);
-        self.bannerView.delegate = self;
-        
-        //[self.view addSubview: self.bannerView];
-        
-        self.activityIndicatorView.hidden = NO;
-        [self.activityIndicatorView startAnimating];
-
         [self downloadMaze];
     }
 }
@@ -977,75 +1016,38 @@
 {
 	self.instructionsImageView.image = [UIImage imageNamed: @"btnHowToPlayBlue.png"];
 	
-	[self displayHelp];
+	[self displayInstructions];
 }
 
-- (void)displayHelp
+- (void)displayInstructions
 {
-	if (self.popoverController2.popoverVisible == YES)
-	{
-		[self.popoverController2 dismissPopoverAnimated: YES];
-		return;
-	}
-	
-	UIViewController *vcHelp = [[UIViewController alloc] initWithNibName: @"GameHelpViewController" bundle: nil];
-	vcHelp.view.backgroundColor = self.styles.gameScreen.helpBackgroundColor;
-	
-	UILabel *label = (UILabel *)[vcHelp.view.subviews objectAtIndex: 0];
-	label.textColor = self.styles.gameScreen.helpTextColor;
-	
-	UIPopoverController *pcPopover = [[UIPopoverController alloc] initWithContentViewController: vcHelp];
+	MAInstructionsViewController *viewController = [[MAInstructionsViewController alloc] initWithNibName: @"MAInstructionsViewController" bundle: nil];
 
-	pcPopover.popoverContentSize = CGSizeMake(vcHelp.view.frame.size.width, vcHelp.view.frame.size.height);
+	self.instructionsPopoverController = [[UIPopoverController alloc] initWithContentViewController: viewController];
 
-	pcPopover.delegate = self;
+	self.instructionsPopoverController.popoverContentSize = viewController.view.frame.size;
 
-	self.popoverController2 = pcPopover;
-
-	[self.popoverController2 presentPopoverFromRect: self.instructionsButton.frame
-                                             inView: self.view
-                           permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
-}
-
-- (void)viewWillDisappear: (BOOL)animated
-{
-	[super viewWillDisappear: animated];
-
-	// reset GL coordinates
-	[self.mazeView translateDGLX: -self.mazeView.glX dGLY: 0.0 dGLZ: -self.mazeView.glZ];
-	[self.mazeView rotateDTheta: -self.mazeView.theta];
-	
-	[self.movements removeAllObjects];
-
-	if (self.popoverController2.popoverVisible == YES)
-    {
-		[self.popoverController2 dismissPopoverAnimated: YES];
-    }
-}
-
-- (void)viewDidDisappear: (BOOL)animated
-{
-    if (self.isMovingToParentViewController)
-    {
-        self.maze = nil;
-        self.mazeSummary = nil;
-        
-        [self.mapView clear];
-        [self clearMessage];
-        [self.mazeView clearMaze];
-    }
-    
-    [super viewDidDisappear: animated];
-}
-
-- (void)viewDidUnload
-{
-	[self.mazeView deleteTextures];
-
-	[super viewDidUnload];
+	[self.instructionsPopoverController presentPopoverFromRect: self.instructionsButton.frame
+                                                        inView: self.view
+                                      permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

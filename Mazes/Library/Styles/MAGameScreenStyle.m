@@ -30,8 +30,8 @@
         _titleFont = [UIFont boldSystemFontOfSize: 19];
         _titleTextColor = colors.darkBrown1Color;
         
-        _helpBackgroundColor = colors.lightYellow2Color;
-        _helpTextColor = colors.darkBrown2Color;
+        _instructionsBackgroundColor = colors.lightYellow2Color;
+        _instructionsTextColor = colors.darkBrown2Color;
         
         _borderColor = colors.lightBrownColor;
         

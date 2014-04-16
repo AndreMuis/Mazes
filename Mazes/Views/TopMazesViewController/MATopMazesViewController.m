@@ -149,17 +149,22 @@
         {
             [self downloadTopMazeSummariesWithType: self.selectedTopMazeSummariesType];
         }
+    }
+}
 
-        if ([self.bannerView isDescendantOfView: self.view] == NO)
-        {
-            self.bannerView.frame = CGRectMake(self.bannerView.frame.origin.x,
-                                               self.tableView.frame.origin.y + self.tableView.frame.size.height,
-                                               self.bannerView.frame.size.width,
-                                               self.bannerView.frame.size.height);
-            self.bannerView.delegate = self;
-            
-            [self.view addSubview: self.bannerView];
-        }
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    if ([self.bannerView isDescendantOfView: self.view] == NO)
+    {
+        self.bannerView.frame = CGRectMake(self.bannerView.frame.origin.x,
+                                           self.tableView.frame.origin.y + self.tableView.frame.size.height,
+                                           self.bannerView.frame.size.width,
+                                           self.bannerView.frame.size.height);
+        self.bannerView.delegate = self;
+        
+        [self.view addSubview: self.bannerView];
     }
 }
 
