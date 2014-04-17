@@ -12,18 +12,18 @@
 
 @interface MAMapStyle : NSObject
 
-@property (assign, nonatomic) float length;
-@property (assign, nonatomic) float wallWidth;
-@property (assign, nonatomic) float squareWidth;
-@property (strong, nonatomic) UIColor *backgroundColor;
-@property (strong, nonatomic) UIColor *doNothingColor;
-@property (strong, nonatomic) UIColor *startColor;
-@property (strong, nonatomic) UIColor *endColor;
-@property (strong, nonatomic) UIColor *startOverColor;
-@property (strong, nonatomic) UIColor *teleportationColor;
-@property (strong, nonatomic) UIColor *wallColor;
-@property (strong, nonatomic) UIColor *noWallColor;
-@property (strong, nonatomic) UIColor *invisibleColor;	
+@property (readonly, assign, nonatomic) float length;
+@property (readonly, assign, nonatomic) float wallWidth;
+@property (readonly, assign, nonatomic) float squareWidth;
+@property (readonly, strong, nonatomic) UIColor *backgroundColor;
+@property (readonly, strong, nonatomic) UIColor *doNothingColor;
+@property (readonly, strong, nonatomic) UIColor *startColor;
+@property (readonly, strong, nonatomic) UIColor *endColor;
+@property (readonly, strong, nonatomic) UIColor *startOverColor;
+@property (readonly, strong, nonatomic) UIColor *teleportationColor;
+@property (readonly, strong, nonatomic) UIColor *wallColor;
+@property (readonly, strong, nonatomic) UIColor *noWallColor;
+@property (readonly, strong, nonatomic) UIColor *invisibleColor;	
 
 + (MAMapStyle *)mapStyle;
 

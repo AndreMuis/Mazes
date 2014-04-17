@@ -12,11 +12,11 @@
 
 @interface MATopMazesScreenStyle : NSObject
 
-@property (strong, nonatomic) UIColor *tableBackgroundColor;
-@property (strong, nonatomic) UIColor *textColor;
+@property (readonly, strong, nonatomic) UIColor *tableBackgroundColor;
+@property (readonly, strong, nonatomic) UIColor *textColor;
 
-@property (strong, nonatomic) UIColor *averageRatingStarColor;
-@property (strong, nonatomic) UIColor *userRatingStarColor;
+@property (readonly, strong, nonatomic) UIColor *averageRatingStarColor;
+@property (readonly, strong, nonatomic) UIColor *userRatingStarColor;
 
 + (MATopMazesScreenStyle *)topMazesScreenStyle;
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -17,10 +17,10 @@
                 <outlet property="defaultFloorTextureButton" destination="238" id="6h0-t4-nw2"/>
                 <outlet property="defaultWallTextureButton" destination="237" id="DK4-w0-XWX"/>
                 <outlet property="directionTableView" destination="122" id="292"/>
+                <outlet property="floorPlanView" destination="181" id="bVa-rc-SDo"/>
                 <outlet property="floorTextureButton" destination="253" id="eKs-Rq-IOD"/>
                 <outlet property="graphicsButton" destination="216" id="273"/>
                 <outlet property="graphicsView" destination="225" id="310"/>
-                <outlet property="gridView" destination="181" id="182"/>
                 <outlet property="locationButton" destination="214" id="271"/>
                 <outlet property="locationScrollView" destination="247" id="290"/>
                 <outlet property="locationTypeTableView" destination="107" id="291"/>
@@ -508,7 +508,7 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </label>
-                <view contentMode="scaleToFill" id="181" userLabel="gridView" customClass="MAGridView">
+                <view contentMode="scaleToFill" id="181" userLabel="floorPlanView" customClass="MAFloorPlanView">
                     <rect key="frame" x="16" y="275" width="735" height="735"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>

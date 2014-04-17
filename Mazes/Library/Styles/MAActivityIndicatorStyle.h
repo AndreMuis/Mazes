@@ -12,7 +12,7 @@
 
 @interface MAActivityIndicatorStyle : NSObject
 
-@property (strong, nonatomic) UIColor *color;
+@property (readonly, strong, nonatomic) UIColor *color;
 
 + (MAActivityIndicatorStyle *)activityIndicatorStyle;
 

@@ -44,9 +44,8 @@
                 rating: (float)rating
       dismissedHandler: (PopupViewDismissedHandler)dismissedHandler
 {
-    [super showWithStyles: styles
-               parentView: parentView
-         dismissedHandler: dismissedHandler];
+    [super showWithParentView: parentView
+             dismissedHandler: dismissedHandler];
     
     _ratingViewDelegate = ratingViewDelegate;
     

@@ -42,9 +42,8 @@
      cancelButtonTitle: (NSString *)cancelButtonTitle
       dismissedHandler: (PopupViewDismissedHandler)dismissedHandler;
 {
-    [super showWithStyles: styles
-               parentView: parentView
-         dismissedHandler: dismissedHandler];
+    [super showWithParentView: parentView
+             dismissedHandler: dismissedHandler];
     
     self.messageLabel.backgroundColor = [UIColor clearColor];
     self.messageLabel.textAlignment = NSTextAlignmentCenter;

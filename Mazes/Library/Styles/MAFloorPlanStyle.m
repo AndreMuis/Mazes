@@ -1,21 +1,21 @@
 //
-//  MACanvasStyle.m
+//  MAFloorPlanStyle.m
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
 //  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
-#import "MACanvasStyle.h"
+#import "MAFloorPlanStyle.h"
 
 #import "MAColors.h"
 
-@implementation MACanvasStyle
+@implementation MAFloorPlanStyle
 
-+ (MACanvasStyle *)canvasStyle
++ (MAFloorPlanStyle *)floorPlanStyle
 {
-    MACanvasStyle *canvasStyle = [[MACanvasStyle alloc] init];
-    return canvasStyle;
+    MAFloorPlanStyle *floorPlanStyle = [[MAFloorPlanStyle alloc] init];
+    return floorPlanStyle;
 }
 
 - (id)init

@@ -10,8 +10,8 @@
 
 #import "MAMaze.h"
 
-#import "MACanvasStyle.h"
 #import "MACoordinate.h"
+#import "MAFloorPlanStyle.h"
 #import "MASize.h"
 #import "MASound.h"
 #import "MATexture.h"

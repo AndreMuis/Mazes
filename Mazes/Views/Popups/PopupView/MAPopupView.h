@@ -17,9 +17,8 @@ typedef void (^PopupViewDismissedHandler)();
 
 @property (readonly, strong, nonatomic) MAStyles *styles;
 
-- (void)showWithStyles: (MAStyles *)styles
-            parentView: (UIView *)parentView
-      dismissedHandler: (PopupViewDismissedHandler)dismissedHandler;
+- (void)showWithParentView: (UIView *)parentView
+          dismissedHandler: (PopupViewDismissedHandler)dismissedHandler;
 
 - (void)animateUp;
 - (void)animateDown;

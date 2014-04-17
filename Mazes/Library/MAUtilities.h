@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class AppDelegate;
-@class MACanvasStyle;
+@class MAFloorPlanStyle;
 
 @interface MAUtilities : NSObject 
 
@@ -28,7 +28,7 @@
 
 + (UIImage *)createDirectionArrowImageWidth: (CGFloat)width height: (CGFloat)height;
 
-+ (void)drawArrowInRect: (CGRect)rect angleDegrees: (double)angle scale: (float)scale canvasStyle: (MACanvasStyle *)canvasStyle;
++ (void)drawArrowInRect: (CGRect)rect angleDegrees: (double)angle scale: (float)scale floorPlanStyle: (MAFloorPlanStyle *)floorPlanStyle;
 
 + (void)rotateX: (float *)x y: (float *)y angleDegrees: (double)dangle;
 

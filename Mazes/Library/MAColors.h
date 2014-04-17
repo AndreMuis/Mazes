@@ -41,6 +41,7 @@
 @property (readonly, strong, nonatomic) UIColor *orangeColor;
 @property (readonly, strong, nonatomic) UIColor *lightOrange1Color;
 @property (readonly, strong, nonatomic) UIColor *lightOrange2Color;
+@property (readonly, strong, nonatomic) UIColor *lightOrange3Color;
 
 @property (readonly, strong, nonatomic) UIColor *orangeRedColor;
 

@@ -1,21 +1,27 @@
 //
-//  MAGridView.m
+//  MAFloorPlanView.m
 //  Mazes
 //
 //  Created by Andre Muis on 1/31/11.
 //  Copyright 2011 Andre Muis. All rights reserved.
 //
 
-#import "MAGridView.h"
+#import "MAFloorPlanView.h"
 
-#import "MACanvasStyle.h"
+#import "MAFloorPlanStyle.h"
 #import "MALocation.h"
 #import "MASize.h"
 #import "MAStyles.h"
 #import "MAUtilities.h"
 #import "MAWall.h"
 
-@implementation MAGridView
+@interface MAFloorPlanView ()
+
+@property (readonly, strong, nonatomic) MAStyles *styles;
+
+@end
+
+@implementation MAFloorPlanView
 
 - (id)initWithCoder: (NSCoder *)coder 
 {    
@@ -24,7 +30,7 @@
     if (self) 
 	{
         _maze = nil;
-        _styles = nil;
+        _styles = [MAStyles styles];
     }
 	
 	return self;
@@ -32,7 +38,7 @@
 
 - (void)didMoveToWindow
 {
-    self.backgroundColor = self.styles.canvas.backgroundColor;
+    self.backgroundColor = self.styles.floorPlan.backgroundColor;
     
     [super didMoveToWindow];
 }
@@ -50,27 +56,27 @@
 			
 			if (location.action == MALocationActionStart)
 			{
-				CGContextSetFillColorWithColor(context, self.styles.canvas.startColor.CGColor);
+				CGContextSetFillColorWithColor(context, self.styles.floorPlan.startColor.CGColor);
 			}
 			else if (location.action == MALocationActionEnd)
 			{
-				CGContextSetFillColorWithColor(context, self.styles.canvas.endColor.CGColor);
+				CGContextSetFillColorWithColor(context, self.styles.floorPlan.endColor.CGColor);
 			}
 			else if (location.action == MALocationActionStartOver)
 			{
-				CGContextSetFillColorWithColor(context, self.styles.canvas.startOverColor.CGColor);
+				CGContextSetFillColorWithColor(context, self.styles.floorPlan.startOverColor.CGColor);
 			}
 			else if (location.action == MALocationActionTeleport)
 			{
-				CGContextSetFillColorWithColor(context, self.styles.canvas.teleportationColor.CGColor);
+				CGContextSetFillColorWithColor(context, self.styles.floorPlan.teleportationColor.CGColor);
 			}
 			else if ([location.message isEqualToString: @""] == NO)
 			{
-				CGContextSetFillColorWithColor(context, self.styles.canvas.messageColor.CGColor);
+				CGContextSetFillColorWithColor(context, self.styles.floorPlan.messageColor.CGColor);
 			}
 			else if (location.action == MALocationActionDoNothing)
 			{
-				CGContextSetFillColorWithColor(context, self.styles.canvas.doNothingColor.CGColor);
+				CGContextSetFillColorWithColor(context, self.styles.floorPlan.doNothingColor.CGColor);
 			}
             else
             {
@@ -81,15 +87,15 @@
 			
 			if (location.action == MALocationActionStart || location.action == MALocationActionTeleport)
 			{
-				[MAUtilities drawArrowInRect: locationRect angleDegrees: location.direction scale: 0.8 canvasStyle: self.styles.canvas];
+				[MAUtilities drawArrowInRect: locationRect angleDegrees: location.direction scale: 0.8 floorPlanStyle: self.styles.floorPlan];
 				
 				if (location.action == MALocationActionTeleport)
 				{
-					CGContextSetFillColorWithColor(context, self.styles.canvas.teleportIdColor.CGColor);
+					CGContextSetFillColorWithColor(context, self.styles.floorPlan.teleportIdColor.CGColor);
                     
 					NSString *num = [NSString stringWithFormat: @"%d", location.teleportId];
                     
-                    NSDictionary *attribues = @{NSFontAttributeName : [UIFont systemFontOfSize: self.styles.canvas.teleportFontSize]};
+                    NSDictionary *attribues = @{NSFontAttributeName : [UIFont systemFontOfSize: self.styles.floorPlan.teleportFontSize]};
                     
                     [num drawInRect: locationRect
                      withAttributes: attribues];
@@ -99,8 +105,8 @@
 			if (location.floorTextureId != nil || location.ceilingTextureId != nil)
 			{
 				[MAUtilities drawBorderInsideRect: locationRect
-                                        withWidth: self.styles.canvas.textureHighlightWidth
-                                            color: self.styles.canvas.textureHighlightColor];
+                                        withWidth: self.styles.floorPlan.textureHighlightWidth
+                                            color: self.styles.floorPlan.textureHighlightColor];
 			}
             
 			if (self.maze.currentSelectedLocation != nil)
@@ -109,8 +115,8 @@
                     location.column == self.maze.currentSelectedLocation.column)
 				{
 					[MAUtilities drawBorderInsideRect: locationRect
-                                            withWidth: self.styles.canvas.locationHighlightWidth
-                                                color: self.styles.canvas.locationHighlightColor];
+                                            withWidth: self.styles.floorPlan.locationHighlightWidth
+                                                color: self.styles.floorPlan.locationHighlightColor];
 				}
 			}
 		}
@@ -127,23 +133,23 @@
             switch (northWall.type)
             {
                 case MAWallNone:
-                    CGContextSetFillColorWithColor(context, self.styles.canvas.noWallColor.CGColor);
+                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.noWallColor.CGColor);
                     break;
                     
                 case MAWallBorder:
-                    CGContextSetFillColorWithColor(context, self.styles.canvas.borderColor.CGColor);
+                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderColor.CGColor);
                     break;
 
                 case MAWallSolid:
-                    CGContextSetFillColorWithColor(context, self.styles.canvas.solidColor.CGColor);
+                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.solidColor.CGColor);
                     break;
                     
                 case MAWallInvisible:
-                    CGContextSetFillColorWithColor(context, self.styles.canvas.invisibleColor.CGColor);
+                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.invisibleColor.CGColor);
                     break;
 
                 case MAWallFake:
-                    CGContextSetFillColorWithColor(context, self.styles.canvas.fakeColor.CGColor);
+                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.fakeColor.CGColor);
                     break;
                     
                 default:
@@ -156,8 +162,8 @@
 			if (northWall.textureId != nil)
 			{
 				[MAUtilities drawBorderInsideRect: northWallRect
-                                        withWidth: self.styles.canvas.textureHighlightWidth
-                                            color: self.styles.canvas.textureHighlightColor];
+                                        withWidth: self.styles.floorPlan.textureHighlightWidth
+                                            color: self.styles.floorPlan.textureHighlightColor];
 			}
             
 			if (self.maze.currentSelectedWall != nil)
@@ -167,8 +173,8 @@
                     self.maze.currentSelectedWall.direction == MADirectionNorth)
 				{
 					[MAUtilities drawBorderInsideRect: northWallRect
-                                            withWidth: self.styles.canvas.wallHighlightWidth
-                                                color: self.styles.canvas.locationHighlightColor];
+                                            withWidth: self.styles.floorPlan.wallHighlightWidth
+                                                color: self.styles.floorPlan.locationHighlightColor];
 				}
 			}
 		}
@@ -185,23 +191,23 @@
             switch (westWall.type)
             {
                 case MAWallNone:
-					CGContextSetFillColorWithColor(context, self.styles.canvas.noWallColor.CGColor);
+					CGContextSetFillColorWithColor(context, self.styles.floorPlan.noWallColor.CGColor);
                     break;
 
                 case MAWallBorder:
-                    CGContextSetFillColorWithColor(context, self.styles.canvas.borderColor.CGColor);
+                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderColor.CGColor);
                     break;
                     
                 case MAWallSolid:
-                    CGContextSetFillColorWithColor(context, self.styles.canvas.solidColor.CGColor);
+                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.solidColor.CGColor);
                     break;
                     
                 case MAWallInvisible:
-					CGContextSetFillColorWithColor(context, self.styles.canvas.invisibleColor.CGColor);
+					CGContextSetFillColorWithColor(context, self.styles.floorPlan.invisibleColor.CGColor);
                     break;
                     
                 case MAWallFake:
-					CGContextSetFillColorWithColor(context, self.styles.canvas.fakeColor.CGColor);
+					CGContextSetFillColorWithColor(context, self.styles.floorPlan.fakeColor.CGColor);
                     break;
                     
                 default:
@@ -214,8 +220,8 @@
 			if (westWall.textureId != nil)
 			{
 				[MAUtilities drawBorderInsideRect: westWallRect
-                                        withWidth: self.styles.canvas.textureHighlightWidth
-                                            color: self.styles.canvas.textureHighlightColor];
+                                        withWidth: self.styles.floorPlan.textureHighlightWidth
+                                            color: self.styles.floorPlan.textureHighlightColor];
 			}
 			
 			if (self.maze.currentSelectedWall != nil)
@@ -225,8 +231,8 @@
                     self.maze.currentSelectedWall.direction == MADirectionWest)
 				{
 					[MAUtilities drawBorderInsideRect: westWallRect
-                                            withWidth: self.styles.canvas.wallHighlightWidth
-                                                color: self.styles.canvas.locationHighlightColor];
+                                            withWidth: self.styles.floorPlan.wallHighlightWidth
+                                                color: self.styles.floorPlan.locationHighlightColor];
 				}
 			}
 		}
@@ -237,12 +243,12 @@
 		if (location.row > 1 && location.row <= self.maze.rows &&
             location.column > 1 && location.column <= self.maze.columns)
 		{
-			CGContextSetFillColorWithColor(context, self.styles.canvas.cornerColor.CGColor);
+			CGContextSetFillColorWithColor(context, self.styles.floorPlan.cornerColor.CGColor);
 			CGContextFillRect(context, cornerRect);
 		}
 		else
 		{
-			CGContextSetFillColorWithColor(context, self.styles.canvas.borderColor.CGColor);
+			CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderColor.CGColor);
 			CGContextFillRect(context, cornerRect);
 		}
 	}
@@ -261,10 +267,10 @@
 	{
 		CGRect locationRect = [self locationRectWithLocation: location];
         
-		CGRect touchRect = CGRectMake(locationRect.origin.x - self.styles.canvas.segmentLengthShort / 2.0,
-                                      locationRect.origin.y - self.styles.canvas.segmentLengthShort / 2.0,
-                                      self.styles.canvas.segmentLengthLong + self.styles.canvas.segmentLengthShort,
-                                      self.styles.canvas.segmentLengthLong + self.styles.canvas.segmentLengthShort);
+		CGRect touchRect = CGRectMake(locationRect.origin.x - self.styles.floorPlan.segmentLengthShort / 2.0,
+                                      locationRect.origin.y - self.styles.floorPlan.segmentLengthShort / 2.0,
+                                      self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort,
+                                      self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort);
 		
 		if (CGRectContainsPoint(touchRect, touchPoint) &&
             location.row <= self.maze.rows && location.column <= self.maze.columns)
@@ -283,7 +289,7 @@
 	CGPoint wallOrigin = CGPointZero;
 	
 	float tx = 0.0, ty = 0.0;
-	float b = (self.styles.canvas.segmentLengthLong + self.styles.canvas.segmentLengthShort) / 2.0;
+	float b = (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort) / 2.0;
 	
 	for (MAWall *wall in [self.maze allWalls])
 	{
@@ -327,10 +333,10 @@
 
 - (CGRect)locationRectWithLocation: (MALocation *)location
 {
-    CGRect locationRect = CGRectMake(self.styles.canvas.segmentLengthShort + (location.column - 1) * (self.styles.canvas.segmentLengthLong + self.styles.canvas.segmentLengthShort),
-                                     self.styles.canvas.segmentLengthShort + (location.row - 1) * (self.styles.canvas.segmentLengthLong + self.styles.canvas.segmentLengthShort),
-                                     self.styles.canvas.segmentLengthLong,
-                                     self.styles.canvas.segmentLengthLong);
+    CGRect locationRect = CGRectMake(self.styles.floorPlan.segmentLengthShort + (location.column - 1) * (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort),
+                                     self.styles.floorPlan.segmentLengthShort + (location.row - 1) * (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort),
+                                     self.styles.floorPlan.segmentLengthLong,
+                                     self.styles.floorPlan.segmentLengthLong);
     
 	return locationRect;
 }
@@ -342,17 +348,17 @@
     switch (wall.direction)
     {
         case MADirectionWest:
-            wallRect = CGRectMake((wall.column - 1) * (self.styles.canvas.segmentLengthShort + self.styles.canvas.segmentLengthLong),
-                                  self.styles.canvas.segmentLengthShort + (wall.row - 1) * (self.styles.canvas.segmentLengthShort + self.styles.canvas.segmentLengthLong),
-                                  self.styles.canvas.segmentLengthShort,
-                                  self.styles.canvas.segmentLengthLong);
+            wallRect = CGRectMake((wall.column - 1) * (self.styles.floorPlan.segmentLengthShort + self.styles.floorPlan.segmentLengthLong),
+                                  self.styles.floorPlan.segmentLengthShort + (wall.row - 1) * (self.styles.floorPlan.segmentLengthShort + self.styles.floorPlan.segmentLengthLong),
+                                  self.styles.floorPlan.segmentLengthShort,
+                                  self.styles.floorPlan.segmentLengthLong);
             break;
             
         case MADirectionNorth:
-            wallRect = CGRectMake(self.styles.canvas.segmentLengthShort + (wall.column - 1) * (self.styles.canvas.segmentLengthShort + self.styles.canvas.segmentLengthLong),
-                                  (wall.row - 1) * (self.styles.canvas.segmentLengthShort + self.styles.canvas.segmentLengthLong),
-                                  self.styles.canvas.segmentLengthLong,
-                                  self.styles.canvas.segmentLengthShort);
+            wallRect = CGRectMake(self.styles.floorPlan.segmentLengthShort + (wall.column - 1) * (self.styles.floorPlan.segmentLengthShort + self.styles.floorPlan.segmentLengthLong),
+                                  (wall.row - 1) * (self.styles.floorPlan.segmentLengthShort + self.styles.floorPlan.segmentLengthLong),
+                                  self.styles.floorPlan.segmentLengthLong,
+                                  self.styles.floorPlan.segmentLengthShort);
             break;
 
         default:
@@ -368,10 +374,10 @@
 {
     CGRect cornerRect;
     
-    cornerRect = CGRectMake((location.column - 1) * (self.styles.canvas.segmentLengthLong + self.styles.canvas.segmentLengthShort),
-                            (location.row - 1) * (self.styles.canvas.segmentLengthLong + self.styles.canvas.segmentLengthShort),
-                            self.styles.canvas.segmentLengthShort,
-                            self.styles.canvas.segmentLengthShort);
+    cornerRect = CGRectMake((location.column - 1) * (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort),
+                            (location.row - 1) * (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort),
+                            self.styles.floorPlan.segmentLengthShort,
+                            self.styles.floorPlan.segmentLengthShort);
             
 	return cornerRect;
 }

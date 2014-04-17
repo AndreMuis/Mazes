@@ -15,7 +15,7 @@
 #import "MADesignScreenStyle.h"
 #import "MAEventManager.h"
 #import "MAEvent.h"
-#import "MAGridView.h"
+#import "MAFloorPlanView.h"
 #import "MALocation.h"
 #import "MAMainViewController.h"
 #import "MAMazeManager.h"
@@ -153,8 +153,7 @@
 	self.message2Label.backgroundColor = self.styles.designScreen.messageBackgroundColor;
 	self.message2Label.textColor = self.styles.designScreen.messageTextColor;
 	
-    self.gridView.maze = self.maze;
-    self.gridView.styles = self.styles;
+    self.floorPlanView.maze = self.maze;
     
 	UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapFrom:)];
 	tapRecognizer.cancelsTouchesInView = NO;
@@ -175,7 +174,7 @@
 {
 	[super viewWillAppear: animated];
 	
-	[self.gridView refresh];
+	[self.floorPlanView refresh];
 
     [self setupTexturesPopover];
 }
@@ -303,9 +302,9 @@
 
 - (void)handleTapFrom: (UITapGestureRecognizer *)recognizer 
 {
-	CGPoint touchPoint = [recognizer locationInView: self.gridView];
+	CGPoint touchPoint = [recognizer locationInView: self.floorPlanView];
 
-	MAWall *wall = [self.gridView wallWithTouchPoint: touchPoint];
+	MAWall *wall = [self.floorPlanView wallWithTouchPoint: touchPoint];
 
 	if (wall != nil)
 	{
@@ -348,7 +347,7 @@
 		
 		[self setupWallPanel];
 
-		[self.gridView refresh];
+		[self.floorPlanView refresh];
 	}		
 }
 
@@ -356,9 +355,9 @@
 {
 	if (recognizer.state == UIGestureRecognizerStateBegan)
 	{
-		CGPoint touchPoint = [recognizer locationInView: self.gridView];
+		CGPoint touchPoint = [recognizer locationInView: self.floorPlanView];
 
-		MALocation *location = [self.gridView locationWithTouchPoint: touchPoint];
+		MALocation *location = [self.floorPlanView locationWithTouchPoint: touchPoint];
 		
 		if (location != nil)
 		{			
@@ -417,7 +416,7 @@
 
 	[self setupLocationPanel];
 	
-	[self.gridView refresh];
+	[self.floorPlanView refresh];
 }
 
 - (BOOL)setNextLocationAsTeleportation
@@ -792,7 +791,7 @@
 		[self.backgroundSoundTableView deselectRowAtIndexPath: indexPath animated: YES];	
 	}	
 	
-	[self.gridView refresh];
+	[self.floorPlanView refresh];
 }
 
 - (void)resetCurrentLocation
@@ -1534,7 +1533,7 @@ BOOL exists;
 
 - (void)textViewDidEndEditing: (UITextView *)textView
 {
-	[self.gridView refresh];
+	[self.floorPlanView refresh];
 }
 
 - (void)textViewDidChange:(UITextView *)textView

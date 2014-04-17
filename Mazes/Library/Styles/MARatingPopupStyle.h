@@ -12,7 +12,7 @@
 
 @interface MARatingPopupStyle : NSObject
 
-@property (strong, nonatomic) UIColor *backgroundColor;
+@property (readonly, strong, nonatomic) UIColor *backgroundColor;
 
 + (MARatingPopupStyle *)ratingPopupStyle;
 

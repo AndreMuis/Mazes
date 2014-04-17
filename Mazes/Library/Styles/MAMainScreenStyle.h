@@ -10,7 +10,7 @@
 
 @interface MAMainScreenStyle : NSObject
 
-@property (nonatomic, assign, readonly) NSTimeInterval transitionDuration;
+@property (readonly, assign, nonatomic) NSTimeInterval transitionDuration;
 
 + (MAMainScreenStyle *)mainScreenStyle;
 

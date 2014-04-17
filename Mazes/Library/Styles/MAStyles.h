@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @class MAActivityIndicatorStyle;
-@class MACanvasStyle;
+@class MACreateScreenStyle;
 @class MADesignScreenStyle;
+@class MAFloorPlanStyle;
 @class MAFoundExitPopupStyle;
 @class MAGameScreenStyle;
 @class MAMainScreenStyle;
@@ -23,16 +24,17 @@
 
 @property (strong, nonatomic) UIFont *defaultFont;
 
-@property (strong, nonatomic) MAActivityIndicatorStyle *activityIndicator;
-@property (strong, nonatomic) MACanvasStyle *canvas;
-@property (strong, nonatomic) MADesignScreenStyle *designScreen;
-@property (strong, nonatomic) MAFoundExitPopupStyle *foundExitPopup;
-@property (strong, nonatomic) MAGameScreenStyle *gameScreen;
-@property (strong, nonatomic) MAMainScreenStyle *mainScreen;
-@property (strong, nonatomic) MAMapStyle *map;
-@property (strong, nonatomic) MAPopupStyle *popup;
-@property (strong, nonatomic) MARatingPopupStyle *ratingPopup;
-@property (strong, nonatomic) MATopMazesScreenStyle *topMazesScreen;
+@property (readonly, strong, nonatomic) MAActivityIndicatorStyle *activityIndicator;
+@property (readonly, strong, nonatomic) MACreateScreenStyle *createScreen;
+@property (readonly, strong, nonatomic) MADesignScreenStyle *designScreen;
+@property (readonly, strong, nonatomic) MAFloorPlanStyle *floorPlan;
+@property (readonly, strong, nonatomic) MAFoundExitPopupStyle *foundExitPopup;
+@property (readonly, strong, nonatomic) MAGameScreenStyle *gameScreen;
+@property (readonly, strong, nonatomic) MAMainScreenStyle *mainScreen;
+@property (readonly, strong, nonatomic) MAMapStyle *map;
+@property (readonly, strong, nonatomic) MAPopupStyle *popup;
+@property (readonly, strong, nonatomic) MARatingPopupStyle *ratingPopup;
+@property (readonly, strong, nonatomic) MATopMazesScreenStyle *topMazesScreen;
 
 + (MAStyles *)styles;
 

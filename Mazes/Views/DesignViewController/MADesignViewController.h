@@ -14,7 +14,7 @@
 @class MACreateViewController;
 @class MAEventManager;
 @class MAEvent;
-@class MAGridView;
+@class MAFloorPlanView;
 @class MAMainViewController;
 @class MAMazeManager;
 @class MAMaze;
@@ -77,7 +77,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *message1Label;
 @property (weak, nonatomic) IBOutlet UILabel *message2Label;
 
-@property (weak, nonatomic) IBOutlet MAGridView *gridView;
+@property (weak, nonatomic) IBOutlet MAFloorPlanView *floorPlanView;
 
 - (id)initWithWebServices: (MAWebServices *)webServices
              eventManager: (MAEventManager *)eventManager

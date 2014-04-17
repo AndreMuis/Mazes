@@ -66,7 +66,7 @@
 
 - (void)autologinWithCompletionHandler: (AutoLoginCompletionHandler)handler
 {
-    self.cloud.userName = @"TestUser3";
+    self.cloud.userName = @"TestUser4";
     self.cloud.password = @"Password1";
  
     self.isLoggingIn = YES;

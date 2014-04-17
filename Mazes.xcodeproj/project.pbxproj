@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A23F62E18FF8B530085B4FA /* MARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23F62C18FF8B530085B4FA /* MARatingViewController.m */; };
+		2A23F62F18FF8B530085B4FA /* MARatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A23F62D18FF8B530085B4FA /* MARatingViewController.xib */; };
+		2A23F63218FF982E0085B4FA /* MAFloorPlanView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23F63118FF982E0085B4FA /* MAFloorPlanView.m */; };
+		2A23F63518FF9C480085B4FA /* MACreateScreenStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23F63418FF9C480085B4FA /* MACreateScreenStyle.m */; };
 		2A890CA618FE3CCC00F96157 /* MATopMazeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A890CA418FE3CCC00F96157 /* MATopMazeTableViewCell.m */; };
 		2A890CA718FE3CCC00F96157 /* MATopMazeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A890CA518FE3CCC00F96157 /* MATopMazeTableViewCell.xib */; };
 		2A890CA918FE528200F96157 /* MAInstructionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A890CA818FE528200F96157 /* MAInstructionsViewController.xib */; };
@@ -140,7 +144,7 @@
 		2AECE1EB18F8D3B20094C8CB /* ListBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE1D818F8D3B20094C8CB /* ListBackground.png */; };
 		2AECE1EC18F8D3B20094C8CB /* ListTableCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE1D918F8D3B20094C8CB /* ListTableCell.png */; };
 		2AECE20918F8D5090094C8CB /* MAActivityIndicatorStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1F018F8D5090094C8CB /* MAActivityIndicatorStyle.m */; };
-		2AECE20A18F8D5090094C8CB /* MACanvasStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1F218F8D5090094C8CB /* MACanvasStyle.m */; };
+		2AECE20A18F8D5090094C8CB /* MAFloorPlanStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1F218F8D5090094C8CB /* MAFloorPlanStyle.m */; };
 		2AECE20C18F8D5090094C8CB /* MADesignScreenStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1F618F8D5090094C8CB /* MADesignScreenStyle.m */; };
 		2AECE20D18F8D5090094C8CB /* MAFoundExitPopupStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1F818F8D5090094C8CB /* MAFoundExitPopupStyle.m */; };
 		2AECE20E18F8D5090094C8CB /* MAGameScreenStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1FA18F8D5090094C8CB /* MAGameScreenStyle.m */; };
@@ -171,14 +175,11 @@
 		2AECE2C018F8D9930094C8CB /* MADesignViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE28B18F8D9930094C8CB /* MADesignViewController.xib */; };
 		2AECE2C418F8D9930094C8CB /* MAGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE29418F8D9930094C8CB /* MAGameViewController.m */; };
 		2AECE2C518F8D9930094C8CB /* MAGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE29518F8D9930094C8CB /* MAGameViewController.xib */; };
-		2AECE2C618F8D9930094C8CB /* MAGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE29818F8D9930094C8CB /* MAGridView.m */; };
 		2AECE2C918F8D9930094C8CB /* MAMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE29F18F8D9930094C8CB /* MAMainViewController.m */; };
 		2AECE2CA18F8D9930094C8CB /* MAMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2A018F8D9930094C8CB /* MAMainViewController.xib */; };
 		2AECE2CB18F8D9930094C8CB /* MAMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2A318F8D9930094C8CB /* MAMapView.m */; };
 		2AECE2CC18F8D9930094C8CB /* MAMazeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2A618F8D9930094C8CB /* MAMazeView.m */; };
 		2AECE2CE18F8D9930094C8CB /* MARatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2AC18F8D9930094C8CB /* MARatingView.m */; };
-		2AECE2CF18F8D9930094C8CB /* MARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2AF18F8D9930094C8CB /* MARatingViewController.m */; };
-		2AECE2D018F8D9930094C8CB /* MARatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2B018F8D9930094C8CB /* MARatingViewController.xib */; };
 		2AECE2D118F8D9930094C8CB /* MATexturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2B318F8D9930094C8CB /* MATexturesViewController.m */; };
 		2AECE2D218F8D9930094C8CB /* MATexturesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2B418F8D9930094C8CB /* MATexturesViewController.xib */; };
 		2AECE2D318F8D9930094C8CB /* MATopMazesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2B718F8D9930094C8CB /* MATopMazesViewController.m */; };
@@ -233,6 +234,13 @@
 
 /* Begin PBXFileReference section */
 		2739B721EF9C40EAA5260DC7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A23F62B18FF8B530085B4FA /* MARatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MARatingViewController.h; path = Mazes/Views/RatingView/RatingViewController/MARatingViewController.h; sourceTree = SOURCE_ROOT; };
+		2A23F62C18FF8B530085B4FA /* MARatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MARatingViewController.m; path = Mazes/Views/RatingView/RatingViewController/MARatingViewController.m; sourceTree = SOURCE_ROOT; };
+		2A23F62D18FF8B530085B4FA /* MARatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MARatingViewController.xib; path = Mazes/Views/RatingView/RatingViewController/MARatingViewController.xib; sourceTree = SOURCE_ROOT; };
+		2A23F63018FF982E0085B4FA /* MAFloorPlanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAFloorPlanView.h; path = Mazes/Views/FloorPlanView/MAFloorPlanView.h; sourceTree = SOURCE_ROOT; };
+		2A23F63118FF982E0085B4FA /* MAFloorPlanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAFloorPlanView.m; path = Mazes/Views/FloorPlanView/MAFloorPlanView.m; sourceTree = SOURCE_ROOT; };
+		2A23F63318FF9C480085B4FA /* MACreateScreenStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MACreateScreenStyle.h; path = Library/Styles/MACreateScreenStyle.h; sourceTree = "<group>"; };
+		2A23F63418FF9C480085B4FA /* MACreateScreenStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MACreateScreenStyle.m; path = Library/Styles/MACreateScreenStyle.m; sourceTree = "<group>"; };
 		2A890CA318FE3CCC00F96157 /* MATopMazeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MATopMazeTableViewCell.h; path = Mazes/Views/TopMazesViewController/TopMazeTableViewCell/MATopMazeTableViewCell.h; sourceTree = SOURCE_ROOT; };
 		2A890CA418FE3CCC00F96157 /* MATopMazeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MATopMazeTableViewCell.m; path = Mazes/Views/TopMazesViewController/TopMazeTableViewCell/MATopMazeTableViewCell.m; sourceTree = SOURCE_ROOT; };
 		2A890CA518FE3CCC00F96157 /* MATopMazeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MATopMazeTableViewCell.xib; path = Mazes/Views/TopMazesViewController/TopMazeTableViewCell/MATopMazeTableViewCell.xib; sourceTree = SOURCE_ROOT; };
@@ -372,8 +380,8 @@
 		2AECE1D918F8D3B20094C8CB /* ListTableCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ListTableCell.png; sourceTree = "<group>"; };
 		2AECE1EF18F8D5090094C8CB /* MAActivityIndicatorStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAActivityIndicatorStyle.h; path = Library/Styles/MAActivityIndicatorStyle.h; sourceTree = "<group>"; };
 		2AECE1F018F8D5090094C8CB /* MAActivityIndicatorStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAActivityIndicatorStyle.m; path = Library/Styles/MAActivityIndicatorStyle.m; sourceTree = "<group>"; };
-		2AECE1F118F8D5090094C8CB /* MACanvasStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MACanvasStyle.h; path = Library/Styles/MACanvasStyle.h; sourceTree = "<group>"; };
-		2AECE1F218F8D5090094C8CB /* MACanvasStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MACanvasStyle.m; path = Library/Styles/MACanvasStyle.m; sourceTree = "<group>"; };
+		2AECE1F118F8D5090094C8CB /* MAFloorPlanStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAFloorPlanStyle.h; path = Library/Styles/MAFloorPlanStyle.h; sourceTree = "<group>"; };
+		2AECE1F218F8D5090094C8CB /* MAFloorPlanStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAFloorPlanStyle.m; path = Library/Styles/MAFloorPlanStyle.m; sourceTree = "<group>"; };
 		2AECE1F518F8D5090094C8CB /* MADesignScreenStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MADesignScreenStyle.h; path = Library/Styles/MADesignScreenStyle.h; sourceTree = "<group>"; };
 		2AECE1F618F8D5090094C8CB /* MADesignScreenStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MADesignScreenStyle.m; path = Library/Styles/MADesignScreenStyle.m; sourceTree = "<group>"; };
 		2AECE1F718F8D5090094C8CB /* MAFoundExitPopupStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAFoundExitPopupStyle.h; path = Library/Styles/MAFoundExitPopupStyle.h; sourceTree = "<group>"; };
@@ -431,8 +439,6 @@
 		2AECE29318F8D9930094C8CB /* MAGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGameViewController.h; sourceTree = "<group>"; };
 		2AECE29418F8D9930094C8CB /* MAGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGameViewController.m; sourceTree = "<group>"; };
 		2AECE29518F8D9930094C8CB /* MAGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAGameViewController.xib; sourceTree = "<group>"; };
-		2AECE29718F8D9930094C8CB /* MAGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGridView.h; sourceTree = "<group>"; };
-		2AECE29818F8D9930094C8CB /* MAGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGridView.m; sourceTree = "<group>"; };
 		2AECE29E18F8D9930094C8CB /* MAMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMainViewController.h; sourceTree = "<group>"; };
 		2AECE29F18F8D9930094C8CB /* MAMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMainViewController.m; sourceTree = "<group>"; };
 		2AECE2A018F8D9930094C8CB /* MAMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAMainViewController.xib; sourceTree = "<group>"; };
@@ -442,9 +448,6 @@
 		2AECE2A618F8D9930094C8CB /* MAMazeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMazeView.m; sourceTree = "<group>"; };
 		2AECE2AB18F8D9930094C8CB /* MARatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MARatingView.h; sourceTree = "<group>"; };
 		2AECE2AC18F8D9930094C8CB /* MARatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MARatingView.m; sourceTree = "<group>"; };
-		2AECE2AE18F8D9930094C8CB /* MARatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MARatingViewController.h; sourceTree = "<group>"; };
-		2AECE2AF18F8D9930094C8CB /* MARatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MARatingViewController.m; sourceTree = "<group>"; };
-		2AECE2B018F8D9930094C8CB /* MARatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MARatingViewController.xib; sourceTree = "<group>"; };
 		2AECE2B218F8D9930094C8CB /* MATexturesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATexturesViewController.h; sourceTree = "<group>"; };
 		2AECE2B318F8D9930094C8CB /* MATexturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATexturesViewController.m; sourceTree = "<group>"; };
 		2AECE2B418F8D9930094C8CB /* MATexturesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MATexturesViewController.xib; sourceTree = "<group>"; };
@@ -766,10 +769,12 @@
 				2AECE20618F8D5090094C8CB /* MAStyles.m */,
 				2AECE1EF18F8D5090094C8CB /* MAActivityIndicatorStyle.h */,
 				2AECE1F018F8D5090094C8CB /* MAActivityIndicatorStyle.m */,
-				2AECE1F118F8D5090094C8CB /* MACanvasStyle.h */,
-				2AECE1F218F8D5090094C8CB /* MACanvasStyle.m */,
+				2A23F63318FF9C480085B4FA /* MACreateScreenStyle.h */,
+				2A23F63418FF9C480085B4FA /* MACreateScreenStyle.m */,
 				2AECE1F518F8D5090094C8CB /* MADesignScreenStyle.h */,
 				2AECE1F618F8D5090094C8CB /* MADesignScreenStyle.m */,
+				2AECE1F118F8D5090094C8CB /* MAFloorPlanStyle.h */,
+				2AECE1F218F8D5090094C8CB /* MAFloorPlanStyle.m */,
 				2AECE1F718F8D5090094C8CB /* MAFoundExitPopupStyle.h */,
 				2AECE1F818F8D5090094C8CB /* MAFoundExitPopupStyle.m */,
 				2AECE1F918F8D5090094C8CB /* MAGameScreenStyle.h */,
@@ -796,13 +801,12 @@
 				2AECE2D718F8DB4D0094C8CB /* Popups */,
 				2AECE28418F8D9930094C8CB /* CreateViewController */,
 				2AECE28818F8D9930094C8CB /* DesignViewController */,
+				2AECE29618F8D9930094C8CB /* FloorPlanView */,
 				2AECE29218F8D9930094C8CB /* GameViewController */,
-				2AECE29618F8D9930094C8CB /* GridView */,
 				2AECE29D18F8D9930094C8CB /* MainViewController */,
 				2AECE2A118F8D9930094C8CB /* MapView */,
 				2AECE2A418F8D9930094C8CB /* MazeView */,
 				2AECE2AA18F8D9930094C8CB /* RatingView */,
-				2AECE2AD18F8D9930094C8CB /* RatingViewController */,
 				2AECE2B118F8D9930094C8CB /* TexturesViewController */,
 				2AECE2B518F8D9930094C8CB /* TopMazesViewController */,
 			);
@@ -854,13 +858,13 @@
 			path = Views/GameViewController;
 			sourceTree = "<group>";
 		};
-		2AECE29618F8D9930094C8CB /* GridView */ = {
+		2AECE29618F8D9930094C8CB /* FloorPlanView */ = {
 			isa = PBXGroup;
 			children = (
-				2AECE29718F8D9930094C8CB /* MAGridView.h */,
-				2AECE29818F8D9930094C8CB /* MAGridView.m */,
+				2A23F63018FF982E0085B4FA /* MAFloorPlanView.h */,
+				2A23F63118FF982E0085B4FA /* MAFloorPlanView.m */,
 			);
-			name = GridView;
+			name = FloorPlanView;
 			path = Views/GridView;
 			sourceTree = "<group>";
 		};
@@ -900,6 +904,7 @@
 			children = (
 				2AECE2AB18F8D9930094C8CB /* MARatingView.h */,
 				2AECE2AC18F8D9930094C8CB /* MARatingView.m */,
+				2AECE2AD18F8D9930094C8CB /* RatingViewController */,
 			);
 			name = RatingView;
 			path = Views/RatingView;
@@ -908,13 +913,13 @@
 		2AECE2AD18F8D9930094C8CB /* RatingViewController */ = {
 			isa = PBXGroup;
 			children = (
-				2AECE2AE18F8D9930094C8CB /* MARatingViewController.h */,
-				2AECE2AF18F8D9930094C8CB /* MARatingViewController.m */,
-				2AECE2B018F8D9930094C8CB /* MARatingViewController.xib */,
+				2A23F62B18FF8B530085B4FA /* MARatingViewController.h */,
+				2A23F62C18FF8B530085B4FA /* MARatingViewController.m */,
+				2A23F62D18FF8B530085B4FA /* MARatingViewController.xib */,
 			);
 			name = RatingViewController;
-			path = Views/RatingViewController;
-			sourceTree = "<group>";
+			path = Mazes/Views/RatingViewController;
+			sourceTree = SOURCE_ROOT;
 		};
 		2AECE2B118F8D9930094C8CB /* TexturesViewController */ = {
 			isa = PBXGroup;
@@ -1209,8 +1214,8 @@
 				2AECE17018F8D3060094C8CB /* Black.pvrtc in Resources */,
 				2AECE19C18F8D3060094C8CB /* Metal 2.pvrtc in Resources */,
 				2AECE19E18F8D3060094C8CB /* Night Sky.pvrtc in Resources */,
+				2A23F62F18FF8B530085B4FA /* MARatingViewController.xib in Resources */,
 				2AECE1DF18F8D3B20094C8CB /* btnMazesBackOrange.png in Resources */,
-				2AECE2D018F8D9930094C8CB /* MARatingViewController.xib in Resources */,
 				2AECE10818F8D2EF0094C8CB /* Eerie Wind.caf in Resources */,
 				2AECE18D18F8D3060094C8CB /* Gray 2.png in Resources */,
 				2AECE18418F8D3060094C8CB /* Chipped Bricks.pvrtc in Resources */,
@@ -1411,6 +1416,7 @@
 				2AECE20918F8D5090094C8CB /* MAActivityIndicatorStyle.m in Sources */,
 				F49ED74D17FDACAD00D9BABD /* MAWall.m in Sources */,
 				2AECE27218F8D62E0094C8CB /* MAMazeManager.m in Sources */,
+				2A23F62E18FF8B530085B4FA /* MARatingViewController.m in Sources */,
 				2AECE21018F8D5090094C8CB /* MAMainScreenStyle.m in Sources */,
 				2AECE20F18F8D5090094C8CB /* MAInfoPopupStyle.m in Sources */,
 				2AECE21518F8D5090094C8CB /* MATopMazesScreenStyle.m in Sources */,
@@ -1432,20 +1438,20 @@
 				2AECE0ED18F8CDF90094C8CB /* main.m in Sources */,
 				2AECE20C18F8D5090094C8CB /* MADesignScreenStyle.m in Sources */,
 				2AECE21218F8D5090094C8CB /* MAPopupStyle.m in Sources */,
+				2A23F63218FF982E0085B4FA /* MAFloorPlanView.m in Sources */,
 				2AECE21318F8D5090094C8CB /* MARatingPopupStyle.m in Sources */,
 				F4A6D06E17FB6C610003D645 /* MASound.m in Sources */,
-				2AECE2C618F8D9930094C8CB /* MAGridView.m in Sources */,
-				2AECE2CF18F8D9930094C8CB /* MARatingViewController.m in Sources */,
 				2AECE27318F8D62E0094C8CB /* MASettings.m in Sources */,
 				2AECE21118F8D5090094C8CB /* MAMapStyle.m in Sources */,
 				2AECE27718F8D62E0094C8CB /* MAWebServices.m in Sources */,
 				2AECE2BD18F8D9930094C8CB /* MACreateViewController.m in Sources */,
 				F49ED74717FDA9E200D9BABD /* MACoordinate.m in Sources */,
+				2A23F63518FF9C480085B4FA /* MACreateScreenStyle.m in Sources */,
 				2AECE20D18F8D5090094C8CB /* MAFoundExitPopupStyle.m in Sources */,
 				2AECE2D118F8D9930094C8CB /* MATexturesViewController.m in Sources */,
 				2AECE28318F8D7190094C8CB /* MAColors.m in Sources */,
 				2AECE2E718F8DB600094C8CB /* MAPopupView.m in Sources */,
-				2AECE20A18F8D5090094C8CB /* MACanvasStyle.m in Sources */,
+				2AECE20A18F8D5090094C8CB /* MAFloorPlanStyle.m in Sources */,
 				F4A6D06917FB6C610003D645 /* MALatestVersion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1581,6 +1587,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1624,6 +1631,7 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

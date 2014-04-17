@@ -12,15 +12,15 @@
 
 @interface MAGameScreenStyle : NSObject
 
-@property (strong, nonatomic) UIColor *titleBackgroundColor;
-@property (strong, nonatomic) UIFont *titleFont;
-@property (strong, nonatomic) UIColor *titleTextColor;
+@property (readonly, strong, nonatomic) UIColor *titleBackgroundColor;
+@property (readonly, strong, nonatomic) UIFont *titleFont;
+@property (readonly, strong, nonatomic) UIColor *titleTextColor;
 	
-@property (strong, nonatomic) UIColor *instructionsBackgroundColor;
-@property (strong, nonatomic) UIColor *instructionsTextColor;
-@property (strong, nonatomic) UIColor *borderColor;
-@property (strong, nonatomic) UIColor *messageBackgroundColor;
-@property (strong, nonatomic) UIColor *messageTextColor;
+@property (readonly, strong, nonatomic) UIColor *instructionsBackgroundColor;
+@property (readonly, strong, nonatomic) UIColor *instructionsTextColor;
+@property (readonly, strong, nonatomic) UIColor *borderColor;
+@property (readonly, strong, nonatomic) UIColor *messageBackgroundColor;
+@property (readonly, strong, nonatomic) UIColor *messageTextColor;
 
 + (MAGameScreenStyle *)gameScreenStyle;
 

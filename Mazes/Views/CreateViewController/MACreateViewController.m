@@ -8,9 +8,10 @@
 
 #import "MACreateViewController.h"
 
+#import "MACreateScreenStyle.h"
 #import "MAConstants.h"
 #import "MADesignViewController.h"
-#import "MAGridView.h"
+#import "MAFloorPlanView.h"
 #import "MAMainViewController.h"
 #import "MAMazeManager.h"
 #import "MAMaze.h"
@@ -26,12 +27,16 @@
 @property (readonly, strong, nonatomic) MATextureManager *textureManager;
 @property (readonly, strong, nonatomic) MAStyles *styles;
 
-@property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
-@property (weak, nonatomic) IBOutlet MAGridView *gridView;
+@property (weak, nonatomic) IBOutlet UIPickerView *rowsPickerView;
+@property (weak, nonatomic) IBOutlet UIPickerView *columnsPickerView;
+
+@property (weak, nonatomic) IBOutlet MAFloorPlanView *floorPlanView;
 
 @end
 
 @implementation MACreateViewController
+
+#pragma mark - MACreateViewController
 
 - (id)initWithMazeManager: (MAMazeManager *)mazeManager
            textureManager: (MATextureManager *)textureManager
@@ -53,89 +58,25 @@
 {
     [super viewDidLoad];
     
-    self.gridView.maze = self.maze;
-    self.gridView.styles = self.styles;
-}
-
-- (NSInteger)numberOfComponentsInPickerView: (UIPickerView *)thePickerView 
-{	
-	return 2;
-}
-
-- (CGFloat)pickerView: (UIPickerView *)pickerView widthForComponent: (NSInteger)component
-{
-	float width = 0.0;
-
-	switch (component)
+    if (self.rowsPickerView.frame.size.width != self.styles.createScreen.pickerWidth)
     {
-        case 0:
-            width = 100.0;
-            break;
-            
-        case 1:
-            width = 132.0;
-            break;
+        [MAUtilities logWithClass: [self class] format: @"Rows pickerview width is %f. Should be %f", self.rowsPickerView.frame.size.width, self.styles.createScreen.pickerWidth];
+    }
 
-        default:
-            [MAUtilities logWithClass: [self class] format: @"component set to an illegal value: %d", component];
-            break;
+    if (self.columnsPickerView.frame.size.width != self.styles.createScreen.pickerWidth)
+    {
+        [MAUtilities logWithClass: [self class] format: @"Columns pickerview width is %f. Should be %f", self.columnsPickerView.frame.size.width, self.styles.createScreen.pickerWidth];
     }
     
-	return width;
-}
-
-- (NSInteger)pickerView: (UIPickerView *)thePickerView numberOfRowsInComponent: (NSInteger)component 
-{	
-	int rowCount = 0;
-	
-	switch (component)
-    {
-        case 0:
-            rowCount = (MARowsMax - MARowsMin) + 1;
-            break;
-            
-        case 1:
-            rowCount = (MAColumnsMax - MAColumnsMin) + 1;
-            break;
-    }
-	
-	return rowCount;
-}
-
-- (NSString *)pickerView: (UIPickerView *)thePickerView titleForRow: (NSInteger)row forComponent: (NSInteger)component 
-{	
-	NSString *title = @"";
-	
-	switch (component)
-    {
-        case 0:
-            title = [NSString stringWithFormat: @"%d", MARowsMin + row];
-            break;
-            
-        case 1:
-            title = [NSString stringWithFormat: @"%d", MAColumnsMin + row];
-            break;
-    }
-
-	return title;
-}
-
-- (void)pickerView: (UIPickerView *)thePickerView didSelectRow: (NSInteger)row inComponent: (NSInteger)component 
-{	
-	switch (component)
-    {
-        case 0:
-            self.maze.rows = MARowsMin + row;
-            break;
-            
-        case 1:
-            self.maze.columns = MAColumnsMin + row;
-            break;
-    }
+    self.rowsPickerView.backgroundColor = self.styles.createScreen.pickerBackgroundColor;
+    self.rowsPickerView.layer.borderColor = self.styles.createScreen.pickerBorderColor.CGColor;
+    self.rowsPickerView.layer.borderWidth = self.styles.createScreen.pickerBorderWidth;
     
-    [self.maze populateLocationsAndWalls];
-    
-	[self.gridView refresh];
+    self.columnsPickerView.backgroundColor = self.styles.createScreen.pickerBackgroundColor;
+    self.columnsPickerView.layer.borderColor = self.styles.createScreen.pickerBorderColor.CGColor;
+    self.columnsPickerView.layer.borderWidth = self.styles.createScreen.pickerBorderWidth;
+
+    self.floorPlanView.maze = self.maze;
 }
 
 - (IBAction)continueButtonTouchDown: (id)sender
@@ -154,6 +95,90 @@
     [self.mainViewController transitionFromViewController: self
                                          toViewController: self.topMazesViewController
                                                transition: MATransitionCrossDissolve];
+}
+
+#pragma mark - UIPickerView
+
+- (NSInteger)numberOfComponentsInPickerView: (UIPickerView *)thePickerView
+{	
+	return 1;
+}
+
+- (CGFloat)pickerView: (UIPickerView *)pickerView widthForComponent: (NSInteger)component
+{
+	return self.styles.createScreen.pickerWidth;
+}
+
+- (CGFloat)pickerView: (UIPickerView *)pickerView rowHeightForComponent: (NSInteger)component
+{
+	return self.styles.createScreen.pickerRowHeight;
+}
+
+- (NSInteger)pickerView: (UIPickerView *)pickerView numberOfRowsInComponent: (NSInteger)component
+{	
+	int rows = 0;
+	
+    if (pickerView == self.rowsPickerView)
+    {
+        rows = (MARowsMax - MARowsMin) + 1;
+    }
+    else if (pickerView == self.columnsPickerView)
+    {
+        rows = (MAColumnsMax - MAColumnsMin) + 1;
+    }
+    else
+    {
+        [MAUtilities logWithClass: [self class] format: @"Pickerview not handled: %@", pickerView];
+    }
+	
+	return rows;
+}
+
+- (UIView *)pickerView: (UIPickerView *)pickerView viewForRow: (NSInteger)row forComponent: (NSInteger)component reusingView: (UIView *)view
+{
+    UILabel *label = [[UILabel alloc] initWithFrame: CGRectMake(0.0,
+                                                                0.0,
+                                                                pickerView.frame.size.width,
+                                                                self.styles.createScreen.pickerRowHeight)];
+    
+    label.backgroundColor = self.styles.createScreen.pickerRowBackgroundColor;
+    label.textColor = self.styles.createScreen.pickerRowTextColor;
+    label.font = self.styles.createScreen.pickerRowFont;
+
+    if (pickerView == self.rowsPickerView)
+    {
+        label.text = [NSString stringWithFormat:@"    %d", MARowsMin + row];
+    }
+    else if (pickerView == self.columnsPickerView)
+    {
+        label.text = [NSString stringWithFormat:@"    %d", MAColumnsMin + row];
+    }
+    else
+    {
+        [MAUtilities logWithClass: [self class] format: @"Pickerview not handled: %@", pickerView];
+    }
+
+    return label;
+}
+
+- (void)pickerView: (UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent: (NSInteger)component
+{	
+    if (pickerView == self.rowsPickerView)
+    {
+        self.maze.rows = MARowsMin + row;
+    }
+    else if (pickerView == self.columnsPickerView)
+    {
+        self.maze.columns = MAColumnsMin + row;
+    }
+    else
+    {
+        [MAUtilities logWithClass: [self class] format: @"Pickerview not handled: %@", pickerView];
+    }
+    
+    [self.maze populateLocationsAndWalls];
+    
+	[self.floorPlanView refresh];
 }
 
 @end

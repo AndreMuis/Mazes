@@ -9,9 +9,10 @@
 #import "MAStyles.h"
 
 #import "MAActivityIndicatorStyle.h"
-#import "MACanvasStyle.h"
 #import "MAConstants.h"
+#import "MACreateScreenStyle.h"
 #import "MADesignScreenStyle.h"
+#import "MAFloorPlanStyle.h"
 #import "MAFoundExitPopupStyle.h"
 #import "MAGameScreenStyle.h"
 #import "MAMainScreenStyle.h"
@@ -37,8 +38,9 @@
         _defaultFont = [UIFont systemFontOfSize: [UIFont labelFontSize]];
         
         _activityIndicator = [MAActivityIndicatorStyle activityIndicatorStyle];
-        _canvas = [MACanvasStyle canvasStyle];
+        _createScreen = [MACreateScreenStyle createScreenStyle];
         _designScreen = [MADesignScreenStyle designScreenStyle];
+        _floorPlan = [MAFloorPlanStyle floorPlanStyle];
         _foundExitPopup = [MAFoundExitPopupStyle foundExitPopupStyle];
         _gameScreen = [MAGameScreenStyle gameScreenStyle];
         _mainScreen = [MAMainScreenStyle mainScreenStyle];

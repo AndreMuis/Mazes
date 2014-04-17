@@ -31,11 +31,10 @@
     return self;
 }
 
-- (void)showWithStyles: (MAStyles *)styles
-            parentView: (UIView *)parentView
-      dismissedHandler: (PopupViewDismissedHandler)dismissedHandler
+- (void)showWithParentView: (UIView *)parentView
+          dismissedHandler: (PopupViewDismissedHandler)dismissedHandler
 {
-    _styles = styles;
+    _styles = [MAStyles styles];
     
     _dismissedHandler = dismissedHandler;
     

@@ -52,14 +52,15 @@
         
         _orangeColor = [UIColor colorWithRed: 1.0 green: 0.5 blue: 0.0 alpha: 1.0];
         _lightOrange1Color = [UIColor colorWithRed: 1.0 green: 0.65 blue: 0.3 alpha: 1.0];
-        _lightOrange2Color = [UIColor colorWithRed: 1.0 green: 0.96 blue: 0.87 alpha: 1.0];
+        _lightOrange2Color = [UIColor colorWithRed: 1.0 green: 0.80 blue: 0.45 alpha: 1.0];
+        _lightOrange3Color = [UIColor colorWithRed: 1.0 green: 0.96 blue: 0.87 alpha: 1.0];
         
         _orangeRedColor = [UIColor colorWithRed: 1.0 green: 0.37 blue: 0.0 alpha: 1.0];
         
         _purpleColor = [UIColor colorWithRed: 0.5 green: 0.0 blue: 0.5 alpha: 1.0];
         _lightPurpleColor = [UIColor colorWithRed: 0.65 green: 0.3 blue: 0.65 alpha: 1.0];
     
-        _backgroundColor = self.lightOrange2Color;
+        _backgroundColor = self.lightOrange3Color;
     }
 	
     return self;

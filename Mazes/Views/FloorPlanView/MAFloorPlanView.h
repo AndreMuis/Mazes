@@ -1,5 +1,5 @@
 //
-//  MAGridView.h
+//  MAFloorPlanView.h
 //  Mazes
 //
 //  Created by Andre Muis on 1/31/11.
@@ -12,13 +12,11 @@
 #import "MAMaze.h"
 
 @class MALocation;
-@class MAStyles;
 @class MATextureManager;
 
-@interface MAGridView : UIView 
+@interface MAFloorPlanView : UIView
 
 @property (readwrite, strong, nonatomic) MAMaze *maze;
-@property (readwrite, strong, nonatomic) MAStyles *styles;
 
 - (void)refresh;
 
