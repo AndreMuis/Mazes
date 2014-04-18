@@ -46,9 +46,9 @@
         _darkBlueColor = [UIColor colorWithRed: 0.0 green: 0.0 blue: 0.60 alpha: 1.0];
         
         _yellowColor = [UIColor colorWithRed: 1.0 green: 1.0 blue: 0.0 alpha: 1.0];
-        _lightYellow1Color = [UIColor colorWithRed: 1.0 green: 0.96 blue: 0.65 alpha: 1.0];
+        _lightYellow1Color = [UIColor colorWithRed: 1.0 green: 1.0 blue: 0.65 alpha: 1.0];
         _lightYellow2Color = [UIColor colorWithRed: 1.0 green: 1.0 blue: 0.9 alpha: 1.0];
-        _darkYellowColor = [UIColor colorWithRed: 0.8 green: 0.8 blue: 0.6 alpha: 1.0];
+        _darkYellowColor = [UIColor colorWithRed: 0.83 green: 0.83 blue: 0.54 alpha: 1.0];
         
         _orangeColor = [UIColor colorWithRed: 1.0 green: 0.5 blue: 0.0 alpha: 1.0];
         _lightOrange1Color = [UIColor colorWithRed: 1.0 green: 0.65 blue: 0.3 alpha: 1.0];

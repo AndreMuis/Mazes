@@ -454,7 +454,7 @@
                     
                     [self.mainViewController transitionFromViewController: self
                                                          toViewController: self.createViewController
-                                                               transition: MATransitionCrossDissolve];
+                                                               transition: MATransitionTranslateBothLeft];
                 }
                 else
                 {
@@ -469,7 +469,7 @@
                     
                     [self.mainViewController transitionFromViewController: self
                                                          toViewController: self.designViewController
-                                                               transition: MATransitionCrossDissolve];
+                                                               transition: MATransitionTranslateBothLeft];
                 }
             }
             else
@@ -486,7 +486,7 @@
 
             [self.mainViewController transitionFromViewController: self
                                                  toViewController: self.createViewController
-                                                       transition: MATransitionCrossDissolve];
+                                                       transition: MATransitionTranslateBothLeft];
         }
         else
         {
@@ -494,7 +494,7 @@
 
             [self.mainViewController transitionFromViewController: self
                                                  toViewController: self.designViewController
-                                                       transition: MATransitionCrossDissolve];
+                                                       transition: MATransitionTranslateBothLeft];
         }
     }
 }

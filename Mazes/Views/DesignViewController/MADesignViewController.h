@@ -72,8 +72,6 @@
 @property (weak, nonatomic) IBOutlet UIView *audioView;
 @property (weak, nonatomic) IBOutlet UITableView *backgroundSoundTableView;
 
-@property (weak, nonatomic) IBOutlet UIView *buttonsView;
-
 @property (weak, nonatomic) IBOutlet UILabel *message1Label;
 @property (weak, nonatomic) IBOutlet UILabel *message2Label;
 

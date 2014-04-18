@@ -12,6 +12,7 @@
 #import "MAConstants.h"
 #import "MADesignViewController.h"
 #import "MAFloorPlanView.h"
+#import "MALabel.h"
 #import "MAMainViewController.h"
 #import "MAMazeManager.h"
 #import "MAMaze.h"
@@ -87,14 +88,14 @@
     
     [self.mainViewController transitionFromViewController: self
                                          toViewController: self.designViewController
-                                               transition: MATransitionCrossDissolve];
+                                               transition: MATransitionTranslateBothLeft];
 }
 
 - (IBAction)mazesButtonTouchDown: (id)sender
 {
     [self.mainViewController transitionFromViewController: self
                                          toViewController: self.topMazesViewController
-                                               transition: MATransitionCrossDissolve];
+                                               transition: MATransitionTranslateBothRight];
 }
 
 #pragma mark - UIPickerView
@@ -136,10 +137,22 @@
 
 - (UIView *)pickerView: (UIPickerView *)pickerView viewForRow: (NSInteger)row forComponent: (NSInteger)component reusingView: (UIView *)view
 {
-    UILabel *label = [[UILabel alloc] initWithFrame: CGRectMake(0.0,
-                                                                0.0,
-                                                                pickerView.frame.size.width,
-                                                                self.styles.createScreen.pickerRowHeight)];
+    NSString *zeroZero = @"00";
+
+    NSDictionary *attributes = @{NSFontAttributeName : self.styles.createScreen.pickerRowFont};
+    CGSize zeroZeroSize = [zeroZero sizeWithAttributes: attributes];
+    
+    CGRect labelFrame = CGRectMake(0.0,
+                                   0.0,
+                                   pickerView.frame.size.width,
+                                   self.styles.createScreen.pickerRowHeight);
+    
+    UIEdgeInsets labelEdgeInsets = UIEdgeInsetsMake(0.0,
+                                                    (self.styles.createScreen.pickerWidth - zeroZeroSize.width) / 2.0,
+                                                    0.0,
+                                                    0.0);
+
+    MALabel *label = [[MALabel alloc] initWithFrame: labelFrame edgeInsets: labelEdgeInsets];
     
     label.backgroundColor = self.styles.createScreen.pickerRowBackgroundColor;
     label.textColor = self.styles.createScreen.pickerRowTextColor;
@@ -147,11 +160,11 @@
 
     if (pickerView == self.rowsPickerView)
     {
-        label.text = [NSString stringWithFormat:@"    %d", MARowsMin + row];
+        label.text = [NSString stringWithFormat: @"%d", MARowsMin + row];
     }
     else if (pickerView == self.columnsPickerView)
     {
-        label.text = [NSString stringWithFormat:@"    %d", MAColumnsMin + row];
+        label.text = [NSString stringWithFormat: @"%d", MAColumnsMin + row];
     }
     else
     {

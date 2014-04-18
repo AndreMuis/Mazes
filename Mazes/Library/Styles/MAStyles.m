@@ -9,6 +9,7 @@
 #import "MAStyles.h"
 
 #import "MAActivityIndicatorStyle.h"
+#import "MAButtonStyle.h"
 #import "MAConstants.h"
 #import "MACreateScreenStyle.h"
 #import "MADesignScreenStyle.h"
@@ -38,6 +39,7 @@
         _defaultFont = [UIFont systemFontOfSize: [UIFont labelFontSize]];
         
         _activityIndicator = [MAActivityIndicatorStyle activityIndicatorStyle];
+        _button = [MAButtonStyle buttonStyle];
         _createScreen = [MACreateScreenStyle createScreenStyle];
         _designScreen = [MADesignScreenStyle designScreenStyle];
         _floorPlan = [MAFloorPlanStyle floorPlanStyle];

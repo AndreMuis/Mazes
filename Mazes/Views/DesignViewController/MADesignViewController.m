@@ -145,8 +145,6 @@
 
 	self.messageDisplaysLabel.backgroundColor = self.styles.designScreen.panelBackgroundColor;
 	
-	self.buttonsView.backgroundColor = self.styles.designScreen.buttonsViewBackgroundColor;
-	
 	self.message1Label.backgroundColor = self.styles.designScreen.messageBackgroundColor;
 	self.message1Label.textColor = self.styles.designScreen.messageTextColor;
 	
@@ -1476,7 +1474,7 @@ BOOL exists;
         
         [self.mainViewController transitionFromViewController: self
                                              toViewController: self.createViewController
-                                                   transition: MATransitionCrossDissolve];
+                                                   transition: MATransitionTranslateBothRight];
 	}
 }
 
@@ -1488,7 +1486,7 @@ BOOL exists;
 
     [self.mainViewController transitionFromViewController: self
                                          toViewController: self.topMazesViewController
-                                               transition: MATransitionCrossDissolve];
+                                               transition: MATransitionTranslateBothRight];
 }
 
 - (void)stopBackgroundSound

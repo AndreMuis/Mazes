@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class MAActivityIndicatorStyle;
+@class MAButtonStyle;
 @class MACreateScreenStyle;
 @class MADesignScreenStyle;
 @class MAFloorPlanStyle;
@@ -25,6 +26,7 @@
 @property (strong, nonatomic) UIFont *defaultFont;
 
 @property (readonly, strong, nonatomic) MAActivityIndicatorStyle *activityIndicator;
+@property (readonly, strong, nonatomic) MAButtonStyle *button;
 @property (readonly, strong, nonatomic) MACreateScreenStyle *createScreen;
 @property (readonly, strong, nonatomic) MADesignScreenStyle *designScreen;
 @property (readonly, strong, nonatomic) MAFloorPlanStyle *floorPlan;
