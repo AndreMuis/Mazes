@@ -34,14 +34,6 @@ extern NSString* const MARemoteBaseSSLURLString;
 extern NSString* const MAStatusCodeKey;
 extern NSUInteger const MAMazeNameExistsStatusCode;
 
-extern NSString* const MANoInternetMessage;
-extern NSString* const MARequestErrorMessage;
-extern NSString* const MADownloadTopMazesSummariesErrorMessage;
-extern NSString* const MASaveMazeRatingErrorMessage;
-extern NSString* const MADownloadUserMazeErrorMessage;
-extern NSString* const MADownloadMazeErrorMessage;
-extern NSString* const MASaveMazeStartedErrorMessage;
-
 extern NSUInteger const MARandomPasswordLength;
 
 extern int const MARowsMin;
@@ -66,9 +58,21 @@ extern int const MAMazeNameMaxLength;
 extern NSString* const MAGreenTextureId;
 extern NSString* const MARedTextureId;
 
+extern NSString* const MAUseTutorialKey;
+extern NSString* const MAHasSelectedWallKey;
+extern NSString* const MAHasSelectedLocationKey;
+
 extern NSString* const MAAlternatingBrickTextureId;
 extern NSString* const MALightSwirlMarbleTextureId;
 extern NSString* const MACreamyWhiteMarbleTextureId;
+
+extern NSString* const MANoInternetMessage;
+extern NSString* const MARequestErrorMessage;
+extern NSString* const MADownloadTopMazesSummariesErrorMessage;
+extern NSString* const MASaveMazeRatingErrorMessage;
+extern NSString* const MADownloadUserMazeErrorMessage;
+extern NSString* const MADownloadMazeErrorMessage;
+extern NSString* const MASaveMazeStartedErrorMessage;
 
 
 

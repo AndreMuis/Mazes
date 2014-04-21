@@ -11,9 +11,11 @@
 @interface MAColors : NSObject
 
 @property (readonly, strong, nonatomic) UIColor *blackColor;
+@property (readonly, strong, nonatomic) UIColor *blackTranslucent1Color;
+@property (readonly, strong, nonatomic) UIColor *blackTranslucent2Color;
 
 @property (readonly, strong, nonatomic) UIColor *whiteColor;
-@property (readonly, strong, nonatomic) UIColor *whiteOpaqueColor;
+@property (readonly, strong, nonatomic) UIColor *whiteTranslucentColor;
 
 @property (readonly, strong, nonatomic) UIColor *grayColor;
 @property (readonly, strong, nonatomic) UIColor *lightGray1Color;
@@ -28,7 +30,9 @@
 @property (readonly, strong, nonatomic) UIColor *darkBrown2Color;
 
 @property (readonly, strong, nonatomic) UIColor *redColor;
+
 @property (readonly, strong, nonatomic) UIColor *greenColor;
+@property (readonly, strong, nonatomic) UIColor *darkGreenColor;
 
 @property (readonly, strong, nonatomic) UIColor *blueColor;
 @property (readonly, strong, nonatomic) UIColor *darkBlueColor;

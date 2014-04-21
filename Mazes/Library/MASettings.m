@@ -8,6 +8,8 @@
 
 #import "MASettings.h"
 
+#import "MAConstants.h"
+
 @interface MASettings ()
 
 @property (strong, nonatomic) NSUserDefaults *userDefaults;
@@ -28,9 +30,12 @@
     
     if (self)
     {
-        NSDictionary *defaults = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool: YES], @"useTutorial", nil];
+        NSDictionary *defaults = @{MAUseTutorialKey : [NSNumber numberWithBool: YES],
+                                   MAHasSelectedLocationKey : [NSNumber numberWithBool: NO],
+                                   MAHasSelectedWallKey : [NSNumber numberWithBool: NO]};
+                                   
         [[NSUserDefaults standardUserDefaults] registerDefaults: defaults];
-        
+     
         self.userDefaults = [NSUserDefaults standardUserDefaults];
     }
     
@@ -39,12 +44,56 @@
 
 - (BOOL)useTutorial
 {
-    return [self.userDefaults boolForKey: @"useTutorial"];
+    return [self.userDefaults boolForKey: MAUseTutorialKey];
 }
 
-- (void)setUseTutorial: (BOOL)anUseTutorial
+- (void)setUseTutorial: (BOOL)useTutorial
 {
-    [self.userDefaults setBool: anUseTutorial forKey: @"useTutorial"];
+    [self.userDefaults setBool: useTutorial forKey: MAUseTutorialKey];
+}
+
+
+- (BOOL)hasSelectedLocation
+{
+    return [self.userDefaults boolForKey: MAHasSelectedLocationKey];
+}
+
+- (void)setHasSelectedLocation: (BOOL)hasSelectedLocation
+{
+    [self.userDefaults setBool: hasSelectedLocation forKey: MAHasSelectedLocationKey];
+}
+
+
+- (BOOL)hasSelectedWall
+{
+    return [self.userDefaults boolForKey: MAHasSelectedWallKey];
+}
+
+- (void)setHasSelectedWall: (BOOL)hasSelectedWall
+{
+    [self.userDefaults setBool: hasSelectedWall forKey: MAHasSelectedWallKey];
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

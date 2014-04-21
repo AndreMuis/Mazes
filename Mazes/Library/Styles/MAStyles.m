@@ -14,11 +14,12 @@
 #import "MACreateScreenStyle.h"
 #import "MADesignScreenStyle.h"
 #import "MAFloorPlanStyle.h"
-#import "MAFoundExitPopupStyle.h"
 #import "MAGameScreenStyle.h"
+#import "MAInfoPopupStyle.h"
 #import "MAMainScreenStyle.h"
 #import "MAMapStyle.h"
 #import "MAPopupStyle.h"
+#import "MARatingPopoverStyle.h"
 #import "MARatingPopupStyle.h"
 #import "MATopMazesScreenStyle.h"
 
@@ -43,11 +44,12 @@
         _createScreen = [MACreateScreenStyle createScreenStyle];
         _designScreen = [MADesignScreenStyle designScreenStyle];
         _floorPlan = [MAFloorPlanStyle floorPlanStyle];
-        _foundExitPopup = [MAFoundExitPopupStyle foundExitPopupStyle];
         _gameScreen = [MAGameScreenStyle gameScreenStyle];
+        _infoPopup = [MAInfoPopupStyle infoPopupStyle];
         _mainScreen = [MAMainScreenStyle mainScreenStyle];
         _map = [MAMapStyle mapStyle];
         _popup = [MAPopupStyle popupStyle];
+        _ratingPopover = [MARatingPopoverStyle ratingPopoverStyle];
         _ratingPopup = [MARatingPopupStyle ratingPopupStyle];
         _topMazesScreen = [MATopMazesScreenStyle topMazesScreenStyle];
     }

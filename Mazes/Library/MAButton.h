@@ -10,4 +10,6 @@
 
 @interface MAButton : UIButton
 
+@property (readwrite, assign, nonatomic) BOOL isBusy;
+
 @end

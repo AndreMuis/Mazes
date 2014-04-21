@@ -40,6 +40,8 @@ typedef void (^GetLatestVersionCompletionHandler)(MALatestVersion *latestVersion
 @property (readonly, assign, nonatomic) BOOL isLoggedIn;
 @property (readonly, assign, nonatomic) BOOL isLoggingIn;
 
+@property (readonly, assign, nonatomic) BOOL isDownloadingUserMazes;
+
 @property (readonly, assign, nonatomic) BOOL isDownloadingHighestRatedMazeSummaries;
 @property (readonly, assign, nonatomic) BOOL isDownloadingNewestMazeSummaries;
 @property (readonly, assign, nonatomic) BOOL isDownloadingYoursMazeSummaries;

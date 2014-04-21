@@ -69,6 +69,11 @@
          {
              _sounds = sounds;
              
+             for (MASound *sound in self.sounds)
+             {
+                 [sound setup];
+             }
+             
              self.count = self.sounds.count;
          }
          else if (self.reachability.isReachable == YES)

@@ -9,7 +9,7 @@
 #import "MARatingViewController.h"
 
 #import "MARatingView.h"
-#import "MARatingPopupStyle.h"
+#import "MARatingPopoverStyle.h"
 #import "MAStyles.h"
 
 @implementation MARatingViewController
@@ -29,7 +29,7 @@
 {
     [super viewDidLoad];
 
-    self.view.backgroundColor = self.styles.ratingPopup.backgroundColor;
+    self.view.backgroundColor = self.styles.ratingPopover.backgroundColor;
 }
 
 @end

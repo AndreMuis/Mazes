@@ -13,11 +13,12 @@
 @class MACreateScreenStyle;
 @class MADesignScreenStyle;
 @class MAFloorPlanStyle;
-@class MAFoundExitPopupStyle;
 @class MAGameScreenStyle;
+@class MAInfoPopupStyle;
 @class MAMainScreenStyle;
 @class MAMapStyle;
 @class MAPopupStyle;
+@class MARatingPopoverStyle;
 @class MARatingPopupStyle;
 @class MATopMazesScreenStyle;
 
@@ -30,11 +31,12 @@
 @property (readonly, strong, nonatomic) MACreateScreenStyle *createScreen;
 @property (readonly, strong, nonatomic) MADesignScreenStyle *designScreen;
 @property (readonly, strong, nonatomic) MAFloorPlanStyle *floorPlan;
-@property (readonly, strong, nonatomic) MAFoundExitPopupStyle *foundExitPopup;
 @property (readonly, strong, nonatomic) MAGameScreenStyle *gameScreen;
+@property (readonly, strong, nonatomic) MAInfoPopupStyle *infoPopup;
 @property (readonly, strong, nonatomic) MAMainScreenStyle *mainScreen;
 @property (readonly, strong, nonatomic) MAMapStyle *map;
 @property (readonly, strong, nonatomic) MAPopupStyle *popup;
+@property (readonly, strong, nonatomic) MARatingPopoverStyle *ratingPopover;
 @property (readonly, strong, nonatomic) MARatingPopupStyle *ratingPopup;
 @property (readonly, strong, nonatomic) MATopMazesScreenStyle *topMazesScreen;
 

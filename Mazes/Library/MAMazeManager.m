@@ -72,12 +72,8 @@
     {
         case MATopMazeSummariesHighestRated:
         {
-            NSLog(@"downloading highest rated");
-            
             [self.webServices getHighestRatedMazeSummariesWithCompletionHandler: ^(NSArray *topMazeSummaries, NSError *error)
              {
-                 NSLog(@"downloaded highest rated");
-                 
                  if (error == nil)
                  {
                      _highestRatedMazeSummaries = topMazeSummaries;
@@ -93,12 +89,8 @@
             
         case MATopMazeSummariesNewest:
         {
-            NSLog(@"downloading newest");
-            
             [self.webServices getNewestMazeSummariesWithCompletionHandler: ^(NSArray *topMazeSummaries, NSError *error)
              {
-                 NSLog(@"downloaded newest");
-                 
                  if (error == nil)
                  {
                      _newestMazeSummaries = topMazeSummaries;
@@ -114,12 +106,8 @@
             
         case MATopMazeSummariesYours:
         {
-            NSLog(@"downloading yours");
-            
             [self.webServices getYoursMazeSummariesWithCompletionHandler: ^(NSArray *topMazeSummaries, NSError *error)
              {
-                 NSLog(@"downloaded yours");
-                 
                  if (error == nil)
                  {
                      _yoursMazeSummaries  = topMazeSummaries;

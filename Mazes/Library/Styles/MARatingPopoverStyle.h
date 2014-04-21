@@ -1,5 +1,5 @@
 //
-//  MARatingPopupStyle.h
+//  MARatingPopoverStyle.h
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
@@ -10,10 +10,10 @@
 
 @class MAColors;
 
-@interface MARatingPopupStyle : NSObject
+@interface MARatingPopoverStyle : NSObject
 
 @property (readonly, strong, nonatomic) UIColor *backgroundColor;
 
-+ (MARatingPopupStyle *)ratingPopupStyle;
++ (MARatingPopoverStyle *)ratingPopoverStyle;
 
 @end

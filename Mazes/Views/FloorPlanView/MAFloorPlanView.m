@@ -87,25 +87,30 @@
 			
 			if (location.action == MALocationActionStart || location.action == MALocationActionTeleport)
 			{
-				[MAUtilities drawArrowInRect: locationRect angleDegrees: location.direction scale: 0.8 floorPlanStyle: self.styles.floorPlan];
+				[MAUtilities drawArrowInRect: locationRect
+                                angleDegrees: location.direction
+                                       scale: 0.8
+                              floorPlanStyle: self.styles.floorPlan];
 				
 				if (location.action == MALocationActionTeleport)
 				{
-					CGContextSetFillColorWithColor(context, self.styles.floorPlan.teleportIdColor.CGColor);
+                    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+                    paragraphStyle.alignment = NSTextAlignmentCenter;
                     
-					NSString *num = [NSString stringWithFormat: @"%d", location.teleportId];
+                    NSAttributedString *teleportId = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"%d", location.teleportId]
+                                                                                     attributes: @{NSParagraphStyleAttributeName : paragraphStyle,
+                                                                                                   NSFontAttributeName : self.styles.floorPlan.teleportFont,
+                                                                                                   NSForegroundColorAttributeName : self.styles.floorPlan.teleportIdColor,
+                                                                                                   }];
                     
-                    NSDictionary *attribues = @{NSFontAttributeName : [UIFont systemFontOfSize: self.styles.floorPlan.teleportFontSize]};
-                    
-                    [num drawInRect: locationRect
-                     withAttributes: attribues];
+                    [teleportId drawInRect: locationRect];
 				}
 			}
             
 			if (location.floorTextureId != nil || location.ceilingTextureId != nil)
 			{
 				[MAUtilities drawBorderInsideRect: locationRect
-                                        withWidth: self.styles.floorPlan.textureHighlightWidth
+                                        withWidth: self.styles.floorPlan.locationHighlightWidth
                                             color: self.styles.floorPlan.textureHighlightColor];
 			}
             
@@ -116,7 +121,7 @@
 				{
 					[MAUtilities drawBorderInsideRect: locationRect
                                             withWidth: self.styles.floorPlan.locationHighlightWidth
-                                                color: self.styles.floorPlan.locationHighlightColor];
+                                                color: self.styles.floorPlan.highlightColor];
 				}
 			}
 		}
@@ -162,7 +167,7 @@
 			if (northWall.textureId != nil)
 			{
 				[MAUtilities drawBorderInsideRect: northWallRect
-                                        withWidth: self.styles.floorPlan.textureHighlightWidth
+                                        withWidth: self.styles.floorPlan.wallHighlightWidth
                                             color: self.styles.floorPlan.textureHighlightColor];
 			}
             
@@ -174,7 +179,7 @@
 				{
 					[MAUtilities drawBorderInsideRect: northWallRect
                                             withWidth: self.styles.floorPlan.wallHighlightWidth
-                                                color: self.styles.floorPlan.locationHighlightColor];
+                                                color: self.styles.floorPlan.highlightColor];
 				}
 			}
 		}
@@ -220,7 +225,7 @@
 			if (westWall.textureId != nil)
 			{
 				[MAUtilities drawBorderInsideRect: westWallRect
-                                        withWidth: self.styles.floorPlan.textureHighlightWidth
+                                        withWidth: self.styles.floorPlan.wallHighlightWidth
                                             color: self.styles.floorPlan.textureHighlightColor];
 			}
 			
@@ -232,7 +237,7 @@
 				{
 					[MAUtilities drawBorderInsideRect: westWallRect
                                             withWidth: self.styles.floorPlan.wallHighlightWidth
-                                                color: self.styles.floorPlan.locationHighlightColor];
+                                                color: self.styles.floorPlan.highlightColor];
 				}
 			}
 		}

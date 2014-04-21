@@ -80,25 +80,44 @@
     self.floorPlanView.maze = self.maze;
 }
 
+- (void)viewWillAppear: (BOOL)animated
+{
+    [super viewWillAppear: animated];
+    
+    [self.rowsPickerView selectRow: self.maze.rows - MARowsMin
+                       inComponent: 0
+                          animated: NO];
+    
+    [self.columnsPickerView selectRow: self.maze.columns - MAColumnsMin
+                          inComponent: 0
+                             animated: NO];
+}
+
 - (IBAction)continueButtonTouchDown: (id)sender
 {
-    self.mazeManager.isFirstUserMazeSizeChosen = YES;
-    
-    self.designViewController.maze = self.maze;
-    
-    [self.mainViewController transitionFromViewController: self
-                                         toViewController: self.designViewController
-                                               transition: MATransitionTranslateBothLeft];
+    if (self.mainViewController.isPerformingTransition == NO)
+    {
+        self.mazeManager.isFirstUserMazeSizeChosen = YES;
+        
+        self.designViewController.maze = self.maze;
+        
+        [self.mainViewController transitionFromViewController: self
+                                             toViewController: self.designViewController
+                                                   transition: MATransitionTranslateBothLeft];
+    }
 }
 
 - (IBAction)mazesButtonTouchDown: (id)sender
 {
-    [self.mainViewController transitionFromViewController: self
-                                         toViewController: self.topMazesViewController
-                                               transition: MATransitionTranslateBothRight];
+    if (self.mainViewController.isPerformingTransition == NO)
+    {
+        [self.mainViewController transitionFromViewController: self
+                                             toViewController: self.topMazesViewController
+                                                   transition: MATransitionTranslateBothRight];
+    }
 }
 
-#pragma mark - UIPickerView
+#pragma mark - UIPickerViewDelegate
 
 - (NSInteger)numberOfComponentsInPickerView: (UIPickerView *)thePickerView
 {	

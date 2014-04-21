@@ -1,21 +1,21 @@
 //
-//  MARatingPopupStyle.m
+//  MARatingPopoverStyle.m
 //  Mazes
 //
 //  Created by Andre Muis on 4/28/12.
 //  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
-#import "MARatingPopupStyle.h"
+#import "MARatingPopoverStyle.h"
 
 #import "MAColors.h"
 
-@implementation MARatingPopupStyle
+@implementation MARatingPopoverStyle
 
-+ (MARatingPopupStyle *)ratingPopupStyle
++ (MARatingPopoverStyle *)ratingPopoverStyle
 {
-    MARatingPopupStyle *ratingPopupStyle = [[MARatingPopupStyle alloc] init];
-    return ratingPopupStyle;
+    MARatingPopoverStyle *ratingPopoverStyle = [[MARatingPopoverStyle alloc] init];
+    return ratingPopoverStyle;
 }
 
 - (id)init

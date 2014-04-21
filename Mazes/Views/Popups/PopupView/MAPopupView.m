@@ -8,13 +8,18 @@
 
 #import "MAPopupView.h"
 
+#import "MAButton.h"
 #import "MAPopupStyle.h"
 #import "MAStyles.h"
 
 @interface MAPopupView ()
 
+@property (readonly, strong, nonatomic) MAStyles *styles;
+
+@property (readonly, strong, nonatomic) UIView *parentView;
 @property (readonly, copy, nonatomic) PopupViewDismissedHandler dismissedHandler;
-@property (readonly, strong, nonatomic) UIView *translucentBackground;
+
+@property (readonly, strong, nonatomic) UIView *translucentBackgroundView;
 
 @end
 
@@ -26,25 +31,25 @@
     
     if (self)
     {
+        _styles = [MAStyles styles];
     }
     
     return self;
 }
 
-- (void)showWithParentView: (UIView *)parentView
-          dismissedHandler: (PopupViewDismissedHandler)dismissedHandler
+- (void)setupWithParentView: (UIView *)parentView
 {
-    _styles = [MAStyles styles];
-    
+    _parentView = parentView;
+}
+
+- (void)showWithDismissedHandler: (PopupViewDismissedHandler)dismissedHandler
+{
     _dismissedHandler = dismissedHandler;
     
-    _translucentBackground = [[UIView alloc] initWithFrame: parentView.frame];
-    [parentView addSubview: self.translucentBackground];
+    _translucentBackgroundView = [[UIView alloc] initWithFrame: self.parentView.frame];
+    [self.parentView addSubview: self.translucentBackgroundView];
     
-    self.frame = CGRectMake((parentView.frame.size.width - self.frame.size.width) / 2.0,
-                            (parentView.frame.size.height - self.frame.size.height) / 2.0,
-                            self.frame.size.width,
-                            self.frame.size.height);
+    [self.parentView addSubview: self];
     
     self.backgroundColor = self.styles.popup.backgroundColor;
     self.layer.cornerRadius = self.styles.popup.cornerRadius;
@@ -52,9 +57,28 @@
     self.layer.borderColor = self.styles.popup.borderColor.CGColor;
 }
 
+- (void)centerInParentView
+{
+    self.frame = CGRectMake((self.parentView.frame.size.width - self.frame.size.width) / 2.0,
+                            (self.parentView.frame.size.height - self.frame.size.height) / 2.0,
+                            self.frame.size.width,
+                            self.frame.size.height);
+}
+
+- (CGFloat)cancelButtonWidth: (MAButton *)cancelButton
+{
+    NSDictionary *attributes = @{NSFontAttributeName : cancelButton.titleLabel.font};
+    
+    CGSize cancelButtonTitleSize = [cancelButton.currentTitle sizeWithAttributes: attributes];
+    
+    CGFloat cancelButtonWidth = cancelButton.titleEdgeInsets.left + cancelButtonTitleSize.width + cancelButton.titleEdgeInsets.right;
+    
+    return cancelButtonWidth;
+}
+
 - (void)animateUp
 {
-    self.translucentBackground.backgroundColor = [UIColor colorWithWhite: 0.0 alpha: 0.0];
+    self.translucentBackgroundView.backgroundColor = [UIColor clearColor];
     
     CGFloat initialScale = self.styles.popup.initialScale;
     CGFloat bounceScalePercent = self.styles.popup.bounceScalePercent;
@@ -66,7 +90,7 @@
     [UIView animateWithDuration: self.styles.popup.initialAnimationDuration
                      animations: ^(void)
      {
-         self.translucentBackground.backgroundColor = self.styles.popup.translucentBackgroundColor;
+         self.translucentBackgroundView.backgroundColor = self.styles.popup.translucentBackgroundColor;
          
          self.transform = CGAffineTransformScale(self.transform,
                                                  (1.0 / initialScale) * (1.0 + bounceScalePercent),
@@ -104,7 +128,7 @@
     [UIView animateWithDuration: self.styles.popup.otherAnimationDuration
                      animations: ^(void)
      {
-         self.translucentBackground.backgroundColor = [UIColor colorWithWhite: 0.0 alpha: 0.0];
+         self.translucentBackgroundView.backgroundColor = [UIColor clearColor];
          
          self.transform = CGAffineTransformScale(self.transform,
                                                  initialScale,
@@ -114,7 +138,7 @@
      {
          self.transform = CGAffineTransformIdentity;
          
-         [self.translucentBackground removeFromSuperview];
+         [self.translucentBackgroundView removeFromSuperview];
          [self removeFromSuperview];
          
          self.dismissedHandler();

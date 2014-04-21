@@ -15,6 +15,15 @@
 		2A890CA718FE3CCC00F96157 /* MATopMazeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A890CA518FE3CCC00F96157 /* MATopMazeTableViewCell.xib */; };
 		2A890CA918FE528200F96157 /* MAInstructionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A890CA818FE528200F96157 /* MAInstructionsViewController.xib */; };
 		2A890CAC18FE52AD00F96157 /* MAInstructionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A890CAB18FE52AD00F96157 /* MAInstructionsViewController.m */; };
+		2AA511961903262900010D48 /* MARatingPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA511941903262900010D48 /* MARatingPopupView.m */; };
+		2AA511971903262900010D48 /* MARatingPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AA511951903262900010D48 /* MARatingPopupView.xib */; };
+		2AA5119A19032C9000010D48 /* MARatingPopoverStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA5119919032C9000010D48 /* MARatingPopoverStyle.m */; };
+		2AA511A21903817A00010D48 /* MAInfoPopupStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA5119D1903817A00010D48 /* MAInfoPopupStyle.m */; };
+		2AA511A31903817A00010D48 /* MAPopupStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA5119F1903817A00010D48 /* MAPopupStyle.m */; };
+		2AA511A41903817A00010D48 /* MARatingPopupStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA511A11903817A00010D48 /* MARatingPopupStyle.m */; };
+		2AA511A719042D8600010D48 /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AA511A519042D8600010D48 /* AppIcon.png */; };
+		2AA511A819042D8600010D48 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AA511A619042D8600010D48 /* Default.png */; };
+		2AA511AA19049E3E00010D48 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AA511A919049E3E00010D48 /* Images.xcassets */; };
 		2AB51DAA1900EDAA0094BC82 /* MALabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB51DA91900EDAA0094BC82 /* MALabel.m */; };
 		2AB51DAD1900F3BE0094BC82 /* MAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB51DAC1900F3BE0094BC82 /* MAButton.m */; };
 		2AB51DB01900F4BF0094BC82 /* MAButtonStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB51DAF1900F4BF0094BC82 /* MAButtonStyle.m */; };
@@ -23,8 +32,6 @@
 		2AECE0EC18F8CDF90094C8CB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE0E618F8CDF90094C8CB /* InfoPlist.strings */; };
 		2AECE0ED18F8CDF90094C8CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE0E718F8CDF90094C8CB /* main.m */; };
 		2AECE0EF18F8CDF90094C8CB /* Mazes.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE0EA18F8CDF90094C8CB /* Mazes.entitlements */; };
-		2AECE0F318F8D2BE0094C8CB /* AppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE0F118F8D2BE0094C8CB /* AppIcon.png */; };
-		2AECE0F418F8D2BE0094C8CB /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE0F218F8D2BE0094C8CB /* Default.png */; };
 		2AECE10718F8D2EF0094C8CB /* Benediction.caf in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE0F718F8D2EF0094C8CB /* Benediction.caf */; };
 		2AECE10818F8D2EF0094C8CB /* Eerie Wind.caf in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE0F818F8D2EF0094C8CB /* Eerie Wind.caf */; };
 		2AECE10918F8D2EF0094C8CB /* Fairies.caf in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE0F918F8D2EF0094C8CB /* Fairies.caf */; };
@@ -149,13 +156,9 @@
 		2AECE20918F8D5090094C8CB /* MAActivityIndicatorStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1F018F8D5090094C8CB /* MAActivityIndicatorStyle.m */; };
 		2AECE20A18F8D5090094C8CB /* MAFloorPlanStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1F218F8D5090094C8CB /* MAFloorPlanStyle.m */; };
 		2AECE20C18F8D5090094C8CB /* MADesignScreenStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1F618F8D5090094C8CB /* MADesignScreenStyle.m */; };
-		2AECE20D18F8D5090094C8CB /* MAFoundExitPopupStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1F818F8D5090094C8CB /* MAFoundExitPopupStyle.m */; };
 		2AECE20E18F8D5090094C8CB /* MAGameScreenStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1FA18F8D5090094C8CB /* MAGameScreenStyle.m */; };
-		2AECE20F18F8D5090094C8CB /* MAInfoPopupStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1FC18F8D5090094C8CB /* MAInfoPopupStyle.m */; };
 		2AECE21018F8D5090094C8CB /* MAMainScreenStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1FE18F8D5090094C8CB /* MAMainScreenStyle.m */; };
 		2AECE21118F8D5090094C8CB /* MAMapStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE20018F8D5090094C8CB /* MAMapStyle.m */; };
-		2AECE21218F8D5090094C8CB /* MAPopupStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE20218F8D5090094C8CB /* MAPopupStyle.m */; };
-		2AECE21318F8D5090094C8CB /* MARatingPopupStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE20418F8D5090094C8CB /* MARatingPopupStyle.m */; };
 		2AECE21418F8D5090094C8CB /* MAStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE20618F8D5090094C8CB /* MAStyles.m */; };
 		2AECE21518F8D5090094C8CB /* MATopMazesScreenStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE20818F8D5090094C8CB /* MATopMazesScreenStyle.m */; };
 		2AECE26E18F8D62E0094C8CB /* MACloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE25B18F8D62E0094C8CB /* MACloud.m */; };
@@ -187,8 +190,6 @@
 		2AECE2D218F8D9930094C8CB /* MATexturesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2B418F8D9930094C8CB /* MATexturesViewController.xib */; };
 		2AECE2D318F8D9930094C8CB /* MATopMazesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2B718F8D9930094C8CB /* MATopMazesViewController.m */; };
 		2AECE2D418F8D9930094C8CB /* MATopMazesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2B818F8D9930094C8CB /* MATopMazesViewController.xib */; };
-		2AECE2E318F8DB600094C8CB /* MAFoundExitPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2DA18F8DB600094C8CB /* MAFoundExitPopupView.m */; };
-		2AECE2E418F8DB600094C8CB /* MAFoundExitPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2DB18F8DB600094C8CB /* MAFoundExitPopupView.xib */; };
 		2AECE2E518F8DB600094C8CB /* MAInfoPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2DE18F8DB600094C8CB /* MAInfoPopupView.m */; };
 		2AECE2E618F8DB600094C8CB /* MAInfoPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2DF18F8DB600094C8CB /* MAInfoPopupView.xib */; };
 		2AECE2E718F8DB600094C8CB /* MAPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2E218F8DB600094C8CB /* MAPopupView.m */; };
@@ -250,6 +251,20 @@
 		2A890CA818FE528200F96157 /* MAInstructionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MAInstructionsViewController.xib; path = Mazes/Views/GameViewController/InstructionsViewController/MAInstructionsViewController.xib; sourceTree = SOURCE_ROOT; };
 		2A890CAA18FE52AD00F96157 /* MAInstructionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAInstructionsViewController.h; path = Mazes/Views/GameViewController/InstructionsViewController/MAInstructionsViewController.h; sourceTree = SOURCE_ROOT; };
 		2A890CAB18FE52AD00F96157 /* MAInstructionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAInstructionsViewController.m; path = Mazes/Views/GameViewController/InstructionsViewController/MAInstructionsViewController.m; sourceTree = SOURCE_ROOT; };
+		2AA511931903262900010D48 /* MARatingPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MARatingPopupView.h; path = Mazes/Views/Popups/RatingPopupView/MARatingPopupView.h; sourceTree = SOURCE_ROOT; };
+		2AA511941903262900010D48 /* MARatingPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MARatingPopupView.m; path = Mazes/Views/Popups/RatingPopupView/MARatingPopupView.m; sourceTree = SOURCE_ROOT; };
+		2AA511951903262900010D48 /* MARatingPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MARatingPopupView.xib; path = Mazes/Views/Popups/RatingPopupView/MARatingPopupView.xib; sourceTree = SOURCE_ROOT; };
+		2AA5119819032C9000010D48 /* MARatingPopoverStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MARatingPopoverStyle.h; path = Library/Styles/MARatingPopoverStyle.h; sourceTree = "<group>"; };
+		2AA5119919032C9000010D48 /* MARatingPopoverStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MARatingPopoverStyle.m; path = Library/Styles/MARatingPopoverStyle.m; sourceTree = "<group>"; };
+		2AA5119C1903817A00010D48 /* MAInfoPopupStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAInfoPopupStyle.h; path = Library/Styles/Popups/MAInfoPopupStyle.h; sourceTree = "<group>"; };
+		2AA5119D1903817A00010D48 /* MAInfoPopupStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAInfoPopupStyle.m; path = Library/Styles/Popups/MAInfoPopupStyle.m; sourceTree = "<group>"; };
+		2AA5119E1903817A00010D48 /* MAPopupStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAPopupStyle.h; path = Library/Styles/Popups/MAPopupStyle.h; sourceTree = "<group>"; };
+		2AA5119F1903817A00010D48 /* MAPopupStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAPopupStyle.m; path = Library/Styles/Popups/MAPopupStyle.m; sourceTree = "<group>"; };
+		2AA511A01903817A00010D48 /* MARatingPopupStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MARatingPopupStyle.h; path = Library/Styles/Popups/MARatingPopupStyle.h; sourceTree = "<group>"; };
+		2AA511A11903817A00010D48 /* MARatingPopupStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MARatingPopupStyle.m; path = Library/Styles/Popups/MARatingPopupStyle.m; sourceTree = "<group>"; };
+		2AA511A519042D8600010D48 /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon.png; path = Assets/Images/AppIcon.png; sourceTree = "<group>"; };
+		2AA511A619042D8600010D48 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Assets/Images/Default.png; sourceTree = "<group>"; };
+		2AA511A919049E3E00010D48 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2AB51DA81900EDAA0094BC82 /* MALabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MALabel.h; path = Library/MALabel.h; sourceTree = "<group>"; };
 		2AB51DA91900EDAA0094BC82 /* MALabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MALabel.m; path = Library/MALabel.m; sourceTree = "<group>"; };
 		2AB51DAB1900F3BE0094BC82 /* MAButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAButton.h; path = Library/MAButton.h; sourceTree = "<group>"; };
@@ -264,8 +279,6 @@
 		2AECE0E818F8CDF90094C8CB /* Mazes-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Mazes-Info.plist"; path = "Application/Mazes-Info.plist"; sourceTree = "<group>"; };
 		2AECE0E918F8CDF90094C8CB /* Mazes-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Mazes-Prefix.pch"; path = "Application/Mazes-Prefix.pch"; sourceTree = "<group>"; };
 		2AECE0EA18F8CDF90094C8CB /* Mazes.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Mazes.entitlements; path = Application/Mazes.entitlements; sourceTree = "<group>"; };
-		2AECE0F118F8D2BE0094C8CB /* AppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon.png; path = Assets/AppIcon.png; sourceTree = "<group>"; };
-		2AECE0F218F8D2BE0094C8CB /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Assets/Default.png; sourceTree = "<group>"; };
 		2AECE0F718F8D2EF0094C8CB /* Benediction.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Benediction.caf; path = Assets/Sounds/Benediction.caf; sourceTree = "<group>"; };
 		2AECE0F818F8D2EF0094C8CB /* Eerie Wind.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Eerie Wind.caf"; path = "Assets/Sounds/Eerie Wind.caf"; sourceTree = "<group>"; };
 		2AECE0F918F8D2EF0094C8CB /* Fairies.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Fairies.caf; path = Assets/Sounds/Fairies.caf; sourceTree = "<group>"; };
@@ -393,20 +406,12 @@
 		2AECE1F218F8D5090094C8CB /* MAFloorPlanStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAFloorPlanStyle.m; path = Library/Styles/MAFloorPlanStyle.m; sourceTree = "<group>"; };
 		2AECE1F518F8D5090094C8CB /* MADesignScreenStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MADesignScreenStyle.h; path = Library/Styles/MADesignScreenStyle.h; sourceTree = "<group>"; };
 		2AECE1F618F8D5090094C8CB /* MADesignScreenStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MADesignScreenStyle.m; path = Library/Styles/MADesignScreenStyle.m; sourceTree = "<group>"; };
-		2AECE1F718F8D5090094C8CB /* MAFoundExitPopupStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAFoundExitPopupStyle.h; path = Library/Styles/MAFoundExitPopupStyle.h; sourceTree = "<group>"; };
-		2AECE1F818F8D5090094C8CB /* MAFoundExitPopupStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAFoundExitPopupStyle.m; path = Library/Styles/MAFoundExitPopupStyle.m; sourceTree = "<group>"; };
 		2AECE1F918F8D5090094C8CB /* MAGameScreenStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAGameScreenStyle.h; path = Library/Styles/MAGameScreenStyle.h; sourceTree = "<group>"; };
 		2AECE1FA18F8D5090094C8CB /* MAGameScreenStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAGameScreenStyle.m; path = Library/Styles/MAGameScreenStyle.m; sourceTree = "<group>"; };
-		2AECE1FB18F8D5090094C8CB /* MAInfoPopupStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAInfoPopupStyle.h; path = Library/Styles/MAInfoPopupStyle.h; sourceTree = "<group>"; };
-		2AECE1FC18F8D5090094C8CB /* MAInfoPopupStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAInfoPopupStyle.m; path = Library/Styles/MAInfoPopupStyle.m; sourceTree = "<group>"; };
 		2AECE1FD18F8D5090094C8CB /* MAMainScreenStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMainScreenStyle.h; path = Library/Styles/MAMainScreenStyle.h; sourceTree = "<group>"; };
 		2AECE1FE18F8D5090094C8CB /* MAMainScreenStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMainScreenStyle.m; path = Library/Styles/MAMainScreenStyle.m; sourceTree = "<group>"; };
 		2AECE1FF18F8D5090094C8CB /* MAMapStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMapStyle.h; path = Library/Styles/MAMapStyle.h; sourceTree = "<group>"; };
 		2AECE20018F8D5090094C8CB /* MAMapStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMapStyle.m; path = Library/Styles/MAMapStyle.m; sourceTree = "<group>"; };
-		2AECE20118F8D5090094C8CB /* MAPopupStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAPopupStyle.h; path = Library/Styles/MAPopupStyle.h; sourceTree = "<group>"; };
-		2AECE20218F8D5090094C8CB /* MAPopupStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAPopupStyle.m; path = Library/Styles/MAPopupStyle.m; sourceTree = "<group>"; };
-		2AECE20318F8D5090094C8CB /* MARatingPopupStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MARatingPopupStyle.h; path = Library/Styles/MARatingPopupStyle.h; sourceTree = "<group>"; };
-		2AECE20418F8D5090094C8CB /* MARatingPopupStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MARatingPopupStyle.m; path = Library/Styles/MARatingPopupStyle.m; sourceTree = "<group>"; };
 		2AECE20518F8D5090094C8CB /* MAStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAStyles.h; path = Library/Styles/MAStyles.h; sourceTree = "<group>"; };
 		2AECE20618F8D5090094C8CB /* MAStyles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAStyles.m; path = Library/Styles/MAStyles.m; sourceTree = "<group>"; };
 		2AECE20718F8D5090094C8CB /* MATopMazesScreenStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MATopMazesScreenStyle.h; path = Library/Styles/MATopMazesScreenStyle.h; sourceTree = "<group>"; };
@@ -463,9 +468,6 @@
 		2AECE2B618F8D9930094C8CB /* MATopMazesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATopMazesViewController.h; sourceTree = "<group>"; };
 		2AECE2B718F8D9930094C8CB /* MATopMazesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATopMazesViewController.m; sourceTree = "<group>"; };
 		2AECE2B818F8D9930094C8CB /* MATopMazesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MATopMazesViewController.xib; sourceTree = "<group>"; };
-		2AECE2D918F8DB600094C8CB /* MAFoundExitPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAFoundExitPopupView.h; sourceTree = "<group>"; };
-		2AECE2DA18F8DB600094C8CB /* MAFoundExitPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAFoundExitPopupView.m; sourceTree = "<group>"; };
-		2AECE2DB18F8DB600094C8CB /* MAFoundExitPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAFoundExitPopupView.xib; sourceTree = "<group>"; };
 		2AECE2DD18F8DB600094C8CB /* MAInfoPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAInfoPopupView.h; sourceTree = "<group>"; };
 		2AECE2DE18F8DB600094C8CB /* MAInfoPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAInfoPopupView.m; sourceTree = "<group>"; };
 		2AECE2DF18F8DB600094C8CB /* MAInfoPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAInfoPopupView.xib; sourceTree = "<group>"; };
@@ -552,6 +554,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2AA5119B1903814400010D48 /* Popups */ = {
+			isa = PBXGroup;
+			children = (
+				2AA5119E1903817A00010D48 /* MAPopupStyle.h */,
+				2AA5119F1903817A00010D48 /* MAPopupStyle.m */,
+				2AA5119C1903817A00010D48 /* MAInfoPopupStyle.h */,
+				2AA5119D1903817A00010D48 /* MAInfoPopupStyle.m */,
+				2AA511A01903817A00010D48 /* MARatingPopupStyle.h */,
+				2AA511A11903817A00010D48 /* MARatingPopupStyle.m */,
+			);
+			name = Popups;
+			sourceTree = "<group>";
+		};
 		2AECE0E118F8CDB50094C8CB /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -566,8 +581,6 @@
 				2AECE1C318F8D3A00094C8CB /* Images */,
 				2AECE0F518F8D2C90094C8CB /* Sounds */,
 				2AECE0F618F8D2D60094C8CB /* Textures */,
-				2AECE0F118F8D2BE0094C8CB /* AppIcon.png */,
-				2AECE0F218F8D2BE0094C8CB /* Default.png */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -694,6 +707,8 @@
 				2AECE1C418F8D3B20094C8CB /* Design */,
 				2AECE1C718F8D3B20094C8CB /* Game */,
 				2AECE1CD18F8D3B20094C8CB /* TopLists */,
+				2AA511A519042D8600010D48 /* AppIcon.png */,
+				2AA511A619042D8600010D48 /* Default.png */,
 				2AECE1C618F8D3B20094C8CB /* Direction Arrow.png */,
 			);
 			name = Images;
@@ -778,6 +793,7 @@
 		2AECE1EE18F8D4F60094C8CB /* Styles */ = {
 			isa = PBXGroup;
 			children = (
+				2AA5119B1903814400010D48 /* Popups */,
 				2AECE20518F8D5090094C8CB /* MAStyles.h */,
 				2AECE20618F8D5090094C8CB /* MAStyles.m */,
 				2AECE1EF18F8D5090094C8CB /* MAActivityIndicatorStyle.h */,
@@ -790,20 +806,14 @@
 				2AECE1F618F8D5090094C8CB /* MADesignScreenStyle.m */,
 				2AECE1F118F8D5090094C8CB /* MAFloorPlanStyle.h */,
 				2AECE1F218F8D5090094C8CB /* MAFloorPlanStyle.m */,
-				2AECE1F718F8D5090094C8CB /* MAFoundExitPopupStyle.h */,
-				2AECE1F818F8D5090094C8CB /* MAFoundExitPopupStyle.m */,
 				2AECE1F918F8D5090094C8CB /* MAGameScreenStyle.h */,
 				2AECE1FA18F8D5090094C8CB /* MAGameScreenStyle.m */,
-				2AECE1FB18F8D5090094C8CB /* MAInfoPopupStyle.h */,
-				2AECE1FC18F8D5090094C8CB /* MAInfoPopupStyle.m */,
 				2AECE1FD18F8D5090094C8CB /* MAMainScreenStyle.h */,
 				2AECE1FE18F8D5090094C8CB /* MAMainScreenStyle.m */,
 				2AECE1FF18F8D5090094C8CB /* MAMapStyle.h */,
 				2AECE20018F8D5090094C8CB /* MAMapStyle.m */,
-				2AECE20118F8D5090094C8CB /* MAPopupStyle.h */,
-				2AECE20218F8D5090094C8CB /* MAPopupStyle.m */,
-				2AECE20318F8D5090094C8CB /* MARatingPopupStyle.h */,
-				2AECE20418F8D5090094C8CB /* MARatingPopupStyle.m */,
+				2AA5119819032C9000010D48 /* MARatingPopoverStyle.h */,
+				2AA5119919032C9000010D48 /* MARatingPopoverStyle.m */,
 				2AECE20718F8D5090094C8CB /* MATopMazesScreenStyle.h */,
 				2AECE20818F8D5090094C8CB /* MATopMazesScreenStyle.m */,
 			);
@@ -974,20 +984,20 @@
 			isa = PBXGroup;
 			children = (
 				2AECE2E018F8DB600094C8CB /* PopupView */,
-				2AECE2D818F8DB600094C8CB /* FoundExitPopupView */,
 				2AECE2DC18F8DB600094C8CB /* InfoPopupView */,
+				2AECE2D818F8DB600094C8CB /* RatingPopupView */,
 			);
 			name = Popups;
 			sourceTree = "<group>";
 		};
-		2AECE2D818F8DB600094C8CB /* FoundExitPopupView */ = {
+		2AECE2D818F8DB600094C8CB /* RatingPopupView */ = {
 			isa = PBXGroup;
 			children = (
-				2AECE2D918F8DB600094C8CB /* MAFoundExitPopupView.h */,
-				2AECE2DA18F8DB600094C8CB /* MAFoundExitPopupView.m */,
-				2AECE2DB18F8DB600094C8CB /* MAFoundExitPopupView.xib */,
+				2AA511931903262900010D48 /* MARatingPopupView.h */,
+				2AA511941903262900010D48 /* MARatingPopupView.m */,
+				2AA511951903262900010D48 /* MARatingPopupView.xib */,
 			);
-			name = FoundExitPopupView;
+			name = RatingPopupView;
 			path = Views/Popups/FoundExitPopupView;
 			sourceTree = "<group>";
 		};
@@ -1090,6 +1100,7 @@
 		F4E4A9D1154CB92C006AA64D /* Mazes */ = {
 			isa = PBXGroup;
 			children = (
+				2AA511A919049E3E00010D48 /* Images.xcassets */,
 				F4E4A9D2154CB92C006AA64D /* Application */,
 				2AECE21618F8D52C0094C8CB /* Views */,
 				2AECE1ED18F8D4DD0094C8CB /* Library */,
@@ -1245,6 +1256,7 @@
 				2AECE2E618F8DB600094C8CB /* MAInfoPopupView.xib in Resources */,
 				2AECE18F18F8D3060094C8CB /* Gray 3.png in Resources */,
 				2AECE1A718F8D3060094C8CB /* Red Basketweave.png in Resources */,
+				2AA511A719042D8600010D48 /* AppIcon.png in Resources */,
 				2AECE1A618F8D3060094C8CB /* Purple Marble.pvrtc in Resources */,
 				2AECE11018F8D2EF0094C8CB /* Medieval City.caf in Resources */,
 				2AECE1B018F8D3060094C8CB /* Sky 2.pvrtc in Resources */,
@@ -1253,12 +1265,10 @@
 				2AECE17618F8D3060094C8CB /* Born to Rule.pvrtc in Resources */,
 				2AECE1BE18F8D3060094C8CB /* Wood 3.pvrtc in Resources */,
 				2AECE10918F8D2EF0094C8CB /* Fairies.caf in Resources */,
-				2AECE0F318F8D2BE0094C8CB /* AppIcon.png in Resources */,
 				2AECE17218F8D3060094C8CB /* Blue Marble Slabs.pvrtc in Resources */,
 				2AECE1A318F8D3060094C8CB /* Orange.png in Resources */,
 				2AECE1EB18F8D3B20094C8CB /* ListBackground.png in Resources */,
 				2AECE19F18F8D3060094C8CB /* Orange Brick.png in Resources */,
-				2AECE0F418F8D2BE0094C8CB /* Default.png in Resources */,
 				2AECE18C18F8D3060094C8CB /* Gray 1.pvrtc in Resources */,
 				2AECE19718F8D3060094C8CB /* Maze.png in Resources */,
 				2AECE1B618F8D3060094C8CB /* Water.pvrtc in Resources */,
@@ -1295,8 +1305,10 @@
 				2AECE1B118F8D3060094C8CB /* Steel Vault.png in Resources */,
 				2AECE11118F8D2EF0094C8CB /* Rain.caf in Resources */,
 				2AECE1BB18F8D3060094C8CB /* Wood 2.png in Resources */,
+				2AA511A819042D8600010D48 /* Default.png in Resources */,
 				2AECE17C18F8D3060094C8CB /* Bronze Armor.pvrtc in Resources */,
 				2AECE18918F8D3060094C8CB /* Creamy White Marble.png in Resources */,
+				2AA511971903262900010D48 /* MARatingPopupView.xib in Resources */,
 				2AECE19018F8D3060094C8CB /* Gray 3.pvrtc in Resources */,
 				2AECE1AD18F8D3060094C8CB /* Sky 1.png in Resources */,
 				2AECE17718F8D3060094C8CB /* Born to Shine.png in Resources */,
@@ -1305,6 +1317,7 @@
 				2AECE1AC18F8D3060094C8CB /* Skulls.pvrtc in Resources */,
 				2AECE17918F8D3060094C8CB /* Bright Purple Marble.png in Resources */,
 				2AECE2BE18F8D9930094C8CB /* MACreateViewController.xib in Resources */,
+				2AA511AA19049E3E00010D48 /* Images.xcassets in Resources */,
 				2AECE1A118F8D3060094C8CB /* Orange Herringbone.png in Resources */,
 				2AECE1BC18F8D3060094C8CB /* Wood 2.pvrtc in Resources */,
 				2AECE1B318F8D3060094C8CB /* Teddy Bear.png in Resources */,
@@ -1346,7 +1359,6 @@
 				2AECE1B418F8D3060094C8CB /* Teddy Bear.pvrtc in Resources */,
 				2AECE19518F8D3060094C8CB /* Logs.png in Resources */,
 				2AECE1A918F8D3060094C8CB /* Red.png in Resources */,
-				2AECE2E418F8DB600094C8CB /* MAFoundExitPopupView.xib in Resources */,
 				2AECE1EA18F8D3B20094C8CB /* btnYoursOrange.png in Resources */,
 				2AECE19318F8D3060094C8CB /* Light Swirl Marble.png in Resources */,
 				2AECE2C518F8D9930094C8CB /* MAGameViewController.xib in Resources */,
@@ -1414,7 +1426,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AECE2E318F8DB600094C8CB /* MAFoundExitPopupView.m in Sources */,
 				2AECE26E18F8D62E0094C8CB /* MACloud.m in Sources */,
 				F4A6D06A17FB6C610003D645 /* MALocation.m in Sources */,
 				F4A6D06F17FB6C610003D645 /* MATexture.m in Sources */,
@@ -1434,15 +1445,18 @@
 				2AECE27218F8D62E0094C8CB /* MAMazeManager.m in Sources */,
 				2A23F62E18FF8B530085B4FA /* MARatingViewController.m in Sources */,
 				2AECE21018F8D5090094C8CB /* MAMainScreenStyle.m in Sources */,
-				2AECE20F18F8D5090094C8CB /* MAInfoPopupStyle.m in Sources */,
 				2AECE21518F8D5090094C8CB /* MATopMazesScreenStyle.m in Sources */,
+				2AA511A31903817A00010D48 /* MAPopupStyle.m in Sources */,
 				2AECE2BF18F8D9930094C8CB /* MADesignViewController.m in Sources */,
 				2AB51DAD1900F3BE0094BC82 /* MAButton.m in Sources */,
 				2AECE2C418F8D9930094C8CB /* MAGameViewController.m in Sources */,
 				2A890CAC18FE52AD00F96157 /* MAInstructionsViewController.m in Sources */,
 				2AECE2C918F8D9930094C8CB /* MAMainViewController.m in Sources */,
+				2AA511961903262900010D48 /* MARatingPopupView.m in Sources */,
 				2AECE27518F8D62E0094C8CB /* MATextureManager.m in Sources */,
 				2AECE27018F8D62E0094C8CB /* MAEvent.m in Sources */,
+				2AA511A41903817A00010D48 /* MARatingPopupStyle.m in Sources */,
+				2AA5119A19032C9000010D48 /* MARatingPopoverStyle.m in Sources */,
 				2AECE26F18F8D62E0094C8CB /* MAConstants.m in Sources */,
 				2AECE2D318F8D9930094C8CB /* MATopMazesViewController.m in Sources */,
 				2AECE27418F8D62E0094C8CB /* MASoundManager.m in Sources */,
@@ -1454,10 +1468,8 @@
 				2AECE27118F8D62E0094C8CB /* MAEventManager.m in Sources */,
 				2AECE0ED18F8CDF90094C8CB /* main.m in Sources */,
 				2AECE20C18F8D5090094C8CB /* MADesignScreenStyle.m in Sources */,
-				2AECE21218F8D5090094C8CB /* MAPopupStyle.m in Sources */,
 				2A23F63218FF982E0085B4FA /* MAFloorPlanView.m in Sources */,
 				2AB51DB01900F4BF0094BC82 /* MAButtonStyle.m in Sources */,
-				2AECE21318F8D5090094C8CB /* MARatingPopupStyle.m in Sources */,
 				F4A6D06E17FB6C610003D645 /* MASound.m in Sources */,
 				2AECE27318F8D62E0094C8CB /* MASettings.m in Sources */,
 				2AECE21118F8D5090094C8CB /* MAMapStyle.m in Sources */,
@@ -1465,12 +1477,12 @@
 				2AECE2BD18F8D9930094C8CB /* MACreateViewController.m in Sources */,
 				F49ED74717FDA9E200D9BABD /* MACoordinate.m in Sources */,
 				2A23F63518FF9C480085B4FA /* MACreateScreenStyle.m in Sources */,
-				2AECE20D18F8D5090094C8CB /* MAFoundExitPopupStyle.m in Sources */,
 				2AECE2D118F8D9930094C8CB /* MATexturesViewController.m in Sources */,
 				2AECE28318F8D7190094C8CB /* MAColors.m in Sources */,
 				2AECE2E718F8DB600094C8CB /* MAPopupView.m in Sources */,
 				2AECE20A18F8D5090094C8CB /* MAFloorPlanStyle.m in Sources */,
 				F4A6D06917FB6C610003D645 /* MALatestVersion.m in Sources */,
+				2AA511A21903817A00010D48 /* MAInfoPopupStyle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1572,6 +1584,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FDD54367CCBB419990517295 /* Pods.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Mazes/Application/Mazes.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1587,7 +1601,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-lCrittercism_v4_0_7",
 					"-lFlurry_4.2.3",
 					"-framework",
 					CoreGraphics,
@@ -1614,6 +1627,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FDD54367CCBB419990517295 /* Pods.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Mazes/Application/Mazes.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1630,7 +1645,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-lCrittercism_v4_0_7",
 					"-lFlurry_4.2.3",
 					"-framework",
 					CoreGraphics,

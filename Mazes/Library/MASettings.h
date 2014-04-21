@@ -12,6 +12,9 @@
 
 @property (assign, nonatomic) BOOL useTutorial;
 
+@property (assign, nonatomic) BOOL hasSelectedWall;
+@property (assign, nonatomic) BOOL hasSelectedLocation;
+
 + (MASettings *)settings;
 
 @end

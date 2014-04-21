@@ -20,6 +20,9 @@
 @property (readonly, strong, nonatomic) UIColor *titleColor;
 @property (readonly, strong, nonatomic) UIFont *titleFont;
 
+@property (readonly, assign, nonatomic) UIActivityIndicatorViewStyle activityIndicatorStyle;
+@property (readonly, strong, nonatomic) UIColor *translucentOverlayViewBackgroundColor;
+
 + (MAButtonStyle *)buttonStyle;
 
 @end

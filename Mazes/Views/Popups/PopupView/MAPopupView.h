@@ -9,16 +9,20 @@
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIKit.h>
 
+@class MAButton;
 @class MAStyles;
 
 typedef void (^PopupViewDismissedHandler)();
 
 @interface MAPopupView : UIView
 
-@property (readonly, strong, nonatomic) MAStyles *styles;
+- (void)setupWithParentView: (UIView *)parentView;
 
-- (void)showWithParentView: (UIView *)parentView
-          dismissedHandler: (PopupViewDismissedHandler)dismissedHandler;
+- (void)showWithDismissedHandler: (PopupViewDismissedHandler)dismissedHandler;
+
+- (void)centerInParentView;
+
+- (CGFloat)cancelButtonWidth: (MAButton *)cancelButton;
 
 - (void)animateUp;
 - (void)animateDown;

@@ -90,6 +90,11 @@
 
 - (void)reset
 {
+    if (self.action == MALocationActionStart || self.action == MALocationActionEnd)
+    {
+        self.floorTextureId = nil;
+    }
+
 	self.direction = 0;
 	self.action = MALocationActionDoNothing;
 	self.message = @"";

@@ -26,13 +26,13 @@
 	{
         MAColors *colors = [MAColors colors];
 
-        _translucentBackgroundColor = [UIColor colorWithWhite: 0.0 alpha: 0.15];
+        _translucentBackgroundColor = colors.blackTranslucent2Color;
 
-        _backgroundColor = colors.lightYellow1Color;
+        _backgroundColor = colors.lightYellow2Color;
         
         _cornerRadius = 20.0;
-        _borderWidth = 7.0;
-        _borderColor = colors.orangeColor;
+        _borderWidth = 4.0;
+        _borderColor = colors.lightOrange1Color;
         
         _initialScale = 0.001;
         

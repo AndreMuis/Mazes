@@ -11,6 +11,7 @@
 #import "MAConstants.h"
 #import "MALocation.h"
 
+@class MAButton;
 @class MACreateViewController;
 @class MAEventManager;
 @class MAEvent;
@@ -71,6 +72,8 @@
 
 @property (weak, nonatomic) IBOutlet UIView *audioView;
 @property (weak, nonatomic) IBOutlet UITableView *backgroundSoundTableView;
+
+@property (weak, nonatomic) IBOutlet MAButton *saveButton;
 
 @property (weak, nonatomic) IBOutlet UILabel *message1Label;
 @property (weak, nonatomic) IBOutlet UILabel *message2Label;

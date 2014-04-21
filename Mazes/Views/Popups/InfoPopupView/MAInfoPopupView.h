@@ -10,16 +10,16 @@
 
 #import "MAPopupView.h"
 
-@class MAStyles;
-
 @interface MAInfoPopupView : MAPopupView
 
-+ (MAInfoPopupView *)infoPopupView;
++ (MAInfoPopupView *)infoPopupViewWithParentView: (UIView *)parentView
+                                         message: (NSString *)message
+                               cancelButtonTitle: (NSString *)cancelButtonTitle;
 
-- (void)showWithStyles: (MAStyles *)styles
-            parentView: (UIView *)parentView
-               message: (NSString *)message
-     cancelButtonTitle: (NSString *)cancelButtonTitle
-      dismissedHandler: (PopupViewDismissedHandler)dismissedHandler;
+- (void)setupWithParentView: (UIView *)parentView
+                    message: (NSString *)message
+          cancelButtonTitle: (NSString *)cancelButtonTitle;
+
+- (void)showWithDismissedHandler: (PopupViewDismissedHandler)dismissedHandler;
 
 @end

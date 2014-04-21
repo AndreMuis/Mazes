@@ -1,5 +1,5 @@
 //
-//  MAFoundExitPopupStyle.h
+//  MARatingPopupStyle.h
 //  Mazes
 //
 //  Created by Andre Muis on 10/20/13.
@@ -10,13 +10,15 @@
 
 @class MAColors;
 
-@interface MAFoundExitPopupStyle : NSObject
+@interface MARatingPopupStyle : NSObject
 
 @property (readonly, strong, nonatomic) UIColor *ratingStarColor;
 
 @property (readonly, strong, nonatomic) UIColor *textColor;
 @property (readonly, strong, nonatomic) UIFont *font;
 
-+ (MAFoundExitPopupStyle *)foundExitPopupStyle;
+@property (readonly, assign, nonatomic) UIEdgeInsets cancelButtonTitleEdgeInsets;
+
++ (MARatingPopupStyle *)ratingPopupStyle;
 
 @end

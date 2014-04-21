@@ -29,16 +29,12 @@
     
     
     #ifdef DEBUG
-    
     NSLog(@"%@", message);
-    
-    #else
+    #endif
     
     [Flurry logEvent: @"Log message" withParameters: [NSDictionary dictionaryWithObjectsAndKeys:
                                                       message, @"message",
                                                       nil]];
-    
-    #endif
 }
 
 + (double)radiansFromDegrees: (double)degrees

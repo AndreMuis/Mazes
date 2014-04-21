@@ -15,6 +15,8 @@
 @property (readonly, strong, nonatomic) UIColor *textColor;
 @property (readonly, strong, nonatomic) UIFont *font;
 
+@property (readonly, assign, nonatomic) UIEdgeInsets cancelButtonTitleEdgeInsets;
+
 + (MAInfoPopupStyle *)infoPopupStyle;
 
 @end

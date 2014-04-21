@@ -194,8 +194,6 @@
 
 - (void)clear
 {
-	self.directionArrowImageView.alpha = 0.0;
-	
     for (MALocation *location in [self.maze allLocations])
     {
 		location.mapRect = CGRectZero;
@@ -492,7 +490,7 @@
 	}
 	else 
 	{
-		NSLog(@"Map corner not handled.");
+		[MAUtilities logWithClass: [self class] format: @"Map corner not handled."];
 	}
 }
 

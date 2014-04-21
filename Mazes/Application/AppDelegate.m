@@ -107,9 +107,7 @@
 
 - (void)startCrashReporting
 {
-    #ifndef DEBUG
-    [Crittercism enableWithAppID: MACrittercismAppId];
-    #endif
+    [Flurry setCrashReportingEnabled: YES];
 }
 
 - (void)setupAppObjects
@@ -252,8 +250,6 @@
         if (error == nil)
         {
             float appVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleShortVersionString"] floatValue];
-             
-            // NSLog(@"appVersion = %f, latestVersion = %f", appVersion, latestVersion.number);
              
             if (appVersion < latestVersion.latestVersion)
             {

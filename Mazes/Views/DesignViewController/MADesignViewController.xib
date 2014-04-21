@@ -31,6 +31,7 @@
                 <outlet property="messageTextView" destination="135" id="293"/>
                 <outlet property="nameTextField" destination="5" id="287"/>
                 <outlet property="publicSwitch" destination="6" id="314"/>
+                <outlet property="saveButton" destination="8" id="wEO-7v-4Jm"/>
                 <outlet property="tutorialSwitch" destination="162" id="315"/>
                 <outlet property="view" destination="2" id="183"/>
                 <outlet property="wallButton" destination="215" id="RCI-cH-xE3"/>
@@ -139,14 +140,13 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8" userLabel="saveButton" customClass="MAButton">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8" userLabel="saveButton" customClass="MAButton">
                     <rect key="frame" x="669" y="13" width="86" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                     <state key="normal" title="Save">
                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="saveButtonTouchDown:" destination="-1" eventType="touchDown" id="283"/>
@@ -203,11 +203,11 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
         </view>
         <view autoresizesSubviews="NO" contentMode="scaleToFill" id="261" userLabel="audioView">
-            <rect key="frame" x="0.0" y="0.0" width="574" height="215"/>
+            <rect key="frame" x="0.0" y="0.0" width="571" height="215"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="0.0" id="262" userLabel="backgroundSoundTableView">
-                    <rect key="frame" x="20" y="20" width="203" height="175"/>
+                    <rect key="frame" x="20" y="20" width="211" height="175"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
@@ -219,11 +219,11 @@
             <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
         </view>
         <view autoresizesSubviews="NO" contentMode="scaleToFill" id="225" userLabel="graphicsView">
-            <rect key="frame" x="0.0" y="0.0" width="574" height="215"/>
+            <rect key="frame" x="0.0" y="0.0" width="571" height="215"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Default Wall:" lineBreakMode="tailTruncation" minimumFontSize="10" id="226">
-                    <rect key="frame" x="20" y="20" width="98" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Default Wall" lineBreakMode="tailTruncation" minimumFontSize="10" id="226">
+                    <rect key="frame" x="28" y="20" width="98" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -245,8 +245,8 @@
                         <action selector="defaultWallTextureButtonTouchDown:" destination="-1" eventType="touchDown" id="YFf-E2-0JA"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Default Floor:" lineBreakMode="tailTruncation" minimumFontSize="10" id="227">
-                    <rect key="frame" x="175" y="20" width="103" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Default Floor" lineBreakMode="tailTruncation" minimumFontSize="10" id="227">
+                    <rect key="frame" x="183" y="20" width="99" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -268,8 +268,8 @@
                         <action selector="defaultFloorTextureButtonTouchDown:" destination="-1" eventType="touchDown" id="826-gt-Miy"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Default Ceiling:" lineBreakMode="tailTruncation" minimumFontSize="10" id="228">
-                    <rect key="frame" x="330" y="20" width="117" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Default Ceiling" lineBreakMode="tailTruncation" minimumFontSize="10" id="228">
+                    <rect key="frame" x="331" y="20" width="112" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -295,11 +295,11 @@
             <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
         </view>
         <view autoresizesSubviews="NO" contentMode="scaleToFill" id="205" userLabel="wallView">
-            <rect key="frame" x="0.0" y="0.0" width="574" height="215"/>
+            <rect key="frame" x="0.0" y="0.0" width="571" height="215"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="0.0" id="131" userLabel="wallTypeTableView">
-                    <rect key="frame" x="20" y="20" width="110" height="175"/>
+                    <rect key="frame" x="20" y="20" width="116" height="175"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
@@ -307,15 +307,15 @@
                         <outlet property="delegate" destination="-1" id="133"/>
                     </connections>
                 </tableView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Texture:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="urP-q7-T5K">
-                    <rect key="frame" x="167" y="20" width="61" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Texture" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="urP-q7-T5K">
+                    <rect key="frame" x="195" y="20" width="56" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="245" userLabel="wallTextureButton">
-                    <rect key="frame" x="167" y="49" width="115" height="115"/>
+                    <rect key="frame" x="166" y="49" width="115" height="115"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
@@ -331,7 +331,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="CAs-fD-0J2" userLabel="wallTextureResetButton">
-                    <rect key="frame" x="200" y="169" width="49" height="30"/>
+                    <rect key="frame" x="199" y="169" width="49" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Default">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -344,11 +344,11 @@
             <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
         </view>
         <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" id="247" userLabel="locationScrollView">
-            <rect key="frame" x="0.0" y="0.0" width="898" height="215"/>
+            <rect key="frame" x="0.0" y="0.0" width="886" height="215"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="107" userLabel="locationTypeTableView">
-                    <rect key="frame" x="20" y="20" width="147" height="175"/>
+                    <rect key="frame" x="20" y="20" width="155" height="175"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
@@ -357,7 +357,7 @@
                     </connections>
                 </tableView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="0.0" id="122" userLabel="directionTableView">
-                    <rect key="frame" x="175" y="20" width="115" height="175"/>
+                    <rect key="frame" x="183" y="20" width="138" height="175"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
@@ -365,15 +365,15 @@
                         <outlet property="delegate" destination="-1" id="124"/>
                     </connections>
                 </tableView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Message:" lineBreakMode="tailTruncation" minimumFontSize="10" id="42">
-                    <rect key="frame" x="298" y="20" width="74" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Message" lineBreakMode="tailTruncation" minimumFontSize="10" id="42">
+                    <rect key="frame" x="361" y="20" width="70" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" id="135" userLabel="messageTextView">
-                    <rect key="frame" x="298" y="49" width="205" height="79"/>
+                    <rect key="frame" x="361" y="49" width="205" height="115"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -383,29 +383,29 @@
                     </connections>
                 </textView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Displays:" lineBreakMode="tailTruncation" minimumFontSize="10" id="44">
-                    <rect key="frame" x="298" y="136" width="69" height="21"/>
+                    <rect key="frame" x="361" y="174" width="70" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" id="143" userLabel="displaysLabel">
-                    <rect key="frame" x="375" y="136" width="128" height="21"/>
+                    <rect key="frame" x="439" y="174" width="127" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Floor Texture:" lineBreakMode="tailTruncation" minimumFontSize="10" id="249">
-                    <rect key="frame" x="541" y="20" width="105" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Floor Texture" lineBreakMode="tailTruncation" minimumFontSize="10" id="249">
+                    <rect key="frame" x="613" y="20" width="100" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="253" userLabel="floorTextureButton">
-                    <rect key="frame" x="541" y="49" width="115" height="115"/>
+                    <rect key="frame" x="606" y="49" width="115" height="115"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
@@ -421,7 +421,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gQF-qs-dIN" userLabel="floorTextureResetButton">
-                    <rect key="frame" x="574" y="169" width="49" height="30"/>
+                    <rect key="frame" x="639" y="170" width="49" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Default">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -430,15 +430,15 @@
                         <action selector="floorTextureResetButtonTouchDown:" destination="-1" eventType="touchDown" id="OhH-35-faQ"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Ceiling Texture:" lineBreakMode="tailTruncation" minimumFontSize="10" id="250">
-                    <rect key="frame" x="696" y="20" width="118" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Ceiling Texture" lineBreakMode="tailTruncation" minimumFontSize="10" id="250">
+                    <rect key="frame" x="752" y="20" width="113" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="254" userLabel="ceilingTextureButton">
-                    <rect key="frame" x="696" y="49" width="115" height="115"/>
+                    <rect key="frame" x="751" y="49" width="115" height="115"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
@@ -454,7 +454,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="mEu-OU-RaX" userLabel="ceilingTextureResetButton">
-                    <rect key="frame" x="729" y="169" width="49" height="30"/>
+                    <rect key="frame" x="784" y="170" width="49" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Default">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -467,11 +467,11 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
         </scrollView>
         <view autoresizesSubviews="NO" contentMode="scaleToFill" id="202" userLabel="mainView">
-            <rect key="frame" x="0.0" y="0.0" width="574" height="215"/>
+            <rect key="frame" x="0.0" y="0.0" width="571" height="215"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Name of Maze:" lineBreakMode="tailTruncation" minimumFontSize="10" id="4">
-                    <rect key="frame" x="20" y="23" width="118" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Name of Maze" lineBreakMode="tailTruncation" minimumFontSize="10" id="4">
+                    <rect key="frame" x="20" y="23" width="112" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -486,29 +486,29 @@
                         <outlet property="delegate" destination="-1" id="20"/>
                     </connections>
                 </textField>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Make Public:" lineBreakMode="tailTruncation" minimumFontSize="10" id="9">
-                    <rect key="frame" x="39" y="61" width="99" height="21"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Make Public" lineBreakMode="tailTruncation" minimumFontSize="10" id="9">
+                    <rect key="frame" x="37" y="64" width="95" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="6" userLabel="publicSwitch">
-                    <rect key="frame" x="161" y="59" width="51" height="31"/>
+                    <rect key="frame" x="146" y="59" width="51" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <connections>
                         <action selector="switchPublicValueChanged:" destination="-1" eventType="valueChanged" id="BGz-n8-Gvj"/>
                     </connections>
                 </switch>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tutorial:" lineBreakMode="tailTruncation" minimumFontSize="10" id="163">
-                    <rect key="frame" x="76" y="94" width="62" height="24"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tutorial" lineBreakMode="tailTruncation" minimumFontSize="10" id="163">
+                    <rect key="frame" x="76" y="102" width="56" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </label>
                 <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="162" userLabel="tutorialSwitch">
-                    <rect key="frame" x="161" y="94" width="51" height="31"/>
+                    <rect key="frame" x="146" y="98" width="51" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </switch>
             </subviews>

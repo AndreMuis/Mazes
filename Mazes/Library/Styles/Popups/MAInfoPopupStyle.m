@@ -26,8 +26,10 @@
 	{
         MAColors *colors = [MAColors colors];
 
-        _textColor = colors.darkBrown1Color;
-        _font = [UIFont boldSystemFontOfSize: 20.0];
+        _textColor = colors.darkBrown2Color;
+        _font = [UIFont boldSystemFontOfSize: 18.0];
+        
+        _cancelButtonTitleEdgeInsets = UIEdgeInsetsMake(0.0, 15.0, 0.0, 15.0);
     }
     
     return self;

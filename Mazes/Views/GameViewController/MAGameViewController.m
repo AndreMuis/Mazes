@@ -11,7 +11,6 @@
 #import "MAActivityIndicatorStyle.h"
 #import "MAColors.h"
 #import "MAConstants.h"
-#import "MAFoundExitPopupView.h"
 #import "MALocation.h"
 #import "MAGameScreenStyle.h"
 #import "MAInfoPopupView.h"
@@ -23,7 +22,8 @@
 #import "MAMaze.h"
 #import "MAMazeSummary.h"
 #import "MAMazeView.h"
-#import "MARatingPopupStyle.h"
+#import "MARatingPopoverStyle.h"
+#import "MARatingPopupView.h"
 #import "MASoundManager.h"
 #import "MASound.h"
 #import "MAStyles.h"
@@ -215,8 +215,10 @@
 
     if (self.showingFullScreenAd == NO)
     {
-        self.mazeView.userInteractionEnabled = NO;
+        self.mapView.directionArrowImageView.hidden = YES;
         
+        self.mazeView.userInteractionEnabled = NO;
+                
         self.activityIndicatorView.hidden = NO;
         [self.activityIndicatorView startAnimating];
         
@@ -237,16 +239,6 @@
         self.bannerView.delegate = self;
     
         [self.view addSubview: self.bannerView];
-    }
-}
-
-- (void)viewDidAppear: (BOOL)animated
-{
-    [super viewDidAppear: animated];
-    
-    if (self.showingFullScreenAd == NO)
-    {
-        self.mapView.directionArrowImageView.hidden = NO;        
     }
 }
 
@@ -277,6 +269,8 @@
         self.mazeSummary = nil;
         
         [self.mapView clear];
+        self.mapView.directionArrowImageView.hidden = YES;
+
         [self clearMessage];
         [self.mazeView clearMaze];
     }
@@ -291,6 +285,8 @@
 	[super viewDidUnload];
 }
 
+#pragma mark - ADBannerView
+
 - (BOOL)bannerViewActionShouldBegin: (ADBannerView *)banner willLeaveApplication: (BOOL)willLeave
 {
     self.showingFullScreenAd = YES;
@@ -300,6 +296,11 @@
 - (void)bannerViewActionDidFinish: (ADBannerView *)banner
 {
     self.showingFullScreenAd = NO;
+}
+
+- (void)bannerView: (ADBannerView *)banner didFailToReceiveAdWithError: (NSError *)error
+{
+    [MAUtilities logWithClass: [self class] format: @"bannerView did fail to receive ad. Error = %@", error];
 }
 
 - (void)startSetup
@@ -389,6 +390,7 @@
 - (void)finishSetup
 {
     self.mapView.maze = self.maze;
+    self.mapView.directionArrowImageView.hidden = NO;
 
     self.mazeView.userInteractionEnabled = YES;
     self.mazeView.maze = self.maze;
@@ -648,10 +650,6 @@
 	self.wallRemoved = NO;
 	self.directionReversed = NO;
 
-	//NSLog(@"x = %f, z = %f", mazeView.GLX, mazeView.GLZ);	
-	
-	//NSLog(@"step duration avg = %f", moveStepDurationAvg);
-	
 	self.movementStartDate = [[NSDate alloc] init];
 	if (wall.type == MAWallNone || wall.type == MAWallInvisible || wall.type == MAWallFake)
     {
@@ -878,16 +876,14 @@
 	{
 		[self.movements removeAllObjects];
 		
-        MAInfoPopupView *infoPopupView = [MAInfoPopupView infoPopupView];
+        MAInfoPopupView *infoPopupView = [MAInfoPopupView infoPopupViewWithParentView: self.view
+                                                                              message: self.currentLocation.message
+                                                                    cancelButtonTitle: @"Start Over"];
         
-        [infoPopupView showWithStyles: self.styles
-                           parentView: self.view
-                              message: self.currentLocation.message
-                    cancelButtonTitle: @"Start Over"
-                     dismissedHandler: ^
-         {
-             [self setupNewLocation: self.maze.startLocation];
-         }];
+        [infoPopupView showWithDismissedHandler: ^
+        {
+            [self setupNewLocation: self.maze.startLocation];
+        }];
 	}
 	else if (self.currentLocation.action == MALocationActionTeleport)
 	{
@@ -932,32 +928,28 @@
 
 - (void)showEndAlert
 {
-	if (self.mazeSummary.rating == -1.0)
-	{
-        MAFoundExitPopupView *foundExitPopupView = [MAFoundExitPopupView foundExitPopupView];
-        
-        [foundExitPopupView showWithStyles: self.styles
-                                parentView: self.view
-                        ratingViewDelegate: self
-                                    rating: self.mazeSummary.rating
-                          dismissedHandler: ^
+    MAInfoPopupView *infoPopupView = [MAInfoPopupView infoPopupViewWithParentView: self.view
+                                                                          message: self.currentLocation.message
+                                                                cancelButtonTitle: @"OK"];
+
+    [infoPopupView showWithDismissedHandler: ^
+    {
+        if (self.mazeSummary.rating == -1.0)
+        {
+            MARatingPopupView *ratingPopupView = [MARatingPopupView ratingPopupViewWithParentView: self.view
+                                                                               ratingViewDelegate: self
+                                                                                           rating: self.mazeSummary.rating];
+            
+            [ratingPopupView showWithDismissedHandler: ^
+             {
+                 [self goBack];
+             }];
+        }
+        else
         {
             [self goBack];
-        }];
-	}
-	else 
-	{
-        MAInfoPopupView *infoPopupView = [MAInfoPopupView infoPopupView];
-
-        [infoPopupView showWithStyles: self.styles
-                           parentView: self.view
-                              message: self.currentLocation.message
-                    cancelButtonTitle: @"OK"
-                     dismissedHandler: ^
-         {
-             [self goBack];
-         }];
-	}
+        }
+    }];
 }
 
 - (void)ratingView: (MARatingView *)ratingView ratingChanged: (float)newRating
@@ -992,17 +984,20 @@
 
 - (void)goBack
 {
-	if (self.maze.backgroundSound != nil)
-	{
-		[self.maze.backgroundSound stop];
-	}
-	
-    self.activityIndicatorView.hidden = YES;
-    [self.activityIndicatorView stopAnimating];
-    
-	[self.mainViewController transitionFromViewController: self
-                                         toViewController: self.topMazesViewController
-                                               transition: MATransitionFlipFromLeft];
+    if (self.mainViewController.isPerformingTransition == NO)
+    {
+        if (self.maze.backgroundSound != nil)
+        {
+            [self.maze.backgroundSound stop];
+        }
+        
+        self.activityIndicatorView.hidden = YES;
+        [self.activityIndicatorView stopAnimating];
+        
+        [self.mainViewController transitionFromViewController: self
+                                             toViewController: self.topMazesViewController
+                                                   transition: MATransitionFlipFromLeft];
+    }
 }
 
 // How To Play Button

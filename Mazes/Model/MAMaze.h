@@ -55,12 +55,7 @@
                     floorTexture: (MATexture *)floorTexture
                   ceilingTexture: (MATexture *)ceilingTexture;
 
-- (void)resetWithRows: (NSUInteger)rows
-              columns: (NSUInteger)columns
-      backgroundSound: (MASound *)backgroundSound
-          wallTexture: (MATexture *)wallTexture
-         floorTexture: (MATexture *)floorTexture
-       ceilingTexture: (MATexture *)ceilingTexture;
+- (void)reset;
 
 - (void)populateLocationsAndWalls;
 
@@ -72,6 +67,8 @@
 
 - (NSArray *)allLocations;
 - (void)removeAllLocations;
+
+- (void)resetLocation: (MALocation *)location;
 
 - (void)compressLocationsAndWallsData;
 - (void)decompressLocationsDataAndWallsData;

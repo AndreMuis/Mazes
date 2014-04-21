@@ -18,6 +18,8 @@
 @property (readwrite, strong, nonatomic) MAColors *colors;
 @property (readwrite, strong, nonatomic) MAStyles *styles;
 
+@property (readwrite, assign, nonatomic) BOOL isPerformingTransition;
+
 @end
 
 @implementation MAMainViewController
@@ -31,6 +33,8 @@
     {
         _colors = [MAColors colors];
         _styles = [MAStyles styles];
+        
+        _isPerformingTransition = NO;
     }
     
     return self;
@@ -51,6 +55,8 @@
                     toViewController: (UIViewController *)toViewController
                           transition: (MATransitionType)transition
 {
+    self.isPerformingTransition = YES;
+
     [self addChildViewController: toViewController];
     [fromViewController willMoveToParentViewController: nil];
     
@@ -79,6 +85,8 @@
              {
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
+                 
+                 self.isPerformingTransition = NO;
              }];
             
             break;
@@ -113,6 +121,8 @@
              {
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
+                 
+                 self.isPerformingTransition = NO;
              }];
             
             break;
@@ -150,6 +160,8 @@
              {
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
+                 
+                 self.isPerformingTransition = NO;
              }];
             
             break;
@@ -187,6 +199,8 @@
              {
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
+                 
+                 self.isPerformingTransition = NO;
              }];
             
             break;
@@ -224,6 +238,8 @@
              {
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
+                 
+                 self.isPerformingTransition = NO;
              }];
             
             break;
@@ -261,6 +277,8 @@
              {
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
+                 
+                 self.isPerformingTransition = NO;
              }];
             
             break;
@@ -268,6 +286,8 @@
             
         default:
             [MAUtilities logWithClass: [self class] format: @"transition set to an illegal value: %d", transition];
+            
+            self.isPerformingTransition = NO;
             
             break;
     }

@@ -531,12 +531,6 @@
       texCoordsWidthPrcnt1: 0.0
       texCoordsWidthPrcnt2: 1.0];
  	}
-	
-	//int verticiesCount = wallVerticiesCount + floorVerticiesCount + ceilingVerticiesCount + startVerticiesCount + endVerticiesCount;
-	//NSLog(@"verticies = %d", verticiesCount);
-	//NSLog(@"recyanles = %d", verticiesCount / 4);
-	//NSLog(@"GL triangles = %d", verticiesCount / 2);
-	//NSLog(@"GL verticies coordinates = %d", verticiesCount * 3);
 }
 
 - (void)addRectWithX: (float)x
@@ -764,7 +758,7 @@ texCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2
     
     if(glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES) != GL_FRAMEBUFFER_COMPLETE_OES) 
 	{
-        NSLog(@"failed to make complete framebuffer object %x", glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES));
+        [MAUtilities logWithClass: [self class] format: @"failed to make complete framebuffer object %x", glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES)];
         return NO;
     }
     

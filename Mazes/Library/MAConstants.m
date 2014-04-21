@@ -25,27 +25,6 @@ NSString* const MARemoteBaseSSLURLString = @"https://muis.fatfractal.com/mazes";
 NSString* const MAStatusCodeKey = @"MAStatusCodeKey";
 NSUInteger const MAMazeNameExistsStatusCode = 450;
 
-NSString* const MANoInternetMessage = @"This device is not connected to the internet."
-    "This app needs an internet connection to run. Please connect if possible.";
-
-NSString* const MARequestErrorMessage = @"A problem occured while trying to communicate with the server."
-    "Please try again. If the problem persists an update should be available shortly.";
-
-NSString* const MADownloadTopMazesSummariesErrorMessage = @"A problem occured while trying to download the list of mazes from the server."
-    "Please try again. If the problem persists an update should be available shortly.";
-
-NSString* const MASaveMazeRatingErrorMessage = @"A problem occured while trying to save the maze rating to the server."
-    "Please try again. If the problem persists an update should be available shortly.";
-
-NSString* const MADownloadUserMazeErrorMessage = @"A problem occured while trying to download your maze from the server."
-    "Please try again. If the problem persists an update should be available shortly.";
-
-NSString* const MADownloadMazeErrorMessage = @"A problem occured while trying to download the maze from the server."
-    "Please try again. If the problem persists an update should be available shortly.";
-
-NSString* const MASaveMazeStartedErrorMessage = @"A problem occured while trying to save your game progress the server."
-    "Please try again. If the problem persists an update should be available shortly.";
-
 NSUInteger const MARandomPasswordLength = 4.0;
 
 int const MARowsMin = 3;
@@ -67,6 +46,10 @@ float const MAFakeMovementPrcnt = 0.2; // percent of movement before wall disapp
 int const MALocationMessageMaxLength = 250;
 int const MAMazeNameMaxLength = 50;
 
+NSString* const MAUseTutorialKey = @"useTutorial";
+NSString* const MAHasSelectedWallKey = @"hasSelectedWall";
+NSString* const MAHasSelectedLocationKey = @"hasSelectedLocation";
+
 NSString* const MAGreenTextureId = @"92A1B17C-5F19-4A6C-B70F-1C961A8A2FB5";
 NSString* const MARedTextureId = @"E774E067-D4D4-44D6-BC8D-6999B9FFA76E";
 
@@ -74,6 +57,26 @@ NSString* const MAAlternatingBrickTextureId = @"03C76469-321E-4D2D-A69C-D4136708
 NSString* const MALightSwirlMarbleTextureId = @"E4293FC5-74B5-460C-BD28-D71E1DB225E3";
 NSString* const MACreamyWhiteMarbleTextureId = @"91185953-544C-4D64-BEE5-F42F7778480E";
 
+NSString* const MANoInternetMessage = @"This device is not connected to the internet."
+"This app needs an internet connection to run. Please connect if possible.";
+
+NSString* const MARequestErrorMessage = @"A problem occured while trying to communicate with the server."
+"Please try again. If the problem persists an update should be available shortly.";
+
+NSString* const MADownloadTopMazesSummariesErrorMessage = @"A problem occured while trying to download the list of mazes from the server."
+"Please try again. If the problem persists an update should be available shortly.";
+
+NSString* const MASaveMazeRatingErrorMessage = @"A problem occured while trying to save the maze rating to the server."
+"Please try again. If the problem persists an update should be available shortly.";
+
+NSString* const MADownloadUserMazeErrorMessage = @"A problem occured while trying to download your maze from the server."
+"Please try again. If the problem persists an update should be available shortly.";
+
+NSString* const MADownloadMazeErrorMessage = @"A problem occured while trying to download the maze from the server."
+"Please try again. If the problem persists an update should be available shortly.";
+
+NSString* const MASaveMazeStartedErrorMessage = @"A problem occured while trying to save your game progress the server."
+"Please try again. If the problem persists an update should be available shortly.";
 
 
 

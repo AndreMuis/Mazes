@@ -125,6 +125,8 @@
     }
 }
 
+#pragma mark - UIViewController
+
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
@@ -163,10 +165,12 @@
                                            self.bannerView.frame.size.width,
                                            self.bannerView.frame.size.height);
         self.bannerView.delegate = self;
-        
+
         [self.view addSubview: self.bannerView];
     }
 }
+
+#pragma mark - ADBannerView
 
 - (BOOL)bannerViewActionShouldBegin: (ADBannerView *)banner willLeaveApplication: (BOOL)willLeave
 {
@@ -177,6 +181,11 @@
 - (void)bannerViewActionDidFinish: (ADBannerView *)banner
 {
     self.showingFullScreenAd = NO;
+}
+
+- (void)bannerView: (ADBannerView *)banner didFailToReceiveAdWithError: (NSError *)error
+{
+    [MAUtilities logWithClass: [self class] format: @"bannerView did fail to receive ad. Error = %@", error];
 }
 
 - (IBAction)highestRatedButtonTouchDown: (id)sender
@@ -345,19 +354,22 @@
 
 - (void)tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath 
 {
-	MATopMazeTableViewCell *cell = (MATopMazeTableViewCell *)[self.tableView cellForRowAtIndexPath: indexPath];
-	
-	int i = indexPath.row * 2 + (cell.selectedColumn - 1);
-	
-    NSArray *topMazeSummaries = [self.mazeManager topMazeSummariesOfType: self.selectedTopMazeSummariesType];
-
-	if (i < topMazeSummaries.count)
-	{
-        self.gameViewController.mazeSummary = [topMazeSummaries objectAtIndex: i];
+    if (self.mainViewController.isPerformingTransition == NO)
+    {
+        MATopMazeTableViewCell *cell = (MATopMazeTableViewCell *)[self.tableView cellForRowAtIndexPath: indexPath];
         
-        [self.mainViewController transitionFromViewController: self
-                                             toViewController: self.gameViewController
-                                                   transition: MATransitionFlipFromRight];
+        int i = indexPath.row * 2 + (cell.selectedColumn - 1);
+        
+        NSArray *topMazeSummaries = [self.mazeManager topMazeSummariesOfType: self.selectedTopMazeSummariesType];
+
+        if (i < topMazeSummaries.count)
+        {
+            self.gameViewController.mazeSummary = [topMazeSummaries objectAtIndex: i];
+            
+            [self.mainViewController transitionFromViewController: self
+                                                 toViewController: self.gameViewController
+                                                       transition: MATransitionFlipFromRight];
+        }
     }
 }
 
@@ -430,71 +442,74 @@
 
 - (IBAction)createButtonTouchDown: (id)sender
 {
-    if ([self.mazeManager allUserMazes].count == 0)
+    if (self.webServices.isDownloadingUserMazes == NO && self.mainViewController.isPerformingTransition == NO)
     {
-        [self.webServices getUserMazesWithCompletionHandler: ^(NSArray *userMazes, NSError *error)
+        if ([self.mazeManager allUserMazes].count == 0)
         {
-            if (error == nil)
+            [self.webServices getUserMazesWithCompletionHandler: ^(NSArray *userMazes, NSError *error)
             {
-                if (userMazes.count == 0)
+                if (error == nil)
                 {
-                    MAMaze *newMaze = [MAMaze mazeWithLoggedInUser: self.webServices.loggedInUser
-                                                              rows: MARowsMin
-                                                           columns: MAColumnsMin
-                                                   backgroundSound: nil
-                                                       wallTexture: [self.textureManager textureWithTextureId: MAAlternatingBrickTextureId]
-                                                      floorTexture: [self.textureManager textureWithTextureId: MALightSwirlMarbleTextureId]
-                                                    ceilingTexture: [self.textureManager textureWithTextureId: MACreamyWhiteMarbleTextureId]];
-                    
-                    [self.mazeManager addMaze: newMaze];
-                    
-                    self.mazeManager.isFirstUserMazeSizeChosen = NO;
+                    if (userMazes.count == 0)
+                    {
+                        MAMaze *newMaze = [MAMaze mazeWithLoggedInUser: self.webServices.loggedInUser
+                                                                  rows: MARowsMin
+                                                               columns: MAColumnsMin
+                                                       backgroundSound: nil
+                                                           wallTexture: [self.textureManager textureWithTextureId: MAAlternatingBrickTextureId]
+                                                          floorTexture: [self.textureManager textureWithTextureId: MALightSwirlMarbleTextureId]
+                                                        ceilingTexture: [self.textureManager textureWithTextureId: MACreamyWhiteMarbleTextureId]];
+                        
+                        [self.mazeManager addMaze: newMaze];
+                        
+                        self.mazeManager.isFirstUserMazeSizeChosen = NO;
 
-                    self.createViewController.maze = self.mazeManager.firstUserMaze;
-                    
-                    [self.mainViewController transitionFromViewController: self
-                                                         toViewController: self.createViewController
-                                                               transition: MATransitionTranslateBothLeft];
+                        self.createViewController.maze = self.mazeManager.firstUserMaze;
+                        
+                        [self.mainViewController transitionFromViewController: self
+                                                             toViewController: self.createViewController
+                                                                   transition: MATransitionTranslateBothLeft];
+                    }
+                    else
+                    {
+                        for (MAMaze *userMaze in userMazes)
+                        {
+                            [self.mazeManager addMaze: userMaze];
+                        }
+                        
+                        self.mazeManager.isFirstUserMazeSizeChosen = YES;
+                        
+                        self.designViewController.maze = self.mazeManager.firstUserMaze;
+                        
+                        [self.mainViewController transitionFromViewController: self
+                                                             toViewController: self.designViewController
+                                                                   transition: MATransitionTranslateBothLeft];
+                    }
                 }
                 else
                 {
-                    for (MAMaze *userMaze in userMazes)
-                    {
-                        [self.mazeManager addMaze: userMaze];
-                    }
-                    
-                    self.mazeManager.isFirstUserMazeSizeChosen = YES;
-                    
-                    self.designViewController.maze = self.mazeManager.firstUserMaze;
-                    
-                    [self.mainViewController transitionFromViewController: self
-                                                         toViewController: self.designViewController
-                                                               transition: MATransitionTranslateBothLeft];
+                    [self.downloadUserMazeErrorAlertView show];
                 }
-            }
-            else
-            {
-                [self.downloadUserMazeErrorAlertView show];
-            }
-        }];
-    }
-    else
-    {
-        if (self.mazeManager.isFirstUserMazeSizeChosen == NO)
-        {
-            self.createViewController.maze = self.mazeManager.firstUserMaze;
-
-            [self.mainViewController transitionFromViewController: self
-                                                 toViewController: self.createViewController
-                                                       transition: MATransitionTranslateBothLeft];
+            }];
         }
         else
         {
-            self.designViewController.maze = self.mazeManager.firstUserMaze;
+            if (self.mazeManager.isFirstUserMazeSizeChosen == NO)
+            {
+                self.createViewController.maze = self.mazeManager.firstUserMaze;
 
-            [self.mainViewController transitionFromViewController: self
-                                                 toViewController: self.designViewController
-                                                       transition: MATransitionTranslateBothLeft];
+                [self.mainViewController transitionFromViewController: self
+                                                     toViewController: self.createViewController
+                                                           transition: MATransitionTranslateBothLeft];
+            }
+            else
+            {
+                self.designViewController.maze = self.mazeManager.firstUserMaze;
+
+                [self.mainViewController transitionFromViewController: self
+                                                     toViewController: self.designViewController
+                                                           transition: MATransitionTranslateBothLeft];
+            }
         }
     }
 }

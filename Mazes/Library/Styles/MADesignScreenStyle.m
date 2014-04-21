@@ -39,13 +39,13 @@
 		
         _tableViewBackgroundSoundRows = 4;
         
+        _texturePlaceholderBackgroundColor = colors.lightGray4Color;
+        
         _texturesViewBackgroundColor = colors.lightYellow2Color;
         _texturesPopoverWidth = 700.0;
         _texturesPopoverHeight = 750.0;
         _textureImageLength = 100.0;
         _texturesPerRow = 5;
-        
-        _buttonsViewBackgroundColor = colors.lightYellow1Color;
         
         _messageBackgroundColor = [UIColor clearColor];
         _messageTextColor = colors.darkBlueColor;

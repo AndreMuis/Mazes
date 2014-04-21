@@ -14,7 +14,7 @@
 #import "MAMazeManager.h"
 #import "MAMazeSummary.h"
 #import "MARatingView.h"
-#import "MARatingPopupStyle.h"
+#import "MARatingPopoverStyle.h"
 #import "MAStyles.h"
 #import "MATopMazesScreenStyle.h"
 #import "MAUtilities.h"

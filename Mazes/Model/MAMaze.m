@@ -151,23 +151,9 @@
     return maze;
 }
 
-- (void)resetWithRows: (NSUInteger)rows
-              columns: (NSUInteger)columns
-      backgroundSound: (MASound *)backgroundSound
-          wallTexture: (MATexture *)wallTexture
-         floorTexture: (MATexture *)floorTexture
-       ceilingTexture: (MATexture *)ceilingTexture
+- (void)reset
 {
-    self.name = @"";
-    
-    self.rows = rows;
-    self.columns = columns;
-    
     self.public = NO;
-    self.backgroundSound = backgroundSound;
-    self.wallTexture = wallTexture;
-    self.floorTexture = floorTexture;
-    self.ceilingTexture = ceilingTexture;
     
     self.locationsData = nil;
     self.previousSelectedLocation = nil;
@@ -326,6 +312,24 @@
 - (void)removeAllLocations
 {
 	[self.locations removeAllObjects];
+}
+
+- (void)resetLocation: (MALocation *)location
+{
+    MALocation *teleportToLocation = nil;
+    
+    if (location.action == MALocationActionTeleport)
+    {
+        teleportToLocation = [self locationWithRow: location.teleportY
+                                            column: location.teleportX];
+    }
+    
+    [location reset];
+    
+    if (teleportToLocation != nil)
+    {
+        [teleportToLocation reset];
+    }
 }
 
 - (void)compressLocationsAndWallsData

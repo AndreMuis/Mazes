@@ -31,10 +31,13 @@
         _borderColor = colors.lightOrange1Color;
         _cornerRadius = 8.0;
         
-        _titleColor = [colors blueColor];
+        _titleColor = colors.blueColor;
         _titleFont = [UIFont boldSystemFontOfSize: 17.0];
+        
+        _activityIndicatorStyle = UIActivityIndicatorViewStyleWhiteLarge;
+        _translucentOverlayViewBackgroundColor = colors.blackTranslucent1Color;
     }
-                      
+    
     return self;
 }
 

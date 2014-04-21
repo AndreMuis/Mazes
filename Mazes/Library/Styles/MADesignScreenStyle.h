@@ -25,13 +25,13 @@
 
 @property (readonly, assign, nonatomic) int tableViewBackgroundSoundRows;
 
+@property (readonly, strong, nonatomic) UIColor *texturePlaceholderBackgroundColor;
+
 @property (readonly, strong, nonatomic) UIColor *texturesViewBackgroundColor;
 @property (readonly, assign, nonatomic) float texturesPopoverWidth;
 @property (readonly, assign, nonatomic) float texturesPopoverHeight;
 @property (readonly, assign, nonatomic) float textureImageLength;
 @property (readonly, assign, nonatomic) int texturesPerRow;
-
-@property (readonly, strong, nonatomic) UIColor *buttonsViewBackgroundColor;
 
 @property (readonly, strong, nonatomic) UIColor *messageBackgroundColor;
 @property (readonly, strong, nonatomic) UIColor *messageTextColor;

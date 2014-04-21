@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import <CrittercismSDK/Crittercism.h>
 #import <FlurrySDK/Flurry.h>
 #import <Reachability/Reachability.h>
 

@@ -24,6 +24,12 @@
 @property (readwrite, assign, nonatomic) BOOL isLoggedIn;
 @property (readwrite, assign, nonatomic) BOOL isLoggingIn;
 
+@property (readwrite, assign, nonatomic) BOOL isDownloadingUserMazes;
+
+@property (readwrite, assign, nonatomic) BOOL isDownloadingHighestRatedMazeSummaries;
+@property (readwrite, assign, nonatomic) BOOL isDownloadingNewestMazeSummaries;
+@property (readwrite, assign, nonatomic) BOOL isDownloadingYoursMazeSummaries;
+
 @end
 
 @implementation MAWebServices
@@ -51,6 +57,8 @@
         _isLoggedIn = NO;
         _isLoggingIn = NO;
         
+        _isDownloadingUserMazes = NO;
+        
         _isDownloadingHighestRatedMazeSummaries = NO;
         _isDownloadingNewestMazeSummaries = NO;
         _isDownloadingYoursMazeSummaries = NO;
@@ -66,9 +74,6 @@
 
 - (void)autologinWithCompletionHandler: (AutoLoginCompletionHandler)handler
 {
-    self.cloud.userName = @"TestUser4";
-    self.cloud.password = @"Password1";
- 
     self.isLoggingIn = YES;
     
     if (self.cloud.userName == nil)
@@ -225,6 +230,8 @@
 
 - (void)getUserMazesWithCompletionHandler: (GetUserMazesCompletionHandler)handler
 {
+    self.isDownloadingUserMazes = YES;
+    
     [self.fatFractal getArrayFromUri: [NSString stringWithFormat: @"/FFUser/(userName eq '%@')/BackReferences.MAMaze.user/()", self.fatFractal.loggedInUser.userName]
                           onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
      {
@@ -249,6 +256,8 @@
              
              handler(nil, error);
          }
+
+         self.isDownloadingUserMazes = NO;
      }];
 }
 
@@ -383,7 +392,7 @@
 
 - (void)getHighestRatedMazeSummariesWithCompletionHandler: (GetTopMazeSummariesCompletionHandler)handler
 {
-    _isDownloadingHighestRatedMazeSummaries = YES;
+    self.isDownloadingHighestRatedMazeSummaries = YES;
     
     NSString *uri = [NSString stringWithFormat: @"/ff/ext/getHighestRatedMazeSummaries?userName=%@", self.fatFractal.loggedInUser.userName];
     
@@ -407,13 +416,13 @@
              handler(nil, error);
          }
 
-         _isDownloadingHighestRatedMazeSummaries = NO;
+         self.isDownloadingHighestRatedMazeSummaries = NO;
      }];
 }
 
 - (void)getNewestMazeSummariesWithCompletionHandler: (GetTopMazeSummariesCompletionHandler)handler
 {
-    _isDownloadingNewestMazeSummaries = YES;
+    self.isDownloadingNewestMazeSummaries = YES;
     
     NSString *uri = [NSString stringWithFormat: @"/ff/ext/getNewestMazeSummaries?userName=%@", self.fatFractal.loggedInUser.userName];
     
@@ -437,13 +446,13 @@
              handler(nil, error);
          }
 
-         _isDownloadingNewestMazeSummaries = NO;
+         self.isDownloadingNewestMazeSummaries = NO;
      }];
 }
 
 - (void)getYoursMazeSummariesWithCompletionHandler: (GetTopMazeSummariesCompletionHandler)handler
 {
-    _isDownloadingYoursMazeSummaries = YES;
+    self.isDownloadingYoursMazeSummaries = YES;
     
     NSString *uri = [NSString stringWithFormat: @"/ff/ext/getYoursMazeSummaries?userName=%@", self.fatFractal.loggedInUser.userName];
     
@@ -467,7 +476,7 @@
              handler(nil, error);
          }
 
-         _isDownloadingYoursMazeSummaries = NO;
+         self.isDownloadingYoursMazeSummaries = NO;
      }];
 }
 

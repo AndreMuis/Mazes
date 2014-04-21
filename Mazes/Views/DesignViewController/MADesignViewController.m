@@ -8,6 +8,7 @@
 
 #import "MADesignViewController.h"
 
+#import "MAButton.h"
 #import "MAColors.h"
 #import "MAConstants.h"
 #import "MACoordinate.h"
@@ -105,20 +106,20 @@
 	self.locationScrollView.contentSize = self.locationScrollView.frame.size;
 	self.locationScrollView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
 	self.locationScrollView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
-    self.floorTextureButton.backgroundColor = [UIColor clearColor];
-    self.ceilingTextureButton.backgroundColor = [UIColor clearColor];
+    self.floorTextureButton.backgroundColor = self.styles.designScreen.texturePlaceholderBackgroundColor;
+    self.ceilingTextureButton.backgroundColor = self.styles.designScreen.texturePlaceholderBackgroundColor;
 	[self.contentView addSubview: self.locationScrollView];
 	
 	self.wallView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
 	self.wallView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
-    self.wallTextureButton.backgroundColor = [UIColor clearColor];
+    self.wallTextureButton.backgroundColor = self.styles.designScreen.texturePlaceholderBackgroundColor;
 	[self.contentView addSubview: self.wallView];
 	
 	self.graphicsView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
 	self.graphicsView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
-    self.defaultWallTextureButton.backgroundColor = [UIColor clearColor];
-    self.defaultFloorTextureButton.backgroundColor = [UIColor clearColor];
-    self.defaultCeilingTextureButton.backgroundColor = [UIColor clearColor];
+    self.defaultWallTextureButton.backgroundColor = self.styles.designScreen.texturePlaceholderBackgroundColor;
+    self.defaultFloorTextureButton.backgroundColor = self.styles.designScreen.texturePlaceholderBackgroundColor;
+    self.defaultCeilingTextureButton.backgroundColor = self.styles.designScreen.texturePlaceholderBackgroundColor;
 	[self.contentView addSubview: self.graphicsView];
 	
 	self.audioView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
@@ -346,6 +347,8 @@
 		[self setupWallPanel];
 
 		[self.floorPlanView refresh];
+        
+        self.settings.hasSelectedWall = YES;
 	}		
 }
 
@@ -360,6 +363,8 @@
 		if (location != nil)
 		{			
 			[self locationChangedToCoordinate: location.coordinate];
+            
+            self.settings.hasSelectedLocation = YES;
 		}
 	}
 }	
@@ -386,7 +391,7 @@
 		
 	if (setAsTeleportation == YES)
 	{
-		[self resetCurrentLocation];
+		[self.maze resetLocation: self.maze.currentSelectedLocation];
 		
 		self.maze.previousSelectedLocation.teleportX = self.maze.currentSelectedLocation.column;
 		self.maze.previousSelectedLocation.teleportY = self.maze.currentSelectedLocation.row;
@@ -630,7 +635,7 @@
         {
             case MALocationActionDoNothing:
             {
-                [self resetCurrentLocation];
+                [self.maze resetLocation: self.maze.currentSelectedLocation];
                 
                 [self showTutorialHelpForTopic: @"None"];
                 
@@ -639,15 +644,15 @@
                 
             case MALocationActionStart:
             {
-                [self resetCurrentLocation];
+                [self.maze resetLocation: self.maze.currentSelectedLocation];
                 
                 if (self.maze.startLocation != nil)
                 {
-                    [self.maze.startLocation reset];
-                    self.maze.startLocation.floorTextureId = self.maze.floorTexture.textureId;
+                    [self.maze resetLocation: self.maze.startLocation];
                 }
                 
                 self.maze.currentSelectedLocation.floorTextureId = MAGreenTextureId;
+                [self setupLocationPanel];
                 
                 [self showTutorialHelpForTopic: @"StartDirection"];
 
@@ -656,15 +661,15 @@
                 
             case MALocationActionEnd:
             {
-                [self resetCurrentLocation];
+                [self.maze resetLocation: self.maze.currentSelectedLocation];
                 
                 if (self.maze.endLocation != nil)
                 {
-                    self.maze.endLocation.floorTextureId = self.maze.floorTexture.textureId;
-                    [self.maze.endLocation reset];
+                    [self.maze resetLocation: self.maze.endLocation];
                 }
                 
                 self.maze.currentSelectedLocation.floorTextureId = MARedTextureId;
+                [self setupLocationPanel];
 
                 [self showTutorialHelpForTopic: @"None"];
 
@@ -673,7 +678,7 @@
                 
             case MALocationActionStartOver:
             {
-                [self resetCurrentLocation];
+                [self.maze resetLocation: self.maze.currentSelectedLocation];
                 
                 [self showTutorialHelpForTopic: @"None"];
 
@@ -790,24 +795,6 @@
 	}	
 	
 	[self.floorPlanView refresh];
-}
-
-- (void)resetCurrentLocation
-{
-	if (self.maze.currentSelectedLocation.action == MALocationActionTeleport)
-	{
-		[self showTutorialHelpForTopic: @"None"];
-		
-		MALocation *teleportLoc = [self.maze locationWithRow: self.maze.currentSelectedLocation.teleportY
-                                                      column: self.maze.currentSelectedLocation.teleportX];
-
-		if (teleportLoc != nil)
-        {
-			[teleportLoc reset];
-        }
-	}
-
-	[self.maze.currentSelectedLocation reset];
 }
 
 - (int)getNextTeleportId
@@ -995,7 +982,7 @@ BOOL exists;
 	[self.locationsVisited removeAllObjects];
 	exists = NO;
 	
-	[self findExitWithLocation: self.maze.endLocation];
+	[self findExitWithLocation: self.maze.startLocation];
 	
 	return exists;
 }
@@ -1014,9 +1001,10 @@ BOOL exists;
 	if (location.action == MALocationActionEnd)
     {
 		exists = YES;
+        return;
     }
     
-	if (exists == YES || location.action == MALocationActionStartOver)
+	if (location.action == MALocationActionStartOver)
     {
 		return;
     }
@@ -1126,7 +1114,9 @@ BOOL exists;
 
 - (IBAction)floorTextureButtonTouchDown: (id)sender
 {
-	if (self.maze.currentSelectedLocation != nil)
+	if (self.maze.currentSelectedLocation != nil &&
+        self.maze.currentSelectedLocation.action != MALocationActionStart &&
+        self.maze.currentSelectedLocation.action != MALocationActionEnd)
 	{
         __weak typeof(self) weakSelf = self;
         
@@ -1335,10 +1325,17 @@ BOOL exists;
 
 - (void)saveMaze
 {
+    self.saveButton.isBusy = YES;
+    
     [self.webServices saveMaze: self.maze
              completionHandler: ^(NSError *error)
     {
+        self.saveButton.isBusy = NO;
+
         if (error == nil)
+        {
+        }
+        else
         {
             if ([[error.userInfo allKeys] indexOfObject: MAStatusCodeKey] != NSNotFound)
             {
@@ -1347,9 +1344,9 @@ BOOL exists;
                 if ([statusCode integerValue] == 450)
                 {
                     [self setupTabBarWithSelectedIndex: 1];
-                 
+                    
                     NSString *message = [NSString stringWithFormat: @"There is already a maze with the name %@.", self.maze.name];
-                 
+                    
                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
                                                                         message: message
                                                                        delegate: nil
@@ -1358,11 +1355,7 @@ BOOL exists;
                     
                     [alertView show];
                 }
-            }
-        }
-        else
-        {
-        
+            }        
         }
     }];
 }
@@ -1452,19 +1445,16 @@ BOOL exists;
     [alertView show];    
 }
 
+#pragma mark - UIAlertViewDelegate
+
 - (void)alertView: (UIAlertView *)alertView didDismissWithButtonIndex: (NSInteger)buttonIndex
 {
 	// answers Yes to delete
-	if (alertView.tag == 1 && buttonIndex == 0)
+	if (alertView.tag == 1 && buttonIndex == 0 && self.mainViewController.isPerformingTransition == NO)
 	{
 		[self stopBackgroundSound];
 		
-        [self.maze resetWithRows: MARowsMin
-                         columns: MAColumnsMin
-                 backgroundSound: nil
-                     wallTexture: [self.textureManager textureWithTextureId: MAAlternatingBrickTextureId]
-                    floorTexture: [self.textureManager textureWithTextureId: MALightSwirlMarbleTextureId]
-                  ceilingTexture: [self.textureManager textureWithTextureId: MACreamyWhiteMarbleTextureId]];
+        [self.maze reset];
 
         [self setup];
         
@@ -1480,13 +1470,16 @@ BOOL exists;
 
 - (IBAction)mazesButtonTouchDown: (id)sender
 {
-	[self stopBackgroundSound];
-	
-	[self.navigationController popViewControllerAnimated: NO];
+    if (self.mainViewController.isPerformingTransition == NO)
+    {
+        [self stopBackgroundSound];
+        
+        [self.navigationController popViewControllerAnimated: NO];
 
-    [self.mainViewController transitionFromViewController: self
-                                         toViewController: self.topMazesViewController
-                                               transition: MATransitionTranslateBothRight];
+        [self.mainViewController transitionFromViewController: self
+                                             toViewController: self.topMazesViewController
+                                                   transition: MATransitionTranslateBothRight];
+    }
 }
 
 - (void)stopBackgroundSound
@@ -1575,62 +1568,77 @@ BOOL exists;
 {
 	if (self.settings.useTutorial == YES)
 	{
-		if ([topic isEqualToString: @"None"] == YES)
-		{
-			self.message1Label.text = @"";
-			self.message2Label.text = @"";
-		}
-		else if ([topic isEqualToString: @"Start"] == YES)
+		if ([topic isEqualToString: @"Start"] == YES)
 		{
 			self.message1Label.text = @"Tap on a wall (blue segment) to remove it or put it back.";
 			self.message2Label.text = @"Tap and hold on a white square to select a location.";
 		}
-		else if ([topic isEqualToString: @"WallTypes"] == YES)
-		{
-			self.message1Label.text = @"Tap on the list above to select additional wall types.";
-			self.message2Label.text = @"";
-		}
-		else if ([topic isEqualToString: @"InvisibleWalls"] == YES)
-		{
-			self.message1Label.text = @"An invisible wall is solid but can't be seen.";
-			self.message2Label.text = @"A player can't pass through an invisible wall.";
-		}
-		else if ([topic isEqualToString: @"FakeWalls"] == YES)
-		{
-			self.message1Label.text = @"A fake wall looks like a normal wall but is not solid.";
-			self.message2Label.text = @"A fake wall will disappear after a player passes through it.";
-		}
-		else if ([topic isEqualToString: @"LocationTypes"] == YES)
-		{
-			self.message1Label.text = @"Tap on the Location Type list to determine what will happen at this location.";
-			self.message2Label.text = @"";
-		}
-		else if ([topic isEqualToString: @"StartDirection"] == YES)
-		{
-			self.message1Label.text = @"Tap on the Direction list to choose the direction the player will face when first entering";
-			self.message2Label.text = @"the maze.";
-		}
-		else if ([topic isEqualToString: @"TeleportTwin"] == YES)
-		{
-			self.message1Label.text = @"Please select a second teleportation location.";
-			self.message2Label.text = @"";
-		}
-		else if ([topic isEqualToString: @"TeleportDirection"] == YES)
-		{
-			self.message1Label.text = @"Tap on the Direction list to select the direction the player will face after being teleported to";
-			self.message2Label.text = @"this location.";
-		}
-		else if ([topic isEqualToString: @"LocationMessages"] == YES)
-		{
-			self.message1Label.text = @"Type in a message to display to the player at this location. The message will either be displayed";
-			self.message2Label.text = @"above the maze or in a pop-up depending on the type of location.";
-		}
-		else if ([topic isEqualToString: @"MakePublic"] == YES)
-		{
-			self.message1Label.text = @"Set Make Public to On to let everyone play your maze.";
-			self.message2Label.text = @"If you have recently saved your maze it will appear at the top of the Newest list.";
-		}
-        else
+        
+        if (self.settings.hasSelectedLocation == YES && self.settings.hasSelectedWall == YES)
+        {
+            if ([topic isEqualToString: @"None"] == YES)
+            {
+                self.message1Label.text = @"";
+                self.message2Label.text = @"";
+            }
+            else if ([topic isEqualToString: @"WallTypes"] == YES)
+            {
+                self.message1Label.text = @"Tap on the list above to select additional wall types.";
+                self.message2Label.text = @"";
+            }
+            else if ([topic isEqualToString: @"InvisibleWalls"] == YES)
+            {
+                self.message1Label.text = @"An invisible wall is solid but can't be seen.";
+                self.message2Label.text = @"A player can't pass through an invisible wall.";
+            }
+            else if ([topic isEqualToString: @"FakeWalls"] == YES)
+            {
+                self.message1Label.text = @"A fake wall looks like a normal wall but is not solid.";
+                self.message2Label.text = @"A fake wall will disappear after a player passes through it.";
+            }
+            else if ([topic isEqualToString: @"LocationTypes"] == YES)
+            {
+                self.message1Label.text = @"Tap on the Location Type list to determine what will happen at this location.";
+                self.message2Label.text = @"";
+            }
+            else if ([topic isEqualToString: @"StartDirection"] == YES)
+            {
+                self.message1Label.text = @"Tap on the Direction list to choose the direction the player will face when first entering";
+                self.message2Label.text = @"the maze.";
+            }
+            else if ([topic isEqualToString: @"TeleportTwin"] == YES)
+            {
+                self.message1Label.text = @"Please select a second teleportation location.";
+                self.message2Label.text = @"";
+            }
+            else if ([topic isEqualToString: @"TeleportDirection"] == YES)
+            {
+                self.message1Label.text = @"Tap on the Direction list to select the direction the player will face after being teleported to";
+                self.message2Label.text = @"this location.";
+            }
+            else if ([topic isEqualToString: @"LocationMessages"] == YES)
+            {
+                self.message1Label.text = @"Type in a message to display to the player at this location. The message will either be displayed";
+                self.message2Label.text = @"above the maze or in a pop-up depending on the type of location.";
+            }
+            else if ([topic isEqualToString: @"MakePublic"] == YES)
+            {
+                self.message1Label.text = @"Turn Make Public on so everyone can play your maze.";
+                self.message2Label.text = @"If you have recently saved your maze it will appear at the top of the Newest list.";
+            }
+        }
+
+		if ([topic isEqualToString: @"Start"] == NO &&
+            [topic isEqualToString: @"None"] == NO &&
+            [topic isEqualToString: @"WallTypes"] == NO &&
+            [topic isEqualToString: @"InvisibleWalls"] == NO &&
+            [topic isEqualToString: @"FakeWalls"] == NO &&
+            [topic isEqualToString: @"LocationTypes"] == NO &&
+            [topic isEqualToString: @"StartDirection"] == NO &&
+            [topic isEqualToString: @"TeleportTwin"] == NO &&
+            [topic isEqualToString: @"TeleportDirection"] == NO &&
+            [topic isEqualToString: @"LocationMessages"] == NO &&
+            [topic isEqualToString: @"MakePublic"] == NO)
         {
             [MAUtilities logWithClass: [self class] format: @"topic set to an illegal value: %@", topic];
         }

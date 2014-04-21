@@ -23,9 +23,11 @@
 	if (self) 
 	{
         _blackColor = [UIColor blackColor];
-        
+        _blackTranslucent1Color = [UIColor colorWithWhite: 0.0 alpha: 0.35];
+        _blackTranslucent2Color = [UIColor colorWithWhite: 0.0 alpha: 0.15];
+
         _whiteColor  = [UIColor whiteColor];
-        _whiteOpaqueColor = [UIColor colorWithWhite: 1.0 alpha: 0.75];
+        _whiteTranslucentColor = [UIColor colorWithWhite: 1.0 alpha: 0.8];
     
         _grayColor = [UIColor colorWithWhite: 0.5 alpha: 1.0];
         _lightGray1Color = [UIColor colorWithWhite: 0.6 alpha: 1.0];
@@ -40,7 +42,9 @@
         _darkBrown2Color = [UIColor colorWithRed: 0.3 green: 0.15 blue: 0.0 alpha: 1.0];
         
         _redColor = [UIColor redColor];
+        
         _greenColor = [UIColor greenColor];
+        _darkGreenColor = [UIColor colorWithRed: 0.0 green: 0.8 blue: 0.0 alpha: 1.0];
         
         _blueColor = [UIColor colorWithRed: 0.0 green: 0.0 blue: 1.0 alpha: 1.0];
         _darkBlueColor = [UIColor colorWithRed: 0.0 green: 0.0 blue: 0.60 alpha: 1.0];
