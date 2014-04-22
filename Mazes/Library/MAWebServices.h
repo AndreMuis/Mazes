@@ -29,7 +29,9 @@ typedef void (^SaveMazeCompletionHandler)(NSError *error);
 
 typedef void (^GetTopMazeSummariesCompletionHandler)(NSArray *topMazeSummaries, NSError *error);
 
-typedef void (^SaveProgressCompletionHandler)(NSError *error);
+typedef void (^SaveStartedCompletionHandler)(NSString *mazeId, NSError *error);
+typedef void (^SaveFoundExitCompletionHandler)(NSString *mazeId, NSString *mazeName, NSError *error);
+
 typedef void (^SaveRatingCompletionHandler)(NSError *error);
 
 typedef void (^GetLatestVersionCompletionHandler)(MALatestVersion *latestVersion, NSError *error);
@@ -41,6 +43,8 @@ typedef void (^GetLatestVersionCompletionHandler)(MALatestVersion *latestVersion
 @property (readonly, assign, nonatomic) BOOL isLoggingIn;
 
 @property (readonly, assign, nonatomic) BOOL isDownloadingUserMazes;
+
+@property (readonly, assign, nonatomic) BOOL isSavingMaze;
 
 @property (readonly, assign, nonatomic) BOOL isDownloadingHighestRatedMazeSummaries;
 @property (readonly, assign, nonatomic) BOOL isDownloadingNewestMazeSummaries;
@@ -62,8 +66,8 @@ typedef void (^GetLatestVersionCompletionHandler)(MALatestVersion *latestVersion
 - (void)getNewestMazeSummariesWithCompletionHandler: (GetTopMazeSummariesCompletionHandler)handler;
 - (void)getYoursMazeSummariesWithCompletionHandler: (GetTopMazeSummariesCompletionHandler)handler;
 
-- (void)saveStartedWithUserName: (NSString *)userName mazeId: (NSString *)mazeId completionHandler: (SaveProgressCompletionHandler)handler;
-- (void)saveFoundExitWithUserName: (NSString *)userName mazeId: (NSString *)mazeId completionHandler: (SaveProgressCompletionHandler)handler;
+- (void)saveStartedWithUserName: (NSString *)userName mazeId: (NSString *)mazeId completionHandler: (SaveStartedCompletionHandler)handler;
+- (void)saveFoundExitWithUserName: (NSString *)userName mazeId: (NSString *)mazeId mazeName: (NSString *)mazeName completionHandler: (SaveFoundExitCompletionHandler)handler;
 - (void)saveMazeRatingWithUserName: (NSString *)userName mazeId: (NSString *)mazeId rating: (float)rating completionHandler: (SaveRatingCompletionHandler)handler;
 
 - (void)getLatestVersionWithCompletionHandler: (GetLatestVersionCompletionHandler)handler;

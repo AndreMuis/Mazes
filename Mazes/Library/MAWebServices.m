@@ -26,6 +26,8 @@
 
 @property (readwrite, assign, nonatomic) BOOL isDownloadingUserMazes;
 
+@property (readwrite, assign, nonatomic) BOOL isSavingMaze;
+
 @property (readwrite, assign, nonatomic) BOOL isDownloadingHighestRatedMazeSummaries;
 @property (readwrite, assign, nonatomic) BOOL isDownloadingNewestMazeSummaries;
 @property (readwrite, assign, nonatomic) BOOL isDownloadingYoursMazeSummaries;
@@ -297,6 +299,8 @@
 
 - (void)saveMaze: (MAMaze *)maze completionHandler: (SaveMazeCompletionHandler)handler
 {
+    self.isSavingMaze = YES;
+    
     if ([self.fatFractal metaDataForObj: maze] == nil)
     {
         [maze compressLocationsAndWallsData];
@@ -319,6 +323,8 @@
                  
                  handler(error);
              }
+             
+             self.isSavingMaze = NO;
          }];
     }
     else
@@ -360,6 +366,8 @@
                                    
                                    handler(error);
                                }
+                               
+                               self.isSavingMaze = NO;
                            }];
                       }
                       else
@@ -371,8 +379,9 @@
                           [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
                           
                           handler(error);
-                      }
 
+                          self.isSavingMaze = NO;
+                      }
                   }];
              }
              else
@@ -384,6 +393,8 @@
                  [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
                  
                  handler(error);
+
+                 self.isSavingMaze = NO;
              }
          }];
     }
@@ -481,7 +492,7 @@
 }
 
 
-- (void)saveStartedWithUserName: (NSString *)userName mazeId: (NSString *)mazeId completionHandler: (SaveProgressCompletionHandler)handler
+- (void)saveStartedWithUserName: (NSString *)userName mazeId: (NSString *)mazeId completionHandler: (SaveStartedCompletionHandler)handler
 {
     NSString *uri = [NSString stringWithFormat: @"/ff/ext/saveMazeStarted?userName=%@&mazeId=%@", userName, mazeId];
     
@@ -490,7 +501,7 @@
      {
          if (theErr == nil && theResponse.statusCode == 200)
          {
-             handler(nil);
+             handler(mazeId, nil);
          }
          else
          {
@@ -500,12 +511,12 @@
          
              [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
          
-             handler(error);
+             handler(mazeId, error);
          }
      }];
 }
 
-- (void)saveFoundExitWithUserName: (NSString *)userName mazeId: (NSString *)mazeId completionHandler: (SaveProgressCompletionHandler)handler
+- (void)saveFoundExitWithUserName: (NSString *)userName mazeId: (NSString *)mazeId mazeName: (NSString *)mazeName completionHandler: (SaveFoundExitCompletionHandler)handler
 {
     NSString *uri = [NSString stringWithFormat: @"/ff/ext/saveMazeFoundExit?userName=%@&mazeId=%@", userName, mazeId];
     
@@ -514,7 +525,7 @@
      {
          if (theErr == nil && theResponse.statusCode == 200)
          {
-             handler(nil);
+             handler(mazeId, mazeName, nil);
          }
          else
          {
@@ -524,7 +535,7 @@
              
              [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
              
-             handler(error);
+             handler(mazeId, mazeName, error);
          }
      }];
 }

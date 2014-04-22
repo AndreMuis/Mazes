@@ -16,83 +16,60 @@
 
 @interface MASoundManager ()
 
-@property (strong, nonatomic, readonly) Reachability *reachability;
 @property (strong, nonatomic, readonly) MAWebServices *webServices;
 
 @property (strong, nonatomic, readonly) NSArray *sounds;
 
 @property (assign, nonatomic, readwrite) NSUInteger count;
 
-@property (strong, nonatomic, readonly) UIAlertView *downloadErrorAlertView;
-
 @end
 
 @implementation MASoundManager
 
-+ (id)soundManagerWithReachability: (Reachability *)reachability
-                       webServices: (MAWebServices *)webServices
++ (id)soundManagerWithWebServices: (MAWebServices *)webServices
 {
-    MASoundManager *soundManager = [[MASoundManager alloc] initWithReachability: reachability
-                                                                    webServices: webServices];
+    MASoundManager *soundManager = [[MASoundManager alloc] initWithWebServices: webServices];
     return soundManager;
 }
 
-- (id)initWithReachability: (Reachability *)reachability
-               webServices: (MAWebServices *)webServices
+- (id)initWithWebServices: (MAWebServices *)webServices
 {
     self = [super init];
 	
 	if (self)
 	{
-        _reachability = reachability;
         _webServices = webServices;
         
         _sounds = [NSArray array];
         
         _count = 0;
-        
-        _downloadErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                             message: MARequestErrorMessage
-                                                            delegate: self
-                                                   cancelButtonTitle: @"Cancel"
-                                                   otherButtonTitles: @"Retry", nil];
 	}
 	
     return self;
 }
 
-- (void)downloadSounds
+- (void)downloadSoundsWithCompletionHandler: (DownloadSoundsCompletionHandler)handler
 {
     [self.webServices getSoundsWithCompletionHandler: ^(NSArray *sounds, NSError *error)
-     {
-         if (error == nil)
-         {
-             _sounds = sounds;
-             
-             for (MASound *sound in self.sounds)
-             {
-                 [sound setup];
-             }
-             
-             self.count = self.sounds.count;
-         }
-         else if (self.reachability.isReachable == YES)
-         {
-             [self.downloadErrorAlertView show];
-         }
-     }];
-}
-
-- (void)alertView: (UIAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
-{
-    if (alertView == self.downloadErrorAlertView && buttonIndex == 1)
     {
-        [self downloadSounds];
-    }
-    else
-    {
-        [MAUtilities logWithClass: [self class] format: [NSString stringWithFormat: @"AlertView not handled. AlertView: %@", alertView]];
-    }
+        if (error == nil)
+        {
+            _sounds = sounds;
+         
+            for (MASound *sound in self.sounds)
+            {
+                [sound setup];
+            }
+         
+            self.count = self.sounds.count;
+         
+            handler(nil);
+        }
+        else
+        {
+            handler(error);
+        }
+    }];
 }
 
 - (NSArray *)sortedByName

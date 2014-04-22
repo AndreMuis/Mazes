@@ -15,52 +15,39 @@
 
 @interface  MATextureManager ()
 
-@property (strong, nonatomic, readonly) Reachability *reachability;
 @property (strong, nonatomic, readonly) MAWebServices *webServices;
 
 @property (strong, nonatomic, readonly) NSArray *textures;
 
 @property (assign, nonatomic, readwrite) NSUInteger count;
 
-@property (strong, nonatomic, readonly) UIAlertView *downloadErrorAlertView;
-
 @end
 
 @implementation MATextureManager
 
-+ (MATextureManager *)textureManagerWithReachability: (Reachability *)reachability
-                                         webServices: (MAWebServices *)webServices
++ (MATextureManager *)textureManagerWithWebServices: (MAWebServices *)webServices
 {
-    MATextureManager *textureManager = [[MATextureManager alloc] initWithWithReachability: reachability
-                                                                              webServices: webServices];
+    MATextureManager *textureManager = [[MATextureManager alloc] initWithWithWebServices: webServices];
     return textureManager;
 }
 
-- (id)initWithWithReachability: (Reachability *)reachability
-                   webServices: (MAWebServices *)webServices
+- (id)initWithWithWebServices: (MAWebServices *)webServices
 {
     self = [super init];
 	
 	if (self)
 	{
-        _reachability = reachability;
         _webServices = webServices;
         
         _textures = [NSArray array];
         
         _count = 0;
-        
-        _downloadErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                             message: MARequestErrorMessage
-                                                            delegate: self
-                                                   cancelButtonTitle: @"Cancel"
-                                                   otherButtonTitles: @"Retry", nil];
 	}
 	
     return self;
 }
 
-- (void)downloadTextures
+- (void)downloadTexturesWithCompletionHandler: (DownloadTexturesCompletionHandler)handler
 {
     [self.webServices getTexturesWithCompletionHandler: ^(NSArray *textures, NSError *error)
      {
@@ -69,24 +56,14 @@
              _textures = textures;
              
              self.count = self.textures.count;
+             
+             handler(nil);
          }
          else
          {
-             [self.downloadErrorAlertView show];
+             handler(error);
          }
      }];
-}
-
-- (void)alertView: (UIAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
-{
-    if (alertView == self.downloadErrorAlertView && buttonIndex == 1)
-    {
-        [self downloadTextures];
-    }
-    else
-    {
-        [MAUtilities logWithClass: [self class] format: [NSString stringWithFormat: @"AlertView not handled. AlertView: %@", alertView]];
-    }
 }
 
 - (NSArray *)all

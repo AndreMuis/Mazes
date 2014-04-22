@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import <Reachability/Reachability.h>
+
 #import "MAConstants.h"
 #import "MALocation.h"
 

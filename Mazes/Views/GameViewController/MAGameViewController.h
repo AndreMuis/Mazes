@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import <Reachability/Reachability.h>
+
 #import "MAConstants.h"
 #import "MARatingView.h"
 #import "MAWebServices.h"
@@ -44,11 +46,12 @@ typedef enum : int
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
-- (id)initWithWebServices: (MAWebServices *)webServices
-              mazeManager: (MAMazeManager *)mazeManager
-           textureManager: (MATextureManager *)textureManager
-             soundManager: (MASoundManager *)soundManager
-               bannerView: (ADBannerView *)bannerView;
+- (id)initWithReachability: (Reachability *)reachability
+               webServices: (MAWebServices *)webServices
+               mazeManager: (MAMazeManager *)mazeManager
+            textureManager: (MATextureManager *)textureManager
+              soundManager: (MASoundManager *)soundManager
+                bannerView: (ADBannerView *)bannerView;
 
 - (void)startSetup;
 

@@ -62,6 +62,17 @@
 @property (readonly, strong, nonatomic) UIPopoverController *texturesPopoverController;
 @property (readonly, strong, nonatomic) MATexturesViewController *texturesViewController;
 
+@property (readonly, strong, nonatomic) UIAlertView *invalidTeleportationLocationAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *selectSecondTeleportationLocationAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *mazeNameExistsAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *enterMazeNameAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *selectStartLocationAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *selectEndLocationAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *noPathToExitAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *resetMazeAlertView;
+
+@property (readonly, strong, nonatomic) UIAlertView *saveMazeErrorAlertView;
+
 @end
 
 @implementation MADesignViewController
@@ -90,12 +101,66 @@
         _texturesViewController = [[MATexturesViewController alloc] initWithTextureManager: textureManager];
         
         _texturesPopoverController = [[UIPopoverController alloc] initWithContentViewController: _texturesViewController];
+
+        _invalidTeleportationLocationAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                            message: @"A teleportation location cannot be surrounded by walls."
+                                                                           delegate: nil
+                                                                  cancelButtonTitle: @"OK"
+                                                                  otherButtonTitles: nil];
+        
+        _selectSecondTeleportationLocationAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                                 message: @"Please select a second teleportation location before saving."
+                                                                                delegate: nil
+                                                                       cancelButtonTitle: @"OK"
+                                                                       otherButtonTitles: nil];
+        
+        _mazeNameExistsAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                              message: @""
+                                                             delegate: nil
+                                                    cancelButtonTitle: @"OK"
+                                                    otherButtonTitles: nil];
+        
+        _enterMazeNameAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                             message: @"Please enter in a name for your maze."
+                                                            delegate: nil
+                                                   cancelButtonTitle: @"OK"
+                                                   otherButtonTitles: nil];
+        
+        _selectStartLocationAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                   message: @"Please select a start location."
+                                                                  delegate: nil
+                                                         cancelButtonTitle: @"OK"
+                                                         otherButtonTitles: nil];
+        
+        _selectEndLocationAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                 message: @"Your maze must have an end location before it can be made public."
+                                                                delegate: nil
+                                                       cancelButtonTitle: @"OK"
+                                                       otherButtonTitles: nil];
+
+        _noPathToExitAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                            message: @"Your maze must have a path from start to end before it can be made public."
+                                                           delegate: nil
+                                                  cancelButtonTitle: @"OK"
+                                                  otherButtonTitles: nil];
+
+        _resetMazeAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                         message: @"Reset maze?"
+                                                        delegate: self
+                                               cancelButtonTitle: @"Yes"
+                                               otherButtonTitles: @"No", nil];
+
+        _saveMazeErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                             message: MASaveMazeErrorMessage
+                                                            delegate: self
+                                                   cancelButtonTitle: @"OK"
+                                                   otherButtonTitles: nil];
     }
     
     return self;
 }
 
-- (void)viewDidLoad 
+- (void)viewDidLoad
 {
     [super viewDidLoad];
 
@@ -948,13 +1013,7 @@
 
 - (void)teleportationSurroundedAlert
 {	
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
-                                                        message: @"A teleportation location cannot be surrounded by walls."
-                                                       delegate: nil
-                                              cancelButtonTitle: @"OK"
-                                              otherButtonTitles: nil];
-    
-    [alertView show];
+    [self.invalidTeleportationLocationAlertView show];
 }
 
 //
@@ -1301,13 +1360,7 @@ BOOL exists;
 {
 	if([self setNextLocationAsTeleportation] == YES)
 	{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
-                                                            message: @"Please select a second teleportation location before saving."
-                                                           delegate: nil
-                                                  cancelButtonTitle: @"OK"
-                                                  otherButtonTitles: nil];
-        
-        [alertView show];
+        [self.selectSecondTeleportationLocationAlertView show];
         
 		return;
 	}
@@ -1327,37 +1380,38 @@ BOOL exists;
 {
     self.saveButton.isBusy = YES;
     
-    [self.webServices saveMaze: self.maze
-             completionHandler: ^(NSError *error)
+    if (self.webServices.isSavingMaze == NO)
     {
-        self.saveButton.isBusy = NO;
-
-        if (error == nil)
+        [self.webServices saveMaze: self.maze
+                 completionHandler: ^(NSError *error)
         {
-        }
-        else
-        {
-            if ([[error.userInfo allKeys] indexOfObject: MAStatusCodeKey] != NSNotFound)
+            if (error == nil)
             {
-                NSNumber *statusCode = [error.userInfo objectForKey: MAStatusCodeKey];
-                
-                if ([statusCode integerValue] == 450)
+                ;
+            }
+            else
+            {
+                if ([[error.userInfo allKeys] indexOfObject: MAStatusCodeKey] != NSNotFound)
                 {
-                    [self setupTabBarWithSelectedIndex: 1];
+                    NSNumber *statusCode = [error.userInfo objectForKey: MAStatusCodeKey];
                     
-                    NSString *message = [NSString stringWithFormat: @"There is already a maze with the name %@.", self.maze.name];
-                    
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                        message: message
-                                                                       delegate: nil
-                                                              cancelButtonTitle: @"OK"
-                                                              otherButtonTitles: nil];
-                    
-                    [alertView show];
+                    if ([statusCode integerValue] == 450)
+                    {
+                        [self setupTabBarWithSelectedIndex: 1];
+                        
+                        self.mazeNameExistsAlertView.message = [NSString stringWithFormat: @"There is already a maze with the name %@.", self.maze.name];
+                        [self.mazeNameExistsAlertView show];
+                    }
                 }
-            }        
-        }
-    }];
+                else
+                {
+                    [self.saveMazeErrorAlertView show];
+                }
+            }
+
+            self.saveButton.isBusy = NO;
+        }];
+    }
 }
 
 //
@@ -1374,24 +1428,13 @@ BOOL exists;
 	{
 		[self setupTabBarWithSelectedIndex: 1];
 				
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
-                                                            message: @"Please enter in a name for your maze."
-                                                           delegate: nil
-                                                  cancelButtonTitle: @"OK"
-                                                  otherButtonTitles: nil];
-        
-        [alertView show];
+        [self.enterMazeNameAlertView show];
 
 		passed = NO;
 	}
 	else if (self.maze.startLocation == nil)
 	{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
-                                                            message: @"Please select a start location."
-                                                           delegate: nil
-                                                  cancelButtonTitle: @"OK"
-                                                  otherButtonTitles: nil];
-        [alertView show];
+        [self.selectStartLocationAlertView show];
 
 		passed = NO;
 	}
@@ -1399,23 +1442,13 @@ BOOL exists;
 	{
 		if (self.maze.endLocation == nil)
 		{
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                message: @"Your maze must have an end location before it can be made public."
-                                                               delegate: nil
-                                                      cancelButtonTitle: @"OK"
-                                                      otherButtonTitles: nil];
-            [alertView show];
+            [self.selectEndLocationAlertView show];
 
 			passed = NO;
 		}
 		else if ([self pathExists] == NO)
 		{
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                message: @"Your maze must have a path from start to end before it can be made public."
-                                                               delegate: nil
-                                                      cancelButtonTitle: @"OK"
-                                                      otherButtonTitles: nil];
-            [alertView show];
+            [self.noPathToExitAlertView show];
 
 			passed = NO;
 		}
@@ -1435,14 +1468,7 @@ BOOL exists;
 
 - (IBAction)resetButtonTouchDown: (id)sender
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @""
-                                                        message: @"Reset maze?"
-                                                       delegate: self
-                                              cancelButtonTitle: @"Yes"
-                                              otherButtonTitles: @"No", nil];
-    alertView.tag = 1;
-    
-    [alertView show];    
+    [self.resetMazeAlertView show];
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -1450,7 +1476,7 @@ BOOL exists;
 - (void)alertView: (UIAlertView *)alertView didDismissWithButtonIndex: (NSInteger)buttonIndex
 {
 	// answers Yes to delete
-	if (alertView.tag == 1 && buttonIndex == 0 && self.mainViewController.isPerformingTransition == NO)
+	if (alertView == self.resetMazeAlertView && buttonIndex == 0 && self.mainViewController.isPerformingTransition == NO)
 	{
 		[self stopBackgroundSound];
 		
@@ -1466,6 +1492,10 @@ BOOL exists;
                                              toViewController: self.createViewController
                                                    transition: MATransitionTranslateBothRight];
 	}
+    else
+    {
+        [MAUtilities logWithClass: [self class] format: @"AlertView not handled. AlertView: %@", alertView];
+    }
 }
 
 - (IBAction)mazesButtonTouchDown: (id)sender

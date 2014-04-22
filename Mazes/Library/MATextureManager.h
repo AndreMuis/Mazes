@@ -8,22 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Reachability/Reachability.h>
-
 @class MAWebServices;
 @class MATexture;
+
+typedef void (^DownloadTexturesCompletionHandler)(NSError *error);
 
 @interface MATextureManager : NSObject
 
 @property (assign, nonatomic, readonly) NSUInteger count;
 
-+ (MATextureManager *)textureManagerWithReachability: (Reachability *)reachability
-                                         webServices: (MAWebServices *)webServices;
++ (MATextureManager *)textureManagerWithWebServices: (MAWebServices *)webServices;
 
-- (id)initWithWithReachability: (Reachability *)reachability
-                   webServices: (MAWebServices *)webServices;
+- (id)initWithWithWebServices: (MAWebServices *)webServices;
 
-- (void)downloadTextures;
+- (void)downloadTexturesWithCompletionHandler: (DownloadTexturesCompletionHandler)handler;
 
 - (NSArray *)all;
 

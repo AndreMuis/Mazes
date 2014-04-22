@@ -29,8 +29,8 @@
 
 @interface AppDelegate () <UIAlertViewDelegate>
 
-@property (readonly, strong, nonatomic) MAWebServices *webServices;
 @property (readonly, strong, nonatomic) Reachability *reachability;
+@property (readonly, strong, nonatomic) MAWebServices *webServices;
 
 @property (readonly, strong, nonatomic) MAEventManager *eventManager;
 @property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
@@ -50,7 +50,8 @@
 @property (readonly, strong, nonatomic) UIAlertView *appVersionOutdatedAlertView;
 @property (readonly, strong, nonatomic) UIAlertView *noInternetAlertView;
 @property (readonly, strong, nonatomic) UIAlertView *autologinErrorAlertView;
-@property (readonly, strong, nonatomic) UIAlertView *checkVersionErrorAlertView;
+@property (strong, nonatomic, readonly) UIAlertView *downloadTexturesErrorAlertView;
+@property (strong, nonatomic, readonly) UIAlertView *downloadSoundsErrorAlertView;
 
 @end
 
@@ -65,7 +66,7 @@
                                                              delegate: self
                                                     cancelButtonTitle: @"OK"
                                                     otherButtonTitles: nil];
-
+    
     _noInternetAlertView = [[UIAlertView alloc] initWithTitle: @""
                                                       message: MANoInternetMessage
                                                      delegate: self
@@ -75,15 +76,21 @@
     _autologinErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
                                                           message: MARequestErrorMessage
                                                          delegate: self
-                                                cancelButtonTitle: @"Cancel"
-                                                otherButtonTitles: @"Retry", nil];
+                                                cancelButtonTitle: @"Retry"
+                                                otherButtonTitles: nil];
     
-    _checkVersionErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                             message: MARequestErrorMessage
-                                                            delegate: self
-                                                   cancelButtonTitle: @"Cancel"
-                                                   otherButtonTitles: @"Retry", nil];
+    _downloadTexturesErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                 message: MARequestErrorMessage
+                                                                delegate: self
+                                                       cancelButtonTitle: @"Retry"
+                                                       otherButtonTitles: nil];
 
+    _downloadSoundsErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                               message: MARequestErrorMessage
+                                                              delegate: self
+                                                     cancelButtonTitle: @"Retry"
+                                                     otherButtonTitles: nil];
+    
     [self startAnalytics];
     [self startCrashReporting];
     
@@ -97,6 +104,9 @@
     
     [self setupUI];
 
+    [self.noInternetAlertView show];
+    [self.autologinErrorAlertView show];
+    
     return YES;
 }
 
@@ -118,11 +128,9 @@
     _eventManager = [[MAEventManager alloc] init];
     _mazeManager = [[MAMazeManager alloc] initWithWebServices: self.webServices];
     
-    _soundManager = [MASoundManager soundManagerWithReachability: self.reachability
-                                                     webServices: self.webServices];
+    _soundManager = [MASoundManager soundManagerWithWebServices: self.webServices];
     
-    _textureManager = [MATextureManager textureManagerWithReachability: self.reachability
-                                                           webServices: self.webServices];
+    _textureManager = [MATextureManager textureManagerWithWebServices: self.webServices];
     
     _bannerView = [[ADBannerView alloc] init];
     
@@ -137,11 +145,12 @@
                                                                    soundManager: self.soundManager
                                                                  textureManager: self.textureManager];
     
-    _gameViewController = [[MAGameViewController alloc] initWithWebServices: self.webServices
-                                                                mazeManager: self.mazeManager
-                                                             textureManager: self.textureManager
-                                                               soundManager: self.soundManager
-                                                                 bannerView: self.bannerView];
+    _gameViewController = [[MAGameViewController alloc] initWithReachability: self.reachability
+                                                                 webServices: self.webServices
+                                                                 mazeManager: self.mazeManager
+                                                              textureManager: self.textureManager
+                                                                soundManager: self.soundManager
+                                                                  bannerView: self.bannerView];
     
     _topMazesViewController = [[MATopMazesViewController alloc] initWithWebServices: self.webServices
                                                                         mazeManager: self.mazeManager
@@ -189,51 +198,46 @@
 - (void)autologin
 {
     [self.webServices autologinWithCompletionHandler: ^(NSError *error)
-     {
-         if (error == nil)
-         {
-             [self checkVersion];
-             [self.textureManager downloadTextures];
-             [self.soundManager downloadSounds];
-         }
-         else if (self.reachability.isReachable == YES)
-         {
-             [self.autologinErrorAlertView show];
-         }
-     }];
+    {
+        if (error == nil)
+        {
+            [self checkVersion];
+            
+            [self downloadTextures];
+            [self downloadSounds];
+        }
+        else if (self.reachability.isReachable == YES)
+        {
+            [self.autologinErrorAlertView show];
+        }
+    }];
+}
+
+- (void)downloadTextures
+{
+    [self.textureManager downloadTexturesWithCompletionHandler: ^(NSError *error)
+    {
+        if (self.downloadSoundsErrorAlertView.visible == NO)
+        {
+            [self.downloadTexturesErrorAlertView show];
+        }
+    }];
+}
+
+- (void)downloadSounds
+{
+    [self.soundManager downloadSoundsWithCompletionHandler: ^(NSError *error)
+    {
+        if (self.downloadTexturesErrorAlertView.visible == NO)
+        {
+            [self.downloadSoundsErrorAlertView show];
+        }
+    }];
 }
 
 - (void)setupReachability
 {
     __weak AppDelegate *weakAppDelegate = self;
-    
-    self.reachability.reachableBlock = ^(Reachability *reachability)
-    {
-        if (weakAppDelegate.webServices.isLoggingIn == NO)
-        {
-            if (weakAppDelegate.webServices.isLoggedIn == NO)
-            {
-                [weakAppDelegate autologin];
-            }
-            else
-            {
-                if (weakAppDelegate.versionChecked == NO)
-                {
-                    [weakAppDelegate checkVersion];
-                }
-                
-                if (weakAppDelegate.textureManager.count == 0)
-                {
-                    [weakAppDelegate.textureManager downloadTextures];
-                }
-
-                if (weakAppDelegate.soundManager.count == 0)
-                {
-                    [weakAppDelegate.soundManager downloadSounds];
-                }
-            }
-        }
-    };
     
     self.reachability.unreachableBlock = ^(Reachability *reachability)
     {
@@ -261,9 +265,9 @@
                 [self.appVersionOutdatedAlertView show];
             }
         }
-        else if (self.reachability.isReachable == YES)
+        else
         {
-            [self.checkVersionErrorAlertView show];
+            ;
         }
     }];
 }
@@ -278,13 +282,22 @@
     {
         ;
     }
-    else if (alertView == self.autologinErrorAlertView && buttonIndex == 1)
+    else if (alertView == self.autologinErrorAlertView && buttonIndex == 0)
     {
         [self autologin];
     }
-    else if (alertView == self.checkVersionErrorAlertView && buttonIndex == 1)
+    else if ((alertView == self.downloadTexturesErrorAlertView && buttonIndex == 0) ||
+             (alertView == self.downloadSoundsErrorAlertView && buttonIndex == 0))
     {
-        [self checkVersion];
+        if (self.soundManager.count == 0)
+        {
+            [self downloadSounds];
+        }
+        
+        if (self.textureManager.count == 0)
+        {
+            [self downloadTextures];
+        }
     }
     else
     {

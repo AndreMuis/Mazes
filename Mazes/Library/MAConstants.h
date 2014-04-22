@@ -68,11 +68,14 @@ extern NSString* const MACreamyWhiteMarbleTextureId;
 
 extern NSString* const MANoInternetMessage;
 extern NSString* const MARequestErrorMessage;
+extern NSString* const MASaveMazeErrorMessage;
 extern NSString* const MADownloadTopMazesSummariesErrorMessage;
 extern NSString* const MASaveMazeRatingErrorMessage;
 extern NSString* const MADownloadUserMazeErrorMessage;
 extern NSString* const MADownloadMazeErrorMessage;
-extern NSString* const MASaveMazeStartedErrorMessage;
+
+extern NSString* const MASaveMazeProgressErrorMessage;
+extern NSString* const MASaveMazeProgressNoRetryErrorMessage;
 
 
 

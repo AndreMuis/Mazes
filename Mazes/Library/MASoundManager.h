@@ -8,22 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Reachability/Reachability.h>
-
 @class MAWebServices;
-@class Reachability;
 
-@interface MASoundManager : NSObject <UIAlertViewDelegate>
+typedef void (^DownloadSoundsCompletionHandler)(NSError *error);
+
+@interface MASoundManager : NSObject
 
 @property (assign, nonatomic, readonly) NSUInteger count;
 
-+ (id)soundManagerWithReachability: (Reachability *)reachability
-                       webServices: (MAWebServices *)webServices;
++ (id)soundManagerWithWebServices: (MAWebServices *)webServices;
 
-- (id)initWithReachability: (Reachability *)reachability
-               webServices: (MAWebServices *)webServices;
+- (id)initWithWebServices: (MAWebServices *)webServices;
 
-- (void)downloadSounds;
+- (void)downloadSoundsWithCompletionHandler: (DownloadSoundsCompletionHandler)handler;
 
 - (NSArray *)sortedByName;
 

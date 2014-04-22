@@ -58,25 +58,31 @@ NSString* const MALightSwirlMarbleTextureId = @"E4293FC5-74B5-460C-BD28-D71E1DB2
 NSString* const MACreamyWhiteMarbleTextureId = @"91185953-544C-4D64-BEE5-F42F7778480E";
 
 NSString* const MANoInternetMessage = @"This device is not connected to the internet."
-"This app needs an internet connection to run. Please connect if possible.";
+    "This app needs an internet connection to run. Please connect if possible.";
 
 NSString* const MARequestErrorMessage = @"A problem occured while trying to communicate with the server."
-"Please try again. If the problem persists an update should be available shortly.";
+    "Please try again. If the problem persists an update should be available shortly.";
+
+NSString* const MASaveMazeErrorMessage = @"A problem occured while trying to save the maze to the server."
+    "Please try again. If the problem persists an update should be available shortly.";
 
 NSString* const MADownloadTopMazesSummariesErrorMessage = @"A problem occured while trying to download the list of mazes from the server."
-"Please try again. If the problem persists an update should be available shortly.";
+    "Please try again. If the problem persists an update should be available shortly.";
 
 NSString* const MASaveMazeRatingErrorMessage = @"A problem occured while trying to save the maze rating to the server."
-"Please try again. If the problem persists an update should be available shortly.";
+    "Please try again. If the problem persists an update should be available shortly.";
 
 NSString* const MADownloadUserMazeErrorMessage = @"A problem occured while trying to download your maze from the server."
-"Please try again. If the problem persists an update should be available shortly.";
+    "Please try again. If the problem persists an update should be available shortly.";
 
 NSString* const MADownloadMazeErrorMessage = @"A problem occured while trying to download the maze from the server."
-"Please try again. If the problem persists an update should be available shortly.";
+    "Please try again. If the problem persists an update should be available shortly.";
 
-NSString* const MASaveMazeStartedErrorMessage = @"A problem occured while trying to save your game progress the server."
-"Please try again. If the problem persists an update should be available shortly.";
+NSString* const MASaveMazeProgressErrorMessage = @"A problem occured while trying to save your game progress to the server."
+    "Please try again. If the problem persists an update should be available shortly.";
+
+NSString* const MASaveMazeProgressNoRetryErrorMessage = @"A problem occured while trying to save your game progress to the server for maze %@."
+    "If the problem persists an update should be available shortly.";
 
 
 

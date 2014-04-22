@@ -35,6 +35,7 @@
 
 @interface MAGameViewController () <ADBannerViewDelegate>
 
+@property (readonly, strong, nonatomic) Reachability *reachability;
 @property (readonly, strong, nonatomic) MAWebServices *webServices;
 
 @property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
@@ -94,21 +95,26 @@
 @property (readonly, strong, nonatomic) UIAlertView *downloadMazeErrorAlertView;
 @property (readonly, strong, nonatomic) UIAlertView *saveMazeStartedErrorAlertView;;
 
+@property (readonly, strong, nonatomic) UIAlertView *saveFoundMazeExitErrorAlertView;;
+@property (readonly, strong, nonatomic) UIAlertView *saveFoundMazeExitNoRetryErrorAlertView;;
+
 @end
 
 @implementation MAGameViewController
 
-- (id)initWithWebServices: (MAWebServices *)webServices
-              mazeManager: (MAMazeManager *)mazeManager
-           textureManager: (MATextureManager *)textureManager
-             soundManager: (MASoundManager *)soundManager
-               bannerView: (ADBannerView *)bannerView
+- (id)initWithReachability: (Reachability *)reachability
+               webServices: (MAWebServices *)webServices
+               mazeManager: (MAMazeManager *)mazeManager
+            textureManager: (MATextureManager *)textureManager
+              soundManager: (MASoundManager *)soundManager
+                bannerView: (ADBannerView *)bannerView
 {
     self = [[MAGameViewController alloc] initWithNibName: NSStringFromClass([self class])
                                                   bundle: nil];
     
     if (self)
     {
+        _reachability = reachability;
         _webServices = webServices;
         
         _mazeManager = mazeManager;
@@ -125,6 +131,30 @@
 		
         _moveStepDurationAvg = MAStepDurationAvgStart;
         _turnStepDurationAvg = MAStepDurationAvgStart;
+        
+        _downloadMazeErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                 message: MADownloadMazeErrorMessage
+                                                                delegate: self
+                                                       cancelButtonTitle: @"Cancel"
+                                                       otherButtonTitles: @"Retry", nil];
+        
+        _saveMazeStartedErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                    message: MASaveMazeProgressErrorMessage
+                                                                   delegate: self
+                                                          cancelButtonTitle: @"Cancel"
+                                                          otherButtonTitles: @"Retry", nil];
+
+        _saveFoundMazeExitErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                      message: MASaveMazeProgressErrorMessage
+                                                                     delegate: self
+                                                            cancelButtonTitle: @"Cancel"
+                                                            otherButtonTitles: @"Retry", nil];
+        
+        _saveFoundMazeExitNoRetryErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                             message: @""
+                                                                            delegate: nil
+                                                                   cancelButtonTitle: @"OK"
+                                                                   otherButtonTitles: nil];
     }
     
     return self;
@@ -195,18 +225,6 @@
 	[self.view addGestureRecognizer: swipeDownRecognizer];
     
     self.activityIndicatorView.color = self.styles.activityIndicator.color;
-    
-    _downloadMazeErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                             message: MADownloadMazeErrorMessage
-                                                            delegate: self
-                                                   cancelButtonTitle: @"Cancel"
-                                                   otherButtonTitles: @"Retry", nil];
-
-    _saveMazeStartedErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                message: MASaveMazeStartedErrorMessage
-                                                               delegate: self
-                                                      cancelButtonTitle: @"Cancel"
-                                                      otherButtonTitles: @"Retry", nil];
 }
 
 - (void)viewWillAppear: (BOOL)animated
@@ -317,14 +335,17 @@
 {
     [self.webServices getMazeWithMazeId: self.mazeSummary.mazeId completionHandler: ^(MAMaze *maze, NSError *error)
     {
-        if (error == nil)
+        if ([maze.mazeId isEqualToString: self.mazeSummary.mazeId] == YES)
         {
-            self.maze = maze;
-            [self saveMazeStarted];
-        }
-        else
-        {
-            [self.downloadMazeErrorAlertView show];
+            if (error == nil)
+            {
+                self.maze = maze;
+                [self saveMazeStarted];
+            }
+            else
+            {
+                [self.downloadMazeErrorAlertView show];
+            }
         }
     }];
 }
@@ -335,55 +356,24 @@
     {
         [self.webServices saveStartedWithUserName: self.webServices.loggedInUser.userName
                                            mazeId: self.maze.mazeId
-                                completionHandler: ^(NSError *error)
+                                completionHandler: ^(NSString *mazeId, NSError *error)
          {
-             if (error == nil)
+             if ([mazeId isEqualToString: self.mazeSummary.mazeId] == YES)
              {
-                 [self finishSetup];
-             }
-             else
-             {
-                 [self.saveMazeStartedErrorAlertView show];
+                 if (error == nil)
+                 {
+                     [self finishSetup];
+                 }
+                 else
+                 {
+                     [self.saveMazeStartedErrorAlertView show];
+                 }
              }
          }];
     }
     else
     {
         [self finishSetup];
-    }
-}
-
-- (void)alertView: (UIAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
-{
-    if (alertView == self.downloadMazeErrorAlertView)
-    {
-        switch (buttonIndex)
-        {
-            case 0:
-                [self goBack];
-                break;
-            case 1:
-                [self downloadMaze];
-            default:
-                break;
-        }
-    }
-    else if (alertView == self.saveMazeStartedErrorAlertView)
-    {
-        switch (buttonIndex)
-        {
-            case 0:
-                [self goBack];
-                break;
-            case 1:
-                [self saveMazeStarted];
-            default:
-                break;
-        }
-    }
-    else
-    {
-        [MAUtilities logWithClass: [self class] format: [NSString stringWithFormat: @"AlertView not handled. AlertView: %@", alertView]];
     }
 }
 
@@ -860,17 +850,8 @@
 		
         if (self.mazeSummary.userFoundExit == NO)
         {
-            [self.webServices saveFoundExitWithUserName: self.webServices.loggedInUser.userName
-                                                 mazeId: self.maze.mazeId
-                                      completionHandler: ^(NSError *error)
-            {
-                if (error != nil)
-                {
-                }
-            }];
+            [self saveFoundMazeExit];
         }
-        
-        [self showEndAlert];
 	}
 	else if (self.currentLocation.action == MALocationActionStartOver)
 	{
@@ -898,6 +879,40 @@
 	{
 		[self displayMessage];
 	}
+}
+
+- (void)saveFoundMazeExit
+{
+    [self.webServices saveFoundExitWithUserName: self.webServices.loggedInUser.userName
+                                         mazeId: self.maze.mazeId
+                                       mazeName: self.maze.name
+                              completionHandler: ^(NSString *mazeId, NSString *mazeName, NSError *error)
+    {
+        if ([mazeId isEqualToString: self.mazeSummary.mazeId] == YES)
+        {
+            if (error == nil)
+            {
+                [self showEndAlert];
+            }
+            else
+            {
+                [self.saveFoundMazeExitErrorAlertView show];
+            }
+        }
+        else
+        {
+            if (error == nil)
+            {
+                ;
+            }
+            else
+            {
+                self.saveFoundMazeExitNoRetryErrorAlertView.message = [NSString stringWithFormat: MASaveMazeProgressNoRetryErrorMessage, mazeName];
+                [self.saveFoundMazeExitNoRetryErrorAlertView show];
+            }
+        
+        }
+    }];
 }
 
 - (void)displayMessage
@@ -961,10 +976,67 @@
                                               rating: newRating
                                    completionHandler: ^(NSError *error)
         {
-            if (error != nil)
+            if (error == nil)
+            {
+                ;
+            }
+            else
             {
             }
         }];
+    }
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView: (UIAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
+{
+    if (alertView == self.downloadMazeErrorAlertView)
+    {
+        switch (buttonIndex)
+        {
+            case 0:
+                [self goBack];
+                break;
+            case 1:
+                [self downloadMaze];
+            default:
+                break;
+        }
+    }
+    else if (alertView == self.saveMazeStartedErrorAlertView)
+    {
+        switch (buttonIndex)
+        {
+            case 0:
+                [self goBack];
+                break;
+            case 1:
+                [self saveMazeStarted];
+            default:
+                break;
+        }
+    }
+    else if (alertView == self.saveFoundMazeExitErrorAlertView)
+    {
+        switch (buttonIndex)
+        {
+            case 0:
+                [self goBack];
+                break;
+            case 1:
+                [self saveFoundMazeExit];
+            default:
+                break;
+        }
+    }
+    else if (alertView == self.saveFoundMazeExitNoRetryErrorAlertView)
+    {
+        ;
+    }
+    else
+    {
+        [MAUtilities logWithClass: [self class] format: [NSString stringWithFormat: @"AlertView not handled. AlertView: %@", alertView]];
     }
 }
 
