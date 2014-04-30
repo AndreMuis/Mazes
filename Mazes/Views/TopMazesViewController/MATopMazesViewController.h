@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import <Reachability/Reachability.h>
+
 #import "MATopMazeTableViewCell.h"
 
 @class MACreateViewController;
@@ -19,17 +21,18 @@
 @class MATextureManager;
 @class MAWebServices;
 
-@interface MATopMazesViewController : UIViewController <MATopMazeTableViewCellDelegate, ADBannerViewDelegate, UIAlertViewDelegate>
+@interface MATopMazesViewController : UIViewController <MATopMazeTableViewCellDelegate, ADBannerViewDelegate>
 
 @property (readwrite, strong, nonatomic) MACreateViewController *createViewController;
 @property (readwrite, strong, nonatomic) MADesignViewController *designViewController;
 @property (readwrite, strong, nonatomic) MAGameViewController *gameViewController;
 @property (readwrite, strong, nonatomic) MAMainViewController *mainViewController;
 
-- (id)initWithWebServices: (MAWebServices *)webServices
-              mazeManager: (MAMazeManager *)mazeManager
-           textureManager: (MATextureManager *)textureManager
-             soundManager: (MASoundManager *)soundManager
-               bannerView: (ADBannerView *)bannerView;
+- (id)initWithReachability: (Reachability *)reachability
+               webServices: (MAWebServices *)webServices
+               mazeManager: (MAMazeManager *)mazeManager
+            textureManager: (MATextureManager *)textureManager
+              soundManager: (MASoundManager *)soundManager
+                bannerView: (ADBannerView *)bannerView;
 
 @end

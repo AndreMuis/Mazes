@@ -101,6 +101,8 @@
                       else
                       {
                           handler(error);
+                          
+                          [MAUtilities logWithClass: [self class] format: [error description]];
                       }
 
                       self.isLoggingIn = NO;
@@ -110,6 +112,8 @@
              {
                  handler(error);
                  self.isLoggingIn = NO;
+                 
+                 [MAUtilities logWithClass: [self class] format: [error description]];
              }
          }];
     }
@@ -126,6 +130,8 @@
              else
              {
                  handler(error);
+
+                 [MAUtilities logWithClass: [self class] format: [error description]];
              }
              
              self.isLoggingIn = NO;
@@ -150,9 +156,9 @@
                                                 description: @"Unable to get user counter from server."
                                                  statusCode: theResponse.statusCode];
 
-            [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-         
             handler(nil, error);
+
+            [MAUtilities logWithClass: [self class] format: [error description]];
         }
     }];
 }
@@ -175,9 +181,9 @@
                                                  description: @"Unable to login to server."
                                                   statusCode: theResponse.statusCode];
 
-             [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-             
              handler(error);
+             
+             [MAUtilities logWithClass: [self class] format: [error description]];
          }
      }];
 }
@@ -199,9 +205,9 @@
                                                 description: @"Unable to get textures from server."
                                                  statusCode: theResponse.statusCode];
 
-            [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-         
             handler(nil, error);
+            
+            [MAUtilities logWithClass: [self class] format: [error description]];
         }
     }];
 }
@@ -222,9 +228,9 @@
                                                  description: @"Unable to get sounds from server."
                                                   statusCode: theResponse.statusCode];
 
-             [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-         
              handler(nil, error);
+             
+             [MAUtilities logWithClass: [self class] format: [error description]];
          }
      }];
 }
@@ -254,9 +260,9 @@
                                                  description: @"Unable to get user mazes from server."
                                                   statusCode: theResponse.statusCode];
              
-             [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-             
              handler(nil, error);
+             
+             [MAUtilities logWithClass: [self class] format: [error description]];
          }
 
          self.isDownloadingUserMazes = NO;
@@ -281,7 +287,7 @@
                                     format: @"Invalid number of mazes: %d returned for mazeId: %@", mazes.count, mazeId];
              }
              
-             handler(maze, nil);
+             handler(mazeId, maze, nil);
          }
          else
          {
@@ -289,9 +295,9 @@
                                                  description: @"Unable to get maze from server."
                                                   statusCode: theResponse.statusCode];
              
-             [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
+             handler(mazeId, nil, error);
              
-             handler(nil, error);
+             [MAUtilities logWithClass: [self class] format: [error description]];
          }
      }];
 }
@@ -319,9 +325,9 @@
                                                      description: @"Unable to save maze to server."
                                                       statusCode: theResponse.statusCode];
                  
-                 [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-                 
                  handler(error);
+                 
+                 [MAUtilities logWithClass: [self class] format: [error description]];
              }
              
              self.isSavingMaze = NO;
@@ -362,9 +368,9 @@
                                                                        description: @"Unable to save maze walls data to server."
                                                                         statusCode: theResponse.statusCode];
                                    
-                                   [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-                                   
                                    handler(error);
+                                   
+                                   [MAUtilities logWithClass: [self class] format: [error description]];
                                }
                                
                                self.isSavingMaze = NO;
@@ -376,11 +382,11 @@
                                                               description: @"Unable to save maze location data to server."
                                                                statusCode: theResponse.statusCode];
                           
-                          [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-                          
                           handler(error);
 
                           self.isSavingMaze = NO;
+                          
+                          [MAUtilities logWithClass: [self class] format: [error description]];
                       }
                   }];
              }
@@ -390,11 +396,11 @@
                                                      description: @"Unable to save maze to server."
                                                       statusCode: theResponse.statusCode];
                  
-                 [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-                 
                  handler(error);
 
                  self.isSavingMaze = NO;
+                 
+                 [MAUtilities logWithClass: [self class] format: [error description]];
              }
          }];
     }
@@ -422,9 +428,9 @@
                                                  description: @"Unable to get highest rated top maze items from server."
                                                   statusCode: theResponse.statusCode];
              
-             [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-             
              handler(nil, error);
+             
+             [MAUtilities logWithClass: [self class] format: [error description]];
          }
 
          self.isDownloadingHighestRatedMazeSummaries = NO;
@@ -452,9 +458,9 @@
                                                  description: @"Unable to get newest top maze items from server."
                                                   statusCode: theResponse.statusCode];
              
-             [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-             
              handler(nil, error);
+             
+             [MAUtilities logWithClass: [self class] format: [error description]];
          }
 
          self.isDownloadingNewestMazeSummaries = NO;
@@ -482,9 +488,9 @@
                                                  description: @"Unable to get yours top maze items from server."
                                                   statusCode: theResponse.statusCode];
              
-             [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-             
              handler(nil, error);
+             
+             [MAUtilities logWithClass: [self class] format: [error description]];
          }
 
          self.isDownloadingYoursMazeSummaries = NO;
@@ -509,9 +515,9 @@
                                                  description: @"Unable to save started maze progress to server"
                                                   statusCode: theResponse.statusCode];
          
-             [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-         
              handler(mazeId, error);
+             
+             [MAUtilities logWithClass: [self class] format: [error description]];
          }
      }];
 }
@@ -533,14 +539,18 @@
                                                  description: @"Unable to save found maze exit progress to server."
                                                   statusCode: theResponse.statusCode];
              
-             [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-             
              handler(mazeId, mazeName, error);
+             
+             [MAUtilities logWithClass: [self class] format: [error description]];
          }
      }];
 }
 
-- (void)saveMazeRatingWithUserName: (NSString *)userName mazeId: (NSString *)mazeId rating: (float)rating completionHandler: (SaveRatingCompletionHandler)handler
+- (void)saveMazeRatingWithUserName: (NSString *)userName
+                            mazeId: (NSString *)mazeId
+                          mazeName: (NSString *)mazeName
+                            rating: (float)rating
+                 completionHandler: (SaveRatingCompletionHandler)handler
 {
     NSString *uri = [NSString stringWithFormat: @"/ff/ext/saveMazeRating?userName=%@&mazeId=%@&rating=%f", userName, mazeId, rating];
     
@@ -549,7 +559,7 @@
      {
          if (theErr == nil && theResponse.statusCode == 200)
          {
-             handler(nil);
+             handler(mazeName, nil);
          }
          else
          {
@@ -557,9 +567,9 @@
                                                  description: @"Unable to save maze rating to server."
                                                   statusCode: theResponse.statusCode];
              
-             [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
+             handler(mazeName, error);
              
-             handler(error);
+             [MAUtilities logWithClass: [self class] format: [error description]];
          }
      }];
 }
@@ -582,21 +592,27 @@
                                                  description: @"Unable to get latest version from server."
                                                   statusCode: theResponse.statusCode];
              
-             [MAUtilities logWithClass: [self class] format: [error localizedDescription]];
-             
              handler(nil, error);
+             
+             [MAUtilities logWithClass: [self class] format: [error description]];
          }
      }];
 }
 
 
-- (NSError *)errorWithFatFractalError: (NSError *)fatFractalError description: (NSString *)description statusCode: (NSInteger)statusCode
+- (NSError *)errorWithFatFractalError: (NSError *)fatFractalError
+                          description: (NSString *)description
+                           statusCode: (NSInteger)statusCode
 {
-    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : description,
-                               MAStatusCodeKey : [NSNumber numberWithInteger: statusCode],
-                               NSUnderlyingErrorKey : fatFractalError};
+    NSMutableDictionary *userInfo = [@{NSLocalizedDescriptionKey : description,
+                                       MAStatusCodeKey : [NSNumber numberWithInteger: statusCode]} mutableCopy];
     
-    NSError *error = [NSError errorWithDomain: @"com.andremuis.mazes" code: 0 userInfo: userInfo];
+    if (fatFractalError != nil)
+    {
+        [userInfo setObject: fatFractalError forKey: NSUnderlyingErrorKey];
+    }
+    
+    NSError *error = [NSError errorWithDomain: @"com.andremuis.mazes" code: 0 userInfo: [userInfo copy]];
     
     return error;
 }

@@ -37,6 +37,42 @@
                                                       nil]];
 }
 
++ (NSString *)requestErrorMessageWithRequestDescription: (NSString *)requestDescription
+                                           reachability: (Reachability *)reachability
+                                           userCanRetry: (BOOL)userCanRetry
+{
+    NSString *requestErrorMessage = nil;
+    
+    if (reachability.isReachable == NO)
+    {
+        if (userCanRetry == YES)
+        {
+            requestErrorMessage = [NSString stringWithFormat: @"Unable to %@ because this device is not connected to the internet. "
+                                   "This app needs an internet connection to run. Please connect if possible and try again.", requestDescription];
+        }
+        else
+        {
+            requestErrorMessage = [NSString stringWithFormat: @"Unable to %@ because this device is not connected to the internet. "
+                                   "This app needs an internet connection to run. Please connect if possible.", requestDescription];
+        }
+    }
+    else
+    {
+        if (userCanRetry == YES)
+        {
+            requestErrorMessage = [NSString stringWithFormat: @"A problem occured while trying to %@. "
+                                   "Please try again. If the problem persists an update should be available shortly.", requestDescription];
+        }
+        else
+        {
+            requestErrorMessage = [NSString stringWithFormat: @"A problem occured while trying to %@. "
+                                   "If the problem persists an update should be available shortly.", requestDescription];
+        }
+    }
+    
+    return requestErrorMessage;
+}
+
 + (double)radiansFromDegrees: (double)degrees
 {
 	return degrees * ((2.0 * M_PI) / 360.0);
@@ -62,7 +98,7 @@
     
     for (NSUInteger i = 0; i < length; i = i + 1)
     {
-        [string appendFormat: @"%c", (char)('a' + arc4random_uniform(25))];
+        [string appendFormat: @"%c", (char)('A' + arc4random_uniform(25))];
     }
     
     return string;

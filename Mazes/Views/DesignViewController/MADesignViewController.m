@@ -36,6 +36,7 @@
 
 @interface MADesignViewController ()
 
+@property (readonly, strong, nonatomic) Reachability *reachability;
 @property (readonly, strong, nonatomic) MAWebServices *webServices;
 
 @property (readonly, strong, nonatomic) MAEventManager *eventManager;
@@ -77,17 +78,19 @@
 
 @implementation MADesignViewController
 
-- (id)initWithWebServices: (MAWebServices *)webServices
-             eventManager: (MAEventManager *)eventManager
-              mazeManager: (MAMazeManager *)mazeManager
-             soundManager: (MASoundManager *)soundManager
-           textureManager: (MATextureManager *)textureManager
+- (id)initWithReachability: (Reachability *)reachability
+               webServices: (MAWebServices *)webServices
+              eventManager: (MAEventManager *)eventManager
+               mazeManager: (MAMazeManager *)mazeManager
+              soundManager: (MASoundManager *)soundManager
+            textureManager: (MATextureManager *)textureManager
 {
     self = [super initWithNibName: NSStringFromClass([self class])
                            bundle: nil];
     
     if (self)
     {
+        _reachability = reachability;
         _webServices = webServices;
         
         _eventManager = eventManager;
@@ -133,13 +136,13 @@
                                                          otherButtonTitles: nil];
         
         _selectEndLocationAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                 message: @"Your maze must have an end location before it can be made public."
+                                                                 message: @"A public maze must have an end location."
                                                                 delegate: nil
                                                        cancelButtonTitle: @"OK"
                                                        otherButtonTitles: nil];
 
         _noPathToExitAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                            message: @"Your maze must have a path from start to end before it can be made public."
+                                                            message: @"A public maze must have a path from start to end."
                                                            delegate: nil
                                                   cancelButtonTitle: @"OK"
                                                   otherButtonTitles: nil];
@@ -151,7 +154,7 @@
                                                otherButtonTitles: @"No", nil];
 
         _saveMazeErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                             message: MASaveMazeErrorMessage
+                                                             message: @""
                                                             delegate: self
                                                    cancelButtonTitle: @"OK"
                                                    otherButtonTitles: nil];
@@ -370,54 +373,43 @@
 
 	MAWall *wall = [self.floorPlanView wallWithTouchPoint: touchPoint];
 
-	if (wall != nil)
+	if (wall != nil && [self.maze isInnerWall: wall])
 	{
 		self.maze.currentSelectedWall = wall;
 		
 		[self setupTabBarWithSelectedIndex: 3];
-		
-		if ([self.maze isInnerWall: wall] == YES)
-		{
-			[self setTableView: self.wallTypeTableView disabled: NO];
-			
-			if (self.maze.currentSelectedWall.type == MAWallNone)
-            {
-				self.maze.currentSelectedWall.type = MAWallSolid;
-            }
-			else
-            {
-				self.maze.currentSelectedWall.type = MAWallNone;
-            }
-            
-			if ([self wallPassesTeleportationSurroundedCheck] == NO)
-			{
-				self.maze.currentSelectedWall.type = self.maze.previousSelectedWall.type;
-                
-				[self teleportationSurroundedAlert];
-			}
-			
-			[self setupWallTypeTableViewWallType: self.maze.currentSelectedWall.type];
-			
-            self.maze.previousSelectedWall = self.maze.currentSelectedWall;
-            
-			[self showTutorialHelpForTopic: @"WallTypes"];
-		}
-		else 
-		{
-			[self setTableView: self.wallTypeTableView disabled: YES];
+	
+        [self setTableView: self.wallTypeTableView disabled: NO];
+        
+        if (self.maze.currentSelectedWall.type == MAWallNone)
+        {
+            self.maze.currentSelectedWall.type = MAWallSolid;
 
-			[self setupWallTypeTableViewWallType: self.maze.currentSelectedWall.type];
-		}
+            if ([self wallPassesTeleportationSurroundedCheck: wall] == NO)
+            {
+                self.maze.currentSelectedWall.type = MAWallNone;
+                
+                [self teleportationSurroundedAlert];
+            }
+        }
+        else
+        {
+            self.maze.currentSelectedWall.type = MAWallNone;
+        }
+        
+        [self setupWallTypeTableViewWallType: self.maze.currentSelectedWall.type];
+        
+        [self showTutorialHelpForTopic: @"WallTypes"];
 		
 		[self setupWallPanel];
 
 		[self.floorPlanView refresh];
         
         self.settings.hasSelectedWall = YES;
-	}		
+	}
 }
 
-- (void)handleLongPressFrom: (UILongPressGestureRecognizer *)recognizer 
+- (void)handleLongPressFrom: (UILongPressGestureRecognizer *)recognizer
 {
 	if (recognizer.state == UIGestureRecognizerStateBegan)
 	{
@@ -686,7 +678,7 @@
 - (void)tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath 
 {	
 	UITableViewCell *cell = [tableView cellForRowAtIndexPath: indexPath];
-	if (cell.accessoryType == UITableViewCellAccessoryCheckmark && tableView.tag <= 3)
+	if (cell.accessoryType == UITableViewCellAccessoryCheckmark)
 	{
 		[tableView deselectRowAtIndexPath: indexPath animated: YES];
 		return;
@@ -780,18 +772,19 @@
 	}
 	else if (tableView == self.directionTableView)
 	{
-		self.maze.currentSelectedLocation.Direction = [[self.directionThetas objectAtIndex: indexPath.row] intValue];
+		self.maze.currentSelectedLocation.direction = [[self.directionThetas objectAtIndex: indexPath.row] intValue];
 		
 		[self setupDirectionTableViewLocationAction: self.maze.currentSelectedLocation.action
                                               theta: self.maze.currentSelectedLocation.direction];
 	}	
 	else if (tableView == self.wallTypeTableView)
 	{
+        MAWallType previousSelectedWallType = self.maze.currentSelectedWall.type;
         self.maze.currentSelectedWall.type = [[self.wallTypes objectAtIndex: indexPath.row] intValue];
 		
-		if ([self wallPassesTeleportationSurroundedCheck] == NO)
+		if ([self wallPassesTeleportationSurroundedCheck: self.maze.currentSelectedWall] == NO)
 		{
-            self.maze.currentSelectedWall.type = self.maze.previousSelectedWall.type;
+            self.maze.currentSelectedWall.type = previousSelectedWallType;
             
 			[self.wallTypeTableView deselectRowAtIndexPath: indexPath animated: YES];
 			
@@ -864,21 +857,22 @@
 
 - (int)getNextTeleportId
 {
-	BOOL idexists;
+	BOOL idExists;
 	int teleportId = 0;
-	do 
+	
+    do
 	{
 		teleportId = teleportId + 1;
 		
-		idexists = NO;
+		idExists = NO;
 		for (MALocation *location in [self.maze allLocations])
 		{
 			if (location.teleportId == teleportId)
             {
-				idexists = YES;
+				idExists = YES;
             }
 		}		
-	} while (idexists == YES);
+	} while (idExists == YES);
 		
 	return teleportId;
 }
@@ -977,27 +971,26 @@
 	}
 }
 
-- (BOOL)wallPassesTeleportationSurroundedCheck
+- (BOOL)wallPassesTeleportationSurroundedCheck: (MAWall *)wall
 {
 	MALocation *location1 = nil;
 	MALocation *location2 = nil;
 
-	if (self.maze.currentSelectedWall.type == MADirectionNorth)
+	if (wall.direction == MADirectionNorth)
 	{
-		location1 = [self.maze locationWithRow: self.maze.currentSelectedWall.row
-                                        column: self.maze.currentSelectedWall.column];
+		location1 = [self.maze locationWithRow: wall.row
+                                        column: wall.column];
         
-		location2 = [self.maze locationWithRow: self.maze.currentSelectedWall.row - 1
-                                        column: self.maze.currentSelectedWall.column];
+		location2 = [self.maze locationWithRow: wall.row - 1
+                                        column: wall.column];
 	}
-	else if (self.maze.currentSelectedWall.type == MADirectionWest)
+	else if (wall.direction == MADirectionWest)
 	{
-		location1 = [self.maze locationWithRow: self.maze.currentSelectedWall.row
-                                        column: self.maze.currentSelectedWall.column];
+		location1 = [self.maze locationWithRow: wall.row
+                                        column: wall.column];
         
-		location2 = [self.maze locationWithRow: self.maze.currentSelectedWall.row
-                                        column: self.maze.currentSelectedWall.column - 1] ;
-
+		location2 = [self.maze locationWithRow: wall.row
+                                        column: wall.column - 1];
 	}
 
 	if ((location1.action == MALocationActionTeleport && [self.maze isSurroundedByWallsWithLocation: location1] == YES) ||
@@ -1022,11 +1015,6 @@
 
 - (IBAction)switchPublicValueChanged: (id)sender
 {
-	if (self.publicSwitch.on == YES)
-    {
-		[self validate];
-	}
-    
 	[self showTutorialHelpForTopic: @"MakePublic"];
 }
 
@@ -1358,7 +1346,7 @@ BOOL exists;
 
 - (IBAction)saveButtonTouchDown: (id)sender
 {
-	if([self setNextLocationAsTeleportation] == YES)
+	if ([self setNextLocationAsTeleportation] == YES)
 	{
         [self.selectSecondTeleportationLocationAlertView show];
         
@@ -1391,20 +1379,23 @@ BOOL exists;
             }
             else
             {
-                if ([[error.userInfo allKeys] indexOfObject: MAStatusCodeKey] != NSNotFound)
+                NSNumber *statusCode = [error.userInfo objectForKey: MAStatusCodeKey];
+                
+                if ([statusCode integerValue] == 450)
                 {
-                    NSNumber *statusCode = [error.userInfo objectForKey: MAStatusCodeKey];
+                    [self setupTabBarWithSelectedIndex: 1];
                     
-                    if ([statusCode integerValue] == 450)
-                    {
-                        [self setupTabBarWithSelectedIndex: 1];
-                        
-                        self.mazeNameExistsAlertView.message = [NSString stringWithFormat: @"There is already a maze with the name %@.", self.maze.name];
-                        [self.mazeNameExistsAlertView show];
-                    }
+                    self.mazeNameExistsAlertView.message = [NSString stringWithFormat: @"There is already a maze with the name %@.", self.maze.name];
+                    
+                    [self.mazeNameExistsAlertView show];
                 }
                 else
                 {
+                    NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionSaveMaze
+                                                                                              reachability: self.reachability
+                                                                                              userCanRetry: YES];
+                    self.saveMazeErrorAlertView.message = requestErrorMessage;
+                    
                     [self.saveMazeErrorAlertView show];
                 }
             }
@@ -1454,11 +1445,6 @@ BOOL exists;
 		}
 	}
 
-	if (self.publicSwitch.on == YES && passed == NO)
-    {
-		[self.publicSwitch setOn: NO animated: YES];
-    }
-    
 	return passed;
 }
 

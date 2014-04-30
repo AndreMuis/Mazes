@@ -18,7 +18,10 @@
 
 @protocol MATopMazeTableViewCellDelegate <NSObject>
 @required
-- (void)topMazeTableViewCell: (MATopMazeTableViewCell *)topMazeTableViewCell didUpdateRating: (float)rating forMazeWithMazeId: (NSString *)mazeId;
+- (void)topMazeTableViewCell: (MATopMazeTableViewCell *)topMazeTableViewCell
+             didUpdateRating: (float)rating
+               forMazeWithId: (NSString *)mazeId
+                        name: (NSString *)mazeName;
 @end
 
 @interface MATopMazeTableViewCell : UITableViewCell <MARatingViewDelegate>

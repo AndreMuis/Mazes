@@ -53,7 +53,6 @@
         
         _walls = [[NSMutableArray alloc] init];
         _wallsData = nil;
-        _previousSelectedWall = nil;
         _currentSelectedWall = nil;
 	}
 	
@@ -70,7 +69,6 @@
         [propertyName isEqualToString: @"previousSelectedLocation"] ||
         [propertyName isEqualToString: @"currentSelectedLocation"] ||
         [propertyName isEqualToString: @"walls"] ||
-        [propertyName isEqualToString: @"previousSelectedWall"] ||
         [propertyName isEqualToString: @"currentSelectedWall"])
     {
         return NO;
@@ -143,7 +141,6 @@
     maze.currentSelectedLocation = nil;
 
     maze.wallsData = nil;
-    maze.previousSelectedWall = nil;
     maze.currentSelectedWall = nil;
     
     [maze populateLocationsAndWalls];
@@ -160,7 +157,6 @@
     self.currentSelectedLocation = nil;
     
     self.wallsData = nil;
-    self.previousSelectedWall = nil;
     self.currentSelectedWall = nil;
     
     [self populateLocationsAndWalls];
@@ -171,9 +167,9 @@
     [self.locations removeAllObjects];
     [self.walls removeAllObjects];
     
-	for (int row = 1; row <= self.rows + 1; row = row + 1)
+	for (NSUInteger row = 1; row <= self.rows + 1; row = row + 1)
 	{
-		for (int column = 1; column <= self.columns + 1; column = column + 1)
+		for (NSUInteger column = 1; column <= self.columns + 1; column = column + 1)
 		{
             MACoordinate *coordinate = [[MACoordinate alloc] init];
             coordinate.row = row;
@@ -450,9 +446,13 @@
         (row == self.rows + 1 && column >= 1 && column <= self.columns && direction == MADirectionNorth) ||
         (column == 0 && row >= 1 && row <= self.rows && direction == MADirectionEast) ||
         (column == self.columns + 1 && row >= 1 && row <= self.rows && direction == MADirectionWest))
+    {
         return YES;
+    }
     else
+    {
         return NO;
+    }
 }
 
 - (NSArray *)allWalls
@@ -493,15 +493,16 @@
 
 - (BOOL)isInnerWall: (MAWall *)wall
 {
-	if ((wall.column == 1 && wall.row >= 2 && wall.row <= self.rows && wall.direction == MADirectionNorth) ||
-		(wall.row == 1 && wall.column >= 2 && wall.column <= self.columns && wall.direction == MADirectionWest) ||
-		(wall.column >= 2 && wall.column <= self.columns && wall.row >= 2 && wall.row <= self.rows))
+	if ((wall.row == self.rows + 1) ||
+        (wall.column == self.columns + 1) ||
+        (wall.row == 1 && wall.direction == MADirectionNorth) ||
+        (wall.column == 1 && wall.direction == MADirectionWest))
     {
-		return YES;
+		return NO;
     }
 	else
     {
-		return NO;
+		return YES;
     }
 }
 
@@ -538,7 +539,6 @@
     desc = [desc stringByAppendingFormat: @"\tpreviousSelectedLocation = %@;\n", self.previousSelectedLocation];
     desc = [desc stringByAppendingFormat: @"\tcurrentSelectedLocation = %@;\n", self.currentSelectedLocation];
 
-    desc = [desc stringByAppendingFormat: @"\tpreviousSelectedWall = %@;\n", self.previousSelectedWall];
     desc = [desc stringByAppendingFormat: @"\tcurrentSelectedWall = %@;\n", self.currentSelectedWall];
    
     desc = [desc stringByAppendingFormat: @"\tlocationsData.length = %d;\n", self.locationsData.length];

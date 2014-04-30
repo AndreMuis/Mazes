@@ -51,7 +51,7 @@
     else
     {
         [MAUtilities logWithClass: [self class]
-                         format: @"Event already exists with target: %@ and action: %@", event.target, NSStringFromSelector(event.action)];
+                           format: @"Event already exists with target: %@ and action: %@", event.target, NSStringFromSelector(event.action)];
     }
 }
 

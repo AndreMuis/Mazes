@@ -48,14 +48,18 @@
 @property (readwrite, assign, nonatomic) BOOL versionChecked;
 
 @property (readonly, strong, nonatomic) UIAlertView *appVersionOutdatedAlertView;
-@property (readonly, strong, nonatomic) UIAlertView *noInternetAlertView;
 @property (readonly, strong, nonatomic) UIAlertView *autologinErrorAlertView;
-@property (strong, nonatomic, readonly) UIAlertView *downloadTexturesErrorAlertView;
-@property (strong, nonatomic, readonly) UIAlertView *downloadSoundsErrorAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *downloadTexturesErrorAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *downloadSoundsErrorAlertView;
 
 @end
 
 @implementation AppDelegate
+
+// [label sizeToFit];
+// view layout and setup code should (in my opinion) always go in UIView subclasses.
+// http://www.alexruperez.com/ios-coding-best-practices
+// asl_log
 
 - (BOOL)application: (UIApplication *)application didFinishLaunchingWithOptions: (NSDictionary *)launchOptions
 {
@@ -67,32 +71,25 @@
                                                     cancelButtonTitle: @"OK"
                                                     otherButtonTitles: nil];
     
-    _noInternetAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                      message: MANoInternetMessage
-                                                     delegate: self
-                                            cancelButtonTitle: @"OK"
-                                            otherButtonTitles: nil];
-
     _autologinErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                          message: MARequestErrorMessage
+                                                          message: @""
                                                          delegate: self
                                                 cancelButtonTitle: @"Retry"
                                                 otherButtonTitles: nil];
     
     _downloadTexturesErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                 message: MARequestErrorMessage
+                                                                 message: @""
                                                                 delegate: self
                                                        cancelButtonTitle: @"Retry"
                                                        otherButtonTitles: nil];
 
     _downloadSoundsErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                               message: MARequestErrorMessage
+                                                               message: @""
                                                               delegate: self
                                                      cancelButtonTitle: @"Retry"
                                                      otherButtonTitles: nil];
     
-    [self startAnalytics];
-    [self startCrashReporting];
+    [self startAnalyticsAndCrashReporting];
     
     [self setupAppObjects];
 
@@ -104,20 +101,13 @@
     
     [self setupUI];
 
-    [self.noInternetAlertView show];
-    [self.autologinErrorAlertView show];
-    
     return YES;
 }
 
-- (void)startAnalytics
-{
-    [Flurry startSession: MAFlurryAPIKey];
-}
-
-- (void)startCrashReporting
+- (void)startAnalyticsAndCrashReporting
 {
     [Flurry setCrashReportingEnabled: YES];
+    [Flurry startSession: MAFlurryAPIKey];
 }
 
 - (void)setupAppObjects
@@ -139,11 +129,12 @@
     _createViewController = [[MACreateViewController alloc] initWithMazeManager: self.mazeManager
                                                                  textureManager: self.textureManager];
     
-    _designViewController = [[MADesignViewController alloc] initWithWebServices: self.webServices
-                                                                   eventManager: self.eventManager
-                                                                    mazeManager: self.mazeManager
-                                                                   soundManager: self.soundManager
-                                                                 textureManager: self.textureManager];
+    _designViewController = [[MADesignViewController alloc] initWithReachability: self.reachability
+                                                                     webServices: self.webServices
+                                                                    eventManager: self.eventManager
+                                                                     mazeManager: self.mazeManager
+                                                                    soundManager: self.soundManager
+                                                                  textureManager: self.textureManager];
     
     _gameViewController = [[MAGameViewController alloc] initWithReachability: self.reachability
                                                                  webServices: self.webServices
@@ -152,11 +143,12 @@
                                                                 soundManager: self.soundManager
                                                                   bannerView: self.bannerView];
     
-    _topMazesViewController = [[MATopMazesViewController alloc] initWithWebServices: self.webServices
-                                                                        mazeManager: self.mazeManager
-                                                                     textureManager: self.textureManager
-                                                                       soundManager: self.soundManager
-                                                                         bannerView: self.bannerView];
+    _topMazesViewController = [[MATopMazesViewController alloc] initWithReachability: self.reachability
+                                                                         webServices: self.webServices
+                                                                         mazeManager: self.mazeManager
+                                                                      textureManager: self.textureManager
+                                                                        soundManager: self.soundManager
+                                                                          bannerView: self.bannerView];
     
     self.createViewController.designViewController = self.designViewController;
     self.createViewController.mainViewController = self.mainViewController;
@@ -201,13 +193,20 @@
     {
         if (error == nil)
         {
+            NSLog(@"Logged in with userName %@", [self.webServices.loggedInUser userName]);
+            
             [self checkVersion];
             
             [self downloadTextures];
             [self downloadSounds];
         }
-        else if (self.reachability.isReachable == YES)
+        else
         {
+            NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionGeneric
+                                                                                      reachability: self.reachability
+                                                                                      userCanRetry: YES];
+            self.autologinErrorAlertView.message = requestErrorMessage;
+            
             [self.autologinErrorAlertView show];
         }
     }];
@@ -217,8 +216,17 @@
 {
     [self.textureManager downloadTexturesWithCompletionHandler: ^(NSError *error)
     {
-        if (self.downloadSoundsErrorAlertView.visible == NO)
+        if (error == nil)
         {
+            ;
+        }
+        else if (self.downloadSoundsErrorAlertView.visible == NO)
+        {
+            NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionGeneric
+                                                                                      reachability: self.reachability
+                                                                                      userCanRetry: YES];
+            self.downloadTexturesErrorAlertView.message = requestErrorMessage;
+            
             [self.downloadTexturesErrorAlertView show];
         }
     }];
@@ -228,8 +236,17 @@
 {
     [self.soundManager downloadSoundsWithCompletionHandler: ^(NSError *error)
     {
-        if (self.downloadTexturesErrorAlertView.visible == NO)
+        if (error == nil)
         {
+            ;
+        }
+        else if (self.downloadTexturesErrorAlertView.visible == NO)
+        {
+            NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionGeneric
+                                                                                      reachability: self.reachability
+                                                                                      userCanRetry: YES];
+            self.downloadSoundsErrorAlertView.message = requestErrorMessage;
+
             [self.downloadSoundsErrorAlertView show];
         }
     }];
@@ -237,13 +254,6 @@
 
 - (void)setupReachability
 {
-    __weak AppDelegate *weakAppDelegate = self;
-    
-    self.reachability.unreachableBlock = ^(Reachability *reachability)
-    {
-        [weakAppDelegate.noInternetAlertView show];
-    };
-    
     [self.reachability startNotifier];
 }
 
@@ -257,7 +267,7 @@
              
             if (appVersion < latestVersion.latestVersion)
             {
-                NSString *message = [NSString stringWithFormat: @"This app is version %0.1f. Version %0.1f is now available."
+                NSString *message = [NSString stringWithFormat: @"This app is version %0.1f. Version %0.1f is now available. "
                                      "It is recommended that you upgrade to the latest version.", appVersion, latestVersion.latestVersion];
                 
                 self.appVersionOutdatedAlertView.message = message;
@@ -272,22 +282,18 @@
     }];
 }
 
-- (void)alertView: (UIAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
+- (void)alertView: (UIAlertView *)alertView didDismissWithButtonIndex: (NSInteger)buttonIndex
 {
     if (alertView == self.appVersionOutdatedAlertView)
     {
         ;
     }
-    else if (alertView == self.noInternetAlertView)
-    {
-        ;
-    }
-    else if (alertView == self.autologinErrorAlertView && buttonIndex == 0)
+    else if (alertView == self.autologinErrorAlertView)
     {
         [self autologin];
     }
-    else if ((alertView == self.downloadTexturesErrorAlertView && buttonIndex == 0) ||
-             (alertView == self.downloadSoundsErrorAlertView && buttonIndex == 0))
+    else if ((alertView == self.downloadTexturesErrorAlertView) ||
+             (alertView == self.downloadSoundsErrorAlertView))
     {
         if (self.soundManager.count == 0)
         {

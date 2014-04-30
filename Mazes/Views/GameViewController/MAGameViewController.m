@@ -98,6 +98,8 @@
 @property (readonly, strong, nonatomic) UIAlertView *saveFoundMazeExitErrorAlertView;;
 @property (readonly, strong, nonatomic) UIAlertView *saveFoundMazeExitNoRetryErrorAlertView;;
 
+@property (readonly, strong, nonatomic) UIAlertView *saveMazeRatingErrorAlertView;
+
 @end
 
 @implementation MAGameViewController
@@ -133,19 +135,19 @@
         _turnStepDurationAvg = MAStepDurationAvgStart;
         
         _downloadMazeErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                 message: MADownloadMazeErrorMessage
+                                                                 message: @""
                                                                 delegate: self
                                                        cancelButtonTitle: @"Cancel"
                                                        otherButtonTitles: @"Retry", nil];
         
         _saveMazeStartedErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                    message: MASaveMazeProgressErrorMessage
+                                                                    message: @""
                                                                    delegate: self
                                                           cancelButtonTitle: @"Cancel"
                                                           otherButtonTitles: @"Retry", nil];
 
         _saveFoundMazeExitErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                      message: MASaveMazeProgressErrorMessage
+                                                                      message: @""
                                                                      delegate: self
                                                             cancelButtonTitle: @"Cancel"
                                                             otherButtonTitles: @"Retry", nil];
@@ -155,6 +157,12 @@
                                                                             delegate: nil
                                                                    cancelButtonTitle: @"OK"
                                                                    otherButtonTitles: nil];
+        
+        _saveMazeRatingErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                   message: @""
+                                                                  delegate: nil
+                                                         cancelButtonTitle: @"OK"
+                                                         otherButtonTitles: nil];
     }
     
     return self;
@@ -296,13 +304,6 @@
     [super viewDidDisappear: animated];
 }
 
-- (void)viewDidUnload
-{
-	[self.mazeView deleteTextures];
-    
-	[super viewDidUnload];
-}
-
 #pragma mark - ADBannerView
 
 - (BOOL)bannerViewActionShouldBegin: (ADBannerView *)banner willLeaveApplication: (BOOL)willLeave
@@ -333,9 +334,9 @@
 
 - (void)downloadMaze
 {
-    [self.webServices getMazeWithMazeId: self.mazeSummary.mazeId completionHandler: ^(MAMaze *maze, NSError *error)
+    [self.webServices getMazeWithMazeId: self.mazeSummary.mazeId completionHandler: ^(NSString *mazeId, MAMaze *maze, NSError *error)
     {
-        if ([maze.mazeId isEqualToString: self.mazeSummary.mazeId] == YES)
+        if ([mazeId isEqualToString: self.mazeSummary.mazeId] == YES)
         {
             if (error == nil)
             {
@@ -344,6 +345,11 @@
             }
             else
             {
+                NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionDownloadMaze
+                                                                                          reachability: self.reachability
+                                                                                          userCanRetry: YES];
+                self.downloadMazeErrorAlertView.message = requestErrorMessage;
+
                 [self.downloadMazeErrorAlertView show];
             }
         }
@@ -366,6 +372,11 @@
                  }
                  else
                  {
+                     NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionSaveMazeProgress
+                                                                                               reachability: self.reachability
+                                                                                               userCanRetry: YES];
+                     self.saveMazeStartedErrorAlertView.message = requestErrorMessage;
+
                      [self.saveMazeStartedErrorAlertView show];
                  }
              }
@@ -852,6 +863,10 @@
         {
             [self saveFoundMazeExit];
         }
+        else
+        {
+            [self showEndAlert];
+        }
 	}
 	else if (self.currentLocation.action == MALocationActionStartOver)
 	{
@@ -896,6 +911,11 @@
             }
             else
             {
+                NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionSaveMazeProgress
+                                                                                          reachability: self.reachability
+                                                                                          userCanRetry: YES];
+                self.saveFoundMazeExitErrorAlertView.message = requestErrorMessage;
+
                 [self.saveFoundMazeExitErrorAlertView show];
             }
         }
@@ -907,10 +927,15 @@
             }
             else
             {
-                self.saveFoundMazeExitNoRetryErrorAlertView.message = [NSString stringWithFormat: MASaveMazeProgressNoRetryErrorMessage, mazeName];
+                NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionSaveMazeProgressNoRetry
+                                                                                          reachability: self.reachability
+                                                                                          userCanRetry: NO];
+                
+                requestErrorMessage = [NSString stringWithFormat: requestErrorMessage, mazeName];
+                self.saveFoundMazeExitNoRetryErrorAlertView.message = requestErrorMessage;
+
                 [self.saveFoundMazeExitNoRetryErrorAlertView show];
             }
-        
         }
     }];
 }
@@ -973,8 +998,9 @@
     {
         [self.webServices saveMazeRatingWithUserName: self.webServices.loggedInUser.userName
                                               mazeId: self.maze.mazeId
+                                            mazeName: self.maze.name
                                               rating: newRating
-                                   completionHandler: ^(NSError *error)
+                                   completionHandler: ^(NSString *mazeName, NSError *error)
         {
             if (error == nil)
             {
@@ -982,6 +1008,14 @@
             }
             else
             {
+                NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionSaveMazeRating
+                                                                                          reachability: self.reachability
+                                                                                          userCanRetry: NO];
+                
+                requestErrorMessage = [NSString stringWithFormat: requestErrorMessage, mazeName];
+                self.saveMazeRatingErrorAlertView.message = requestErrorMessage;
+                
+                [self.saveMazeRatingErrorAlertView show];
             }
         }];
     }
@@ -989,7 +1023,7 @@
 
 #pragma mark - UIAlertViewDelegate
 
-- (void)alertView: (UIAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
+- (void)alertView: (UIAlertView *)alertView didDismissWithButtonIndex: (NSInteger)buttonIndex
 {
     if (alertView == self.downloadMazeErrorAlertView)
     {

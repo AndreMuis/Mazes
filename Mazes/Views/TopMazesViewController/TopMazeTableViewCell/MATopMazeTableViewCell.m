@@ -24,12 +24,12 @@
 
 @property (readonly, strong, nonatomic) id<MATopMazeTableViewCellDelegate> delegate;
 
-@property (readonly, strong, nonatomic) MAMazeSummary *mazeSummary1;
-@property (readonly, strong, nonatomic) MAMazeSummary *mazeSummary2;
-
 @property (readonly, strong, nonatomic) MAWebServices *webServices;
 @property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
 @property (readonly, strong, nonatomic) MAStyles *styles;
+
+@property (readonly, strong, nonatomic) MAMazeSummary *mazeSummary1;
+@property (readonly, strong, nonatomic) MAMazeSummary *mazeSummary2;
 
 @end
 
@@ -41,12 +41,12 @@
     
     if (self)
 	{
-        _mazeSummary1 = nil;
-        _mazeSummary2 = nil;
-        
         _webServices = nil;
         _mazeManager = nil;
         _styles = [MAStyles styles];
+        
+        _mazeSummary1 = nil;
+        _mazeSummary2 = nil;
         
         _selectedColumn = 0;
     }
@@ -190,21 +190,27 @@
 - (void)ratingView: (MARatingView *)ratingView ratingChanged: (float)newRating
 {
     NSString *mazeId = nil;
+    NSString *mazeName = nil;
     
     if (ratingView == self.userRating1View)
     {
         mazeId = self.mazeSummary1.mazeId;
+        mazeName = self.mazeSummary1.name;
     }
     else if (ratingView == self.userRating2View)
     {
         mazeId = self.mazeSummary2.mazeId;
+        mazeName = self.mazeSummary2.name;
     }
     else
     {
         [MAUtilities logWithClass: [self class] format: @"Rating view %@ cannot be selectable.", ratingView];
     }
     
-    [self.delegate topMazeTableViewCell: self didUpdateRating: newRating forMazeWithMazeId: mazeId];
+    [self.delegate topMazeTableViewCell: self
+                        didUpdateRating: newRating
+                          forMazeWithId: mazeId
+                                   name: mazeName];
 }
 
 @end

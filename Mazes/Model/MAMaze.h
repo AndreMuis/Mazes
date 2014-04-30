@@ -44,7 +44,6 @@
 @property (readwrite, strong, nonatomic) MALocation *currentSelectedLocation;
 
 @property (readwrite, strong, nonatomic) NSData *wallsData;
-@property (readwrite, strong, nonatomic) MAWall *previousSelectedWall;
 @property (readwrite, strong, nonatomic) MAWall *currentSelectedWall;
 
 + (MAMaze *)mazeWithLoggedInUser: (id<FFUserProtocol>)loggedInUser

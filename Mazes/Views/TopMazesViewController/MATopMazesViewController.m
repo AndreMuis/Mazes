@@ -29,6 +29,7 @@
 
 @interface MATopMazesViewController () <UITableViewDataSource, UITableViewDelegate>
 
+@property (readonly, strong, nonatomic) Reachability *reachability;
 @property (readonly, strong, nonatomic) MAWebServices *webServices;
 
 @property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
@@ -61,16 +62,18 @@
 
 @implementation MATopMazesViewController
 
-- (id)initWithWebServices: (MAWebServices *)webServices
-              mazeManager: (MAMazeManager *)mazeManager
-           textureManager: (MATextureManager *)textureManager
-             soundManager: (MASoundManager *)soundManager
-               bannerView: (ADBannerView *)bannerView;
+- (id)initWithReachability: (Reachability *)reachability
+               webServices: (MAWebServices *)webServices
+               mazeManager: (MAMazeManager *)mazeManager
+            textureManager: (MATextureManager *)textureManager
+              soundManager: (MASoundManager *)soundManager
+                bannerView: (ADBannerView *)bannerView;
 {
     self = [[MATopMazesViewController alloc] initWithNibName: NSStringFromClass([self class]) bundle: nil];
     
     if (self)
     {
+        _reachability = reachability;
         _webServices = webServices;
         
         _mazeManager = mazeManager;
@@ -86,22 +89,22 @@
         _topMazeCellIdentifier = @"TopMazeTableViewCell";
         
         _downloadTopMazeSummariesErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                             message: MADownloadTopMazesSummariesErrorMessage
-                                                                            delegate: self
+                                                                             message: @""
+                                                                            delegate: nil
                                                                    cancelButtonTitle: @"OK"
                                                                    otherButtonTitles: nil];
         
         _saveMazeRatingErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                   message: MASaveMazeRatingErrorMessage
-                                                                  delegate: self
+                                                                   message: @""
+                                                                  delegate: nil
                                                          cancelButtonTitle: @"OK"
                                                          otherButtonTitles: nil];
         
         _downloadUserMazeErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
-                                                                   message: MADownloadUserMazeErrorMessage
-                                                                  delegate: self
-                                                         cancelButtonTitle: @"OK"
-                                                         otherButtonTitles: nil];
+                                                                     message: @""
+                                                                    delegate: nil
+                                                           cancelButtonTitle: @"OK"
+                                                           otherButtonTitles: nil];
     }
     
     return self;
@@ -196,7 +199,7 @@
     [self.tableView reloadData];
     [self refreshActivityIndicatorView];
     
-    if ([self.mazeManager isDownloadingTopMazeSummariesOfType: MATopMazeSummariesHighestRated] == NO)
+    if ([self.mazeManager isDownloadingTopMazeSummariesOfType: MATopMazeSummariesHighestRated] == NO && self.webServices.isLoggedIn == YES)
     {
         [self downloadTopMazeSummariesWithType: MATopMazeSummariesHighestRated];
     }
@@ -210,7 +213,7 @@
     [self.tableView reloadData];
     [self refreshActivityIndicatorView];
 
-    if ([self.mazeManager isDownloadingTopMazeSummariesOfType: MATopMazeSummariesNewest] == NO)
+    if ([self.mazeManager isDownloadingTopMazeSummariesOfType: MATopMazeSummariesNewest] == NO && self.webServices.isLoggedIn == YES)
     {
         [self downloadTopMazeSummariesWithType: MATopMazeSummariesNewest];
     }
@@ -224,7 +227,7 @@
     [self.tableView reloadData];
     [self refreshActivityIndicatorView];
 
-    if ([self.mazeManager isDownloadingTopMazeSummariesOfType: MATopMazeSummariesYours] == NO)
+    if ([self.mazeManager isDownloadingTopMazeSummariesOfType: MATopMazeSummariesYours] == NO && self.webServices.isLoggedIn == YES)
     {
         [self downloadTopMazeSummariesWithType: MATopMazeSummariesYours];
     }
@@ -262,7 +265,15 @@
          }
          else
          {
-             [self.downloadTopMazeSummariesErrorAlertView show];
+             if (topMazeSummariesType == self.selectedTopMazeSummariesType)
+             {
+                 NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionDownloadTopMazesSummaries
+                                                                                           reachability: self.reachability
+                                                                                           userCanRetry: YES];
+                 self.downloadTopMazeSummariesErrorAlertView.message = requestErrorMessage;
+             
+                 [self.downloadTopMazeSummariesErrorAlertView show];
+             }
          }
      }];
 }
@@ -338,7 +349,7 @@
     MAMazeSummary *mazeSummary1 = [topMazeSummaries objectAtIndex: 2 * indexPath.row];
     
     MAMazeSummary *mazeSummary2 = nil;
-    if (2 * indexPath.row + 1 <= topMazeSummaries.count - 1)
+    if (2 * (NSUInteger)indexPath.row + 1 <= topMazeSummaries.count - 1)
     {
         mazeSummary2 = [topMazeSummaries objectAtIndex: 2 * indexPath.row + 1];
     }
@@ -358,7 +369,7 @@
     {
         MATopMazeTableViewCell *cell = (MATopMazeTableViewCell *)[self.tableView cellForRowAtIndexPath: indexPath];
         
-        int i = indexPath.row * 2 + (cell.selectedColumn - 1);
+        NSUInteger i = indexPath.row * 2 + (cell.selectedColumn - 1);
         
         NSArray *topMazeSummaries = [self.mazeManager topMazeSummariesOfType: self.selectedTopMazeSummariesType];
 
@@ -375,12 +386,14 @@
 
 - (void)topMazeTableViewCell: (MATopMazeTableViewCell *)topMazeTableViewCell
              didUpdateRating: (float)rating
-           forMazeWithMazeId: (NSString *)mazeId
+               forMazeWithId: (NSString *)mazeId
+                        name: (NSString *)mazeName
 {
     [self.webServices saveMazeRatingWithUserName: self.webServices.loggedInUser.userName
                                           mazeId: mazeId
+                                        mazeName: mazeName
                                           rating: rating
-                               completionHandler: ^(NSError *error)
+                               completionHandler: ^(NSString *mazeName, NSError *error)
     {
         if (error == nil)
         {
@@ -403,25 +416,16 @@
         }
         else
         {
+            NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionSaveMazeRating
+                                                                                      reachability: self.reachability
+                                                                                      userCanRetry: YES];
+            
+            requestErrorMessage = [NSString stringWithFormat: requestErrorMessage, mazeName];
+            self.saveMazeRatingErrorAlertView.message = requestErrorMessage;
+
             [self.saveMazeRatingErrorAlertView show];
         }
     }];
-}
-
-- (void)alertView: (UIAlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
-{
-    if (alertView == self.downloadTopMazeSummariesErrorAlertView)
-    {
-        ;
-    }
-    else if (alertView == self.saveMazeRatingErrorAlertView)
-    {
-        ;
-    }
-    else
-    {
-        [MAUtilities logWithClass: [self class] format: [NSString stringWithFormat: @"AlertView not handled. AlertView: %@", alertView]];
-    }
 }
 
 - (void)refreshActivityIndicatorView
@@ -488,6 +492,11 @@
                 }
                 else
                 {
+                    NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionDownloadUserMaze
+                                                                                              reachability: self.reachability
+                                                                                              userCanRetry: YES];
+                    self.downloadUserMazeErrorAlertView.message = requestErrorMessage;
+                    
                     [self.downloadUserMazeErrorAlertView show];
                 }
             }];

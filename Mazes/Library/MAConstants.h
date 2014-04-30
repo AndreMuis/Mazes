@@ -36,24 +36,24 @@ extern NSUInteger const MAMazeNameExistsStatusCode;
 
 extern NSUInteger const MARandomPasswordLength;
 
-extern int const MARowsMin;
-extern int const MARowsMax;
-extern int const MAColumnsMin;
-extern int const MAColumnsMax;
+extern NSUInteger const MARowsMin;
+extern NSUInteger const MARowsMax;
+extern NSUInteger const MAColumnsMin;
+extern NSUInteger const MAColumnsMax;
 
 extern float const MAWallHeight;
 extern float const MAEyeHeight;
 extern float const MAWallWidth;
 extern float const MAWallDepth;
 
-extern int const MATextureCount;
+extern NSUInteger const MATextureCount;
 
 extern float const MAMovementDuration;
 extern float const MAStepDurationAvgStart;
 extern float const MAFakeMovementPrcnt;
 
-extern int const MALocationMessageMaxLength;
-extern int const MAMazeNameMaxLength;
+extern NSUInteger const MALocationMessageMaxLength;
+extern NSUInteger const MAMazeNameMaxLength;
 
 extern NSString* const MAGreenTextureId;
 extern NSString* const MARedTextureId;
@@ -66,16 +66,16 @@ extern NSString* const MAAlternatingBrickTextureId;
 extern NSString* const MALightSwirlMarbleTextureId;
 extern NSString* const MACreamyWhiteMarbleTextureId;
 
-extern NSString* const MANoInternetMessage;
-extern NSString* const MARequestErrorMessage;
-extern NSString* const MASaveMazeErrorMessage;
-extern NSString* const MADownloadTopMazesSummariesErrorMessage;
-extern NSString* const MASaveMazeRatingErrorMessage;
-extern NSString* const MADownloadUserMazeErrorMessage;
-extern NSString* const MADownloadMazeErrorMessage;
+extern NSString* const MARequestDescriptionGeneric;
+extern NSString* const MARequestDescriptionSaveMaze;
+extern NSString* const MARequestDescriptionDownloadTopMazesSummaries;
+extern NSString* const MARequestDescriptionSaveMazeRating;
+extern NSString* const MARequestDescriptionDownloadUserMaze;
+extern NSString* const MARequestDescriptionDownloadMaze;
 
-extern NSString* const MASaveMazeProgressErrorMessage;
-extern NSString* const MASaveMazeProgressNoRetryErrorMessage;
+extern NSString* const MARequestDescriptionSaveMazeProgress;
+extern NSString* const MARequestDescriptionSaveMazeProgressNoRetry;
+
 
 
 

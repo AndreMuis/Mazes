@@ -82,11 +82,12 @@
 
 @property (weak, nonatomic) IBOutlet MAFloorPlanView *floorPlanView;
 
-- (id)initWithWebServices: (MAWebServices *)webServices
-             eventManager: (MAEventManager *)eventManager
-              mazeManager: (MAMazeManager *)mazeManager
-             soundManager: (MASoundManager *)soundManager
-           textureManager: (MATextureManager *)textureManager;
+- (id)initWithReachability: (Reachability *)reachability
+               webServices: (MAWebServices *)webServices
+              eventManager: (MAEventManager *)eventManager
+               mazeManager: (MAMazeManager *)mazeManager
+              soundManager: (MASoundManager *)soundManager
+            textureManager: (MATextureManager *)textureManager;
 
 - (IBAction)mainButtonTouchDown: (id)sender;
 - (IBAction)locationButtonTouchDown: (id)sender;

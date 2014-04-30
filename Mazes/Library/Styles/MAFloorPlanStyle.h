@@ -27,7 +27,7 @@
 
 @property (readonly, strong, nonatomic) UIColor *arrowColor;
 
-@property (readonly, assign, nonatomic) UIFont *teleportFont;
+@property (readonly, strong, nonatomic) UIFont *teleportFont;
 @property (readonly, strong, nonatomic) UIColor *teleportIdColor;
 
 @property (readonly, strong, nonatomic) UIColor *noWallColor;

@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+#import <Reachability/Reachability.h>
+
 @class AppDelegate;
 @class MAFloorPlanStyle;
 
 @interface MAUtilities : NSObject 
 
 + (void)logWithClass: (Class)class format: (NSString *)formatString, ...;
+
++ (NSString *)requestErrorMessageWithRequestDescription: (NSString *)requestDescription
+                                           reachability: (Reachability *)reachability
+                                           userCanRetry: (BOOL)userCanRetry;
 
 + (double)radiansFromDegrees: (double)degrees;
 + (double)degreesFromRadians: (double)radians;

@@ -290,6 +290,8 @@
 
 - (MAWall *)wallWithTouchPoint: (CGPoint)touchPoint
 {
+    MAWall *wallTapped = nil;
+    
 	CGRect wallRect = CGRectZero;
 	CGPoint wallOrigin = CGPointZero;
 	
@@ -306,34 +308,25 @@
         tx = touchPoint.x - wallOrigin.x;
         ty = touchPoint.y - wallOrigin.y;
         
-        BOOL found = NO;
         if (tx >= -b && tx <= 0)
         {
             if (ty >= -tx - b && ty <= tx + b)
             {
-                found = YES;
+                wallTapped = wall;
+                break;
             }
         }
         else if (tx >= 0 && tx <= b)
         {
             if (ty >= tx - b && ty <= -tx + b)
             {
-                found = YES;
-            }
-        }
-        
-        if (found == YES)
-        {
-            if ((wall.column <= self.maze.columns && wall.row <= self.maze.rows) ||
-                (wall.column == self.maze.columns + 1 && wall.type == MADirectionWest && wall.row <= self.maze.rows) ||
-                (wall.row == self.maze.rows + 1 && wall.type == MADirectionNorth && wall.column <= self.maze.columns))
-            {
-                return wall;
+                wallTapped = wall;
+                break;
             }
         }
 	}
     
-	return nil;
+	return wallTapped;
 }
 
 - (CGRect)locationRectWithLocation: (MALocation *)location

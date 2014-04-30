@@ -23,7 +23,7 @@ typedef void (^GetTexturesCompletionHandler)(NSArray *textures, NSError *error);
 typedef void (^GetSoundsCompletionHandler)(NSArray *sounds, NSError *error);
 
 typedef void (^GetUserMazesCompletionHandler)(NSArray *userMazes, NSError *error);
-typedef void (^GetMazeCompletionHandler)(MAMaze *maze, NSError *error);
+typedef void (^GetMazeCompletionHandler)(NSString *mazeId, MAMaze *maze, NSError *error);
 
 typedef void (^SaveMazeCompletionHandler)(NSError *error);
 
@@ -32,7 +32,7 @@ typedef void (^GetTopMazeSummariesCompletionHandler)(NSArray *topMazeSummaries, 
 typedef void (^SaveStartedCompletionHandler)(NSString *mazeId, NSError *error);
 typedef void (^SaveFoundExitCompletionHandler)(NSString *mazeId, NSString *mazeName, NSError *error);
 
-typedef void (^SaveRatingCompletionHandler)(NSError *error);
+typedef void (^SaveRatingCompletionHandler)(NSString *mazeName, NSError *error);
 
 typedef void (^GetLatestVersionCompletionHandler)(MALatestVersion *latestVersion, NSError *error);
 
@@ -68,7 +68,12 @@ typedef void (^GetLatestVersionCompletionHandler)(MALatestVersion *latestVersion
 
 - (void)saveStartedWithUserName: (NSString *)userName mazeId: (NSString *)mazeId completionHandler: (SaveStartedCompletionHandler)handler;
 - (void)saveFoundExitWithUserName: (NSString *)userName mazeId: (NSString *)mazeId mazeName: (NSString *)mazeName completionHandler: (SaveFoundExitCompletionHandler)handler;
-- (void)saveMazeRatingWithUserName: (NSString *)userName mazeId: (NSString *)mazeId rating: (float)rating completionHandler: (SaveRatingCompletionHandler)handler;
+
+- (void)saveMazeRatingWithUserName: (NSString *)userName
+                            mazeId: (NSString *)mazeId
+                          mazeName: (NSString *)mazeName
+                            rating: (float)rating
+                 completionHandler: (SaveRatingCompletionHandler)handler;
 
 - (void)getLatestVersionWithCompletionHandler: (GetLatestVersionCompletionHandler)handler;
 
