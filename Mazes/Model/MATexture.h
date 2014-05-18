@@ -10,12 +10,12 @@
 
 @interface MATexture : NSObject
 
-@property (readonly, strong, nonatomic) NSString *textureId;
-@property (readonly, strong, nonatomic) NSString *name;
-@property (readonly, assign, nonatomic) int width;
-@property (readonly, assign, nonatomic) int height;
-@property (readonly, assign, nonatomic) int repeats;
-@property (readonly, assign, nonatomic) int kind;
-@property (readonly, assign, nonatomic) int order;
+@property (readwrite, strong, nonatomic) NSString *textureId;
+@property (readwrite, strong, nonatomic) NSString *name;
+@property (readwrite, assign, nonatomic) int width;
+@property (readwrite, assign, nonatomic) int height;
+@property (readwrite, assign, nonatomic) int repeats;
+@property (readwrite, assign, nonatomic) int kind;
+@property (readwrite, assign, nonatomic) int order;
 
 @end

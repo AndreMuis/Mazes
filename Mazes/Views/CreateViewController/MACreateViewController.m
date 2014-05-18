@@ -61,12 +61,18 @@
     
     if (self.rowsPickerView.frame.size.width != self.styles.createScreen.pickerWidth)
     {
-        [MAUtilities logWithClass: [self class] format: @"Rows pickerview width is %f. Should be %f", self.rowsPickerView.frame.size.width, self.styles.createScreen.pickerWidth];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Rows pickerview width is invalid."
+                       parameters: @{@"self.rowsPickerView.frame.size.width" : @(self.rowsPickerView.frame.size.width),
+                                     @"self.styles.createScreen.pickerWidth" : @(self.styles.createScreen.pickerWidth)}];
     }
 
     if (self.columnsPickerView.frame.size.width != self.styles.createScreen.pickerWidth)
     {
-        [MAUtilities logWithClass: [self class] format: @"Columns pickerview width is %f. Should be %f", self.columnsPickerView.frame.size.width, self.styles.createScreen.pickerWidth];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Columns pickerview width is invalid."
+                       parameters: @{@"self.columnsPickerView.frame.size.width" : @(self.columnsPickerView.frame.size.width),
+                                     @"self.styles.createScreen.pickerWidth" : @(self.styles.createScreen.pickerWidth)}];
     }
     
     self.rowsPickerView.backgroundColor = self.styles.createScreen.pickerBackgroundColor;
@@ -103,7 +109,8 @@
         
         [self.mainViewController transitionFromViewController: self
                                              toViewController: self.designViewController
-                                                   transition: MATransitionTranslateBothLeft];
+                                                   transition: MATransitionTranslateBothLeft
+                                                   completion: ^{}];
     }
 }
 
@@ -113,7 +120,8 @@
     {
         [self.mainViewController transitionFromViewController: self
                                              toViewController: self.topMazesViewController
-                                                   transition: MATransitionTranslateBothRight];
+                                                   transition: MATransitionTranslateBothRight
+                                                   completion: ^{}];
     }
 }
 
@@ -148,7 +156,9 @@
     }
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Pickerview not handled: %@", pickerView];
+        [MAUtilities logWithClass: [self class]
+                          message: @"pickerview not handled."
+                       parameters: @{@"pickerView" : pickerView}];
     }
 	
 	return rows;
@@ -187,7 +197,9 @@
     }
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Pickerview not handled: %@", pickerView];
+        [MAUtilities logWithClass: [self class]
+                          message: @"pickerview not handled."
+                       parameters: @{@"pickerView" : pickerView}];
     }
 
     return label;
@@ -205,7 +217,9 @@
     }
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Pickerview not handled: %@", pickerView];
+        [MAUtilities logWithClass: [self class]
+                          message: @"pickerview not handled."
+                       parameters: @{@"pickerView" : pickerView}];
     }
     
     [self.maze populateLocationsAndWalls];

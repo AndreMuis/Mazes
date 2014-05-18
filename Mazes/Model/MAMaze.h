@@ -31,7 +31,6 @@
 @property (readwrite, strong, nonatomic) MATexture *ceilingTexture;
 @property (readwrite, assign, nonatomic) float averageRating;
 @property (readwrite, assign, nonatomic) int ratingCount;
-
 @property (readwrite, strong, nonatomic) NSDate *modifiedAt;
 
 @property (readwrite, assign, nonatomic) NSUInteger rows;
@@ -55,6 +54,8 @@
                   ceilingTexture: (MATexture *)ceilingTexture;
 
 - (void)reset;
+
+- (void)updateWithMaze: (MAMaze *)maze;
 
 - (void)populateLocationsAndWalls;
 

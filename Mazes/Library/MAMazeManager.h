@@ -27,7 +27,6 @@ typedef void (^DownloadTopMazeSummariesCompletionHandler)(NSError *error);
 
 @interface MAMazeManager : NSObject
 
-
 @property (readonly, strong, nonatomic) MAMaze *firstUserMaze;
 @property (readwrite, assign, nonatomic) BOOL isFirstUserMazeSizeChosen;
 

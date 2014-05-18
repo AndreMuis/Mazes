@@ -11,6 +11,8 @@
 @class MAColors;
 @class MAStyles;
 
+typedef void (^ViewControllerTransitionCompletionHandler)();
+
 typedef enum : int
 {
     MATransitionNone = 0,
@@ -35,6 +37,7 @@ typedef enum : int
 
 - (void)transitionFromViewController: (UIViewController *)fromViewController
                     toViewController: (UIViewController *)toViewController
-                          transition: (MATransitionType)transition;
+                          transition: (MATransitionType)transition
+                          completion: (ViewControllerTransitionCompletionHandler)completionHandler;
 
 @end

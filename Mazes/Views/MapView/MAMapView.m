@@ -306,9 +306,9 @@
 
 - (void)setupWallsWithMapOffset: (CGPoint)mapOffset
 {
-    NSUInteger rotatedRowDelta;
-    NSUInteger rotatedColumnDelta;
-    MADirectionType rotatedDirection;
+    NSUInteger rotatedRowDelta = 0;
+    NSUInteger rotatedColumnDelta = 0;
+    MADirectionType rotatedDirection = MADirectionUnknown;
     
 	for (MAMapWall *mapWall in self.mapWalls)
 	{
@@ -375,7 +375,9 @@
 			}
             else
             {
-                [MAUtilities logWithClass: [self class] format: @"Wall direction set to an illegal value: %d", wall.direction];
+                [MAUtilities logWithClass: [self class]
+                                  message: @"Wall direction set to an illegal value."
+                               parameters: @{@"wall.direction" : @(wall.direction)}];
             }
 			
 			if (wall.type == MAWallSolid || wall.type == MAWallBorder || wall.type == MAWallFake)
@@ -401,7 +403,7 @@
                 MALocation *eastLocation = [self.maze locationWithRow: wall.row
                                                                column: wall.column + 1];
 
-                    [self setupCornerWithLocation: eastLocation mapOffset: mapOffset];
+                [self setupCornerWithLocation: eastLocation mapOffset: mapOffset];
 			}
 			else if (wall.direction == MADirectionWest)
 			{
@@ -412,7 +414,9 @@
 			}
             else
             {
-                [MAUtilities logWithClass: [self class] format: @"Wall direction set to an illegal value: %d", wall.direction];
+                [MAUtilities logWithClass: [self class]
+                                  message: @"Wall direction set to an illegal value."
+                               parameters: @{@"wall.direction" : @(wall.direction)}];
             }
 		}
 	}	
@@ -481,16 +485,18 @@
 	{
 		location.mapCornerColor = self.styles.map.wallColor;
 	}
-	else if ((northWall.type == MAWallInvisible && northWall.type == YES) ||
-			 (eastWall.type == MAWallInvisible && eastWall.type == YES) ||
-			 (southWall.type == MAWallInvisible && southWall.type == YES) ||
-			 (westWall.type == MAWallInvisible && westWall.type == YES))
+	else if ((northWall.type == MAWallInvisible && northWall.hit == YES) ||
+			 (eastWall.type == MAWallInvisible && eastWall.hit == YES) ||
+			 (southWall.type == MAWallInvisible && southWall.hit == YES) ||
+			 (westWall.type == MAWallInvisible && westWall.hit == YES))
 	{
 		location.mapCornerColor = self.styles.map.invisibleColor;
 	}
 	else 
 	{
-		[MAUtilities logWithClass: [self class] format: @"Map corner not handled."];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Map corner not handled."
+                       parameters: @{@"location" : location}];
 	}
 }
 

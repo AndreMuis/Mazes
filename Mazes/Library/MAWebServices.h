@@ -39,12 +39,13 @@ typedef void (^GetLatestVersionCompletionHandler)(MALatestVersion *latestVersion
 @interface MAWebServices : NSObject
 
 @property (readonly, strong, nonatomic) id<FFUserProtocol> loggedInUser;
-@property (readonly, assign, nonatomic) BOOL isLoggedIn;
+
 @property (readonly, assign, nonatomic) BOOL isLoggingIn;
+@property (readonly, assign, nonatomic) BOOL isLoggedIn;
 
 @property (readonly, assign, nonatomic) BOOL isDownloadingUserMazes;
 
-@property (readonly, assign, nonatomic) BOOL isSavingMaze;
+@property (readonly, assign, nonatomic) BOOL isSavingLocalMaze;
 
 @property (readonly, assign, nonatomic) BOOL isDownloadingHighestRatedMazeSummaries;
 @property (readonly, assign, nonatomic) BOOL isDownloadingNewestMazeSummaries;
@@ -60,7 +61,7 @@ typedef void (^GetLatestVersionCompletionHandler)(MALatestVersion *latestVersion
 - (void)getUserMazesWithCompletionHandler: (GetUserMazesCompletionHandler)handler;
 - (void)getMazeWithMazeId: (NSString *)mazeId completionHandler: (GetMazeCompletionHandler)handler;
 
-- (void)saveMaze: (MAMaze *)maze completionHandler: (SaveMazeCompletionHandler)handler;
+- (void)saveLocalMaze: (MAMaze *)maze completionHandler: (SaveMazeCompletionHandler)handler;
 
 - (void)getHighestRatedMazeSummariesWithCompletionHandler: (GetTopMazeSummariesCompletionHandler)handler;
 - (void)getNewestMazeSummariesWithCompletionHandler: (GetTopMazeSummariesCompletionHandler)handler;

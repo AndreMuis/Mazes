@@ -122,7 +122,9 @@
         }
             
         default:
-            [MAUtilities logWithClass: [self class] format: @"topMazeSummariesType set to an illegal value: %d", topMazeSummariesType];
+            [MAUtilities logWithClass: [self class]
+                              message: @"topMazeSummariesType set to an illegal value."
+                           parameters: @{@"topMazeSummariesType" : @(topMazeSummariesType)}];
             break;
     }
 }
@@ -144,7 +146,9 @@
             break;
             
         default:
-            [MAUtilities logWithClass: [self class] format: @"topMazeSummariesType set to an illegal value: %d", topMazeSummariesType];
+            [MAUtilities logWithClass: [self class]
+                              message: @"topMazeSummariesType set to an illegal value."
+                           parameters: @{@"topMazeSummariesType" : @(topMazeSummariesType)}];
             return NO;
             break;
     }
@@ -167,7 +171,9 @@
             break;
             
         default:
-            [MAUtilities logWithClass: [self class] format: @"topMazeSummariesType set to an illegal value: %d", topMazeSummariesType];
+            [MAUtilities logWithClass: [self class]
+                              message: @"topMazeSummariesType set to an illegal value."
+                           parameters: @{@"topMazeSummariesType" : @(topMazeSummariesType)}];
             return nil;
             break;
     }

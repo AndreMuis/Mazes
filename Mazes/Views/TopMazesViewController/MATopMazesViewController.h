@@ -32,7 +32,6 @@
                webServices: (MAWebServices *)webServices
                mazeManager: (MAMazeManager *)mazeManager
             textureManager: (MATextureManager *)textureManager
-              soundManager: (MASoundManager *)soundManager
-                bannerView: (ADBannerView *)bannerView;
+              soundManager: (MASoundManager *)soundManager;
 
 @end

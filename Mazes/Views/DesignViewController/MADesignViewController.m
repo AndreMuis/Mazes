@@ -242,7 +242,7 @@
 	[super viewWillAppear: animated];
 	
 	[self.floorPlanView refresh];
-
+    
     [self setupTexturesPopover];
 }
 
@@ -359,8 +359,10 @@
 	}
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Selected index set to an illegal value: %d", selectedIndex];
-    }
+        [MAUtilities logWithClass: [self class]
+                          message: @"selectedIndex set to an illegal value."
+                       parameters: @{@"selectedIndex" : @(selectedIndex)}];
+   }
 }
 
 //
@@ -416,7 +418,7 @@
 		CGPoint touchPoint = [recognizer locationInView: self.floorPlanView];
 
 		MALocation *location = [self.floorPlanView locationWithTouchPoint: touchPoint];
-		
+
 		if (location != nil)
 		{			
 			[self locationChangedToCoordinate: location.coordinate];
@@ -526,7 +528,9 @@
 	}
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Table view not handled: %@", tableView];
+        [MAUtilities logWithClass: [self class]
+                          message: @"tableView not handled."
+                       parameters: @{@"tableView" : tableView}];
     }
 	
 	[headerView addSubview: headerLabel];
@@ -542,7 +546,9 @@
     }
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Table view not handled: %@", tableView];
+        [MAUtilities logWithClass: [self class]
+                          message: @"tableView not handled."
+                       parameters: @{@"tableView" : tableView}];
         return 0;
     }
 }
@@ -567,7 +573,9 @@
 	}
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Table view not handled: %@", tableView];
+        [MAUtilities logWithClass: [self class]
+                          message: @"tableView not handled."
+                       parameters: @{@"tableView" : tableView}];
         return 0;
     }
 }
@@ -683,7 +691,7 @@
 		[tableView deselectRowAtIndexPath: indexPath animated: YES];
 		return;
 	}
-	
+    
 	if (tableView == self.locationTypeTableView)
 	{
 		MALocationActionType action = [[self.locationActions objectAtIndex: indexPath.row] intValue];
@@ -694,13 +702,15 @@
             {
                 [self.maze resetLocation: self.maze.currentSelectedLocation];
                 
+                [self setupLocationPanel];
+                
                 [self showTutorialHelpForTopic: @"None"];
                 
                 break;
             }
                 
             case MALocationActionStart:
-            {
+            {                
                 [self.maze resetLocation: self.maze.currentSelectedLocation];
                 
                 if (self.maze.startLocation != nil)
@@ -737,6 +747,8 @@
             {
                 [self.maze resetLocation: self.maze.currentSelectedLocation];
                 
+                [self setupLocationPanel];
+
                 [self showTutorialHelpForTopic: @"None"];
 
                 break;
@@ -752,7 +764,11 @@
                     return;
                 }
                 
+                [self.maze resetLocation: self.maze.currentSelectedLocation];
+                
                 self.maze.currentSelectedLocation.TeleportId = [self getNextTeleportId];
+                
+                [self setupLocationPanel];
                 
                 [self showTutorialHelpForTopic: @"TeleportTwin"];
 
@@ -760,8 +776,9 @@
             }
 
             default:
-                [MAUtilities logWithClass: [self class] format: @"Location action set to an illegal value: %d", action];
-                
+                [MAUtilities logWithClass: [self class]
+                                  message: @"action set to an illegal value."
+                               parameters: @{@"action" : @(action)}];
                 break;
         }
         
@@ -940,7 +957,9 @@
             break;
             
         default:
-            [MAUtilities logWithClass: [self class] format: @"locationAction set to an illegal value: %d", locationAction];
+            [MAUtilities logWithClass: [self class]
+                              message: @"locationAction set to an illegal value."
+                           parameters: @{@"locationAction" : @(locationAction)}];
             break;
     }
 }
@@ -1161,54 +1180,66 @@ BOOL exists;
 
 - (IBAction)floorTextureButtonTouchDown: (id)sender
 {
-	if (self.maze.currentSelectedLocation != nil &&
-        self.maze.currentSelectedLocation.action != MALocationActionStart &&
-        self.maze.currentSelectedLocation.action != MALocationActionEnd)
-	{
-        __weak typeof(self) weakSelf = self;
-        
-		self.texturesViewController.textureSelectedHandler = ^(MATexture *texture)
+    if (self.locationScrollView.isTracking == NO)
+    {
+        if (self.maze.currentSelectedLocation != nil &&
+            self.maze.currentSelectedLocation.action != MALocationActionStart &&
+            self.maze.currentSelectedLocation.action != MALocationActionEnd)
         {
-            weakSelf.maze.currentSelectedLocation.floorTextureId = texture.textureId;
-            [weakSelf setupLocationPanel];
-        };
-		
-		[self.texturesPopoverController presentPopoverFromRect: self.floorTextureButton.frame
-                                                        inView: self.locationScrollView
-                                      permittedArrowDirections: UIPopoverArrowDirectionAny
-                                                      animated: YES];
-	}
+            __weak typeof(self) weakSelf = self;
+            
+            self.texturesViewController.textureSelectedHandler = ^(MATexture *texture)
+            {
+                weakSelf.maze.currentSelectedLocation.floorTextureId = texture.textureId;
+                [weakSelf setupLocationPanel];
+            };
+            
+            [self.texturesPopoverController presentPopoverFromRect: self.floorTextureButton.frame
+                                                            inView: self.locationScrollView
+                                          permittedArrowDirections: UIPopoverArrowDirectionAny
+                                                          animated: YES];
+        }
+    }
 }
 
 - (IBAction)floorTextureResetButtonTouchDown: (id)sender
 {
-    self.maze.currentSelectedLocation.floorTextureId = nil;
-    [self setupLocationPanel];
+    if (self.locationScrollView.isTracking == NO)
+    {
+        self.maze.currentSelectedLocation.floorTextureId = nil;
+        [self setupLocationPanel];
+    }
 }
 
 - (IBAction)ceilingTextureButtonTouchDown: (id)sender
 {
-	if (self.maze.currentSelectedLocation != nil)
-	{
-        __weak typeof(self) weakSelf = self;
-        
-		self.texturesViewController.textureSelectedHandler = ^(MATexture *texture)
+    if (self.locationScrollView.isTracking == NO)
+    {
+        if (self.maze.currentSelectedLocation != nil)
         {
-            weakSelf.maze.currentSelectedLocation.ceilingTextureId = texture.textureId;
-            [weakSelf setupLocationPanel];
-        };
-		
-		[self.texturesPopoverController presentPopoverFromRect: self.ceilingTextureButton.frame
-                                                        inView: self.locationScrollView
-                                      permittedArrowDirections: UIPopoverArrowDirectionAny
-                                                      animated: YES];
-	}
+            __weak typeof(self) weakSelf = self;
+            
+            self.texturesViewController.textureSelectedHandler = ^(MATexture *texture)
+            {
+                weakSelf.maze.currentSelectedLocation.ceilingTextureId = texture.textureId;
+                [weakSelf setupLocationPanel];
+            };
+            
+            [self.texturesPopoverController presentPopoverFromRect: self.ceilingTextureButton.frame
+                                                            inView: self.locationScrollView
+                                          permittedArrowDirections: UIPopoverArrowDirectionAny
+                                                          animated: YES];
+        }
+    }
 }
 
 - (IBAction)ceilingTextureResetButtonTouchDown: (id)sender
 {
-    self.maze.currentSelectedLocation.ceilingTextureId = nil;
-    [self setupLocationPanel];
+    if (self.locationScrollView.isTracking == NO)
+    {
+        self.maze.currentSelectedLocation.ceilingTextureId = nil;
+        [self setupLocationPanel];
+    }
 }
 
 //
@@ -1339,7 +1370,6 @@ BOOL exists;
 
 
 
-
 //
 //   SAVE
 //
@@ -1368,10 +1398,10 @@ BOOL exists;
 {
     self.saveButton.isBusy = YES;
     
-    if (self.webServices.isSavingMaze == NO)
+    if (self.webServices.isSavingLocalMaze == NO)
     {
-        [self.webServices saveMaze: self.maze
-                 completionHandler: ^(NSError *error)
+        [self.webServices saveLocalMaze: self.maze
+                      completionHandler: ^(NSError *error)
         {
             if (error == nil)
             {
@@ -1476,11 +1506,14 @@ BOOL exists;
         
         [self.mainViewController transitionFromViewController: self
                                              toViewController: self.createViewController
-                                                   transition: MATransitionTranslateBothRight];
+                                                   transition: MATransitionTranslateBothRight
+                                                   completion: ^{}];
 	}
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"AlertView not handled. AlertView: %@", alertView];
+        [MAUtilities logWithClass: [self class]
+                          message: @"alertView not handled."
+                       parameters: @{@"alertView" : alertView}];
     }
 }
 
@@ -1494,13 +1527,14 @@ BOOL exists;
 
         [self.mainViewController transitionFromViewController: self
                                              toViewController: self.topMazesViewController
-                                                   transition: MATransitionTranslateBothRight];
+                                                   transition: MATransitionTranslateBothRight
+                                                   completion: ^{}];
     }
 }
 
 - (void)stopBackgroundSound
 {
-	[self.mazeManager.firstUserMaze.backgroundSound stop];
+	[self.maze.backgroundSound stop];
 }
 
 //
@@ -1570,18 +1604,28 @@ BOOL exists;
 	return changeText;
 }
 
-- (IBAction)swtichTutorialValueChanged: (id)sender
+- (IBAction)tutorialSwitchValueChanged: (id)sender
 {
+    self.settings.useTutorial = self.tutorialSwitch.on;
+
 	if (self.tutorialSwitch.on == NO)
 	{
 		[self showTutorialHelpForTopic: @"None"];
 	}
-	
-    self.settings.useTutorial = self.tutorialSwitch.on;
+    else
+    {
+        [self showTutorialHelpForTopic: @"Start"];
+    }
 }
 
 - (void)showTutorialHelpForTopic: (NSString *)topic
 {
+    if ([topic isEqualToString: @"None"] == YES)
+    {
+        self.message1Label.text = @"";
+        self.message2Label.text = @"";
+    }
+
 	if (self.settings.useTutorial == YES)
 	{
 		if ([topic isEqualToString: @"Start"] == YES)
@@ -1592,12 +1636,7 @@ BOOL exists;
         
         if (self.settings.hasSelectedLocation == YES && self.settings.hasSelectedWall == YES)
         {
-            if ([topic isEqualToString: @"None"] == YES)
-            {
-                self.message1Label.text = @"";
-                self.message2Label.text = @"";
-            }
-            else if ([topic isEqualToString: @"WallTypes"] == YES)
+            if ([topic isEqualToString: @"WallTypes"] == YES)
             {
                 self.message1Label.text = @"Tap on the list above to select additional wall types.";
                 self.message2Label.text = @"";
@@ -1656,7 +1695,10 @@ BOOL exists;
             [topic isEqualToString: @"LocationMessages"] == NO &&
             [topic isEqualToString: @"MakePublic"] == NO)
         {
-            [MAUtilities logWithClass: [self class] format: @"topic set to an illegal value: %@", topic];
+            [MAUtilities logWithClass: [self class]
+                              message: @"topic set to an illegal value."
+                           parameters: @{@"topic" : topic}];
+
         }
 	}
 }

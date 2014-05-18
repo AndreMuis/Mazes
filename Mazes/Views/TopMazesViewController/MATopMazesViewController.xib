@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -22,11 +22,11 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="ListBackground.png" id="24">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="TopMazesScreenBackground.png" id="24">
                     <rect key="frame" x="0.0" y="0.0" width="780" height="1024"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="btnHighestRatedBlue.png" id="29" userLabel="highestRatedImageView">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="HighestRatedButtonBlueUnhighlighted.png" id="29" userLabel="highestRatedImageView">
                     <rect key="frame" x="179" y="12" width="134" height="39"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -46,7 +46,7 @@
                         <action selector="highestRatedButtonTouchDown:" destination="-1" eventType="touchDown" id="61"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="btnNewestBlue.png" id="31" userLabel="newestImageView">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="NewestButtonBlueUnhighlighted.png" id="31" userLabel="newestImageView">
                     <rect key="frame" x="313" y="12" width="137" height="39"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -66,7 +66,7 @@
                         <action selector="newestButtonTouchDown:" destination="-1" eventType="touchDown" id="63"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="btnYoursBlue.png" id="32" userLabel="yoursImageView">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="YoursButtonBlueUnhighlighted.png" id="32" userLabel="yoursImageView">
                     <rect key="frame" x="450" y="12" width="139" height="39"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -98,7 +98,7 @@
                     <rect key="frame" x="366" y="459" width="37" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="btnMazesOrange.png" id="42">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="TopMazesButtonOrangeHighlighted.png" id="42">
                     <rect key="frame" x="253" y="973" width="100" height="43"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -115,7 +115,7 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="btnCreateBlue.png" id="41" userLabel="createImageView">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="CreateButtonBlueUnhighlighted.png" id="41" userLabel="createImageView">
                     <rect key="frame" x="415" y="973" width="100" height="43"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -139,11 +139,11 @@
         </view>
     </objects>
     <resources>
-        <image name="ListBackground.png" width="768" height="1024"/>
-        <image name="btnCreateBlue.png" width="100" height="43"/>
-        <image name="btnHighestRatedBlue.png" width="134" height="39"/>
-        <image name="btnMazesOrange.png" width="100" height="43"/>
-        <image name="btnNewestBlue.png" width="137" height="39"/>
-        <image name="btnYoursBlue.png" width="139" height="39"/>
+        <image name="CreateButtonBlueUnhighlighted.png" width="100" height="43"/>
+        <image name="HighestRatedButtonBlueUnhighlighted.png" width="134" height="39"/>
+        <image name="NewestButtonBlueUnhighlighted.png" width="137" height="39"/>
+        <image name="TopMazesButtonOrangeHighlighted.png" width="100" height="43"/>
+        <image name="TopMazesScreenBackground.png" width="768" height="1024"/>
+        <image name="YoursButtonBlueUnhighlighted.png" width="139" height="39"/>
     </resources>
 </document>

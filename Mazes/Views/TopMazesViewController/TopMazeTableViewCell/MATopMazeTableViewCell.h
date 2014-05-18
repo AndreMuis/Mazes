@@ -49,8 +49,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *date2Label;
 
 - (void)setupWithDelegate: (id<MATopMazeTableViewCellDelegate>)delegate
-              webServices: (MAWebServices *)webServices
-              mazeManager: (MAMazeManager *)mazeManager
              mazeSummary1: (MAMazeSummary *)mazeSummary1
              mazeSummary2: (MAMazeSummary *)mazeSummary2;
 

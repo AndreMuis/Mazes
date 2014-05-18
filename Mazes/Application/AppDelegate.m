@@ -43,8 +43,6 @@
 @property (readonly, strong, nonatomic) MAMainViewController *mainViewController;
 @property (readonly, strong, nonatomic) MATopMazesViewController *topMazesViewController;
 
-@property (readonly, strong, nonatomic) ADBannerView *bannerView;
-
 @property (readwrite, assign, nonatomic) BOOL versionChecked;
 
 @property (readonly, strong, nonatomic) UIAlertView *appVersionOutdatedAlertView;
@@ -60,6 +58,7 @@
 // view layout and setup code should (in my opinion) always go in UIView subclasses.
 // http://www.alexruperez.com/ios-coding-best-practices
 // asl_log
+// NSUbiquitousKeyValueStoreDidChangeExternallyNotification
 
 - (BOOL)application: (UIApplication *)application didFinishLaunchingWithOptions: (NSDictionary *)launchOptions
 {
@@ -89,7 +88,8 @@
                                                      cancelButtonTitle: @"Retry"
                                                      otherButtonTitles: nil];
     
-    [self startAnalyticsAndCrashReporting];
+    [self startAnalytics];
+    [self startCrashReporting];
     
     [self setupAppObjects];
 
@@ -104,10 +104,14 @@
     return YES;
 }
 
-- (void)startAnalyticsAndCrashReporting
+- (void)startAnalytics
 {
-    [Flurry setCrashReportingEnabled: YES];
     [Flurry startSession: MAFlurryAPIKey];
+}
+
+- (void)startCrashReporting
+{
+    [Crashlytics startWithAPIKey: MACrashlyticsAPIKey];
 }
 
 - (void)setupAppObjects
@@ -121,8 +125,6 @@
     _soundManager = [MASoundManager soundManagerWithWebServices: self.webServices];
     
     _textureManager = [MATextureManager textureManagerWithWebServices: self.webServices];
-    
-    _bannerView = [[ADBannerView alloc] init];
     
     _mainViewController = [[MAMainViewController alloc] init];
     
@@ -140,15 +142,13 @@
                                                                  webServices: self.webServices
                                                                  mazeManager: self.mazeManager
                                                               textureManager: self.textureManager
-                                                                soundManager: self.soundManager
-                                                                  bannerView: self.bannerView];
+                                                                soundManager: self.soundManager];
     
     _topMazesViewController = [[MATopMazesViewController alloc] initWithReachability: self.reachability
                                                                          webServices: self.webServices
                                                                          mazeManager: self.mazeManager
                                                                       textureManager: self.textureManager
-                                                                        soundManager: self.soundManager
-                                                                          bannerView: self.bannerView];
+                                                                        soundManager: self.soundManager];
     
     self.createViewController.designViewController = self.designViewController;
     self.createViewController.mainViewController = self.mainViewController;
@@ -193,8 +193,6 @@
     {
         if (error == nil)
         {
-            NSLog(@"Logged in with userName %@", [self.webServices.loggedInUser userName]);
-            
             [self checkVersion];
             
             [self downloadTextures];
@@ -307,7 +305,9 @@
     }
     else
     {
-        [MAUtilities logWithClass: [self class] format: [NSString stringWithFormat: @"AlertView not handled. AlertView: %@", alertView]];
+        [MAUtilities logWithClass: [self class]
+                          message: @"alertView not handled."
+                       parameters: @{@"alertView" : alertView}];
     }
 }
 
@@ -321,7 +321,9 @@
 
 - (void)applicationDidReceiveMemoryWarning: (UIApplication *)application
 {
-    [MAUtilities logWithClass: [self class] format: @"applicationDidReceiveMemoryWarning:"];
+    [MAUtilities logWithClass: [self class]
+                      message: @"applicationDidReceiveMemoryWarning"
+                   parameters: @{}];
 }
 
 @end

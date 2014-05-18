@@ -9,11 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @class MARatingView;
-@class MAStyles;
 
 @interface MARatingViewController : UIViewController
-
-@property (readwrite,strong, nonatomic) MAStyles *styles;
 
 @property (weak, nonatomic) IBOutlet MARatingView *ratingView;
 

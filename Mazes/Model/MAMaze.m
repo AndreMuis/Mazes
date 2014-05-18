@@ -119,7 +119,7 @@
 {
     MAMaze *maze = [[MAMaze alloc] init];
     
-    maze.mazeId = [MAUtilities uuid];
+    maze.mazeId = [MAUtilities createUUID];
     maze.user = loggedInUser;
     maze.name = @"";
     
@@ -162,6 +162,26 @@
     [self populateLocationsAndWalls];
 }
 
+- (void)updateWithMaze: (MAMaze *)maze
+{
+    self.mazeId = maze.mazeId;
+    self.user = maze.user;
+    self.name = maze.name;
+    self.size = maze.size;
+    self.public = maze.public;
+    self.backgroundSound = maze.backgroundSound;
+    self.wallTexture = maze.wallTexture;
+    self.floorTexture = maze.floorTexture;
+    self.ceilingTexture = maze.ceilingTexture;
+    self.modifiedAt = maze.modifiedAt;
+    
+    _locations = maze.locations;
+    self.locationsData = maze.locationsData;
+    
+    _walls = maze.walls;
+    self.wallsData = maze.wallsData;
+}
+
 - (void)populateLocationsAndWalls
 {
     [self.locations removeAllObjects];
@@ -176,7 +196,7 @@
             coordinate.column = column;
             
 			MALocation *location = [[MALocation alloc] init];
-            location.locationId = [MAUtilities uuid];
+            location.locationId = [MAUtilities createUUID];
 			location.coordinate = coordinate;
             location.action = MALocationActionDoNothing;
             location.message = @"";
@@ -237,7 +257,9 @@
     }
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Unable to find location with locationId: %d", locationId];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Unable to find location."
+                       parameters: @{@"locationId" : locationId}];
     }
     
     return location;
@@ -342,7 +364,9 @@
 
     if (error != nil)
     {
-        [MAUtilities logWithClass: [self class] format: @"Unable to compress locations data. Error: %@", error];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Unable to compress locations data."
+                       parameters: @{@"error" : error}];
     }
     
     self.locationsData = compressedLocationsData;
@@ -357,7 +381,9 @@
     
     if (error != nil)
     {
-        [MAUtilities logWithClass: [self class] format: @"Unable to compress walls data. Error: %@", error];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Unable to compress walls data."
+                       parameters: @{@"error" : error}];
     }
     
     self.wallsData = compressedWallsData;
@@ -375,7 +401,9 @@
     
     if (error != nil)
     {
-        [MAUtilities logWithClass: [self class] format: @"Unable to decompress locations data. Error: %@", error];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Unable to decompress locations data."
+                       parameters: @{@"error" : error}];
     }
     
     _locations = (NSMutableArray *)[NSKeyedUnarchiver unarchiveObjectWithData: decompressedLocationsData];
@@ -388,7 +416,9 @@
     
     if (error != nil)
     {
-        [MAUtilities logWithClass: [self class] format: @"Unable to decompress walls data. Error: %@", error];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Unable to decompress walls data."
+                       parameters: @{@"error" : error}];
     }
     
     _walls = (NSMutableArray *)[NSKeyedUnarchiver unarchiveObjectWithData: decompressedWallsData];
@@ -415,7 +445,9 @@
             break;
             
         default:
-            [MAUtilities logWithClass: [self class] format: @"Direction set to an illegal value: %d", direction];
+            [MAUtilities logWithClass: [self class]
+                              message: @"direction set to an illegal value."
+                           parameters: @{@"direction" : @(direction)}];
             break;
     }
     
@@ -431,7 +463,11 @@
     
     if (wallRet == nil)
     {
-        [MAUtilities logWithClass: [self class] format: @"Could not find wall with row: %d column: %d direction: %d", row, column, direction];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Could not find wall."
+                       parameters: @{@"row" : @(row),
+                                     @"column" : @(column),
+                                     @"direction" : @(direction)}];
     }
     
 	return wallRet;

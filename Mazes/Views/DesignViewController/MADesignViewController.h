@@ -114,8 +114,6 @@
 - (IBAction)defaultFloorTextureButtonTouchDown: (id)sender;
 - (IBAction)defaultCeilingTextureButtonTouchDown: (id)sender;
 
-- (IBAction)swtichTutorialValueChanged: (id)sender;
-
 @end
 
 

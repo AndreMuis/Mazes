@@ -44,7 +44,9 @@
     }
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Unable to create audio player for sound: %@", self];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Unable to create audio player for sound."
+                       parameters: @{@"self" : self}];
     }
 }
 

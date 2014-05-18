@@ -54,6 +54,7 @@
 - (void)transitionFromViewController: (UIViewController *)fromViewController
                     toViewController: (UIViewController *)toViewController
                           transition: (MATransitionType)transition
+                          completion: (ViewControllerTransitionCompletionHandler)completionHandler
 {
     self.isPerformingTransition = YES;
 
@@ -85,6 +86,8 @@
              {
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
+                 
+                 completionHandler();
                  
                  self.isPerformingTransition = NO;
              }];
@@ -122,6 +125,8 @@
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
                  
+                 completionHandler();
+
                  self.isPerformingTransition = NO;
              }];
             
@@ -161,6 +166,8 @@
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
                  
+                 completionHandler();
+
                  self.isPerformingTransition = NO;
              }];
             
@@ -200,6 +207,8 @@
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
                  
+                 completionHandler();
+
                  self.isPerformingTransition = NO;
              }];
             
@@ -239,6 +248,8 @@
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
                  
+                 completionHandler();
+
                  self.isPerformingTransition = NO;
              }];
             
@@ -278,6 +289,8 @@
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
                  
+                 completionHandler();
+
                  self.isPerformingTransition = NO;
              }];
             
@@ -285,8 +298,12 @@
         }
             
         default:
-            [MAUtilities logWithClass: [self class] format: @"transition set to an illegal value: %d", transition];
+            [MAUtilities logWithClass: [self class]
+                              message: @"transition set to an illegal value."
+                           parameters: @{@"transition" : @(transition)}];
             
+            completionHandler();
+
             self.isPerformingTransition = NO;
             
             break;

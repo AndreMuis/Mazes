@@ -16,7 +16,7 @@
 	
 	if (self)
 	{
-        _latestVersionId = 0;
+        _latestVersionId = nil;
         _latestVersion = 0.0;
 	}
 	

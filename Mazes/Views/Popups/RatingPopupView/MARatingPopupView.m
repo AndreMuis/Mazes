@@ -28,18 +28,6 @@
 
 @implementation MARatingPopupView
 
-- (id)initWithCoder: (NSCoder *)aDecoder
-{
-    self = [super initWithCoder: aDecoder];
-    
-    if (self)
-    {
-        _styles = [MAStyles styles];
-    }
-    
-    return self;
-}
-
 + (MARatingPopupView *)ratingPopupViewWithParentView: (UIView *)parentView
                                   ratingViewDelegate: (id<MARatingViewDelegate>)ratingViewDelegate
                                               rating: (float)rating
@@ -51,6 +39,18 @@
                                   rating: rating];
     
     return ratingPopupView;
+}
+
+- (id)initWithCoder: (NSCoder *)aDecoder
+{
+    self = [super initWithCoder: aDecoder];
+    
+    if (self)
+    {
+        _styles = [MAStyles styles];
+    }
+    
+    return self;
 }
 
 - (void)setupWithParentView: (UIView *)parentView

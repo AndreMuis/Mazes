@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -25,16 +25,16 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="GameBackground.png" id="38">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="GameScreenBackground.png" id="38">
                     <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="btnMazesBackBlue.png" id="62" userLabel="backImageView">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="BackButtonBlueUnhighlighted.png" id="62" userLabel="backImageView">
                     <rect key="frame" x="17" y="13" width="154" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="63" userLabel="backButton">
-                    <rect key="frame" x="17" y="13" width="154" height="32"/>
+                    <rect key="frame" x="17" y="10" width="154" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <state key="normal">
@@ -57,7 +57,7 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="btnHowToPlayBlue.png" id="61" userLabel="instructionsImageView">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="InstructionsButtonBlueUnhighlighted.png" id="61" userLabel="instructionsImageView">
                     <rect key="frame" x="599" y="13" width="152" height="37"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
@@ -118,8 +118,8 @@
         </view>
     </objects>
     <resources>
-        <image name="GameBackground.png" width="768" height="1024"/>
-        <image name="btnHowToPlayBlue.png" width="152" height="37"/>
-        <image name="btnMazesBackBlue.png" width="154" height="37"/>
+        <image name="BackButtonBlueUnhighlighted.png" width="154" height="37"/>
+        <image name="GameScreenBackground.png" width="768" height="1024"/>
+        <image name="InstructionsButtonBlueUnhighlighted.png" width="152" height="37"/>
     </resources>
 </document>

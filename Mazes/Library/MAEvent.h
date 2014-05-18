@@ -10,11 +10,11 @@
 
 @interface MAEvent : NSObject
 
-@property (strong, nonatomic) id target;
-@property (assign, nonatomic) SEL action;
-@property (strong, nonatomic) id object;
-@property (assign, nonatomic, assign) float intervalSecs;
-@property (assign, nonatomic) BOOL repeats;
+@property (readonly, strong, nonatomic) id target;
+@property (readonly, assign, nonatomic) SEL action;
+@property (readonly, strong, nonatomic) id object;
+@property (readonly, assign, nonatomic) float intervalSecs;
+@property (readonly, assign, nonatomic) BOOL repeats;
 
 @property (assign, nonatomic, assign) float elapsedSecs;
 

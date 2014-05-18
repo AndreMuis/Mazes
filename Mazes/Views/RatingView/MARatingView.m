@@ -38,9 +38,15 @@
     if (self)
 	{
         _delegate = nil;
+        
         _rating = 0.0;
         _starColor = nil;
         _type = MARatingViewUnknown;
+        
+        _starWidth = 0.0;
+        _starHeight = 0.0;
+        
+        _popoverController = nil;
     }
 	
 	return self;
@@ -156,7 +162,9 @@
             
         default:
         {
-            [MAUtilities logWithClass: [self class] format: @"type set to an illegal value: %d", self.type];
+            [MAUtilities logWithClass: [self class]
+                              message: @"type set to an illegal value."
+                           parameters: @{@"self.type" : @(self.type)}];
             break;
         }
     }

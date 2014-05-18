@@ -43,9 +43,6 @@
 @property (readonly, strong, nonatomic) MASoundManager *soundManager;
 @property (readonly, strong, nonatomic) MAStyles *styles;
 
-@property (readonly, strong, nonatomic) ADBannerView *bannerView;
-@property (readwrite, assign, nonatomic) BOOL showingFullScreenAd;
-
 @property (strong, nonatomic) MALocation *previousLocation;
 @property (strong, nonatomic) MALocation *currentLocation;
 
@@ -109,7 +106,6 @@
                mazeManager: (MAMazeManager *)mazeManager
             textureManager: (MATextureManager *)textureManager
               soundManager: (MASoundManager *)soundManager
-                bannerView: (ADBannerView *)bannerView
 {
     self = [[MAGameViewController alloc] initWithNibName: NSStringFromClass([self class])
                                                   bundle: nil];
@@ -124,9 +120,6 @@
         _soundManager = soundManager;
         _styles = [MAStyles styles];
     
-        _bannerView = bannerView;
-        _showingFullScreenAd = NO;
-        
         _maze = nil;
         
         _movements = [[NSMutableArray alloc] init];
@@ -182,7 +175,10 @@
     }
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Change of value for keyPath: %@ of object: %@ not handled.", keyPath, object];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Change of value for object's keyPath not handled."
+                       parameters: @{@"keyPath" : keyPath,
+                                     @"object" : object}];
     }
 }
 
@@ -212,8 +208,6 @@
     self.mazeView.textureManager = self.textureManager;
     
 	[self.mazeView setupOpenGLViewport];
-	[self.mazeView translateDGLX: 0.0 dGLY: MAEyeHeight dGLZ: 0.0];
-
 	[self.mazeView setupOpenGLTextures];
 	
 	UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapFrom:)];
@@ -239,12 +233,14 @@
 {	
 	[super viewWillAppear: animated];
 
-    if (self.showingFullScreenAd == NO)
+    if (self.bannerView.bannerViewActionInProgress == NO)
     {
         self.mapView.directionArrowImageView.hidden = YES;
         
         self.mazeView.userInteractionEnabled = NO;
                 
+        self.bannerView.delegate = self;
+
         self.activityIndicatorView.hidden = NO;
         [self.activityIndicatorView startAnimating];
         
@@ -256,15 +252,9 @@
 {
     [super viewDidLayoutSubviews];
     
-    if ([self.bannerView isDescendantOfView: self.view] == NO)
+    if (self.bannerView.bannerLoaded == YES && [self.bannerView isDescendantOfView: self.view] == NO)
     {
-        self.bannerView.frame = CGRectMake(self.bannerView.frame.origin.x,
-                                           self.view.frame.size.height - self.bannerView.frame.size.height,
-                                           self.bannerView.frame.size.width,
-                                           self.bannerView.frame.size.height);
-        self.bannerView.delegate = self;
-    
-        [self.view addSubview: self.bannerView];
+        [self addBannerView];
     }
 }
 
@@ -272,7 +262,7 @@
 {
 	[super viewWillDisappear: animated];
     
-    if (self.showingFullScreenAd == NO)
+    if (self.bannerView.bannerViewActionInProgress == NO)
     {
         // reset GL coordinates
         [self.mazeView translateDGLX: -self.mazeView.glX dGLY: 0.0 dGLZ: -self.mazeView.glZ];
@@ -289,7 +279,7 @@
 
 - (void)viewDidDisappear: (BOOL)animated
 {
-    if (self.showingFullScreenAd == NO)
+    if (self.bannerView.bannerViewActionInProgress == NO)
     {
         self.maze = nil;
         self.mazeSummary = nil;
@@ -304,22 +294,33 @@
     [super viewDidDisappear: animated];
 }
 
-#pragma mark - ADBannerView
+#pragma mark - ADBannerViewDelegate
 
-- (BOOL)bannerViewActionShouldBegin: (ADBannerView *)banner willLeaveApplication: (BOOL)willLeave
+- (void)bannerViewDidLoadAd: (ADBannerView *)banner
 {
-    self.showingFullScreenAd = YES;
-    return YES;
-}
-
-- (void)bannerViewActionDidFinish: (ADBannerView *)banner
-{
-    self.showingFullScreenAd = NO;
+    if ([self.bannerView isDescendantOfView: self.view] == NO)
+    {
+        [self addBannerView];
+    }
 }
 
 - (void)bannerView: (ADBannerView *)banner didFailToReceiveAdWithError: (NSError *)error
 {
-    [MAUtilities logWithClass: [self class] format: @"bannerView did fail to receive ad. Error = %@", error];
+    [MAUtilities logWithClass: [self class]
+                      message: @"BannerView did fail to receive ad."
+                   parameters: @{@"error" : error}];
+}
+
+#pragma mark -
+
+- (void)addBannerView
+{
+    self.bannerView.frame = CGRectMake(self.bannerView.frame.origin.x,
+                                       self.view.frame.size.height - self.bannerView.frame.size.height,
+                                       self.bannerView.frame.size.width,
+                                       self.bannerView.frame.size.height);
+
+    [self.view addSubview: self.bannerView];
 }
 
 - (void)startSetup
@@ -397,12 +398,8 @@
     self.mazeView.maze = self.maze;
 
     [self.mazeView setupOpenGLVerticies];
-
-    self.mazeView.glX = 0.0;
-    self.mazeView.glY = 0.0;
-    self.mazeView.glZ = 0.0;
-    self.mazeView.theta = 0.0;
-
+    [self.mazeView resetOrigin];
+    
     self.previousLocation = nil;
 
     [self setupNewLocation: self.maze.startLocation];
@@ -463,7 +460,9 @@
                 break;
                 
             default:
-                [MAUtilities logWithClass: [self class] format: @"theta set to an illegal value: %d", theta];
+                [MAUtilities logWithClass: [self class]
+                                  message: @"theta set to an illegal value."
+                               parameters: @{@"theta" : @(theta)}];
                 break;
         }
 	}
@@ -515,6 +514,13 @@
 
 - (void)processMovements
 {
+    if (self.currentLocation.action == MALocationActionEnd ||
+        self.currentLocation.action == MALocationActionStartOver)
+    {
+        self.isMoving = NO;
+        [self.movements removeAllObjects];
+    }
+
 	if (self.isMoving == NO && self.movements.count > 0)
 	{
 		self.isMoving = YES;
@@ -523,7 +529,7 @@
 		[self.movements removeObjectAtIndex: 0];
 		
 		if ([movement integerValue] == MAMovementBackward || [movement integerValue] == MAMovementForward)
-		{
+        {
 			[self moveForwardBackward: [movement integerValue]];
 		}
 		else if ([movement integerValue] == MAMovementTurnLeft || [movement integerValue] == MAMovementTurnRight)
@@ -777,7 +783,9 @@
                 break;
                 
             default:
-                [MAUtilities logWithClass: [self class] format: @"Current direction set to an illegal value: %d", self.facingDirection];
+                [MAUtilities logWithClass: [self class]
+                                  message: @"facingDirection set to an illegal value."
+                               parameters: @{@"self.facingDirection" : @(self.facingDirection)}];
                 break;
         }
 	}
@@ -804,7 +812,9 @@
                 break;
                 
             default:
-                [MAUtilities logWithClass: [self class] format: @"Current direction set to an illegal value: %d", self.facingDirection];
+                [MAUtilities logWithClass: [self class]
+                                  message: @"facingDirection set to an illegal value."
+                               parameters: @{@"self.facingDirection" : @(self.facingDirection)}];
                 break;
         }
 	}
@@ -857,8 +867,6 @@
 {
 	if (self.currentLocation.action == MALocationActionEnd)
 	{
-		[self.movements removeAllObjects];
-		
         if (self.mazeSummary.userFoundExit == NO)
         {
             [self saveFoundMazeExit];
@@ -870,8 +878,6 @@
 	}
 	else if (self.currentLocation.action == MALocationActionStartOver)
 	{
-		[self.movements removeAllObjects];
-		
         MAInfoPopupView *infoPopupView = [MAInfoPopupView infoPopupViewWithParentView: self.view
                                                                               message: self.currentLocation.message
                                                                     cancelButtonTitle: @"Start Over"];
@@ -883,8 +889,9 @@
 	}
 	else if (self.currentLocation.action == MALocationActionTeleport)
 	{
-		[self.movements removeAllObjects];
-
+        [self.movements removeAllObjects];
+        self.isMoving = NO;
+        
         MALocation *teleportLoc = [self.maze locationWithRow: self.currentLocation.teleportY
                                                       column: self.currentLocation.teleportX];
         
@@ -1070,7 +1077,9 @@
     }
     else
     {
-        [MAUtilities logWithClass: [self class] format: [NSString stringWithFormat: @"AlertView not handled. AlertView: %@", alertView]];
+        [MAUtilities logWithClass: [self class]
+                          message: @"alertView not handled."
+                       parameters: @{@"alertView" : alertView}];
     }
 }
 
@@ -1078,12 +1087,12 @@
 
 - (IBAction)backButtonTouchDown: (id)sender
 {
-	self.backImageView.image = [UIImage imageNamed: @"btnMazesBackOrange.png"];
+	self.backImageView.image = [UIImage imageNamed: @"BackButtonOrangeHighlighted.png"];
 }
 
 - (IBAction)backButtonTouchUpInside: (id)sender
 {
-	self.backImageView.image = [UIImage imageNamed: @"btnMazesBackBlue.png"];
+	self.backImageView.image = [UIImage imageNamed: @"BackButtonBlueUnhighlighted.png"];
 	
 	[self goBack];
 }
@@ -1102,7 +1111,8 @@
         
         [self.mainViewController transitionFromViewController: self
                                              toViewController: self.topMazesViewController
-                                                   transition: MATransitionFlipFromLeft];
+                                                   transition: MATransitionFlipFromLeft
+                                                   completion: ^{}];
     }
 }
 
@@ -1110,12 +1120,12 @@
 
 - (IBAction)instructionsButtonTouchDown: (id)sender
 {
-	self.instructionsImageView.image = [UIImage imageNamed: @"btnHowToPlayOrange.png"];
+	self.instructionsImageView.image = [UIImage imageNamed: @"InstructionsButtonOrangeHighlighted.png"];
 }
 
 - (IBAction)instructionsButtonTouchUpInside: (id)sender
 {
-	self.instructionsImageView.image = [UIImage imageNamed: @"btnHowToPlayBlue.png"];
+	self.instructionsImageView.image = [UIImage imageNamed: @"InstructionsButtonBlueUnhighlighted.png"];
 	
 	[self displayInstructions];
 }

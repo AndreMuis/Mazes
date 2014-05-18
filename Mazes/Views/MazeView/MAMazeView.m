@@ -707,6 +707,19 @@ texCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2
     [self.context presentRenderbuffer: GL_RENDERBUFFER_OES];
 }
 
+- (void)resetOrigin
+{
+    glLoadIdentity();
+    
+    self.glX = 0.0;
+    self.glY = 0.0;
+    self.glZ = 0.0;
+    
+    self.theta = 0.0;
+    
+    [self translateDGLX: 0.0 dGLY: MAEyeHeight dGLZ: 0.0];
+}
+
 - (void)translateDGLX: (float)dGLX dGLY: (float)dGLY dGLZ: (float)dGLZ
 {
 	glTranslatef(-dGLX, -dGLY, -dGLZ);
@@ -758,7 +771,10 @@ texCoordsWidthPrcnt2: (float)texCoordsWidthPrcnt2
     
     if(glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES) != GL_FRAMEBUFFER_COMPLETE_OES) 
 	{
-        [MAUtilities logWithClass: [self class] format: @"failed to make complete framebuffer object %x", glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES)];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Failed to make complete framebuffer object."
+                       parameters: @{@"glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES)" : @(glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES))}];
+
         return NO;
     }
     

@@ -10,8 +10,8 @@
 
 @interface MASound : NSObject
 
-@property (readonly, strong, nonatomic) NSString *soundId;
-@property (readonly, strong, nonatomic) NSString *name;
+@property (readwrite, strong, nonatomic) NSString *soundId;
+@property (readwrite, strong, nonatomic) NSString *name;
 
 - (void)setup;
 

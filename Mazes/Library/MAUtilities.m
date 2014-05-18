@@ -15,26 +15,15 @@
 
 @implementation MAUtilities
 
-+ (void)logWithClass: (Class)class format: (NSString *)formatString, ...
++ (void)logWithClass: (Class)class message: (NSString *)message parameters: (NSDictionary *)parameters
 {
-    NSString *newFormatString = [NSString stringWithFormat: @"%@: %@", NSStringFromClass(class), formatString];
-    
-    
-    va_list args;
-    va_start(args, formatString);
-    
-    NSString *message = [[NSString alloc] initWithFormat: newFormatString arguments: args];
-    
-    va_end(args);
-    
+    NSString *classAndMessage = [NSString stringWithFormat: @"%@: %@", NSStringFromClass(class), message];
     
     #ifdef DEBUG
-    NSLog(@"%@", message);
+    NSLog(@"%@. %@", classAndMessage, parameters);
     #endif
     
-    [Flurry logEvent: @"Log message" withParameters: [NSDictionary dictionaryWithObjectsAndKeys:
-                                                      message, @"message",
-                                                      nil]];
+    [Flurry logEvent: classAndMessage withParameters: parameters];
 }
 
 + (NSString *)requestErrorMessageWithRequestDescription: (NSString *)requestDescription
@@ -83,22 +72,24 @@
 	return radians * (360.0 / (2.0 * M_PI));
 }
 
-+ (NSString *)uuid
++ (NSString *)createUUID
 {
     CFUUIDRef uuidRef = CFUUIDCreate(NULL);
     CFStringRef uuidStringRef = CFUUIDCreateString(NULL, uuidRef);
     CFRelease(uuidRef);
     
-    return (__bridge NSString *)uuidStringRef;
+    NSString *uuidString = (__bridge_transfer NSString *)uuidStringRef;
+    
+    return uuidString;
 }
 
-+ (NSString *)randomStringWithLength: (NSUInteger)length
++ (NSString *)randomNumericStringWithLength: (NSUInteger)length
 {
     NSMutableString *string = [NSMutableString stringWithCapacity: length];
     
     for (NSUInteger i = 0; i < length; i = i + 1)
     {
-        [string appendFormat: @"%c", (char)('A' + arc4random_uniform(25))];
+        [string appendFormat: @"%c", (char)('0' + arc4random_uniform(10))];
     }
     
     return string;

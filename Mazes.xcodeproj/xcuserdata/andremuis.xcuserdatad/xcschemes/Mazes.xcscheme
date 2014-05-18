@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F4E4A9E4154CB92C006AA64D"
-               BuildableName = "MazesTests.octest"
+               BuildableName = "MazesTests.xctest"
                BlueprintName = "MazesTests"
                ReferencedContainer = "container:Mazes.xcodeproj">
             </BuildableReference>

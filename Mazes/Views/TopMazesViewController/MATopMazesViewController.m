@@ -37,8 +37,7 @@
 @property (readonly, strong, nonatomic) MAStyles *styles;
 @property (readonly, strong, nonatomic) MATextureManager *textureManager;
 
-@property (readonly, strong, nonatomic) ADBannerView *bannerView;
-@property (readwrite, assign, nonatomic) BOOL showingFullScreenAd;
+@property (readwrite, strong, nonatomic) ADBannerView *bannerView;
 
 @property (readwrite, assign, nonatomic) MATopMazeSummariesType selectedTopMazeSummariesType;
 @property (readonly, strong, nonatomic) NSString *topMazeCellIdentifier;
@@ -67,7 +66,6 @@
                mazeManager: (MAMazeManager *)mazeManager
             textureManager: (MATextureManager *)textureManager
               soundManager: (MASoundManager *)soundManager
-                bannerView: (ADBannerView *)bannerView;
 {
     self = [[MATopMazesViewController alloc] initWithNibName: NSStringFromClass([self class]) bundle: nil];
     
@@ -81,9 +79,7 @@
         _styles = [MAStyles styles];
         _textureManager = textureManager;
         
-        _bannerView = bannerView;
-
-        _showingFullScreenAd = NO;
+        _bannerView = nil;
         
         _selectedTopMazeSummariesType = MATopMazeSummariesHighestRated;
         _topMazeCellIdentifier = @"TopMazeTableViewCell";
@@ -119,12 +115,15 @@
         if (isLoggedIn == YES)
         {
             [self downloadTopMazeSummariesWithType: self.selectedTopMazeSummariesType];
-            self.createButton.enabled = YES;
-        }        
+            self.createButton.enabled = YES;            
+        }
     }
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Change of value for keyPath: %@ of object: %@ not handled.", keyPath, object];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Change of value for object's keyPath not handled."
+                       parameters: @{@"keyPath" : keyPath,
+                                     @"object" : object}];
     }
 }
 
@@ -144,7 +143,12 @@
 {
 	[super viewWillAppear: animated];
 
-    if (self.showingFullScreenAd == NO)
+    if (self.bannerView == nil)
+    {
+        self.bannerView = [[ADBannerView alloc] init];
+    }
+
+    if (self.bannerView.bannerViewActionInProgress == NO)
     {
         [self refreshSegments];
         [self refreshActivityIndicatorView];
@@ -154,6 +158,8 @@
         {
             [self downloadTopMazeSummariesWithType: self.selectedTopMazeSummariesType];
         }
+
+        self.bannerView.delegate = self;
     }
 }
 
@@ -161,35 +167,48 @@
 {
     [super viewDidLayoutSubviews];
     
-    if ([self.bannerView isDescendantOfView: self.view] == NO)
+    if (self.bannerView.bannerLoaded == YES && [self.bannerView isDescendantOfView: self.view] == NO)
     {
-        self.bannerView.frame = CGRectMake(self.bannerView.frame.origin.x,
-                                           self.tableView.frame.origin.y + self.tableView.frame.size.height,
-                                           self.bannerView.frame.size.width,
-                                           self.bannerView.frame.size.height);
-        self.bannerView.delegate = self;
-
-        [self.view addSubview: self.bannerView];
+        [self addBannerView];
     }
 }
 
-#pragma mark - ADBannerView
+#pragma mark - ADBannerViewDelegate
 
-- (BOOL)bannerViewActionShouldBegin: (ADBannerView *)banner willLeaveApplication: (BOOL)willLeave
+- (void)bannerViewDidLoadAd: (ADBannerView *)banner
 {
-    self.showingFullScreenAd = YES;
-    return YES;
-}
-
-- (void)bannerViewActionDidFinish: (ADBannerView *)banner
-{
-    self.showingFullScreenAd = NO;
+    if ([self.bannerView isDescendantOfView: self.view] == NO)
+    {
+        [self addBannerView];
+    }
 }
 
 - (void)bannerView: (ADBannerView *)banner didFailToReceiveAdWithError: (NSError *)error
 {
-    [MAUtilities logWithClass: [self class] format: @"bannerView did fail to receive ad. Error = %@", error];
+    [MAUtilities logWithClass: [self class]
+                      message: @"BannerView did fail to receive ad."
+                   parameters: @{@"error" : error}];
 }
+
+#pragma mark -
+
+- (void)addBannerView
+{
+    self.bannerView.frame = CGRectMake(self.bannerView.frame.origin.x,
+                                       self.tableView.frame.origin.y + self.tableView.frame.size.height,
+                                       self.bannerView.frame.size.width,
+                                       self.bannerView.frame.size.height);
+    
+    [self.view addSubview: self.bannerView];
+}
+
+- (void)removeAndDestroyBannerView
+{
+    [self.bannerView removeFromSuperview];
+    self.bannerView.delegate = nil;
+    self.bannerView = nil;
+}
+
 
 - (IBAction)highestRatedButtonTouchDown: (id)sender
 {
@@ -282,29 +301,29 @@
 {
 	if (self.selectedTopMazeSummariesType == MATopMazeSummariesHighestRated)
     {
-		self.highestRatedImageView.image = [UIImage imageNamed: @"btnHighestRatedOrange.png"];
+		self.highestRatedImageView.image = [UIImage imageNamed: @"HighestRatedButtonOrangeHighlighted.png"];
     }
 	else
     {
-		self.highestRatedImageView.image = [UIImage imageNamed: @"btnHighestRatedBlue.png"];
+		self.highestRatedImageView.image = [UIImage imageNamed: @"HighestRatedButtonBlueUnhighlighted.png"];
     }
     
 	if (self.selectedTopMazeSummariesType == MATopMazeSummariesNewest)
     {
-		self.newestImageView.image = [UIImage imageNamed: @"btnNewestOrange.png"];
+		self.newestImageView.image = [UIImage imageNamed: @"NewestButtonOrangeHighlighted.png"];
     }
 	else
     {
-		self.newestImageView.image = [UIImage imageNamed: @"btnNewestBlue.png"];
+		self.newestImageView.image = [UIImage imageNamed: @"NewestButtonBlueUnhighlighted.png"];
     }
     
 	if (self.selectedTopMazeSummariesType == MATopMazeSummariesYours)
     {
-		self.yoursImageView.image = [UIImage imageNamed: @"btnYoursOrange.png"];
+		self.yoursImageView.image = [UIImage imageNamed: @"YoursButtonOrangeHighlighted.png"];
     }
 	else
     {
-		self.yoursImageView.image = [UIImage imageNamed: @"btnYoursBlue.png"];
+		self.yoursImageView.image = [UIImage imageNamed: @"YoursButtonBlueUnhighlighted.png"];
     }
 }
 
@@ -355,8 +374,6 @@
     }
     
     [cell setupWithDelegate: self
-                webServices: self.webServices
-                mazeManager: self.mazeManager
                mazeSummary1: mazeSummary1
                mazeSummary2: mazeSummary2];
     
@@ -376,10 +393,12 @@
         if (i < topMazeSummaries.count)
         {
             self.gameViewController.mazeSummary = [topMazeSummaries objectAtIndex: i];
+            self.gameViewController.bannerView = self.bannerView;
             
             [self.mainViewController transitionFromViewController: self
                                                  toViewController: self.gameViewController
-                                                       transition: MATransitionFlipFromRight];
+                                                       transition: MATransitionFlipFromRight
+                                                       completion: ^{}];
         }
     }
 }
@@ -468,11 +487,7 @@
                         
                         self.mazeManager.isFirstUserMazeSizeChosen = NO;
 
-                        self.createViewController.maze = self.mazeManager.firstUserMaze;
-                        
-                        [self.mainViewController transitionFromViewController: self
-                                                             toViewController: self.createViewController
-                                                                   transition: MATransitionTranslateBothLeft];
+                        [self transitiolnToCreateViewController];
                     }
                     else
                     {
@@ -483,11 +498,7 @@
                         
                         self.mazeManager.isFirstUserMazeSizeChosen = YES;
                         
-                        self.designViewController.maze = self.mazeManager.firstUserMaze;
-                        
-                        [self.mainViewController transitionFromViewController: self
-                                                             toViewController: self.designViewController
-                                                                   transition: MATransitionTranslateBothLeft];
+                        [self transitiolnToDesignViewController];
                     }
                 }
                 else
@@ -505,22 +516,40 @@
         {
             if (self.mazeManager.isFirstUserMazeSizeChosen == NO)
             {
-                self.createViewController.maze = self.mazeManager.firstUserMaze;
-
-                [self.mainViewController transitionFromViewController: self
-                                                     toViewController: self.createViewController
-                                                           transition: MATransitionTranslateBothLeft];
+                [self transitiolnToCreateViewController];
             }
             else
             {
-                self.designViewController.maze = self.mazeManager.firstUserMaze;
-
-                [self.mainViewController transitionFromViewController: self
-                                                     toViewController: self.designViewController
-                                                           transition: MATransitionTranslateBothLeft];
+                [self transitiolnToDesignViewController];
             }
         }
     }
+}
+
+- (void)transitiolnToCreateViewController
+{
+    self.createViewController.maze = self.mazeManager.firstUserMaze;
+
+    [self.mainViewController transitionFromViewController: self
+                                         toViewController: self.createViewController
+                                               transition: MATransitionTranslateBothLeft
+                                               completion: ^
+    {
+        [self removeAndDestroyBannerView];
+    }];
+}
+
+- (void)transitiolnToDesignViewController
+{
+    self.designViewController.maze = self.mazeManager.firstUserMaze;
+    
+    [self.mainViewController transitionFromViewController: self
+                                         toViewController: self.designViewController
+                                               transition: MATransitionTranslateBothLeft
+                                               completion: ^
+     {
+         [self removeAndDestroyBannerView];
+     }];
 }
 
 @end

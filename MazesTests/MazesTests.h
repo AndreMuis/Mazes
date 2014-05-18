@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Andre Muis. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface MazesTests : SenTestCase
+@interface MazesTests : XCTestCase
 
 @end

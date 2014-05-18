@@ -15,7 +15,7 @@
 
 @interface MAUtilities : NSObject 
 
-+ (void)logWithClass: (Class)class format: (NSString *)formatString, ...;
++ (void)logWithClass: (Class)class message: (NSString *)message parameters: (NSDictionary *)parameters;
 
 + (NSString *)requestErrorMessageWithRequestDescription: (NSString *)requestDescription
                                            reachability: (Reachability *)reachability
@@ -24,9 +24,9 @@
 + (double)radiansFromDegrees: (double)degrees;
 + (double)degreesFromRadians: (double)radians;
 
-+ (NSString *)uuid;
++ (NSString *)createUUID;
 
-+ (NSString *)randomStringWithLength: (NSUInteger)length;
++ (NSString *)randomNumericStringWithLength: (NSUInteger)length;
 
 + (void)drawBorderInsideRect: (CGRect)rect withWidth: (CGFloat)width color: (UIColor *)color;
 

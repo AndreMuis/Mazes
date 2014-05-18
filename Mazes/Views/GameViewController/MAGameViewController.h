@@ -39,19 +39,20 @@ typedef enum : int
     MARatingViewDelegate,
     UIAlertViewDelegate>
 
-@property (strong, nonatomic) MAMazeSummary *mazeSummary;
-@property (strong, nonatomic) MAMaze *maze;
-@property (strong, nonatomic) MAMainViewController *mainViewController;
-@property (strong, nonatomic) MATopMazesViewController *topMazesViewController;
+@property (readwrite, strong, nonatomic) MAMazeSummary *mazeSummary;
+@property (readwrite, strong, nonatomic) MAMaze *maze;
+@property (readwrite, strong, nonatomic) MAMainViewController *mainViewController;
+@property (readwrite, strong, nonatomic) MATopMazesViewController *topMazesViewController;
 
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+@property (readwrite, weak, nonatomic) ADBannerView *bannerView;
+
+@property (readwrite, weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
 - (id)initWithReachability: (Reachability *)reachability
                webServices: (MAWebServices *)webServices
                mazeManager: (MAMazeManager *)mazeManager
             textureManager: (MATextureManager *)textureManager
-              soundManager: (MASoundManager *)soundManager
-                bannerView: (ADBannerView *)bannerView;
+              soundManager: (MASoundManager *)soundManager;
 
 - (void)startSetup;
 

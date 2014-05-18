@@ -21,12 +21,12 @@
 @property (readonly, strong, nonatomic) FatFractal *fatFractal;
 @property (readonly, strong, nonatomic) MACloud *cloud;
 
-@property (readwrite, assign, nonatomic) BOOL isLoggedIn;
 @property (readwrite, assign, nonatomic) BOOL isLoggingIn;
+@property (readwrite, assign, nonatomic) BOOL isLoggedIn;
 
 @property (readwrite, assign, nonatomic) BOOL isDownloadingUserMazes;
 
-@property (readwrite, assign, nonatomic) BOOL isSavingMaze;
+@property (readwrite, assign, nonatomic) BOOL isSavingLocalMaze;
 
 @property (readwrite, assign, nonatomic) BOOL isDownloadingHighestRatedMazeSummaries;
 @property (readwrite, assign, nonatomic) BOOL isDownloadingNewestMazeSummaries;
@@ -44,20 +44,18 @@
     {
         _reachability = reachability;
         
-        NSString *baseSSLURLString = nil;
-        
         #if TARGET_IPHONE_SIMULATOR
-            baseSSLURLString = MALocalBaseSSLURLString;
+            NSString *baseSSLURLString = baseSSLURLString = MALocalBaseSSLURLString;
         #else
-            baseSSLURLString = MARemoteBaseSSLURLString;
+            NSString *baseSSLURLString = baseSSLURLString = MARemoteBaseSSLURLString;
         #endif
         
         _fatFractal = [[FatFractal alloc] initWithBaseUrl: baseSSLURLString];
         
         _cloud = [[MACloud alloc] init];
         
-        _isLoggedIn = NO;
         _isLoggingIn = NO;
+        _isLoggedIn = NO;
         
         _isDownloadingUserMazes = NO;
         
@@ -85,7 +83,7 @@
              if (error == nil)
              {
                  NSString *userName = [NSString stringWithFormat: @"User%d", userCounter.count];
-                 NSString *password = [MAUtilities randomStringWithLength: MARandomPasswordLength];
+                 NSString *password = [MAUtilities randomNumericStringWithLength: MARandomPasswordLength];
                  
                  [self loginWithUserName: userName
                                 password: password
@@ -101,8 +99,6 @@
                       else
                       {
                           handler(error);
-                          
-                          [MAUtilities logWithClass: [self class] format: [error description]];
                       }
 
                       self.isLoggingIn = NO;
@@ -112,8 +108,6 @@
              {
                  handler(error);
                  self.isLoggingIn = NO;
-                 
-                 [MAUtilities logWithClass: [self class] format: [error description]];
              }
          }];
     }
@@ -130,8 +124,6 @@
              else
              {
                  handler(error);
-
-                 [MAUtilities logWithClass: [self class] format: [error description]];
              }
              
              self.isLoggingIn = NO;
@@ -152,13 +144,15 @@
         }
         else
         {
-            NSError *error = [self errorWithFatFractalError: theErr
-                                                description: @"Unable to get user counter from server."
-                                                 statusCode: theResponse.statusCode];
+            NSError *error = [self errorWithDescription: @"Unable to get user counter from server."
+                                             statusCode: theResponse.statusCode
+                                        underlyingError: theErr];
 
             handler(nil, error);
 
-            [MAUtilities logWithClass: [self class] format: [error description]];
+            [MAUtilities logWithClass: [self class]
+                              message: error.localizedDescription
+                           parameters: @{@"error" : error}];
         }
     }];
 }
@@ -177,13 +171,15 @@
          }
          else
          {
-             NSError *error = [self errorWithFatFractalError: theErr
-                                                 description: @"Unable to login to server."
-                                                  statusCode: theResponse.statusCode];
+             NSError *error = [self errorWithDescription: @"Unable to login to server."
+                                              statusCode: theResponse.statusCode
+                                         underlyingError: theErr];
 
              handler(error);
              
-             [MAUtilities logWithClass: [self class] format: [error description]];
+             [MAUtilities logWithClass: [self class]
+                               message: error.localizedDescription
+                            parameters: @{@"error" : error}];
          }
      }];
 }
@@ -201,13 +197,15 @@
         }
         else
         {
-            NSError *error = [self errorWithFatFractalError: theErr
-                                                description: @"Unable to get textures from server."
-                                                 statusCode: theResponse.statusCode];
+            NSError *error = [self errorWithDescription: @"Unable to get textures from server."
+                                             statusCode: theResponse.statusCode
+                                        underlyingError: theErr];
 
             handler(nil, error);
             
-            [MAUtilities logWithClass: [self class] format: [error description]];
+            [MAUtilities logWithClass: [self class]
+                              message: error.localizedDescription
+                           parameters: @{@"error" : error}];
         }
     }];
 }
@@ -224,13 +222,15 @@
          }
          else
          {
-             NSError *error = [self errorWithFatFractalError: theErr
-                                                 description: @"Unable to get sounds from server."
-                                                  statusCode: theResponse.statusCode];
+             NSError *error = [self errorWithDescription: @"Unable to get sounds from server."
+                                              statusCode: theResponse.statusCode
+                                         underlyingError: theErr];
 
              handler(nil, error);
              
-             [MAUtilities logWithClass: [self class] format: [error description]];
+             [MAUtilities logWithClass: [self class]
+                               message: error.localizedDescription
+                            parameters: @{@"error" : error}];
          }
      }];
 }
@@ -249,6 +249,7 @@
              
              for (MAMaze *maze in userMazes)
              {
+                 [self.fatFractal forgetObj: maze];
                  [maze decompressLocationsDataAndWallsData];
              }
              
@@ -256,13 +257,15 @@
          }
          else
          {
-             NSError *error = [self errorWithFatFractalError: theErr
-                                                 description: @"Unable to get user mazes from server."
-                                                  statusCode: theResponse.statusCode];
-             
+             NSError *error = [self errorWithDescription: @"Unable to get user mazes from server."
+                                              statusCode: theResponse.statusCode
+                                         underlyingError: theErr];
+
              handler(nil, error);
              
-             [MAUtilities logWithClass: [self class] format: [error description]];
+             [MAUtilities logWithClass: [self class]
+                               message: error.localizedDescription
+                            parameters: @{@"error" : error}];
          }
 
          self.isDownloadingUserMazes = NO;
@@ -271,139 +274,170 @@
 
 - (void)getMazeWithMazeId: (NSString *)mazeId completionHandler: (GetMazeCompletionHandler)handler
 {
-    [self.fatFractal getArrayFromUri: [NSString stringWithFormat: @"/MAMaze/(mazeId eq '%@')", mazeId]
-                          onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
-     {
-         if (theErr == nil && theResponse.statusCode == 200)
-         {
-             NSArray *mazes = (NSArray *)theObj;
-             
-             MAMaze *maze = mazes[0];
-             [maze decompressLocationsDataAndWallsData];
-             
-             if (mazes.count >= 2)
-             {
-                 [MAUtilities logWithClass: [self class]
-                                    format: @"Invalid number of mazes: %d returned for mazeId: %@", mazes.count, mazeId];
-             }
-             
-             handler(mazeId, maze, nil);
-         }
-         else
-         {
-             NSError *error = [self errorWithFatFractalError: theErr
-                                                 description: @"Unable to get maze from server."
-                                                  statusCode: theResponse.statusCode];
-             
-             handler(mazeId, nil, error);
-             
-             [MAUtilities logWithClass: [self class] format: [error description]];
-         }
-     }];
+    [self.fatFractal getObjFromUri: [NSString stringWithFormat: @"/MAMaze/(mazeId eq '%@')", mazeId]
+                        onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+    {
+        if (theErr == nil && theResponse.statusCode == 200)
+        {
+            MAMaze *maze = (MAMaze *)theObj;
+            [maze decompressLocationsDataAndWallsData];
+         
+            handler(mazeId, maze, nil);
+        }
+        else
+        {
+            NSError *error = [self errorWithDescription: @"Unable to get maze from server."
+                                             statusCode: theResponse.statusCode
+                                        underlyingError: theErr];
+
+            handler(mazeId, nil, error);
+         
+            [MAUtilities logWithClass: [self class]
+                              message: error.localizedDescription
+                           parameters: @{@"error" : error}];
+        }
+    }];
 }
 
 
-- (void)saveMaze: (MAMaze *)maze completionHandler: (SaveMazeCompletionHandler)handler
+- (void)saveLocalMaze: (MAMaze *)localMaze completionHandler: (SaveMazeCompletionHandler)handler
 {
-    self.isSavingMaze = YES;
+    self.isSavingLocalMaze = YES;
     
-    if ([self.fatFractal metaDataForObj: maze] == nil)
-    {
-        [maze compressLocationsAndWallsData];
-        
-        [self.fatFractal createObj: maze
-                             atUri: @"/MAMaze"
-                        onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
-         {
-             if (theErr == nil && theResponse.statusCode == 201)
-             {
-                 handler(nil);
-             }
-             else
-             {
-                 NSError *error = [self errorWithFatFractalError: theErr
-                                                     description: @"Unable to save maze to server."
-                                                      statusCode: theResponse.statusCode];
-                 
-                 handler(error);
-                 
-                 [MAUtilities logWithClass: [self class] format: [error description]];
-             }
-             
-             self.isSavingMaze = NO;
-         }];
-    }
-    else
-    {
-        [self.fatFractal updateObj: maze
-                        onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
-         {
-             if (theErr == nil && theResponse.statusCode == 200)
-             {
-                 [maze compressLocationsAndWallsData];
-                 
-                 [self.fatFractal updateBlob: maze.locationsData
-                                withMimeType: @"application/octet-stream"
-                                      forObj: maze
-                                  memberName: @"locationsData"
-                                  onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
-                  {
-                      if (theErr == nil && theResponse.statusCode == 200)
-                      {
-                          [maze compressLocationsAndWallsData];
-                          
-                          [self.fatFractal updateBlob: maze.wallsData
-                                         withMimeType: @"application/octet-stream"
-                                               forObj: maze
-                                           memberName: @"wallsData"
-                                           onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
-                           {
-                               if (theErr == nil && theResponse.statusCode == 200)
-                               {
-                                   handler(nil);
-                               }
-                               else
-                               {
-                                   NSError *error = [self errorWithFatFractalError: theErr
-                                                                       description: @"Unable to save maze walls data to server."
-                                                                        statusCode: theResponse.statusCode];
-                                   
-                                   handler(error);
-                                   
-                                   [MAUtilities logWithClass: [self class] format: [error description]];
-                               }
-                               
-                               self.isSavingMaze = NO;
-                           }];
-                      }
-                      else
-                      {
-                          NSError *error = [self errorWithFatFractalError: theErr
-                                                              description: @"Unable to save maze location data to server."
-                                                               statusCode: theResponse.statusCode];
-                          
-                          handler(error);
+    localMaze.modifiedAt = [NSDate date];
 
-                          self.isSavingMaze = NO;
-                          
-                          [MAUtilities logWithClass: [self class] format: [error description]];
-                      }
-                  }];
-             }
-             else
-             {
-                 NSError *error = [self errorWithFatFractalError: theErr
-                                                     description: @"Unable to save maze to server."
-                                                      statusCode: theResponse.statusCode];
-                 
-                 handler(error);
+    [self.fatFractal getArrayFromUri: [NSString stringWithFormat: @"/MAMaze/(mazeId eq '%@')", localMaze.mazeId]
+                          onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+    {
+        if (theErr == nil && theResponse.statusCode == 200)
+        {
+            NSArray *serverMazea = (NSArray *)theObj;
 
-                 self.isSavingMaze = NO;
-                 
-                 [MAUtilities logWithClass: [self class] format: [error description]];
-             }
-         }];
-    }
+            if (serverMazea.count == 0)
+            {
+                [localMaze compressLocationsAndWallsData];
+                
+                [self.fatFractal createObj: localMaze
+                                     atUri: @"/MAMaze"
+                                onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+                 {
+                     if (theErr == nil && theResponse.statusCode == 201)
+                     {
+                         handler(nil);
+                     }
+                     else
+                     {
+                         NSError *error = [self errorWithDescription: @"Unable to save local maze to server."
+                                                          statusCode: theResponse.statusCode
+                                                     underlyingError: theErr];
+                         
+                         handler(error);
+                         
+                         [MAUtilities logWithClass: [self class]
+                                           message: error.localizedDescription
+                                        parameters: @{@"error" : error}];
+                     }
+                     
+                     [self.fatFractal forgetObj: localMaze];
+
+                     self.isSavingLocalMaze = NO;
+                 }];
+            }
+            else
+            {
+                MAMaze *serverMaze = serverMazea[0];
+                
+                [serverMaze updateWithMaze: localMaze];
+                
+                [self.fatFractal updateObj: serverMaze
+                                onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+                 {
+                     if (theErr == nil && theResponse.statusCode == 200)
+                     {
+                         [serverMaze compressLocationsAndWallsData];
+                         
+                         [self.fatFractal updateBlob: serverMaze.locationsData
+                                        withMimeType: @"application/octet-stream"
+                                              forObj: serverMaze
+                                          memberName: @"locationsData"
+                                          onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+                          {
+                              if (theErr == nil && theResponse.statusCode == 200)
+                              {
+                                  [serverMaze compressLocationsAndWallsData];
+                                  
+                                  [self.fatFractal updateBlob: serverMaze.wallsData
+                                                 withMimeType: @"application/octet-stream"
+                                                       forObj: serverMaze
+                                                   memberName: @"wallsData"
+                                                   onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+                                   {
+                                       if (theErr == nil && theResponse.statusCode == 200)
+                                       {
+                                           handler(nil);
+                                       }
+                                       else
+                                       {
+                                           NSError *error = [self errorWithDescription: @"Unable to save local maze walls data to server."
+                                                                            statusCode: theResponse.statusCode
+                                                                       underlyingError: theErr];
+                                           
+                                           handler(error);
+                                           
+                                           [MAUtilities logWithClass: [self class]
+                                                             message: error.localizedDescription
+                                                          parameters: @{@"error" : error}];
+                                       }
+                                       
+                                       self.isSavingLocalMaze = NO;
+                                   }];
+                              }
+                              else
+                              {
+                                  NSError *error = [self errorWithDescription: @"Unable to save local maze location data to server."
+                                                                   statusCode: theResponse.statusCode
+                                                              underlyingError: theErr];
+                                  
+                                  handler(error);
+                                  
+                                  self.isSavingLocalMaze = NO;
+                                  
+                                  [MAUtilities logWithClass: [self class]
+                                                    message: error.localizedDescription
+                                                 parameters: @{@"error" : error}];
+                              }
+                          }];
+                     }
+                     else
+                     {
+                         NSError *error = [self errorWithDescription: @"Unable to save local maze to server."
+                                                          statusCode: theResponse.statusCode
+                                                     underlyingError: theErr];
+                         
+                         handler(error);
+                         
+                         self.isSavingLocalMaze = NO;
+                         
+                         [MAUtilities logWithClass: [self class]
+                                           message: error.localizedDescription
+                                        parameters: @{@"error" : error}];
+                     }
+                 }];
+            }
+        }
+        else
+        {
+            NSError *error = [self errorWithDescription: @"Unable to get maze from server."
+                                             statusCode: theResponse.statusCode
+                                        underlyingError: theErr];
+            
+            handler(error);
+            
+            [MAUtilities logWithClass: [self class]
+                              message: error.localizedDescription
+                           parameters: @{@"error" : error}];
+        }
+    }];
 }
 
 
@@ -424,13 +458,15 @@
          }
          else
          {
-             NSError *error = [self errorWithFatFractalError: theErr
-                                                 description: @"Unable to get highest rated top maze items from server."
-                                                  statusCode: theResponse.statusCode];
-             
+             NSError *error = [self errorWithDescription: @"Unable to get highest rated top maze items from server."
+                                              statusCode: theResponse.statusCode
+                                         underlyingError: theErr];
+
              handler(nil, error);
              
-             [MAUtilities logWithClass: [self class] format: [error description]];
+             [MAUtilities logWithClass: [self class]
+                               message: error.localizedDescription
+                            parameters: @{@"error" : error}];
          }
 
          self.isDownloadingHighestRatedMazeSummaries = NO;
@@ -454,13 +490,15 @@
          }
          else
          {
-             NSError *error = [self errorWithFatFractalError: theErr
-                                                 description: @"Unable to get newest top maze items from server."
-                                                  statusCode: theResponse.statusCode];
-             
+             NSError *error = [self errorWithDescription: @"Unable to get newest top maze items from server."
+                                              statusCode: theResponse.statusCode
+                                         underlyingError: theErr];
+
              handler(nil, error);
              
-             [MAUtilities logWithClass: [self class] format: [error description]];
+             [MAUtilities logWithClass: [self class]
+                               message: error.localizedDescription
+                            parameters: @{@"error" : error}];
          }
 
          self.isDownloadingNewestMazeSummaries = NO;
@@ -484,13 +522,15 @@
          }
          else
          {
-             NSError *error = [self errorWithFatFractalError: theErr
-                                                 description: @"Unable to get yours top maze items from server."
-                                                  statusCode: theResponse.statusCode];
-             
+             NSError *error = [self errorWithDescription: @"Unable to get yours top maze items from server."
+                                              statusCode: theResponse.statusCode
+                                         underlyingError: theErr];
+
              handler(nil, error);
              
-             [MAUtilities logWithClass: [self class] format: [error description]];
+             [MAUtilities logWithClass: [self class]
+                               message: error.localizedDescription
+                            parameters: @{@"error" : error}];
          }
 
          self.isDownloadingYoursMazeSummaries = NO;
@@ -511,13 +551,15 @@
          }
          else
          {
-             NSError *error = [self errorWithFatFractalError: theErr
-                                                 description: @"Unable to save started maze progress to server"
-                                                  statusCode: theResponse.statusCode];
-         
+             NSError *error = [self errorWithDescription: @"Unable to save started maze progress to server"
+                                              statusCode: theResponse.statusCode
+                                         underlyingError: theErr];
+
              handler(mazeId, error);
              
-             [MAUtilities logWithClass: [self class] format: [error description]];
+             [MAUtilities logWithClass: [self class]
+                               message: error.localizedDescription
+                            parameters: @{@"error" : error}];
          }
      }];
 }
@@ -535,13 +577,15 @@
          }
          else
          {
-             NSError *error = [self errorWithFatFractalError: theErr
-                                                 description: @"Unable to save found maze exit progress to server."
-                                                  statusCode: theResponse.statusCode];
-             
+             NSError *error = [self errorWithDescription: @"Unable to save found maze exit progress to server."
+                                              statusCode: theResponse.statusCode
+                                         underlyingError: theErr];
+
              handler(mazeId, mazeName, error);
              
-             [MAUtilities logWithClass: [self class] format: [error description]];
+             [MAUtilities logWithClass: [self class]
+                               message: error.localizedDescription
+                            parameters: @{@"error" : error}];
          }
      }];
 }
@@ -563,13 +607,15 @@
          }
          else
          {
-             NSError *error = [self errorWithFatFractalError: theErr
-                                                 description: @"Unable to save maze rating to server."
-                                                  statusCode: theResponse.statusCode];
-             
+             NSError *error = [self errorWithDescription: @"Unable to save maze rating to server."
+                                              statusCode: theResponse.statusCode
+                                         underlyingError: theErr];
+
              handler(mazeName, error);
              
-             [MAUtilities logWithClass: [self class] format: [error description]];
+             [MAUtilities logWithClass: [self class]
+                               message: error.localizedDescription
+                            parameters: @{@"error" : error}];
          }
      }];
 }
@@ -588,28 +634,30 @@
          }
          else
          {
-             NSError *error = [self errorWithFatFractalError: theErr
-                                                 description: @"Unable to get latest version from server."
-                                                  statusCode: theResponse.statusCode];
-             
+             NSError *error = [self errorWithDescription: @"Unable to get latest version from server."
+                                              statusCode: theResponse.statusCode
+                                         underlyingError: theErr];
+
              handler(nil, error);
              
-             [MAUtilities logWithClass: [self class] format: [error description]];
+             [MAUtilities logWithClass: [self class]
+                               message: error.localizedDescription
+                            parameters: @{@"error" : error}];
          }
      }];
 }
 
 
-- (NSError *)errorWithFatFractalError: (NSError *)fatFractalError
-                          description: (NSString *)description
-                           statusCode: (NSInteger)statusCode
+- (NSError *)errorWithDescription: (NSString *)description
+                       statusCode: (NSInteger)statusCode
+                  underlyingError: (NSError *)underlyingError
 {
     NSMutableDictionary *userInfo = [@{NSLocalizedDescriptionKey : description,
                                        MAStatusCodeKey : [NSNumber numberWithInteger: statusCode]} mutableCopy];
     
-    if (fatFractalError != nil)
+    if (underlyingError != nil)
     {
-        [userInfo setObject: fatFractalError forKey: NSUnderlyingErrorKey];
+        [userInfo setObject: underlyingError forKey: NSUnderlyingErrorKey];
     }
     
     NSError *error = [NSError errorWithDomain: @"com.andremuis.mazes" code: 0 userInfo: [userInfo copy]];

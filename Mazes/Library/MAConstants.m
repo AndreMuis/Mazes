@@ -13,7 +13,7 @@ NSString* const MASoundManagerCountKeyPath = @"count";
 NSString* const MATextureManagerCountKeyPath = @"count";
 
 NSString* const MAFlurryAPIKey = @"72C58XPN2XTXVRTP27BN";
-NSString* const MACrittercismAppId = @"50cbd3ed4f633a03f0000003";
+NSString* const MACrashlyticsAPIKey = @"dcf833ce95eabb0f4910d0b63d678444f65e79d1";
 
 NSTimeInterval const MAEventTimerIntervalSecs = 0.01;
 
@@ -43,8 +43,8 @@ float const MAMovementDuration = 0.4;
 float const MAStepDurationAvgStart = 1 / 60.0;
 float const MAFakeMovementPrcnt = 0.2; // percent of movement before wall disappears
 
-NSUInteger const MALocationMessageMaxLength = 250;
 NSUInteger const MAMazeNameMaxLength = 50;
+NSUInteger const MALocationMessageMaxLength = 250;
 
 NSString* const MAUseTutorialKey = @"useTutorial";
 NSString* const MAHasSelectedWallKey = @"hasSelectedWall";

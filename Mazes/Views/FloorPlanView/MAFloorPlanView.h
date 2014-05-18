@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "MAConstants.h"
-#import "MAMaze.h"
-
 @class MALocation;
-@class MATextureManager;
+@class MAMaze;
+@class MAWall;
 
 @interface MAFloorPlanView : UIView
 

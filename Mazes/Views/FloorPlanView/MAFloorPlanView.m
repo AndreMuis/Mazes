@@ -10,6 +10,7 @@
 
 #import "MAFloorPlanStyle.h"
 #import "MALocation.h"
+#import "MAMaze.h"
 #import "MASize.h"
 #import "MAStyles.h"
 #import "MAUtilities.h"
@@ -43,7 +44,7 @@
     [super didMoveToWindow];
 }
 
-- (void)drawRect: (CGRect)rect 
+- (void)drawRect: (CGRect)rect
 {
 	CGContextRef context = UIGraphicsGetCurrentContext();
    
@@ -80,7 +81,9 @@
 			}
             else
             {
-                [MAUtilities logWithClass: [self class] format: @"action set to an illegal value: %d", location.action];
+                [MAUtilities logWithClass: [self class]
+                                  message: @"action set to an illegal value."
+                               parameters: @{@"location.action" : @(location.action)}];
             }
 			
 			CGContextFillRect(context, locationRect);
@@ -158,7 +161,9 @@
                     break;
                     
                 default:
-                    [MAUtilities logWithClass: [self class] format: @"Wall type set to an illegal value: %d", northWall.type];
+                    [MAUtilities logWithClass: [self class]
+                                      message: @"Wall type set to an illegal value."
+                                   parameters: @{@"northWall.type" : @(northWall.type)}];
                     break;
             }
             
@@ -216,7 +221,9 @@
                     break;
                     
                 default:
-                    [MAUtilities logWithClass: [self class] format: @"Wall type set to an illegal value: %d", westWall.type];
+                    [MAUtilities logWithClass: [self class]
+                                      message: @"Wall type set to an illegal value."
+                                   parameters: @{@"westWall.type" : @(westWall.type)}];
                     break;
             }
 
@@ -341,7 +348,7 @@
 
 - (CGRect)wallRectWithWall: (MAWall *)wall
 {
-    CGRect wallRect;
+    CGRect wallRect = CGRectZero;
     
     switch (wall.direction)
     {
@@ -360,8 +367,9 @@
             break;
 
         default:
-            [MAUtilities logWithClass: [self class] format: @"Wall direction set to an illegal value: %d", wall.direction];
-            
+            [MAUtilities logWithClass: [self class]
+                              message: @"Wall direction set to an illegal value."
+                           parameters: @{@"wall.direction" : @(wall.direction)}];
             break;
     }
     
@@ -381,24 +389,6 @@
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

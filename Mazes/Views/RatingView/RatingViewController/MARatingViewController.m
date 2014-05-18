@@ -12,6 +12,12 @@
 #import "MARatingPopoverStyle.h"
 #import "MAStyles.h"
 
+@interface MARatingViewController ()
+
+@property (readwrite, strong, nonatomic) MAStyles *styles;
+
+@end
+
 @implementation MARatingViewController
 
 - (id)initWithNibName: (NSString *)nibNameOrNil bundle: (NSBundle *)nibBundleOrNil
@@ -20,6 +26,7 @@
     
     if (self)
     {
+        _styles = [MAStyles styles];
     }
     
     return self;

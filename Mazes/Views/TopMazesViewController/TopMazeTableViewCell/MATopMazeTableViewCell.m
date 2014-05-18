@@ -11,21 +11,17 @@
 #import "AppDelegate.h"
 #import "MAConstants.h"
 #import "MAMaze.h"
-#import "MAMazeManager.h"
 #import "MAMazeSummary.h"
 #import "MARatingView.h"
 #import "MARatingPopoverStyle.h"
 #import "MAStyles.h"
 #import "MATopMazesScreenStyle.h"
 #import "MAUtilities.h"
-#import "MAWebServices.h"
 
 @interface MATopMazeTableViewCell ()
 
 @property (readonly, strong, nonatomic) id<MATopMazeTableViewCellDelegate> delegate;
 
-@property (readonly, strong, nonatomic) MAWebServices *webServices;
-@property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
 @property (readonly, strong, nonatomic) MAStyles *styles;
 
 @property (readonly, strong, nonatomic) MAMazeSummary *mazeSummary1;
@@ -41,8 +37,6 @@
     
     if (self)
 	{
-        _webServices = nil;
-        _mazeManager = nil;
         _styles = [MAStyles styles];
         
         _mazeSummary1 = nil;
@@ -62,8 +56,6 @@
 }
 
 - (void)setupWithDelegate: (id<MATopMazeTableViewCellDelegate>)delegate
-              webServices: (MAWebServices *)webServices
-              mazeManager: (MAMazeManager *)mazeManager
              mazeSummary1: (MAMazeSummary *)mazeSummary1
              mazeSummary2: (MAMazeSummary *)mazeSummary2
 {
@@ -71,9 +63,6 @@
 
     _delegate = delegate;
     
-    _webServices = webServices;
-    _mazeManager = mazeManager;
-
     _mazeSummary1 = mazeSummary1;
     _mazeSummary2 = mazeSummary2;
  
@@ -204,7 +193,9 @@
     }
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Rating view %@ cannot be selectable.", ratingView];
+        [MAUtilities logWithClass: [self class]
+                          message: @"Rating view cannot be selectable."
+                       parameters: @{@"ratingView" : ratingView}];
     }
     
     [self.delegate topMazeTableViewCell: self

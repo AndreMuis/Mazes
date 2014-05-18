@@ -41,6 +41,8 @@ typedef enum : int
 - (void)setupOpenGLTextures;
 - (void)setupOpenGLVerticies;
 
+- (void)resetOrigin;
+
 - (void)drawMaze;
 - (void)clearMaze;
 

@@ -51,7 +51,9 @@
     else
     {
         [MAUtilities logWithClass: [self class]
-                           format: @"Event already exists with target: %@ and action: %@", event.target, NSStringFromSelector(event.action)];
+                          message: @"event already exists."
+                       parameters: @{@"event.target" : event.target,
+                                     @"event.action" : NSStringFromSelector(event.action)}];
     }
 }
 
@@ -78,7 +80,9 @@
     }
     else
     {
-        [MAUtilities logWithClass: [self class] format: @"Collection does not contain event: %@", event];
+        [MAUtilities logWithClass: [self class]
+                          message: @"event not found."
+                       parameters: @{@"event" : event}];
     }
 }
 
@@ -114,7 +118,10 @@
             }
             else
             {
-                [MAUtilities logWithClass: [self class] format: @"Target: %@ does not respond to selector: %@", event.target, NSStringFromSelector(event.action)];
+                [MAUtilities logWithClass: [self class]
+                                  message: @"target does not respond to selector."
+                               parameters: @{@"event.target" : event.target,
+                                             @"event.action" : NSStringFromSelector(event.action)}];
             }
 
             if (event.repeats == NO)

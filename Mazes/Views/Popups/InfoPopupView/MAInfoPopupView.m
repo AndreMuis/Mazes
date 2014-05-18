@@ -27,18 +27,6 @@
 
 @implementation MAInfoPopupView
 
-- (id)initWithCoder: (NSCoder *)aDecoder
-{
-    self = [super initWithCoder: aDecoder];
-    
-    if (self)
-    {
-        _styles = [MAStyles styles];
-    }
-    
-    return self;
-}
-
 + (MAInfoPopupView *)infoPopupViewWithParentView: (UIView *)parentView
                                          message: (NSString *)message
                                cancelButtonTitle: (NSString *)cancelButtonTitle
@@ -50,6 +38,18 @@
                      cancelButtonTitle: cancelButtonTitle];
     
     return infoPopupView;
+}
+
+- (id)initWithCoder: (NSCoder *)aDecoder
+{
+    self = [super initWithCoder: aDecoder];
+    
+    if (self)
+    {
+        _styles = [MAStyles styles];
+    }
+    
+    return self;
 }
 
 - (void)setupWithParentView: (UIView *)parentView

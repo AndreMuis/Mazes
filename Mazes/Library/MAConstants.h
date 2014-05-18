@@ -22,7 +22,7 @@ extern NSString* const MASoundManagerCountKeyPath;
 extern NSString* const MATextureManagerCountKeyPath;
 
 extern NSString* const MAFlurryAPIKey;
-extern NSString* const MACrittercismAppId;
+extern NSString* const MACrashlyticsAPIKey;
 
 extern NSTimeInterval const MAEventTimerIntervalSecs;
 
@@ -52,15 +52,15 @@ extern float const MAMovementDuration;
 extern float const MAStepDurationAvgStart;
 extern float const MAFakeMovementPrcnt;
 
-extern NSUInteger const MALocationMessageMaxLength;
 extern NSUInteger const MAMazeNameMaxLength;
-
-extern NSString* const MAGreenTextureId;
-extern NSString* const MARedTextureId;
+extern NSUInteger const MALocationMessageMaxLength;
 
 extern NSString* const MAUseTutorialKey;
 extern NSString* const MAHasSelectedWallKey;
 extern NSString* const MAHasSelectedLocationKey;
+
+extern NSString* const MAGreenTextureId;
+extern NSString* const MARedTextureId;
 
 extern NSString* const MAAlternatingBrickTextureId;
 extern NSString* const MALightSwirlMarbleTextureId;
