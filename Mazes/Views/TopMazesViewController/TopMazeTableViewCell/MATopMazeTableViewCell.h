@@ -8,21 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-#import "MARatingView.h"
+#import "MARatingViewDelegate.h"
+#import "MATopMazeTableViewCellDelegate.h"
 
 @class MAMazeManager;
 @class MAMazeSummary;
+@class MARatingView;
 @class MAStyles;
 @class MATopMazeTableViewCell;
 @class MAWebServices;
-
-@protocol MATopMazeTableViewCellDelegate <NSObject>
-@required
-- (void)topMazeTableViewCell: (MATopMazeTableViewCell *)topMazeTableViewCell
-             didUpdateRating: (float)rating
-               forMazeWithId: (NSString *)mazeId
-                        name: (NSString *)mazeName;
-@end
 
 @interface MATopMazeTableViewCell : UITableViewCell <MARatingViewDelegate>
 

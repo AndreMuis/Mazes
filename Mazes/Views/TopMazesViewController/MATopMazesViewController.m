@@ -12,6 +12,8 @@
 #import "MAConstants.h"
 #import "MACreateViewController.h"
 #import "MADesignViewController.h"
+#import "MAGameKit.h"
+#import "MAGameKitDelegate.h"
 #import "MAGameViewController.h"
 #import "MAMainViewController.h"
 #import "MAMazeManager.h"
@@ -27,11 +29,12 @@
 #import "MAUtilities.h"
 #import "MAWebServices.h"
 
-@interface MATopMazesViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface MATopMazesViewController () <UITableViewDataSource, UITableViewDelegate, MAGameKitDelegate>
 
 @property (readonly, strong, nonatomic) Reachability *reachability;
 @property (readonly, strong, nonatomic) MAWebServices *webServices;
 
+@property (readonly, strong, nonatomic) MAGameKit *gameKit;
 @property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
 @property (readonly, strong, nonatomic) MASoundManager *soundManager;
 @property (readonly, strong, nonatomic) MAStyles *styles;
@@ -74,6 +77,7 @@
         _reachability = reachability;
         _webServices = webServices;
         
+        _gameKit = [MAGameKit gameKitWithDelegate: self];
         _mazeManager = mazeManager;
         _soundManager = soundManager;
         _styles = [MAStyles styles];
@@ -160,6 +164,13 @@
         }
 
         self.bannerView.delegate = self;
+        
+        
+        
+        [self.gameKit setupAuthenticateHandler];
+        
+        
+        
     }
 }
 
@@ -461,6 +472,20 @@
         self.activityIndicatorView.hidden = YES;
         [self.activityIndicatorView stopAnimating];
     }
+}
+
+- (void)gameKit: (MAGameKit *)gameKit didReceiveAuthenticationViewController: (UIViewController *)authenticationViewController
+{
+    
+}
+
+- (void)gameKitLocalPlayerAuthenticationComplete: (MAGameKit *)gameKit
+{
+}
+
+- (void)gameKit: (MAGameKit *)gameKit didFailLocalPlayerAuthenticationWithError: (NSError *)error
+{
+
 }
 
 - (IBAction)createButtonTouchDown: (id)sender

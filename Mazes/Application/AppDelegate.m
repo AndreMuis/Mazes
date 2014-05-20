@@ -57,7 +57,6 @@
 // [label sizeToFit];
 // view layout and setup code should (in my opinion) always go in UIView subclasses.
 // http://www.alexruperez.com/ios-coding-best-practices
-// asl_log
 // NSUbiquitousKeyValueStoreDidChangeExternallyNotification
 
 - (BOOL)application: (UIApplication *)application didFinishLaunchingWithOptions: (NSDictionary *)launchOptions

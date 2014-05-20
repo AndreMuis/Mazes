@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class MARatingView;
+#import "MARatingViewDelegate.h"
 
 typedef enum : int
 {
@@ -17,11 +17,6 @@ typedef enum : int
 	MARatingViewEditable = 2,
 	MARatingViewSelectable = 3
 } MARatingViewType;
-
-@protocol MARatingViewDelegate <NSObject>
-@required
-- (void)ratingView: (MARatingView *)ratingView ratingChanged: (float)newRating;
-@end
 
 @interface MARatingView : UIView <MARatingViewDelegate, UIPopoverControllerDelegate>
 

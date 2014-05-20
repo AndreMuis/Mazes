@@ -20,7 +20,7 @@
 
 @interface MATopMazeTableViewCell ()
 
-@property (readonly, strong, nonatomic) id<MATopMazeTableViewCellDelegate> delegate;
+@property (readonly, weak, nonatomic) id<MATopMazeTableViewCellDelegate> delegate;
 
 @property (readonly, strong, nonatomic) MAStyles *styles;
 

@@ -21,7 +21,7 @@
 @property (weak, nonatomic) IBOutlet MAButton *cancelButton;
 
 @property (readonly, strong, nonatomic) UIView *parentView;
-@property (readonly, strong, nonatomic) id<MARatingViewDelegate> ratingViewDelegate;
+@property (readonly, weak, nonatomic) id<MARatingViewDelegate> ratingViewDelegate;
 @property (readonly, assign, nonatomic) float rating;
 
 @end
