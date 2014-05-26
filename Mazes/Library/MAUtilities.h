@@ -24,7 +24,7 @@
 + (double)radiansFromDegrees: (double)degrees;
 + (double)degreesFromRadians: (double)radians;
 
-+ (NSString *)createUUID;
++ (NSString *)createUUIDString;
 
 + (NSString *)randomNumericStringWithLength: (NSUInteger)length;
 

@@ -141,7 +141,10 @@
          [self.translucentBackgroundView removeFromSuperview];
          [self removeFromSuperview];
          
-         self.dismissedHandler();
+         if (self.dismissedHandler)
+         {
+             self.dismissedHandler();
+         }         
      }];
 }
 

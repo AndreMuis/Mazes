@@ -21,7 +21,7 @@
 @class MATextureManager;
 @class MAWebServices;
 
-@interface MATopMazesViewController : UIViewController <MATopMazeTableViewCellDelegate, ADBannerViewDelegate>
+@interface MATopMazesViewController : UIViewController
 
 @property (readwrite, strong, nonatomic) MACreateViewController *createViewController;
 @property (readwrite, strong, nonatomic) MADesignViewController *designViewController;

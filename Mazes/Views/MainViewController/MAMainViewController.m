@@ -18,6 +18,8 @@
 @property (readwrite, strong, nonatomic) MAColors *colors;
 @property (readwrite, strong, nonatomic) MAStyles *styles;
 
+@property (readwrite, strong, nonatomic) UIViewController *currentViewController;
+
 @property (readwrite, assign, nonatomic) BOOL isPerformingTransition;
 
 @end
@@ -49,6 +51,8 @@
     [self addChildViewController: self.rootViewController];
     [self.view addSubview: self.rootViewController.view];
     [self.rootViewController didMoveToParentViewController: self];
+    
+    self.currentViewController = self.rootViewController;
 }
 
 - (void)transitionFromViewController: (UIViewController *)fromViewController
@@ -57,6 +61,8 @@
                           completion: (ViewControllerTransitionCompletionHandler)completionHandler
 {
     self.isPerformingTransition = YES;
+
+    self.currentViewController = nil;
 
     [self addChildViewController: toViewController];
     [fromViewController willMoveToParentViewController: nil];
@@ -86,6 +92,8 @@
              {
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
+                 
+                 self.currentViewController = toViewController;
                  
                  completionHandler();
                  
@@ -125,6 +133,8 @@
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
                  
+                 self.currentViewController = toViewController;
+
                  completionHandler();
 
                  self.isPerformingTransition = NO;
@@ -166,6 +176,8 @@
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
                  
+                 self.currentViewController = toViewController;
+
                  completionHandler();
 
                  self.isPerformingTransition = NO;
@@ -207,6 +219,8 @@
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
                  
+                 self.currentViewController = toViewController;
+
                  completionHandler();
 
                  self.isPerformingTransition = NO;
@@ -248,6 +262,8 @@
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
                  
+                 self.currentViewController = toViewController;
+
                  completionHandler();
 
                  self.isPerformingTransition = NO;
@@ -289,6 +305,8 @@
                  [fromViewController removeFromParentViewController];
                  [toViewController didMoveToParentViewController: self];
                  
+                 self.currentViewController = toViewController;
+
                  completionHandler();
 
                  self.isPerformingTransition = NO;
@@ -302,6 +320,8 @@
                               message: @"transition set to an illegal value."
                            parameters: @{@"transition" : @(transition)}];
             
+            self.currentViewController = nil;
+
             completionHandler();
 
             self.isPerformingTransition = NO;

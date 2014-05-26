@@ -9,12 +9,14 @@
 #import "MATopMazesViewController.h"
 
 #import "MAActivityIndicatorStyle.h"
+#import "MAButton.h"
 #import "MAConstants.h"
 #import "MACreateViewController.h"
 #import "MADesignViewController.h"
 #import "MAGameKit.h"
 #import "MAGameKitDelegate.h"
 #import "MAGameViewController.h"
+#import "MAInfoPopupView.h"
 #import "MAMainViewController.h"
 #import "MAMazeManager.h"
 #import "MAMaze.h"
@@ -29,7 +31,12 @@
 #import "MAUtilities.h"
 #import "MAWebServices.h"
 
-@interface MATopMazesViewController () <UITableViewDataSource, UITableViewDelegate, MAGameKitDelegate>
+@interface MATopMazesViewController () <
+    UITableViewDataSource,
+    UITableViewDelegate,
+    MATopMazeTableViewCellDelegate,
+    MAGameKitDelegate,
+    ADBannerViewDelegate>
 
 @property (readonly, strong, nonatomic) Reachability *reachability;
 @property (readonly, strong, nonatomic) MAWebServices *webServices;
@@ -56,9 +63,14 @@
 @property (weak, nonatomic) IBOutlet UIImageView *createImageView;
 @property (weak, nonatomic) IBOutlet UIButton *createButton;
 
+@property (weak, nonatomic) IBOutlet MAButton *leaderboardButton;
+
 @property (readonly, strong, nonatomic) UIAlertView *downloadTopMazeSummariesErrorAlertView;
 @property (readonly, strong, nonatomic) UIAlertView *saveMazeRatingErrorAlertView;
 @property (readonly, strong, nonatomic) UIAlertView *downloadUserMazeErrorAlertView;
+
+@property (readonly, strong, nonatomic) UIAlertView *downloadMazeCompletionCountErrorAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *reportMazeCompletionCountErrorAlertView;
 
 @end
 
@@ -77,7 +89,7 @@
         _reachability = reachability;
         _webServices = webServices;
         
-        _gameKit = [MAGameKit gameKitWithDelegate: self];
+        _gameKit = [MAGameKit gameKitWithDelegate: self reachability: self.reachability webServices: webServices];
         _mazeManager = mazeManager;
         _soundManager = soundManager;
         _styles = [MAStyles styles];
@@ -105,6 +117,18 @@
                                                                     delegate: nil
                                                            cancelButtonTitle: @"OK"
                                                            otherButtonTitles: nil];
+        
+        _downloadMazeCompletionCountErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                                message: @""
+                                                                               delegate: self
+                                                                      cancelButtonTitle: @"Cancel"
+                                                                      otherButtonTitles: @"Retry", nil];
+        
+        _reportMazeCompletionCountErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
+                                                                              message: @""
+                                                                             delegate: self
+                                                                    cancelButtonTitle: @"Cancel"
+                                                                    otherButtonTitles: @"Retry", nil];
     }
     
     return self;
@@ -164,13 +188,6 @@
         }
 
         self.bannerView.delegate = self;
-        
-        
-        
-        [self.gameKit setupAuthenticateHandler];
-        
-        
-        
     }
 }
 
@@ -474,20 +491,6 @@
     }
 }
 
-- (void)gameKit: (MAGameKit *)gameKit didReceiveAuthenticationViewController: (UIViewController *)authenticationViewController
-{
-    
-}
-
-- (void)gameKitLocalPlayerAuthenticationComplete: (MAGameKit *)gameKit
-{
-}
-
-- (void)gameKit: (MAGameKit *)gameKit didFailLocalPlayerAuthenticationWithError: (NSError *)error
-{
-
-}
-
 - (IBAction)createButtonTouchDown: (id)sender
 {
     if (self.webServices.isDownloadingUserMazes == NO && self.mainViewController.isPerformingTransition == NO)
@@ -576,6 +579,185 @@
          [self removeAndDestroyBannerView];
      }];
 }
+
+- (IBAction)leaderboardButtonTouchDown: (id)sender
+{
+    if (self.gameKit.isLocalPlayerAuthenticateHandlerSetup == NO)
+    {
+        [self.gameKit setupAuthenticateHandler];
+        
+        self.leaderboardButton.isBusy = YES;
+    }
+    else if (self.gameKit.isLocalPlayerAuthenticated == YES)
+    {
+        [self downloadMazeCompletionCount];
+        
+        self.leaderboardButton.isBusy = YES;
+    }
+    else
+    {
+        [self showLocalPlayerAuthenticationFailedPopup];
+    }
+}
+
+#pragma mark - MAGameKitDelegate
+
+- (void)gameKit: (MAGameKit *)gameKit didReceiveAuthenticationViewController: (UIViewController *)authenticationViewController
+{
+    if (self.leaderboardButton.isBusy == YES)
+    {
+        if (self.mainViewController.currentViewController == self)
+        {
+            [self presentViewController: authenticationViewController
+                               animated: YES
+                             completion: nil];
+        }
+        else
+        {
+            self.leaderboardButton.isBusy = NO;
+        }
+    }
+}
+
+- (void)gameKitLocalPlayerAuthenticationComplete: (MAGameKit *)gameKit
+{
+    if (self.leaderboardButton.isBusy == YES)
+    {
+        if (self.mainViewController.currentViewController == self)
+        {
+            [self downloadMazeCompletionCount];
+        }
+        else
+        {
+            self.leaderboardButton.isBusy = NO;
+        }
+    }
+}
+
+- (void)gameKit: (MAGameKit *)gameKit didFailLocalPlayerAuthenticationWithError: (NSError *)error
+{
+    if (self.leaderboardButton.isBusy == YES)
+    {
+        self.leaderboardButton.isBusy = NO;
+        
+        [self showLocalPlayerAuthenticationFailedPopup];
+    }
+    
+    [MAUtilities logWithClass: [self class]
+                      message: @"Failed to authenticate local player."
+                   parameters: @{@"error" : error}];
+}
+
+#pragma mark -
+
+- (void)showLocalPlayerAuthenticationFailedPopup
+{
+    NSString *message = @"To see the leaderboard of players that have completed the most mazes please sign in to Game Center using the Game Center app.";
+
+    MAInfoPopupView *authenticationPopupView = [MAInfoPopupView infoPopupViewWithParentView: self.view
+                                                                                    message: message
+                                                                          cancelButtonTitle: @"OK"];
+
+    [authenticationPopupView showWithDismissedHandler: nil];
+}
+
+- (void)downloadMazeCompletionCount
+{
+    [self.gameKit downloadMazeCompletionCountWithCompletion: ^(NSError *error)
+    {
+        if (self.mainViewController.currentViewController == self)
+        {
+            if (error == nil)
+            {
+                [self reportMazeCompletionCount];
+            }
+            else
+            {
+                NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionDownloadMazeCompletionCount
+                                                                                          reachability: self.reachability
+                                                                                          userCanRetry: YES];
+                self.downloadMazeCompletionCountErrorAlertView.message = requestErrorMessage;
+                
+                [self.downloadMazeCompletionCountErrorAlertView show];
+            }
+        }
+        else
+        {
+            self.leaderboardButton.isBusy = NO;
+        }
+    }];
+}
+
+- (void)reportMazeCompletionCount
+{
+    [self.gameKit reportMazeCompletionCountWithCompletion: ^(NSError *error)
+    {
+        if (self.mainViewController.currentViewController == self)
+        {
+            if (error == nil)
+            {
+                [self.gameKit displayLeaderboardWithPresentingViewController: self];
+
+                self.leaderboardButton.isBusy = NO;
+            }
+            else
+            {
+                NSString *requestErrorMessage = [MAUtilities requestErrorMessageWithRequestDescription: MARequestDescriptionReportMazeCompletionCount
+                                                                                          reachability: self.reachability
+                                                                                          userCanRetry: YES];
+                self.reportMazeCompletionCountErrorAlertView.message = requestErrorMessage;
+             
+                [self.reportMazeCompletionCountErrorAlertView show];
+            }
+        }
+        else
+        {
+            self.leaderboardButton.isBusy = NO;
+        }
+    }];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView: (UIAlertView *)alertView didDismissWithButtonIndex: (NSInteger)buttonIndex
+{
+    if (alertView == self.downloadMazeCompletionCountErrorAlertView)
+    {
+        switch (buttonIndex)
+        {
+            case 0:
+                self.leaderboardButton.isBusy = NO;
+                break;
+            case 1:
+                [self downloadMazeCompletionCount];
+            default:
+                break;
+        }
+    }
+    else if (alertView == self.reportMazeCompletionCountErrorAlertView)
+    {
+        switch (buttonIndex)
+        {
+            case 0:
+                self.leaderboardButton.isBusy = NO;
+                break;
+            case 1:
+                [self reportMazeCompletionCount];
+            default:
+                break;
+        }
+    }
+    else
+    {
+        [MAUtilities logWithClass: [self class]
+                          message: @"alertView not handled."
+                       parameters: @{@"alertView" : alertView}];
+
+        self.leaderboardButton.isBusy = NO;
+    }
+}
+
+#pragma mark -
 
 @end
 

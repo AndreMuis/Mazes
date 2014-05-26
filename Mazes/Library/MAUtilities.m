@@ -72,15 +72,11 @@
 	return radians * (360.0 / (2.0 * M_PI));
 }
 
-+ (NSString *)createUUID
++ (NSString *)createUUIDString
 {
-    CFUUIDRef uuidRef = CFUUIDCreate(NULL);
-    CFStringRef uuidStringRef = CFUUIDCreateString(NULL, uuidRef);
-    CFRelease(uuidRef);
+    NSUUID *uuid = [NSUUID UUID];
     
-    NSString *uuidString = (__bridge_transfer NSString *)uuidStringRef;
-    
-    return uuidString;
+    return [uuid UUIDString];
 }
 
 + (NSString *)randomNumericStringWithLength: (NSUInteger)length

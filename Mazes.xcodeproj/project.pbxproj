@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A23A0BB19304E7F006F2294 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A23A0BA19304E7F006F2294 /* GameKit.framework */; };
 		2A23F62E18FF8B530085B4FA /* MARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23F62C18FF8B530085B4FA /* MARatingViewController.m */; };
 		2A23F62F18FF8B530085B4FA /* MARatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A23F62D18FF8B530085B4FA /* MARatingViewController.xib */; };
 		2A23F63218FF982E0085B4FA /* MAFloorPlanView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23F63118FF982E0085B4FA /* MAFloorPlanView.m */; };
@@ -35,7 +36,6 @@
 		2A9777551923279D00E1D428 /* YoursButtonOrangeHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777491923279D00E1D428 /* YoursButtonOrangeHighlighted.png */; };
 		2A9D41FD1919E32000DC0F6B /* LaunchImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9D41F51919E32000DC0F6B /* LaunchImage.png */; };
 		2A9D69B819121FF10094534F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A9D69B719121FF10094534F /* Crashlytics.framework */; };
-		2AA18E51192B1E30006328B8 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AA18E50192B1E30006328B8 /* GameKit.framework */; };
 		2AA18E58192B33AA006328B8 /* MAGameKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA18E57192B33AA006328B8 /* MAGameKit.m */; };
 		2AA2815F191DEB9100C0D8D9 /* AppIcon_29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AA28159191DEB9100C0D8D9 /* AppIcon_29x29.png */; };
 		2AA28160191DEB9100C0D8D9 /* AppIcon_40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AA2815A191DEB9100C0D8D9 /* AppIcon_40x40.png */; };
@@ -246,6 +246,7 @@
 
 /* Begin PBXFileReference section */
 		2739B721EF9C40EAA5260DC7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A23A0BA19304E7F006F2294 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		2A23F62B18FF8B530085B4FA /* MARatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MARatingViewController.h; path = Mazes/Views/RatingView/RatingViewController/MARatingViewController.h; sourceTree = SOURCE_ROOT; };
 		2A23F62C18FF8B530085B4FA /* MARatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MARatingViewController.m; path = Mazes/Views/RatingView/RatingViewController/MARatingViewController.m; sourceTree = SOURCE_ROOT; };
 		2A23F62D18FF8B530085B4FA /* MARatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MARatingViewController.xib; path = Mazes/Views/RatingView/RatingViewController/MARatingViewController.xib; sourceTree = SOURCE_ROOT; };
@@ -279,7 +280,6 @@
 		2A9777491923279D00E1D428 /* YoursButtonOrangeHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = YoursButtonOrangeHighlighted.png; path = Mazes/Assets/Images/TopMazesScreen/YoursButtonOrangeHighlighted.png; sourceTree = SOURCE_ROOT; };
 		2A9D41F51919E32000DC0F6B /* LaunchImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LaunchImage.png; path = Assets/Images/LaunchImage.png; sourceTree = "<group>"; };
 		2A9D69B719121FF10094534F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
-		2AA18E50192B1E30006328B8 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		2AA18E53192B3133006328B8 /* MARatingViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MARatingViewDelegate.h; path = Protocols/MARatingViewDelegate.h; sourceTree = "<group>"; };
 		2AA18E54192B322F006328B8 /* MATopMazeTableViewCellDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MATopMazeTableViewCellDelegate.h; path = Protocols/MATopMazeTableViewCellDelegate.h; sourceTree = "<group>"; };
 		2AA18E55192B3377006328B8 /* MAGameKitDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MAGameKitDelegate.h; path = Protocols/MAGameKitDelegate.h; sourceTree = "<group>"; };
@@ -547,10 +547,10 @@
 				F4E4A9D0154CB92C006AA64D /* CoreData.framework in Frameworks */,
 				F4E4A9CE154CB92C006AA64D /* CoreGraphics.framework in Frameworks */,
 				F4E4A9CC154CB92C006AA64D /* Foundation.framework in Frameworks */,
-				2AA18E51192B1E30006328B8 /* GameKit.framework in Frameworks */,
 				F4E4ABA6154CD244006AA64D /* iAd.framework in Frameworks */,
 				F4E4ABEE154E34D2006AA64D /* MobileCoreServices.framework in Frameworks */,
 				2A9D69B819121FF10094534F /* Crashlytics.framework in Frameworks */,
+				2A23A0BB19304E7F006F2294 /* GameKit.framework in Frameworks */,
 				F4E4ABA8154CD26B006AA64D /* OpenGLES.framework in Frameworks */,
 				F4E4ABAA154CD28C006AA64D /* QuartzCore.framework in Frameworks */,
 				F4E4ABEC154E34BE006AA64D /* Security.framework in Frameworks */,
@@ -1115,6 +1115,7 @@
 		F4E4A9C8154CB92C006AA64D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2A23A0BA19304E7F006F2294 /* GameKit.framework */,
 				F4E4ABA3154CD20D006AA64D /* AVFoundation.framework */,
 				F4E4ABE9154E348F006AA64D /* CFNetwork.framework */,
 				F4E4A9CF154CB92C006AA64D /* CoreData.framework */,
@@ -1122,7 +1123,6 @@
 				2A9D69B719121FF10094534F /* Crashlytics.framework */,
 				2AECE2E818F91F640094C8CB /* FFEF.framework */,
 				F4E4A9CB154CB92C006AA64D /* Foundation.framework */,
-				2AA18E50192B1E30006328B8 /* GameKit.framework */,
 				F4E4ABA5154CD237006AA64D /* iAd.framework */,
 				F4E4ABED154E34C8006AA64D /* MobileCoreServices.framework */,
 				F4E4ABA7154CD25E006AA64D /* OpenGLES.framework */,
@@ -1240,6 +1240,11 @@
 				TargetAttributes = {
 					F4E4A9C4154CB92C006AA64D = {
 						DevelopmentTeam = LN6BM2BQ5J;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1696,7 +1701,7 @@
 					UIKit,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0820C7CA-2066-42DF-943E-C2DFCB1C9145";
+				PROVISIONING_PROFILE = "44906C43-7D55-4A81-A5E2-CF7FE871E3F1";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;

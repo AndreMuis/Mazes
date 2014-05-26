@@ -67,14 +67,24 @@ extern NSString* const MALightSwirlMarbleTextureId;
 extern NSString* const MACreamyWhiteMarbleTextureId;
 
 extern NSString* const MARequestDescriptionGeneric;
+extern NSString* const MARequestDescriptionDownloadMaze;
+extern NSString* const MARequestDescriptionDownloadUserMaze;
 extern NSString* const MARequestDescriptionSaveMaze;
 extern NSString* const MARequestDescriptionDownloadTopMazesSummaries;
+extern NSString* const MARequestDescriptionDownloadMazeCompletionCount;
+extern NSString* const MARequestDescriptionReportMazeCompletionCount;
 extern NSString* const MARequestDescriptionSaveMazeRating;
-extern NSString* const MARequestDescriptionDownloadUserMaze;
-extern NSString* const MARequestDescriptionDownloadMaze;
 
 extern NSString* const MARequestDescriptionSaveMazeProgress;
 extern NSString* const MARequestDescriptionSaveMazeProgressNoRetry;
+
+
+
+
+
+
+
+
 
 
 

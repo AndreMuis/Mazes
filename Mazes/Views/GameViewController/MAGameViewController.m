@@ -33,7 +33,11 @@
 #import "MAWall.h"
 #import "MAWebServices.h"
 
-@interface MAGameViewController () <ADBannerViewDelegate>
+@interface MAGameViewController () <
+    UIGestureRecognizerDelegate,
+    MARatingViewDelegate,
+    UIAlertViewDelegate,
+    ADBannerViewDelegate>
 
 @property (readonly, strong, nonatomic) Reachability *reachability;
 @property (readonly, strong, nonatomic) MAWebServices *webServices;
@@ -42,6 +46,8 @@
 @property (readonly, strong, nonatomic) MATextureManager *textureManager;
 @property (readonly, strong, nonatomic) MASoundManager *soundManager;
 @property (readonly, strong, nonatomic) MAStyles *styles;
+
+@property (readwrite, strong, nonatomic) NSUUID *gameSessionUUID;
 
 @property (strong, nonatomic) MALocation *previousLocation;
 @property (strong, nonatomic) MALocation *currentLocation;
@@ -90,10 +96,10 @@
 @property (weak, nonatomic) IBOutlet MAMazeView *mazeView;
 
 @property (readonly, strong, nonatomic) UIAlertView *downloadMazeErrorAlertView;
-@property (readonly, strong, nonatomic) UIAlertView *saveMazeStartedErrorAlertView;;
+@property (readonly, strong, nonatomic) UIAlertView *saveMazeStartedErrorAlertView;
 
-@property (readonly, strong, nonatomic) UIAlertView *saveFoundMazeExitErrorAlertView;;
-@property (readonly, strong, nonatomic) UIAlertView *saveFoundMazeExitNoRetryErrorAlertView;;
+@property (readonly, strong, nonatomic) UIAlertView *saveFoundMazeExitErrorAlertView;
+@property (readonly, strong, nonatomic) UIAlertView *saveFoundMazeExitNoRetryErrorAlertView;
 
 @property (readonly, strong, nonatomic) UIAlertView *saveMazeRatingErrorAlertView;
 
@@ -120,6 +126,8 @@
         _soundManager = soundManager;
         _styles = [MAStyles styles];
     
+        _gameSessionUUID = nil;
+        
         _maze = nil;
         
         _movements = [[NSMutableArray alloc] init];
@@ -139,6 +147,7 @@
                                                           cancelButtonTitle: @"Cancel"
                                                           otherButtonTitles: @"Retry", nil];
 
+        
         _saveFoundMazeExitErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
                                                                       message: @""
                                                                      delegate: self
@@ -150,6 +159,7 @@
                                                                             delegate: nil
                                                                    cancelButtonTitle: @"OK"
                                                                    otherButtonTitles: nil];
+
         
         _saveMazeRatingErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
                                                                    message: @""
@@ -235,6 +245,8 @@
 
     if (self.bannerView.bannerViewActionInProgress == NO)
     {
+        self.gameSessionUUID = [NSUUID UUID];
+        
         self.mapView.directionArrowImageView.hidden = YES;
         
         self.mazeView.userInteractionEnabled = NO;
@@ -281,6 +293,8 @@
 {
     if (self.bannerView.bannerViewActionInProgress == NO)
     {
+        self.gameSessionUUID = nil;
+
         self.maze = nil;
         self.mazeSummary = nil;
         
@@ -335,9 +349,11 @@
 
 - (void)downloadMaze
 {
-    [self.webServices getMazeWithMazeId: self.mazeSummary.mazeId completionHandler: ^(NSString *mazeId, MAMaze *maze, NSError *error)
+    [self.webServices getMazeWithMazeId: self.mazeSummary.mazeId
+                            sessionUUID: self.gameSessionUUID
+                      completionHandler: ^(MAMaze *maze, NSUUID *gameSessionUUID, NSError *error)
     {
-        if ([mazeId isEqualToString: self.mazeSummary.mazeId] == YES)
+        if ([gameSessionUUID isEqual: self.gameSessionUUID] == YES)
         {
             if (error == nil)
             {
@@ -363,9 +379,10 @@
     {
         [self.webServices saveStartedWithUserName: self.webServices.loggedInUser.userName
                                            mazeId: self.maze.mazeId
-                                completionHandler: ^(NSString *mazeId, NSError *error)
+                                      sessionUUID: self.gameSessionUUID
+                                completionHandler: ^(NSUUID *gameSessionUUID, NSError *error)
          {
-             if ([mazeId isEqualToString: self.mazeSummary.mazeId] == YES)
+             if ([gameSessionUUID isEqual: self.gameSessionUUID] == YES)
              {
                  if (error == nil)
                  {
@@ -908,9 +925,10 @@
     [self.webServices saveFoundExitWithUserName: self.webServices.loggedInUser.userName
                                          mazeId: self.maze.mazeId
                                        mazeName: self.maze.name
-                              completionHandler: ^(NSString *mazeId, NSString *mazeName, NSError *error)
+                                    sessionUUID: self.gameSessionUUID
+                              completionHandler: ^(NSString *mazeName, NSUUID *gameSessionUUID, NSError *error)
     {
-        if ([mazeId isEqualToString: self.mazeSummary.mazeId] == YES)
+        if ([gameSessionUUID isEqual: self.gameSessionUUID] == YES)
         {
             if (error == nil)
             {

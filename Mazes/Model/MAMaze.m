@@ -119,7 +119,7 @@
 {
     MAMaze *maze = [[MAMaze alloc] init];
     
-    maze.mazeId = [MAUtilities createUUID];
+    maze.mazeId = [MAUtilities createUUIDString];
     maze.user = loggedInUser;
     maze.name = @"";
     
@@ -196,7 +196,7 @@
             coordinate.column = column;
             
 			MALocation *location = [[MALocation alloc] init];
-            location.locationId = [MAUtilities createUUID];
+            location.locationId = [MAUtilities createUUIDString];
 			location.coordinate = coordinate;
             location.action = MALocationActionDoNothing;
             location.message = @"";

@@ -272,7 +272,9 @@
      }];
 }
 
-- (void)getMazeWithMazeId: (NSString *)mazeId completionHandler: (GetMazeCompletionHandler)handler
+- (void)getMazeWithMazeId: (NSString *)mazeId
+              sessionUUID: (NSUUID *)sessionUUID
+        completionHandler: (GetMazeCompletionHandler)handler
 {
     [self.fatFractal getObjFromUri: [NSString stringWithFormat: @"/MAMaze/(mazeId eq '%@')", mazeId]
                         onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
@@ -282,7 +284,7 @@
             MAMaze *maze = (MAMaze *)theObj;
             [maze decompressLocationsDataAndWallsData];
          
-            handler(mazeId, maze, nil);
+            handler(maze, sessionUUID, nil);
         }
         else
         {
@@ -290,7 +292,7 @@
                                              statusCode: theResponse.statusCode
                                         underlyingError: theErr];
 
-            handler(mazeId, nil, error);
+            handler(nil, sessionUUID, error);
          
             [MAUtilities logWithClass: [self class]
                               message: error.localizedDescription
@@ -538,7 +540,41 @@
 }
 
 
-- (void)saveStartedWithUserName: (NSString *)userName mazeId: (NSString *)mazeId completionHandler: (SaveStartedCompletionHandler)handler
+- (void)getMazeCompletionCountWithUserName: (NSString *)userName
+                         completionHandler: (GetMazeCompletionCountCompletionHandler)handler
+{
+    NSString *uri = [NSString stringWithFormat: @"/ff/ext/getMazeCompletionCount?userName=%@", userName];
+    
+    [self.fatFractal getObjFromUri: uri
+                        onComplete: ^(NSError *theErr, id theObj, NSHTTPURLResponse *theResponse)
+     {
+         if (theErr == nil && theResponse.statusCode == 200)
+         {
+             NSDictionary *dictionary = (NSDictionary *)theObj;
+             NSUInteger count = [dictionary[@"mazeCompletionCount"] integerValue];
+             
+             handler(count, nil);
+         }
+         else
+         {
+             NSError *error = [self errorWithDescription: @"Unable to get maze completion count from server."
+                                              statusCode: theResponse.statusCode
+                                         underlyingError: theErr];
+             
+             handler(0, error);
+             
+             [MAUtilities logWithClass: [self class]
+                               message: error.localizedDescription
+                            parameters: @{@"error" : error}];
+         }
+     }];
+
+}
+
+- (void)saveStartedWithUserName: (NSString *)userName
+                         mazeId: (NSString *)mazeId
+                    sessionUUID: (NSUUID *)sessionUUID
+              completionHandler: (SaveStartedCompletionHandler)handler
 {
     NSString *uri = [NSString stringWithFormat: @"/ff/ext/saveMazeStarted?userName=%@&mazeId=%@", userName, mazeId];
     
@@ -547,15 +583,15 @@
      {
          if (theErr == nil && theResponse.statusCode == 200)
          {
-             handler(mazeId, nil);
+             handler(sessionUUID, nil);
          }
          else
          {
-             NSError *error = [self errorWithDescription: @"Unable to save started maze progress to server"
+             NSError *error = [self errorWithDescription: @"Unable to save maze started progress to server."
                                               statusCode: theResponse.statusCode
                                          underlyingError: theErr];
 
-             handler(mazeId, error);
+             handler(sessionUUID, error);
              
              [MAUtilities logWithClass: [self class]
                                message: error.localizedDescription
@@ -564,7 +600,11 @@
      }];
 }
 
-- (void)saveFoundExitWithUserName: (NSString *)userName mazeId: (NSString *)mazeId mazeName: (NSString *)mazeName completionHandler: (SaveFoundExitCompletionHandler)handler
+- (void)saveFoundExitWithUserName: (NSString *)userName
+                           mazeId: (NSString *)mazeId
+                         mazeName: (NSString *)mazeName
+                      sessionUUID: (NSUUID *)sessionUUID
+                completionHandler: (SaveFoundExitCompletionHandler)handler
 {
     NSString *uri = [NSString stringWithFormat: @"/ff/ext/saveMazeFoundExit?userName=%@&mazeId=%@", userName, mazeId];
     
@@ -573,7 +613,7 @@
      {
          if (theErr == nil && theResponse.statusCode == 200)
          {
-             handler(mazeId, mazeName, nil);
+             handler(mazeName, sessionUUID, nil);
          }
          else
          {
@@ -581,7 +621,7 @@
                                               statusCode: theResponse.statusCode
                                          underlyingError: theErr];
 
-             handler(mazeId, mazeName, error);
+             handler(mazeName, sessionUUID, error);
              
              [MAUtilities logWithClass: [self class]
                                message: error.localizedDescription
@@ -589,6 +629,7 @@
          }
      }];
 }
+
 
 - (void)saveMazeRatingWithUserName: (NSString *)userName
                             mazeId: (NSString *)mazeId

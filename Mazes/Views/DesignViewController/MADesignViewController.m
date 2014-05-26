@@ -1148,7 +1148,7 @@ BOOL exists;
 		MATexture *floorTexture = nil;
         if (self.maze.currentSelectedLocation.floorTextureId != nil)
 		{
-			floorTexture = [self.textureManager textureWithTextureId: self.maze.currentSelectedLocation.floorTextureId];;
+			floorTexture = [self.textureManager textureWithTextureId: self.maze.currentSelectedLocation.floorTextureId];
 		}
 		else
 		{
@@ -1161,7 +1161,7 @@ BOOL exists;
 		MATexture *ceilingTexture = nil;
 		if (self.maze.currentSelectedLocation.ceilingTextureId != nil)
 		{
-			ceilingTexture = [self.textureManager textureWithTextureId: self.maze.currentSelectedLocation.ceilingTextureId];;
+			ceilingTexture = [self.textureManager textureWithTextureId: self.maze.currentSelectedLocation.ceilingTextureId];
 		}
 		else
 		{

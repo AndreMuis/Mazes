@@ -58,14 +58,34 @@ NSString* const MALightSwirlMarbleTextureId = @"E4293FC5-74B5-460C-BD28-D71E1DB2
 NSString* const MACreamyWhiteMarbleTextureId = @"91185953-544C-4D64-BEE5-F42F7778480E";
 
 NSString* const MARequestDescriptionGeneric = @"communicate with the server";
+NSString* const MARequestDescriptionDownloadMaze = @"download the maze from the server";
+NSString* const MARequestDescriptionDownloadUserMaze = @"download your maze from the server";
 NSString* const MARequestDescriptionSaveMaze = @"save the maze to the server";
 NSString* const MARequestDescriptionDownloadTopMazesSummaries = @"download the list of mazes from the server";
+NSString* const MARequestDescriptionDownloadMazeCompletionCount = @"retrieve the number of mazes you have completed from the server to send to Game Center";
+NSString* const MARequestDescriptionReportMazeCompletionCount = @"send the number of mazes you have completed to Game Center";
 NSString* const MARequestDescriptionSaveMazeRating = @"save the rating for maze %@ to the server";
-NSString* const MARequestDescriptionDownloadUserMaze = @"download your maze from the server";
-NSString* const MARequestDescriptionDownloadMaze = @"download the maze from the server";
 
 NSString* const MARequestDescriptionSaveMazeProgress = @"save your game progress to the server";
 NSString* const MARequestDescriptionSaveMazeProgressNoRetry = @"save your game progress to the server for maze %@";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

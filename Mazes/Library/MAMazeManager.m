@@ -134,7 +134,7 @@
     switch (topMazeSummariesType)
     {
         case MATopMazeSummariesHighestRated:
-            return self.webServices.isDownloadingHighestRatedMazeSummaries;;
+            return self.webServices.isDownloadingHighestRatedMazeSummaries;
             break;
             
         case MATopMazeSummariesNewest:

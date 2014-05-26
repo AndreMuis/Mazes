@@ -33,6 +33,8 @@ typedef enum : int
 
 @property (readwrite, strong, nonatomic) UIViewController *rootViewController;
 
+@property (readonly, strong, nonatomic) UIViewController *currentViewController;
+
 @property (readonly, assign, nonatomic) BOOL isPerformingTransition;
 
 - (void)transitionFromViewController: (UIViewController *)fromViewController

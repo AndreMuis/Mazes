@@ -12,7 +12,7 @@
 
 @protocol MAGameKitDelegate <NSObject>
 
-@required
+@optional
 - (void)gameKit: (MAGameKit *)gameKit didReceiveAuthenticationViewController: (UIViewController *)authenticationViewController;
 
 - (void)gameKitLocalPlayerAuthenticationComplete: (MAGameKit *)gameKit;
