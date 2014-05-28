@@ -9,6 +9,7 @@
 #import "MAFloorPlanView.h"
 
 #import "MAFloorPlanStyle.h"
+#import "MAFloorPlanViewDelegate.h"
 #import "MALocation.h"
 #import "MAMaze.h"
 #import "MASize.h"
@@ -20,6 +21,9 @@
 
 @property (readonly, strong, nonatomic) MAStyles *styles;
 
+@property (readonly, weak, nonatomic) id<MAFloorPlanViewDelegate> delegate;
+@property (readonly, strong, nonatomic) MAMaze *maze;
+
 @end
 
 @implementation MAFloorPlanView
@@ -30,11 +34,20 @@
     
     if (self) 
 	{
-        _maze = nil;
         _styles = [MAStyles styles];
+
+        _delegate = nil;
+        _maze = nil;
     }
 	
 	return self;
+}
+
+- (void)setupWithFloorPlanViewDelegate: (id<MAFloorPlanViewDelegate>)floorPlanViewDelegate
+                                  maze: (MAMaze *)maze
+{
+    _delegate = floorPlanViewDelegate;
+    _maze = maze;
 }
 
 - (void)didMoveToWindow
@@ -271,13 +284,47 @@
     [self setNeedsDisplay];
 }
 
-- (MALocation *)locationWithTouchPoint: (CGPoint)touchPoint
+- (IBAction)handleTap: (UITapGestureRecognizer *)tapGestureRecognizer
 {
-	MALocation *locationRet = nil;
+    MAWall *wallSelected = nil;
+ 
+    CGPoint touchPoint = [tapGestureRecognizer locationInView: self];
+    
+	float b = (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort) / 2.0;
 	
-	for (MALocation *location in [self.maze allLocations])
+	for (MAWall *someWall in [self.maze allWalls])
 	{
-		CGRect locationRect = [self locationRectWithLocation: location];
+        CGRect wallRect = [self wallRectWithWall: someWall];
+        
+        CGPoint wallOrigin = CGPointMake(wallRect.origin.x + wallRect.size.width / 2.0,
+                                         wallRect.origin.y + wallRect.size.height / 2.0);
+        
+        float x = touchPoint.x - wallOrigin.x;
+        float y = touchPoint.y - wallOrigin.y;
+        
+        if (((x >= -b && x <= 0) && (y >= -x - b && y <= x + b)) ||
+            ((x >= 0 && x <= b) && (y >= x - b && y <= -x + b)))
+        {
+            wallSelected = someWall;
+            break;
+        }
+	}
+    
+    if (wallSelected)
+    {
+        [self.delegate floorPlanView: self didSelectWall: wallSelected];
+    }
+}
+
+- (IBAction)handleLongPress: (UILongPressGestureRecognizer *)longPressGestureRecognizer
+{
+	MALocation *locationSelected = nil;
+	
+    CGPoint touchPoint = [longPressGestureRecognizer locationInView: self];
+
+	for (MALocation *someLocation in [self.maze allLocations])
+	{
+		CGRect locationRect = [self locationRectWithLocation: someLocation];
         
 		CGRect touchRect = CGRectMake(locationRect.origin.x - self.styles.floorPlan.segmentLengthShort / 2.0,
                                       locationRect.origin.y - self.styles.floorPlan.segmentLengthShort / 2.0,
@@ -285,55 +332,17 @@
                                       self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort);
 		
 		if (CGRectContainsPoint(touchRect, touchPoint) &&
-            location.row <= self.maze.rows && location.column <= self.maze.columns)
+            someLocation.row <= self.maze.rows && someLocation.column <= self.maze.columns)
 		{
-			locationRet = location;
+			locationSelected = someLocation;
 			break;
 		}
 	}
     
-	return locationRet;
-}
-
-- (MAWall *)wallWithTouchPoint: (CGPoint)touchPoint
-{
-    MAWall *wallTapped = nil;
-    
-	CGRect wallRect = CGRectZero;
-	CGPoint wallOrigin = CGPointZero;
-	
-	float tx = 0.0, ty = 0.0;
-	float b = (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort) / 2.0;
-	
-	for (MAWall *wall in [self.maze allWalls])
-	{
-        wallRect = [self wallRectWithWall: wall];
-			
-        wallOrigin.x = wallRect.origin.x + wallRect.size.width / 2.0;
-        wallOrigin.y = wallRect.origin.y + wallRect.size.height / 2.0;
-        
-        tx = touchPoint.x - wallOrigin.x;
-        ty = touchPoint.y - wallOrigin.y;
-        
-        if (tx >= -b && tx <= 0)
-        {
-            if (ty >= -tx - b && ty <= tx + b)
-            {
-                wallTapped = wall;
-                break;
-            }
-        }
-        else if (tx >= 0 && tx <= b)
-        {
-            if (ty >= tx - b && ty <= -tx + b)
-            {
-                wallTapped = wall;
-                break;
-            }
-        }
-	}
-    
-	return wallTapped;
+    if (locationSelected)
+    {
+        [self.delegate floorPlanView: self didSelectLocation: locationSelected];
+    }
 }
 
 - (CGRect)locationRectWithLocation: (MALocation *)location

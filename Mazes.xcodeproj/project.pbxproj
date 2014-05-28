@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A0A93AB1935B0500049F5C7 /* MAFloorPlanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A93A81935B0500049F5C7 /* MAFloorPlanViewController.m */; };
+		2A0A93AC1935B0500049F5C7 /* MAFloorPlanView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A93AA1935B0500049F5C7 /* MAFloorPlanView.m */; };
+		2A0A93AE1935B1130049F5C7 /* MAFloorPlanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A0A93AD1935B1130049F5C7 /* MAFloorPlanViewController.xib */; };
 		2A23A0BB19304E7F006F2294 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A23A0BA19304E7F006F2294 /* GameKit.framework */; };
 		2A23F62E18FF8B530085B4FA /* MARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23F62C18FF8B530085B4FA /* MARatingViewController.m */; };
 		2A23F62F18FF8B530085B4FA /* MARatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A23F62D18FF8B530085B4FA /* MARatingViewController.xib */; };
-		2A23F63218FF982E0085B4FA /* MAFloorPlanView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23F63118FF982E0085B4FA /* MAFloorPlanView.m */; };
 		2A23F63518FF9C480085B4FA /* MACreateScreenStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23F63418FF9C480085B4FA /* MACreateScreenStyle.m */; };
 		2A890CA618FE3CCC00F96157 /* MATopMazeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A890CA418FE3CCC00F96157 /* MATopMazeTableViewCell.m */; };
 		2A890CA718FE3CCC00F96157 /* MATopMazeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A890CA518FE3CCC00F96157 /* MATopMazeTableViewCell.xib */; };
@@ -246,12 +248,16 @@
 
 /* Begin PBXFileReference section */
 		2739B721EF9C40EAA5260DC7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A0A93A61935AE4B0049F5C7 /* MAFloorPlanViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MAFloorPlanViewDelegate.h; path = Protocols/MAFloorPlanViewDelegate.h; sourceTree = "<group>"; };
+		2A0A93A71935B0500049F5C7 /* MAFloorPlanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAFloorPlanViewController.h; path = Mazes/Views/FloorPlanViewController/MAFloorPlanViewController.h; sourceTree = SOURCE_ROOT; };
+		2A0A93A81935B0500049F5C7 /* MAFloorPlanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAFloorPlanViewController.m; path = Mazes/Views/FloorPlanViewController/MAFloorPlanViewController.m; sourceTree = SOURCE_ROOT; };
+		2A0A93A91935B0500049F5C7 /* MAFloorPlanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAFloorPlanView.h; path = Mazes/Views/FloorPlanViewController/MAFloorPlanView.h; sourceTree = SOURCE_ROOT; };
+		2A0A93AA1935B0500049F5C7 /* MAFloorPlanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAFloorPlanView.m; path = Mazes/Views/FloorPlanViewController/MAFloorPlanView.m; sourceTree = SOURCE_ROOT; };
+		2A0A93AD1935B1130049F5C7 /* MAFloorPlanViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MAFloorPlanViewController.xib; path = Mazes/Views/FloorPlanViewController/MAFloorPlanViewController.xib; sourceTree = SOURCE_ROOT; };
 		2A23A0BA19304E7F006F2294 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		2A23F62B18FF8B530085B4FA /* MARatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MARatingViewController.h; path = Mazes/Views/RatingView/RatingViewController/MARatingViewController.h; sourceTree = SOURCE_ROOT; };
 		2A23F62C18FF8B530085B4FA /* MARatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MARatingViewController.m; path = Mazes/Views/RatingView/RatingViewController/MARatingViewController.m; sourceTree = SOURCE_ROOT; };
 		2A23F62D18FF8B530085B4FA /* MARatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MARatingViewController.xib; path = Mazes/Views/RatingView/RatingViewController/MARatingViewController.xib; sourceTree = SOURCE_ROOT; };
-		2A23F63018FF982E0085B4FA /* MAFloorPlanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAFloorPlanView.h; path = Mazes/Views/FloorPlanView/MAFloorPlanView.h; sourceTree = SOURCE_ROOT; };
-		2A23F63118FF982E0085B4FA /* MAFloorPlanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAFloorPlanView.m; path = Mazes/Views/FloorPlanView/MAFloorPlanView.m; sourceTree = SOURCE_ROOT; };
 		2A23F63318FF9C480085B4FA /* MACreateScreenStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MACreateScreenStyle.h; path = Library/Styles/MACreateScreenStyle.h; sourceTree = "<group>"; };
 		2A23F63418FF9C480085B4FA /* MACreateScreenStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MACreateScreenStyle.m; path = Library/Styles/MACreateScreenStyle.m; sourceTree = "<group>"; };
 		2A890CA318FE3CCC00F96157 /* MATopMazeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MATopMazeTableViewCell.h; path = Mazes/Views/TopMazesViewController/TopMazeTableViewCell/MATopMazeTableViewCell.h; sourceTree = SOURCE_ROOT; };
@@ -578,6 +584,7 @@
 		2AA18E52192B3091006328B8 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				2A0A93A61935AE4B0049F5C7 /* MAFloorPlanViewDelegate.h */,
 				2AA18E55192B3377006328B8 /* MAGameKitDelegate.h */,
 				2AA18E53192B3133006328B8 /* MARatingViewDelegate.h */,
 				2AA18E54192B322F006328B8 /* MATopMazeTableViewCellDelegate.h */,
@@ -865,7 +872,7 @@
 				2AECE2D718F8DB4D0094C8CB /* Popups */,
 				2AECE28418F8D9930094C8CB /* CreateViewController */,
 				2AECE28818F8D9930094C8CB /* DesignViewController */,
-				2AECE29618F8D9930094C8CB /* FloorPlanView */,
+				2AECE29618F8D9930094C8CB /* FloorPlanViewController */,
 				2AECE29218F8D9930094C8CB /* GameViewController */,
 				2AECE29D18F8D9930094C8CB /* MainViewController */,
 				2AECE2A118F8D9930094C8CB /* MapView */,
@@ -922,13 +929,16 @@
 			path = Views/GameViewController;
 			sourceTree = "<group>";
 		};
-		2AECE29618F8D9930094C8CB /* FloorPlanView */ = {
+		2AECE29618F8D9930094C8CB /* FloorPlanViewController */ = {
 			isa = PBXGroup;
 			children = (
-				2A23F63018FF982E0085B4FA /* MAFloorPlanView.h */,
-				2A23F63118FF982E0085B4FA /* MAFloorPlanView.m */,
+				2A0A93A71935B0500049F5C7 /* MAFloorPlanViewController.h */,
+				2A0A93A81935B0500049F5C7 /* MAFloorPlanViewController.m */,
+				2A0A93AD1935B1130049F5C7 /* MAFloorPlanViewController.xib */,
+				2A0A93A91935B0500049F5C7 /* MAFloorPlanView.h */,
+				2A0A93AA1935B0500049F5C7 /* MAFloorPlanView.m */,
 			);
-			name = FloorPlanView;
+			name = FloorPlanViewController;
 			path = Views/GridView;
 			sourceTree = "<group>";
 		};
@@ -1305,6 +1315,7 @@
 				2AECE1A718F8D3060094C8CB /* Red Basketweave.png in Resources */,
 				2AECE1A618F8D3060094C8CB /* Purple Marble.pvrtc in Resources */,
 				2AA28160191DEB9100C0D8D9 /* AppIcon_40x40.png in Resources */,
+				2A0A93AE1935B1130049F5C7 /* MAFloorPlanViewController.xib in Resources */,
 				2AECE11018F8D2EF0094C8CB /* Medieval City.caf in Resources */,
 				2A9777531923279D00E1D428 /* TopMazesScreenBackground.png in Resources */,
 				2AECE1B018F8D3060094C8CB /* Sky 2.pvrtc in Resources */,
@@ -1505,7 +1516,9 @@
 				2AECE28018F8D6B30094C8CB /* MAMapWall.m in Sources */,
 				F4A6D07017FB6C610003D645 /* MAUserCounter.m in Sources */,
 				2AB51DAA1900EDAA0094BC82 /* MALabel.m in Sources */,
+				2A0A93AB1935B0500049F5C7 /* MAFloorPlanViewController.m in Sources */,
 				2AECE0EB18F8CDF90094C8CB /* AppDelegate.m in Sources */,
+				2A0A93AC1935B0500049F5C7 /* MAFloorPlanView.m in Sources */,
 				2AECE20E18F8D5090094C8CB /* MAGameScreenStyle.m in Sources */,
 				2AECE20918F8D5090094C8CB /* MAActivityIndicatorStyle.m in Sources */,
 				F49ED74D17FDACAD00D9BABD /* MAWall.m in Sources */,
@@ -1535,7 +1548,6 @@
 				2AECE27118F8D62E0094C8CB /* MAEventManager.m in Sources */,
 				2AECE0ED18F8CDF90094C8CB /* main.m in Sources */,
 				2AECE20C18F8D5090094C8CB /* MADesignScreenStyle.m in Sources */,
-				2A23F63218FF982E0085B4FA /* MAFloorPlanView.m in Sources */,
 				2AB51DB01900F4BF0094BC82 /* MAButtonStyle.m in Sources */,
 				F4A6D06E17FB6C610003D645 /* MASound.m in Sources */,
 				2AECE27318F8D62E0094C8CB /* MASettings.m in Sources */,
