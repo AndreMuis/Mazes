@@ -28,9 +28,9 @@ NSUInteger const MAMazeNameExistsStatusCode = 450;
 NSUInteger const MARandomPasswordLength = 4.0;
 
 NSUInteger const MARowsMin = 3;
-NSUInteger const MARowsMax = 15;
+NSUInteger const MARowsMax = 30;
 NSUInteger const MAColumnsMin = 3;
-NSUInteger const MAColumnsMax = 15;
+NSUInteger const MAColumnsMax = 30;
 
 float const MAWallHeight = 1.0;
 float const MAEyeHeight = 0.6;

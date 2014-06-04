@@ -26,6 +26,19 @@
     [Flurry logEvent: classAndMessage withParameters: parameters];
 }
 
++ (void)addChildViewController: (UIViewController *)childViewController
+        toParentViewController: (UIViewController *)parentViewController
+               placeholderView: (UIView *)placeholderView
+{
+    [parentViewController addChildViewController: childViewController];
+    
+    [parentViewController.view addSubview: childViewController.view];
+    childViewController.view.frame = placeholderView.frame;
+    [placeholderView removeFromSuperview];
+    
+    [childViewController didMoveToParentViewController: parentViewController];
+}
+
 + (NSString *)requestErrorMessageWithRequestDescription: (NSString *)requestDescription
                                            reachability: (Reachability *)reachability
                                            userCanRetry: (BOOL)userCanRetry

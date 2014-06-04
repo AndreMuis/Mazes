@@ -8,7 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MACreateViewController">
             <connections>
                 <outlet property="columnsPickerView" destination="ggn-hf-a7f" id="oxh-R8-qOt"/>
-                <outlet property="floorPlanView" destination="24" id="xCR-br-1Qx"/>
+                <outlet property="floorPlanPlaceholderView" destination="24" id="2cg-dP-PQ0"/>
                 <outlet property="rowsPickerView" destination="8" id="rgR-pZ-Xog"/>
                 <outlet property="view" destination="6" id="28"/>
             </connections>
@@ -97,7 +97,7 @@
                         <action selector="mazesButtonTouchDown:" destination="-1" eventType="touchDown" id="43"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" id="24" userLabel="floorPlanView" customClass="MAFloorPlanView">
+                <view contentMode="scaleToFill" id="24" userLabel="floorPlanPlaceholderView">
                     <rect key="frame" x="16" y="273" width="735" height="735"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="calibratedRGB"/>

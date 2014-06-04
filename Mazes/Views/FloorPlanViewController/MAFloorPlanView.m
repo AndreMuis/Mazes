@@ -24,6 +24,9 @@
 @property (readonly, weak, nonatomic) id<MAFloorPlanViewDelegate> delegate;
 @property (readonly, strong, nonatomic) MAMaze *maze;
 
+@property (readwrite, strong, nonatomic) IBOutlet NSLayoutConstraint *widthLayoutConstraint;
+@property (readwrite, strong, nonatomic) IBOutlet NSLayoutConstraint *heightLayoutConstraint;
+
 @end
 
 @implementation MAFloorPlanView
@@ -43,6 +46,12 @@
 	return self;
 }
 
+- (CGSize)size
+{
+    return CGSizeMake(self.styles.floorPlan.segmentLengthShort * (self.maze.columns + 1) + self.styles.floorPlan.segmentLengthLong * self.maze.columns,
+                      self.styles.floorPlan.segmentLengthShort * (self.maze.rows + 1) + self.styles.floorPlan.segmentLengthLong * self.maze.rows);
+}
+
 - (void)setupWithFloorPlanViewDelegate: (id<MAFloorPlanViewDelegate>)floorPlanViewDelegate
                                   maze: (MAMaze *)maze
 {
@@ -52,9 +61,20 @@
 
 - (void)didMoveToWindow
 {
-    self.backgroundColor = self.styles.floorPlan.backgroundColor;
-    
+    self.backgroundColor = [UIColor clearColor];
+
     [super didMoveToWindow];
+}
+
+- (void)updateSizeConstraints
+{
+    self.widthLayoutConstraint.constant = self.size.width;
+    self.heightLayoutConstraint.constant = self.size.height;
+}
+
+- (void)refreshUI
+{
+    [self setNeedsDisplay];
 }
 
 - (void)drawRect: (CGRect)rect
@@ -279,11 +299,6 @@
 	}
 }
 
-- (void)refresh
-{
-    [self setNeedsDisplay];
-}
-
 - (IBAction)handleTap: (UITapGestureRecognizer *)tapGestureRecognizer
 {
     MAWall *wallSelected = nil;
@@ -310,7 +325,7 @@
         }
 	}
     
-    if (wallSelected)
+    if (wallSelected && self.delegate)
     {
         [self.delegate floorPlanView: self didSelectWall: wallSelected];
     }
@@ -318,30 +333,33 @@
 
 - (IBAction)handleLongPress: (UILongPressGestureRecognizer *)longPressGestureRecognizer
 {
-	MALocation *locationSelected = nil;
-	
-    CGPoint touchPoint = [longPressGestureRecognizer locationInView: self];
-
-	for (MALocation *someLocation in [self.maze allLocations])
+    if (longPressGestureRecognizer.state == UIGestureRecognizerStateBegan)
 	{
-		CGRect locationRect = [self locationRectWithLocation: someLocation];
+        MALocation *locationSelected = nil;
         
-		CGRect touchRect = CGRectMake(locationRect.origin.x - self.styles.floorPlan.segmentLengthShort / 2.0,
-                                      locationRect.origin.y - self.styles.floorPlan.segmentLengthShort / 2.0,
-                                      self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort,
-                                      self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort);
-		
-		if (CGRectContainsPoint(touchRect, touchPoint) &&
-            someLocation.row <= self.maze.rows && someLocation.column <= self.maze.columns)
-		{
-			locationSelected = someLocation;
-			break;
-		}
-	}
-    
-    if (locationSelected)
-    {
-        [self.delegate floorPlanView: self didSelectLocation: locationSelected];
+        CGPoint touchPoint = [longPressGestureRecognizer locationInView: self];
+
+        for (MALocation *someLocation in [self.maze allLocations])
+        {
+            CGRect locationRect = [self locationRectWithLocation: someLocation];
+            
+            CGRect touchRect = CGRectMake(locationRect.origin.x - self.styles.floorPlan.segmentLengthShort / 2.0,
+                                          locationRect.origin.y - self.styles.floorPlan.segmentLengthShort / 2.0,
+                                          self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort,
+                                          self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort);
+            
+            if (CGRectContainsPoint(touchRect, touchPoint) &&
+                someLocation.row <= self.maze.rows && someLocation.column <= self.maze.columns)
+            {
+                locationSelected = someLocation;
+                break;
+            }
+        }
+        
+        if (locationSelected && self.delegate)
+        {
+            [self.delegate floorPlanView: self didSelectLocation: locationSelected];
+        }
     }
 }
 

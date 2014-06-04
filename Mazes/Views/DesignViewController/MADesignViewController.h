@@ -18,6 +18,7 @@
 @class MAEventManager;
 @class MAEvent;
 @class MAFloorPlanView;
+@class MAFloorPlanViewController;
 @class MAMainViewController;
 @class MAMazeManager;
 @class MAMaze;
@@ -27,13 +28,7 @@
 @class MATopMazesViewController;
 @class MAWebServices;
 
-@interface MADesignViewController : UIViewController <
-    UIGestureRecognizerDelegate,
-    UITableViewDelegate,
-    UITextViewDelegate,
-    UITextFieldDelegate,
-    UIAlertViewDelegate,
-    UIPopoverControllerDelegate>
+@interface MADesignViewController : UIViewController
 
 @property (readwrite, strong, nonatomic) MAMaze *maze;
 
@@ -80,7 +75,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *message1Label;
 @property (weak, nonatomic) IBOutlet UILabel *message2Label;
 
-@property (weak, nonatomic) IBOutlet MAFloorPlanView *floorPlanView;
+@property (weak, nonatomic) IBOutlet UIView *floorPlanPlaceholderView;
+@property (readonly, strong, nonatomic) MAFloorPlanViewController *floorPlanViewController;
 
 - (id)initWithReachability: (Reachability *)reachability
                webServices: (MAWebServices *)webServices

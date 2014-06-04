@@ -11,7 +11,7 @@
 #import "MACreateScreenStyle.h"
 #import "MAConstants.h"
 #import "MADesignViewController.h"
-#import "MAFloorPlanView.h"
+#import "MAFloorPlanViewController.h"
 #import "MALabel.h"
 #import "MAMainViewController.h"
 #import "MAMazeManager.h"
@@ -31,7 +31,8 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *rowsPickerView;
 @property (weak, nonatomic) IBOutlet UIPickerView *columnsPickerView;
 
-@property (weak, nonatomic) IBOutlet MAFloorPlanView *floorPlanView;
+@property (weak, nonatomic) IBOutlet UIView *floorPlanPlaceholderView;
+@property (readonly, strong, nonatomic) MAFloorPlanViewController *floorPlanViewController;
 
 @end
 
@@ -83,7 +84,12 @@
     self.columnsPickerView.layer.borderColor = self.styles.createScreen.pickerBorderColor.CGColor;
     self.columnsPickerView.layer.borderWidth = self.styles.createScreen.pickerBorderWidth;
 
-    self.floorPlanView.maze = self.maze;
+    _floorPlanViewController = [MAFloorPlanViewController floorPlanViewControllerWithMaze: self.maze
+                                                                    floorPlanViewDelegate: nil];
+                                
+    [MAUtilities addChildViewController: self.floorPlanViewController
+                 toParentViewController: self
+                        placeholderView: self.floorPlanPlaceholderView];
 }
 
 - (void)viewWillAppear: (BOOL)animated
@@ -224,8 +230,11 @@
     
     [self.maze populateLocationsAndWalls];
     
-	[self.floorPlanView refresh];
+    [self.floorPlanViewController updateSize];
+    [self.floorPlanViewController refreshUI];
 }
+
+#pragma mark -
 
 @end
 

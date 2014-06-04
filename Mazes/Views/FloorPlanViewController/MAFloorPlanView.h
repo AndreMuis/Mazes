@@ -12,11 +12,15 @@
 
 @protocol MAFloorPlanViewDelegate;
 
-@interface MAFloorPlanView : UIScrollView
+@interface MAFloorPlanView : UIView
+
+@property (readonly, assign, nonatomic) CGSize size;
 
 - (void)setupWithFloorPlanViewDelegate: (id<MAFloorPlanViewDelegate>)floorPlanViewDelegate
                                   maze: (MAMaze *)maze;
 
-- (void)refresh;
+- (void)updateSizeConstraints;
+
+- (void)refreshUI;
 
 @end

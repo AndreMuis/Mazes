@@ -17,6 +17,10 @@
 
 + (void)logWithClass: (Class)class message: (NSString *)message parameters: (NSDictionary *)parameters;
 
++ (void)addChildViewController: (UIViewController *)childViewController
+        toParentViewController: (UIViewController *)parentViewController
+               placeholderView: (UIView *)placeholderView;
+
 + (NSString *)requestErrorMessageWithRequestDescription: (NSString *)requestDescription
                                            reachability: (Reachability *)reachability
                                            userCanRetry: (BOOL)userCanRetry;

@@ -13,7 +13,6 @@
 @interface MAFloorPlanStyle : NSObject
 
 @property (readonly, strong, nonatomic) UIColor *borderColor;
-@property (readonly, strong, nonatomic) UIColor *backgroundColor;
 
 @property (readonly, assign, nonatomic) float segmentLengthShort;
 @property (readonly, assign, nonatomic) float segmentLengthLong;

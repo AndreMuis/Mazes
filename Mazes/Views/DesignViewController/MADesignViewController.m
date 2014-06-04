@@ -17,6 +17,8 @@
 #import "MAEventManager.h"
 #import "MAEvent.h"
 #import "MAFloorPlanView.h"
+#import "MAFloorPlanViewController.h"
+#import "MAFloorPlanViewDelegate.h"
 #import "MALocation.h"
 #import "MAMainViewController.h"
 #import "MAMazeManager.h"
@@ -34,7 +36,13 @@
 #import "MAWall.h"
 #import "MAWebServices.h"
 
-@interface MADesignViewController ()
+@interface MADesignViewController ()  <
+    MAFloorPlanViewDelegate,
+    UITableViewDelegate,
+    UITextViewDelegate,
+    UITextFieldDelegate,
+    UIAlertViewDelegate,
+    UIPopoverControllerDelegate>
 
 @property (readonly, strong, nonatomic) Reachability *reachability;
 @property (readonly, strong, nonatomic) MAWebServices *webServices;
@@ -220,18 +228,13 @@
 	self.message2Label.backgroundColor = self.styles.designScreen.messageBackgroundColor;
 	self.message2Label.textColor = self.styles.designScreen.messageTextColor;
 	
-    self.floorPlanView.maze = self.maze;
+    _floorPlanViewController = [MAFloorPlanViewController floorPlanViewControllerWithMaze: self.maze
+                                                                    floorPlanViewDelegate: self];
     
-	UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapFrom:)];
-	tapRecognizer.cancelsTouchesInView = NO;
-	[self.view addGestureRecognizer: tapRecognizer];
-	
-	UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget: self action: @selector(handleLongPressFrom:)];
-	longPressRecognizer.cancelsTouchesInView = NO;
-	longPressRecognizer.minimumPressDuration = 0.4;
+    [MAUtilities addChildViewController: self.floorPlanViewController
+                 toParentViewController: self
+                        placeholderView: self.floorPlanPlaceholderView];
     
-	[self.view addGestureRecognizer: longPressRecognizer];
-
 	self.locationsVisited = [[NSMutableArray alloc] init];
 	
 	[self setup];
@@ -241,8 +244,6 @@
 {
 	[super viewWillAppear: animated];
 	
-	[self.floorPlanView refresh];
-    
     [self setupTexturesPopover];
 }
 
@@ -365,17 +366,11 @@
    }
 }
 
-//
-//   USER TAPS SCREEN
-//
+#pragma mark - MAFloorPlanViewDelegate
 
-- (void)handleTapFrom: (UITapGestureRecognizer *)recognizer 
+- (void)floorPlanView: (MAFloorPlanView *)floorPlanView didSelectWall: (MAWall *)wall
 {
-	CGPoint touchPoint = [recognizer locationInView: self.floorPlanView];
-
-	MAWall *wall = [self.floorPlanView wallWithTouchPoint: touchPoint];
-
-	if (wall != nil && [self.maze isInnerWall: wall])
+	if ([self.maze isInnerWall: wall])
 	{
 		self.maze.currentSelectedWall = wall;
 		
@@ -405,28 +400,20 @@
 		
 		[self setupWallPanel];
 
-		[self.floorPlanView refresh];
+		[self.floorPlanViewController refreshUI];
         
         self.settings.hasSelectedWall = YES;
 	}
 }
 
-- (void)handleLongPressFrom: (UILongPressGestureRecognizer *)recognizer
+- (void)floorPlanView: (MAFloorPlanView *)floorPlanView didSelectLocation: (MALocation *)location
 {
-	if (recognizer.state == UIGestureRecognizerStateBegan)
-	{
-		CGPoint touchPoint = [recognizer locationInView: self.floorPlanView];
-
-		MALocation *location = [self.floorPlanView locationWithTouchPoint: touchPoint];
-
-		if (location != nil)
-		{			
-			[self locationChangedToCoordinate: location.coordinate];
+    [self locationChangedToCoordinate: location.coordinate];
             
-            self.settings.hasSelectedLocation = YES;
-		}
-	}
-}	
+    self.settings.hasSelectedLocation = YES;
+}
+
+#pragma mark -
 
 - (void)locationChangedToCoordinate: (MACoordinate *)coordinate
 {
@@ -478,7 +465,7 @@
 
 	[self setupLocationPanel];
 	
-	[self.floorPlanView refresh];
+	[self.floorPlanViewController refreshUI];
 }
 
 - (BOOL)setNextLocationAsTeleportation
@@ -869,7 +856,7 @@
 		[self.backgroundSoundTableView deselectRowAtIndexPath: indexPath animated: YES];	
 	}	
 	
-	[self.floorPlanView refresh];
+	[self.floorPlanViewController refreshUI];
 }
 
 - (int)getNextTeleportId
@@ -1574,7 +1561,7 @@ BOOL exists;
 
 - (void)textViewDidEndEditing: (UITextView *)textView
 {
-	[self.floorPlanView refresh];
+	[self.floorPlanViewController refreshUI];
 }
 
 - (void)textViewDidChange:(UITextView *)textView

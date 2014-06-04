@@ -14,9 +14,16 @@
 
 @interface MAFloorPlanViewController : UIViewController
 
-- (void)setupWithFloorPlanViewDelegate: (id<MAFloorPlanViewDelegate>)floorPlanViewDelegate
-                                  maze: (MAMaze *)maze;
++ (MAFloorPlanViewController *)floorPlanViewControllerWithMaze: (MAMaze *)maze
+                                         floorPlanViewDelegate: (id<MAFloorPlanViewDelegate>)floorPlanViewDelegate;
 
-- (void)refresh;
+- (instancetype)initWithNibName: (NSString *)nibNameOrNil
+                         bundle: (NSBundle *)nibBundleOrNil
+                           maze: (MAMaze *)maze
+          floorPlanViewDelegate: (id<MAFloorPlanViewDelegate>)floorPlanViewDelegate;
+
+- (void)updateSize;
+
+- (void)refreshUI;
 
 @end

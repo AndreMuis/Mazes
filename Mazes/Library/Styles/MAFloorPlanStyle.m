@@ -27,10 +27,9 @@
         MAColors *colors = [MAColors colors];
 
         _borderColor = colors.lightGray1Color;
-        _backgroundColor = [UIColor clearColor];
 
-     	_segmentLengthShort = 15.0;
-        _segmentLengthLong = 33.0;
+     	_segmentLengthShort = 16.0;
+        _segmentLengthLong = 34.0;
         
         _doNothingColor = colors.whiteColor;
         _startColor = colors.greenColor;
