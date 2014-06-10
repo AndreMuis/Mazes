@@ -189,6 +189,8 @@
 
         self.bannerView.delegate = self;
     }
+    
+    NSLog(@"%f", [MAUtilities getAppMemoryUsageInMB]);
 }
 
 - (void)viewDidLayoutSubviews

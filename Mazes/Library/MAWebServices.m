@@ -152,7 +152,8 @@
 
             [MAUtilities logWithClass: [self class]
                               message: error.localizedDescription
-                           parameters: @{@"error" : error}];
+                           parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                         @"error" : error}];
         }
     }];
 }
@@ -179,7 +180,8 @@
              
              [MAUtilities logWithClass: [self class]
                                message: error.localizedDescription
-                            parameters: @{@"error" : error}];
+                            parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                          @"error" : error}];
          }
      }];
 }
@@ -205,7 +207,8 @@
             
             [MAUtilities logWithClass: [self class]
                               message: error.localizedDescription
-                           parameters: @{@"error" : error}];
+                           parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                         @"error" : error}];
         }
     }];
 }
@@ -230,7 +233,8 @@
              
              [MAUtilities logWithClass: [self class]
                                message: error.localizedDescription
-                            parameters: @{@"error" : error}];
+                            parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                          @"error" : error}];
          }
      }];
 }
@@ -265,7 +269,8 @@
              
              [MAUtilities logWithClass: [self class]
                                message: error.localizedDescription
-                            parameters: @{@"error" : error}];
+                            parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                          @"error" : error}];
          }
 
          self.isDownloadingUserMazes = NO;
@@ -296,7 +301,8 @@
          
             [MAUtilities logWithClass: [self class]
                               message: error.localizedDescription
-                           parameters: @{@"error" : error}];
+                           parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                         @"error" : error}];
         }
     }];
 }
@@ -337,7 +343,8 @@
                          
                          [MAUtilities logWithClass: [self class]
                                            message: error.localizedDescription
-                                        parameters: @{@"error" : error}];
+                                        parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                                      @"error" : error}];
                      }
                      
                      [self.fatFractal forgetObj: localMaze];
@@ -388,7 +395,8 @@
                                            
                                            [MAUtilities logWithClass: [self class]
                                                              message: error.localizedDescription
-                                                          parameters: @{@"error" : error}];
+                                                          parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                                                        @"error" : error}];
                                        }
                                        
                                        self.isSavingLocalMaze = NO;
@@ -406,7 +414,8 @@
                                   
                                   [MAUtilities logWithClass: [self class]
                                                     message: error.localizedDescription
-                                                 parameters: @{@"error" : error}];
+                                                 parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                                               @"error" : error}];
                               }
                           }];
                      }
@@ -422,7 +431,8 @@
                          
                          [MAUtilities logWithClass: [self class]
                                            message: error.localizedDescription
-                                        parameters: @{@"error" : error}];
+                                        parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                                      @"error" : error}];
                      }
                  }];
             }
@@ -437,7 +447,8 @@
             
             [MAUtilities logWithClass: [self class]
                               message: error.localizedDescription
-                           parameters: @{@"error" : error}];
+                           parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                         @"error" : error}];
         }
     }];
 }
@@ -468,7 +479,8 @@
              
              [MAUtilities logWithClass: [self class]
                                message: error.localizedDescription
-                            parameters: @{@"error" : error}];
+                            parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                          @"error" : error}];
          }
 
          self.isDownloadingHighestRatedMazeSummaries = NO;
@@ -500,7 +512,8 @@
              
              [MAUtilities logWithClass: [self class]
                                message: error.localizedDescription
-                            parameters: @{@"error" : error}];
+                            parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                          @"error" : error}];
          }
 
          self.isDownloadingNewestMazeSummaries = NO;
@@ -532,7 +545,8 @@
              
              [MAUtilities logWithClass: [self class]
                                message: error.localizedDescription
-                            parameters: @{@"error" : error}];
+                            parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                          @"error" : error}];
          }
 
          self.isDownloadingYoursMazeSummaries = NO;
@@ -565,7 +579,8 @@
              
              [MAUtilities logWithClass: [self class]
                                message: error.localizedDescription
-                            parameters: @{@"error" : error}];
+                            parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                          @"error" : error}];
          }
      }];
 
@@ -595,7 +610,8 @@
              
              [MAUtilities logWithClass: [self class]
                                message: error.localizedDescription
-                            parameters: @{@"error" : error}];
+                            parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                          @"error" : error}];
          }
      }];
 }
@@ -625,7 +641,8 @@
              
              [MAUtilities logWithClass: [self class]
                                message: error.localizedDescription
-                            parameters: @{@"error" : error}];
+                            parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                          @"error" : error}];
          }
      }];
 }
@@ -656,7 +673,8 @@
              
              [MAUtilities logWithClass: [self class]
                                message: error.localizedDescription
-                            parameters: @{@"error" : error}];
+                            parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                          @"error" : error}];
          }
      }];
 }
@@ -683,7 +701,8 @@
              
              [MAUtilities logWithClass: [self class]
                                message: error.localizedDescription
-                            parameters: @{@"error" : error}];
+                            parameters: @{@"reachability.isReachable" : @(self.reachability.isReachable),
+                                          @"error" : error}];
          }
      }];
 }

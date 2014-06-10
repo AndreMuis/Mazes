@@ -163,7 +163,7 @@
 
         _saveMazeErrorAlertView = [[UIAlertView alloc] initWithTitle: @""
                                                              message: @""
-                                                            delegate: self
+                                                            delegate: nil
                                                    cancelButtonTitle: @"OK"
                                                    otherButtonTitles: nil];
     }
@@ -1478,23 +1478,25 @@ BOOL exists;
 
 - (void)alertView: (UIAlertView *)alertView didDismissWithButtonIndex: (NSInteger)buttonIndex
 {
-	// answers Yes to delete
-	if (alertView == self.resetMazeAlertView && buttonIndex == 0 && self.mainViewController.isPerformingTransition == NO)
+	if (alertView == self.resetMazeAlertView)
 	{
-		[self stopBackgroundSound];
-		
-        [self.maze reset];
+        if (buttonIndex == 0 && self.mainViewController.isPerformingTransition == NO)
+        {
+            [self stopBackgroundSound];
+            
+            [self.maze reset];
 
-        [self setup];
-        
-        self.mazeManager.isFirstUserMazeSizeChosen = NO;
-        
-        self.createViewController.maze = self.maze;
-        
-        [self.mainViewController transitionFromViewController: self
-                                             toViewController: self.createViewController
-                                                   transition: MATransitionTranslateBothRight
-                                                   completion: ^{}];
+            [self setup];
+            
+            self.mazeManager.isFirstUserMazeSizeChosen = NO;
+            
+            self.createViewController.maze = self.maze;
+            
+            [self.mainViewController transitionFromViewController: self
+                                                 toViewController: self.createViewController
+                                                       transition: MATransitionTranslateBothRight
+                                                       completion: ^{}];
+        }
 	}
     else
     {

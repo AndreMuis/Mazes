@@ -6,6 +6,8 @@
 //  Copyright 2010 Andre Muis. All rights reserved.
 //
 
+#import <mach/mach.h>
+
 #import <UIKit/UIKit.h>
 
 #import <Reachability/Reachability.h>
@@ -14,8 +16,12 @@
 @class MAFloorPlanStyle;
 
 @interface MAUtilities : NSObject 
-
+;
 + (void)logWithClass: (Class)class message: (NSString *)message parameters: (NSDictionary *)parameters;
+
++ (id)objectOrNull: (id)object;
+
++ (float)getAppMemoryUsageInMB;
 
 + (void)addChildViewController: (UIViewController *)childViewController
         toParentViewController: (UIViewController *)parentViewController

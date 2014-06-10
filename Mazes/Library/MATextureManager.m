@@ -98,7 +98,7 @@
     {
         [MAUtilities logWithClass: [self class]
                           message: @"Unable to find texture."
-                       parameters: @{@"textureId" : textureId}];
+                       parameters: @{@"textureId" : [MAUtilities objectOrNull: textureId]}];
     }
     
     return texture;

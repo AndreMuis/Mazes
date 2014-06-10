@@ -259,7 +259,7 @@
     {
         [MAUtilities logWithClass: [self class]
                           message: @"Unable to find location."
-                       parameters: @{@"locationId" : locationId}];
+                       parameters: @{@"locationId" : [MAUtilities objectOrNull: locationId]}];
     }
     
     return location;
@@ -403,7 +403,8 @@
     {
         [MAUtilities logWithClass: [self class]
                           message: @"Unable to decompress locations data."
-                       parameters: @{@"error" : error}];
+                       parameters: @{@"maze" : self,
+                                     @"error" : error}];
     }
     
     _locations = (NSMutableArray *)[NSKeyedUnarchiver unarchiveObjectWithData: decompressedLocationsData];
@@ -418,7 +419,8 @@
     {
         [MAUtilities logWithClass: [self class]
                           message: @"Unable to decompress walls data."
-                       parameters: @{@"error" : error}];
+                       parameters: @{@"maze" : self,
+                                     @"error" : error}];
     }
     
     _walls = (NSMutableArray *)[NSKeyedUnarchiver unarchiveObjectWithData: decompressedWallsData];
@@ -447,7 +449,8 @@
         default:
             [MAUtilities logWithClass: [self class]
                               message: @"direction set to an illegal value."
-                           parameters: @{@"direction" : @(direction)}];
+                           parameters: @{@"maze" : self,
+                                         @"direction" : @(direction)}];
             break;
     }
     
@@ -465,7 +468,8 @@
     {
         [MAUtilities logWithClass: [self class]
                           message: @"Could not find wall."
-                       parameters: @{@"row" : @(row),
+                       parameters: @{@"maze" : self,
+                                     @"row" : @(row),
                                      @"column" : @(column),
                                      @"direction" : @(direction)}];
     }

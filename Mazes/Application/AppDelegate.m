@@ -322,7 +322,7 @@
 {
     [MAUtilities logWithClass: [self class]
                       message: @"applicationDidReceiveMemoryWarning"
-                   parameters: @{}];
+                   parameters: @{@"app memory usage" : @([MAUtilities getAppMemoryUsageInMB])}];
 }
 
 @end

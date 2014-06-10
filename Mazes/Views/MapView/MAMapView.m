@@ -496,7 +496,8 @@
 	{
         [MAUtilities logWithClass: [self class]
                           message: @"Map corner not handled."
-                       parameters: @{@"location" : location}];
+                       parameters: @{@"location" : [MAUtilities objectOrNull: location],
+                                     @"maze" : [MAUtilities objectOrNull: self.maze]}];
 	}
 }
 

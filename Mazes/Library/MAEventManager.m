@@ -52,7 +52,7 @@
     {
         [MAUtilities logWithClass: [self class]
                           message: @"event already exists."
-                       parameters: @{@"event.target" : event.target,
+                       parameters: @{@"event.target" : [MAUtilities objectOrNull: event.target],
                                      @"event.action" : NSStringFromSelector(event.action)}];
     }
 }
@@ -82,7 +82,7 @@
     {
         [MAUtilities logWithClass: [self class]
                           message: @"event not found."
-                       parameters: @{@"event" : event}];
+                       parameters: @{@"event" : [MAUtilities objectOrNull: event]}];
     }
 }
 
@@ -120,7 +120,7 @@
             {
                 [MAUtilities logWithClass: [self class]
                                   message: @"target does not respond to selector."
-                               parameters: @{@"event.target" : event.target,
+                               parameters: @{@"event.target" : [MAUtilities objectOrNull: event.target],
                                              @"event.action" : NSStringFromSelector(event.action)}];
             }
 
