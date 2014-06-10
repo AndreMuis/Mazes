@@ -31,6 +31,9 @@
 @property (weak, nonatomic) IBOutlet UIPickerView *rowsPickerView;
 @property (weak, nonatomic) IBOutlet UIPickerView *columnsPickerView;
 
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+
+@property (weak, nonatomic) IBOutlet UIView *floorPlanBorderView;
 @property (weak, nonatomic) IBOutlet UIView *floorPlanPlaceholderView;
 @property (readonly, strong, nonatomic) MAFloorPlanViewController *floorPlanViewController;
 
@@ -84,6 +87,11 @@
     self.columnsPickerView.layer.borderColor = self.styles.createScreen.pickerBorderColor.CGColor;
     self.columnsPickerView.layer.borderWidth = self.styles.createScreen.pickerBorderWidth;
 
+    self.messageLabel.backgroundColor = self.styles.createScreen.messageBackgroundColor;
+	self.messageLabel.textColor = self.styles.createScreen.messageTextColor;
+
+    self.floorPlanBorderView.backgroundColor = self.styles.createScreen.floorPlanBorderColor;
+    
     _floorPlanViewController = [MAFloorPlanViewController floorPlanViewControllerWithMaze: self.maze
                                                                     floorPlanViewDelegate: nil];
                                 

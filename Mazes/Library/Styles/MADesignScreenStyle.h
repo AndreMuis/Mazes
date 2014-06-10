@@ -36,6 +36,8 @@
 @property (readonly, strong, nonatomic) UIColor *messageBackgroundColor;
 @property (readonly, strong, nonatomic) UIColor *messageTextColor;
 
+@property (readonly, strong, nonatomic) UIColor *floorPlanBorderColor;
+
 + (MADesignScreenStyle *)designScreenStyle;
 
 @end

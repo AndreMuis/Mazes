@@ -26,10 +26,10 @@
 	{
         MAColors *colors = [MAColors colors];
 
-        _borderColor = colors.lightGray1Color;
-
      	_segmentLengthShort = 16.0;
         _segmentLengthLong = 34.0;
+        
+        _backgroundColor = colors.lightYellow2Color;
         
         _doNothingColor = colors.whiteColor;
         _startColor = colors.greenColor;
@@ -43,6 +43,7 @@
         _teleportFont = [UIFont boldSystemFontOfSize: 27.0];
         _teleportIdColor = colors.whiteTranslucentColor;
         
+        _borderWallColor = colors.lightGray1Color;
         _noWallColor = colors.whiteColor;
         _solidColor = colors.blueColor;
         _invisibleColor = colors.lightGray2Color;

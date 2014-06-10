@@ -8,12 +8,16 @@
 
 #import "MAFloorPlanViewController.h"
 
+#import "MAFloorPlanStyle.h"
 #import "MAFloorPlanView.h"
 #import "MAFloorPlanViewDelegate.h"
 #import "MAMaze.h"
+#import "MAStyles.h"
 #import "MAUtilities.h"
 
 @interface MAFloorPlanViewController () <UIScrollViewDelegate>
+
+@property (readonly, strong, nonatomic) MAStyles *styles;
 
 @property (readonly, strong, nonatomic) id<MAFloorPlanViewDelegate> floorPlanViewDelegate;
 @property (readonly, strong, nonatomic) MAMaze *maze;
@@ -47,6 +51,8 @@
     {
         _maze = maze;
         _floorPlanViewDelegate = floorPlanViewDelegate;
+
+        _styles = [MAStyles styles];
     }
     
     return self;
@@ -55,6 +61,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = self.styles.floorPlan.backgroundColor;
     
     self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     self.scrollView.delegate = self;
@@ -106,6 +114,11 @@
     
     self.scrollView.minimumZoomScale = minimumZoomScale;
     self.scrollView.maximumZoomScale = 1.0;
+    
+    if (self.scrollView.zoomScale < minimumZoomScale)
+    {
+        self.scrollView.zoomScale = minimumZoomScale;
+    }
 }
 
 - (void)refreshUI

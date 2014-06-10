@@ -49,6 +49,8 @@
         
         _messageBackgroundColor = [UIColor clearColor];
         _messageTextColor = colors.darkBlueColor;
+        
+        _floorPlanBorderColor = colors.lightOrange2Color;
     }
     
     return self;

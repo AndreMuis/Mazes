@@ -228,6 +228,8 @@
 	self.message2Label.backgroundColor = self.styles.designScreen.messageBackgroundColor;
 	self.message2Label.textColor = self.styles.designScreen.messageTextColor;
 	
+    self.floorPlanBorderView.backgroundColor = self.styles.designScreen.floorPlanBorderColor;
+    
     _floorPlanViewController = [MAFloorPlanViewController floorPlanViewControllerWithMaze: self.maze
                                                                     floorPlanViewDelegate: self];
     
@@ -244,6 +246,8 @@
 {
 	[super viewWillAppear: animated];
 	
+    [self.floorPlanViewController refreshUI];
+    
     [self setupTexturesPopover];
 }
 

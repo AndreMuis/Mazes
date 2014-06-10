@@ -178,7 +178,7 @@
                     break;
                     
                 case MAWallBorder:
-                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderColor.CGColor);
+                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderWallColor.CGColor);
                     break;
 
                 case MAWallSolid:
@@ -238,7 +238,7 @@
                     break;
 
                 case MAWallBorder:
-                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderColor.CGColor);
+                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderWallColor.CGColor);
                     break;
                     
                 case MAWallSolid:
@@ -293,7 +293,7 @@
 		}
 		else
 		{
-			CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderColor.CGColor);
+			CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderWallColor.CGColor);
 			CGContextFillRect(context, cornerRect);
 		}
 	}

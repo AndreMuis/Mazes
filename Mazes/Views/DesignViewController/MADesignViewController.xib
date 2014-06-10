@@ -16,6 +16,7 @@
                 <outlet property="defaultFloorTextureButton" destination="238" id="6h0-t4-nw2"/>
                 <outlet property="defaultWallTextureButton" destination="237" id="DK4-w0-XWX"/>
                 <outlet property="directionTableView" destination="122" id="292"/>
+                <outlet property="floorPlanBorderView" destination="h9b-nK-0sL" id="cjy-Xb-ACi"/>
                 <outlet property="floorPlanPlaceholderView" destination="181" id="tdT-uM-MMJ"/>
                 <outlet property="floorTextureButton" destination="253" id="eKs-Rq-IOD"/>
                 <outlet property="graphicsButton" destination="216" id="273"/>
@@ -179,7 +180,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" adjustsFontSizeToFit="NO" id="171" userLabel="message1Label">
-                    <rect key="frame" x="16" y="221" width="735" height="21"/>
+                    <rect key="frame" x="16" y="220" width="735" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -187,13 +188,18 @@
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" minimumFontSize="10" adjustsFontSizeToFit="NO" id="170" userLabel="message2Label">
-                    <rect key="frame" x="16" y="248" width="735" height="21"/>
+                    <rect key="frame" x="16" y="244" width="735" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </label>
+                <view contentMode="scaleToFill" id="h9b-nK-0sL" userLabel="floorPlanBorderView">
+                    <rect key="frame" x="13" y="272" width="741" height="741"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
                 <view contentMode="scaleToFill" id="181" userLabel="floorPlanPlaceholderView">
                     <rect key="frame" x="16" y="275" width="735" height="735"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

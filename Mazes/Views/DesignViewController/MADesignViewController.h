@@ -75,6 +75,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *message1Label;
 @property (weak, nonatomic) IBOutlet UILabel *message2Label;
 
+@property (weak, nonatomic) IBOutlet UIView *floorPlanBorderView;
 @property (weak, nonatomic) IBOutlet UIView *floorPlanPlaceholderView;
 @property (readonly, strong, nonatomic) MAFloorPlanViewController *floorPlanViewController;
 

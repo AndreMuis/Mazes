@@ -12,10 +12,10 @@
 
 @interface MAFloorPlanStyle : NSObject
 
-@property (readonly, strong, nonatomic) UIColor *borderColor;
-
 @property (readonly, assign, nonatomic) float segmentLengthShort;
 @property (readonly, assign, nonatomic) float segmentLengthLong;
+
+@property (readonly, strong, nonatomic) UIColor *backgroundColor;
 
 @property (readonly, strong, nonatomic) UIColor *doNothingColor;
 @property (readonly, strong, nonatomic) UIColor *startColor;
@@ -29,6 +29,7 @@
 @property (readonly, strong, nonatomic) UIFont *teleportFont;
 @property (readonly, strong, nonatomic) UIColor *teleportIdColor;
 
+@property (readonly, strong, nonatomic) UIColor *borderWallColor;
 @property (readonly, strong, nonatomic) UIColor *noWallColor;
 @property (readonly, strong, nonatomic) UIColor *solidColor;
 @property (readonly, strong, nonatomic) UIColor *invisibleColor;

@@ -35,6 +35,12 @@
         _pickerRowBackgroundColor = colors.whiteColor;
         _pickerRowTextColor = [UIColor blackColor];
         _pickerRowFont = [UIFont boldSystemFontOfSize: 20];
+        
+        _messageBackgroundColor = [UIColor clearColor];
+        _messageEnabledTextColor = colors.darkBlueColor;
+        _messageDisabledTextColor = colors.darkBlueColor;
+        
+        _floorPlanBorderColor = colors.lightOrange2Color;
     }
                       
     return self;
