@@ -33,9 +33,9 @@
 - (id)initWithWebServices: (MAWebServices *)webServices
 {
     self = [super init];
-	
-	if (self)
-	{
+    
+    if (self)
+    {
         _webServices = webServices;
         
         _userMazes = [NSMutableArray array];
@@ -45,8 +45,8 @@
         _highestRatedMazeSummaries = nil;
         _newestMazeSummaries = nil;
         _yoursMazeSummaries = nil;
-	}
-	
+    }
+    
     return self;
 }
 

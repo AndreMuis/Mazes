@@ -38,7 +38,7 @@
     [super viewDidLoad];
 
     self.view.backgroundColor = self.styles.gameScreen.instructionsBackgroundColor;
-	self.label.textColor = self.styles.gameScreen.instructionsTextColor;
+    self.label.textColor = self.styles.gameScreen.instructionsTextColor;
 }
 
 @end

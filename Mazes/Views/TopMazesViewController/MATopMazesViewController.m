@@ -159,9 +159,9 @@
 
 - (void)viewDidLoad
 {
-	[super viewDidLoad];
-	
-	self.tableView.backgroundColor = self.styles.topMazesScreen.tableBackgroundColor;
+    [super viewDidLoad];
+    
+    self.tableView.backgroundColor = self.styles.topMazesScreen.tableBackgroundColor;
     self.createButton.enabled = NO;
     
     self.activityIndicatorView.color = self.styles.activityIndicator.color;
@@ -169,7 +169,7 @@
 
 - (void)viewWillAppear: (BOOL)animated
 {
-	[super viewWillAppear: animated];
+    [super viewWillAppear: animated];
 
     if (self.bannerView == nil)
     {
@@ -329,31 +329,31 @@
 
 - (void)refreshSegments
 {
-	if (self.selectedTopMazeSummariesType == MATopMazeSummariesHighestRated)
+    if (self.selectedTopMazeSummariesType == MATopMazeSummariesHighestRated)
     {
-		self.highestRatedImageView.image = [UIImage imageNamed: @"HighestRatedButtonOrangeHighlighted.png"];
+        self.highestRatedImageView.image = [UIImage imageNamed: @"HighestRatedButtonOrangeHighlighted.png"];
     }
-	else
+    else
     {
-		self.highestRatedImageView.image = [UIImage imageNamed: @"HighestRatedButtonBlueUnhighlighted.png"];
-    }
-    
-	if (self.selectedTopMazeSummariesType == MATopMazeSummariesNewest)
-    {
-		self.newestImageView.image = [UIImage imageNamed: @"NewestButtonOrangeHighlighted.png"];
-    }
-	else
-    {
-		self.newestImageView.image = [UIImage imageNamed: @"NewestButtonBlueUnhighlighted.png"];
+        self.highestRatedImageView.image = [UIImage imageNamed: @"HighestRatedButtonBlueUnhighlighted.png"];
     }
     
-	if (self.selectedTopMazeSummariesType == MATopMazeSummariesYours)
+    if (self.selectedTopMazeSummariesType == MATopMazeSummariesNewest)
     {
-		self.yoursImageView.image = [UIImage imageNamed: @"YoursButtonOrangeHighlighted.png"];
+        self.newestImageView.image = [UIImage imageNamed: @"NewestButtonOrangeHighlighted.png"];
     }
-	else
+    else
     {
-		self.yoursImageView.image = [UIImage imageNamed: @"YoursButtonBlueUnhighlighted.png"];
+        self.newestImageView.image = [UIImage imageNamed: @"NewestButtonBlueUnhighlighted.png"];
+    }
+    
+    if (self.selectedTopMazeSummariesType == MATopMazeSummariesYours)
+    {
+        self.yoursImageView.image = [UIImage imageNamed: @"YoursButtonOrangeHighlighted.png"];
+    }
+    else
+    {
+        self.yoursImageView.image = [UIImage imageNamed: @"YoursButtonBlueUnhighlighted.png"];
     }
 }
 
@@ -364,23 +364,23 @@
 
 - (NSInteger)tableView: (UITableView *)tableView numberOfRowsInSection: (NSInteger)section 
 {
-	NSInteger rows = 0;
-	
+    NSInteger rows = 0;
+    
     NSArray *topMazeSummaries = [self.mazeManager topMazeSummariesOfType: self.selectedTopMazeSummariesType];
     
-	if (topMazeSummaries == nil)
+    if (topMazeSummaries == nil)
     {
-		rows = 0;
+        rows = 0;
     }
-	else if (topMazeSummaries.count % 2 == 0)
+    else if (topMazeSummaries.count % 2 == 0)
     {
-		rows = topMazeSummaries.count / 2;
+        rows = topMazeSummaries.count / 2;
     }
-	else if (topMazeSummaries.count % 2 == 1)
+    else if (topMazeSummaries.count % 2 == 1)
     {
-		rows = (topMazeSummaries.count + 1) / 2;
+        rows = (topMazeSummaries.count + 1) / 2;
     }
-	
+    
     return rows;
 }
 
@@ -389,7 +389,7 @@
     MATopMazeTableViewCell *cell = (MATopMazeTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier: self.topMazeCellIdentifier];
     
     if (cell == nil) 
-	{
+    {
         cell = (MATopMazeTableViewCell *)[[[NSBundle mainBundle] loadNibNamed: @"MATopMazeTableViewCell" owner: nil options: nil] objectAtIndex: 0];
     }
     

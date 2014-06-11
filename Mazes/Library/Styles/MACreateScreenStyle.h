@@ -23,7 +23,8 @@
 @property (readonly, strong, nonatomic) UIFont *pickerRowFont;
 
 @property (readonly, strong, nonatomic) UIColor *messageBackgroundColor;
-@property (readonly, strong, nonatomic) UIColor *messageTextColor;
+@property (readonly, strong, nonatomic) UIColor *messageEnabledTextColor;
+@property (readonly, strong, nonatomic) UIColor *messageDisabledTextColor;
 
 @property (readonly, strong, nonatomic) UIColor *floorPlanBorderColor;
 

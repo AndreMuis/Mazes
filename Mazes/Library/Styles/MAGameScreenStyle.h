@@ -15,7 +15,7 @@
 @property (readonly, strong, nonatomic) UIColor *titleBackgroundColor;
 @property (readonly, strong, nonatomic) UIFont *titleFont;
 @property (readonly, strong, nonatomic) UIColor *titleTextColor;
-	
+    
 @property (readonly, strong, nonatomic) UIColor *instructionsBackgroundColor;
 @property (readonly, strong, nonatomic) UIColor *instructionsTextColor;
 @property (readonly, strong, nonatomic) UIColor *borderColor;

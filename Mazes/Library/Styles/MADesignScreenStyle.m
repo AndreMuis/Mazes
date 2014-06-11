@@ -21,9 +21,9 @@
 - (id)init
 {
     self = [super init];
-	
+    
     if (self)
-	{
+    {
         MAColors *colors = [MAColors colors];
         
         _panelBackgroundColor = colors.lightYellow1Color;
@@ -36,7 +36,7 @@
         
         _tableViewBackgroundColor = colors.whiteColor;
         _tableViewDisabledBackgroundColor = colors.lightGray5Color;
-		
+        
         _tableViewBackgroundSoundRows = 4;
         
         _texturePlaceholderBackgroundColor = colors.lightGray4Color;

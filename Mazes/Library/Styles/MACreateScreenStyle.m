@@ -23,7 +23,7 @@
     self = [super init];
 
     if (self)
-	{
+    {
         MAColors *colors = [MAColors colors];
         
         _pickerWidth = 100.0;

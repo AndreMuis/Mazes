@@ -13,16 +13,16 @@
 
 typedef struct
 {
-	GLfloat vertCoords[12];
-	GLfloat texCoords[8];
-	int textureId;
+    GLfloat vertCoords[12];
+    GLfloat texCoords[8];
+    int textureId;
 } RectangleType;
 
 typedef enum : int
 {
-	MAOrientationNorthSouth = 1,
-	MAOrientationWestEast = 2,
-	MAOrientationHorizontal = 3
+    MAOrientationNorthSouth = 1,
+    MAOrientationWestEast = 2,
+    MAOrientationHorizontal = 3
 } MAOrientationType;
 
 @interface MAMazeView : UIView

@@ -16,9 +16,9 @@
 - (id)init
 {
     self = [super init];
-	
-	if (self)
-	{
+    
+    if (self)
+    {
         _coordinate = nil;
         _direction = MADirectionUnknown;
         _type = MAWallUnknown;
@@ -27,8 +27,8 @@
         _mapRect = CGRectZero;
         _mapColor = nil;
         _hit = NO;
-	}
-	
+    }
+    
     return self;
 }
 

@@ -10,11 +10,11 @@
 
 typedef enum : NSUInteger
 {
-	MADirectionUnknown = 0,
-	MADirectionNorth = 1,
-	MADirectionEast = 2,
-	MADirectionSouth = 3,
-	MADirectionWest = 4
+    MADirectionUnknown = 0,
+    MADirectionNorth = 1,
+    MADirectionEast = 2,
+    MADirectionSouth = 3,
+    MADirectionWest = 4
 } MADirectionType;
 
 extern NSString* const MAWebServicesIsLoggedInKeyPath;

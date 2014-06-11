@@ -13,9 +13,9 @@
 - (id)init
 {
     self = [super init];
-	
-	if (self)
-	{
+    
+    if (self)
+    {
         _textureId = nil;
         _name = nil;
         _width = 0;
@@ -23,8 +23,8 @@
         _repeats = 0;
         _kind = 0;
         _order = 0;
-	}
-	
+    }
+    
     return self;
 }
 

@@ -88,7 +88,7 @@
     self.columnsPickerView.layer.borderWidth = self.styles.createScreen.pickerBorderWidth;
 
     self.messageLabel.backgroundColor = self.styles.createScreen.messageBackgroundColor;
-	self.messageLabel.textColor = self.styles.createScreen.messageTextColor;
+    self.messageLabel.textColor = self.styles.createScreen.messageDisabledTextColor;
 
     self.floorPlanBorderView.backgroundColor = self.styles.createScreen.floorPlanBorderColor;
     
@@ -142,24 +142,24 @@
 #pragma mark - UIPickerViewDelegate
 
 - (NSInteger)numberOfComponentsInPickerView: (UIPickerView *)thePickerView
-{	
-	return 1;
+{    
+    return 1;
 }
 
 - (CGFloat)pickerView: (UIPickerView *)pickerView widthForComponent: (NSInteger)component
 {
-	return self.styles.createScreen.pickerWidth;
+    return self.styles.createScreen.pickerWidth;
 }
 
 - (CGFloat)pickerView: (UIPickerView *)pickerView rowHeightForComponent: (NSInteger)component
 {
-	return self.styles.createScreen.pickerRowHeight;
+    return self.styles.createScreen.pickerRowHeight;
 }
 
 - (NSInteger)pickerView: (UIPickerView *)pickerView numberOfRowsInComponent: (NSInteger)component
-{	
-	int rows = 0;
-	
+{    
+    int rows = 0;
+    
     if (pickerView == self.rowsPickerView)
     {
         rows = (MARowsMax - MARowsMin) + 1;
@@ -174,8 +174,8 @@
                           message: @"pickerview not handled."
                        parameters: @{@"pickerView" : pickerView}];
     }
-	
-	return rows;
+    
+    return rows;
 }
 
 - (UIView *)pickerView: (UIPickerView *)pickerView viewForRow: (NSInteger)row forComponent: (NSInteger)component reusingView: (UIView *)view
@@ -220,7 +220,7 @@
 }
 
 - (void)pickerView: (UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent: (NSInteger)component
-{	
+{    
     if (pickerView == self.rowsPickerView)
     {
         self.maze.rows = MARowsMin + row;

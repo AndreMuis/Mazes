@@ -12,10 +12,10 @@
 
 typedef enum : int
 {
-	MARatingViewUnknown = 0,
-	MARatingViewDisplayOnly = 1,
-	MARatingViewEditable = 2,
-	MARatingViewSelectable = 3
+    MARatingViewUnknown = 0,
+    MARatingViewDisplayOnly = 1,
+    MARatingViewEditable = 2,
+    MARatingViewSelectable = 3
 } MARatingViewType;
 
 @interface MARatingView : UIView <MARatingViewDelegate, UIPopoverControllerDelegate>

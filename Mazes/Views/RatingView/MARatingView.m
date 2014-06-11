@@ -36,7 +36,7 @@
     self = [super initWithCoder: coder];
     
     if (self)
-	{
+    {
         _delegate = nil;
         
         _rating = 0.0;
@@ -48,8 +48,8 @@
         
         _popoverController = nil;
     }
-	
-	return self;
+    
+    return self;
 }
 
 - (void)setupWithDelegate: (id<MARatingViewDelegate>)delegate
@@ -65,10 +65,10 @@
     self.backgroundColor = [UIColor clearColor];
     
     self.starWidth = self.frame.size.width / 5.0;
-	self.starHeight = self.frame.size.height;
+    self.starHeight = self.frame.size.height;
 
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapFrom:)];
-	[self addGestureRecognizer: tapGestureRecognizer];
+    [self addGestureRecognizer: tapGestureRecognizer];
 }
 
 - (void)drawRect: (CGRect)rect

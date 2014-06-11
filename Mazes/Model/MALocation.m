@@ -95,12 +95,12 @@
         self.floorTextureId = nil;
     }
 
-	self.direction = 0;
-	self.action = MALocationActionDoNothing;
-	self.message = @"";
-	self.teleportId = 0;
-	self.teleportX = 0;
-	self.teleportY = 0;
+    self.direction = 0;
+    self.action = MALocationActionDoNothing;
+    self.message = @"";
+    self.teleportId = 0;
+    self.teleportX = 0;
+    self.teleportY = 0;
 }
 
 - (NSString *)description

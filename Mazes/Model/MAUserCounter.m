@@ -13,13 +13,13 @@
 - (id)init
 {
     self = [super init];
-	
-	if (self)
-	{
+    
+    if (self)
+    {
         _userCounterId = nil;
         _count = 0;
-	}
-	
+    }
+    
     return self;
 }
 

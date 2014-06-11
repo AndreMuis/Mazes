@@ -17,12 +17,12 @@
 
 typedef enum : int
 {
-	MALocationActionUnknown = 0,
-	MALocationActionDoNothing = 1,
-	MALocationActionStart = 2,
-	MALocationActionEnd = 3,
-	MALocationActionStartOver = 4,
-	MALocationActionTeleport = 5
+    MALocationActionUnknown = 0,
+    MALocationActionDoNothing = 1,
+    MALocationActionStart = 2,
+    MALocationActionEnd = 3,
+    MALocationActionStartOver = 4,
+    MALocationActionTeleport = 5
 } MALocationActionType;
 
 @interface MALocation : NSObject <NSCoding>

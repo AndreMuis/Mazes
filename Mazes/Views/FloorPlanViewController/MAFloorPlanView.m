@@ -36,14 +36,14 @@
     self = [super initWithCoder: coder];
     
     if (self) 
-	{
+    {
         _styles = [MAStyles styles];
 
         _delegate = nil;
         _maze = nil;
     }
-	
-	return self;
+    
+    return self;
 }
 
 - (CGSize)size
@@ -79,57 +79,57 @@
 
 - (void)drawRect: (CGRect)rect
 {
-	CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef context = UIGraphicsGetCurrentContext();
    
-	for (MALocation *location in [self.maze allLocations])
-	{
+    for (MALocation *location in [self.maze allLocations])
+    {
         // location
-		if (location.row <= self.maze.rows && location.column <= self.maze.columns)
-		{
-			CGRect locationRect = [self locationRectWithLocation: location];
-			
-			if (location.action == MALocationActionStart)
-			{
-				CGContextSetFillColorWithColor(context, self.styles.floorPlan.startColor.CGColor);
-			}
-			else if (location.action == MALocationActionEnd)
-			{
-				CGContextSetFillColorWithColor(context, self.styles.floorPlan.endColor.CGColor);
-			}
-			else if (location.action == MALocationActionStartOver)
-			{
-				CGContextSetFillColorWithColor(context, self.styles.floorPlan.startOverColor.CGColor);
-			}
-			else if (location.action == MALocationActionTeleport)
-			{
-				CGContextSetFillColorWithColor(context, self.styles.floorPlan.teleportationColor.CGColor);
-			}
-			else if ([location.message isEqualToString: @""] == NO)
-			{
-				CGContextSetFillColorWithColor(context, self.styles.floorPlan.messageColor.CGColor);
-			}
-			else if (location.action == MALocationActionDoNothing)
-			{
-				CGContextSetFillColorWithColor(context, self.styles.floorPlan.doNothingColor.CGColor);
-			}
+        if (location.row <= self.maze.rows && location.column <= self.maze.columns)
+        {
+            CGRect locationRect = [self locationRectWithLocation: location];
+            
+            if (location.action == MALocationActionStart)
+            {
+                CGContextSetFillColorWithColor(context, self.styles.floorPlan.startColor.CGColor);
+            }
+            else if (location.action == MALocationActionEnd)
+            {
+                CGContextSetFillColorWithColor(context, self.styles.floorPlan.endColor.CGColor);
+            }
+            else if (location.action == MALocationActionStartOver)
+            {
+                CGContextSetFillColorWithColor(context, self.styles.floorPlan.startOverColor.CGColor);
+            }
+            else if (location.action == MALocationActionTeleport)
+            {
+                CGContextSetFillColorWithColor(context, self.styles.floorPlan.teleportationColor.CGColor);
+            }
+            else if ([location.message isEqualToString: @""] == NO)
+            {
+                CGContextSetFillColorWithColor(context, self.styles.floorPlan.messageColor.CGColor);
+            }
+            else if (location.action == MALocationActionDoNothing)
+            {
+                CGContextSetFillColorWithColor(context, self.styles.floorPlan.doNothingColor.CGColor);
+            }
             else
             {
                 [MAUtilities logWithClass: [self class]
                                   message: @"action set to an illegal value."
                                parameters: @{@"location.action" : @(location.action)}];
             }
-			
-			CGContextFillRect(context, locationRect);
-			
-			if (location.action == MALocationActionStart || location.action == MALocationActionTeleport)
-			{
-				[MAUtilities drawArrowInRect: locationRect
+            
+            CGContextFillRect(context, locationRect);
+            
+            if (location.action == MALocationActionStart || location.action == MALocationActionTeleport)
+            {
+                [MAUtilities drawArrowInRect: locationRect
                                 angleDegrees: location.direction
                                        scale: 0.8
                               floorPlanStyle: self.styles.floorPlan];
-				
-				if (location.action == MALocationActionTeleport)
-				{
+                
+                if (location.action == MALocationActionTeleport)
+                {
                     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
                     paragraphStyle.alignment = NSTextAlignmentCenter;
                     
@@ -140,36 +140,36 @@
                                                                                                    }];
                     
                     [teleportId drawInRect: locationRect];
-				}
-			}
+                }
+            }
             
-			if (location.floorTextureId != nil || location.ceilingTextureId != nil)
-			{
-				[MAUtilities drawBorderInsideRect: locationRect
+            if (location.floorTextureId != nil || location.ceilingTextureId != nil)
+            {
+                [MAUtilities drawBorderInsideRect: locationRect
                                         withWidth: self.styles.floorPlan.locationHighlightWidth
                                             color: self.styles.floorPlan.textureHighlightColor];
-			}
+            }
             
-			if (self.maze.currentSelectedLocation != nil)
-			{
-				if (location.row == self.maze.currentSelectedLocation.row &&
+            if (self.maze.currentSelectedLocation != nil)
+            {
+                if (location.row == self.maze.currentSelectedLocation.row &&
                     location.column == self.maze.currentSelectedLocation.column)
-				{
-					[MAUtilities drawBorderInsideRect: locationRect
+                {
+                    [MAUtilities drawBorderInsideRect: locationRect
                                             withWidth: self.styles.floorPlan.locationHighlightWidth
                                                 color: self.styles.floorPlan.highlightColor];
-				}
-			}
-		}
-		
-		// north wall
-		if (location.column <= self.maze.columns)
-		{
+                }
+            }
+        }
+        
+        // north wall
+        if (location.column <= self.maze.columns)
+        {
             MAWall *northWall = [self.maze wallWithRow: location.row
                                                 column: location.column
                                              direction: MADirectionNorth];
             
-			CGRect northWallRect = [self wallRectWithWall: northWall];
+            CGRect northWallRect = [self wallRectWithWall: northWall];
 
             switch (northWall.type)
             {
@@ -201,40 +201,40 @@
             }
             
             CGContextFillRect(context, northWallRect);
-			
-			if (northWall.textureId != nil)
-			{
-				[MAUtilities drawBorderInsideRect: northWallRect
+            
+            if (northWall.textureId != nil)
+            {
+                [MAUtilities drawBorderInsideRect: northWallRect
                                         withWidth: self.styles.floorPlan.wallHighlightWidth
                                             color: self.styles.floorPlan.textureHighlightColor];
-			}
+            }
             
-			if (self.maze.currentSelectedWall != nil)
-			{
-				if (location.row == self.maze.currentSelectedWall.row &&
+            if (self.maze.currentSelectedWall != nil)
+            {
+                if (location.row == self.maze.currentSelectedWall.row &&
                     location.column == self.maze.currentSelectedWall.column &&
                     self.maze.currentSelectedWall.direction == MADirectionNorth)
-				{
-					[MAUtilities drawBorderInsideRect: northWallRect
+                {
+                    [MAUtilities drawBorderInsideRect: northWallRect
                                             withWidth: self.styles.floorPlan.wallHighlightWidth
                                                 color: self.styles.floorPlan.highlightColor];
-				}
-			}
-		}
-		
-		// west wall
-		if (location.row <= self.maze.rows)
-		{
+                }
+            }
+        }
+        
+        // west wall
+        if (location.row <= self.maze.rows)
+        {
             MAWall *westWall = [self.maze wallWithRow: location.row
                                                column: location.column
                                             direction: MADirectionWest];
 
-			CGRect westWallRect = [self wallRectWithWall: westWall];
+            CGRect westWallRect = [self wallRectWithWall: westWall];
             
             switch (westWall.type)
             {
                 case MAWallNone:
-					CGContextSetFillColorWithColor(context, self.styles.floorPlan.noWallColor.CGColor);
+                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.noWallColor.CGColor);
                     break;
 
                 case MAWallBorder:
@@ -246,11 +246,11 @@
                     break;
                     
                 case MAWallInvisible:
-					CGContextSetFillColorWithColor(context, self.styles.floorPlan.invisibleColor.CGColor);
+                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.invisibleColor.CGColor);
                     break;
                     
                 case MAWallFake:
-					CGContextSetFillColorWithColor(context, self.styles.floorPlan.fakeColor.CGColor);
+                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.fakeColor.CGColor);
                     break;
                     
                 default:
@@ -262,41 +262,41 @@
 
             CGContextFillRect(context, westWallRect);
             
-			if (westWall.textureId != nil)
-			{
-				[MAUtilities drawBorderInsideRect: westWallRect
+            if (westWall.textureId != nil)
+            {
+                [MAUtilities drawBorderInsideRect: westWallRect
                                         withWidth: self.styles.floorPlan.wallHighlightWidth
                                             color: self.styles.floorPlan.textureHighlightColor];
-			}
-			
-			if (self.maze.currentSelectedWall != nil)
-			{
-				if (location.row == self.maze.currentSelectedWall.row &&
+            }
+            
+            if (self.maze.currentSelectedWall != nil)
+            {
+                if (location.row == self.maze.currentSelectedWall.row &&
                     location.column == self.maze.currentSelectedWall.column &&
                     self.maze.currentSelectedWall.direction == MADirectionWest)
-				{
-					[MAUtilities drawBorderInsideRect: westWallRect
+                {
+                    [MAUtilities drawBorderInsideRect: westWallRect
                                             withWidth: self.styles.floorPlan.wallHighlightWidth
                                                 color: self.styles.floorPlan.highlightColor];
-				}
-			}
-		}
-		
-		// corner
-		CGRect cornerRect = [self cornerRectWithLocation: location];
+                }
+            }
+        }
         
-		if (location.row > 1 && location.row <= self.maze.rows &&
+        // corner
+        CGRect cornerRect = [self cornerRectWithLocation: location];
+        
+        if (location.row > 1 && location.row <= self.maze.rows &&
             location.column > 1 && location.column <= self.maze.columns)
-		{
-			CGContextSetFillColorWithColor(context, self.styles.floorPlan.cornerColor.CGColor);
-			CGContextFillRect(context, cornerRect);
-		}
-		else
-		{
-			CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderWallColor.CGColor);
-			CGContextFillRect(context, cornerRect);
-		}
-	}
+        {
+            CGContextSetFillColorWithColor(context, self.styles.floorPlan.cornerColor.CGColor);
+            CGContextFillRect(context, cornerRect);
+        }
+        else
+        {
+            CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderWallColor.CGColor);
+            CGContextFillRect(context, cornerRect);
+        }
+    }
 }
 
 - (IBAction)handleTap: (UITapGestureRecognizer *)tapGestureRecognizer
@@ -305,10 +305,10 @@
  
     CGPoint touchPoint = [tapGestureRecognizer locationInView: self];
     
-	float b = (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort) / 2.0;
-	
-	for (MAWall *someWall in [self.maze allWalls])
-	{
+    float b = (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort) / 2.0;
+    
+    for (MAWall *someWall in [self.maze allWalls])
+    {
         CGRect wallRect = [self wallRectWithWall: someWall];
         
         CGPoint wallOrigin = CGPointMake(wallRect.origin.x + wallRect.size.width / 2.0,
@@ -323,7 +323,7 @@
             wallSelected = someWall;
             break;
         }
-	}
+    }
     
     if (wallSelected && self.delegate)
     {
@@ -334,7 +334,7 @@
 - (IBAction)handleLongPress: (UILongPressGestureRecognizer *)longPressGestureRecognizer
 {
     if (longPressGestureRecognizer.state == UIGestureRecognizerStateBegan)
-	{
+    {
         MALocation *locationSelected = nil;
         
         CGPoint touchPoint = [longPressGestureRecognizer locationInView: self];
@@ -370,7 +370,7 @@
                                      self.styles.floorPlan.segmentLengthLong,
                                      self.styles.floorPlan.segmentLengthLong);
     
-	return locationRect;
+    return locationRect;
 }
 
 - (CGRect)wallRectWithWall: (MAWall *)wall
@@ -412,7 +412,7 @@
                             self.styles.floorPlan.segmentLengthShort,
                             self.styles.floorPlan.segmentLengthShort);
             
-	return cornerRect;
+    return cornerRect;
 }
 
 @end

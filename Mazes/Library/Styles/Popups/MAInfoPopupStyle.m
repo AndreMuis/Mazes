@@ -21,9 +21,9 @@
 - (id)init
 {
     self = [super init];
-	
+    
     if (self)
-	{
+    {
         MAColors *colors = [MAColors colors];
 
         _textColor = colors.darkBrown2Color;

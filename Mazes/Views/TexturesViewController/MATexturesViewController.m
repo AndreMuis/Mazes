@@ -29,13 +29,13 @@
 {
     self = [super initWithNibName: NSStringFromClass([self class])
                            bundle: nil];
-	
-	if (self)
-	{
+    
+    if (self)
+    {
         _textureManager = textureManager;
         _styles = [MAStyles styles];
-	}
-	
+    }
+    
     return self;
 }
 
@@ -44,43 +44,43 @@
     self.preferredContentSize = CGSizeMake(self.styles.designScreen.texturesPopoverWidth,
                                            self.styles.designScreen.texturesPopoverHeight);
     
-	self.view.backgroundColor = self.styles.designScreen.texturesViewBackgroundColor;
-	
-	float padding = (self.styles.designScreen.texturesPopoverWidth - self.styles.designScreen.texturesPerRow * self.styles.designScreen.textureImageLength) /
+    self.view.backgroundColor = self.styles.designScreen.texturesViewBackgroundColor;
+    
+    float padding = (self.styles.designScreen.texturesPopoverWidth - self.styles.designScreen.texturesPerRow * self.styles.designScreen.textureImageLength) /
                     (self.styles.designScreen.texturesPerRow + 1);
-	
-	int row = 1, column = 1;
-	float x = 0.0, y = 0.0;
-	for (MATexture *texture in [self.textureManager sortedByKindThenOrder])
-	{
-		if (column > self.styles.designScreen.texturesPerRow)
-		{
-			column = 1;
-			row = row + 1;
-		}
-		
-		x = padding + (column - 1) * (self.styles.designScreen.textureImageLength + padding);
-		y = padding + (row - 1) * (self.styles.designScreen.textureImageLength + padding);
-		
-		UIImage *image = [UIImage imageNamed: [texture.name stringByAppendingString: @".png"]];
-		
-		UIImageView *imageView = [[UIImageView alloc] initWithImage: image];
-		
+    
+    int row = 1, column = 1;
+    float x = 0.0, y = 0.0;
+    for (MATexture *texture in [self.textureManager sortedByKindThenOrder])
+    {
+        if (column > self.styles.designScreen.texturesPerRow)
+        {
+            column = 1;
+            row = row + 1;
+        }
+        
+        x = padding + (column - 1) * (self.styles.designScreen.textureImageLength + padding);
+        y = padding + (row - 1) * (self.styles.designScreen.textureImageLength + padding);
+        
+        UIImage *image = [UIImage imageNamed: [texture.name stringByAppendingString: @".png"]];
+        
+        UIImageView *imageView = [[UIImageView alloc] initWithImage: image];
+        
         imageView.tag = [[self.textureManager all] indexOfObject: texture];
         imageView.userInteractionEnabled = YES;
-		imageView.frame = CGRectMake(x,
+        imageView.frame = CGRectMake(x,
                                      y,
                                      self.styles.designScreen.textureImageLength,
                                      self.styles.designScreen.textureImageLength);
-		
+        
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapFrom:)];
         [imageView addGestureRecognizer: tapGestureRecognizer];
         
-		[self.scrollView addSubview: imageView];
-		
-		column = column + 1;
-	}
-	
+        [self.scrollView addSubview: imageView];
+        
+        column = column + 1;
+    }
+    
     self.scrollView.contentSize = CGSizeMake(self.styles.designScreen.texturesPopoverWidth,
                                              padding + row * (self.styles.designScreen.textureImageLength + padding));
 }

@@ -34,16 +34,16 @@
 - (id)initWithWithWebServices: (MAWebServices *)webServices
 {
     self = [super init];
-	
-	if (self)
-	{
+    
+    if (self)
+    {
         _webServices = webServices;
         
         _textures = [NSArray array];
         
         _count = 0;
-	}
-	
+    }
+    
     return self;
 }
 
@@ -68,7 +68,7 @@
 
 - (NSArray *)all
 {
-	return self.textures;
+    return self.textures;
 }
 
 - (NSArray *)sortedByKindThenOrder

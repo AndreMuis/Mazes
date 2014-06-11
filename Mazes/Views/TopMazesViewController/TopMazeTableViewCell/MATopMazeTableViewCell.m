@@ -36,7 +36,7 @@
     self = [super initWithCoder: aDecoder];
     
     if (self)
-	{
+    {
         _styles = [MAStyles styles];
         
         _mazeSummary1 = nil;
@@ -44,8 +44,8 @@
         
         _selectedColumn = 0;
     }
-	
-	return self;
+    
+    return self;
 }
 
 - (void)awakeFromNib
@@ -168,11 +168,11 @@
     
     if (tapPoint.x < self.frame.size.width / 2.0)
     {
-		self.selectedColumn = 1;
+        self.selectedColumn = 1;
     }
-	else
+    else
     {
-		self.selectedColumn = 2;
+        self.selectedColumn = 2;
     }
 }
 

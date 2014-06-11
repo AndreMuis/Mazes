@@ -21,13 +21,13 @@
 - (id)init
 {
     self = [super init];
-	
-	if (self)
-	{
+    
+    if (self)
+    {
         _soundId = nil;
         _name = nil;
-	}
-	
+    }
+    
     return self;
 }
 
@@ -52,16 +52,16 @@
 
 - (void)playWithNumberOfLoops: (int)numberOfLoops
 {
-	self.audioPlayer.numberOfLoops = numberOfLoops;
-		
-	[self.audioPlayer play];
+    self.audioPlayer.numberOfLoops = numberOfLoops;
+        
+    [self.audioPlayer play];
 }
 
 - (void)stop
 {
-	[self.audioPlayer stop];
-	
-	self.audioPlayer.currentTime = 0.0;
+    [self.audioPlayer stop];
+    
+    self.audioPlayer.currentTime = 0.0;
 }
 
 - (BOOL)isEqual: (id)object

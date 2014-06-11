@@ -13,13 +13,13 @@
 - (id)init
 {
     self = [super init];
-	
-	if (self)
-	{
+    
+    if (self)
+    {
         _rows = 0;
         _columns = 0;
-	}
-	
+    }
+    
     return self;
 }
 

@@ -16,10 +16,10 @@
 
 typedef enum : int
 {
-	MAMovementBackward = 1,
-	MAMovementForward = 2,
-	MAMovementTurnLeft = 3,
-	MAMovementTurnRight = 4
+    MAMovementBackward = 1,
+    MAMovementForward = 2,
+    MAMovementTurnLeft = 3,
+    MAMovementTurnRight = 4
 } MAMovementType;
 
 @class MAEvent;

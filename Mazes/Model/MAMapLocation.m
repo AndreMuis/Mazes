@@ -15,15 +15,15 @@
          blockingWalls: (NSArray *)blockingWalls
 {
     self = [super init];
-	
-	if (self)
-	{
+    
+    if (self)
+    {
         _rowDelta = rowDelta;
         _columnDelta = columnDelta;
         
         _blockingWalls = blockingWalls;
-	}
-	
+    }
+    
     return self;
 }
 

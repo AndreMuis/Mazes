@@ -56,13 +56,13 @@
 @property (readonly, strong, nonatomic) MATextureManager *textureManager;
 
 @property (assign, nonatomic) int selectedTabIndex;
-	
+    
 @property (strong, nonatomic) NSArray *locationActions;
 @property (strong, nonatomic) NSArray *locationActionLabels;
     
 @property (strong, nonatomic) NSArray *directionThetas;
 @property (strong, nonatomic) NSArray *directionLabels;
-	
+    
 @property (strong, nonatomic) NSArray *wallTypes;
 @property (strong, nonatomic) NSArray *wallTypeLabels;
 
@@ -175,59 +175,59 @@
 {
     [super viewDidLoad];
 
-	self.mainView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-	self.mainView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
-	[self.contentView addSubview: self.mainView];
+    self.mainView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    self.mainView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
+    [self.contentView addSubview: self.mainView];
     
-	self.locationScrollView.contentSize = self.locationScrollView.frame.size;
-	self.locationScrollView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-	self.locationScrollView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
+    self.locationScrollView.contentSize = self.locationScrollView.frame.size;
+    self.locationScrollView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    self.locationScrollView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
     self.floorTextureButton.backgroundColor = self.styles.designScreen.texturePlaceholderBackgroundColor;
     self.ceilingTextureButton.backgroundColor = self.styles.designScreen.texturePlaceholderBackgroundColor;
-	[self.contentView addSubview: self.locationScrollView];
-	
-	self.wallView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-	self.wallView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
+    [self.contentView addSubview: self.locationScrollView];
+    
+    self.wallView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    self.wallView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
     self.wallTextureButton.backgroundColor = self.styles.designScreen.texturePlaceholderBackgroundColor;
-	[self.contentView addSubview: self.wallView];
-	
-	self.graphicsView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-	self.graphicsView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
+    [self.contentView addSubview: self.wallView];
+    
+    self.graphicsView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    self.graphicsView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
     self.defaultWallTextureButton.backgroundColor = self.styles.designScreen.texturePlaceholderBackgroundColor;
     self.defaultFloorTextureButton.backgroundColor = self.styles.designScreen.texturePlaceholderBackgroundColor;
     self.defaultCeilingTextureButton.backgroundColor = self.styles.designScreen.texturePlaceholderBackgroundColor;
-	[self.contentView addSubview: self.graphicsView];
-	
-	self.audioView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-	self.audioView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
-	[self.contentView addSubview: self.audioView];
+    [self.contentView addSubview: self.graphicsView];
+    
+    self.audioView.frame = CGRectMake(0.0, 0.0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    self.audioView.backgroundColor = self.styles.designScreen.panelBackgroundColor;
+    [self.contentView addSubview: self.audioView];
 
-	self.locationActions = @[@(MALocationActionDoNothing), @(MALocationActionStart), @(MALocationActionEnd), @(MALocationActionStartOver), @(MALocationActionTeleport)];
+    self.locationActions = @[@(MALocationActionDoNothing), @(MALocationActionStart), @(MALocationActionEnd), @(MALocationActionStartOver), @(MALocationActionTeleport)];
     self.locationActionLabels = @[@"Do Nothing", @"Start", @"End", @"Start Over", @"Teleportation"];
-	
-	self.directionThetas = @[@(0), @(90), @(180), @(270)];
+    
+    self.directionThetas = @[@(0), @(90), @(180), @(270)];
     self.directionLabels = @[@"North", @"East", @"South", @"West"];
-	
-	self.wallTypes = @[@(MAWallNone), @(MAWallSolid), @(MAWallInvisible), @(MAWallFake)];
+    
+    self.wallTypes = @[@(MAWallNone), @(MAWallSolid), @(MAWallInvisible), @(MAWallFake)];
     self.wallTypeLabels = @[@"No Wall", @"Solid", @"Invisible", @"Fake"];
-	
-	// set table row heights
-	[self.locationTypeTableView setRowHeight: (self.locationTypeTableView.frame.size.height - self.locationTypeTableView.sectionHeaderHeight) / self.locationActions.count];
-	
-	[self.directionTableView setRowHeight: (self.directionTableView.frame.size.height - self.directionTableView.sectionHeaderHeight) / self.directionThetas.count];
+    
+    // set table row heights
+    [self.locationTypeTableView setRowHeight: (self.locationTypeTableView.frame.size.height - self.locationTypeTableView.sectionHeaderHeight) / self.locationActions.count];
+    
+    [self.directionTableView setRowHeight: (self.directionTableView.frame.size.height - self.directionTableView.sectionHeaderHeight) / self.directionThetas.count];
 
-	[self.wallTypeTableView setRowHeight: (self.wallTypeTableView.frame.size.height - self.wallTypeTableView.sectionHeaderHeight) / self.wallTypes.count];
-	
-	[self.backgroundSoundTableView setRowHeight: (self.backgroundSoundTableView.frame.size.height - self.backgroundSoundTableView.sectionHeaderHeight) / self.styles.designScreen.tableViewBackgroundSoundRows];
+    [self.wallTypeTableView setRowHeight: (self.wallTypeTableView.frame.size.height - self.wallTypeTableView.sectionHeaderHeight) / self.wallTypes.count];
+    
+    [self.backgroundSoundTableView setRowHeight: (self.backgroundSoundTableView.frame.size.height - self.backgroundSoundTableView.sectionHeaderHeight) / self.styles.designScreen.tableViewBackgroundSoundRows];
 
-	self.messageDisplaysLabel.backgroundColor = self.styles.designScreen.panelBackgroundColor;
-	
-	self.message1Label.backgroundColor = self.styles.designScreen.messageBackgroundColor;
-	self.message1Label.textColor = self.styles.designScreen.messageTextColor;
-	
-	self.message2Label.backgroundColor = self.styles.designScreen.messageBackgroundColor;
-	self.message2Label.textColor = self.styles.designScreen.messageTextColor;
-	
+    self.messageDisplaysLabel.backgroundColor = self.styles.designScreen.panelBackgroundColor;
+    
+    self.message1Label.backgroundColor = self.styles.designScreen.messageBackgroundColor;
+    self.message1Label.textColor = self.styles.designScreen.messageTextColor;
+    
+    self.message2Label.backgroundColor = self.styles.designScreen.messageBackgroundColor;
+    self.message2Label.textColor = self.styles.designScreen.messageTextColor;
+    
     self.floorPlanBorderView.backgroundColor = self.styles.designScreen.floorPlanBorderColor;
     
     _floorPlanViewController = [MAFloorPlanViewController floorPlanViewControllerWithMaze: self.maze
@@ -237,15 +237,15 @@
                  toParentViewController: self
                         placeholderView: self.floorPlanPlaceholderView];
     
-	self.locationsVisited = [[NSMutableArray alloc] init];
-	
-	[self setup];
+    self.locationsVisited = [[NSMutableArray alloc] init];
+    
+    [self setup];
 }
 
 - (void)viewWillAppear: (BOOL)animated
 {
-	[super viewWillAppear: animated];
-	
+    [super viewWillAppear: animated];
+    
     [self.floorPlanViewController refreshUI];
     
     [self setupTexturesPopover];
@@ -262,37 +262,37 @@
 
 - (void)setup
 {
-	[self setupTabBarWithSelectedIndex: 1];
-	
-	[self setTableView: self.locationTypeTableView disabled: YES];
-	[self clearAccessoriesInTableView: self.locationTypeTableView];
-	
-	[self setTableView: self.directionTableView disabled: YES];
-	[self clearAccessoriesInTableView: self.directionTableView];
-		
-	[self setTableView: self.wallTypeTableView disabled: YES];
-	[self clearAccessoriesInTableView: self.wallTypeTableView];
-	
-	[self.backgroundSoundTableView reloadData];
-	
-	self.messageTextView.editable = NO;
-	self.messageTextView.text = @"";
-	
-	self.messageDisplaysLabel.text = @"";
-	
-	self.nameTextField.text = self.maze.name;
-	
-	self.publicSwitch.on = self.maze.public;
-		
-	self.tutorialSwitch.on = self.settings.useTutorial;
-	
-	[self setupLocationPanel];
-	[self setupWallPanel];
-	[self setupGraphicsPanel];
-	
-	[self.locationsVisited removeAllObjects];
-	
-	[self showTutorialHelpForTopic: @"Start"];
+    [self setupTabBarWithSelectedIndex: 1];
+    
+    [self setTableView: self.locationTypeTableView disabled: YES];
+    [self clearAccessoriesInTableView: self.locationTypeTableView];
+    
+    [self setTableView: self.directionTableView disabled: YES];
+    [self clearAccessoriesInTableView: self.directionTableView];
+        
+    [self setTableView: self.wallTypeTableView disabled: YES];
+    [self clearAccessoriesInTableView: self.wallTypeTableView];
+    
+    [self.backgroundSoundTableView reloadData];
+    
+    self.messageTextView.editable = NO;
+    self.messageTextView.text = @"";
+    
+    self.messageDisplaysLabel.text = @"";
+    
+    self.nameTextField.text = self.maze.name;
+    
+    self.publicSwitch.on = self.maze.public;
+        
+    self.tutorialSwitch.on = self.settings.useTutorial;
+    
+    [self setupLocationPanel];
+    [self setupWallPanel];
+    [self setupGraphicsPanel];
+    
+    [self.locationsVisited removeAllObjects];
+    
+    [self showTutorialHelpForTopic: @"Start"];
 }
 
 //
@@ -301,67 +301,67 @@
 
 - (IBAction)mainButtonTouchDown: (id)sender
 {
-	[self setupTabBarWithSelectedIndex: 1];
+    [self setupTabBarWithSelectedIndex: 1];
 }
 
 - (IBAction)locationButtonTouchDown: (id)sender
 {
-	[self setupTabBarWithSelectedIndex: 2];
+    [self setupTabBarWithSelectedIndex: 2];
 }
 
 - (IBAction)wallButtonTouchDown: (id)sender
 {
-	[self setupTabBarWithSelectedIndex: 3];
+    [self setupTabBarWithSelectedIndex: 3];
 }
 
 - (IBAction)graphicsButtonTouchDown: (id)sender
 {
-	[self setupTabBarWithSelectedIndex: 4];
+    [self setupTabBarWithSelectedIndex: 4];
 }
 
 - (IBAction)audioButtonTouchDown: (id)sender
 {
-	[self setupTabBarWithSelectedIndex: 5];
+    [self setupTabBarWithSelectedIndex: 5];
 }
 
 - (void)setupTabBarWithSelectedIndex: (int)selectedIndex
 {
-	self.mainButton.backgroundColor = self.styles.designScreen.tabDarkColor;
-	self.locationButton.backgroundColor = self.styles.designScreen.tabDarkColor;
-	self.wallButton.backgroundColor = self.styles.designScreen.tabDarkColor;
-	self.graphicsButton.backgroundColor = self.styles.designScreen.tabDarkColor;
-	self.audioButton.backgroundColor = self.styles.designScreen.tabDarkColor;
+    self.mainButton.backgroundColor = self.styles.designScreen.tabDarkColor;
+    self.locationButton.backgroundColor = self.styles.designScreen.tabDarkColor;
+    self.wallButton.backgroundColor = self.styles.designScreen.tabDarkColor;
+    self.graphicsButton.backgroundColor = self.styles.designScreen.tabDarkColor;
+    self.audioButton.backgroundColor = self.styles.designScreen.tabDarkColor;
 
-	if (selectedIndex == 1)
-	{
-		self.mainButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
-		
-		[self.contentView bringSubviewToFront: self.mainView];
-	}
-	else if (selectedIndex == 2)
-	{
-		self.locationButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
-		
-		[self.contentView bringSubviewToFront: self.locationScrollView];
-	}
-	else if (selectedIndex == 3)
-	{
-		self.wallButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
-		
-		[self.contentView bringSubviewToFront: self.wallView];
-	}
-	else if (selectedIndex == 4)
-	{
-		self.graphicsButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
-		
-		[self.contentView bringSubviewToFront: self.graphicsView];
-	}
-	else if (selectedIndex == 5)
-	{
-		self.audioButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
-		
-		[self.contentView bringSubviewToFront: self.audioView];
-	}
+    if (selectedIndex == 1)
+    {
+        self.mainButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
+        
+        [self.contentView bringSubviewToFront: self.mainView];
+    }
+    else if (selectedIndex == 2)
+    {
+        self.locationButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
+        
+        [self.contentView bringSubviewToFront: self.locationScrollView];
+    }
+    else if (selectedIndex == 3)
+    {
+        self.wallButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
+        
+        [self.contentView bringSubviewToFront: self.wallView];
+    }
+    else if (selectedIndex == 4)
+    {
+        self.graphicsButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
+        
+        [self.contentView bringSubviewToFront: self.graphicsView];
+    }
+    else if (selectedIndex == 5)
+    {
+        self.audioButton.backgroundColor = self.styles.designScreen.panelBackgroundColor;
+        
+        [self.contentView bringSubviewToFront: self.audioView];
+    }
     else
     {
         [MAUtilities logWithClass: [self class]
@@ -374,12 +374,12 @@
 
 - (void)floorPlanView: (MAFloorPlanView *)floorPlanView didSelectWall: (MAWall *)wall
 {
-	if ([self.maze isInnerWall: wall])
-	{
-		self.maze.currentSelectedWall = wall;
-		
-		[self setupTabBarWithSelectedIndex: 3];
-	
+    if ([self.maze isInnerWall: wall])
+    {
+        self.maze.currentSelectedWall = wall;
+        
+        [self setupTabBarWithSelectedIndex: 3];
+    
         [self setTableView: self.wallTypeTableView disabled: NO];
         
         if (self.maze.currentSelectedWall.type == MAWallNone)
@@ -401,13 +401,13 @@
         [self setupWallTypeTableViewWallType: self.maze.currentSelectedWall.type];
         
         [self showTutorialHelpForTopic: @"WallTypes"];
-		
-		[self setupWallPanel];
+        
+        [self setupWallPanel];
 
-		[self.floorPlanViewController refreshUI];
+        [self.floorPlanViewController refreshUI];
         
         self.settings.hasSelectedWall = YES;
-	}
+    }
 }
 
 - (void)floorPlanView: (MAFloorPlanView *)floorPlanView didSelectLocation: (MALocation *)location
@@ -421,117 +421,117 @@
 
 - (void)locationChangedToCoordinate: (MACoordinate *)coordinate
 {
-	[self setTableView: self.locationTypeTableView disabled: NO];
-	
-	MALocation *newLocation = [self.maze locationWithRow: coordinate.row
+    [self setTableView: self.locationTypeTableView disabled: NO];
+    
+    MALocation *newLocation = [self.maze locationWithRow: coordinate.row
                                                   column: coordinate.column];
-	
-	BOOL setAsTeleportation = [self setNextLocationAsTeleportation];
-	
-	if (setAsTeleportation == YES && [self.maze isSurroundedByWallsWithLocation: newLocation] == YES)
-	{
-		[self teleportationSurroundedAlert];
-		return;
-	}
-		
-	self.maze.previousSelectedLocation = self.maze.currentSelectedLocation;
-	self.maze.currentSelectedLocation = newLocation;
-		
-	[self setupTabBarWithSelectedIndex: 2];
-		
-	if (setAsTeleportation == YES)
-	{
-		[self.maze resetLocation: self.maze.currentSelectedLocation];
-		
-		self.maze.previousSelectedLocation.teleportX = self.maze.currentSelectedLocation.column;
-		self.maze.previousSelectedLocation.teleportY = self.maze.currentSelectedLocation.row;
-				
-		self.maze.currentSelectedLocation.action = MALocationActionTeleport;
-		self.maze.currentSelectedLocation.teleportId = self.maze.previousSelectedLocation.teleportId;
-		self.maze.currentSelectedLocation.teleportX = self.maze.previousSelectedLocation.column;
-		self.maze.currentSelectedLocation.teleportY = self.maze.previousSelectedLocation.row;
-		
-		[self showTutorialHelpForTopic: @"TeleportDirection"];
-	}
-	else 
-	{
-		[self showTutorialHelpForTopic: @"LocationTypes"];	
-	}
-		
-	[self setupLocationActionTableViewLocationAction: self.maze.currentSelectedLocation.action
+    
+    BOOL setAsTeleportation = [self setNextLocationAsTeleportation];
+    
+    if (setAsTeleportation == YES && [self.maze isSurroundedByWallsWithLocation: newLocation] == YES)
+    {
+        [self teleportationSurroundedAlert];
+        return;
+    }
+        
+    self.maze.previousSelectedLocation = self.maze.currentSelectedLocation;
+    self.maze.currentSelectedLocation = newLocation;
+        
+    [self setupTabBarWithSelectedIndex: 2];
+        
+    if (setAsTeleportation == YES)
+    {
+        [self.maze resetLocation: self.maze.currentSelectedLocation];
+        
+        self.maze.previousSelectedLocation.teleportX = self.maze.currentSelectedLocation.column;
+        self.maze.previousSelectedLocation.teleportY = self.maze.currentSelectedLocation.row;
+                
+        self.maze.currentSelectedLocation.action = MALocationActionTeleport;
+        self.maze.currentSelectedLocation.teleportId = self.maze.previousSelectedLocation.teleportId;
+        self.maze.currentSelectedLocation.teleportX = self.maze.previousSelectedLocation.column;
+        self.maze.currentSelectedLocation.teleportY = self.maze.previousSelectedLocation.row;
+        
+        [self showTutorialHelpForTopic: @"TeleportDirection"];
+    }
+    else 
+    {
+        [self showTutorialHelpForTopic: @"LocationTypes"];    
+    }
+        
+    [self setupLocationActionTableViewLocationAction: self.maze.currentSelectedLocation.action
                                                theta: self.maze.currentSelectedLocation.direction];
-	
-	self.messageTextView.editable = YES;
-	
-	// set Message
-	[self.messageTextView resignFirstResponder];
-	self.messageTextView.text = self.maze.currentSelectedLocation.message;
+    
+    self.messageTextView.editable = YES;
+    
+    // set Message
+    [self.messageTextView resignFirstResponder];
+    self.messageTextView.text = self.maze.currentSelectedLocation.message;
 
-	[self setupLocationPanel];
-	
-	[self.floorPlanViewController refreshUI];
+    [self setupLocationPanel];
+    
+    [self.floorPlanViewController refreshUI];
 }
 
 - (BOOL)setNextLocationAsTeleportation
 {
-	if (self.maze.currentSelectedLocation != nil &&
+    if (self.maze.currentSelectedLocation != nil &&
         self.maze.currentSelectedLocation.action == MALocationActionTeleport &&
         self.maze.currentSelectedLocation.teleportX == 0 && self.maze.currentSelectedLocation.teleportY == 0)
     {
-		return YES;
-	}
+        return YES;
+    }
     else
     {
-		return NO;
+        return NO;
     }
 }
 
 //
-//	LOCATION TYPES
+//    LOCATION TYPES
 //
 
 - (UIView *)tableView: (UITableView *)tableView viewForHeaderInSection: (NSInteger)section 
 {
-	UIView *headerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, tableView.bounds.size.width, tableView.sectionHeaderHeight)];
+    UIView *headerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, tableView.bounds.size.width, tableView.sectionHeaderHeight)];
 
-	UILabel *headerLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, tableView.bounds.size.width, tableView.sectionHeaderHeight)];
-	
-	headerLabel.backgroundColor = self.styles.designScreen.tableHeaderBackgroundColor;
-	headerLabel.font = self.styles.designScreen.tableHeaderFont;
-	headerLabel.textColor = self.styles.designScreen.tableHeaderTextColor;
-	headerLabel.textAlignment = self.styles.designScreen.tableHeaderTextAlignment;
-	
-	if (tableView == self.locationTypeTableView)
-	{
-		headerLabel.text = @"Location Type";
-	}
-	else if (tableView == self.directionTableView)
-	{
-		headerLabel.text = @"Direction";
-	}
-	else if (tableView == self.wallTypeTableView)
-	{
-		headerLabel.text = @"Wall Type";
-	}
-	else if (tableView == self.backgroundSoundTableView)
-	{
-		headerLabel.text = @"Background";
-	}
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, tableView.bounds.size.width, tableView.sectionHeaderHeight)];
+    
+    headerLabel.backgroundColor = self.styles.designScreen.tableHeaderBackgroundColor;
+    headerLabel.font = self.styles.designScreen.tableHeaderFont;
+    headerLabel.textColor = self.styles.designScreen.tableHeaderTextColor;
+    headerLabel.textAlignment = self.styles.designScreen.tableHeaderTextAlignment;
+    
+    if (tableView == self.locationTypeTableView)
+    {
+        headerLabel.text = @"Location Type";
+    }
+    else if (tableView == self.directionTableView)
+    {
+        headerLabel.text = @"Direction";
+    }
+    else if (tableView == self.wallTypeTableView)
+    {
+        headerLabel.text = @"Wall Type";
+    }
+    else if (tableView == self.backgroundSoundTableView)
+    {
+        headerLabel.text = @"Background";
+    }
     else
     {
         [MAUtilities logWithClass: [self class]
                           message: @"tableView not handled."
                        parameters: @{@"tableView" : tableView}];
     }
-	
-	[headerView addSubview: headerLabel];
-	
-	return headerView;
+    
+    [headerView addSubview: headerLabel];
+    
+    return headerView;
 }
 
 - (NSInteger)numberOfSectionsInTableView: (UITableView *)tableView 
 {
-	if (tableView == self.locationTypeTableView || tableView == self.directionTableView || tableView == self.wallTypeTableView || tableView == self.backgroundSoundTableView)
+    if (tableView == self.locationTypeTableView || tableView == self.directionTableView || tableView == self.wallTypeTableView || tableView == self.backgroundSoundTableView)
     {
         return 1;
     }
@@ -547,21 +547,21 @@
 - (NSInteger)tableView: (UITableView *)tableView numberOfRowsInSection: (NSInteger)section 
 {
     if (tableView == self.locationTypeTableView)
-	{
-		return self.locationActions.count;
-	}
-	else if (tableView == self.directionTableView)
-	{
-		return self.directionThetas.count;
-	}
-	else if (tableView == self.wallTypeTableView)
-	{
-		return self.wallTypes.count;
-	}
-	else if (tableView == self.backgroundSoundTableView)
-	{
-		return self.soundManager.count + 1;
-	}
+    {
+        return self.locationActions.count;
+    }
+    else if (tableView == self.directionTableView)
+    {
+        return self.directionThetas.count;
+    }
+    else if (tableView == self.wallTypeTableView)
+    {
+        return self.wallTypes.count;
+    }
+    else if (tableView == self.backgroundSoundTableView)
+    {
+        return self.soundManager.count + 1;
+    }
     else
     {
         [MAUtilities logWithClass: [self class]
@@ -573,119 +573,119 @@
 
 - (UITableViewCell *)tableView: (UITableView *)tableView cellForRowAtIndexPath: (NSIndexPath *)indexPath 
 {    
-	UITableViewCell *cell = nil;
-	
-	if (tableView == self.locationTypeTableView)
-	{
-		static NSString *CellIdentifier = @"LocationTypeTableViewCell";
-	
-		cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier];
-	
-		if (cell == nil)
+    UITableViewCell *cell = nil;
+    
+    if (tableView == self.locationTypeTableView)
+    {
+        static NSString *CellIdentifier = @"LocationTypeTableViewCell";
+    
+        cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier];
+    
+        if (cell == nil)
         {
-			cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: CellIdentifier];
+            cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: CellIdentifier];
         }
         
-		[cell.textLabel setText: [self.locationActionLabels objectAtIndex: indexPath.row]];
-		cell.textLabel.font = self.styles.defaultFont;
-	}
-	else if (tableView == self.directionTableView)
-	{
-		static NSString *CellIdentifier = @"DirectionTableViewCell";
-		
-		cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier];
-		
-		if (cell == nil)
-        {
-			cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: CellIdentifier];
-		}
+        [cell.textLabel setText: [self.locationActionLabels objectAtIndex: indexPath.row]];
+        cell.textLabel.font = self.styles.defaultFont;
+    }
+    else if (tableView == self.directionTableView)
+    {
+        static NSString *CellIdentifier = @"DirectionTableViewCell";
         
-		[cell.textLabel setText: [self.directionLabels objectAtIndex: indexPath.row]];
-		cell.textLabel.font = self.styles.defaultFont;
-		
-		// add directional arrows to table
-		
-		float directionArrowLength = self.directionTableView.rowHeight * 0.6;
-		UIImage *directionArrowImage = [MAUtilities createDirectionArrowImageWidth: directionArrowLength height: directionArrowLength];
-		
-		cell.imageView.contentMode = UIViewContentModeCenter;
-		cell.imageView.image = directionArrowImage;
-		
-		CGFloat angleDegrees = [[self.directionThetas objectAtIndex: indexPath.row] floatValue];
+        cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier];
+        
+        if (cell == nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: CellIdentifier];
+        }
+        
+        [cell.textLabel setText: [self.directionLabels objectAtIndex: indexPath.row]];
+        cell.textLabel.font = self.styles.defaultFont;
+        
+        // add directional arrows to table
+        
+        float directionArrowLength = self.directionTableView.rowHeight * 0.6;
+        UIImage *directionArrowImage = [MAUtilities createDirectionArrowImageWidth: directionArrowLength height: directionArrowLength];
+        
+        cell.imageView.contentMode = UIViewContentModeCenter;
+        cell.imageView.image = directionArrowImage;
+        
+        CGFloat angleDegrees = [[self.directionThetas objectAtIndex: indexPath.row] floatValue];
         cell.imageView.transform = CGAffineTransformMakeRotation([MAUtilities radiansFromDegrees: angleDegrees]);
-	}
-	else if (tableView == self.wallTypeTableView)
-	{
-		static NSString *CellIdentifier = @"WallTypeTableViewCell";
-		
-		cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier];
-		
-		if (cell == nil)
-        {
-			cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: CellIdentifier];
-		}
+    }
+    else if (tableView == self.wallTypeTableView)
+    {
+        static NSString *CellIdentifier = @"WallTypeTableViewCell";
         
-		[cell.textLabel setText: [self.wallTypeLabels objectAtIndex: indexPath.row]];
-		cell.textLabel.font = self.styles.defaultFont;
-	}
-	else if (tableView == self.backgroundSoundTableView)
-	{
-		static NSString *CellIdentifier = @"BackgroundSoundTableViewCell";
-		
-		cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier];
-		if (cell == nil)
-		{
-			cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: CellIdentifier];
-			cell.textLabel.font = self.styles.defaultFont;
-		}
-				
-		if (indexPath.row == 0)
-		{
-			[cell.textLabel setText: @"None"];
-			
-			if (self.maze.backgroundSound == nil)
+        cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier];
+        
+        if (cell == nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: CellIdentifier];
+        }
+        
+        [cell.textLabel setText: [self.wallTypeLabels objectAtIndex: indexPath.row]];
+        cell.textLabel.font = self.styles.defaultFont;
+    }
+    else if (tableView == self.backgroundSoundTableView)
+    {
+        static NSString *CellIdentifier = @"BackgroundSoundTableViewCell";
+        
+        cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier];
+        if (cell == nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: CellIdentifier];
+            cell.textLabel.font = self.styles.defaultFont;
+        }
+                
+        if (indexPath.row == 0)
+        {
+            [cell.textLabel setText: @"None"];
+            
+            if (self.maze.backgroundSound == nil)
             {
-				cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
-			else
+            else
             {
-				cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.accessoryType = UITableViewCellAccessoryNone;
             }
-		}
-		else 
-		{
-			NSArray	*backgroundSounds = [self.soundManager sortedByName];
-		
-			MASound *sound = [backgroundSounds objectAtIndex: indexPath.row - 1];
-		
-			[cell.textLabel setText: sound.name];
+        }
+        else 
+        {
+            NSArray    *backgroundSounds = [self.soundManager sortedByName];
+        
+            MASound *sound = [backgroundSounds objectAtIndex: indexPath.row - 1];
+        
+            [cell.textLabel setText: sound.name];
 
-			if (self.maze.backgroundSound == sound)
+            if (self.maze.backgroundSound == sound)
             {
-				cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
             }
-			else
+            else
             {
-				cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.accessoryType = UITableViewCellAccessoryNone;
             }
-		}
-	}
-	
+        }
+    }
+    
     return cell;
 }
 
 - (void)tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath 
-{	
-	UITableViewCell *cell = [tableView cellForRowAtIndexPath: indexPath];
-	if (cell.accessoryType == UITableViewCellAccessoryCheckmark)
-	{
-		[tableView deselectRowAtIndexPath: indexPath animated: YES];
-		return;
-	}
+{    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath: indexPath];
+    if (cell.accessoryType == UITableViewCellAccessoryCheckmark)
+    {
+        [tableView deselectRowAtIndexPath: indexPath animated: YES];
+        return;
+    }
     
-	if (tableView == self.locationTypeTableView)
-	{
-		MALocationActionType action = [[self.locationActions objectAtIndex: indexPath.row] intValue];
+    if (tableView == self.locationTypeTableView)
+    {
+        MALocationActionType action = [[self.locationActions objectAtIndex: indexPath.row] intValue];
 
         switch (action)
         {
@@ -773,154 +773,154 @@
                 break;
         }
         
-		self.maze.currentSelectedLocation.action = action;
-		
-		[self setupLocationActionTableViewLocationAction: self.maze.currentSelectedLocation.action
+        self.maze.currentSelectedLocation.action = action;
+        
+        [self setupLocationActionTableViewLocationAction: self.maze.currentSelectedLocation.action
                                                    theta: self.maze.currentSelectedLocation.direction];
-	}
-	else if (tableView == self.directionTableView)
-	{
-		self.maze.currentSelectedLocation.direction = [[self.directionThetas objectAtIndex: indexPath.row] intValue];
-		
-		[self setupDirectionTableViewLocationAction: self.maze.currentSelectedLocation.action
+    }
+    else if (tableView == self.directionTableView)
+    {
+        self.maze.currentSelectedLocation.direction = [[self.directionThetas objectAtIndex: indexPath.row] intValue];
+        
+        [self setupDirectionTableViewLocationAction: self.maze.currentSelectedLocation.action
                                               theta: self.maze.currentSelectedLocation.direction];
-	}	
-	else if (tableView == self.wallTypeTableView)
-	{
+    }    
+    else if (tableView == self.wallTypeTableView)
+    {
         MAWallType previousSelectedWallType = self.maze.currentSelectedWall.type;
         self.maze.currentSelectedWall.type = [[self.wallTypes objectAtIndex: indexPath.row] intValue];
-		
-		if ([self wallPassesTeleportationSurroundedCheck: self.maze.currentSelectedWall] == NO)
-		{
+        
+        if ([self wallPassesTeleportationSurroundedCheck: self.maze.currentSelectedWall] == NO)
+        {
             self.maze.currentSelectedWall.type = previousSelectedWallType;
             
-			[self.wallTypeTableView deselectRowAtIndexPath: indexPath animated: YES];
-			
-			[self teleportationSurroundedAlert];
-		}
-		else 
-		{
-			[self setupWallTypeTableViewWallType: self.maze.currentSelectedWall.type];
-			
-			if (self.maze.currentSelectedWall.type == MAWallInvisible)
+            [self.wallTypeTableView deselectRowAtIndexPath: indexPath animated: YES];
+            
+            [self teleportationSurroundedAlert];
+        }
+        else 
+        {
+            [self setupWallTypeTableViewWallType: self.maze.currentSelectedWall.type];
+            
+            if (self.maze.currentSelectedWall.type == MAWallInvisible)
             {
-				[self showTutorialHelpForTopic: @"InvisibleWalls"];
+                [self showTutorialHelpForTopic: @"InvisibleWalls"];
             }
-			else if (self.maze.currentSelectedWall.type == MAWallFake)
+            else if (self.maze.currentSelectedWall.type == MAWallFake)
             {
-				[self showTutorialHelpForTopic: @"FakeWalls"];
+                [self showTutorialHelpForTopic: @"FakeWalls"];
             }
-			else
+            else
             {
-				[self showTutorialHelpForTopic: @"None"];
+                [self showTutorialHelpForTopic: @"None"];
             }
-		}
-	}	
-	else if (tableView == self.backgroundSoundTableView)
-	{
-		NSArray	*backgroundSounds = [self.soundManager sortedByName];
-		
-		// previous
-		
-		int row = 0;
-		if (self.maze.backgroundSound == nil)
-		{
-			row = 0;
-		}
-		else 
-		{
-			[self stopBackgroundSound];
-			
-			row = [backgroundSounds indexOfObject: self.maze.backgroundSound] + 1;
-		}
-		
-		NSIndexPath	*prevIndexPath = [NSIndexPath indexPathForRow: row inSection: 0];	
-		UITableViewCell *prevCell = [self.backgroundSoundTableView cellForRowAtIndexPath: prevIndexPath];
-		
-		prevCell.accessoryType = UITableViewCellAccessoryNone;
-		
-		// current
-		
-		if (indexPath.row == 0)
-		{
-			self.maze.backgroundSound = nil;
-		}
-		else 
-		{
-			MASound *sound = [backgroundSounds objectAtIndex: indexPath.row - 1];
-			
-			self.maze.backgroundSound = sound;
-			
-			[sound playWithNumberOfLoops: 0];
-		}
-		
-		UITableViewCell *cell = [self.backgroundSoundTableView cellForRowAtIndexPath: indexPath];
-		cell.accessoryType = UITableViewCellAccessoryCheckmark;
-		
-		[self.backgroundSoundTableView deselectRowAtIndexPath: indexPath animated: YES];	
-	}	
-	
-	[self.floorPlanViewController refreshUI];
+        }
+    }    
+    else if (tableView == self.backgroundSoundTableView)
+    {
+        NSArray    *backgroundSounds = [self.soundManager sortedByName];
+        
+        // previous
+        
+        int row = 0;
+        if (self.maze.backgroundSound == nil)
+        {
+            row = 0;
+        }
+        else 
+        {
+            [self stopBackgroundSound];
+            
+            row = [backgroundSounds indexOfObject: self.maze.backgroundSound] + 1;
+        }
+        
+        NSIndexPath    *prevIndexPath = [NSIndexPath indexPathForRow: row inSection: 0];    
+        UITableViewCell *prevCell = [self.backgroundSoundTableView cellForRowAtIndexPath: prevIndexPath];
+        
+        prevCell.accessoryType = UITableViewCellAccessoryNone;
+        
+        // current
+        
+        if (indexPath.row == 0)
+        {
+            self.maze.backgroundSound = nil;
+        }
+        else 
+        {
+            MASound *sound = [backgroundSounds objectAtIndex: indexPath.row - 1];
+            
+            self.maze.backgroundSound = sound;
+            
+            [sound playWithNumberOfLoops: 0];
+        }
+        
+        UITableViewCell *cell = [self.backgroundSoundTableView cellForRowAtIndexPath: indexPath];
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        
+        [self.backgroundSoundTableView deselectRowAtIndexPath: indexPath animated: YES];    
+    }    
+    
+    [self.floorPlanViewController refreshUI];
 }
 
 - (int)getNextTeleportId
 {
-	BOOL idExists;
-	int teleportId = 0;
-	
+    BOOL idExists;
+    int teleportId = 0;
+    
     do
-	{
-		teleportId = teleportId + 1;
-		
-		idExists = NO;
-		for (MALocation *location in [self.maze allLocations])
-		{
-			if (location.teleportId == teleportId)
+    {
+        teleportId = teleportId + 1;
+        
+        idExists = NO;
+        for (MALocation *location in [self.maze allLocations])
+        {
+            if (location.teleportId == teleportId)
             {
-				idExists = YES;
+                idExists = YES;
             }
-		}		
-	} while (idExists == YES);
-		
-	return teleportId;
+        }        
+    } while (idExists == YES);
+        
+    return teleportId;
 }
 
 - (void)setupLocationActionTableViewLocationAction: (MALocationActionType)locationAction theta: (int)theta
 {
-	[self clearAccessoriesInTableView: self.locationTypeTableView];
-	
-	int row = [self.locationActions indexOfObject: [NSNumber numberWithInt: locationAction]];
-	NSIndexPath	*indexPath = [NSIndexPath indexPathForRow: row inSection: 0];
+    [self clearAccessoriesInTableView: self.locationTypeTableView];
+    
+    int row = [self.locationActions indexOfObject: [NSNumber numberWithInt: locationAction]];
+    NSIndexPath    *indexPath = [NSIndexPath indexPathForRow: row inSection: 0];
 
-	UITableViewCell *cell = [self.locationTypeTableView cellForRowAtIndexPath: indexPath];
-	cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    UITableViewCell *cell = [self.locationTypeTableView cellForRowAtIndexPath: indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
 
-	[self.locationTypeTableView deselectRowAtIndexPath: indexPath animated: YES];
-	
-	[self setupDirectionTableViewLocationAction: locationAction theta: theta];
-	[self setupMessageDisplaysLabelLocationAction: locationAction];
+    [self.locationTypeTableView deselectRowAtIndexPath: indexPath animated: YES];
+    
+    [self setupDirectionTableViewLocationAction: locationAction theta: theta];
+    [self setupMessageDisplaysLabelLocationAction: locationAction];
 }
 
 - (void)setupDirectionTableViewLocationAction: (MALocationActionType)locationAction theta: (int)theta
 {
-	[self clearAccessoriesInTableView: self.directionTableView];
+    [self clearAccessoriesInTableView: self.directionTableView];
 
-	if (locationAction == MALocationActionStart || locationAction == MALocationActionTeleport)
-	{
-		[self setTableView: self.directionTableView disabled: NO];
-		   
-		int row = [self.directionThetas indexOfObject: [NSNumber numberWithInt: theta]];
-		NSIndexPath	*indexPath = [NSIndexPath indexPathForRow: row inSection: 0];
+    if (locationAction == MALocationActionStart || locationAction == MALocationActionTeleport)
+    {
+        [self setTableView: self.directionTableView disabled: NO];
+           
+        int row = [self.directionThetas indexOfObject: [NSNumber numberWithInt: theta]];
+        NSIndexPath    *indexPath = [NSIndexPath indexPathForRow: row inSection: 0];
 
-		UITableViewCell *cell = [self.directionTableView cellForRowAtIndexPath: indexPath];
-		cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        UITableViewCell *cell = [self.directionTableView cellForRowAtIndexPath: indexPath];
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
 
-		[self.directionTableView deselectRowAtIndexPath: indexPath animated: YES];
-	}
-	else 
-	{
-		[self setTableView: self.directionTableView disabled: YES];
-	}
+        [self.directionTableView deselectRowAtIndexPath: indexPath animated: YES];
+    }
+    else 
+    {
+        [self setTableView: self.directionTableView disabled: YES];
+    }
 }
 
 - (void)setupMessageDisplaysLabelLocationAction: (MALocationActionType)locationAction
@@ -957,65 +957,65 @@
 
 - (void)setupWallTypeTableViewWallType: (int)wallType
 {
-	[self clearAccessoriesInTableView: self.wallTypeTableView];
-	
-	int row = [self.wallTypes indexOfObject: [NSNumber numberWithInt: wallType]];
-	NSIndexPath	*indexPath = [NSIndexPath indexPathForRow: row inSection: 0];
-	
-	UITableViewCell *cell = [self.wallTypeTableView cellForRowAtIndexPath: indexPath];
-	cell.accessoryType = UITableViewCellAccessoryCheckmark;
-	
-	[self.wallTypeTableView deselectRowAtIndexPath: indexPath animated: YES];
+    [self clearAccessoriesInTableView: self.wallTypeTableView];
+    
+    int row = [self.wallTypes indexOfObject: [NSNumber numberWithInt: wallType]];
+    NSIndexPath    *indexPath = [NSIndexPath indexPathForRow: row inSection: 0];
+    
+    UITableViewCell *cell = [self.wallTypeTableView cellForRowAtIndexPath: indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    
+    [self.wallTypeTableView deselectRowAtIndexPath: indexPath animated: YES];
 }
 
 - (void)clearAccessoriesInTableView: (UITableView *)tableView
 {
-	for (NSIndexPath *indexPath in [tableView indexPathsForVisibleRows])
-	{
-		UITableViewCell *cell = [tableView cellForRowAtIndexPath: indexPath];
-		
-		if (cell.accessoryType == UITableViewCellAccessoryCheckmark)
+    for (NSIndexPath *indexPath in [tableView indexPathsForVisibleRows])
+    {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath: indexPath];
+        
+        if (cell.accessoryType == UITableViewCellAccessoryCheckmark)
         {
-			cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.accessoryType = UITableViewCellAccessoryNone;
         }
-	}
+    }
 }
 
 - (BOOL)wallPassesTeleportationSurroundedCheck: (MAWall *)wall
 {
-	MALocation *location1 = nil;
-	MALocation *location2 = nil;
+    MALocation *location1 = nil;
+    MALocation *location2 = nil;
 
-	if (wall.direction == MADirectionNorth)
-	{
-		location1 = [self.maze locationWithRow: wall.row
+    if (wall.direction == MADirectionNorth)
+    {
+        location1 = [self.maze locationWithRow: wall.row
                                         column: wall.column];
         
-		location2 = [self.maze locationWithRow: wall.row - 1
+        location2 = [self.maze locationWithRow: wall.row - 1
                                         column: wall.column];
-	}
-	else if (wall.direction == MADirectionWest)
-	{
-		location1 = [self.maze locationWithRow: wall.row
+    }
+    else if (wall.direction == MADirectionWest)
+    {
+        location1 = [self.maze locationWithRow: wall.row
                                         column: wall.column];
         
-		location2 = [self.maze locationWithRow: wall.row
+        location2 = [self.maze locationWithRow: wall.row
                                         column: wall.column - 1];
-	}
+    }
 
-	if ((location1.action == MALocationActionTeleport && [self.maze isSurroundedByWallsWithLocation: location1] == YES) ||
-		(location2.action == MALocationActionTeleport && [self.maze isSurroundedByWallsWithLocation: location2] == YES))
-	{
-		return NO;
-	}
-	else 
-	{
-		return YES;
-	}
+    if ((location1.action == MALocationActionTeleport && [self.maze isSurroundedByWallsWithLocation: location1] == YES) ||
+        (location2.action == MALocationActionTeleport && [self.maze isSurroundedByWallsWithLocation: location2] == YES))
+    {
+        return NO;
+    }
+    else 
+    {
+        return YES;
+    }
 }
 
 - (void)teleportationSurroundedAlert
-{	
+{    
     [self.invalidTeleportationLocationAlertView show];
 }
 
@@ -1025,7 +1025,7 @@
 
 - (IBAction)switchPublicValueChanged: (id)sender
 {
-	[self showTutorialHelpForTopic: @"MakePublic"];
+    [self showTutorialHelpForTopic: @"MakePublic"];
 }
 
 //
@@ -1036,91 +1036,91 @@ BOOL exists;
 
 - (BOOL)pathExists
 {
-	[self.locationsVisited removeAllObjects];
-	exists = NO;
-	
-	[self findExitWithLocation: self.maze.startLocation];
-	
-	return exists;
+    [self.locationsVisited removeAllObjects];
+    exists = NO;
+    
+    [self findExitWithLocation: self.maze.startLocation];
+    
+    return exists;
 }
 
 - (void)findExitWithLocation: (MALocation *)location
 {
-	if ([self.locationsVisited indexOfObject: location] == NSNotFound)
+    if ([self.locationsVisited indexOfObject: location] == NSNotFound)
     {
-		[self.locationsVisited addObject: location];
+        [self.locationsVisited addObject: location];
     }
-	else
+    else
     {
-		return;
-	}
-    
-	if (location.action == MALocationActionEnd)
-    {
-		exists = YES;
         return;
     }
     
-	if (location.action == MALocationActionStartOver)
+    if (location.action == MALocationActionEnd)
     {
-		return;
+        exists = YES;
+        return;
     }
     
-	MAWall *northWall = [self.maze wallWithRow: location.row
+    if (location.action == MALocationActionStartOver)
+    {
+        return;
+    }
+    
+    MAWall *northWall = [self.maze wallWithRow: location.row
                                         column: location.column
                                      direction: MADirectionNorth];
     
-	if (northWall.type == MAWallNone || northWall.type == MAWallFake)
-	{
-		MALocation *nextLocation = [self.maze locationWithRow: location.row - 1
+    if (northWall.type == MAWallNone || northWall.type == MAWallFake)
+    {
+        MALocation *nextLocation = [self.maze locationWithRow: location.row - 1
                                                        column: location.column];
         
-		[self findExitWithLocation: nextLocation];
-	}
-		 
-	MAWall *southWall = [self.maze wallWithRow: location.row
+        [self findExitWithLocation: nextLocation];
+    }
+         
+    MAWall *southWall = [self.maze wallWithRow: location.row
                                         column: location.column
                                      direction: MADirectionSouth];
     
-	if (southWall.type == MAWallNone || southWall.type == MAWallFake)
-	{
-		MALocation *nextLocation = [self.maze locationWithRow: location.row + 1
+    if (southWall.type == MAWallNone || southWall.type == MAWallFake)
+    {
+        MALocation *nextLocation = [self.maze locationWithRow: location.row + 1
                                                        column: location.column];
         
-		[self findExitWithLocation: nextLocation];
-	}
-	
+        [self findExitWithLocation: nextLocation];
+    }
+    
     MAWall *westWall = [self.maze wallWithRow: location.row
                                        column: location.column
                                     direction: MADirectionWest];
     
-	if (westWall.type == MAWallNone || westWall.type == MAWallFake)
-	{
-		MALocation *nextLocation = [self.maze locationWithRow: location.row
+    if (westWall.type == MAWallNone || westWall.type == MAWallFake)
+    {
+        MALocation *nextLocation = [self.maze locationWithRow: location.row
                                                        column: location.column - 1];
         
-		[self findExitWithLocation: nextLocation];
-	}
+        [self findExitWithLocation: nextLocation];
+    }
 
-	MAWall *eastWall = [self.maze wallWithRow: location.row
+    MAWall *eastWall = [self.maze wallWithRow: location.row
                                        column: location.column
                                     direction: MADirectionEast];
     
-	if (eastWall.type == MAWallNone || eastWall.type == MAWallFake)
-	{
-		MALocation *nextLocation = [self.maze locationWithRow: location.row
+    if (eastWall.type == MAWallNone || eastWall.type == MAWallFake)
+    {
+        MALocation *nextLocation = [self.maze locationWithRow: location.row
                                                        column: location.column + 1];
         
-		[self findExitWithLocation: nextLocation];
-	}
-	
-	if (location.action == MALocationActionTeleport)
-	{
-		MALocation *nextLocation = [self.maze locationWithRow: location.teleportY
+        [self findExitWithLocation: nextLocation];
+    }
+    
+    if (location.action == MALocationActionTeleport)
+    {
+        MALocation *nextLocation = [self.maze locationWithRow: location.teleportY
                                                        column: location.teleportX];
                                     
-		[self findExitWithLocation: nextLocation];
-	}
+        [self findExitWithLocation: nextLocation];
+    }
 }
 
 //
@@ -1129,39 +1129,39 @@ BOOL exists;
 
 - (void)setupLocationPanel
 {
-	if (self.maze.currentSelectedLocation != nil)
-	{
-		if (self.texturesPopoverController.popoverVisible == YES)
+    if (self.maze.currentSelectedLocation != nil)
+    {
+        if (self.texturesPopoverController.popoverVisible == YES)
         {
-			[self.texturesPopoverController dismissPopoverAnimated: YES];
-		}
+            [self.texturesPopoverController dismissPopoverAnimated: YES];
+        }
         
-		MATexture *floorTexture = nil;
+        MATexture *floorTexture = nil;
         if (self.maze.currentSelectedLocation.floorTextureId != nil)
-		{
-			floorTexture = [self.textureManager textureWithTextureId: self.maze.currentSelectedLocation.floorTextureId];
-		}
-		else
-		{
-			floorTexture = self.maze.floorTexture;
-		}
+        {
+            floorTexture = [self.textureManager textureWithTextureId: self.maze.currentSelectedLocation.floorTextureId];
+        }
+        else
+        {
+            floorTexture = self.maze.floorTexture;
+        }
 
         [self.floorTextureButton setImage: [UIImage imageNamed: [floorTexture.name stringByAppendingString: @".png"]]
                                  forState: UIControlStateNormal];
 
-		MATexture *ceilingTexture = nil;
-		if (self.maze.currentSelectedLocation.ceilingTextureId != nil)
-		{
-			ceilingTexture = [self.textureManager textureWithTextureId: self.maze.currentSelectedLocation.ceilingTextureId];
-		}
-		else
-		{
-			ceilingTexture = self.maze.ceilingTexture;
-		}
-		
+        MATexture *ceilingTexture = nil;
+        if (self.maze.currentSelectedLocation.ceilingTextureId != nil)
+        {
+            ceilingTexture = [self.textureManager textureWithTextureId: self.maze.currentSelectedLocation.ceilingTextureId];
+        }
+        else
+        {
+            ceilingTexture = self.maze.ceilingTexture;
+        }
+        
         [self.ceilingTextureButton setImage: [UIImage imageNamed: [ceilingTexture.name stringByAppendingString: @".png"]]
                                    forState: UIControlStateNormal];
-	}
+    }
     else
     {
         [self.floorTextureButton setImage: nil forState: UIControlStateNormal];
@@ -1239,26 +1239,26 @@ BOOL exists;
 
 - (void)setupWallPanel
 {
-	if (self.maze.currentSelectedWall != nil)
-	{
-		if (self.texturesPopoverController.popoverVisible == YES)
+    if (self.maze.currentSelectedWall != nil)
+    {
+        if (self.texturesPopoverController.popoverVisible == YES)
         {
-			[self.texturesPopoverController dismissPopoverAnimated: YES];
-		}
+            [self.texturesPopoverController dismissPopoverAnimated: YES];
+        }
         
         MATexture *texture = nil;
-		if (self.maze.currentSelectedWall.textureId != nil)
-		{
-			texture = [self.textureManager textureWithTextureId: self.maze.currentSelectedWall.textureId];
-		}
-		else
-		{
-			texture = self.maze.wallTexture;
-		}
-			
+        if (self.maze.currentSelectedWall.textureId != nil)
+        {
+            texture = [self.textureManager textureWithTextureId: self.maze.currentSelectedWall.textureId];
+        }
+        else
+        {
+            texture = self.maze.wallTexture;
+        }
+            
         [self.wallTextureButton setImage: [UIImage imageNamed: [texture.name stringByAppendingString: @".png"]]
                                 forState: UIControlStateNormal];
-	}
+    }
     else
     {
         [self.wallTextureButton setImage: nil forState: UIControlStateNormal];
@@ -1267,20 +1267,20 @@ BOOL exists;
 
 - (void)wallTextureButtonTouchDown: (id)sender
 {
-	if (self.maze.currentSelectedWall != nil)
-	{
+    if (self.maze.currentSelectedWall != nil)
+    {
         __weak typeof(self) weakSelf = self;
         
-		self.texturesViewController.textureSelectedHandler = ^(MATexture *texture)
+        self.texturesViewController.textureSelectedHandler = ^(MATexture *texture)
         {
             weakSelf.maze.currentSelectedWall.textureId = texture.textureId;
             [weakSelf setupWallPanel];
         };
-				
-		[self.texturesPopoverController presentPopoverFromRect: self.wallTextureButton.frame
+                
+        [self.texturesPopoverController presentPopoverFromRect: self.wallTextureButton.frame
                                                         inView: self.wallView
                                       permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
-	}
+    }
 }
 
 - (IBAction)wallTextureResetButtonTouchDown: (id)sender
@@ -1294,11 +1294,11 @@ BOOL exists;
 //
 
 - (void)setupGraphicsPanel
-{	
-	if (self.texturesPopoverController.popoverVisible == YES)
+{    
+    if (self.texturesPopoverController.popoverVisible == YES)
     {
-		[self.texturesPopoverController dismissPopoverAnimated: YES];
-	}
+        [self.texturesPopoverController dismissPopoverAnimated: YES];
+    }
     
     [self.defaultWallTextureButton setImage: [UIImage imageNamed: [self.maze.wallTexture.name stringByAppendingString: @".png"]]
                                    forState: UIControlStateNormal];
@@ -1319,8 +1319,8 @@ BOOL exists;
         weakSelf.maze.wallTexture = texture;
         [weakSelf setupGraphicsPanel];
     };
-	
-	[self.texturesPopoverController presentPopoverFromRect: self.defaultWallTextureButton.frame
+    
+    [self.texturesPopoverController presentPopoverFromRect: self.defaultWallTextureButton.frame
                                                     inView: self.graphicsView
                                   permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
 }
@@ -1334,8 +1334,8 @@ BOOL exists;
         weakSelf.maze.floorTexture = texture;
         [weakSelf setupGraphicsPanel];
     };
-	
-	[self.texturesPopoverController presentPopoverFromRect: self.defaultFloorTextureButton.frame
+    
+    [self.texturesPopoverController presentPopoverFromRect: self.defaultFloorTextureButton.frame
                                                     inView: self.graphicsView
                                   permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
 }
@@ -1349,8 +1349,8 @@ BOOL exists;
         weakSelf.maze.ceilingTexture = texture;
         [weakSelf setupGraphicsPanel];
     };
-	
-	[self.texturesPopoverController presentPopoverFromRect: self.defaultCeilingTextureButton.frame
+    
+    [self.texturesPopoverController presentPopoverFromRect: self.defaultCeilingTextureButton.frame
                                                     inView: self.graphicsView
                                   permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
 }
@@ -1367,21 +1367,21 @@ BOOL exists;
 
 - (IBAction)saveButtonTouchDown: (id)sender
 {
-	if ([self setNextLocationAsTeleportation] == YES)
-	{
+    if ([self setNextLocationAsTeleportation] == YES)
+    {
         [self.selectSecondTeleportationLocationAlertView show];
         
-		return;
-	}
-	
-	if ([self validate] == NO)
-	{
-		return;
-	}
+        return;
+    }
+    
+    if ([self validate] == NO)
+    {
+        return;
+    }
 
     self.maze.name = [self.nameTextField.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     self.maze.public = self.publicSwitch.on;
-	
+    
     [self saveMaze];
 }
 
@@ -1432,41 +1432,41 @@ BOOL exists;
 
 - (BOOL)validate
 {
-	BOOL passed = YES; 
-	
-	NSString *mazeName = [self.nameTextField.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    BOOL passed = YES; 
+    
+    NSString *mazeName = [self.nameTextField.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-	if ([mazeName isEqualToString: @""] == true)
-	{
-		[self setupTabBarWithSelectedIndex: 1];
-				
+    if ([mazeName isEqualToString: @""] == true)
+    {
+        [self setupTabBarWithSelectedIndex: 1];
+                
         [self.enterMazeNameAlertView show];
 
-		passed = NO;
-	}
-	else if (self.maze.startLocation == nil)
-	{
+        passed = NO;
+    }
+    else if (self.maze.startLocation == nil)
+    {
         [self.selectStartLocationAlertView show];
 
-		passed = NO;
-	}
-	else if (self.publicSwitch.on == YES)
-	{
-		if (self.maze.endLocation == nil)
-		{
+        passed = NO;
+    }
+    else if (self.publicSwitch.on == YES)
+    {
+        if (self.maze.endLocation == nil)
+        {
             [self.selectEndLocationAlertView show];
 
-			passed = NO;
-		}
-		else if ([self pathExists] == NO)
-		{
+            passed = NO;
+        }
+        else if ([self pathExists] == NO)
+        {
             [self.noPathToExitAlertView show];
 
-			passed = NO;
-		}
-	}
+            passed = NO;
+        }
+    }
 
-	return passed;
+    return passed;
 }
 
 //
@@ -1482,8 +1482,8 @@ BOOL exists;
 
 - (void)alertView: (UIAlertView *)alertView didDismissWithButtonIndex: (NSInteger)buttonIndex
 {
-	if (alertView == self.resetMazeAlertView)
-	{
+    if (alertView == self.resetMazeAlertView)
+    {
         if (buttonIndex == 0 && self.mainViewController.isPerformingTransition == NO)
         {
             [self stopBackgroundSound];
@@ -1501,7 +1501,7 @@ BOOL exists;
                                                        transition: MATransitionTranslateBothRight
                                                        completion: ^{}];
         }
-	}
+    }
     else
     {
         [MAUtilities logWithClass: [self class]
@@ -1527,7 +1527,7 @@ BOOL exists;
 
 - (void)stopBackgroundSound
 {
-	[self.maze.backgroundSound stop];
+    [self.maze.backgroundSound stop];
 }
 
 //
@@ -1538,73 +1538,73 @@ BOOL exists;
 
 - (void)textViewDidBeginEditing: (UITextView *)textView
 {
-	[self showTutorialHelpForTopic: @"LocationMessages"];
+    [self showTutorialHelpForTopic: @"LocationMessages"];
 }
 
 - (BOOL)textView: (UITextView *)textView shouldChangeTextInRange: (NSRange)range replacementText: (NSString *)string
 {
-	BOOL changeText = YES;
-	
-	NSRange rangeNewLine = [string rangeOfString: @"\n"];
-	NSRange rangeBackspace = [string rangeOfString: @"\b"];
-		 
-	if (rangeNewLine.location != NSNotFound)
-	{
-		changeText = NO;
+    BOOL changeText = YES;
+    
+    NSRange rangeNewLine = [string rangeOfString: @"\n"];
+    NSRange rangeBackspace = [string rangeOfString: @"\b"];
+         
+    if (rangeNewLine.location != NSNotFound)
+    {
+        changeText = NO;
 
-		[self.messageTextView resignFirstResponder];
-	}
-	else if (range.location >= MALocationMessageMaxLength)
-	{
-		if (rangeBackspace.location == NSNotFound)
+        [self.messageTextView resignFirstResponder];
+    }
+    else if (range.location >= MALocationMessageMaxLength)
+    {
+        if (rangeBackspace.location == NSNotFound)
         {
-			changeText = NO;
+            changeText = NO;
         }
     }
-	
-	return changeText;
+    
+    return changeText;
 }
 
 - (void)textViewDidEndEditing: (UITextView *)textView
 {
-	[self.floorPlanViewController refreshUI];
+    [self.floorPlanViewController refreshUI];
 }
 
 - (void)textViewDidChange:(UITextView *)textView
-{	
-	self.maze.currentSelectedLocation.message = [self.messageTextView.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+{    
+    self.maze.currentSelectedLocation.message = [self.messageTextView.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 // maze name
 
 - (BOOL)textField: (UITextField *)textField shouldChangeCharactersInRange: (NSRange)range replacementString: (NSString *)string
 {
-	BOOL changeText = YES;
-	
-	NSRange rangeNewLine = [string rangeOfString: @"\n"];
-	
-	if (rangeNewLine.location != NSNotFound)
-	{
-		changeText = NO;
-		
-		[self.nameTextField resignFirstResponder];
-	}
-	else if (range.location >= MAMazeNameMaxLength)
-	{
-		changeText = NO;
+    BOOL changeText = YES;
+    
+    NSRange rangeNewLine = [string rangeOfString: @"\n"];
+    
+    if (rangeNewLine.location != NSNotFound)
+    {
+        changeText = NO;
+        
+        [self.nameTextField resignFirstResponder];
     }
-	
-	return changeText;
+    else if (range.location >= MAMazeNameMaxLength)
+    {
+        changeText = NO;
+    }
+    
+    return changeText;
 }
 
 - (IBAction)tutorialSwitchValueChanged: (id)sender
 {
     self.settings.useTutorial = self.tutorialSwitch.on;
 
-	if (self.tutorialSwitch.on == NO)
-	{
-		[self showTutorialHelpForTopic: @"None"];
-	}
+    if (self.tutorialSwitch.on == NO)
+    {
+        [self showTutorialHelpForTopic: @"None"];
+    }
     else
     {
         [self showTutorialHelpForTopic: @"Start"];
@@ -1619,13 +1619,13 @@ BOOL exists;
         self.message2Label.text = @"";
     }
 
-	if (self.settings.useTutorial == YES)
-	{
-		if ([topic isEqualToString: @"Start"] == YES)
-		{
-			self.message1Label.text = @"Tap on a wall (blue segment) to remove it or put it back.";
-			self.message2Label.text = @"Tap and hold on a white square to select a location.";
-		}
+    if (self.settings.useTutorial == YES)
+    {
+        if ([topic isEqualToString: @"Start"] == YES)
+        {
+            self.message1Label.text = @"Tap on a wall (blue segment) to remove it or put it back.";
+            self.message2Label.text = @"Tap and hold on a white square to select a location.";
+        }
         
         if (self.settings.hasSelectedLocation == YES && self.settings.hasSelectedWall == YES)
         {
@@ -1676,7 +1676,7 @@ BOOL exists;
             }
         }
 
-		if ([topic isEqualToString: @"Start"] == NO &&
+        if ([topic isEqualToString: @"Start"] == NO &&
             [topic isEqualToString: @"None"] == NO &&
             [topic isEqualToString: @"WallTypes"] == NO &&
             [topic isEqualToString: @"InvisibleWalls"] == NO &&
@@ -1693,21 +1693,21 @@ BOOL exists;
                            parameters: @{@"topic" : topic}];
 
         }
-	}
+    }
 }
 
 - (void)setTableView: (UITableView *)tableView disabled: (BOOL)disabled
 {
-	if (disabled == YES && tableView.allowsSelection == YES)
-	{
-		tableView.backgroundColor =	self.styles.designScreen.tableViewDisabledBackgroundColor;
-		tableView.allowsSelection = NO;
-	}
-	else if (disabled == NO && tableView.allowsSelection == NO)
-	{
-		tableView.backgroundColor =	self.styles.designScreen.tableViewBackgroundColor;
-		tableView.allowsSelection = YES;
-	}
+    if (disabled == YES && tableView.allowsSelection == YES)
+    {
+        tableView.backgroundColor =    self.styles.designScreen.tableViewDisabledBackgroundColor;
+        tableView.allowsSelection = NO;
+    }
+    else if (disabled == NO && tableView.allowsSelection == NO)
+    {
+        tableView.backgroundColor =    self.styles.designScreen.tableViewBackgroundColor;
+        tableView.allowsSelection = YES;
+    }
 }
 
 @end

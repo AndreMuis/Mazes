@@ -21,12 +21,12 @@
 - (id)init
 {
     self = [super init];
-	
+    
     if (self)
-	{
+    {
         MAColors *colors = [MAColors colors];
 
-     	_segmentLengthShort = 16.0;
+        _segmentLengthShort = 16.0;
         _segmentLengthLong = 34.0;
         
         _backgroundColor = colors.lightYellow2Color;

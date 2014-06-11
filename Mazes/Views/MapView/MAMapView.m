@@ -34,7 +34,7 @@
     self = [super initWithCoder: coder];
     
     if (self) 
-	{
+    {
         _styles = [MAStyles styles];
         
         _mapLocations = [[NSMutableArray alloc] init];
@@ -156,8 +156,8 @@
         mapWall = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: 1 direction: MADirectionEast blockingWalls: @[blockingWall1, blockingWall2]];
         [_mapWalls addObject: mapWall];
     }
-	
-	return self;
+    
+    return self;
 }
 
 - (void)setup
@@ -174,49 +174,49 @@
 
 - (void)drawRect: (CGRect)rect
 {
-	CGContextRef context = UIGraphicsGetCurrentContext();
-	
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
     for (MALocation *location in [self.maze allLocations])
     {
-		CGContextSetFillColorWithColor(context, location.mapColor.CGColor);
-		CGContextFillRect(context, location.mapRect);
+        CGContextSetFillColorWithColor(context, location.mapColor.CGColor);
+        CGContextFillRect(context, location.mapRect);
 
         CGContextSetFillColorWithColor(context, location.mapCornerColor.CGColor);
-		CGContextFillRect(context, location.mapCornerRect);
+        CGContextFillRect(context, location.mapCornerRect);
     }
     
-	for (MAWall *wall in [self.maze allWalls])
-	{
-		CGContextSetFillColorWithColor(context, wall.mapColor.CGColor);
-		CGContextFillRect(context, wall.mapRect);
-	}
+    for (MAWall *wall in [self.maze allWalls])
+    {
+        CGContextSetFillColorWithColor(context, wall.mapColor.CGColor);
+        CGContextFillRect(context, wall.mapRect);
+    }
 }
 
 - (void)clear
 {
     for (MALocation *location in [self.maze allLocations])
     {
-		location.mapRect = CGRectZero;
-		location.mapColor = nil;
+        location.mapRect = CGRectZero;
+        location.mapColor = nil;
 
-		location.mapCornerRect = CGRectZero;
-		location.mapColor = nil;
+        location.mapCornerRect = CGRectZero;
+        location.mapColor = nil;
     }
     
-	for (MAWall *wall in [self.maze allWalls])
-	{
-		wall.mapRect = CGRectZero;
-		wall.mapColor = nil;
-	}
-	
-	[self setNeedsDisplay];
+    for (MAWall *wall in [self.maze allWalls])
+    {
+        wall.mapRect = CGRectZero;
+        wall.mapColor = nil;
+    }
+    
+    [self setNeedsDisplay];
 }
 
 - (void)drawSurroundings
 {
-	CGPoint mapOffset = CGPointMake((self.styles.map.length - (self.styles.map.squareWidth * self.maze.columns + self.styles.map.wallWidth * (self.maze.columns + 1))) / 2.0,
+    CGPoint mapOffset = CGPointMake((self.styles.map.length - (self.styles.map.squareWidth * self.maze.columns + self.styles.map.wallWidth * (self.maze.columns + 1))) / 2.0,
                                     (self.styles.map.length - (self.styles.map.squareWidth * self.maze.rows + self.styles.map.wallWidth * (self.maze.rows + 1))) / 2.0);
-	
+    
     [self setupLocationsWithMapOffset: mapOffset];
     [self setupWallsWithMapOffset: mapOffset];
     
@@ -232,12 +232,12 @@
     MADirectionType rotatedDirection;
     
     for (MAMapLocation *mapLocation in self.mapLocations)
-	{
-		BOOL locationVisible = YES;
+    {
+        BOOL locationVisible = YES;
         
         for (MAMapWall *blockingWall in mapLocation.blockingWalls)
         {
-			[self rotateDeltasWithRowDelta: blockingWall.rowDelta
+            [self rotateDeltasWithRowDelta: blockingWall.rowDelta
                                columnDelta: blockingWall.columnDelta
                            facingDirection: self.facingDirection
                            rotatedRowDelta: &rotatedRowDelta
@@ -258,50 +258,50 @@
                 
                 if (wall.type == MAWallSolid || wall.type == MAWallBorder || wall.type == MAWallFake)
                 {
-					locationVisible = NO;
+                    locationVisible = NO;
                 }
             }
         }
         
-		if (locationVisible == YES)
-		{
-			[self rotateDeltasWithRowDelta: mapLocation.rowDelta
+        if (locationVisible == YES)
+        {
+            [self rotateDeltasWithRowDelta: mapLocation.rowDelta
                                columnDelta: mapLocation.columnDelta
                            facingDirection: self.facingDirection
                            rotatedRowDelta: &rotatedRowDelta
                         rotatedColumnDelta: &rotatedColumnDelta];
             
-			MALocation *location = [self.maze locationWithRow: self.currentLocation.row + rotatedRowDelta
+            MALocation *location = [self.maze locationWithRow: self.currentLocation.row + rotatedRowDelta
                                                        column: self.currentLocation.column + rotatedColumnDelta];
-			
+            
             location.mapRect =
             CGRectMake(mapOffset.x + (location.column - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth) + self.styles.map.wallWidth,
                        mapOffset.y + (location.row - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth) + self.styles.map.wallWidth,
                        self.styles.map.squareWidth,
                        self.styles.map.squareWidth);
-			
-			if (location.action == MALocationActionStart)
+            
+            if (location.action == MALocationActionStart)
             {
                 location.mapColor = self.styles.map.startColor;
             }
-			else if (location.action == MALocationActionEnd)
+            else if (location.action == MALocationActionEnd)
             {
-				location.mapColor = self.styles.map.endColor;
+                location.mapColor = self.styles.map.endColor;
             }
-			else if (location.action == MALocationActionStartOver && location.visited == YES)
+            else if (location.action == MALocationActionStartOver && location.visited == YES)
             {
-				location.mapColor = self.styles.map.startOverColor;
+                location.mapColor = self.styles.map.startOverColor;
             }
-			else if (location.action == MALocationActionTeleport && location.visited == YES)
+            else if (location.action == MALocationActionTeleport && location.visited == YES)
             {
-				location.mapColor = self.styles.map.teleportationColor;
+                location.mapColor = self.styles.map.teleportationColor;
             }
-			else
+            else
             {
-				location.mapColor = self.styles.map.doNothingColor;
+                location.mapColor = self.styles.map.doNothingColor;
             }
-		}
-	}
+        }
+    }
 }
 
 - (void)setupWallsWithMapOffset: (CGPoint)mapOffset
@@ -310,13 +310,13 @@
     NSUInteger rotatedColumnDelta = 0;
     MADirectionType rotatedDirection = MADirectionUnknown;
     
-	for (MAMapWall *mapWall in self.mapWalls)
-	{
-		BOOL wallVisible = YES;
-	
+    for (MAMapWall *mapWall in self.mapWalls)
+    {
+        BOOL wallVisible = YES;
+    
         for (MAMapWall *blockingWall in mapWall.blockingWalls)
         {
-			[self rotateDeltasWithRowDelta: blockingWall.rowDelta
+            [self rotateDeltasWithRowDelta: blockingWall.rowDelta
                                columnDelta: blockingWall.columnDelta
                            facingDirection: self.facingDirection
                            rotatedRowDelta: &rotatedRowDelta
@@ -337,13 +337,13 @@
 
                 if (wall.type == MAWallSolid || wall.type == MAWallBorder || wall.type == MAWallFake)
                 {
-					wallVisible = NO;
+                    wallVisible = NO;
                 }
             }
         }
         
-		if (wallVisible == YES)
-		{
+        if (wallVisible == YES)
+        {
             [self rotateDeltasWithRowDelta: mapWall.rowDelta
                                columnDelta: mapWall.columnDelta
                            facingDirection: self.facingDirection
@@ -352,74 +352,74 @@
             
             rotatedDirection = [self rotatedDirectionWithDirection: mapWall.direction
                                                    facingDirection: self.facingDirection];
-			
-			MAWall *wall = [self.maze wallWithRow: self.currentLocation.row + rotatedRowDelta
+            
+            MAWall *wall = [self.maze wallWithRow: self.currentLocation.row + rotatedRowDelta
                                            column: self.currentLocation.column + rotatedColumnDelta
                                         direction: rotatedDirection];
             
-			if (wall.direction == MADirectionNorth)
-			{
+            if (wall.direction == MADirectionNorth)
+            {
                 wall.mapRect =
                 CGRectMake(mapOffset.x + (wall.column - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth) + self.styles.map.wallWidth,
                            mapOffset.y + (wall.row - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth),
                            self.styles.map.squareWidth,
                            self.styles.map.wallWidth);
-			}
-			else if (wall.direction == MADirectionWest)
-			{
+            }
+            else if (wall.direction == MADirectionWest)
+            {
                 wall.mapRect =
                 CGRectMake(mapOffset.x + (wall.column - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth),
                            mapOffset.y + (wall.row - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth) + self.styles.map.wallWidth,
                            self.styles.map.wallWidth,
                            self.styles.map.squareWidth);
-			}
+            }
             else
             {
                 [MAUtilities logWithClass: [self class]
                                   message: @"Wall direction set to an illegal value."
                                parameters: @{@"wall.direction" : @(wall.direction)}];
             }
-			
-			if (wall.type == MAWallSolid || wall.type == MAWallBorder || wall.type == MAWallFake)
-			{				
-				wall.mapColor = self.styles.map.wallColor;
-			}
-			else if (wall.type == MAWallInvisible && wall.hit == YES)
-			{
-				wall.mapColor = self.styles.map.invisibleColor;
-			}
-			else if (wall.type == MAWallNone || wall.type == MAWallInvisible)
-			{
-				wall.mapColor = self.styles.map.noWallColor;
-			}
+            
+            if (wall.type == MAWallSolid || wall.type == MAWallBorder || wall.type == MAWallFake)
+            {                
+                wall.mapColor = self.styles.map.wallColor;
+            }
+            else if (wall.type == MAWallInvisible && wall.hit == YES)
+            {
+                wall.mapColor = self.styles.map.invisibleColor;
+            }
+            else if (wall.type == MAWallNone || wall.type == MAWallInvisible)
+            {
+                wall.mapColor = self.styles.map.noWallColor;
+            }
 
             MALocation *location = [self.maze locationWithRow: wall.row
                                                        column: wall.column];
                                     
             [self setupCornerWithLocation: location mapOffset: mapOffset];
             
-			if (wall.direction == MADirectionNorth)
-			{
+            if (wall.direction == MADirectionNorth)
+            {
                 MALocation *eastLocation = [self.maze locationWithRow: wall.row
                                                                column: wall.column + 1];
 
                 [self setupCornerWithLocation: eastLocation mapOffset: mapOffset];
-			}
-			else if (wall.direction == MADirectionWest)
-			{
+            }
+            else if (wall.direction == MADirectionWest)
+            {
                 MALocation *southLocation = [self.maze locationWithRow: wall.row + 1
                                                                 column: wall.column];
                 
                 [self setupCornerWithLocation: southLocation mapOffset: mapOffset];
-			}
+            }
             else
             {
                 [MAUtilities logWithClass: [self class]
                                   message: @"Wall direction set to an illegal value."
                                parameters: @{@"wall.direction" : @(wall.direction)}];
             }
-		}
-	}	
+        }
+    }    
 }
 
 - (void)setupCornerWithLocation: (MALocation *)location mapOffset: (CGPoint)mapOffset
@@ -428,8 +428,8 @@
                                         mapOffset.y + (location.row - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth),
                                         self.styles.map.wallWidth,
                                         self.styles.map.wallWidth);
-	
-	// relative to corner
+    
+    // relative to corner
     
     MAWall *northWall = nil;
     if ([self.maze isValidWallWithRow: location.row - 1
@@ -469,36 +469,36 @@
         westWall = [self.maze wallWithRow: location.row
                                    column: location.column - 1
                                 direction: MADirectionNorth];
-	}
+    }
     
-	if ((northWall.type == MAWallNone || (northWall.type == MAWallInvisible && northWall.hit == NO)) &&
-		(eastWall.type == MAWallNone || (eastWall.type == MAWallInvisible && eastWall.hit == NO)) &&
-		(southWall.type == MAWallNone || (southWall.type == MAWallInvisible && southWall.hit == NO)) &&
-		(westWall.type == MAWallNone || (westWall.type == MAWallInvisible && westWall.hit == NO)))
-	{
-		location.mapCornerColor = self.styles.map.noWallColor;
-	}
-	else if (northWall.type == MAWallSolid || northWall.type == MAWallBorder || northWall.type == MAWallFake ||
-			 eastWall.type == MAWallSolid || eastWall.type == MAWallBorder || eastWall.type == MAWallFake ||
-			 southWall.type == MAWallSolid || southWall.type == MAWallBorder || southWall.type == MAWallFake ||
-			 westWall.type == MAWallSolid || westWall.type == MAWallBorder || westWall.type == MAWallFake)
-	{
-		location.mapCornerColor = self.styles.map.wallColor;
-	}
-	else if ((northWall.type == MAWallInvisible && northWall.hit == YES) ||
-			 (eastWall.type == MAWallInvisible && eastWall.hit == YES) ||
-			 (southWall.type == MAWallInvisible && southWall.hit == YES) ||
-			 (westWall.type == MAWallInvisible && westWall.hit == YES))
-	{
-		location.mapCornerColor = self.styles.map.invisibleColor;
-	}
-	else 
-	{
+    if ((northWall.type == MAWallNone || (northWall.type == MAWallInvisible && northWall.hit == NO)) &&
+        (eastWall.type == MAWallNone || (eastWall.type == MAWallInvisible && eastWall.hit == NO)) &&
+        (southWall.type == MAWallNone || (southWall.type == MAWallInvisible && southWall.hit == NO)) &&
+        (westWall.type == MAWallNone || (westWall.type == MAWallInvisible && westWall.hit == NO)))
+    {
+        location.mapCornerColor = self.styles.map.noWallColor;
+    }
+    else if (northWall.type == MAWallSolid || northWall.type == MAWallBorder || northWall.type == MAWallFake ||
+             eastWall.type == MAWallSolid || eastWall.type == MAWallBorder || eastWall.type == MAWallFake ||
+             southWall.type == MAWallSolid || southWall.type == MAWallBorder || southWall.type == MAWallFake ||
+             westWall.type == MAWallSolid || westWall.type == MAWallBorder || westWall.type == MAWallFake)
+    {
+        location.mapCornerColor = self.styles.map.wallColor;
+    }
+    else if ((northWall.type == MAWallInvisible && northWall.hit == YES) ||
+             (eastWall.type == MAWallInvisible && eastWall.hit == YES) ||
+             (southWall.type == MAWallInvisible && southWall.hit == YES) ||
+             (westWall.type == MAWallInvisible && westWall.hit == YES))
+    {
+        location.mapCornerColor = self.styles.map.invisibleColor;
+    }
+    else 
+    {
         [MAUtilities logWithClass: [self class]
                           message: @"Map corner not handled."
                        parameters: @{@"location" : [MAUtilities objectOrNull: location],
                                      @"maze" : [MAUtilities objectOrNull: self.maze]}];
-	}
+    }
 }
 
 - (void)drawDirectionArrowWithMapOffset: (CGPoint)mapOffset
@@ -518,26 +518,26 @@
                  rotatedRowDelta: (NSUInteger *)rotatedRowDelta
               rotatedColumnDelta: (NSUInteger *)rotatedColumnDelta
 {
-	if (self.facingDirection == MADirectionNorth)
-	{
-		*rotatedColumnDelta = columnDelta;
-		*rotatedRowDelta = rowDelta;
-	}
-	else if (self.facingDirection == MADirectionEast)
-	{
-		*rotatedColumnDelta = -rowDelta;
-		*rotatedRowDelta = columnDelta;
-	}
-	else if (self.facingDirection == MADirectionSouth)
-	{
-		*rotatedColumnDelta = -columnDelta;
-		*rotatedRowDelta = -rowDelta;
-	}
-	else if (self.facingDirection == MADirectionWest)
-	{
-		*rotatedColumnDelta = rowDelta;
-		*rotatedRowDelta = -columnDelta;
-	}
+    if (self.facingDirection == MADirectionNorth)
+    {
+        *rotatedColumnDelta = columnDelta;
+        *rotatedRowDelta = rowDelta;
+    }
+    else if (self.facingDirection == MADirectionEast)
+    {
+        *rotatedColumnDelta = -rowDelta;
+        *rotatedRowDelta = columnDelta;
+    }
+    else if (self.facingDirection == MADirectionSouth)
+    {
+        *rotatedColumnDelta = -columnDelta;
+        *rotatedRowDelta = -rowDelta;
+    }
+    else if (self.facingDirection == MADirectionWest)
+    {
+        *rotatedColumnDelta = rowDelta;
+        *rotatedRowDelta = -columnDelta;
+    }
 }
 
 - (MADirectionType)rotatedDirectionWithDirection: (MADirectionType)direction

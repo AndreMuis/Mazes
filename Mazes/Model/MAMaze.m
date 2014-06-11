@@ -29,10 +29,10 @@
 
 - (id)init
 {
-	self = [super init];
-	
+    self = [super init];
+    
     if (self)
-	{
+    {
         _mazeId = nil;
         _user = nil;
         _name = nil;
@@ -54,9 +54,9 @@
         _walls = [[NSMutableArray alloc] init];
         _wallsData = nil;
         _currentSelectedWall = nil;
-	}
-	
-	return self;
+    }
+    
+    return self;
 }
 
 - (BOOL)shouldSerialize: (NSString *)propertyName
@@ -187,21 +187,21 @@
     [self.locations removeAllObjects];
     [self.walls removeAllObjects];
     
-	for (NSUInteger row = 1; row <= self.rows + 1; row = row + 1)
-	{
-		for (NSUInteger column = 1; column <= self.columns + 1; column = column + 1)
-		{
+    for (NSUInteger row = 1; row <= self.rows + 1; row = row + 1)
+    {
+        for (NSUInteger column = 1; column <= self.columns + 1; column = column + 1)
+        {
             MACoordinate *coordinate = [[MACoordinate alloc] init];
             coordinate.row = row;
             coordinate.column = column;
             
-			MALocation *location = [[MALocation alloc] init];
+            MALocation *location = [[MALocation alloc] init];
             location.locationId = [MAUtilities createUUIDString];
-			location.coordinate = coordinate;
+            location.coordinate = coordinate;
             location.action = MALocationActionDoNothing;
             location.message = @"";
             
-			[self.locations addObject: location];
+            [self.locations addObject: location];
             
             if (column <= self.columns)
             {
@@ -238,8 +238,8 @@
 
                 [self.walls addObject: westWall];
             }
-		}
-	}
+        }
+    }
 }
 
 - (MALocation *)locationWithLocationId: (NSString *)locationId
@@ -267,32 +267,32 @@
 
 - (MALocation *)locationWithRow: (NSUInteger)row column: (NSUInteger)column
 {
-	MALocation *locationRet = nil;
-	
-	for (MALocation *location in self.locations)
-	{
-		if (location.row == row && location.column == column)
+    MALocation *locationRet = nil;
+    
+    for (MALocation *location in self.locations)
+    {
+        if (location.row == row && location.column == column)
         {
-			locationRet = location;
+            locationRet = location;
         }
-	}
-	
-	return locationRet;
+    }
+    
+    return locationRet;
 }
 
 - (MALocation *)locationWithAction: (MALocationActionType)action
 {
-	MALocation *locationRet = nil;
-	
-	for (MALocation *location in self.locations)
-	{
-		if (location.action == action)
-        {
-			locationRet = location;
-        }
-	}
+    MALocation *locationRet = nil;
     
-	return locationRet;
+    for (MALocation *location in self.locations)
+    {
+        if (location.action == action)
+        {
+            locationRet = location;
+        }
+    }
+    
+    return locationRet;
 }
 
 - (BOOL)isValidLocationWithRow: (NSUInteger)row
@@ -329,7 +329,7 @@
 
 - (void)removeAllLocations
 {
-	[self.locations removeAllObjects];
+    [self.locations removeAllObjects];
 }
 
 - (void)resetLocation: (MALocation *)location
@@ -454,8 +454,8 @@
             break;
     }
     
-	MAWall *wallRet = nil;
-	
+    MAWall *wallRet = nil;
+    
     for (MAWall *wall in self.walls)
     {
         if (wall.row == row && wall.column == column && wall.direction == direction)
@@ -474,7 +474,7 @@
                                      @"direction" : @(direction)}];
     }
     
-	return wallRet;
+    return wallRet;
 }
 
 - (BOOL)isValidWallWithRow: (NSUInteger)row
@@ -502,29 +502,29 @@
 
 - (BOOL)isSurroundedByWallsWithLocation: (MALocation *)location
 {
-	MAWall *wallNorth = [self wallWithRow: location.row
+    MAWall *wallNorth = [self wallWithRow: location.row
                                    column: location.column
                                 direction: MADirectionNorth];
     
-	MAWall *wallSouth = [self wallWithRow: location.row
+    MAWall *wallSouth = [self wallWithRow: location.row
                                    column: location.column
                                 direction: MADirectionSouth];
     
-	MAWall *wallEast = [self wallWithRow: location.row
+    MAWall *wallEast = [self wallWithRow: location.row
                                   column: location.column
                                direction: MADirectionEast];
     
-	MAWall *wallWest = [self wallWithRow: location.row
+    MAWall *wallWest = [self wallWithRow: location.row
                                   column: location.column
                                direction: MADirectionWest];
     
-	if ((wallNorth.type == MAWallSolid || wallNorth.type == MAWallBorder || wallNorth.type == MAWallInvisible) &&
-		(wallEast.type == MAWallSolid || wallEast.type == MAWallBorder || wallEast.type == MAWallInvisible) &&
-		(wallSouth.type == MAWallSolid || wallSouth.type == MAWallBorder || wallSouth.type == MAWallInvisible) &&
-		(wallWest.type == MAWallSolid || wallWest.type == MAWallBorder || wallWest.type == MAWallInvisible))
-	{
-		return YES;
-	}
+    if ((wallNorth.type == MAWallSolid || wallNorth.type == MAWallBorder || wallNorth.type == MAWallInvisible) &&
+        (wallEast.type == MAWallSolid || wallEast.type == MAWallBorder || wallEast.type == MAWallInvisible) &&
+        (wallSouth.type == MAWallSolid || wallSouth.type == MAWallBorder || wallSouth.type == MAWallInvisible) &&
+        (wallWest.type == MAWallSolid || wallWest.type == MAWallBorder || wallWest.type == MAWallInvisible))
+    {
+        return YES;
+    }
     else
     {
         return NO;
@@ -533,16 +533,16 @@
 
 - (BOOL)isInnerWall: (MAWall *)wall
 {
-	if ((wall.row == self.rows + 1) ||
+    if ((wall.row == self.rows + 1) ||
         (wall.column == self.columns + 1) ||
         (wall.row == 1 && wall.direction == MADirectionNorth) ||
         (wall.column == 1 && wall.direction == MADirectionWest))
     {
-		return NO;
+        return NO;
     }
-	else
+    else
     {
-		return YES;
+        return YES;
     }
 }
 

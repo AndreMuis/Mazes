@@ -21,9 +21,9 @@
 - (id)init
 {
     self = [super init];
-	
+    
     if (self)
-	{
+    {
         MAColors *colors = [MAColors colors];
 
         _backgroundColor = colors.lightYellow2Color;

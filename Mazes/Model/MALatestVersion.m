@@ -13,13 +13,13 @@
 - (id)init
 {
     self = [super init];
-	
-	if (self)
-	{
+    
+    if (self)
+    {
         _latestVersionId = nil;
         _latestVersion = 0.0;
-	}
-	
+    }
+    
     return self;
 }
 

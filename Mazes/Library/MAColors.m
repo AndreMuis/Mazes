@@ -19,9 +19,9 @@
 - (id)init
 {
     self = [super init];
-	
-	if (self) 
-	{
+    
+    if (self) 
+    {
         _blackColor = [UIColor blackColor];
         _blackTranslucent1Color = [UIColor colorWithWhite: 0.0 alpha: 0.35];
         _blackTranslucent2Color = [UIColor colorWithWhite: 0.0 alpha: 0.15];
@@ -66,7 +66,7 @@
     
         _backgroundColor = self.lightOrange3Color;
     }
-	
+    
     return self;
 }
 

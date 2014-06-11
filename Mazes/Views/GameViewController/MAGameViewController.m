@@ -131,7 +131,7 @@
         _maze = nil;
         
         _movements = [[NSMutableArray alloc] init];
-		
+        
         _moveStepDurationAvg = MAStepDurationAvgStart;
         _turnStepDurationAvg = MAStepDurationAvgStart;
         
@@ -197,51 +197,51 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-	self.titleLabel.backgroundColor = self.styles.gameScreen.titleBackgroundColor;
-	self.titleLabel.font = self.styles.gameScreen.titleFont;
-	self.titleLabel.textColor = self.styles.gameScreen.titleTextColor;
-	
-	self.mapBorderView.backgroundColor = self.styles.gameScreen.borderColor;
-	
+    
+    self.titleLabel.backgroundColor = self.styles.gameScreen.titleBackgroundColor;
+    self.titleLabel.font = self.styles.gameScreen.titleFont;
+    self.titleLabel.textColor = self.styles.gameScreen.titleTextColor;
+    
+    self.mapBorderView.backgroundColor = self.styles.gameScreen.borderColor;
+    
     [self.mapView setup];
     self.mapView.directionArrowImageView.hidden = YES;
 
-	self.messageBorderView.backgroundColor = self.styles.gameScreen.borderColor;
-	
-	self.messageTextView.backgroundColor = self.styles.gameScreen.messageBackgroundColor;
-	self.messageTextView.font = self.styles.defaultFont;
-	self.messageTextView.textColor = self.styles.gameScreen.messageTextColor;
-	
-	self.mazeBorderView.backgroundColor = self.styles.gameScreen.borderColor;
+    self.messageBorderView.backgroundColor = self.styles.gameScreen.borderColor;
+    
+    self.messageTextView.backgroundColor = self.styles.gameScreen.messageBackgroundColor;
+    self.messageTextView.font = self.styles.defaultFont;
+    self.messageTextView.textColor = self.styles.gameScreen.messageTextColor;
+    
+    self.mazeBorderView.backgroundColor = self.styles.gameScreen.borderColor;
 
     self.mazeView.textureManager = self.textureManager;
     
-	[self.mazeView setupOpenGLViewport];
-	[self.mazeView setupOpenGLTextures];
-	
-	UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapFrom:)];
-	tapRecognizer.cancelsTouchesInView = NO;
-	[self.view addGestureRecognizer: tapRecognizer];
-	
-	UISwipeGestureRecognizer *swipeLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(handleSwipeFrom:)];
+    [self.mazeView setupOpenGLViewport];
+    [self.mazeView setupOpenGLTextures];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handleTapFrom:)];
+    tapRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer: tapRecognizer];
+    
+    UISwipeGestureRecognizer *swipeLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(handleSwipeFrom:)];
     swipeLeftRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-	[self.view addGestureRecognizer: swipeLeftRecognizer];
-	
-	UISwipeGestureRecognizer *swipeRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(handleSwipeFrom:)];
+    [self.view addGestureRecognizer: swipeLeftRecognizer];
+    
+    UISwipeGestureRecognizer *swipeRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(handleSwipeFrom:)];
     swipeRightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
-	[self.view addGestureRecognizer: swipeRightRecognizer];
+    [self.view addGestureRecognizer: swipeRightRecognizer];
 
-	UISwipeGestureRecognizer *swipeDownRecognizer  = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(handleSwipeFrom:)];
+    UISwipeGestureRecognizer *swipeDownRecognizer  = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(handleSwipeFrom:)];
     swipeDownRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
-	[self.view addGestureRecognizer: swipeDownRecognizer];
+    [self.view addGestureRecognizer: swipeDownRecognizer];
     
     self.activityIndicatorView.color = self.styles.activityIndicator.color;
 }
 
 - (void)viewWillAppear: (BOOL)animated
-{	
-	[super viewWillAppear: animated];
+{    
+    [super viewWillAppear: animated];
 
     if (self.bannerView.bannerViewActionInProgress == NO)
     {
@@ -272,7 +272,7 @@
 
 - (void)viewWillDisappear: (BOOL)animated
 {
-	[super viewWillDisappear: animated];
+    [super viewWillDisappear: animated];
     
     if (self.bannerView.bannerViewActionInProgress == NO)
     {
@@ -434,29 +434,29 @@
 
 - (void)setupNewLocation: (MALocation *)newLocation
 {
-	self.previousLocation = self.currentLocation;
-	
-	self.currentLocation = newLocation;
-	self.currentLocation.visited = YES;
+    self.previousLocation = self.currentLocation;
+    
+    self.currentLocation = newLocation;
+    self.currentLocation.visited = YES;
 
-	[self.mazeView translateDGLX: -self.mazeView.glX
+    [self.mazeView translateDGLX: -self.mazeView.glX
                             dGLY: 0.0
                             dGLZ: -self.mazeView.glZ];
-	
-	float glX = MAWallDepth / 2.0 + MAWallWidth / 2.0 + (self.currentLocation.column - 1) * MAWallWidth;
-	float glZ = MAWallDepth / 2.0 + MAWallWidth / 2.0 + (self.currentLocation.row - 1) * MAWallWidth;
-	
-	[self.mazeView translateDGLX: glX
+    
+    float glX = MAWallDepth / 2.0 + MAWallWidth / 2.0 + (self.currentLocation.column - 1) * MAWallWidth;
+    float glZ = MAWallDepth / 2.0 + MAWallWidth / 2.0 + (self.currentLocation.row - 1) * MAWallWidth;
+    
+    [self.mazeView translateDGLX: glX
                             dGLY: 0.0
                             dGLZ: glZ];
-	
-	if (self.currentLocation.action == MALocationActionStart || self.currentLocation.action == MALocationActionTeleport)
-	{
-		int theta = self.currentLocation.direction;
-		
-		[self.mazeView rotateDTheta: -self.mazeView.theta];
-	
-		[self.mazeView rotateDTheta: (float)theta];
+    
+    if (self.currentLocation.action == MALocationActionStart || self.currentLocation.action == MALocationActionTeleport)
+    {
+        int theta = self.currentLocation.direction;
+        
+        [self.mazeView rotateDTheta: -self.mazeView.theta];
+    
+        [self.mazeView rotateDTheta: (float)theta];
 
         switch (theta)
         {
@@ -482,51 +482,51 @@
                                parameters: @{@"theta" : @(theta)}];
                 break;
         }
-	}
-	
-	self.mapView.currentLocation = self.currentLocation;
-	self.mapView.facingDirection = self.facingDirection;
-	
-	[self.mapView drawSurroundings];
-	
-	[self displayMessage];
+    }
+    
+    self.mapView.currentLocation = self.currentLocation;
+    self.mapView.facingDirection = self.facingDirection;
+    
+    [self.mapView drawSurroundings];
+    
+    [self displayMessage];
 
-	[self.mazeView drawMaze];
+    [self.mazeView drawMaze];
 }
 
 - (void)handleTapFrom: (UITapGestureRecognizer *)recognizer 
 {
-	CGPoint location = [recognizer locationInView: self.view];
-	
-	if (CGRectContainsPoint(self.mazeView.frame, location) == YES)
-	{
-		[self.movements addObject: [NSNumber numberWithInt: MAMovementForward]];
-	}
-	
-	[self processMovements];
+    CGPoint location = [recognizer locationInView: self.view];
+    
+    if (CGRectContainsPoint(self.mazeView.frame, location) == YES)
+    {
+        [self.movements addObject: [NSNumber numberWithInt: MAMovementForward]];
+    }
+    
+    [self processMovements];
 }
 
 - (void)handleSwipeFrom: (UISwipeGestureRecognizer *)recognizer 
 {
-	CGPoint location = [recognizer locationInView: self.view];		
-	
-	if (CGRectContainsPoint(self.mazeView.frame, location) == YES)
-	{
-		if (recognizer.direction == UISwipeGestureRecognizerDirectionDown)
-		{
-			[self.movements addObject: [NSNumber numberWithInt: MAMovementBackward]];
-		}
-		else if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft)
-		{
-			[self.movements addObject: [NSNumber numberWithInt: MAMovementTurnLeft]];
-		}
-		else if (recognizer.direction == UISwipeGestureRecognizerDirectionRight)
-		{
-			[self.movements addObject: [NSNumber numberWithInt: MAMovementTurnRight]];
-		}
-	}
-	
-	[self processMovements];
+    CGPoint location = [recognizer locationInView: self.view];        
+    
+    if (CGRectContainsPoint(self.mazeView.frame, location) == YES)
+    {
+        if (recognizer.direction == UISwipeGestureRecognizerDirectionDown)
+        {
+            [self.movements addObject: [NSNumber numberWithInt: MAMovementBackward]];
+        }
+        else if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft)
+        {
+            [self.movements addObject: [NSNumber numberWithInt: MAMovementTurnLeft]];
+        }
+        else if (recognizer.direction == UISwipeGestureRecognizerDirectionRight)
+        {
+            [self.movements addObject: [NSNumber numberWithInt: MAMovementTurnRight]];
+        }
+    }
+    
+    [self processMovements];
 }
 
 - (void)processMovements
@@ -538,248 +538,248 @@
         [self.movements removeAllObjects];
     }
 
-	if (self.isMoving == NO && self.movements.count > 0)
-	{
-		self.isMoving = YES;
-		
-		NSNumber *movement = [self.movements objectAtIndex: 0];
-		[self.movements removeObjectAtIndex: 0];
-		
-		if ([movement integerValue] == MAMovementBackward || [movement integerValue] == MAMovementForward)
+    if (self.isMoving == NO && self.movements.count > 0)
+    {
+        self.isMoving = YES;
+        
+        NSNumber *movement = [self.movements objectAtIndex: 0];
+        [self.movements removeObjectAtIndex: 0];
+        
+        if ([movement integerValue] == MAMovementBackward || [movement integerValue] == MAMovementForward)
         {
-			[self moveForwardBackward: [movement integerValue]];
-		}
-		else if ([movement integerValue] == MAMovementTurnLeft || [movement integerValue] == MAMovementTurnRight)
-		{
-			[self turn: [movement integerValue]];
-		}
-	}	
+            [self moveForwardBackward: [movement integerValue]];
+        }
+        else if ([movement integerValue] == MAMovementTurnLeft || [movement integerValue] == MAMovementTurnRight)
+        {
+            [self turn: [movement integerValue]];
+        }
+    }    
 }
 
 // MOVE FORWARD / BACKWARD
 
 - (void)moveForwardBackward: (MAMovementType)movement
 {
-	float dglx = 0.0;
+    float dglx = 0.0;
     float dglz = 0.0;
 
-	self.dLocX = 0;
-	self.dLocY = 0;
+    self.dLocX = 0;
+    self.dLocY = 0;
 
-	if (movement == MAMovementForward)
-	{
-		if (self.facingDirection == MADirectionNorth)
-		{
-			self.dLocX = 0;
-			self.dLocY = -1;
-			
-			dglx = 0.0;
-			dglz = -MAWallWidth;
-			
-			self.movementDirection = MADirectionNorth;
-		}
-		else if (self.facingDirection == MADirectionEast)
-		{
-			self.dLocX = 1;
-			self.dLocY = 0;
-			
-			dglx = MAWallWidth;
-			dglz = 0.0;
-			
-			self.movementDirection = MADirectionEast;
-		}
-		else if (self.facingDirection == MADirectionSouth)
-		{
-			self.dLocX = 0;
-			self.dLocY = 1;
-			
-			dglx = 0.0;
-			dglz = MAWallWidth;
-			
-			self.movementDirection = MADirectionSouth;
-		}
-		else if (self.facingDirection == MADirectionWest)
-		{
-			self.dLocX = -1;
-			self.dLocY = 0;
-			
-			dglx = -MAWallWidth;
-			dglz = 0.0;
-			
-			self.movementDirection = MADirectionWest;
-		}
-	}
-	else if (movement == MAMovementBackward)
-	{
-		if (self.facingDirection == MADirectionNorth)
-		{
-			self.dLocX = 0;
-			self.dLocY = 1;
-			
-			dglx = 0.0;
-			dglz = MAWallWidth;
-			
-			self.movementDirection = MADirectionSouth;
-		}
-		else if (self.facingDirection == MADirectionEast)
-		{
-			self.dLocX = -1;
-			self.dLocY = 0;
-			
-			dglx = -MAWallWidth;
-			dglz = 0.0;
+    if (movement == MAMovementForward)
+    {
+        if (self.facingDirection == MADirectionNorth)
+        {
+            self.dLocX = 0;
+            self.dLocY = -1;
+            
+            dglx = 0.0;
+            dglz = -MAWallWidth;
+            
+            self.movementDirection = MADirectionNorth;
+        }
+        else if (self.facingDirection == MADirectionEast)
+        {
+            self.dLocX = 1;
+            self.dLocY = 0;
+            
+            dglx = MAWallWidth;
+            dglz = 0.0;
+            
+            self.movementDirection = MADirectionEast;
+        }
+        else if (self.facingDirection == MADirectionSouth)
+        {
+            self.dLocX = 0;
+            self.dLocY = 1;
+            
+            dglx = 0.0;
+            dglz = MAWallWidth;
+            
+            self.movementDirection = MADirectionSouth;
+        }
+        else if (self.facingDirection == MADirectionWest)
+        {
+            self.dLocX = -1;
+            self.dLocY = 0;
+            
+            dglx = -MAWallWidth;
+            dglz = 0.0;
+            
+            self.movementDirection = MADirectionWest;
+        }
+    }
+    else if (movement == MAMovementBackward)
+    {
+        if (self.facingDirection == MADirectionNorth)
+        {
+            self.dLocX = 0;
+            self.dLocY = 1;
+            
+            dglx = 0.0;
+            dglz = MAWallWidth;
+            
+            self.movementDirection = MADirectionSouth;
+        }
+        else if (self.facingDirection == MADirectionEast)
+        {
+            self.dLocX = -1;
+            self.dLocY = 0;
+            
+            dglx = -MAWallWidth;
+            dglz = 0.0;
 
-			self.movementDirection = MADirectionWest;
-		}
-		else if (self.facingDirection == MADirectionSouth)
-		{
-			self.dLocX = 0;
-			self.dLocY = -1;
-			
-			dglx = 0.0;
-			dglz = -MAWallWidth;
-			
-			self.movementDirection = MADirectionNorth;
-		}
-		else if (self.facingDirection == MADirectionWest)
-		{
-			self.dLocX = 1;
-			self.dLocY = 0;
-			
-			dglx = MAWallWidth;
-			dglz = 0.0;
-			
-			self.movementDirection = MADirectionEast;
-		}
-	}
-	
-	MAWall *wall = [self.maze wallWithRow: self.currentLocation.row
+            self.movementDirection = MADirectionWest;
+        }
+        else if (self.facingDirection == MADirectionSouth)
+        {
+            self.dLocX = 0;
+            self.dLocY = -1;
+            
+            dglx = 0.0;
+            dglz = -MAWallWidth;
+            
+            self.movementDirection = MADirectionNorth;
+        }
+        else if (self.facingDirection == MADirectionWest)
+        {
+            self.dLocX = 1;
+            self.dLocY = 0;
+            
+            dglx = MAWallWidth;
+            dglz = 0.0;
+            
+            self.movementDirection = MADirectionEast;
+        }
+    }
+    
+    MAWall *wall = [self.maze wallWithRow: self.currentLocation.row
                                    column: self.currentLocation.column
                                 direction: self.movementDirection];
-	
-	// Animate Movement
-	
-	self.stepCount = 1;
-	self.steps = (int)(MAMovementDuration / self.moveStepDurationAvg);
-	
-	// steps must be even for bounce back
-	if (self.steps % 2 == 1)
-    {
-		self.steps = self.steps + 1;
-	}
     
-	self.dglx_step = dglx / (float)self.steps;
-	self.dglz_step = dglz / (float)self.steps;
-	
-	self.wallRemoved = NO;
-	self.directionReversed = NO;
-
-	self.movementStartDate = [[NSDate alloc] init];
-	if (wall.type == MAWallNone || wall.type == MAWallInvisible || wall.type == MAWallFake)
+    // Animate Movement
+    
+    self.stepCount = 1;
+    self.steps = (int)(MAMovementDuration / self.moveStepDurationAvg);
+    
+    // steps must be even for bounce back
+    if (self.steps % 2 == 1)
     {
-		[self moveStep: nil];
+        self.steps = self.steps + 1;
     }
-	else if (wall.type == MAWallSolid || wall.type == MAWallBorder)
+    
+    self.dglx_step = dglx / (float)self.steps;
+    self.dglz_step = dglz / (float)self.steps;
+    
+    self.wallRemoved = NO;
+    self.directionReversed = NO;
+
+    self.movementStartDate = [[NSDate alloc] init];
+    if (wall.type == MAWallNone || wall.type == MAWallInvisible || wall.type == MAWallFake)
     {
-		[self moveEnd];
+        [self moveStep: nil];
+    }
+    else if (wall.type == MAWallSolid || wall.type == MAWallBorder)
+    {
+        [self moveEnd];
     }
 }
 
 - (void)moveStep: (NSTimer *)timer
 {
-	[self.mazeView translateDGLX: self.dglx_step dGLY: 0.0 dGLZ: self.dglz_step];
-	[self.mazeView drawMaze];
+    [self.mazeView translateDGLX: self.dglx_step dGLY: 0.0 dGLZ: self.dglz_step];
+    [self.mazeView drawMaze];
 
-	MAWall *wall = [self.maze wallWithRow: self.currentLocation.row
+    MAWall *wall = [self.maze wallWithRow: self.currentLocation.row
                                    column: self.currentLocation.column
                                 direction: self.movementDirection];
-	
-	if (wall.type == MAWallFake && self.stepCount >= self.steps * MAFakeMovementPrcnt && self.wallRemoved == NO)
-	{
+    
+    if (wall.type == MAWallFake && self.stepCount >= self.steps * MAFakeMovementPrcnt && self.wallRemoved == NO)
+    {
         wall.type = MAWallNone;
         
-		[self.mazeView setupOpenGLVerticies];
-		[self.mazeView drawMaze];
-		
-		self.wallRemoved = YES;
-	}
-	else if (wall.type == MAWallInvisible && self.stepCount >= self.steps / 2 && self.directionReversed == NO)
-	{
-		self.dglx_step = -self.dglx_step;
-		self.dglz_step = -self.dglz_step;
-		
-		self.directionReversed = YES;
-	}	
-		
-	if (self.stepCount < self.steps)
-	{
-		self.stepCount = self.stepCount + 1;
-		
-		[NSTimer scheduledTimerWithTimeInterval: self.moveStepDurationAvg / 1000.0 target: self selector: @selector(moveStep:) userInfo: nil repeats: NO];
-	}
-	else
-	{
-		[self moveEnd];
-	}
+        [self.mazeView setupOpenGLVerticies];
+        [self.mazeView drawMaze];
+        
+        self.wallRemoved = YES;
+    }
+    else if (wall.type == MAWallInvisible && self.stepCount >= self.steps / 2 && self.directionReversed == NO)
+    {
+        self.dglx_step = -self.dglx_step;
+        self.dglz_step = -self.dglz_step;
+        
+        self.directionReversed = YES;
+    }    
+        
+    if (self.stepCount < self.steps)
+    {
+        self.stepCount = self.stepCount + 1;
+        
+        [NSTimer scheduledTimerWithTimeInterval: self.moveStepDurationAvg / 1000.0 target: self selector: @selector(moveStep:) userInfo: nil repeats: NO];
+    }
+    else
+    {
+        [self moveEnd];
+    }
 }
 
 - (void)moveEnd
 {
-	NSDate *end = [NSDate date];
+    NSDate *end = [NSDate date];
 
-	float moveDuration = [end timeIntervalSinceDate: self.movementStartDate];
+    float moveDuration = [end timeIntervalSinceDate: self.movementStartDate];
 
-	MAWall *wall = [self.maze wallWithRow: self.currentLocation.row
+    MAWall *wall = [self.maze wallWithRow: self.currentLocation.row
                                    column: self.currentLocation.column
                                 direction: self.movementDirection];
-	
-	if (wall.type == MAWallNone || wall.type == MAWallFake)
-	{
-		self.previousLocation = self.currentLocation;
+    
+    if (wall.type == MAWallNone || wall.type == MAWallFake)
+    {
+        self.previousLocation = self.currentLocation;
 
         self.currentLocation = [self.maze locationWithRow: self.currentLocation.row + self.dLocY
                                                    column: self.currentLocation.column + self.dLocX];
         
-		self.currentLocation.visited = YES;
-		
-		self.moveStepDurationAvg = moveDuration / self.steps;
-		
-		self.mapView.currentLocation = self.currentLocation;
-		self.mapView.facingDirection = self.facingDirection;
-		
-		[self.mapView drawSurroundings];
-		
-		[self locationChanged];
-	}
-	else if (wall.type == MAWallInvisible)
-	{
-		[self.movements removeAllObjects];
+        self.currentLocation.visited = YES;
+        
+        self.moveStepDurationAvg = moveDuration / self.steps;
+        
+        self.mapView.currentLocation = self.currentLocation;
+        self.mapView.facingDirection = self.facingDirection;
+        
+        [self.mapView drawSurroundings];
+        
+        [self locationChanged];
+    }
+    else if (wall.type == MAWallInvisible)
+    {
+        [self.movements removeAllObjects];
 
         wall.hit = YES;
         
-		self.mapView.currentLocation = self.currentLocation;
-		self.mapView.facingDirection = self.facingDirection;
-		
-		[self.mapView drawSurroundings];
-		
-		self.moveStepDurationAvg = moveDuration / self.steps;
-	}
+        self.mapView.currentLocation = self.currentLocation;
+        self.mapView.facingDirection = self.facingDirection;
+        
+        [self.mapView drawSurroundings];
+        
+        self.moveStepDurationAvg = moveDuration / self.steps;
+    }
 
-	self.isMoving = NO;
-	[self processMovements];			
-	
-	return;	
+    self.isMoving = NO;
+    [self processMovements];            
+    
+    return;    
 }
 
 // TURN
 
 - (void)turn: (MAMovementType)movement
 {
-	float dTheta = 0.0;
-	
-	if (movement == MAMovementTurnLeft)
-	{
-		dTheta = -90.0;
+    float dTheta = 0.0;
+    
+    if (movement == MAMovementTurnLeft)
+    {
+        dTheta = -90.0;
 
         switch (self.facingDirection)
         {
@@ -805,10 +805,10 @@
                                parameters: @{@"self.facingDirection" : @(self.facingDirection)}];
                 break;
         }
-	}
-	else if (movement == MAMovementTurnRight)
-	{
-		dTheta = 90.0;
+    }
+    else if (movement == MAMovementTurnRight)
+    {
+        dTheta = 90.0;
 
         switch (self.facingDirection)
         {
@@ -834,56 +834,56 @@
                                parameters: @{@"self.facingDirection" : @(self.facingDirection)}];
                 break;
         }
-	}
-	
-	self.stepCount = 1;
-	self.steps = (int)(MAMovementDuration / self.turnStepDurationAvg);
-	
-	self.dTheta_step = dTheta / (float)self.steps;
+    }
+    
+    self.stepCount = 1;
+    self.steps = (int)(MAMovementDuration / self.turnStepDurationAvg);
+    
+    self.dTheta_step = dTheta / (float)self.steps;
 
-	self.movementStartDate = [[NSDate alloc] init];
-	
-	[self turnStep: nil];
+    self.movementStartDate = [[NSDate alloc] init];
+    
+    [self turnStep: nil];
 }
 
 - (void)turnStep: (NSTimer *)timer
 {
-	[self.mazeView rotateDTheta: self.dTheta_step];
-	[self.mazeView drawMaze];
-	
-	if (self.stepCount < self.steps)
-	{
-		self.stepCount = self.stepCount + 1;
-		
-		[NSTimer scheduledTimerWithTimeInterval: self.turnStepDurationAvg / 1000.0 target: self selector: @selector(turnStep:) userInfo: nil repeats: NO];
-	}
-	else
-	{
-		[self turnEnd];
-	}	
+    [self.mazeView rotateDTheta: self.dTheta_step];
+    [self.mazeView drawMaze];
+    
+    if (self.stepCount < self.steps)
+    {
+        self.stepCount = self.stepCount + 1;
+        
+        [NSTimer scheduledTimerWithTimeInterval: self.turnStepDurationAvg / 1000.0 target: self selector: @selector(turnStep:) userInfo: nil repeats: NO];
+    }
+    else
+    {
+        [self turnEnd];
+    }    
 }
 
 - (void)turnEnd
 {
-	NSDate *end = [NSDate date];
-	
-	float turnDuration = [end timeIntervalSinceDate: self.movementStartDate];
-	
-	self.turnStepDurationAvg = turnDuration / self.steps;
-	
-	self.mapView.currentLocation = self.currentLocation;
-	self.mapView.facingDirection = self.facingDirection;
-	
-	[self.mapView drawSurroundings];
-	
-	self.isMoving = NO;
-	[self processMovements];
+    NSDate *end = [NSDate date];
+    
+    float turnDuration = [end timeIntervalSinceDate: self.movementStartDate];
+    
+    self.turnStepDurationAvg = turnDuration / self.steps;
+    
+    self.mapView.currentLocation = self.currentLocation;
+    self.mapView.facingDirection = self.facingDirection;
+    
+    [self.mapView drawSurroundings];
+    
+    self.isMoving = NO;
+    [self processMovements];
 }
 
 - (void)locationChanged
 {
-	if (self.currentLocation.action == MALocationActionEnd)
-	{
+    if (self.currentLocation.action == MALocationActionEnd)
+    {
         if (self.mazeSummary.userFoundExit == NO)
         {
             [self saveFoundMazeExit];
@@ -892,9 +892,9 @@
         {
             [self showEndAlert];
         }
-	}
-	else if (self.currentLocation.action == MALocationActionStartOver)
-	{
+    }
+    else if (self.currentLocation.action == MALocationActionStartOver)
+    {
         MAInfoPopupView *infoPopupView = [MAInfoPopupView infoPopupViewWithParentView: self.view
                                                                               message: self.currentLocation.message
                                                                     cancelButtonTitle: @"Start Over"];
@@ -903,21 +903,21 @@
         {
             [self setupNewLocation: self.maze.startLocation];
         }];
-	}
-	else if (self.currentLocation.action == MALocationActionTeleport)
-	{
+    }
+    else if (self.currentLocation.action == MALocationActionTeleport)
+    {
         [self.movements removeAllObjects];
         self.isMoving = NO;
         
         MALocation *teleportLoc = [self.maze locationWithRow: self.currentLocation.teleportY
                                                       column: self.currentLocation.teleportX];
         
-		[self setupNewLocation: teleportLoc];
-	}
-	else 
-	{
-		[self displayMessage];
-	}
+        [self setupNewLocation: teleportLoc];
+    }
+    else 
+    {
+        [self displayMessage];
+    }
 }
 
 - (void)saveFoundMazeExit
@@ -967,28 +967,28 @@
 
 - (void)displayMessage
 {
-	if (self.currentLocation.action != MALocationActionTeleport ||
+    if (self.currentLocation.action != MALocationActionTeleport ||
         (self.currentLocation.action == MALocationActionTeleport && self.previousLocation.action == MALocationActionTeleport))
-	{
-		if ([self.currentLocation.message isEqualToString: @""] == NO)
-		{
-			if ([self.messageTextView.text isEqualToString: @""])
-			{
-				self.messageTextView.text = self.currentLocation.message;
-			}
-			else
-			{
-				self.messageTextView.text = [self.currentLocation.message stringByAppendingFormat: @"\n\n%@", self.messageTextView.text];
-				
-				self.messageTextView.contentOffset = CGPointZero; 
-			}
-		}
-	}
+    {
+        if ([self.currentLocation.message isEqualToString: @""] == NO)
+        {
+            if ([self.messageTextView.text isEqualToString: @""])
+            {
+                self.messageTextView.text = self.currentLocation.message;
+            }
+            else
+            {
+                self.messageTextView.text = [self.currentLocation.message stringByAppendingFormat: @"\n\n%@", self.messageTextView.text];
+                
+                self.messageTextView.contentOffset = CGPointZero; 
+            }
+        }
+    }
 }
 
 - (void)clearMessage
 {
-	self.messageTextView.text = @"";
+    self.messageTextView.text = @"";
 }
 
 - (void)showEndAlert
@@ -1105,14 +1105,14 @@
 
 - (IBAction)backButtonTouchDown: (id)sender
 {
-	self.backImageView.image = [UIImage imageNamed: @"BackButtonOrangeHighlighted.png"];
+    self.backImageView.image = [UIImage imageNamed: @"BackButtonOrangeHighlighted.png"];
 }
 
 - (IBAction)backButtonTouchUpInside: (id)sender
 {
-	self.backImageView.image = [UIImage imageNamed: @"BackButtonBlueUnhighlighted.png"];
-	
-	[self goBack];
+    self.backImageView.image = [UIImage imageNamed: @"BackButtonBlueUnhighlighted.png"];
+    
+    [self goBack];
 }
 
 - (void)goBack
@@ -1138,25 +1138,25 @@
 
 - (IBAction)instructionsButtonTouchDown: (id)sender
 {
-	self.instructionsImageView.image = [UIImage imageNamed: @"InstructionsButtonOrangeHighlighted.png"];
+    self.instructionsImageView.image = [UIImage imageNamed: @"InstructionsButtonOrangeHighlighted.png"];
 }
 
 - (IBAction)instructionsButtonTouchUpInside: (id)sender
 {
-	self.instructionsImageView.image = [UIImage imageNamed: @"InstructionsButtonBlueUnhighlighted.png"];
-	
-	[self displayInstructions];
+    self.instructionsImageView.image = [UIImage imageNamed: @"InstructionsButtonBlueUnhighlighted.png"];
+    
+    [self displayInstructions];
 }
 
 - (void)displayInstructions
 {
-	MAInstructionsViewController *viewController = [[MAInstructionsViewController alloc] initWithNibName: @"MAInstructionsViewController" bundle: nil];
+    MAInstructionsViewController *viewController = [[MAInstructionsViewController alloc] initWithNibName: @"MAInstructionsViewController" bundle: nil];
 
-	self.instructionsPopoverController = [[UIPopoverController alloc] initWithContentViewController: viewController];
+    self.instructionsPopoverController = [[UIPopoverController alloc] initWithContentViewController: viewController];
 
-	self.instructionsPopoverController.popoverContentSize = viewController.view.frame.size;
+    self.instructionsPopoverController.popoverContentSize = viewController.view.frame.size;
 
-	[self.instructionsPopoverController presentPopoverFromRect: self.instructionsButton.frame
+    [self.instructionsPopoverController presentPopoverFromRect: self.instructionsButton.frame
                                                         inView: self.view
                                       permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
 }

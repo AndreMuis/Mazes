@@ -35,16 +35,16 @@
 - (id)initWithWebServices: (MAWebServices *)webServices
 {
     self = [super init];
-	
-	if (self)
-	{
+    
+    if (self)
+    {
         _webServices = webServices;
         
         _sounds = [NSArray array];
         
         _count = 0;
-	}
-	
+    }
+    
     return self;
 }
 

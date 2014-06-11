@@ -13,11 +13,11 @@
 typedef enum : NSUInteger
 {
     MAWallUnknown = 0,
-	MAWallNone = 1,
-	MAWallBorder = 2,
-	MAWallSolid = 3,
-	MAWallInvisible = 4,
-	MAWallFake = 5
+    MAWallNone = 1,
+    MAWallBorder = 2,
+    MAWallSolid = 3,
+    MAWallInvisible = 4,
+    MAWallFake = 5
 } MAWallType;
 
 @class MACoordinate;

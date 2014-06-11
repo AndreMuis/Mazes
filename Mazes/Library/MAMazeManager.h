@@ -17,10 +17,10 @@
 
 typedef enum : NSUInteger
 {
-	MATopMazeSummariesUnknown = 0,
-	MATopMazeSummariesHighestRated = 1,
-	MATopMazeSummariesNewest = 2,
-	MATopMazeSummariesYours = 3
+    MATopMazeSummariesUnknown = 0,
+    MATopMazeSummariesHighestRated = 1,
+    MATopMazeSummariesNewest = 2,
+    MATopMazeSummariesYours = 3
 } MATopMazeSummariesType;
 
 typedef void (^DownloadTopMazeSummariesCompletionHandler)(NSError *error);

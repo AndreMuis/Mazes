@@ -34,9 +34,9 @@
 - (id)init
 {
     self = [super init];
-	
-	if (self) 
-	{
+    
+    if (self) 
+    {
         _defaultFont = [UIFont systemFontOfSize: [UIFont labelFontSize]];
         
         _activityIndicator = [MAActivityIndicatorStyle activityIndicatorStyle];
@@ -53,7 +53,7 @@
         _ratingPopup = [MARatingPopupStyle ratingPopupStyle];
         _topMazesScreen = [MATopMazesScreenStyle topMazesScreenStyle];
     }
-	
+    
     return self;
 }
 

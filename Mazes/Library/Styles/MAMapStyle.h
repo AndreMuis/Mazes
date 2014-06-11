@@ -23,7 +23,7 @@
 @property (readonly, strong, nonatomic) UIColor *teleportationColor;
 @property (readonly, strong, nonatomic) UIColor *wallColor;
 @property (readonly, strong, nonatomic) UIColor *noWallColor;
-@property (readonly, strong, nonatomic) UIColor *invisibleColor;	
+@property (readonly, strong, nonatomic) UIColor *invisibleColor;    
 
 + (MAMapStyle *)mapStyle;
 
