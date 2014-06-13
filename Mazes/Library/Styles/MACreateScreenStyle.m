@@ -38,9 +38,9 @@
         
         _messageBackgroundColor = [UIColor clearColor];
         _messageEnabledTextColor = colors.darkBlueColor;
-        _messageDisabledTextColor = colors.darkBlueColor;
+        _messageDisabledTextColor = colors.lightGray2Color;
         
-        _floorPlanBorderColor = colors.lightOrange2Color;
+        _floorPlanBorderColor = colors.brownColor;
     }
                       
     return self;

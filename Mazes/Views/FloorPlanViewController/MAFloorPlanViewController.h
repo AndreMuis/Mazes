@@ -8,11 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+@class MALocation;
 @class MAMaze;
+@class MAWall;
 
 @protocol MAFloorPlanViewDelegate;
 
 @interface MAFloorPlanViewController : UIViewController
+
+@property (readonly, assign, nonatomic) CGFloat minimumZoomScale;
+
+@property (readwrite, strong, nonatomic) MALocation *previousSelectedLocation;
+@property (readwrite, strong, nonatomic) MALocation *currentSelectedLocation;
+
+@property (readwrite, strong, nonatomic) MAWall *currentSelectedWall;
 
 + (MAFloorPlanViewController *)floorPlanViewControllerWithMaze: (MAMaze *)maze
                                          floorPlanViewDelegate: (id<MAFloorPlanViewDelegate>)floorPlanViewDelegate;
@@ -24,6 +33,6 @@
 
 - (void)updateSize;
 
-- (void)refreshUI;
+- (void)redrawUI;
 
 @end

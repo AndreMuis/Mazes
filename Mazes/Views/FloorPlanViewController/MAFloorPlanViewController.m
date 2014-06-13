@@ -11,16 +11,18 @@
 #import "MAFloorPlanStyle.h"
 #import "MAFloorPlanView.h"
 #import "MAFloorPlanViewDelegate.h"
+#import "MALocation.h"
 #import "MAMaze.h"
 #import "MAStyles.h"
 #import "MAUtilities.h"
+#import "MAWall.h"
 
 @interface MAFloorPlanViewController () <UIScrollViewDelegate>
 
 @property (readonly, strong, nonatomic) MAStyles *styles;
 
-@property (readonly, strong, nonatomic) id<MAFloorPlanViewDelegate> floorPlanViewDelegate;
 @property (readonly, strong, nonatomic) MAMaze *maze;
+@property (readonly, strong, nonatomic) id<MAFloorPlanViewDelegate> floorPlanViewDelegate;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet MAFloorPlanView *floorPlanView;
@@ -49,13 +51,48 @@
     
     if (self)
     {
+        _styles = [MAStyles styles];
+
         _maze = maze;
         _floorPlanViewDelegate = floorPlanViewDelegate;
-
-        _styles = [MAStyles styles];
     }
     
     return self;
+}
+
+- (CGFloat)minimumZoomScale
+{
+    return self.scrollView.minimumZoomScale;
+}
+
+- (void)setPreviousSelectedLocation: (MALocation *)previousSelectedLocation
+{
+    self.floorPlanView.previousSelectedLocation = previousSelectedLocation;
+}
+
+- (MALocation *)previousSelectedLocation
+{
+    return self.floorPlanView.previousSelectedLocation;
+}
+
+- (void)setCurrentSelectedLocation: (MALocation *)currentSelectedLocation
+{
+    self.floorPlanView.currentSelectedLocation = currentSelectedLocation;
+}
+
+- (MALocation *)currentSelectedLocation
+{
+    return self.floorPlanView.currentSelectedLocation;
+}
+
+- (void)setCurrentSelectedWall: (MAWall *)currentSelectedWall
+{
+    self.floorPlanView.currentSelectedWall = currentSelectedWall;
+}
+
+- (MAWall *)currentSelectedWall
+{
+    return self.floorPlanView.currentSelectedWall;
 }
 
 - (void)viewDidLoad
@@ -70,8 +107,8 @@
     
     self.floorPlanView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [self.floorPlanView setupWithFloorPlanViewDelegate: self.floorPlanViewDelegate
-                                                  maze: self.maze];
+    [self.floorPlanView setupWithDelegate: self.floorPlanViewDelegate
+                                     maze: self.maze];
 }
 
 - (void)viewWillAppear: (BOOL)animated
@@ -121,9 +158,9 @@
     }
 }
 
-- (void)refreshUI
+- (void)redrawUI
 {
-    [self.floorPlanView refreshUI];
+    [self.floorPlanView redrawUI];
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView

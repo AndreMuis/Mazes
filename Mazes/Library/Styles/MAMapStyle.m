@@ -28,8 +28,7 @@
         MAColors *colors = [MAColors colors];
 
         _wallWidth = 3.0;
-        _squareWidth = 15.0;
-        _length = _squareWidth * MAColumnsMax + _wallWidth * (MAColumnsMax + 1);
+        _locationLength = 15.0;
         
         _backgroundColor = colors.lightGray3Color;
         

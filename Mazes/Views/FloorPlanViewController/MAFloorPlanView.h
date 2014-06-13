@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class MALocation;
 @class MAMaze;
+@class MAWall;
 
 @protocol MAFloorPlanViewDelegate;
 
@@ -16,11 +18,16 @@
 
 @property (readonly, assign, nonatomic) CGSize size;
 
-- (void)setupWithFloorPlanViewDelegate: (id<MAFloorPlanViewDelegate>)floorPlanViewDelegate
-                                  maze: (MAMaze *)maze;
+@property (readwrite, strong, nonatomic) MALocation *previousSelectedLocation;
+@property (readwrite, strong, nonatomic) MALocation *currentSelectedLocation;
+
+@property (readwrite, strong, nonatomic) MAWall *currentSelectedWall;
+
+- (void)setupWithDelegate: (id<MAFloorPlanViewDelegate>)delegate
+                     maze: (MAMaze *)maze;
 
 - (void)updateSizeConstraints;
 
-- (void)refreshUI;
+- (void)redrawUI;
 
 @end

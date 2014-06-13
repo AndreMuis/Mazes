@@ -33,7 +33,5 @@ typedef enum : NSUInteger
 @property (readonly, assign, nonatomic) NSUInteger column;
 
 @property (readwrite, assign, nonatomic) BOOL hit;
-@property (readwrite, assign, nonatomic) CGRect mapRect;
-@property (readwrite, strong, nonatomic) UIColor *mapColor;
 
 @end

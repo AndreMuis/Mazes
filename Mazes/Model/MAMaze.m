@@ -48,12 +48,9 @@
         
         _locations = [[NSMutableArray alloc] init];
         _locationsData = nil;
-        _previousSelectedLocation = nil;
-        _currentSelectedLocation = nil;
         
         _walls = [[NSMutableArray alloc] init];
         _wallsData = nil;
-        _currentSelectedWall = nil;
     }
     
     return self;
@@ -63,13 +60,10 @@
 {
     if ([propertyName isEqualToString: @"rows"] ||
         [propertyName isEqualToString: @"columns"] ||
-        [propertyName isEqualToString: @"locations"] ||
         [propertyName isEqualToString: @"startLocation"] ||
         [propertyName isEqualToString: @"endLocation"] ||
-        [propertyName isEqualToString: @"previousSelectedLocation"] ||
-        [propertyName isEqualToString: @"currentSelectedLocation"] ||
-        [propertyName isEqualToString: @"walls"] ||
-        [propertyName isEqualToString: @"currentSelectedWall"])
+        [propertyName isEqualToString: @"locations"] ||
+        [propertyName isEqualToString: @"walls"])
     {
         return NO;
     }
@@ -137,11 +131,7 @@
     maze.modifiedAt = [NSDate date];
     
     maze.locationsData = nil;
-    maze.previousSelectedLocation = nil;
-    maze.currentSelectedLocation = nil;
-
     maze.wallsData = nil;
-    maze.currentSelectedWall = nil;
     
     [maze populateLocationsAndWalls];
     
@@ -153,11 +143,7 @@
     self.public = NO;
     
     self.locationsData = nil;
-    self.previousSelectedLocation = nil;
-    self.currentSelectedLocation = nil;
-    
     self.wallsData = nil;
-    self.currentSelectedWall = nil;
     
     [self populateLocationsAndWalls];
 }
@@ -576,16 +562,11 @@
     desc = [desc stringByAppendingFormat: @"\tstartLocation = %@;\n", self.startLocation];
     desc = [desc stringByAppendingFormat: @"\tendLocation = %@;\n", self.endLocation];
 
-    desc = [desc stringByAppendingFormat: @"\tpreviousSelectedLocation = %@;\n", self.previousSelectedLocation];
-    desc = [desc stringByAppendingFormat: @"\tcurrentSelectedLocation = %@;\n", self.currentSelectedLocation];
-
-    desc = [desc stringByAppendingFormat: @"\tcurrentSelectedWall = %@;\n", self.currentSelectedWall];
-   
     desc = [desc stringByAppendingFormat: @"\tlocationsData.length = %d;\n", self.locationsData.length];
-    
     desc = [desc stringByAppendingFormat: @"\tlocations = %@;\n", self.locations];
     
     desc = [desc stringByAppendingFormat: @"\twalls = %@>", self.walls];
+    desc = [desc stringByAppendingFormat: @"\twallsData.length = %d;\n", self.wallsData.length];
 
     return desc;
 }

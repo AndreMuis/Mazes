@@ -41,6 +41,14 @@
 
         _delegate = nil;
         _maze = nil;
+        
+        _widthLayoutConstraint = nil;
+        _heightLayoutConstraint = nil;
+        
+        _previousSelectedLocation = nil;
+        _currentSelectedLocation = nil;
+        
+        _currentSelectedWall = nil;
     }
     
     return self;
@@ -52,10 +60,10 @@
                       self.styles.floorPlan.segmentLengthShort * (self.maze.rows + 1) + self.styles.floorPlan.segmentLengthLong * self.maze.rows);
 }
 
-- (void)setupWithFloorPlanViewDelegate: (id<MAFloorPlanViewDelegate>)floorPlanViewDelegate
-                                  maze: (MAMaze *)maze
+- (void)setupWithDelegate: (id<MAFloorPlanViewDelegate>)delegate
+                     maze: (MAMaze *)maze
 {
-    _delegate = floorPlanViewDelegate;
+    _delegate = delegate;
     _maze = maze;
 }
 
@@ -72,7 +80,7 @@
     self.heightLayoutConstraint.constant = self.size.height;
 }
 
-- (void)refreshUI
+- (void)redrawUI
 {
     [self setNeedsDisplay];
 }
@@ -83,7 +91,6 @@
    
     for (MALocation *location in [self.maze allLocations])
     {
-        // location
         if (location.row <= self.maze.rows && location.column <= self.maze.columns)
         {
             CGRect locationRect = [self locationRectWithLocation: location];
@@ -150,10 +157,10 @@
                                             color: self.styles.floorPlan.textureHighlightColor];
             }
             
-            if (self.maze.currentSelectedLocation != nil)
+            if (self.currentSelectedLocation != nil)
             {
-                if (location.row == self.maze.currentSelectedLocation.row &&
-                    location.column == self.maze.currentSelectedLocation.column)
+                if (location.row == self.currentSelectedLocation.row &&
+                    location.column == self.currentSelectedLocation.column)
                 {
                     [MAUtilities drawBorderInsideRect: locationRect
                                             withWidth: self.styles.floorPlan.locationHighlightWidth
@@ -162,127 +169,6 @@
             }
         }
         
-        // north wall
-        if (location.column <= self.maze.columns)
-        {
-            MAWall *northWall = [self.maze wallWithRow: location.row
-                                                column: location.column
-                                             direction: MADirectionNorth];
-            
-            CGRect northWallRect = [self wallRectWithWall: northWall];
-
-            switch (northWall.type)
-            {
-                case MAWallNone:
-                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.noWallColor.CGColor);
-                    break;
-                    
-                case MAWallBorder:
-                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderWallColor.CGColor);
-                    break;
-
-                case MAWallSolid:
-                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.solidColor.CGColor);
-                    break;
-                    
-                case MAWallInvisible:
-                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.invisibleColor.CGColor);
-                    break;
-
-                case MAWallFake:
-                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.fakeColor.CGColor);
-                    break;
-                    
-                default:
-                    [MAUtilities logWithClass: [self class]
-                                      message: @"Wall type set to an illegal value."
-                                   parameters: @{@"northWall.type" : @(northWall.type)}];
-                    break;
-            }
-            
-            CGContextFillRect(context, northWallRect);
-            
-            if (northWall.textureId != nil)
-            {
-                [MAUtilities drawBorderInsideRect: northWallRect
-                                        withWidth: self.styles.floorPlan.wallHighlightWidth
-                                            color: self.styles.floorPlan.textureHighlightColor];
-            }
-            
-            if (self.maze.currentSelectedWall != nil)
-            {
-                if (location.row == self.maze.currentSelectedWall.row &&
-                    location.column == self.maze.currentSelectedWall.column &&
-                    self.maze.currentSelectedWall.direction == MADirectionNorth)
-                {
-                    [MAUtilities drawBorderInsideRect: northWallRect
-                                            withWidth: self.styles.floorPlan.wallHighlightWidth
-                                                color: self.styles.floorPlan.highlightColor];
-                }
-            }
-        }
-        
-        // west wall
-        if (location.row <= self.maze.rows)
-        {
-            MAWall *westWall = [self.maze wallWithRow: location.row
-                                               column: location.column
-                                            direction: MADirectionWest];
-
-            CGRect westWallRect = [self wallRectWithWall: westWall];
-            
-            switch (westWall.type)
-            {
-                case MAWallNone:
-                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.noWallColor.CGColor);
-                    break;
-
-                case MAWallBorder:
-                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderWallColor.CGColor);
-                    break;
-                    
-                case MAWallSolid:
-                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.solidColor.CGColor);
-                    break;
-                    
-                case MAWallInvisible:
-                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.invisibleColor.CGColor);
-                    break;
-                    
-                case MAWallFake:
-                    CGContextSetFillColorWithColor(context, self.styles.floorPlan.fakeColor.CGColor);
-                    break;
-                    
-                default:
-                    [MAUtilities logWithClass: [self class]
-                                      message: @"Wall type set to an illegal value."
-                                   parameters: @{@"westWall.type" : @(westWall.type)}];
-                    break;
-            }
-
-            CGContextFillRect(context, westWallRect);
-            
-            if (westWall.textureId != nil)
-            {
-                [MAUtilities drawBorderInsideRect: westWallRect
-                                        withWidth: self.styles.floorPlan.wallHighlightWidth
-                                            color: self.styles.floorPlan.textureHighlightColor];
-            }
-            
-            if (self.maze.currentSelectedWall != nil)
-            {
-                if (location.row == self.maze.currentSelectedWall.row &&
-                    location.column == self.maze.currentSelectedWall.column &&
-                    self.maze.currentSelectedWall.direction == MADirectionWest)
-                {
-                    [MAUtilities drawBorderInsideRect: westWallRect
-                                            withWidth: self.styles.floorPlan.wallHighlightWidth
-                                                color: self.styles.floorPlan.highlightColor];
-                }
-            }
-        }
-        
-        // corner
         CGRect cornerRect = [self cornerRectWithLocation: location];
         
         if (location.row > 1 && location.row <= self.maze.rows &&
@@ -295,6 +181,61 @@
         {
             CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderWallColor.CGColor);
             CGContextFillRect(context, cornerRect);
+        }
+    }
+    
+    for (MAWall *wall in [self.maze allWalls])
+    {
+        CGRect wallRect = [self wallRectWithWall: wall];
+
+        switch (wall.type)
+        {
+            case MAWallNone:
+                CGContextSetFillColorWithColor(context, self.styles.floorPlan.noWallColor.CGColor);
+                break;
+                
+            case MAWallBorder:
+                CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderWallColor.CGColor);
+                break;
+
+            case MAWallSolid:
+                CGContextSetFillColorWithColor(context, self.styles.floorPlan.solidColor.CGColor);
+                break;
+                
+            case MAWallInvisible:
+                CGContextSetFillColorWithColor(context, self.styles.floorPlan.invisibleColor.CGColor);
+                break;
+
+            case MAWallFake:
+                CGContextSetFillColorWithColor(context, self.styles.floorPlan.fakeColor.CGColor);
+                break;
+                
+            default:
+                [MAUtilities logWithClass: [self class]
+                                  message: @"Wall type set to an illegal value."
+                               parameters: @{@"wall.type" : @(wall.type)}];
+                break;
+        }
+        
+        CGContextFillRect(context, wallRect);
+        
+        if (wall.textureId != nil)
+        {
+            [MAUtilities drawBorderInsideRect: wallRect
+                                    withWidth: self.styles.floorPlan.wallHighlightWidth
+                                        color: self.styles.floorPlan.textureHighlightColor];
+        }
+        
+        if (self.currentSelectedWall != nil)
+        {
+            if (wall.row == self.currentSelectedWall.row &&
+                wall.column == self.currentSelectedWall.column &&
+                wall.direction == self.currentSelectedWall.direction)
+            {
+                [MAUtilities drawBorderInsideRect: wallRect
+                                        withWidth: self.styles.floorPlan.wallHighlightWidth
+                                            color: self.styles.floorPlan.highlightColor];
+            }
         }
     }
 }

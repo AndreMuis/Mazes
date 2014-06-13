@@ -246,7 +246,7 @@
 {
     [super viewWillAppear: animated];
     
-    [self.floorPlanViewController refreshUI];
+    [self.floorPlanViewController redrawUI];
     
     [self setupTexturesPopover];
 }
@@ -376,35 +376,35 @@
 {
     if ([self.maze isInnerWall: wall])
     {
-        self.maze.currentSelectedWall = wall;
+        self.floorPlanViewController.currentSelectedWall = wall;
         
         [self setupTabBarWithSelectedIndex: 3];
     
         [self setTableView: self.wallTypeTableView disabled: NO];
         
-        if (self.maze.currentSelectedWall.type == MAWallNone)
+        if (self.floorPlanViewController.currentSelectedWall.type == MAWallNone)
         {
-            self.maze.currentSelectedWall.type = MAWallSolid;
+            self.floorPlanViewController.currentSelectedWall.type = MAWallSolid;
 
             if ([self wallPassesTeleportationSurroundedCheck: wall] == NO)
             {
-                self.maze.currentSelectedWall.type = MAWallNone;
+                self.floorPlanViewController.currentSelectedWall.type = MAWallNone;
                 
                 [self teleportationSurroundedAlert];
             }
         }
         else
         {
-            self.maze.currentSelectedWall.type = MAWallNone;
+            self.floorPlanViewController.currentSelectedWall.type = MAWallNone;
         }
         
-        [self setupWallTypeTableViewWallType: self.maze.currentSelectedWall.type];
+        [self setupWallTypeTableViewWallType: self.floorPlanViewController.currentSelectedWall.type];
         
         [self showTutorialHelpForTopic: @"WallTypes"];
         
         [self setupWallPanel];
 
-        [self.floorPlanViewController refreshUI];
+        [self.floorPlanViewController redrawUI];
         
         self.settings.hasSelectedWall = YES;
     }
@@ -434,22 +434,22 @@
         return;
     }
         
-    self.maze.previousSelectedLocation = self.maze.currentSelectedLocation;
-    self.maze.currentSelectedLocation = newLocation;
+    self.floorPlanViewController.previousSelectedLocation = self.floorPlanViewController.currentSelectedLocation;
+    self.floorPlanViewController.currentSelectedLocation = newLocation;
         
     [self setupTabBarWithSelectedIndex: 2];
         
     if (setAsTeleportation == YES)
     {
-        [self.maze resetLocation: self.maze.currentSelectedLocation];
+        [self.maze resetLocation: self.floorPlanViewController.currentSelectedLocation];
         
-        self.maze.previousSelectedLocation.teleportX = self.maze.currentSelectedLocation.column;
-        self.maze.previousSelectedLocation.teleportY = self.maze.currentSelectedLocation.row;
+        self.floorPlanViewController.previousSelectedLocation.teleportX = self.floorPlanViewController.currentSelectedLocation.column;
+        self.floorPlanViewController.previousSelectedLocation.teleportY = self.floorPlanViewController.currentSelectedLocation.row;
                 
-        self.maze.currentSelectedLocation.action = MALocationActionTeleport;
-        self.maze.currentSelectedLocation.teleportId = self.maze.previousSelectedLocation.teleportId;
-        self.maze.currentSelectedLocation.teleportX = self.maze.previousSelectedLocation.column;
-        self.maze.currentSelectedLocation.teleportY = self.maze.previousSelectedLocation.row;
+        self.floorPlanViewController.currentSelectedLocation.action = MALocationActionTeleport;
+        self.floorPlanViewController.currentSelectedLocation.teleportId = self.floorPlanViewController.previousSelectedLocation.teleportId;
+        self.floorPlanViewController.currentSelectedLocation.teleportX = self.floorPlanViewController.previousSelectedLocation.column;
+        self.floorPlanViewController.currentSelectedLocation.teleportY = self.floorPlanViewController.previousSelectedLocation.row;
         
         [self showTutorialHelpForTopic: @"TeleportDirection"];
     }
@@ -458,25 +458,25 @@
         [self showTutorialHelpForTopic: @"LocationTypes"];    
     }
         
-    [self setupLocationActionTableViewLocationAction: self.maze.currentSelectedLocation.action
-                                               theta: self.maze.currentSelectedLocation.direction];
+    [self setupLocationActionTableViewLocationAction: self.floorPlanViewController.currentSelectedLocation.action
+                                               theta: self.floorPlanViewController.currentSelectedLocation.direction];
     
     self.messageTextView.editable = YES;
     
     // set Message
     [self.messageTextView resignFirstResponder];
-    self.messageTextView.text = self.maze.currentSelectedLocation.message;
+    self.messageTextView.text = self.floorPlanViewController.currentSelectedLocation.message;
 
     [self setupLocationPanel];
     
-    [self.floorPlanViewController refreshUI];
+    [self.floorPlanViewController redrawUI];
 }
 
 - (BOOL)setNextLocationAsTeleportation
 {
-    if (self.maze.currentSelectedLocation != nil &&
-        self.maze.currentSelectedLocation.action == MALocationActionTeleport &&
-        self.maze.currentSelectedLocation.teleportX == 0 && self.maze.currentSelectedLocation.teleportY == 0)
+    if (self.floorPlanViewController.currentSelectedLocation != nil &&
+        self.floorPlanViewController.currentSelectedLocation.action == MALocationActionTeleport &&
+        self.floorPlanViewController.currentSelectedLocation.teleportX == 0 && self.floorPlanViewController.currentSelectedLocation.teleportY == 0)
     {
         return YES;
     }
@@ -691,7 +691,7 @@
         {
             case MALocationActionDoNothing:
             {
-                [self.maze resetLocation: self.maze.currentSelectedLocation];
+                [self.maze resetLocation: self.floorPlanViewController.currentSelectedLocation];
                 
                 [self setupLocationPanel];
                 
@@ -702,14 +702,14 @@
                 
             case MALocationActionStart:
             {                
-                [self.maze resetLocation: self.maze.currentSelectedLocation];
+                [self.maze resetLocation: self.floorPlanViewController.currentSelectedLocation];
                 
                 if (self.maze.startLocation != nil)
                 {
                     [self.maze resetLocation: self.maze.startLocation];
                 }
                 
-                self.maze.currentSelectedLocation.floorTextureId = MAGreenTextureId;
+                self.floorPlanViewController.currentSelectedLocation.floorTextureId = MAGreenTextureId;
                 [self setupLocationPanel];
                 
                 [self showTutorialHelpForTopic: @"StartDirection"];
@@ -719,14 +719,14 @@
                 
             case MALocationActionEnd:
             {
-                [self.maze resetLocation: self.maze.currentSelectedLocation];
+                [self.maze resetLocation: self.floorPlanViewController.currentSelectedLocation];
                 
                 if (self.maze.endLocation != nil)
                 {
                     [self.maze resetLocation: self.maze.endLocation];
                 }
                 
-                self.maze.currentSelectedLocation.floorTextureId = MARedTextureId;
+                self.floorPlanViewController.currentSelectedLocation.floorTextureId = MARedTextureId;
                 [self setupLocationPanel];
 
                 [self showTutorialHelpForTopic: @"None"];
@@ -736,7 +736,7 @@
                 
             case MALocationActionStartOver:
             {
-                [self.maze resetLocation: self.maze.currentSelectedLocation];
+                [self.maze resetLocation: self.floorPlanViewController.currentSelectedLocation];
                 
                 [self setupLocationPanel];
 
@@ -747,7 +747,7 @@
                 
             case MALocationActionTeleport:
             {
-                if ([self.maze isSurroundedByWallsWithLocation: self.maze.currentSelectedLocation])
+                if ([self.maze isSurroundedByWallsWithLocation: self.floorPlanViewController.currentSelectedLocation])
                 {
                     [self teleportationSurroundedAlert];
                     
@@ -755,9 +755,9 @@
                     return;
                 }
                 
-                [self.maze resetLocation: self.maze.currentSelectedLocation];
+                [self.maze resetLocation: self.floorPlanViewController.currentSelectedLocation];
                 
-                self.maze.currentSelectedLocation.TeleportId = [self getNextTeleportId];
+                self.floorPlanViewController.currentSelectedLocation.TeleportId = [self getNextTeleportId];
                 
                 [self setupLocationPanel];
                 
@@ -773,26 +773,26 @@
                 break;
         }
         
-        self.maze.currentSelectedLocation.action = action;
+        self.floorPlanViewController.currentSelectedLocation.action = action;
         
-        [self setupLocationActionTableViewLocationAction: self.maze.currentSelectedLocation.action
-                                                   theta: self.maze.currentSelectedLocation.direction];
+        [self setupLocationActionTableViewLocationAction: self.floorPlanViewController.currentSelectedLocation.action
+                                                   theta: self.floorPlanViewController.currentSelectedLocation.direction];
     }
     else if (tableView == self.directionTableView)
     {
-        self.maze.currentSelectedLocation.direction = [[self.directionThetas objectAtIndex: indexPath.row] intValue];
+        self.floorPlanViewController.currentSelectedLocation.direction = [[self.directionThetas objectAtIndex: indexPath.row] intValue];
         
-        [self setupDirectionTableViewLocationAction: self.maze.currentSelectedLocation.action
-                                              theta: self.maze.currentSelectedLocation.direction];
+        [self setupDirectionTableViewLocationAction: self.floorPlanViewController.currentSelectedLocation.action
+                                              theta: self.floorPlanViewController.currentSelectedLocation.direction];
     }    
     else if (tableView == self.wallTypeTableView)
     {
-        MAWallType previousSelectedWallType = self.maze.currentSelectedWall.type;
-        self.maze.currentSelectedWall.type = [[self.wallTypes objectAtIndex: indexPath.row] intValue];
+        MAWallType previousSelectedWallType = self.floorPlanViewController.currentSelectedWall.type;
+        self.floorPlanViewController.currentSelectedWall.type = [[self.wallTypes objectAtIndex: indexPath.row] intValue];
         
-        if ([self wallPassesTeleportationSurroundedCheck: self.maze.currentSelectedWall] == NO)
+        if ([self wallPassesTeleportationSurroundedCheck: self.floorPlanViewController.currentSelectedWall] == NO)
         {
-            self.maze.currentSelectedWall.type = previousSelectedWallType;
+            self.floorPlanViewController.currentSelectedWall.type = previousSelectedWallType;
             
             [self.wallTypeTableView deselectRowAtIndexPath: indexPath animated: YES];
             
@@ -800,13 +800,13 @@
         }
         else 
         {
-            [self setupWallTypeTableViewWallType: self.maze.currentSelectedWall.type];
+            [self setupWallTypeTableViewWallType: self.floorPlanViewController.currentSelectedWall.type];
             
-            if (self.maze.currentSelectedWall.type == MAWallInvisible)
+            if (self.floorPlanViewController.currentSelectedWall.type == MAWallInvisible)
             {
                 [self showTutorialHelpForTopic: @"InvisibleWalls"];
             }
-            else if (self.maze.currentSelectedWall.type == MAWallFake)
+            else if (self.floorPlanViewController.currentSelectedWall.type == MAWallFake)
             {
                 [self showTutorialHelpForTopic: @"FakeWalls"];
             }
@@ -860,7 +860,7 @@
         [self.backgroundSoundTableView deselectRowAtIndexPath: indexPath animated: YES];    
     }    
     
-    [self.floorPlanViewController refreshUI];
+    [self.floorPlanViewController redrawUI];
 }
 
 - (int)getNextTeleportId
@@ -1129,7 +1129,7 @@ BOOL exists;
 
 - (void)setupLocationPanel
 {
-    if (self.maze.currentSelectedLocation != nil)
+    if (self.floorPlanViewController.currentSelectedLocation != nil)
     {
         if (self.texturesPopoverController.popoverVisible == YES)
         {
@@ -1137,9 +1137,9 @@ BOOL exists;
         }
         
         MATexture *floorTexture = nil;
-        if (self.maze.currentSelectedLocation.floorTextureId != nil)
+        if (self.floorPlanViewController.currentSelectedLocation.floorTextureId != nil)
         {
-            floorTexture = [self.textureManager textureWithTextureId: self.maze.currentSelectedLocation.floorTextureId];
+            floorTexture = [self.textureManager textureWithTextureId: self.floorPlanViewController.currentSelectedLocation.floorTextureId];
         }
         else
         {
@@ -1150,9 +1150,9 @@ BOOL exists;
                                  forState: UIControlStateNormal];
 
         MATexture *ceilingTexture = nil;
-        if (self.maze.currentSelectedLocation.ceilingTextureId != nil)
+        if (self.floorPlanViewController.currentSelectedLocation.ceilingTextureId != nil)
         {
-            ceilingTexture = [self.textureManager textureWithTextureId: self.maze.currentSelectedLocation.ceilingTextureId];
+            ceilingTexture = [self.textureManager textureWithTextureId: self.floorPlanViewController.currentSelectedLocation.ceilingTextureId];
         }
         else
         {
@@ -1173,15 +1173,15 @@ BOOL exists;
 {
     if (self.locationScrollView.isTracking == NO)
     {
-        if (self.maze.currentSelectedLocation != nil &&
-            self.maze.currentSelectedLocation.action != MALocationActionStart &&
-            self.maze.currentSelectedLocation.action != MALocationActionEnd)
+        if (self.floorPlanViewController.currentSelectedLocation != nil &&
+            self.floorPlanViewController.currentSelectedLocation.action != MALocationActionStart &&
+            self.floorPlanViewController.currentSelectedLocation.action != MALocationActionEnd)
         {
             __weak typeof(self) weakSelf = self;
             
             self.texturesViewController.textureSelectedHandler = ^(MATexture *texture)
             {
-                weakSelf.maze.currentSelectedLocation.floorTextureId = texture.textureId;
+                weakSelf.floorPlanViewController.currentSelectedLocation.floorTextureId = texture.textureId;
                 [weakSelf setupLocationPanel];
             };
             
@@ -1197,7 +1197,7 @@ BOOL exists;
 {
     if (self.locationScrollView.isTracking == NO)
     {
-        self.maze.currentSelectedLocation.floorTextureId = nil;
+        self.floorPlanViewController.currentSelectedLocation.floorTextureId = nil;
         [self setupLocationPanel];
     }
 }
@@ -1206,13 +1206,13 @@ BOOL exists;
 {
     if (self.locationScrollView.isTracking == NO)
     {
-        if (self.maze.currentSelectedLocation != nil)
+        if (self.floorPlanViewController.currentSelectedLocation != nil)
         {
             __weak typeof(self) weakSelf = self;
             
             self.texturesViewController.textureSelectedHandler = ^(MATexture *texture)
             {
-                weakSelf.maze.currentSelectedLocation.ceilingTextureId = texture.textureId;
+                weakSelf.floorPlanViewController.currentSelectedLocation.ceilingTextureId = texture.textureId;
                 [weakSelf setupLocationPanel];
             };
             
@@ -1228,7 +1228,7 @@ BOOL exists;
 {
     if (self.locationScrollView.isTracking == NO)
     {
-        self.maze.currentSelectedLocation.ceilingTextureId = nil;
+        self.floorPlanViewController.currentSelectedLocation.ceilingTextureId = nil;
         [self setupLocationPanel];
     }
 }
@@ -1239,7 +1239,7 @@ BOOL exists;
 
 - (void)setupWallPanel
 {
-    if (self.maze.currentSelectedWall != nil)
+    if (self.floorPlanViewController.currentSelectedWall != nil)
     {
         if (self.texturesPopoverController.popoverVisible == YES)
         {
@@ -1247,9 +1247,9 @@ BOOL exists;
         }
         
         MATexture *texture = nil;
-        if (self.maze.currentSelectedWall.textureId != nil)
+        if (self.floorPlanViewController.currentSelectedWall.textureId != nil)
         {
-            texture = [self.textureManager textureWithTextureId: self.maze.currentSelectedWall.textureId];
+            texture = [self.textureManager textureWithTextureId: self.floorPlanViewController.currentSelectedWall.textureId];
         }
         else
         {
@@ -1267,13 +1267,13 @@ BOOL exists;
 
 - (void)wallTextureButtonTouchDown: (id)sender
 {
-    if (self.maze.currentSelectedWall != nil)
+    if (self.floorPlanViewController.currentSelectedWall != nil)
     {
         __weak typeof(self) weakSelf = self;
         
         self.texturesViewController.textureSelectedHandler = ^(MATexture *texture)
         {
-            weakSelf.maze.currentSelectedWall.textureId = texture.textureId;
+            weakSelf.floorPlanViewController.currentSelectedWall.textureId = texture.textureId;
             [weakSelf setupWallPanel];
         };
                 
@@ -1285,7 +1285,7 @@ BOOL exists;
 
 - (IBAction)wallTextureResetButtonTouchDown: (id)sender
 {
-    self.maze.currentSelectedWall.textureId = nil;
+    self.floorPlanViewController.currentSelectedWall.textureId = nil;
     [self setupWallPanel];
 }
 
@@ -1567,12 +1567,12 @@ BOOL exists;
 
 - (void)textViewDidEndEditing: (UITextView *)textView
 {
-    [self.floorPlanViewController refreshUI];
+    [self.floorPlanViewController redrawUI];
 }
 
 - (void)textViewDidChange:(UITextView *)textView
 {    
-    self.maze.currentSelectedLocation.message = [self.messageTextView.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    self.floorPlanViewController.currentSelectedLocation.message = [self.messageTextView.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 // maze name
@@ -1700,12 +1700,12 @@ BOOL exists;
 {
     if (disabled == YES && tableView.allowsSelection == YES)
     {
-        tableView.backgroundColor =    self.styles.designScreen.tableViewDisabledBackgroundColor;
+        tableView.backgroundColor = self.styles.designScreen.tableViewDisabledBackgroundColor;
         tableView.allowsSelection = NO;
     }
     else if (disabled == NO && tableView.allowsSelection == NO)
     {
-        tableView.backgroundColor =    self.styles.designScreen.tableViewBackgroundColor;
+        tableView.backgroundColor = self.styles.designScreen.tableViewBackgroundColor;
         tableView.allowsSelection = YES;
     }
 }

@@ -204,9 +204,6 @@
     
     self.mapBorderView.backgroundColor = self.styles.gameScreen.borderColor;
     
-    [self.mapView setup];
-    self.mapView.directionArrowImageView.hidden = YES;
-
     self.messageBorderView.backgroundColor = self.styles.gameScreen.borderColor;
     
     self.messageTextView.backgroundColor = self.styles.gameScreen.messageBackgroundColor;
@@ -246,8 +243,6 @@
     if (self.bannerView.bannerViewActionInProgress == NO)
     {
         self.gameSessionUUID = [NSUUID UUID];
-        
-        self.mapView.directionArrowImageView.hidden = YES;
         
         self.mazeView.userInteractionEnabled = NO;
                 
@@ -299,7 +294,6 @@
         self.mazeSummary = nil;
         
         [self.mapView clear];
-        self.mapView.directionArrowImageView.hidden = YES;
 
         [self clearMessage];
         [self.mazeView clearMaze];
@@ -409,7 +403,6 @@
 - (void)finishSetup
 {
     self.mapView.maze = self.maze;
-    self.mapView.directionArrowImageView.hidden = NO;
 
     self.mazeView.userInteractionEnabled = YES;
     self.mazeView.maze = self.maze;

@@ -9,9 +9,10 @@
 #import "MAMapView.h"
 
 #import "MALocation.h"
-#import "MAMapLocation.h"
+#import "MAMapNearbyLocation.h"
+#import "MAMapNearbyWall.h"
+#import "MAMapSegment.h"
 #import "MAMapStyle.h"
-#import "MAMapWall.h"
 #import "MAMaze.h"
 #import "MASize.h"
 #import "MAStyles.h"
@@ -22,8 +23,12 @@
 
 @property (readonly, strong, nonatomic) MAStyles *styles;
 
-@property (strong, nonatomic) NSMutableArray *mapLocations;
-@property (strong, nonatomic) NSMutableArray *mapWalls;
+@property (strong, nonatomic) NSMutableArray *nearbyLocations;
+@property (strong, nonatomic) NSMutableArray *nearbyWalls;
+
+@property (strong, nonatomic) NSMutableDictionary *segments;
+
+@property (readonly, assign, nonatomic) CGSize mapSize;
 
 @end
 
@@ -37,205 +42,259 @@
     {
         _styles = [MAStyles styles];
         
-        _mapLocations = [[NSMutableArray alloc] init];
-        _mapWalls = [[NSMutableArray alloc] init];
-        
-        MAMapWall *blockingWall1 = nil;
-        MAMapWall *blockingWall2 = nil;
+        _nearbyLocations = [[NSMutableArray alloc] init];
+        _nearbyWalls = [[NSMutableArray alloc] init];
 
-        MAMapLocation *mapLocation;
+        _segments = [[NSMutableDictionary alloc] init];
         
-        mapLocation = [[MAMapLocation alloc] initWithRowDelta: 0 columnDelta: 0 blockingWalls: @[]];
-        [_mapLocations addObject: mapLocation];
+        _maze = nil;
         
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
-        mapLocation = [[MAMapLocation alloc] initWithRowDelta: 0 columnDelta: -1 blockingWalls: @[blockingWall1]];
-        [_mapLocations addObject: mapLocation];
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: -1 direction: MADirectionNorth blockingWalls: @[]];
-        blockingWall2 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
-        mapLocation = [[MAMapLocation alloc] initWithRowDelta: -1 columnDelta: -1 blockingWalls: @[blockingWall1, blockingWall2]];
-        [_mapLocations addObject: mapLocation];
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
-        blockingWall2 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[]];
-        mapLocation = [[MAMapLocation alloc] initWithRowDelta: -1 columnDelta: -1 blockingWalls: @[blockingWall1, blockingWall2]];
-        [_mapLocations addObject: mapLocation];
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[]];
-        mapLocation = [[MAMapLocation alloc] initWithRowDelta: -1 columnDelta: 0 blockingWalls: @[blockingWall1]];
-        [_mapLocations addObject: mapLocation];
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
-        blockingWall2 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[]];
-        mapLocation = [[MAMapLocation alloc] initWithRowDelta: -1 columnDelta: 1 blockingWalls: @[blockingWall1, blockingWall2]];
-        [_mapLocations addObject: mapLocation];
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 1 direction: MADirectionNorth blockingWalls: @[]];
-        blockingWall2 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
-        mapLocation = [[MAMapLocation alloc] initWithRowDelta: -1 columnDelta: 1 blockingWalls: @[blockingWall1, blockingWall2]];
-        [_mapLocations addObject: mapLocation];
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
-        mapLocation = [[MAMapLocation alloc] initWithRowDelta: 0 columnDelta: 1 blockingWalls: @[blockingWall1]];
-        [_mapLocations addObject: mapLocation];
+        _currentLocation = nil;
+        _facingDirection = MADirectionUnknown;
 
-        
-        MAMapWall *mapWall = nil;
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: -1 direction: MADirectionEast blockingWalls: @[]];
-        mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: -1 direction: MADirectionSouth blockingWalls: @[blockingWall1]];
-        [_mapWalls addObject: mapWall];
-        
-        mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionSouth blockingWalls: @[]];
-        [_mapWalls addObject: mapWall];
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 1 direction: MADirectionWest blockingWalls: @[]];
-        mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 1 direction: MADirectionSouth blockingWalls: @[blockingWall1]];
-        [_mapWalls addObject: mapWall];
-        
-
-        mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
-        [_mapWalls addObject: mapWall];
-
-        mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[]];
-        [_mapWalls addObject: mapWall];
-
-        mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
-        [_mapWalls addObject: mapWall];
-
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
-        mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: -1 direction: MADirectionWest blockingWalls: @[blockingWall1]];
-        [_mapWalls addObject: mapWall];
-
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
-        mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: -1 direction: MADirectionNorth blockingWalls: @[blockingWall1]];
-        [_mapWalls addObject: mapWall];
-        
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionSouth blockingWalls: @[]];
-        mapWall = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionWest blockingWalls: @[blockingWall1]];
-        [_mapWalls addObject: mapWall];
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionSouth blockingWalls: @[]];
-        mapWall = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[blockingWall1]];
-        [_mapWalls addObject: mapWall];
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionSouth blockingWalls: @[]];
-        mapWall = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionEast blockingWalls: @[blockingWall1]];
-        [_mapWalls addObject: mapWall];
-    
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
-        mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 1 direction: MADirectionNorth blockingWalls: @[blockingWall1]];
-        [_mapWalls addObject: mapWall];
-
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
-        mapWall = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 1 direction: MADirectionEast blockingWalls: @[blockingWall1]];
-        [_mapWalls addObject: mapWall];
-    
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: -1 direction: MADirectionSouth blockingWalls: @[]];
-        blockingWall2 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
-        mapWall = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: -1 direction: MADirectionWest blockingWalls: @[blockingWall1, blockingWall2]];
-        [_mapWalls addObject: mapWall];
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: -1 direction: MADirectionEast blockingWalls: @[]];
-        blockingWall2 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[]];
-        mapWall = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: -1 direction: MADirectionNorth blockingWalls: @[blockingWall1, blockingWall2]];
-        [_mapWalls addObject: mapWall];
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: 1 direction: MADirectionWest blockingWalls: @[]];
-        blockingWall2 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[]];
-        mapWall = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: 1 direction: MADirectionNorth blockingWalls: @[blockingWall1, blockingWall2]];
-        [_mapWalls addObject: mapWall];
-        
-        blockingWall1 = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: 1 direction: MADirectionSouth blockingWalls: @[]];
-        blockingWall2 = [[MAMapWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
-        mapWall = [[MAMapWall alloc] initWithRowDelta: -1 columnDelta: 1 direction: MADirectionEast blockingWalls: @[blockingWall1, blockingWall2]];
-        [_mapWalls addObject: mapWall];
+        [self setupNearbyLocations];
+        [self setupNearbyWalls];
     }
     
     return self;
 }
 
-- (void)setup
+- (CGSize)mapSize
 {
-    self.backgroundColor = self.styles.map.backgroundColor;
-    
-    UIImage *directionArrowImage = [MAUtilities createDirectionArrowImageWidth: self.styles.map.squareWidth
-                                                                        height: self.styles.map.squareWidth];
-    
-    _directionArrowImageView = [[UIImageView alloc] initWithImage: directionArrowImage];
+    return CGSizeMake(self.styles.map.locationLength * self.maze.columns + self.styles.map.wallWidth * (self.maze.columns + 1),
+                      self.styles.map.locationLength * self.maze.rows + self.styles.map.wallWidth * (self.maze.rows + 1));
+}
 
-    [self addSubview: self.directionArrowImageView];
+- (void)setupNearbyLocations
+{
+    MAMapNearbyLocation *nearbyLocation;
+
+    MAMapNearbyWall *blockingWall1 = nil;
+    MAMapNearbyWall *blockingWall2 = nil;
+    
+    nearbyLocation = [[MAMapNearbyLocation alloc] initWithRowDelta: 0 columnDelta: 0 blockingWalls: @[]];
+    [_nearbyLocations addObject: nearbyLocation];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
+    nearbyLocation = [[MAMapNearbyLocation alloc] initWithRowDelta: 0 columnDelta: -1 blockingWalls: @[blockingWall1]];
+    [_nearbyLocations addObject: nearbyLocation];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: -1 direction: MADirectionNorth blockingWalls: @[]];
+    blockingWall2 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
+    nearbyLocation = [[MAMapNearbyLocation alloc] initWithRowDelta: -1 columnDelta: -1 blockingWalls: @[blockingWall1, blockingWall2]];
+    [_nearbyLocations addObject: nearbyLocation];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
+    blockingWall2 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[]];
+    nearbyLocation = [[MAMapNearbyLocation alloc] initWithRowDelta: -1 columnDelta: -1 blockingWalls: @[blockingWall1, blockingWall2]];
+    [_nearbyLocations addObject: nearbyLocation];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[]];
+    nearbyLocation = [[MAMapNearbyLocation alloc] initWithRowDelta: -1 columnDelta: 0 blockingWalls: @[blockingWall1]];
+    [_nearbyLocations addObject: nearbyLocation];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
+    blockingWall2 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[]];
+    nearbyLocation = [[MAMapNearbyLocation alloc] initWithRowDelta: -1 columnDelta: 1 blockingWalls: @[blockingWall1, blockingWall2]];
+    [_nearbyLocations addObject: nearbyLocation];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 1 direction: MADirectionNorth blockingWalls: @[]];
+    blockingWall2 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
+    nearbyLocation = [[MAMapNearbyLocation alloc] initWithRowDelta: -1 columnDelta: 1 blockingWalls: @[blockingWall1, blockingWall2]];
+    [_nearbyLocations addObject: nearbyLocation];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
+    nearbyLocation = [[MAMapNearbyLocation alloc] initWithRowDelta: 0 columnDelta: 1 blockingWalls: @[blockingWall1]];
+    [_nearbyLocations addObject: nearbyLocation];
+}
+
+- (void)setupNearbyWalls
+{
+    MAMapNearbyWall *nearbyWall = nil;
+    
+    MAMapNearbyWall *blockingWall1 = nil;
+    MAMapNearbyWall *blockingWall2 = nil;
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: -1 direction: MADirectionEast blockingWalls: @[]];
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: -1 direction: MADirectionSouth blockingWalls: @[blockingWall1]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionSouth blockingWalls: @[]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 1 direction: MADirectionWest blockingWalls: @[]];
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 1 direction: MADirectionSouth blockingWalls: @[blockingWall1]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: -1 direction: MADirectionWest blockingWalls: @[blockingWall1]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: -1 direction: MADirectionNorth blockingWalls: @[blockingWall1]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionSouth blockingWalls: @[]];
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionWest blockingWalls: @[blockingWall1]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionSouth blockingWalls: @[]];
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[blockingWall1]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionSouth blockingWalls: @[]];
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: 0 direction: MADirectionEast blockingWalls: @[blockingWall1]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 1 direction: MADirectionNorth blockingWalls: @[blockingWall1]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 1 direction: MADirectionEast blockingWalls: @[blockingWall1]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: -1 direction: MADirectionSouth blockingWalls: @[]];
+    blockingWall2 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionWest blockingWalls: @[]];
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: -1 direction: MADirectionWest blockingWalls: @[blockingWall1, blockingWall2]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: -1 direction: MADirectionEast blockingWalls: @[]];
+    blockingWall2 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[]];
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: -1 direction: MADirectionNorth blockingWalls: @[blockingWall1, blockingWall2]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: 1 direction: MADirectionWest blockingWalls: @[]];
+    blockingWall2 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionNorth blockingWalls: @[]];
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: 1 direction: MADirectionNorth blockingWalls: @[blockingWall1, blockingWall2]];
+    [_nearbyWalls addObject: nearbyWall];
+    
+    blockingWall1 = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: 1 direction: MADirectionSouth blockingWalls: @[]];
+    blockingWall2 = [[MAMapNearbyWall alloc] initWithRowDelta: 0 columnDelta: 0 direction: MADirectionEast blockingWalls: @[]];
+    nearbyWall = [[MAMapNearbyWall alloc] initWithRowDelta: -1 columnDelta: 1 direction: MADirectionEast blockingWalls: @[blockingWall1, blockingWall2]];
+    [_nearbyWalls addObject: nearbyWall];
+}
+
+#pragma mark - UIView
+
+- (void)didMoveToWindow
+{
+    [super didMoveToWindow];
+    
+    self.backgroundColor = self.styles.map.backgroundColor;
 }
 
 - (void)drawRect: (CGRect)rect
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    for (MALocation *location in [self.maze allLocations])
+    if (self.segments.count >= 1)
     {
-        CGContextSetFillColorWithColor(context, location.mapColor.CGColor);
-        CGContextFillRect(context, location.mapRect);
+        CGPoint currentMapPosition =
+            CGPointMake((self.currentLocation.column - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth) + self.styles.map.wallWidth + 0.5 * self.styles.map.locationLength,
+                        (self.currentLocation.row - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth) + self.styles.map.wallWidth + 0.5 * self.styles.map.locationLength);
+        
+        CGSize mapOffset = CGSizeZero;
+        
+        if (self.mapSize.width <= CGRectGetWidth(self.bounds))
+        {
+            mapOffset.width = (self.mapSize.width - CGRectGetWidth(self.bounds)) / 2.0;
+        }
+        else if (currentMapPosition.x < CGRectGetWidth(self.bounds) / 2.0)
+        {
+            mapOffset.width = 0.0;
+        }
+        else if (currentMapPosition.x > self.mapSize.width - CGRectGetWidth(self.bounds) / 2.0)
+        {
+            mapOffset.width = CGRectGetWidth(self.bounds) - self.mapSize.width;
+        }
+        else
+        {
+            mapOffset.width = CGRectGetWidth(self.bounds) / 2.0 - currentMapPosition.x;
+        }
+        
+        if (self.mapSize.height <= CGRectGetHeight(self.bounds))
+        {
+            mapOffset.height = (self.mapSize.height - CGRectGetHeight(self.bounds)) / 2.0;
+        }
+        else if (currentMapPosition.y < CGRectGetHeight(self.bounds) / 2.0)
+        {
+            mapOffset.height = 0.0;
+        }
+        else if (currentMapPosition.y > self.mapSize.height - CGRectGetHeight(self.bounds) / 2.0)
+        {
+            mapOffset.height = CGRectGetHeight(self.bounds) - self.mapSize.height;
+        }
+        else
+        {
+            mapOffset.height = CGRectGetHeight(self.bounds) / 2.0 - currentMapPosition.y;
+        }
 
-        CGContextSetFillColorWithColor(context, location.mapCornerColor.CGColor);
-        CGContextFillRect(context, location.mapCornerRect);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        
+        for (MAMapSegment *segment in [self.segments allValues])
+        {
+            CGContextSetFillColorWithColor(context, segment.color.CGColor);
+            CGContextFillRect(context, CGRectOffset(segment.frame, mapOffset.width, mapOffset.height));
+        }
+        
+        [self drawDirectionArrowWithMapOffset: mapOffset];
     }
+}
+
+- (void)drawDirectionArrowWithMapOffset: (CGSize)mapOffset
+{
+    CGRect arrowFrame = CGRectMake((self.currentLocation.column - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth) + self.styles.map.wallWidth,
+                                   (self.currentLocation.row - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth) + self.styles.map.wallWidth,
+                                   self.styles.map.locationLength,
+                                   self.styles.map.locationLength);
     
-    for (MAWall *wall in [self.maze allWalls])
-    {
-        CGContextSetFillColorWithColor(context, wall.mapColor.CGColor);
-        CGContextFillRect(context, wall.mapRect);
-    }
+    [MAUtilities drawArrowInRect: CGRectOffset(arrowFrame, mapOffset.width, mapOffset.height)
+                    angleDegrees: (self.facingDirection - 1) * 90.0
+                           scale: 1.0
+                  floorPlanStyle: self.styles.floorPlan];
+}
+
+#pragma mark -
+
+- (void)drawSurroundings
+{
+    [self updateNearbyLocationSegments];
+    [self updateNearbyWallSegments];
+
+    [self setNeedsDisplay];
 }
 
 - (void)clear
 {
-    for (MALocation *location in [self.maze allLocations])
-    {
-        location.mapRect = CGRectZero;
-        location.mapColor = nil;
-
-        location.mapCornerRect = CGRectZero;
-        location.mapColor = nil;
-    }
-    
-    for (MAWall *wall in [self.maze allWalls])
-    {
-        wall.mapRect = CGRectZero;
-        wall.mapColor = nil;
-    }
+    [self.segments removeAllObjects];
     
     [self setNeedsDisplay];
 }
 
-- (void)drawSurroundings
-{
-    CGPoint mapOffset = CGPointMake((self.styles.map.length - (self.styles.map.squareWidth * self.maze.columns + self.styles.map.wallWidth * (self.maze.columns + 1))) / 2.0,
-                                    (self.styles.map.length - (self.styles.map.squareWidth * self.maze.rows + self.styles.map.wallWidth * (self.maze.rows + 1))) / 2.0);
-    
-    [self setupLocationsWithMapOffset: mapOffset];
-    [self setupWallsWithMapOffset: mapOffset];
-    
-    [self drawDirectionArrowWithMapOffset: mapOffset];
-
-    [self setNeedsDisplay];
-}
-
-- (void)setupLocationsWithMapOffset: (CGPoint) mapOffset
+- (void)updateNearbyLocationSegments
 {
     NSUInteger rotatedRowDelta;
     NSUInteger rotatedColumnDelta;
     MADirectionType rotatedDirection;
     
-    for (MAMapLocation *mapLocation in self.mapLocations)
+    for (MAMapNearbyLocation *nearbyLocation in self.nearbyLocations)
     {
         BOOL locationVisible = YES;
         
-        for (MAMapWall *blockingWall in mapLocation.blockingWalls)
+        for (MAMapNearbyWall *blockingWall in nearbyLocation.blockingWalls)
         {
             [self rotateDeltasWithRowDelta: blockingWall.rowDelta
                                columnDelta: blockingWall.columnDelta
@@ -265,8 +324,8 @@
         
         if (locationVisible == YES)
         {
-            [self rotateDeltasWithRowDelta: mapLocation.rowDelta
-                               columnDelta: mapLocation.columnDelta
+            [self rotateDeltasWithRowDelta: nearbyLocation.rowDelta
+                               columnDelta: nearbyLocation.columnDelta
                            facingDirection: self.facingDirection
                            rotatedRowDelta: &rotatedRowDelta
                         rotatedColumnDelta: &rotatedColumnDelta];
@@ -274,47 +333,54 @@
             MALocation *location = [self.maze locationWithRow: self.currentLocation.row + rotatedRowDelta
                                                        column: self.currentLocation.column + rotatedColumnDelta];
             
-            location.mapRect =
-            CGRectMake(mapOffset.x + (location.column - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth) + self.styles.map.wallWidth,
-                       mapOffset.y + (location.row - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth) + self.styles.map.wallWidth,
-                       self.styles.map.squareWidth,
-                       self.styles.map.squareWidth);
+            CGRect locationFrame =
+                CGRectMake((location.column - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth) + self.styles.map.wallWidth,
+                           (location.row - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth) + self.styles.map.wallWidth,
+                           self.styles.map.locationLength,
+                           self.styles.map.locationLength);
+            
+            UIColor *locationColor = nil;
             
             if (location.action == MALocationActionStart)
             {
-                location.mapColor = self.styles.map.startColor;
+                locationColor = self.styles.map.startColor;
             }
             else if (location.action == MALocationActionEnd)
             {
-                location.mapColor = self.styles.map.endColor;
+                locationColor = self.styles.map.endColor;
             }
             else if (location.action == MALocationActionStartOver && location.visited == YES)
             {
-                location.mapColor = self.styles.map.startOverColor;
+                locationColor = self.styles.map.startOverColor;
             }
             else if (location.action == MALocationActionTeleport && location.visited == YES)
             {
-                location.mapColor = self.styles.map.teleportationColor;
+                locationColor = self.styles.map.teleportationColor;
             }
             else
             {
-                location.mapColor = self.styles.map.doNothingColor;
+                locationColor = self.styles.map.doNothingColor;
             }
+            
+            MAMapSegment *locationSegment = [[MAMapSegment alloc] initWithFrame: locationFrame
+                                                                  color: locationColor];
+            
+            [self addSegment: locationSegment];
         }
     }
 }
 
-- (void)setupWallsWithMapOffset: (CGPoint)mapOffset
+- (void)updateNearbyWallSegments
 {
     NSUInteger rotatedRowDelta = 0;
     NSUInteger rotatedColumnDelta = 0;
     MADirectionType rotatedDirection = MADirectionUnknown;
     
-    for (MAMapWall *mapWall in self.mapWalls)
+    for (MAMapNearbyWall *nearbyWall in self.nearbyWalls)
     {
         BOOL wallVisible = YES;
     
-        for (MAMapWall *blockingWall in mapWall.blockingWalls)
+        for (MAMapNearbyWall *blockingWall in nearbyWall.blockingWalls)
         {
             [self rotateDeltasWithRowDelta: blockingWall.rowDelta
                                columnDelta: blockingWall.columnDelta
@@ -344,34 +410,34 @@
         
         if (wallVisible == YES)
         {
-            [self rotateDeltasWithRowDelta: mapWall.rowDelta
-                               columnDelta: mapWall.columnDelta
+            [self rotateDeltasWithRowDelta: nearbyWall.rowDelta
+                               columnDelta: nearbyWall.columnDelta
                            facingDirection: self.facingDirection
                            rotatedRowDelta: &rotatedRowDelta
                         rotatedColumnDelta: &rotatedColumnDelta];
             
-            rotatedDirection = [self rotatedDirectionWithDirection: mapWall.direction
+            rotatedDirection = [self rotatedDirectionWithDirection: nearbyWall.direction
                                                    facingDirection: self.facingDirection];
             
             MAWall *wall = [self.maze wallWithRow: self.currentLocation.row + rotatedRowDelta
                                            column: self.currentLocation.column + rotatedColumnDelta
                                         direction: rotatedDirection];
             
+            CGRect wallFrame = CGRectZero;
+            
             if (wall.direction == MADirectionNorth)
             {
-                wall.mapRect =
-                CGRectMake(mapOffset.x + (wall.column - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth) + self.styles.map.wallWidth,
-                           mapOffset.y + (wall.row - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth),
-                           self.styles.map.squareWidth,
-                           self.styles.map.wallWidth);
+                wallFrame = CGRectMake((wall.column - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth) + self.styles.map.wallWidth,
+                                       (wall.row - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth),
+                                       self.styles.map.locationLength,
+                                       self.styles.map.wallWidth);
             }
             else if (wall.direction == MADirectionWest)
             {
-                wall.mapRect =
-                CGRectMake(mapOffset.x + (wall.column - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth),
-                           mapOffset.y + (wall.row - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth) + self.styles.map.wallWidth,
-                           self.styles.map.wallWidth,
-                           self.styles.map.squareWidth);
+                wallFrame = CGRectMake((wall.column - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth),
+                                       (wall.row - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth) + self.styles.map.wallWidth,
+                                       self.styles.map.wallWidth,
+                                       self.styles.map.locationLength);
             }
             else
             {
@@ -380,37 +446,44 @@
                                parameters: @{@"wall.direction" : @(wall.direction)}];
             }
             
+            UIColor *wallColor = nil;
+            
             if (wall.type == MAWallSolid || wall.type == MAWallBorder || wall.type == MAWallFake)
             {                
-                wall.mapColor = self.styles.map.wallColor;
+                wallColor = self.styles.map.wallColor;
             }
             else if (wall.type == MAWallInvisible && wall.hit == YES)
             {
-                wall.mapColor = self.styles.map.invisibleColor;
+                wallColor = self.styles.map.invisibleColor;
             }
             else if (wall.type == MAWallNone || wall.type == MAWallInvisible)
             {
-                wall.mapColor = self.styles.map.noWallColor;
+                wallColor = self.styles.map.noWallColor;
             }
 
+            MAMapSegment *wallSegment = [[MAMapSegment alloc] initWithFrame: wallFrame
+                                                                      color: wallColor];
+            
+            [self addSegment: wallSegment];
+            
             MALocation *location = [self.maze locationWithRow: wall.row
                                                        column: wall.column];
                                     
-            [self setupCornerWithLocation: location mapOffset: mapOffset];
+            [self updateNearbyCornerSegmentsWithLocation: location];
             
             if (wall.direction == MADirectionNorth)
             {
                 MALocation *eastLocation = [self.maze locationWithRow: wall.row
                                                                column: wall.column + 1];
 
-                [self setupCornerWithLocation: eastLocation mapOffset: mapOffset];
+                [self updateNearbyCornerSegmentsWithLocation: eastLocation];
             }
             else if (wall.direction == MADirectionWest)
             {
                 MALocation *southLocation = [self.maze locationWithRow: wall.row + 1
                                                                 column: wall.column];
                 
-                [self setupCornerWithLocation: southLocation mapOffset: mapOffset];
+                [self updateNearbyCornerSegmentsWithLocation: southLocation];
             }
             else
             {
@@ -422,12 +495,12 @@
     }    
 }
 
-- (void)setupCornerWithLocation: (MALocation *)location mapOffset: (CGPoint)mapOffset
+- (void)updateNearbyCornerSegmentsWithLocation: (MALocation *)location
 {
-    location.mapCornerRect = CGRectMake(mapOffset.x + (location.column - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth),
-                                        mapOffset.y + (location.row - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth),
-                                        self.styles.map.wallWidth,
-                                        self.styles.map.wallWidth);
+    CGRect cornerFrame = CGRectMake((location.column - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth),
+                                    (location.row - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth),
+                                    self.styles.map.wallWidth,
+                                    self.styles.map.wallWidth);
     
     // relative to corner
     
@@ -471,26 +544,28 @@
                                 direction: MADirectionNorth];
     }
     
+    UIColor *cornerColor = nil;
+    
     if ((northWall.type == MAWallNone || (northWall.type == MAWallInvisible && northWall.hit == NO)) &&
         (eastWall.type == MAWallNone || (eastWall.type == MAWallInvisible && eastWall.hit == NO)) &&
         (southWall.type == MAWallNone || (southWall.type == MAWallInvisible && southWall.hit == NO)) &&
         (westWall.type == MAWallNone || (westWall.type == MAWallInvisible && westWall.hit == NO)))
     {
-        location.mapCornerColor = self.styles.map.noWallColor;
+        cornerColor = self.styles.map.noWallColor;
     }
     else if (northWall.type == MAWallSolid || northWall.type == MAWallBorder || northWall.type == MAWallFake ||
              eastWall.type == MAWallSolid || eastWall.type == MAWallBorder || eastWall.type == MAWallFake ||
              southWall.type == MAWallSolid || southWall.type == MAWallBorder || southWall.type == MAWallFake ||
              westWall.type == MAWallSolid || westWall.type == MAWallBorder || westWall.type == MAWallFake)
     {
-        location.mapCornerColor = self.styles.map.wallColor;
+        cornerColor = self.styles.map.wallColor;
     }
     else if ((northWall.type == MAWallInvisible && northWall.hit == YES) ||
              (eastWall.type == MAWallInvisible && eastWall.hit == YES) ||
              (southWall.type == MAWallInvisible && southWall.hit == YES) ||
              (westWall.type == MAWallInvisible && westWall.hit == YES))
     {
-        location.mapCornerColor = self.styles.map.invisibleColor;
+        cornerColor = self.styles.map.invisibleColor;
     }
     else 
     {
@@ -499,17 +574,19 @@
                        parameters: @{@"location" : [MAUtilities objectOrNull: location],
                                      @"maze" : [MAUtilities objectOrNull: self.maze]}];
     }
+    
+    MAMapSegment *cornerSegment = [[MAMapSegment alloc] initWithFrame: cornerFrame
+                                                                color: cornerColor];
+    
+    [self addSegment: cornerSegment];
 }
 
-- (void)drawDirectionArrowWithMapOffset: (CGPoint)mapOffset
+- (void)addSegment: (MAMapSegment *)segment
 {
-    self.directionArrowImageView.frame =
-    CGRectMake(mapOffset.x + (self.currentLocation.column - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth) + self.styles.map.wallWidth,
-               mapOffset.y + (self.currentLocation.row - 1) * (self.styles.map.squareWidth + self.styles.map.wallWidth) + self.styles.map.wallWidth,
-               self.styles.map.squareWidth,
-               self.styles.map.squareWidth);
-    
-    self.directionArrowImageView.transform = CGAffineTransformMakeRotation((self.facingDirection - 1) * (M_PI / 2.0));
+    NSString *hash = [NSString stringWithFormat: @"%d,%d", (NSUInteger)segment.frame.origin.x, (NSUInteger)segment.frame.origin.y];
+
+    [self.segments setObject: segment
+                      forKey: hash];
 }
 
 - (void)rotateDeltasWithRowDelta: (NSUInteger)rowDelta

@@ -24,8 +24,6 @@
         _type = MAWallUnknown;
         _textureId = nil;
         
-        _mapRect = CGRectZero;
-        _mapColor = nil;
         _hit = NO;
     }
     

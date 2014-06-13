@@ -74,6 +74,9 @@
 		2ADDFEC91944237A0000B526 /* InstructionsButtonBlueUnhighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEC41944237A0000B526 /* InstructionsButtonBlueUnhighlighted@2x.png */; };
 		2ADDFECA1944237A0000B526 /* InstructionsButtonOrangeHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEC51944237A0000B526 /* InstructionsButtonOrangeHighlighted@2x.png */; };
 		2ADDFECC194428CB0000B526 /* DesignScreenBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFECB194428CB0000B526 /* DesignScreenBackground@2x.png */; };
+		2ADDFED2194AB7AE0000B526 /* MAMapNearbyLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADDFECF194AB7AE0000B526 /* MAMapNearbyLocation.m */; };
+		2ADDFED3194AB7AE0000B526 /* MAMapNearbyWall.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADDFED1194AB7AE0000B526 /* MAMapNearbyWall.m */; };
+		2ADDFED6194ABD8B0000B526 /* MAMapSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADDFED5194ABD8B0000B526 /* MAMapSegment.m */; };
 		2AECE0E318F8CDCA0094C8CB /* Development Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE0E218F8CDCA0094C8CB /* Development Notes.txt */; };
 		2AECE0EB18F8CDF90094C8CB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE0E518F8CDF90094C8CB /* AppDelegate.m */; };
 		2AECE0EC18F8CDF90094C8CB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE0E618F8CDF90094C8CB /* InfoPlist.strings */; };
@@ -200,9 +203,7 @@
 		2AECE27518F8D62E0094C8CB /* MATextureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE26918F8D62E0094C8CB /* MATextureManager.m */; };
 		2AECE27618F8D62E0094C8CB /* MAUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE26B18F8D62E0094C8CB /* MAUtilities.m */; };
 		2AECE27718F8D62E0094C8CB /* MAWebServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE26D18F8D62E0094C8CB /* MAWebServices.m */; };
-		2AECE27C18F8D6A40094C8CB /* MAMapLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE27918F8D6A40094C8CB /* MAMapLocation.m */; };
 		2AECE27D18F8D6A40094C8CB /* MAMazeSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE27B18F8D6A40094C8CB /* MAMazeSummary.m */; };
-		2AECE28018F8D6B30094C8CB /* MAMapWall.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE27F18F8D6B30094C8CB /* MAMapWall.m */; };
 		2AECE28318F8D7190094C8CB /* MAColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE28218F8D7190094C8CB /* MAColors.m */; };
 		2AECE2BD18F8D9930094C8CB /* MACreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE28618F8D9930094C8CB /* MACreateViewController.m */; };
 		2AECE2BE18F8D9930094C8CB /* MACreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE28718F8D9930094C8CB /* MACreateViewController.xib */; };
@@ -352,6 +353,12 @@
 		2ADDFEC41944237A0000B526 /* InstructionsButtonBlueUnhighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "InstructionsButtonBlueUnhighlighted@2x.png"; path = "Mazes/Assets/Images/GameScreen/InstructionsButtonBlueUnhighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
 		2ADDFEC51944237A0000B526 /* InstructionsButtonOrangeHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "InstructionsButtonOrangeHighlighted@2x.png"; path = "Mazes/Assets/Images/GameScreen/InstructionsButtonOrangeHighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
 		2ADDFECB194428CB0000B526 /* DesignScreenBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DesignScreenBackground@2x.png"; path = "Mazes/Assets/Images/DesignScreen/DesignScreenBackground@2x.png"; sourceTree = SOURCE_ROOT; };
+		2ADDFECE194AB7AE0000B526 /* MAMapNearbyLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMapNearbyLocation.h; path = Model/Map/MAMapNearbyLocation.h; sourceTree = "<group>"; };
+		2ADDFECF194AB7AE0000B526 /* MAMapNearbyLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMapNearbyLocation.m; path = Model/Map/MAMapNearbyLocation.m; sourceTree = "<group>"; };
+		2ADDFED0194AB7AE0000B526 /* MAMapNearbyWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMapNearbyWall.h; path = Model/Map/MAMapNearbyWall.h; sourceTree = "<group>"; };
+		2ADDFED1194AB7AE0000B526 /* MAMapNearbyWall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMapNearbyWall.m; path = Model/Map/MAMapNearbyWall.m; sourceTree = "<group>"; };
+		2ADDFED4194ABD8B0000B526 /* MAMapSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMapSegment.h; path = Model/Map/MAMapSegment.h; sourceTree = "<group>"; };
+		2ADDFED5194ABD8B0000B526 /* MAMapSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMapSegment.m; path = Model/Map/MAMapSegment.m; sourceTree = "<group>"; };
 		2AECE0E218F8CDCA0094C8CB /* Development Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Development Notes.txt"; path = "Documentation/Development Notes.txt"; sourceTree = "<group>"; };
 		2AECE0E418F8CDF90094C8CB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Application/AppDelegate.h; sourceTree = "<group>"; };
 		2AECE0E518F8CDF90094C8CB /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Application/AppDelegate.m; sourceTree = "<group>"; };
@@ -499,12 +506,8 @@
 		2AECE26B18F8D62E0094C8CB /* MAUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAUtilities.m; path = Library/MAUtilities.m; sourceTree = "<group>"; };
 		2AECE26C18F8D62E0094C8CB /* MAWebServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAWebServices.h; path = Library/MAWebServices.h; sourceTree = "<group>"; };
 		2AECE26D18F8D62E0094C8CB /* MAWebServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAWebServices.m; path = Library/MAWebServices.m; sourceTree = "<group>"; };
-		2AECE27818F8D6A40094C8CB /* MAMapLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMapLocation.h; path = Model/MAMapLocation.h; sourceTree = "<group>"; };
-		2AECE27918F8D6A40094C8CB /* MAMapLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMapLocation.m; path = Model/MAMapLocation.m; sourceTree = "<group>"; };
 		2AECE27A18F8D6A40094C8CB /* MAMazeSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMazeSummary.h; path = Model/MAMazeSummary.h; sourceTree = "<group>"; };
 		2AECE27B18F8D6A40094C8CB /* MAMazeSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMazeSummary.m; path = Model/MAMazeSummary.m; sourceTree = "<group>"; };
-		2AECE27E18F8D6B30094C8CB /* MAMapWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMapWall.h; path = Model/MAMapWall.h; sourceTree = "<group>"; };
-		2AECE27F18F8D6B30094C8CB /* MAMapWall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMapWall.m; path = Model/MAMapWall.m; sourceTree = "<group>"; };
 		2AECE28118F8D7190094C8CB /* MAColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAColors.h; path = Library/MAColors.h; sourceTree = "<group>"; };
 		2AECE28218F8D7190094C8CB /* MAColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAColors.m; path = Library/MAColors.m; sourceTree = "<group>"; };
 		2AECE28518F8D9930094C8CB /* MACreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACreateViewController.h; sourceTree = "<group>"; };
@@ -639,6 +642,19 @@
 				2AA511A11903817A00010D48 /* MARatingPopupStyle.m */,
 			);
 			name = Popups;
+			sourceTree = "<group>";
+		};
+		2ADDFECD194AB7710000B526 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				2ADDFECE194AB7AE0000B526 /* MAMapNearbyLocation.h */,
+				2ADDFECF194AB7AE0000B526 /* MAMapNearbyLocation.m */,
+				2ADDFED0194AB7AE0000B526 /* MAMapNearbyWall.h */,
+				2ADDFED1194AB7AE0000B526 /* MAMapNearbyWall.m */,
+				2ADDFED4194ABD8B0000B526 /* MAMapSegment.h */,
+				2ADDFED5194ABD8B0000B526 /* MAMapSegment.m */,
+			);
+			name = Map;
 			sourceTree = "<group>";
 		};
 		2AECE0E118F8CDB50094C8CB /* Documentation */ = {
@@ -1128,16 +1144,13 @@
 		F4A6D05817FB6C2A0003D645 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2ADDFECD194AB7710000B526 /* Map */,
 				F49ED74517FDA9E200D9BABD /* MACoordinate.h */,
 				F49ED74617FDA9E200D9BABD /* MACoordinate.m */,
 				F4A6D05917FB6C610003D645 /* MALatestVersion.h */,
 				F4A6D05A17FB6C610003D645 /* MALatestVersion.m */,
 				F4A6D05B17FB6C610003D645 /* MALocation.h */,
 				F4A6D05C17FB6C610003D645 /* MALocation.m */,
-				2AECE27818F8D6A40094C8CB /* MAMapLocation.h */,
-				2AECE27918F8D6A40094C8CB /* MAMapLocation.m */,
-				2AECE27E18F8D6B30094C8CB /* MAMapWall.h */,
-				2AECE27F18F8D6B30094C8CB /* MAMapWall.m */,
 				F4A6D05D17FB6C610003D645 /* MAMaze.h */,
 				F4A6D05E17FB6C610003D645 /* MAMaze.m */,
 				2AECE27A18F8D6A40094C8CB /* MAMazeSummary.h */,
@@ -1578,14 +1591,13 @@
 				2AECE26E18F8D62E0094C8CB /* MACloud.m in Sources */,
 				F4A6D06A17FB6C610003D645 /* MALocation.m in Sources */,
 				2AA18E58192B33AA006328B8 /* MAGameKit.m in Sources */,
+				2ADDFED2194AB7AE0000B526 /* MAMapNearbyLocation.m in Sources */,
 				F4A6D06F17FB6C610003D645 /* MATexture.m in Sources */,
 				2AECE21418F8D5090094C8CB /* MAStyles.m in Sources */,
-				2AECE27C18F8D6A40094C8CB /* MAMapLocation.m in Sources */,
 				2AECE2CB18F8D9930094C8CB /* MAMapView.m in Sources */,
 				F4A6D06B17FB6C610003D645 /* MAMaze.m in Sources */,
 				2AECE2CE18F8D9930094C8CB /* MARatingView.m in Sources */,
 				2AECE27618F8D62E0094C8CB /* MAUtilities.m in Sources */,
-				2AECE28018F8D6B30094C8CB /* MAMapWall.m in Sources */,
 				F4A6D07017FB6C610003D645 /* MAUserCounter.m in Sources */,
 				2AB51DAA1900EDAA0094BC82 /* MALabel.m in Sources */,
 				2A0A93AB1935B0500049F5C7 /* MAFloorPlanViewController.m in Sources */,
@@ -1600,6 +1612,7 @@
 				2AECE21518F8D5090094C8CB /* MATopMazesScreenStyle.m in Sources */,
 				2AA511A31903817A00010D48 /* MAPopupStyle.m in Sources */,
 				2AECE2BF18F8D9930094C8CB /* MADesignViewController.m in Sources */,
+				2ADDFED6194ABD8B0000B526 /* MAMapSegment.m in Sources */,
 				2AB51DAD1900F3BE0094BC82 /* MAButton.m in Sources */,
 				2AECE2C418F8D9930094C8CB /* MAGameViewController.m in Sources */,
 				2A890CAC18FE52AD00F96157 /* MAInstructionsViewController.m in Sources */,
@@ -1629,6 +1642,7 @@
 				F49ED74717FDA9E200D9BABD /* MACoordinate.m in Sources */,
 				2A23F63518FF9C480085B4FA /* MACreateScreenStyle.m in Sources */,
 				2AECE2D118F8D9930094C8CB /* MATexturesViewController.m in Sources */,
+				2ADDFED3194AB7AE0000B526 /* MAMapNearbyWall.m in Sources */,
 				2AECE28318F8D7190094C8CB /* MAColors.m in Sources */,
 				2AECE2E718F8DB600094C8CB /* MAPopupView.m in Sources */,
 				2AECE20A18F8D5090094C8CB /* MAFloorPlanStyle.m in Sources */,

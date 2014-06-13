@@ -43,13 +43,6 @@ typedef enum : int
 
 @property (readwrite, assign, nonatomic) BOOL visited;
 
-@property (readwrite, assign, nonatomic) CGRect mapRect;
-@property (readwrite, strong, nonatomic) UIColor *mapColor;
-
-// top-left corner
-@property (readwrite, assign, nonatomic) CGRect mapCornerRect;
-@property (readwrite, strong, nonatomic) UIColor *mapCornerColor;
-
 - (void)reset;
 
 @end

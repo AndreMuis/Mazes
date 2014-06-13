@@ -239,12 +239,42 @@
     [self.maze populateLocationsAndWalls];
     
     [self.floorPlanViewController updateSize];
-    [self.floorPlanViewController refreshUI];
+    [self.floorPlanViewController redrawUI];
+    
+    if (self.floorPlanViewController.minimumZoomScale == 1.0)
+    {
+        self.messageLabel.textColor = self.styles.createScreen.messageDisabledTextColor;
+    }
+    else if (self.floorPlanViewController.minimumZoomScale < 1.0)
+    {
+        self.messageLabel.textColor = self.styles.createScreen.messageEnabledTextColor;
+    }
+    else
+    {
+        [MAUtilities logWithClass: [self class]
+                          message: @"minimumZoomScale set to an illegal value."
+                       parameters: @{@"self.floorPlanViewController.minimumZoomScale" : @(self.floorPlanViewController.minimumZoomScale)}];
+    }
 }
 
 #pragma mark -
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

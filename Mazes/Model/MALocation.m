@@ -32,12 +32,6 @@
         _ceilingTextureId = nil;
         
         _visited = NO;
-
-        _mapRect = CGRectZero;
-        _mapColor = nil;
-        
-        _mapCornerRect = CGRectZero;
-        _mapCornerColor = nil;
     }
     
     return self;

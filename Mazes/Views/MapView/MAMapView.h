@@ -20,10 +20,6 @@
 @property (strong, nonatomic) MALocation *currentLocation;
 @property (assign, nonatomic) MADirectionType facingDirection;
 
-@property (strong, nonatomic) UIImageView *directionArrowImageView;
-
-- (void)setup;
-
 - (void)drawSurroundings;
 
 - (void)clear;

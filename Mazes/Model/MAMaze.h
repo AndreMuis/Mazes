@@ -36,14 +36,11 @@
 @property (readwrite, assign, nonatomic) NSUInteger rows;
 @property (readwrite, assign, nonatomic) NSUInteger columns;
 
-@property (readwrite, strong, nonatomic) NSData *locationsData;
 @property (readonly, strong, nonatomic) MALocation *startLocation;
 @property (readonly, strong, nonatomic) MALocation *endLocation;
-@property (readwrite, strong, nonatomic) MALocation *previousSelectedLocation;
-@property (readwrite, strong, nonatomic) MALocation *currentSelectedLocation;
 
+@property (readwrite, strong, nonatomic) NSData *locationsData;
 @property (readwrite, strong, nonatomic) NSData *wallsData;
-@property (readwrite, strong, nonatomic) MAWall *currentSelectedWall;
 
 + (MAMaze *)mazeWithLoggedInUser: (id<FFUserProtocol>)loggedInUser
                             rows: (NSUInteger)rows

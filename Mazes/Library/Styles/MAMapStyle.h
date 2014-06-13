@@ -12,15 +12,17 @@
 
 @interface MAMapStyle : NSObject
 
-@property (readonly, assign, nonatomic) float length;
 @property (readonly, assign, nonatomic) float wallWidth;
-@property (readonly, assign, nonatomic) float squareWidth;
+@property (readonly, assign, nonatomic) float locationLength;
+
 @property (readonly, strong, nonatomic) UIColor *backgroundColor;
+
 @property (readonly, strong, nonatomic) UIColor *doNothingColor;
 @property (readonly, strong, nonatomic) UIColor *startColor;
 @property (readonly, strong, nonatomic) UIColor *endColor;
 @property (readonly, strong, nonatomic) UIColor *startOverColor;
 @property (readonly, strong, nonatomic) UIColor *teleportationColor;
+
 @property (readonly, strong, nonatomic) UIColor *wallColor;
 @property (readonly, strong, nonatomic) UIColor *noWallColor;
 @property (readonly, strong, nonatomic) UIColor *invisibleColor;    
