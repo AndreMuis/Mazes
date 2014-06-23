@@ -22,7 +22,7 @@
 @property (readonly, strong, nonatomic) MAStyles *styles;
 
 @property (readonly, strong, nonatomic) MAMaze *maze;
-@property (readonly, strong, nonatomic) id<MAFloorPlanViewDelegate> floorPlanViewDelegate;
+@property (readonly, weak, nonatomic) id<MAFloorPlanViewDelegate> floorPlanViewDelegate;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet MAFloorPlanView *floorPlanView;
@@ -47,7 +47,7 @@
                            maze: (MAMaze *)maze
           floorPlanViewDelegate: (id<MAFloorPlanViewDelegate>)floorPlanViewDelegate
 {
-    self = [super init];
+    self = [super initWithNibName: nibNameOrNil bundle: nibBundleOrNil];
     
     if (self)
     {
@@ -65,19 +65,9 @@
     return self.scrollView.minimumZoomScale;
 }
 
-- (void)setPreviousSelectedLocation: (MALocation *)previousSelectedLocation
-{
-    self.floorPlanView.previousSelectedLocation = previousSelectedLocation;
-}
-
 - (MALocation *)previousSelectedLocation
 {
     return self.floorPlanView.previousSelectedLocation;
-}
-
-- (void)setCurrentSelectedLocation: (MALocation *)currentSelectedLocation
-{
-    self.floorPlanView.currentSelectedLocation = currentSelectedLocation;
 }
 
 - (MALocation *)currentSelectedLocation
@@ -85,14 +75,39 @@
     return self.floorPlanView.currentSelectedLocation;
 }
 
-- (void)setCurrentSelectedWall: (MAWall *)currentSelectedWall
-{
-    self.floorPlanView.currentSelectedWall = currentSelectedWall;
-}
-
 - (MAWall *)currentSelectedWall
 {
     return self.floorPlanView.currentSelectedWall;
+}
+
+static void *MAFloorPlanViewControllerKVOContext = &MAFloorPlanViewControllerKVOContext;
+
+- (void)observeValueForKeyPath: (NSString *)keyPath
+                      ofObject: (id)object
+                        change: (NSDictionary *)change
+                       context: (void *)context
+{
+    if (context == MAFloorPlanViewControllerKVOContext)
+    {
+        if (object == self.maze && ([keyPath isEqualToString: MAMazeRowsKeyPath] || [keyPath isEqualToString: MAMazeColumnsKeyPath]))
+        {
+            [self updateZoomScale];
+        }
+        else
+        {
+            [MAUtilities logWithClass: [self class]
+                              message: @"Change of value for object's keyPath not handled."
+                           parameters: @{@"keyPath" : keyPath,
+                                         @"object" : object}];
+        }
+    }
+    else
+    {
+        [super observeValueForKeyPath: keyPath
+                             ofObject: object
+                               change: change
+                              context: context];
+    }
 }
 
 - (void)viewDidLoad
@@ -109,6 +124,16 @@
     
     [self.floorPlanView setupWithDelegate: self.floorPlanViewDelegate
                                      maze: self.maze];
+
+    [self.maze addObserver: self
+                forKeyPath: MAMazeRowsKeyPath
+                   options: NSKeyValueObservingOptionNew
+                   context: MAFloorPlanViewControllerKVOContext];
+    
+    [self.maze addObserver: self
+                forKeyPath: MAMazeColumnsKeyPath
+                   options: NSKeyValueObservingOptionNew
+                   context: MAFloorPlanViewControllerKVOContext];
 }
 
 - (void)viewWillAppear: (BOOL)animated
@@ -122,12 +147,6 @@
 {
     [super viewDidAppear: animated];
     
-    [self updateZoomScale];
-}
-
-- (void)updateSize
-{
-    [self.floorPlanView updateSizeConstraints];
     [self updateZoomScale];
 }
 
@@ -156,11 +175,6 @@
     {
         self.scrollView.zoomScale = minimumZoomScale;
     }
-}
-
-- (void)redrawUI
-{
-    [self.floorPlanView redrawUI];
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView

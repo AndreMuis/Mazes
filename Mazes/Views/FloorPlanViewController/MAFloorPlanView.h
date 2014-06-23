@@ -18,16 +18,14 @@
 
 @property (readonly, assign, nonatomic) CGSize size;
 
-@property (readwrite, strong, nonatomic) MALocation *previousSelectedLocation;
-@property (readwrite, strong, nonatomic) MALocation *currentSelectedLocation;
+@property (readonly, strong, nonatomic) MALocation *previousSelectedLocation;
+@property (readonly, strong, nonatomic) MALocation *currentSelectedLocation;
 
-@property (readwrite, strong, nonatomic) MAWall *currentSelectedWall;
+@property (readonly, strong, nonatomic) MAWall *currentSelectedWall;
 
 - (void)setupWithDelegate: (id<MAFloorPlanViewDelegate>)delegate
                      maze: (MAMaze *)maze;
 
 - (void)updateSizeConstraints;
-
-- (void)redrawUI;
 
 @end

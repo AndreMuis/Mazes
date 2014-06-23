@@ -29,6 +29,8 @@
                             </constraints>
                             <connections>
                                 <outlet property="heightLayoutConstraint" destination="wJc-BL-52t" id="Rhx-Wl-sex"/>
+                                <outlet property="longPressGestureRecognizer" destination="lQU-a6-A9l" id="gGS-kd-FbO"/>
+                                <outlet property="tapGestureRecognizer" destination="4Pk-2p-PRC" id="aUC-Mi-nZc"/>
                                 <outlet property="widthLayoutConstraint" destination="Vpb-i8-rd4" id="P1J-aE-1bZ"/>
                                 <outletCollection property="gestureRecognizers" destination="4Pk-2p-PRC" appends="YES" id="qFx-2V-l6S"/>
                                 <outletCollection property="gestureRecognizers" destination="lQU-a6-A9l" appends="YES" id="hxc-b4-RgF"/>

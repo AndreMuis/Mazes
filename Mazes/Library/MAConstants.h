@@ -18,8 +18,23 @@ typedef enum : NSUInteger
 } MADirectionType;
 
 extern NSString* const MAWebServicesIsLoggedInKeyPath;
+
 extern NSString* const MASoundManagerCountKeyPath;
 extern NSString* const MATextureManagerCountKeyPath;
+
+extern NSString* const MAMazeRowsKeyPath;
+extern NSString* const MAMazeColumnsKeyPath;
+
+extern NSString* const MAMazeLocationsKeyPath;
+extern NSString* const MAMazeWallsKeyPath;
+
+extern NSString* const MALocationActionKeyPath;
+extern NSString* const MALocationDirectionKeyPath;
+extern NSString* const MALocationFloorTextureIdKeyPath;
+extern NSString* const MALocationCeilingTextureIdKeyPath;
+
+extern NSString* const MAWallTypeKeyPath;
+extern NSString* const MAWallTextureIdKeyPath;
 
 extern NSString* const MAFlurryAPIKey;
 extern NSString* const MACrashlyticsAPIKey;

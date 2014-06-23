@@ -9,8 +9,23 @@
 #import "MAConstants.h"
 
 NSString* const MAWebServicesIsLoggedInKeyPath = @"isLoggedIn";
+
 NSString* const MASoundManagerCountKeyPath = @"count";
 NSString* const MATextureManagerCountKeyPath = @"count";
+
+NSString* const MAMazeRowsKeyPath = @"rows";
+NSString* const MAMazeColumnsKeyPath = @"columns";
+
+NSString* const MAMazeLocationsKeyPath = @"locations";
+NSString* const MAMazeWallsKeyPath = @"walls";
+
+NSString* const MALocationActionKeyPath = @"action";
+NSString* const MALocationDirectionKeyPath = @"direction";
+NSString* const MALocationFloorTextureIdKeyPath = @"floorTextureId";
+NSString* const MALocationCeilingTextureIdKeyPath = @"ceilingTextureId";
+
+NSString* const MAWallTypeKeyPath = @"type";
+NSString* const MAWallTextureIdKeyPath = @"textureId";
 
 NSString* const MAFlurryAPIKey = @"72C58XPN2XTXVRTP27BN";
 NSString* const MACrashlyticsAPIKey = @"dcf833ce95eabb0f4910d0b63d678444f65e79d1";

@@ -27,6 +27,14 @@
 @property (readwrite, strong, nonatomic) IBOutlet NSLayoutConstraint *widthLayoutConstraint;
 @property (readwrite, strong, nonatomic) IBOutlet NSLayoutConstraint *heightLayoutConstraint;
 
+@property (readwrite, strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGestureRecognizer;
+@property (readwrite, strong, nonatomic) IBOutlet UILongPressGestureRecognizer *longPressGestureRecognizer;
+
+@property (readwrite, strong, nonatomic) MALocation *previousSelectedLocation;
+@property (readwrite, strong, nonatomic) MALocation *currentSelectedLocation;
+
+@property (readwrite, strong, nonatomic) MAWall *currentSelectedWall;
+
 @end
 
 @implementation MAFloorPlanView
@@ -60,29 +68,195 @@
                       self.styles.floorPlan.segmentLengthShort * (self.maze.rows + 1) + self.styles.floorPlan.segmentLengthLong * self.maze.rows);
 }
 
+static void *MAFloorPlanViewKVOContext = &MAFloorPlanViewKVOContext;
+
+- (void)observeValueForKeyPath: (NSString *)keyPath
+                      ofObject: (id)object
+                        change: (NSDictionary *)change
+                       context: (void *)context
+{
+    if (context == MAFloorPlanViewKVOContext)
+    {
+        if (object == self.maze && ([keyPath isEqualToString: MAMazeRowsKeyPath] ||
+                                    [keyPath isEqualToString: MAMazeColumnsKeyPath]))
+        {
+            [self updateSizeConstraints];
+            [self setNeedsDisplay];
+        }
+        else if (object == self.maze && ([keyPath isEqualToString: MAMazeLocationsKeyPath]))
+        {
+            NSArray *oldLocations = change[@"old"];
+            [self removeObserversFromLocations: oldLocations];
+            
+            NSArray *newLocations = change[@"new"];
+            [self addObserversToLocations: newLocations];
+
+            [self setNeedsDisplay];
+        }
+        else if (object == self.maze && ([keyPath isEqualToString: MAMazeWallsKeyPath]))
+        {
+            NSArray *oldWalls = change[@"old"];
+            [self removeObserversFromWalls: oldWalls];
+            
+            NSArray *newWalls = change[@"new"];
+            [self addObserversToWalls: newWalls];
+            
+            [self setNeedsDisplay];
+        }
+        else if ([object isMemberOfClass: [MALocation class]] && ([keyPath isEqualToString: MALocationActionKeyPath] ||
+                                                                  [keyPath isEqualToString: MALocationDirectionKeyPath] ||
+                                                                  [keyPath isEqualToString: MALocationFloorTextureIdKeyPath] ||
+                                                                  [keyPath isEqualToString: MALocationCeilingTextureIdKeyPath]))
+        {
+            [self setNeedsDisplay];
+        }
+        else if ([object isMemberOfClass: [MAWall class]] && ([keyPath isEqualToString: MAWallTypeKeyPath] ||
+                                                              [keyPath isEqualToString: MAWallTextureIdKeyPath]))
+        {
+            [self setNeedsDisplay];
+        }
+        else
+        {
+            [MAUtilities logWithClass: [self class]
+                              message: @"Change of value for object's keyPath not handled."
+                           parameters: @{@"keyPath" : keyPath,
+                                         @"object" : object}];
+        }
+    }
+    else
+    {
+        [super observeValueForKeyPath: keyPath
+                             ofObject: object
+                               change: change
+                              context: context];
+    }
+}
+
 - (void)setupWithDelegate: (id<MAFloorPlanViewDelegate>)delegate
                      maze: (MAMaze *)maze
 {
     _delegate = delegate;
     _maze = maze;
+    
+    [self.maze addObserver: self
+                forKeyPath: MAMazeRowsKeyPath
+                   options: NSKeyValueObservingOptionNew
+                   context: MAFloorPlanViewKVOContext];
+
+    [self.maze addObserver: self
+                forKeyPath: MAMazeColumnsKeyPath
+                   options: NSKeyValueObservingOptionNew
+                   context: MAFloorPlanViewKVOContext];
+
+    [self.maze addObserver: self
+                forKeyPath: MAMazeLocationsKeyPath
+                   options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+                   context: MAFloorPlanViewKVOContext];
+
+    [self.maze addObserver: self
+                forKeyPath: MAMazeWallsKeyPath
+                   options: NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+                   context: MAFloorPlanViewKVOContext];
+    
+    [self addObserversToLocations: self.maze.locations];
+    [self addObserversToWalls: self.maze.walls];
+    
+    if (!self.delegate)
+    {
+        self.tapGestureRecognizer.enabled = NO;
+        self.longPressGestureRecognizer.enabled = NO;
+    }
+}
+
+- (void)addObserversToLocations: (NSArray *)locations
+{
+    for (MALocation *location in locations)
+    {
+        [location addObserver: self
+                   forKeyPath: MALocationActionKeyPath
+                      options: NSKeyValueObservingOptionNew
+                      context: MAFloorPlanViewKVOContext];
+        
+        [location addObserver: self
+                   forKeyPath: MALocationDirectionKeyPath
+                      options: NSKeyValueObservingOptionNew
+                      context: MAFloorPlanViewKVOContext];
+        
+        [location addObserver: self
+                   forKeyPath: MALocationFloorTextureIdKeyPath
+                      options: NSKeyValueObservingOptionNew
+                      context: MAFloorPlanViewKVOContext];
+        
+        [location addObserver: self
+                   forKeyPath: MALocationCeilingTextureIdKeyPath
+                      options: NSKeyValueObservingOptionNew
+                      context: MAFloorPlanViewKVOContext];
+    }
+}
+
+- (void)removeObserversFromLocations: (NSArray *)locations
+{
+    for (MALocation *location in locations)
+    {
+        [location removeObserver: self
+                      forKeyPath: MALocationActionKeyPath
+                         context: MAFloorPlanViewKVOContext];
+        
+        [location removeObserver: self
+                      forKeyPath: MALocationDirectionKeyPath
+                         context: MAFloorPlanViewKVOContext];
+        
+        [location removeObserver: self
+                      forKeyPath: MALocationFloorTextureIdKeyPath
+                         context: MAFloorPlanViewKVOContext];
+        
+        [location removeObserver: self
+                      forKeyPath: MALocationCeilingTextureIdKeyPath
+                         context: MAFloorPlanViewKVOContext];
+    }
+}
+
+- (void)addObserversToWalls: (NSArray *)walls
+{
+    for (MAWall *wall in walls)
+    {
+        [wall addObserver: self
+               forKeyPath: MAWallTypeKeyPath
+                  options: NSKeyValueObservingOptionNew
+                  context: MAFloorPlanViewKVOContext];
+        
+        [wall addObserver: self
+               forKeyPath: MAWallTextureIdKeyPath
+                  options: NSKeyValueObservingOptionNew
+                  context: MAFloorPlanViewKVOContext];
+    }
+}
+
+- (void)removeObserversFromWalls: (NSArray *)walls
+{
+    for (MAWall *wall in walls)
+    {
+        [wall removeObserver: self
+                  forKeyPath: MAWallTypeKeyPath
+                     context: MAFloorPlanViewKVOContext];
+
+        [wall removeObserver: self
+                  forKeyPath: MAWallTextureIdKeyPath
+                     context: MAFloorPlanViewKVOContext];
+    }
 }
 
 - (void)didMoveToWindow
 {
-    self.backgroundColor = [UIColor clearColor];
-
     [super didMoveToWindow];
+
+    self.backgroundColor = [UIColor clearColor];
 }
 
 - (void)updateSizeConstraints
 {
     self.widthLayoutConstraint.constant = self.size.width;
     self.heightLayoutConstraint.constant = self.size.height;
-}
-
-- (void)redrawUI
-{
-    [self setNeedsDisplay];
 }
 
 - (void)drawRect: (CGRect)rect
@@ -93,7 +267,7 @@
     {
         if (location.row <= self.maze.rows && location.column <= self.maze.columns)
         {
-            CGRect locationRect = [self locationRectWithLocation: location];
+            CGRect locationFrame = [self frameForLocation: location];
             
             if (location.action == MALocationActionStart)
             {
@@ -126,11 +300,11 @@
                                parameters: @{@"location.action" : @(location.action)}];
             }
             
-            CGContextFillRect(context, locationRect);
+            CGContextFillRect(context, locationFrame);
             
             if (location.action == MALocationActionStart || location.action == MALocationActionTeleport)
             {
-                [MAUtilities drawArrowInRect: locationRect
+                [MAUtilities drawArrowInRect: locationFrame
                                 angleDegrees: location.direction
                                        scale: 0.8
                               floorPlanStyle: self.styles.floorPlan];
@@ -146,13 +320,13 @@
                                                                                                    NSForegroundColorAttributeName : self.styles.floorPlan.teleportIdColor,
                                                                                                    }];
                     
-                    [teleportId drawInRect: locationRect];
+                    [teleportId drawInRect: locationFrame];
                 }
             }
             
             if (location.floorTextureId != nil || location.ceilingTextureId != nil)
             {
-                [MAUtilities drawBorderInsideRect: locationRect
+                [MAUtilities drawBorderInsideRect: locationFrame
                                         withWidth: self.styles.floorPlan.locationHighlightWidth
                                             color: self.styles.floorPlan.textureHighlightColor];
             }
@@ -162,31 +336,31 @@
                 if (location.row == self.currentSelectedLocation.row &&
                     location.column == self.currentSelectedLocation.column)
                 {
-                    [MAUtilities drawBorderInsideRect: locationRect
+                    [MAUtilities drawBorderInsideRect: locationFrame
                                             withWidth: self.styles.floorPlan.locationHighlightWidth
                                                 color: self.styles.floorPlan.highlightColor];
                 }
             }
         }
         
-        CGRect cornerRect = [self cornerRectWithLocation: location];
+        CGRect cornerFrame = [self cornerFrameWithLocation: location];
         
         if (location.row > 1 && location.row <= self.maze.rows &&
             location.column > 1 && location.column <= self.maze.columns)
         {
             CGContextSetFillColorWithColor(context, self.styles.floorPlan.cornerColor.CGColor);
-            CGContextFillRect(context, cornerRect);
+            CGContextFillRect(context, cornerFrame);
         }
         else
         {
             CGContextSetFillColorWithColor(context, self.styles.floorPlan.borderWallColor.CGColor);
-            CGContextFillRect(context, cornerRect);
+            CGContextFillRect(context, cornerFrame);
         }
     }
     
     for (MAWall *wall in [self.maze allWalls])
     {
-        CGRect wallRect = [self wallRectWithWall: wall];
+        CGRect wallFrame = [self frameForWall: wall];
 
         switch (wall.type)
         {
@@ -217,11 +391,11 @@
                 break;
         }
         
-        CGContextFillRect(context, wallRect);
+        CGContextFillRect(context, wallFrame);
         
         if (wall.textureId != nil)
         {
-            [MAUtilities drawBorderInsideRect: wallRect
+            [MAUtilities drawBorderInsideRect: wallFrame
                                     withWidth: self.styles.floorPlan.wallHighlightWidth
                                         color: self.styles.floorPlan.textureHighlightColor];
         }
@@ -232,7 +406,7 @@
                 wall.column == self.currentSelectedWall.column &&
                 wall.direction == self.currentSelectedWall.direction)
             {
-                [MAUtilities drawBorderInsideRect: wallRect
+                [MAUtilities drawBorderInsideRect: wallFrame
                                         withWidth: self.styles.floorPlan.wallHighlightWidth
                                             color: self.styles.floorPlan.highlightColor];
             }
@@ -250,10 +424,10 @@
     
     for (MAWall *someWall in [self.maze allWalls])
     {
-        CGRect wallRect = [self wallRectWithWall: someWall];
+        CGRect wallFrame = [self frameForWall: someWall];
         
-        CGPoint wallOrigin = CGPointMake(wallRect.origin.x + wallRect.size.width / 2.0,
-                                         wallRect.origin.y + wallRect.size.height / 2.0);
+        CGPoint wallOrigin = CGPointMake(wallFrame.origin.x + wallFrame.size.width / 2.0,
+                                         wallFrame.origin.y + wallFrame.size.height / 2.0);
         
         float x = touchPoint.x - wallOrigin.x;
         float y = touchPoint.y - wallOrigin.y;
@@ -266,9 +440,16 @@
         }
     }
     
-    if (wallSelected && self.delegate)
+    if (wallSelected && [self.maze isInnerWall: wallSelected])
     {
-        [self.delegate floorPlanView: self didSelectWall: wallSelected];
+        self.currentSelectedWall = wallSelected;
+        
+        [self setNeedsDisplay];
+
+        if (self.delegate)
+        {
+            [self.delegate floorPlanView: self didSelectInnerWall: wallSelected];
+        }
     }
 }
 
@@ -282,10 +463,10 @@
 
         for (MALocation *someLocation in [self.maze allLocations])
         {
-            CGRect locationRect = [self locationRectWithLocation: someLocation];
+            CGRect locationFrame = [self frameForLocation: someLocation];
             
-            CGRect touchRect = CGRectMake(locationRect.origin.x - self.styles.floorPlan.segmentLengthShort / 2.0,
-                                          locationRect.origin.y - self.styles.floorPlan.segmentLengthShort / 2.0,
+            CGRect touchRect = CGRectMake(locationFrame.origin.x - self.styles.floorPlan.segmentLengthShort / 2.0,
+                                          locationFrame.origin.y - self.styles.floorPlan.segmentLengthShort / 2.0,
                                           self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort,
                                           self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort);
             
@@ -297,41 +478,49 @@
             }
         }
         
-        if (locationSelected && self.delegate)
+        if (locationSelected)
         {
-            [self.delegate floorPlanView: self didSelectLocation: locationSelected];
+            self.previousSelectedLocation = self.currentSelectedLocation;
+            self.currentSelectedLocation = locationSelected;
+            
+            [self setNeedsDisplay];
+            
+            if (self.delegate)
+            {
+                [self.delegate floorPlanView: self didSelectLocation: locationSelected];
+            }
         }
     }
 }
 
-- (CGRect)locationRectWithLocation: (MALocation *)location
+- (CGRect)frameForLocation: (MALocation *)location
 {
-    CGRect locationRect = CGRectMake(self.styles.floorPlan.segmentLengthShort + (location.column - 1) * (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort),
-                                     self.styles.floorPlan.segmentLengthShort + (location.row - 1) * (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort),
-                                     self.styles.floorPlan.segmentLengthLong,
-                                     self.styles.floorPlan.segmentLengthLong);
+    CGRect frame = CGRectMake(self.styles.floorPlan.segmentLengthShort + (location.column - 1) * (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort),
+                              self.styles.floorPlan.segmentLengthShort + (location.row - 1) * (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort),
+                              self.styles.floorPlan.segmentLengthLong,
+                              self.styles.floorPlan.segmentLengthLong);
     
-    return locationRect;
+    return frame;
 }
 
-- (CGRect)wallRectWithWall: (MAWall *)wall
+- (CGRect)frameForWall: (MAWall *)wall
 {
-    CGRect wallRect = CGRectZero;
+    CGRect frame = CGRectZero;
     
     switch (wall.direction)
     {
         case MADirectionWest:
-            wallRect = CGRectMake((wall.column - 1) * (self.styles.floorPlan.segmentLengthShort + self.styles.floorPlan.segmentLengthLong),
-                                  self.styles.floorPlan.segmentLengthShort + (wall.row - 1) * (self.styles.floorPlan.segmentLengthShort + self.styles.floorPlan.segmentLengthLong),
-                                  self.styles.floorPlan.segmentLengthShort,
-                                  self.styles.floorPlan.segmentLengthLong);
+            frame = CGRectMake((wall.column - 1) * (self.styles.floorPlan.segmentLengthShort + self.styles.floorPlan.segmentLengthLong),
+                               self.styles.floorPlan.segmentLengthShort + (wall.row - 1) * (self.styles.floorPlan.segmentLengthShort + self.styles.floorPlan.segmentLengthLong),
+                               self.styles.floorPlan.segmentLengthShort,
+                               self.styles.floorPlan.segmentLengthLong);
             break;
             
         case MADirectionNorth:
-            wallRect = CGRectMake(self.styles.floorPlan.segmentLengthShort + (wall.column - 1) * (self.styles.floorPlan.segmentLengthShort + self.styles.floorPlan.segmentLengthLong),
-                                  (wall.row - 1) * (self.styles.floorPlan.segmentLengthShort + self.styles.floorPlan.segmentLengthLong),
-                                  self.styles.floorPlan.segmentLengthLong,
-                                  self.styles.floorPlan.segmentLengthShort);
+            frame = CGRectMake(self.styles.floorPlan.segmentLengthShort + (wall.column - 1) * (self.styles.floorPlan.segmentLengthShort + self.styles.floorPlan.segmentLengthLong),
+                               (wall.row - 1) * (self.styles.floorPlan.segmentLengthShort + self.styles.floorPlan.segmentLengthLong),
+                               self.styles.floorPlan.segmentLengthLong,
+                               self.styles.floorPlan.segmentLengthShort);
             break;
 
         default:
@@ -341,19 +530,19 @@
             break;
     }
     
-    return wallRect;
+    return frame;
 }
 
-- (CGRect)cornerRectWithLocation: (MALocation *)location
+- (CGRect)cornerFrameWithLocation: (MALocation *)location
 {
-    CGRect cornerRect;
+    CGRect frame;
     
-    cornerRect = CGRectMake((location.column - 1) * (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort),
-                            (location.row - 1) * (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort),
-                            self.styles.floorPlan.segmentLengthShort,
-                            self.styles.floorPlan.segmentLengthShort);
+    frame = CGRectMake((location.column - 1) * (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort),
+                       (location.row - 1) * (self.styles.floorPlan.segmentLengthLong + self.styles.floorPlan.segmentLengthShort),
+                       self.styles.floorPlan.segmentLengthShort,
+                       self.styles.floorPlan.segmentLengthShort);
             
-    return cornerRect;
+    return frame;
 }
 
 @end

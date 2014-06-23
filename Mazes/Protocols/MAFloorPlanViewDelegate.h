@@ -18,6 +18,6 @@
 
 - (void)floorPlanView: (MAFloorPlanView *)floorPlanView didSelectLocation: (MALocation *)location;
 
-- (void)floorPlanView: (MAFloorPlanView *)floorPlanView didSelectWall: (MAWall *)wall;
+- (void)floorPlanView: (MAFloorPlanView *)floorPlanView didSelectInnerWall: (MAWall *)wall;
 
 @end

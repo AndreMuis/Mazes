@@ -39,7 +39,10 @@
 @property (readonly, strong, nonatomic) MALocation *startLocation;
 @property (readonly, strong, nonatomic) MALocation *endLocation;
 
+@property (readonly, strong, nonatomic) NSArray *locations;
 @property (readwrite, strong, nonatomic) NSData *locationsData;
+
+@property (readonly, strong, nonatomic) NSArray *walls;
 @property (readwrite, strong, nonatomic) NSData *wallsData;
 
 + (MAMaze *)mazeWithLoggedInUser: (id<FFUserProtocol>)loggedInUser
@@ -63,7 +66,6 @@
                         column: (NSUInteger)column;
 
 - (NSArray *)allLocations;
-- (void)removeAllLocations;
 
 - (void)resetLocation: (MALocation *)location;
 
@@ -80,7 +82,7 @@
 
 - (NSArray *)allWalls;
 
-- (BOOL)isSurroundedByWallsWithLocation: (MALocation *)location;
+- (BOOL)isLocationSurroundedByWalls: (MALocation *)location;
 
 - (BOOL)isInnerWall: (MAWall *)wall;
 

@@ -18,10 +18,10 @@
 
 @property (readonly, assign, nonatomic) CGFloat minimumZoomScale;
 
-@property (readwrite, strong, nonatomic) MALocation *previousSelectedLocation;
-@property (readwrite, strong, nonatomic) MALocation *currentSelectedLocation;
+@property (readonly, strong, nonatomic) MALocation *previousSelectedLocation;
+@property (readonly, strong, nonatomic) MALocation *currentSelectedLocation;
 
-@property (readwrite, strong, nonatomic) MAWall *currentSelectedWall;
+@property (readonly, strong, nonatomic) MAWall *currentSelectedWall;
 
 + (MAFloorPlanViewController *)floorPlanViewControllerWithMaze: (MAMaze *)maze
                                          floorPlanViewDelegate: (id<MAFloorPlanViewDelegate>)floorPlanViewDelegate;
@@ -30,9 +30,5 @@
                          bundle: (NSBundle *)nibBundleOrNil
                            maze: (MAMaze *)maze
           floorPlanViewDelegate: (id<MAFloorPlanViewDelegate>)floorPlanViewDelegate;
-
-- (void)updateSize;
-
-- (void)redrawUI;
 
 @end

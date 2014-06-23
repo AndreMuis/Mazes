@@ -20,8 +20,8 @@
 
 @interface MAMaze ()
 
-@property (readonly, strong, nonatomic) NSMutableArray *locations;
-@property (readonly, strong, nonatomic) NSMutableArray *walls;
+@property (readwrite, strong, nonatomic) NSArray *locations;
+@property (readwrite, strong, nonatomic) NSArray *walls;
 
 @end
 
@@ -170,8 +170,8 @@
 
 - (void)populateLocationsAndWalls
 {
-    [self.locations removeAllObjects];
-    [self.walls removeAllObjects];
+    NSMutableArray *locations = [[NSMutableArray alloc] init];
+    NSMutableArray *walls = [[NSMutableArray alloc] init];
     
     for (NSUInteger row = 1; row <= self.rows + 1; row = row + 1)
     {
@@ -187,7 +187,7 @@
             location.action = MALocationActionDoNothing;
             location.message = @"";
             
-            [self.locations addObject: location];
+            [locations addObject: location];
             
             if (column <= self.columns)
             {
@@ -204,7 +204,7 @@
                     northWall.type = MAWallSolid;
                 }
                 
-                [self.walls addObject: northWall];
+                [walls addObject: northWall];
             }
             
             if (row <= self.rows)
@@ -222,10 +222,13 @@
                     westWall.type = MAWallSolid;
                 }
 
-                [self.walls addObject: westWall];
+                [walls addObject: westWall];
             }
         }
     }
+    
+    self.locations = locations;
+    self.walls = walls;
 }
 
 - (MALocation *)locationWithLocationId: (NSString *)locationId
@@ -311,11 +314,6 @@
 - (NSArray *)allLocations
 {
     return self.locations;
-}
-
-- (void)removeAllLocations
-{
-    [self.locations removeAllObjects];
 }
 
 - (void)resetLocation: (MALocation *)location
@@ -486,7 +484,7 @@
     return self.walls;
 }
 
-- (BOOL)isSurroundedByWallsWithLocation: (MALocation *)location
+- (BOOL)isLocationSurroundedByWalls:(MALocation *)location
 {
     MAWall *wallNorth = [self wallWithRow: location.row
                                    column: location.column

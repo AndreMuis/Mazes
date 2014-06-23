@@ -235,11 +235,8 @@
                           message: @"pickerview not handled."
                        parameters: @{@"pickerView" : pickerView}];
     }
-    
+
     [self.maze populateLocationsAndWalls];
-    
-    [self.floorPlanViewController updateSize];
-    [self.floorPlanViewController redrawUI];
     
     if (self.floorPlanViewController.minimumZoomScale == 1.0)
     {
