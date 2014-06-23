@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import <BZipCompression/BZipCompression.h>
 #import <FFEF/FatFractal.h>
 
 #import "MALocation.h"
@@ -59,7 +60,6 @@
 
 - (void)populateLocationsAndWalls;
 
-- (MALocation *)locationWithLocationId: (NSString *)locationId;
 - (MALocation *)locationWithRow: (NSUInteger)row column: (NSUInteger)column;
 
 - (BOOL)isValidLocationWithRow: (NSUInteger)row

@@ -6,8 +6,6 @@
 //  Copyright 2010 Andre Muis. All rights reserved.
 //
 
-#import <BZipCompression/BZipCompression.h>
-
 #import "MAMaze.h"
 
 #import "MACoordinate.h"
@@ -21,7 +19,10 @@
 @interface MAMaze ()
 
 @property (readwrite, strong, nonatomic) NSArray *locations;
+@property (readonly, strong, nonatomic) NSDictionary *locationsDictionary;
+
 @property (readwrite, strong, nonatomic) NSArray *walls;
+@property (readonly, strong, nonatomic) NSDictionary *wallsDictionary;
 
 @end
 
@@ -46,10 +47,12 @@
         _ratingCount = 0;
         _modifiedAt = nil;
         
-        _locations = [[NSMutableArray alloc] init];
+        _locations = nil;
+        _locationsDictionary = nil;
         _locationsData = nil;
         
-        _walls = [[NSMutableArray alloc] init];
+        _walls = nil;
+        _wallsDictionary = nil;
         _wallsData = nil;
     }
     
@@ -63,7 +66,9 @@
         [propertyName isEqualToString: @"startLocation"] ||
         [propertyName isEqualToString: @"endLocation"] ||
         [propertyName isEqualToString: @"locations"] ||
-        [propertyName isEqualToString: @"walls"])
+        [propertyName isEqualToString: @"locationsDictionary"] ||
+        [propertyName isEqualToString: @"walls"] ||
+        [propertyName isEqualToString: @"wallsDictionary"])
     {
         return NO;
     }
@@ -161,10 +166,12 @@
     self.ceilingTexture = maze.ceilingTexture;
     self.modifiedAt = maze.modifiedAt;
     
-    _locations = maze.locations;
+    self.locations = maze.locations;
+    [self createLocationsDictionary];
     self.locationsData = maze.locationsData;
     
-    _walls = maze.walls;
+    self.walls = maze.walls;
+    [self createWallsDictionary];
     self.wallsData = maze.wallsData;
 }
 
@@ -228,60 +235,155 @@
     }
     
     self.locations = locations;
+    [self createLocationsDictionary];
+
     self.walls = walls;
+    [self createWallsDictionary];
 }
 
-- (MALocation *)locationWithLocationId: (NSString *)locationId
+- (void)compressLocationsAndWallsData
 {
-    MALocation *location = nil;
+    NSError *error = nil;
     
-    NSUInteger index = [self.locations indexOfObjectPassingTest: ^BOOL(id obj, NSUInteger idx, BOOL *stop)
-                        {
-                            return [((MALocation *)obj).locationId isEqualToString: locationId];
-                        }];
+    // locations
+    NSData *decompressedLocationsData = [NSKeyedArchiver archivedDataWithRootObject: self.locations];
     
-    if (index != NSNotFound)
-    {
-        location = [self.locations objectAtIndex: index];
-    }
-    else
+    NSData *compressedLocationsData = [BZipCompression compressedDataWithData: decompressedLocationsData
+                                                                    blockSize: BZipDefaultBlockSize
+                                                                   workFactor: BZipDefaultWorkFactor
+                                                                        error: &error];
+    
+    if (error != nil)
     {
         [MAUtilities logWithClass: [self class]
-                          message: @"Unable to find location."
-                       parameters: @{@"locationId" : [MAUtilities objectOrNull: locationId]}];
+                          message: @"Unable to compress locations data."
+                       parameters: @{@"error" : error}];
     }
     
-    return location;
+    self.locationsData = compressedLocationsData;
+    
+    // walls
+    NSData *decompressedWallsData = [NSKeyedArchiver archivedDataWithRootObject: self.walls];
+    
+    NSData *compressedWallsData = [BZipCompression compressedDataWithData: decompressedWallsData
+                                                                blockSize: BZipDefaultBlockSize
+                                                               workFactor: BZipDefaultWorkFactor
+                                                                    error: &error];
+    
+    if (error != nil)
+    {
+        [MAUtilities logWithClass: [self class]
+                          message: @"Unable to compress walls data."
+                       parameters: @{@"error" : error}];
+    }
+    
+    self.wallsData = compressedWallsData;
+}
+
+- (void)decompressLocationsDataAndWallsData
+{
+    NSError *error = nil;
+    
+    //locations
+    NSData *compressedLocationsData = self.locationsData;
+    
+    NSData *decompressedLocationsData = [BZipCompression decompressedDataWithData: compressedLocationsData
+                                                                            error: &error];
+    
+    if (error != nil)
+    {
+        [MAUtilities logWithClass: [self class]
+                          message: @"Unable to decompress locations data."
+                       parameters: @{@"maze" : self,
+                                     @"error" : error}];
+    }
+    
+    self.locations = (NSMutableArray *)[NSKeyedUnarchiver unarchiveObjectWithData: decompressedLocationsData];
+    [self createLocationsDictionary];
+    
+    // walls
+    NSData *compressedWallsData = self.wallsData;
+    
+    NSData *decompressedWallsData = [BZipCompression decompressedDataWithData: compressedWallsData
+                                                                        error: &error];
+    
+    if (error != nil)
+    {
+        [MAUtilities logWithClass: [self class]
+                          message: @"Unable to decompress walls data."
+                       parameters: @{@"maze" : self,
+                                     @"error" : error}];
+    }
+    
+    self.walls = (NSMutableArray *)[NSKeyedUnarchiver unarchiveObjectWithData: decompressedWallsData];
+    [self createWallsDictionary];
+}
+
+#pragma mark - searching for a location by row and column
+
+- (void)createLocationsDictionary
+{
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    
+    for (MALocation *location in self.locations)
+    {
+        NSString *hash = [self locationHashWithRow: location.row
+                                            column: location.column];
+
+        [dictionary setObject: location forKey: hash];
+    }
+    
+    _locationsDictionary = dictionary;
 }
 
 - (MALocation *)locationWithRow: (NSUInteger)row column: (NSUInteger)column
 {
-    MALocation *locationRet = nil;
+    NSString *hash = [self locationHashWithRow: row column: column];
+
+    MALocation *location = [self.locationsDictionary objectForKey: hash];
     
-    for (MALocation *location in self.locations)
+    if (location == nil)
     {
-        if (location.row == row && location.column == column)
-        {
-            locationRet = location;
-        }
+        [MAUtilities logWithClass: [self class]
+                          message: @"Could not find location."
+                       parameters: @{@"maze" : self,
+                                     @"row" : @(row),
+                                     @"column" : @(column)}];
     }
-    
-    return locationRet;
+
+    return location;
 }
+
+- (NSString *)locationHashWithRow: (NSUInteger)row column: (NSUInteger)column
+{
+    NSString *hash = [NSString stringWithFormat: @"%d,%d", row, column];
+
+    return hash;
+}
+
+#pragma mark -
 
 - (MALocation *)locationWithAction: (MALocationActionType)action
 {
-    MALocation *locationRet = nil;
+    MALocation *location = nil;
     
-    for (MALocation *location in self.locations)
+    for (MALocation *someLocation in self.locations)
     {
-        if (location.action == action)
+        if (someLocation.action == action)
         {
-            locationRet = location;
+            location = someLocation;
         }
     }
     
-    return locationRet;
+    if (location == nil)
+    {
+        [MAUtilities logWithClass: [self class]
+                          message: @"Could not find location."
+                       parameters: @{@"maze" : self,
+                                     @"action" : @(action)}];
+    }
+
+    return location;
 }
 
 - (BOOL)isValidLocationWithRow: (NSUInteger)row
@@ -296,20 +398,6 @@
         return NO;
     }
 }
-
-- (BOOL)isValidCornerLocationWithRow: (NSUInteger)row
-                              column: (NSUInteger)column
-{
-    if (row >= 2 && row <= self.rows && column >= 2 && column <= self.columns)
-    {
-        return YES;
-    }
-    else
-    {
-        return NO;
-    }
-}
-
 
 - (NSArray *)allLocations
 {
@@ -334,80 +422,22 @@
     }
 }
 
-- (void)compressLocationsAndWallsData
+#pragma mark - searching for a wall by row, column and direction
+
+- (void)createWallsDictionary
 {
-    NSError *error = nil;
-
-    // locations
-    NSData *decompressedLocationsData = [NSKeyedArchiver archivedDataWithRootObject: self.locations];
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     
-    NSData *compressedLocationsData = [BZipCompression compressedDataWithData: decompressedLocationsData
-                                                                    blockSize: BZipDefaultBlockSize
-                                                                   workFactor: BZipDefaultWorkFactor
-                                                                        error: &error];
-
-    if (error != nil)
+    for (MAWall *wall in self.walls)
     {
-        [MAUtilities logWithClass: [self class]
-                          message: @"Unable to compress locations data."
-                       parameters: @{@"error" : error}];
+        NSString *hash = [self wallHashWithRow: wall.row
+                                        column: wall.column
+                                     direction: wall.direction];
+        
+        [dictionary setObject: wall forKey: hash];
     }
     
-    self.locationsData = compressedLocationsData;
-
-    // walls
-    NSData *decompressedWallsData = [NSKeyedArchiver archivedDataWithRootObject: self.walls];
-    
-    NSData *compressedWallsData = [BZipCompression compressedDataWithData: decompressedWallsData
-                                                                blockSize: BZipDefaultBlockSize
-                                                               workFactor: BZipDefaultWorkFactor
-                                                                    error: &error];
-    
-    if (error != nil)
-    {
-        [MAUtilities logWithClass: [self class]
-                          message: @"Unable to compress walls data."
-                       parameters: @{@"error" : error}];
-    }
-    
-    self.wallsData = compressedWallsData;
-}
-
-- (void)decompressLocationsDataAndWallsData
-{
-    NSError *error = nil;
-
-    //locations
-    NSData *compressedLocationsData = self.locationsData;
-    
-    NSData *decompressedLocationsData = [BZipCompression decompressedDataWithData: compressedLocationsData
-                                                                            error: &error];
-    
-    if (error != nil)
-    {
-        [MAUtilities logWithClass: [self class]
-                          message: @"Unable to decompress locations data."
-                       parameters: @{@"maze" : self,
-                                     @"error" : error}];
-    }
-    
-    _locations = (NSMutableArray *)[NSKeyedUnarchiver unarchiveObjectWithData: decompressedLocationsData];
-
-    // walls
-    NSData *compressedWallsData = self.wallsData;
-    
-    NSData *decompressedWallsData = [BZipCompression decompressedDataWithData: compressedWallsData
-                                                                        error: &error];
-    
-    if (error != nil)
-    {
-        [MAUtilities logWithClass: [self class]
-                          message: @"Unable to decompress walls data."
-                       parameters: @{@"maze" : self,
-                                     @"error" : error}];
-    }
-    
-    _walls = (NSMutableArray *)[NSKeyedUnarchiver unarchiveObjectWithData: decompressedWallsData];
+    _wallsDictionary = dictionary;
 }
 
 - (MAWall *)wallWithRow: (NSUInteger)row
@@ -438,17 +468,13 @@
             break;
     }
     
-    MAWall *wallRet = nil;
+    NSString *hash = [self wallHashWithRow: row
+                                    column: column
+                                 direction: direction];
     
-    for (MAWall *wall in self.walls)
-    {
-        if (wall.row == row && wall.column == column && wall.direction == direction)
-        {
-            wallRet = wall;
-        }
-    }
+    MAWall *wall = [self.wallsDictionary objectForKey: hash];
     
-    if (wallRet == nil)
+    if (wall == nil)
     {
         [MAUtilities logWithClass: [self class]
                           message: @"Could not find wall."
@@ -458,8 +484,19 @@
                                      @"direction" : @(direction)}];
     }
     
-    return wallRet;
+    return wall;
 }
+
+- (NSString *)wallHashWithRow: (NSUInteger)row
+                       column: (NSUInteger)column
+                    direction: (MADirectionType)direction
+{
+    NSString *hash = [NSString stringWithFormat: @"%d,%d,%d", row, column, direction];
+    
+    return hash;
+}
+
+#pragma mark -
 
 - (BOOL)isValidWallWithRow: (NSUInteger)row
                     column: (NSUInteger)column

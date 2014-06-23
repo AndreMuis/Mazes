@@ -210,7 +210,7 @@
         
         if (self.mapSize.width <= CGRectGetWidth(self.bounds))
         {
-            mapOffset.width = (self.mapSize.width - CGRectGetWidth(self.bounds)) / 2.0;
+            mapOffset.width = (CGRectGetWidth(self.bounds) - self.mapSize.width) / 2.0;
         }
         else if (currentMapPosition.x < CGRectGetWidth(self.bounds) / 2.0)
         {
@@ -227,7 +227,7 @@
         
         if (self.mapSize.height <= CGRectGetHeight(self.bounds))
         {
-            mapOffset.height = (self.mapSize.height - CGRectGetHeight(self.bounds)) / 2.0;
+            mapOffset.height = (CGRectGetHeight(self.bounds) - self.mapSize.height) / 2.0;
         }
         else if (currentMapPosition.y < CGRectGetHeight(self.bounds) / 2.0)
         {
@@ -363,7 +363,7 @@
             }
             
             MAMapSegment *locationSegment = [[MAMapSegment alloc] initWithFrame: locationFrame
-                                                                  color: locationColor];
+                                                                          color: locationColor];
             
             [self addSegment: locationSegment];
         }
