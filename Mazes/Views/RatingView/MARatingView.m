@@ -162,9 +162,7 @@
             
         default:
         {
-            [MAUtilities logWithClass: [self class]
-                              message: @"type set to an illegal value."
-                           parameters: @{@"self.type" : @(self.type)}];
+            NSLog(@"Rating type set to an illegal value. type = %d", (int)self.type);
             break;
         }
     }

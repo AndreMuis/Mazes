@@ -7,37 +7,43 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A0A93AB1935B0500049F5C7 /* MAFloorPlanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A93A81935B0500049F5C7 /* MAFloorPlanViewController.m */; };
-		2A0A93AC1935B0500049F5C7 /* MAFloorPlanView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A93AA1935B0500049F5C7 /* MAFloorPlanView.m */; };
-		2A0A93AE1935B1130049F5C7 /* MAFloorPlanViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A0A93AD1935B1130049F5C7 /* MAFloorPlanViewController.xib */; };
+		2A0D5BB01B3D093E003484C4 /* Design.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A0D5BAF1B3D093E003484C4 /* Design.storyboard */; };
+		2A0D5BB41B3D0AEF003484C4 /* MADesignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D5BB31B3D0AEF003484C4 /* MADesignViewController.m */; };
 		2A23A0BB19304E7F006F2294 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A23A0BA19304E7F006F2294 /* GameKit.framework */; };
 		2A23F62E18FF8B530085B4FA /* MARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23F62C18FF8B530085B4FA /* MARatingViewController.m */; };
 		2A23F62F18FF8B530085B4FA /* MARatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A23F62D18FF8B530085B4FA /* MARatingViewController.xib */; };
-		2A23F63518FF9C480085B4FA /* MACreateScreenStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A23F63418FF9C480085B4FA /* MACreateScreenStyle.m */; };
-		2A890CA618FE3CCC00F96157 /* MATopMazeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A890CA418FE3CCC00F96157 /* MATopMazeTableViewCell.m */; };
-		2A890CA718FE3CCC00F96157 /* MATopMazeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A890CA518FE3CCC00F96157 /* MATopMazeTableViewCell.xib */; };
+		2A56DE801B3E67DF001B1C64 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A56DE7F1B3E67DF001B1C64 /* CloudKit.framework */; };
+		2A56DE831B3F0662001B1C64 /* MAWorldManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A56DE821B3F0662001B1C64 /* MAWorldManager.m */; };
+		2A56DE8A1B3F0933001B1C64 /* MATopMazesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A56DE871B3F0933001B1C64 /* MATopMazesViewController.m */; };
+		2A56DE8C1B3F0933001B1C64 /* TopMazes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A56DE891B3F0933001B1C64 /* TopMazes.storyboard */; };
+		2A56DE911B3F0950001B1C64 /* MATopMazeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A56DE8F1B3F0950001B1C64 /* MATopMazeTableViewCell.m */; };
+		2A56DE921B3F0950001B1C64 /* MATopMazeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A56DE901B3F0950001B1C64 /* MATopMazeTableViewCell.xib */; };
+		2A56DE951B3F4310001B1C64 /* MATopMazesCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A56DE941B3F4310001B1C64 /* MATopMazesCollectionViewController.m */; };
+		2A56DE981B3F6D05001B1C64 /* MATopMazesSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A56DE971B3F6D05001B1C64 /* MATopMazesSegmentedControl.m */; };
+		2A56DE9A1B3F6D4E001B1C64 /* MATopMazesSegmentedControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A56DE991B3F6D4E001B1C64 /* MATopMazesSegmentedControl.xib */; };
+		2A675FB91B3D0EE90046972B /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A675FB81B3D0EE90046972B /* SceneKit.framework */; };
+		2A675FBB1B3D122A0046972B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9CD154CB92C006AA64D /* CoreGraphics.framework */; };
+		2A675FBD1B3D14A20046972B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A675FBC1B3D14A20046972B /* AVFoundation.framework */; };
+		2A675FC81B3D185C0046972B /* MALaunchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A675FC61B3D185C0046972B /* MALaunchView.xib */; };
 		2A890CA918FE528200F96157 /* MAInstructionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A890CA818FE528200F96157 /* MAInstructionsViewController.xib */; };
 		2A890CAC18FE52AD00F96157 /* MAInstructionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A890CAB18FE52AD00F96157 /* MAInstructionsViewController.m */; };
-		2A977733192323D900E1D428 /* DesignScreenBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A977732192323D900E1D428 /* DesignScreenBackground.png */; };
 		2A9777391923247B00E1D428 /* BackButtonBlueUnhighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777341923247B00E1D428 /* BackButtonBlueUnhighlighted.png */; };
 		2A97773A1923247B00E1D428 /* BackButtonOrangeHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777351923247B00E1D428 /* BackButtonOrangeHighlighted.png */; };
 		2A97773B1923247B00E1D428 /* GameScreenBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777361923247B00E1D428 /* GameScreenBackground.png */; };
 		2A97773C1923247B00E1D428 /* InstructionsButtonBlueUnhighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777371923247B00E1D428 /* InstructionsButtonBlueUnhighlighted.png */; };
 		2A97773D1923247B00E1D428 /* InstructionsButtonOrangeHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777381923247B00E1D428 /* InstructionsButtonOrangeHighlighted.png */; };
-		2A97774A1923279D00E1D428 /* CreateButtonBlueUnhighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A97773E1923279D00E1D428 /* CreateButtonBlueUnhighlighted.png */; };
-		2A97774B1923279D00E1D428 /* CreateButtonOrangeHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A97773F1923279D00E1D428 /* CreateButtonOrangeHighlighted.png */; };
-		2A97774C1923279D00E1D428 /* HighestRatedButtonBlueUnhighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777401923279D00E1D428 /* HighestRatedButtonBlueUnhighlighted.png */; };
-		2A97774D1923279D00E1D428 /* HighestRatedButtonOrangeHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777411923279D00E1D428 /* HighestRatedButtonOrangeHighlighted.png */; };
-		2A97774E1923279D00E1D428 /* TopMazesButtonBlueUnhighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777421923279D00E1D428 /* TopMazesButtonBlueUnhighlighted.png */; };
-		2A97774F1923279D00E1D428 /* TopMazesButtonOrangeHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777431923279D00E1D428 /* TopMazesButtonOrangeHighlighted.png */; };
-		2A9777501923279D00E1D428 /* NewestButtonBlueUnhighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777441923279D00E1D428 /* NewestButtonBlueUnhighlighted.png */; };
-		2A9777511923279D00E1D428 /* NewestButtonOrangeHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777451923279D00E1D428 /* NewestButtonOrangeHighlighted.png */; };
-		2A9777521923279D00E1D428 /* TopMazeCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777461923279D00E1D428 /* TopMazeCell.png */; };
-		2A9777531923279D00E1D428 /* TopMazesScreenBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777471923279D00E1D428 /* TopMazesScreenBackground.png */; };
-		2A9777541923279D00E1D428 /* YoursButtonBlueUnhighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777481923279D00E1D428 /* YoursButtonBlueUnhighlighted.png */; };
-		2A9777551923279D00E1D428 /* YoursButtonOrangeHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9777491923279D00E1D428 /* YoursButtonOrangeHighlighted.png */; };
-		2A9D41FD1919E32000DC0F6B /* LaunchImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A9D41F51919E32000DC0F6B /* LaunchImage.png */; };
 		2A9D69B819121FF10094534F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A9D69B719121FF10094534F /* Crashlytics.framework */; };
+		2AA1724A1A35147D002F778D /* (null) in Resources */ = {isa = PBXBuildFile; };
+		2AA1724B1A35147D002F778D /* (null) in Resources */ = {isa = PBXBuildFile; };
+		2AA1724D1A35147D002F778D /* (null) in Resources */ = {isa = PBXBuildFile; };
+		2AA1724E1A35147D002F778D /* (null) in Resources */ = {isa = PBXBuildFile; };
+		2AA172501A35147D002F778D /* (null) in Resources */ = {isa = PBXBuildFile; };
+		2AA172511A35147D002F778D /* (null) in Resources */ = {isa = PBXBuildFile; };
+		2AA172541A35147D002F778D /* (null) in Resources */ = {isa = PBXBuildFile; };
+		2AA172551A35147D002F778D /* (null) in Resources */ = {isa = PBXBuildFile; };
+		2AA172571A35147D002F778D /* (null) in Resources */ = {isa = PBXBuildFile; };
+		2AA172581A35147D002F778D /* (null) in Resources */ = {isa = PBXBuildFile; };
+		2AA1725A1A35147D002F778D /* (null) in Resources */ = {isa = PBXBuildFile; };
 		2AA18E58192B33AA006328B8 /* MAGameKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA18E57192B33AA006328B8 /* MAGameKit.m */; };
 		2AA2815F191DEB9100C0D8D9 /* AppIcon_29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AA28159191DEB9100C0D8D9 /* AppIcon_29x29.png */; };
 		2AA28160191DEB9100C0D8D9 /* AppIcon_40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AA2815A191DEB9100C0D8D9 /* AppIcon_40x40.png */; };
@@ -45,7 +51,6 @@
 		2AA28162191DEB9100C0D8D9 /* AppIcon_76x76.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AA2815C191DEB9100C0D8D9 /* AppIcon_76x76.png */; };
 		2AA28163191DEB9100C0D8D9 /* AppIcon_80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AA2815D191DEB9100C0D8D9 /* AppIcon_80x80.png */; };
 		2AA28164191DEB9100C0D8D9 /* AppIcon_152x152.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AA2815E191DEB9100C0D8D9 /* AppIcon_152x152.png */; };
-		2AA28166191DEB9B00C0D8D9 /* LaunchImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AA28165191DEB9B00C0D8D9 /* LaunchImage@2x.png */; };
 		2AA511961903262900010D48 /* MARatingPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA511941903262900010D48 /* MARatingPopupView.m */; };
 		2AA511971903262900010D48 /* MARatingPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AA511951903262900010D48 /* MARatingPopupView.xib */; };
 		2AA5119A19032C9000010D48 /* MARatingPopoverStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA5119919032C9000010D48 /* MARatingPopoverStyle.m */; };
@@ -56,24 +61,12 @@
 		2AB51DAA1900EDAA0094BC82 /* MALabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB51DA91900EDAA0094BC82 /* MALabel.m */; };
 		2AB51DAD1900F3BE0094BC82 /* MAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB51DAC1900F3BE0094BC82 /* MAButton.m */; };
 		2AB51DB01900F4BF0094BC82 /* MAButtonStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB51DAF1900F4BF0094BC82 /* MAButtonStyle.m */; };
-		2ADDFEB51940469C0000B526 /* CreateButtonBlueUnhighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEA91940469C0000B526 /* CreateButtonBlueUnhighlighted@2x.png */; };
-		2ADDFEB61940469C0000B526 /* CreateButtonOrangeHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEAA1940469C0000B526 /* CreateButtonOrangeHighlighted@2x.png */; };
-		2ADDFEB71940469C0000B526 /* HighestRatedButtonBlueUnhighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEAB1940469C0000B526 /* HighestRatedButtonBlueUnhighlighted@2x.png */; };
-		2ADDFEB81940469C0000B526 /* HighestRatedButtonOrangeHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEAC1940469C0000B526 /* HighestRatedButtonOrangeHighlighted@2x.png */; };
-		2ADDFEB91940469C0000B526 /* NewestButtonBlueUnhighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEAD1940469C0000B526 /* NewestButtonBlueUnhighlighted@2x.png */; };
-		2ADDFEBA1940469C0000B526 /* NewestButtonOrangeHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEAE1940469C0000B526 /* NewestButtonOrangeHighlighted@2x.png */; };
-		2ADDFEBB1940469C0000B526 /* TopMazeCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEAF1940469C0000B526 /* TopMazeCell@2x.png */; };
-		2ADDFEBC1940469C0000B526 /* TopMazesButtonBlueUnhighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEB01940469C0000B526 /* TopMazesButtonBlueUnhighlighted@2x.png */; };
-		2ADDFEBD1940469C0000B526 /* TopMazesButtonOrangeHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEB11940469C0000B526 /* TopMazesButtonOrangeHighlighted@2x.png */; };
-		2ADDFEBE1940469C0000B526 /* TopMazesScreenBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEB21940469C0000B526 /* TopMazesScreenBackground@2x.png */; };
-		2ADDFEBF1940469C0000B526 /* YoursButtonBlueUnhighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEB31940469C0000B526 /* YoursButtonBlueUnhighlighted@2x.png */; };
-		2ADDFEC01940469C0000B526 /* YoursButtonOrangeHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEB41940469C0000B526 /* YoursButtonOrangeHighlighted@2x.png */; };
+		2AC20FAE1B3BB30B0037864F /* MAAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC20FAD1B3BB30B0037864F /* MAAlertController.m */; };
 		2ADDFEC61944237A0000B526 /* BackButtonBlueUnhighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEC11944237A0000B526 /* BackButtonBlueUnhighlighted@2x.png */; };
 		2ADDFEC71944237A0000B526 /* BackButtonOrangeHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEC21944237A0000B526 /* BackButtonOrangeHighlighted@2x.png */; };
 		2ADDFEC81944237A0000B526 /* GameScreenBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEC31944237A0000B526 /* GameScreenBackground@2x.png */; };
 		2ADDFEC91944237A0000B526 /* InstructionsButtonBlueUnhighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEC41944237A0000B526 /* InstructionsButtonBlueUnhighlighted@2x.png */; };
 		2ADDFECA1944237A0000B526 /* InstructionsButtonOrangeHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFEC51944237A0000B526 /* InstructionsButtonOrangeHighlighted@2x.png */; };
-		2ADDFECC194428CB0000B526 /* DesignScreenBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDFECB194428CB0000B526 /* DesignScreenBackground@2x.png */; };
 		2ADDFED2194AB7AE0000B526 /* MAMapNearbyLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADDFECF194AB7AE0000B526 /* MAMapNearbyLocation.m */; };
 		2ADDFED3194AB7AE0000B526 /* MAMapNearbyWall.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADDFED1194AB7AE0000B526 /* MAMapNearbyWall.m */; };
 		2ADDFED6194ABD8B0000B526 /* MAMapSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADDFED5194ABD8B0000B526 /* MAMapSegment.m */; };
@@ -99,95 +92,49 @@
 		2AECE11518F8D2EF0094C8CB /* The Hour of Triumph.caf in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE10518F8D2EF0094C8CB /* The Hour of Triumph.caf */; };
 		2AECE11618F8D2EF0094C8CB /* Wind.caf in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE10618F8D2EF0094C8CB /* Wind.caf */; };
 		2AECE16D18F8D3060094C8CB /* Alternating Brick.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE11718F8D3050094C8CB /* Alternating Brick.png */; };
-		2AECE16E18F8D3060094C8CB /* Alternating Brick.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE11818F8D3050094C8CB /* Alternating Brick.pvrtc */; };
 		2AECE16F18F8D3060094C8CB /* Black.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE11918F8D3050094C8CB /* Black.png */; };
-		2AECE17018F8D3060094C8CB /* Black.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE11A18F8D3050094C8CB /* Black.pvrtc */; };
 		2AECE17118F8D3060094C8CB /* Blue Marble Slabs.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE11B18F8D3050094C8CB /* Blue Marble Slabs.png */; };
-		2AECE17218F8D3060094C8CB /* Blue Marble Slabs.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE11C18F8D3050094C8CB /* Blue Marble Slabs.pvrtc */; };
 		2AECE17318F8D3060094C8CB /* Blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE11D18F8D3050094C8CB /* Blue.png */; };
-		2AECE17418F8D3060094C8CB /* Blue.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE11E18F8D3050094C8CB /* Blue.pvrtc */; };
 		2AECE17518F8D3060094C8CB /* Born to Rule.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE11F18F8D3050094C8CB /* Born to Rule.png */; };
-		2AECE17618F8D3060094C8CB /* Born to Rule.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12018F8D3050094C8CB /* Born to Rule.pvrtc */; };
 		2AECE17718F8D3060094C8CB /* Born to Shine.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12118F8D3050094C8CB /* Born to Shine.png */; };
-		2AECE17818F8D3060094C8CB /* Born to Shine.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12218F8D3050094C8CB /* Born to Shine.pvrtc */; };
 		2AECE17918F8D3060094C8CB /* Bright Purple Marble.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12318F8D3050094C8CB /* Bright Purple Marble.png */; };
-		2AECE17A18F8D3060094C8CB /* Bright Purple Marble.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12418F8D3050094C8CB /* Bright Purple Marble.pvrtc */; };
 		2AECE17B18F8D3060094C8CB /* Bronze Armor.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12518F8D3050094C8CB /* Bronze Armor.png */; };
-		2AECE17C18F8D3060094C8CB /* Bronze Armor.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12618F8D3050094C8CB /* Bronze Armor.pvrtc */; };
 		2AECE17D18F8D3060094C8CB /* Brown.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12718F8D3050094C8CB /* Brown.png */; };
-		2AECE17E18F8D3060094C8CB /* Brown.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12818F8D3050094C8CB /* Brown.pvrtc */; };
 		2AECE17F18F8D3060094C8CB /* Bubble Grip.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12918F8D3050094C8CB /* Bubble Grip.png */; };
-		2AECE18018F8D3060094C8CB /* Bubble Grip.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12A18F8D3050094C8CB /* Bubble Grip.pvrtc */; };
 		2AECE18118F8D3060094C8CB /* Camouflage.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12B18F8D3050094C8CB /* Camouflage.png */; };
-		2AECE18218F8D3060094C8CB /* Camouflage.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12C18F8D3050094C8CB /* Camouflage.pvrtc */; };
 		2AECE18318F8D3060094C8CB /* Chipped Bricks.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12D18F8D3050094C8CB /* Chipped Bricks.png */; };
-		2AECE18418F8D3060094C8CB /* Chipped Bricks.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12E18F8D3050094C8CB /* Chipped Bricks.pvrtc */; };
 		2AECE18518F8D3060094C8CB /* Cinder Block.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE12F18F8D3050094C8CB /* Cinder Block.png */; };
-		2AECE18618F8D3060094C8CB /* Cinder Block.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13018F8D3050094C8CB /* Cinder Block.pvrtc */; };
 		2AECE18718F8D3060094C8CB /* Corrugated Metal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13118F8D3050094C8CB /* Corrugated Metal.png */; };
-		2AECE18818F8D3060094C8CB /* Corrugated Metal.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13218F8D3050094C8CB /* Corrugated Metal.pvrtc */; };
 		2AECE18918F8D3060094C8CB /* Creamy White Marble.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13318F8D3050094C8CB /* Creamy White Marble.png */; };
-		2AECE18A18F8D3060094C8CB /* Creamy White Marble.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13418F8D3050094C8CB /* Creamy White Marble.pvrtc */; };
 		2AECE18B18F8D3060094C8CB /* Gray 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13518F8D3050094C8CB /* Gray 1.png */; };
-		2AECE18C18F8D3060094C8CB /* Gray 1.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13618F8D3050094C8CB /* Gray 1.pvrtc */; };
 		2AECE18D18F8D3060094C8CB /* Gray 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13718F8D3050094C8CB /* Gray 2.png */; };
-		2AECE18E18F8D3060094C8CB /* Gray 2.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13818F8D3060094C8CB /* Gray 2.pvrtc */; };
 		2AECE18F18F8D3060094C8CB /* Gray 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13918F8D3060094C8CB /* Gray 3.png */; };
-		2AECE19018F8D3060094C8CB /* Gray 3.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13A18F8D3060094C8CB /* Gray 3.pvrtc */; };
 		2AECE19118F8D3060094C8CB /* Green.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13B18F8D3060094C8CB /* Green.png */; };
-		2AECE19218F8D3060094C8CB /* Green.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13C18F8D3060094C8CB /* Green.pvrtc */; };
 		2AECE19318F8D3060094C8CB /* Light Swirl Marble.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13D18F8D3060094C8CB /* Light Swirl Marble.png */; };
-		2AECE19418F8D3060094C8CB /* Light Swirl Marble.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13E18F8D3060094C8CB /* Light Swirl Marble.pvrtc */; };
 		2AECE19518F8D3060094C8CB /* Logs.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE13F18F8D3060094C8CB /* Logs.png */; };
-		2AECE19618F8D3060094C8CB /* Logs.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14018F8D3060094C8CB /* Logs.pvrtc */; };
 		2AECE19718F8D3060094C8CB /* Maze.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14118F8D3060094C8CB /* Maze.png */; };
-		2AECE19818F8D3060094C8CB /* Maze.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14218F8D3060094C8CB /* Maze.pvrtc */; };
 		2AECE19918F8D3060094C8CB /* Metal 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14318F8D3060094C8CB /* Metal 1.png */; };
-		2AECE19A18F8D3060094C8CB /* Metal 1.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14418F8D3060094C8CB /* Metal 1.pvrtc */; };
 		2AECE19B18F8D3060094C8CB /* Metal 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14518F8D3060094C8CB /* Metal 2.png */; };
-		2AECE19C18F8D3060094C8CB /* Metal 2.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14618F8D3060094C8CB /* Metal 2.pvrtc */; };
 		2AECE19D18F8D3060094C8CB /* Night Sky.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14718F8D3060094C8CB /* Night Sky.png */; };
-		2AECE19E18F8D3060094C8CB /* Night Sky.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14818F8D3060094C8CB /* Night Sky.pvrtc */; };
 		2AECE19F18F8D3060094C8CB /* Orange Brick.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14918F8D3060094C8CB /* Orange Brick.png */; };
-		2AECE1A018F8D3060094C8CB /* Orange Brick.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14A18F8D3060094C8CB /* Orange Brick.pvrtc */; };
 		2AECE1A118F8D3060094C8CB /* Orange Herringbone.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14B18F8D3060094C8CB /* Orange Herringbone.png */; };
-		2AECE1A218F8D3060094C8CB /* Orange Herringbone.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14C18F8D3060094C8CB /* Orange Herringbone.pvrtc */; };
 		2AECE1A318F8D3060094C8CB /* Orange.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14D18F8D3060094C8CB /* Orange.png */; };
-		2AECE1A418F8D3060094C8CB /* Orange.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14E18F8D3060094C8CB /* Orange.pvrtc */; };
 		2AECE1A518F8D3060094C8CB /* Purple Marble.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE14F18F8D3060094C8CB /* Purple Marble.png */; };
-		2AECE1A618F8D3060094C8CB /* Purple Marble.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15018F8D3060094C8CB /* Purple Marble.pvrtc */; };
 		2AECE1A718F8D3060094C8CB /* Red Basketweave.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15118F8D3060094C8CB /* Red Basketweave.png */; };
-		2AECE1A818F8D3060094C8CB /* Red Basketweave.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15218F8D3060094C8CB /* Red Basketweave.pvrtc */; };
 		2AECE1A918F8D3060094C8CB /* Red.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15318F8D3060094C8CB /* Red.png */; };
-		2AECE1AA18F8D3060094C8CB /* Red.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15418F8D3060094C8CB /* Red.pvrtc */; };
 		2AECE1AB18F8D3060094C8CB /* Skulls.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15518F8D3060094C8CB /* Skulls.png */; };
-		2AECE1AC18F8D3060094C8CB /* Skulls.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15618F8D3060094C8CB /* Skulls.pvrtc */; };
 		2AECE1AD18F8D3060094C8CB /* Sky 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15718F8D3060094C8CB /* Sky 1.png */; };
-		2AECE1AE18F8D3060094C8CB /* Sky 1.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15818F8D3060094C8CB /* Sky 1.pvrtc */; };
 		2AECE1AF18F8D3060094C8CB /* Sky 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15918F8D3060094C8CB /* Sky 2.png */; };
-		2AECE1B018F8D3060094C8CB /* Sky 2.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15A18F8D3060094C8CB /* Sky 2.pvrtc */; };
 		2AECE1B118F8D3060094C8CB /* Steel Vault.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15B18F8D3060094C8CB /* Steel Vault.png */; };
-		2AECE1B218F8D3060094C8CB /* Steel Vault.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15C18F8D3060094C8CB /* Steel Vault.pvrtc */; };
 		2AECE1B318F8D3060094C8CB /* Teddy Bear.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15D18F8D3060094C8CB /* Teddy Bear.png */; };
-		2AECE1B418F8D3060094C8CB /* Teddy Bear.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15E18F8D3060094C8CB /* Teddy Bear.pvrtc */; };
 		2AECE1B518F8D3060094C8CB /* Water.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE15F18F8D3060094C8CB /* Water.png */; };
-		2AECE1B618F8D3060094C8CB /* Water.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE16018F8D3060094C8CB /* Water.pvrtc */; };
 		2AECE1B718F8D3060094C8CB /* White.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE16118F8D3060094C8CB /* White.png */; };
-		2AECE1B818F8D3060094C8CB /* White.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE16218F8D3060094C8CB /* White.pvrtc */; };
 		2AECE1B918F8D3060094C8CB /* Wood 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE16318F8D3060094C8CB /* Wood 1.png */; };
-		2AECE1BA18F8D3060094C8CB /* Wood 1.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE16418F8D3060094C8CB /* Wood 1.pvrtc */; };
 		2AECE1BB18F8D3060094C8CB /* Wood 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE16518F8D3060094C8CB /* Wood 2.png */; };
-		2AECE1BC18F8D3060094C8CB /* Wood 2.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE16618F8D3060094C8CB /* Wood 2.pvrtc */; };
 		2AECE1BD18F8D3060094C8CB /* Wood 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE16718F8D3060094C8CB /* Wood 3.png */; };
-		2AECE1BE18F8D3060094C8CB /* Wood 3.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE16818F8D3060094C8CB /* Wood 3.pvrtc */; };
 		2AECE1BF18F8D3060094C8CB /* Worn Brown Brickwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE16918F8D3060094C8CB /* Worn Brown Brickwork.png */; };
-		2AECE1C018F8D3060094C8CB /* Worn Brown Brickwork.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE16A18F8D3060094C8CB /* Worn Brown Brickwork.pvrtc */; };
 		2AECE1C118F8D3060094C8CB /* Yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE16B18F8D3060094C8CB /* Yellow.png */; };
-		2AECE1C218F8D3060094C8CB /* Yellow.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE16C18F8D3060094C8CB /* Yellow.pvrtc */; };
-		2AECE1DB18F8D3B20094C8CB /* Direction Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE1C618F8D3B20094C8CB /* Direction Arrow.png */; };
 		2AECE20918F8D5090094C8CB /* MAActivityIndicatorStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1F018F8D5090094C8CB /* MAActivityIndicatorStyle.m */; };
-		2AECE20A18F8D5090094C8CB /* MAFloorPlanStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1F218F8D5090094C8CB /* MAFloorPlanStyle.m */; };
-		2AECE20C18F8D5090094C8CB /* MADesignScreenStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1F618F8D5090094C8CB /* MADesignScreenStyle.m */; };
 		2AECE20E18F8D5090094C8CB /* MAGameScreenStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1FA18F8D5090094C8CB /* MAGameScreenStyle.m */; };
 		2AECE21018F8D5090094C8CB /* MAMainScreenStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE1FE18F8D5090094C8CB /* MAMainScreenStyle.m */; };
 		2AECE21118F8D5090094C8CB /* MAMapStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE20018F8D5090094C8CB /* MAMapStyle.m */; };
@@ -197,62 +144,35 @@
 		2AECE26F18F8D62E0094C8CB /* MAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE25D18F8D62E0094C8CB /* MAConstants.m */; };
 		2AECE27018F8D62E0094C8CB /* MAEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE25F18F8D62E0094C8CB /* MAEvent.m */; };
 		2AECE27118F8D62E0094C8CB /* MAEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE26118F8D62E0094C8CB /* MAEventManager.m */; };
-		2AECE27218F8D62E0094C8CB /* MAMazeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE26318F8D62E0094C8CB /* MAMazeManager.m */; };
 		2AECE27318F8D62E0094C8CB /* MASettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE26518F8D62E0094C8CB /* MASettings.m */; };
 		2AECE27418F8D62E0094C8CB /* MASoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE26718F8D62E0094C8CB /* MASoundManager.m */; };
 		2AECE27518F8D62E0094C8CB /* MATextureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE26918F8D62E0094C8CB /* MATextureManager.m */; };
 		2AECE27618F8D62E0094C8CB /* MAUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE26B18F8D62E0094C8CB /* MAUtilities.m */; };
-		2AECE27718F8D62E0094C8CB /* MAWebServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE26D18F8D62E0094C8CB /* MAWebServices.m */; };
 		2AECE27D18F8D6A40094C8CB /* MAMazeSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE27B18F8D6A40094C8CB /* MAMazeSummary.m */; };
 		2AECE28318F8D7190094C8CB /* MAColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE28218F8D7190094C8CB /* MAColors.m */; };
-		2AECE2BD18F8D9930094C8CB /* MACreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE28618F8D9930094C8CB /* MACreateViewController.m */; };
-		2AECE2BE18F8D9930094C8CB /* MACreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE28718F8D9930094C8CB /* MACreateViewController.xib */; };
-		2AECE2BF18F8D9930094C8CB /* MADesignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE28A18F8D9930094C8CB /* MADesignViewController.m */; };
-		2AECE2C018F8D9930094C8CB /* MADesignViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE28B18F8D9930094C8CB /* MADesignViewController.xib */; };
 		2AECE2C418F8D9930094C8CB /* MAGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE29418F8D9930094C8CB /* MAGameViewController.m */; };
 		2AECE2C518F8D9930094C8CB /* MAGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE29518F8D9930094C8CB /* MAGameViewController.xib */; };
-		2AECE2C918F8D9930094C8CB /* MAMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE29F18F8D9930094C8CB /* MAMainViewController.m */; };
-		2AECE2CA18F8D9930094C8CB /* MAMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2A018F8D9930094C8CB /* MAMainViewController.xib */; };
 		2AECE2CB18F8D9930094C8CB /* MAMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2A318F8D9930094C8CB /* MAMapView.m */; };
-		2AECE2CC18F8D9930094C8CB /* MAMazeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2A618F8D9930094C8CB /* MAMazeView.m */; };
 		2AECE2CE18F8D9930094C8CB /* MARatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2AC18F8D9930094C8CB /* MARatingView.m */; };
 		2AECE2D118F8D9930094C8CB /* MATexturesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2B318F8D9930094C8CB /* MATexturesViewController.m */; };
 		2AECE2D218F8D9930094C8CB /* MATexturesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2B418F8D9930094C8CB /* MATexturesViewController.xib */; };
-		2AECE2D318F8D9930094C8CB /* MATopMazesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2B718F8D9930094C8CB /* MATopMazesViewController.m */; };
-		2AECE2D418F8D9930094C8CB /* MATopMazesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2B818F8D9930094C8CB /* MATopMazesViewController.xib */; };
 		2AECE2E518F8DB600094C8CB /* MAInfoPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2DE18F8DB600094C8CB /* MAInfoPopupView.m */; };
 		2AECE2E618F8DB600094C8CB /* MAInfoPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE2DF18F8DB600094C8CB /* MAInfoPopupView.xib */; };
 		2AECE2E718F8DB600094C8CB /* MAPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE2E218F8DB600094C8CB /* MAPopupView.m */; };
-		2AECE2E918F91F640094C8CB /* FFEF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AECE2E818F91F640094C8CB /* FFEF.framework */; };
-		423E315F4DB84BC7AEBA7375 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2739B721EF9C40EAA5260DC7 /* libPods.a */; };
-		F49ED74417FDA9CA00D9BABD /* MASize.m in Sources */ = {isa = PBXBuildFile; fileRef = F49ED74317FDA9CA00D9BABD /* MASize.m */; };
-		F49ED74717FDA9E200D9BABD /* MACoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = F49ED74617FDA9E200D9BABD /* MACoordinate.m */; };
+		2AFDB1F81B40586600F13679 /* MASceneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AFDB1F71B40586600F13679 /* MASceneView.m */; };
+		2AFDB1FB1B40A1C300F13679 /* MABoxNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AFDB1FA1B40A1C300F13679 /* MABoxNode.m */; };
+		2AFDB1FE1B40ABEA00F13679 /* MAWallNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AFDB1FD1B40ABEA00F13679 /* MAWallNode.m */; };
 		F49ED74D17FDACAD00D9BABD /* MAWall.m in Sources */ = {isa = PBXBuildFile; fileRef = F49ED74C17FDACAD00D9BABD /* MAWall.m */; };
-		F4A6D06917FB6C610003D645 /* MALatestVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D05A17FB6C610003D645 /* MALatestVersion.m */; };
 		F4A6D06A17FB6C610003D645 /* MALocation.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D05C17FB6C610003D645 /* MALocation.m */; };
-		F4A6D06B17FB6C610003D645 /* MAMaze.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D05E17FB6C610003D645 /* MAMaze.m */; };
+		F4A6D06B17FB6C610003D645 /* MAWorld.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D05E17FB6C610003D645 /* MAWorld.m */; };
 		F4A6D06E17FB6C610003D645 /* MASound.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D06417FB6C610003D645 /* MASound.m */; };
 		F4A6D06F17FB6C610003D645 /* MATexture.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D06617FB6C610003D645 /* MATexture.m */; };
-		F4A6D07017FB6C610003D645 /* MAUserCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A6D06817FB6C610003D645 /* MAUserCounter.m */; };
-		F4DC63C617FA376800A40DE8 /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F4DC63C517FA376800A40DE8 /* libbz2.dylib */; };
 		F4E4A9CA154CB92C006AA64D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9C9154CB92C006AA64D /* UIKit.framework */; };
 		F4E4A9CC154CB92C006AA64D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9CB154CB92C006AA64D /* Foundation.framework */; };
-		F4E4A9CE154CB92C006AA64D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9CD154CB92C006AA64D /* CoreGraphics.framework */; };
-		F4E4A9D0154CB92C006AA64D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9CF154CB92C006AA64D /* CoreData.framework */; };
 		F4E4A9E8154CB92C006AA64D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9C9154CB92C006AA64D /* UIKit.framework */; };
 		F4E4A9E9154CB92C006AA64D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9CB154CB92C006AA64D /* Foundation.framework */; };
-		F4E4A9EA154CB92C006AA64D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4A9CF154CB92C006AA64D /* CoreData.framework */; };
 		F4E4A9F2154CB92C006AA64D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4E4A9F0154CB92C006AA64D /* InfoPlist.strings */; };
 		F4E4A9F5154CB92C006AA64D /* MazesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E4A9F4154CB92C006AA64D /* MazesTests.m */; };
-		F4E4ABA4154CD21B006AA64D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABA3154CD20D006AA64D /* AVFoundation.framework */; };
-		F4E4ABA6154CD244006AA64D /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABA5154CD237006AA64D /* iAd.framework */; };
-		F4E4ABA8154CD26B006AA64D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABA7154CD25E006AA64D /* OpenGLES.framework */; };
-		F4E4ABAA154CD28C006AA64D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABA9154CD283006AA64D /* QuartzCore.framework */; };
-		F4E4ABAC154CD2CB006AA64D /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABAB154CD2BF006AA64D /* libxml2.dylib */; };
-		F4E4ABEA154E349E006AA64D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABE9154E348F006AA64D /* CFNetwork.framework */; };
-		F4E4ABEC154E34BE006AA64D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABEB154E34AA006AA64D /* Security.framework */; };
-		F4E4ABEE154E34D2006AA64D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABED154E34C8006AA64D /* MobileCoreServices.framework */; };
-		F4E4ABF0154E34E7006AA64D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4E4ABEF154E34DA006AA64D /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -266,44 +186,38 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2739B721EF9C40EAA5260DC7 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		2A0A93A61935AE4B0049F5C7 /* MAFloorPlanViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MAFloorPlanViewDelegate.h; path = Protocols/MAFloorPlanViewDelegate.h; sourceTree = "<group>"; };
-		2A0A93A71935B0500049F5C7 /* MAFloorPlanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAFloorPlanViewController.h; path = Mazes/Views/FloorPlanViewController/MAFloorPlanViewController.h; sourceTree = SOURCE_ROOT; };
-		2A0A93A81935B0500049F5C7 /* MAFloorPlanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAFloorPlanViewController.m; path = Mazes/Views/FloorPlanViewController/MAFloorPlanViewController.m; sourceTree = SOURCE_ROOT; };
-		2A0A93A91935B0500049F5C7 /* MAFloorPlanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAFloorPlanView.h; path = Mazes/Views/FloorPlanViewController/MAFloorPlanView.h; sourceTree = SOURCE_ROOT; };
-		2A0A93AA1935B0500049F5C7 /* MAFloorPlanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAFloorPlanView.m; path = Mazes/Views/FloorPlanViewController/MAFloorPlanView.m; sourceTree = SOURCE_ROOT; };
-		2A0A93AD1935B1130049F5C7 /* MAFloorPlanViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MAFloorPlanViewController.xib; path = Mazes/Views/FloorPlanViewController/MAFloorPlanViewController.xib; sourceTree = SOURCE_ROOT; };
+		2A0D5BAF1B3D093E003484C4 /* Design.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Design.storyboard; path = Views/Design/Design.storyboard; sourceTree = "<group>"; };
+		2A0D5BB21B3D0AEF003484C4 /* MADesignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MADesignViewController.h; path = Views/Design/DesignViewController/MADesignViewController.h; sourceTree = "<group>"; };
+		2A0D5BB31B3D0AEF003484C4 /* MADesignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MADesignViewController.m; path = Views/Design/DesignViewController/MADesignViewController.m; sourceTree = "<group>"; };
 		2A23A0BA19304E7F006F2294 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		2A23F62B18FF8B530085B4FA /* MARatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MARatingViewController.h; path = Mazes/Views/RatingView/RatingViewController/MARatingViewController.h; sourceTree = SOURCE_ROOT; };
 		2A23F62C18FF8B530085B4FA /* MARatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MARatingViewController.m; path = Mazes/Views/RatingView/RatingViewController/MARatingViewController.m; sourceTree = SOURCE_ROOT; };
 		2A23F62D18FF8B530085B4FA /* MARatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MARatingViewController.xib; path = Mazes/Views/RatingView/RatingViewController/MARatingViewController.xib; sourceTree = SOURCE_ROOT; };
-		2A23F63318FF9C480085B4FA /* MACreateScreenStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MACreateScreenStyle.h; path = Library/Styles/MACreateScreenStyle.h; sourceTree = "<group>"; };
-		2A23F63418FF9C480085B4FA /* MACreateScreenStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MACreateScreenStyle.m; path = Library/Styles/MACreateScreenStyle.m; sourceTree = "<group>"; };
-		2A890CA318FE3CCC00F96157 /* MATopMazeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MATopMazeTableViewCell.h; path = Mazes/Views/TopMazesViewController/TopMazeTableViewCell/MATopMazeTableViewCell.h; sourceTree = SOURCE_ROOT; };
-		2A890CA418FE3CCC00F96157 /* MATopMazeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MATopMazeTableViewCell.m; path = Mazes/Views/TopMazesViewController/TopMazeTableViewCell/MATopMazeTableViewCell.m; sourceTree = SOURCE_ROOT; };
-		2A890CA518FE3CCC00F96157 /* MATopMazeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MATopMazeTableViewCell.xib; path = Mazes/Views/TopMazesViewController/TopMazeTableViewCell/MATopMazeTableViewCell.xib; sourceTree = SOURCE_ROOT; };
+		2A56DE7F1B3E67DF001B1C64 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		2A56DE811B3F0662001B1C64 /* MAWorldManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAWorldManager.h; path = Model/MAWorldManager.h; sourceTree = "<group>"; };
+		2A56DE821B3F0662001B1C64 /* MAWorldManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAWorldManager.m; path = Model/MAWorldManager.m; sourceTree = "<group>"; };
+		2A56DE861B3F0933001B1C64 /* MATopMazesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MATopMazesViewController.h; path = Mazes/Views/TopMazes/MATopMazesViewController.h; sourceTree = SOURCE_ROOT; };
+		2A56DE871B3F0933001B1C64 /* MATopMazesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MATopMazesViewController.m; path = Mazes/Views/TopMazes/MATopMazesViewController.m; sourceTree = SOURCE_ROOT; };
+		2A56DE891B3F0933001B1C64 /* TopMazes.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = TopMazes.storyboard; path = Mazes/Views/TopMazes/TopMazes.storyboard; sourceTree = SOURCE_ROOT; };
+		2A56DE8E1B3F0950001B1C64 /* MATopMazeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MATopMazeTableViewCell.h; path = Mazes/Views/TopMazes/TopMazeTableViewCell/MATopMazeTableViewCell.h; sourceTree = SOURCE_ROOT; };
+		2A56DE8F1B3F0950001B1C64 /* MATopMazeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MATopMazeTableViewCell.m; path = Mazes/Views/TopMazes/TopMazeTableViewCell/MATopMazeTableViewCell.m; sourceTree = SOURCE_ROOT; };
+		2A56DE901B3F0950001B1C64 /* MATopMazeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MATopMazeTableViewCell.xib; path = Mazes/Views/TopMazes/TopMazeTableViewCell/MATopMazeTableViewCell.xib; sourceTree = SOURCE_ROOT; };
+		2A56DE931B3F4310001B1C64 /* MATopMazesCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MATopMazesCollectionViewController.h; path = Mazes/Views/TopMazes/MATopMazesCollectionViewController.h; sourceTree = SOURCE_ROOT; };
+		2A56DE941B3F4310001B1C64 /* MATopMazesCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MATopMazesCollectionViewController.m; path = Mazes/Views/TopMazes/MATopMazesCollectionViewController.m; sourceTree = SOURCE_ROOT; };
+		2A56DE961B3F6D05001B1C64 /* MATopMazesSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MATopMazesSegmentedControl.h; path = Mazes/Views/TopMazes/MATopMazesSegmentedControl.h; sourceTree = SOURCE_ROOT; };
+		2A56DE971B3F6D05001B1C64 /* MATopMazesSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MATopMazesSegmentedControl.m; path = Mazes/Views/TopMazes/MATopMazesSegmentedControl.m; sourceTree = SOURCE_ROOT; };
+		2A56DE991B3F6D4E001B1C64 /* MATopMazesSegmentedControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MATopMazesSegmentedControl.xib; path = Mazes/Views/TopMazes/MATopMazesSegmentedControl.xib; sourceTree = SOURCE_ROOT; };
+		2A675FB81B3D0EE90046972B /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
+		2A675FBC1B3D14A20046972B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		2A675FC61B3D185C0046972B /* MALaunchView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MALaunchView.xib; path = Views/Launch/MALaunchView.xib; sourceTree = "<group>"; };
 		2A890CA818FE528200F96157 /* MAInstructionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MAInstructionsViewController.xib; path = Mazes/Views/GameViewController/InstructionsViewController/MAInstructionsViewController.xib; sourceTree = SOURCE_ROOT; };
 		2A890CAA18FE52AD00F96157 /* MAInstructionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAInstructionsViewController.h; path = Mazes/Views/GameViewController/InstructionsViewController/MAInstructionsViewController.h; sourceTree = SOURCE_ROOT; };
 		2A890CAB18FE52AD00F96157 /* MAInstructionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAInstructionsViewController.m; path = Mazes/Views/GameViewController/InstructionsViewController/MAInstructionsViewController.m; sourceTree = SOURCE_ROOT; };
-		2A977732192323D900E1D428 /* DesignScreenBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DesignScreenBackground.png; path = Mazes/Assets/Images/DesignScreen/DesignScreenBackground.png; sourceTree = SOURCE_ROOT; };
 		2A9777341923247B00E1D428 /* BackButtonBlueUnhighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BackButtonBlueUnhighlighted.png; path = Mazes/Assets/Images/GameScreen/BackButtonBlueUnhighlighted.png; sourceTree = SOURCE_ROOT; };
 		2A9777351923247B00E1D428 /* BackButtonOrangeHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BackButtonOrangeHighlighted.png; path = Mazes/Assets/Images/GameScreen/BackButtonOrangeHighlighted.png; sourceTree = SOURCE_ROOT; };
 		2A9777361923247B00E1D428 /* GameScreenBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GameScreenBackground.png; path = Mazes/Assets/Images/GameScreen/GameScreenBackground.png; sourceTree = SOURCE_ROOT; };
 		2A9777371923247B00E1D428 /* InstructionsButtonBlueUnhighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InstructionsButtonBlueUnhighlighted.png; path = Mazes/Assets/Images/GameScreen/InstructionsButtonBlueUnhighlighted.png; sourceTree = SOURCE_ROOT; };
 		2A9777381923247B00E1D428 /* InstructionsButtonOrangeHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InstructionsButtonOrangeHighlighted.png; path = Mazes/Assets/Images/GameScreen/InstructionsButtonOrangeHighlighted.png; sourceTree = SOURCE_ROOT; };
-		2A97773E1923279D00E1D428 /* CreateButtonBlueUnhighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CreateButtonBlueUnhighlighted.png; path = Mazes/Assets/Images/TopMazesScreen/CreateButtonBlueUnhighlighted.png; sourceTree = SOURCE_ROOT; };
-		2A97773F1923279D00E1D428 /* CreateButtonOrangeHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CreateButtonOrangeHighlighted.png; path = Mazes/Assets/Images/TopMazesScreen/CreateButtonOrangeHighlighted.png; sourceTree = SOURCE_ROOT; };
-		2A9777401923279D00E1D428 /* HighestRatedButtonBlueUnhighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HighestRatedButtonBlueUnhighlighted.png; path = Mazes/Assets/Images/TopMazesScreen/HighestRatedButtonBlueUnhighlighted.png; sourceTree = SOURCE_ROOT; };
-		2A9777411923279D00E1D428 /* HighestRatedButtonOrangeHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HighestRatedButtonOrangeHighlighted.png; path = Mazes/Assets/Images/TopMazesScreen/HighestRatedButtonOrangeHighlighted.png; sourceTree = SOURCE_ROOT; };
-		2A9777421923279D00E1D428 /* TopMazesButtonBlueUnhighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TopMazesButtonBlueUnhighlighted.png; path = Mazes/Assets/Images/TopMazesScreen/TopMazesButtonBlueUnhighlighted.png; sourceTree = SOURCE_ROOT; };
-		2A9777431923279D00E1D428 /* TopMazesButtonOrangeHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TopMazesButtonOrangeHighlighted.png; path = Mazes/Assets/Images/TopMazesScreen/TopMazesButtonOrangeHighlighted.png; sourceTree = SOURCE_ROOT; };
-		2A9777441923279D00E1D428 /* NewestButtonBlueUnhighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NewestButtonBlueUnhighlighted.png; path = Mazes/Assets/Images/TopMazesScreen/NewestButtonBlueUnhighlighted.png; sourceTree = SOURCE_ROOT; };
-		2A9777451923279D00E1D428 /* NewestButtonOrangeHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NewestButtonOrangeHighlighted.png; path = Mazes/Assets/Images/TopMazesScreen/NewestButtonOrangeHighlighted.png; sourceTree = SOURCE_ROOT; };
-		2A9777461923279D00E1D428 /* TopMazeCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TopMazeCell.png; path = Mazes/Assets/Images/TopMazesScreen/TopMazeCell.png; sourceTree = SOURCE_ROOT; };
-		2A9777471923279D00E1D428 /* TopMazesScreenBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TopMazesScreenBackground.png; path = Mazes/Assets/Images/TopMazesScreen/TopMazesScreenBackground.png; sourceTree = SOURCE_ROOT; };
-		2A9777481923279D00E1D428 /* YoursButtonBlueUnhighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = YoursButtonBlueUnhighlighted.png; path = Mazes/Assets/Images/TopMazesScreen/YoursButtonBlueUnhighlighted.png; sourceTree = SOURCE_ROOT; };
-		2A9777491923279D00E1D428 /* YoursButtonOrangeHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = YoursButtonOrangeHighlighted.png; path = Mazes/Assets/Images/TopMazesScreen/YoursButtonOrangeHighlighted.png; sourceTree = SOURCE_ROOT; };
-		2A9D41F51919E32000DC0F6B /* LaunchImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LaunchImage.png; path = Assets/Images/LaunchImage.png; sourceTree = "<group>"; };
 		2A9D69B719121FF10094534F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		2AA18E53192B3133006328B8 /* MARatingViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MARatingViewDelegate.h; path = Protocols/MARatingViewDelegate.h; sourceTree = "<group>"; };
 		2AA18E54192B322F006328B8 /* MATopMazeTableViewCellDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MATopMazeTableViewCellDelegate.h; path = Protocols/MATopMazeTableViewCellDelegate.h; sourceTree = "<group>"; };
@@ -316,7 +230,6 @@
 		2AA2815C191DEB9100C0D8D9 /* AppIcon_76x76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon_76x76.png; path = Assets/Images/AppIcon_76x76.png; sourceTree = "<group>"; };
 		2AA2815D191DEB9100C0D8D9 /* AppIcon_80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon_80x80.png; path = Assets/Images/AppIcon_80x80.png; sourceTree = "<group>"; };
 		2AA2815E191DEB9100C0D8D9 /* AppIcon_152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppIcon_152x152.png; path = Assets/Images/AppIcon_152x152.png; sourceTree = "<group>"; };
-		2AA28165191DEB9B00C0D8D9 /* LaunchImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "LaunchImage@2x.png"; path = "Assets/Images/LaunchImage@2x.png"; sourceTree = "<group>"; };
 		2AA511931903262900010D48 /* MARatingPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MARatingPopupView.h; path = Mazes/Views/Popups/RatingPopupView/MARatingPopupView.h; sourceTree = SOURCE_ROOT; };
 		2AA511941903262900010D48 /* MARatingPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MARatingPopupView.m; path = Mazes/Views/Popups/RatingPopupView/MARatingPopupView.m; sourceTree = SOURCE_ROOT; };
 		2AA511951903262900010D48 /* MARatingPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MARatingPopupView.xib; path = Mazes/Views/Popups/RatingPopupView/MARatingPopupView.xib; sourceTree = SOURCE_ROOT; };
@@ -335,24 +248,13 @@
 		2AB51DAC1900F3BE0094BC82 /* MAButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAButton.m; path = Library/MAButton.m; sourceTree = "<group>"; };
 		2AB51DAE1900F4BF0094BC82 /* MAButtonStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAButtonStyle.h; path = Library/Styles/MAButtonStyle.h; sourceTree = "<group>"; };
 		2AB51DAF1900F4BF0094BC82 /* MAButtonStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAButtonStyle.m; path = Library/Styles/MAButtonStyle.m; sourceTree = "<group>"; };
-		2ADDFEA91940469C0000B526 /* CreateButtonBlueUnhighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CreateButtonBlueUnhighlighted@2x.png"; path = "Mazes/Assets/Images/TopMazesScreen/CreateButtonBlueUnhighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
-		2ADDFEAA1940469C0000B526 /* CreateButtonOrangeHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CreateButtonOrangeHighlighted@2x.png"; path = "Mazes/Assets/Images/TopMazesScreen/CreateButtonOrangeHighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
-		2ADDFEAB1940469C0000B526 /* HighestRatedButtonBlueUnhighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "HighestRatedButtonBlueUnhighlighted@2x.png"; path = "Mazes/Assets/Images/TopMazesScreen/HighestRatedButtonBlueUnhighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
-		2ADDFEAC1940469C0000B526 /* HighestRatedButtonOrangeHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "HighestRatedButtonOrangeHighlighted@2x.png"; path = "Mazes/Assets/Images/TopMazesScreen/HighestRatedButtonOrangeHighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
-		2ADDFEAD1940469C0000B526 /* NewestButtonBlueUnhighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "NewestButtonBlueUnhighlighted@2x.png"; path = "Mazes/Assets/Images/TopMazesScreen/NewestButtonBlueUnhighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
-		2ADDFEAE1940469C0000B526 /* NewestButtonOrangeHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "NewestButtonOrangeHighlighted@2x.png"; path = "Mazes/Assets/Images/TopMazesScreen/NewestButtonOrangeHighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
-		2ADDFEAF1940469C0000B526 /* TopMazeCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TopMazeCell@2x.png"; path = "Mazes/Assets/Images/TopMazesScreen/TopMazeCell@2x.png"; sourceTree = SOURCE_ROOT; };
-		2ADDFEB01940469C0000B526 /* TopMazesButtonBlueUnhighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TopMazesButtonBlueUnhighlighted@2x.png"; path = "Mazes/Assets/Images/TopMazesScreen/TopMazesButtonBlueUnhighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
-		2ADDFEB11940469C0000B526 /* TopMazesButtonOrangeHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TopMazesButtonOrangeHighlighted@2x.png"; path = "Mazes/Assets/Images/TopMazesScreen/TopMazesButtonOrangeHighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
-		2ADDFEB21940469C0000B526 /* TopMazesScreenBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "TopMazesScreenBackground@2x.png"; path = "Mazes/Assets/Images/TopMazesScreen/TopMazesScreenBackground@2x.png"; sourceTree = SOURCE_ROOT; };
-		2ADDFEB31940469C0000B526 /* YoursButtonBlueUnhighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "YoursButtonBlueUnhighlighted@2x.png"; path = "Mazes/Assets/Images/TopMazesScreen/YoursButtonBlueUnhighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
-		2ADDFEB41940469C0000B526 /* YoursButtonOrangeHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "YoursButtonOrangeHighlighted@2x.png"; path = "Mazes/Assets/Images/TopMazesScreen/YoursButtonOrangeHighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
+		2AC20FAC1B3BB30B0037864F /* MAAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAAlertController.h; path = Library/MAAlertController.h; sourceTree = "<group>"; };
+		2AC20FAD1B3BB30B0037864F /* MAAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAAlertController.m; path = Library/MAAlertController.m; sourceTree = "<group>"; };
 		2ADDFEC11944237A0000B526 /* BackButtonBlueUnhighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BackButtonBlueUnhighlighted@2x.png"; path = "Mazes/Assets/Images/GameScreen/BackButtonBlueUnhighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
 		2ADDFEC21944237A0000B526 /* BackButtonOrangeHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BackButtonOrangeHighlighted@2x.png"; path = "Mazes/Assets/Images/GameScreen/BackButtonOrangeHighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
 		2ADDFEC31944237A0000B526 /* GameScreenBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "GameScreenBackground@2x.png"; path = "Mazes/Assets/Images/GameScreen/GameScreenBackground@2x.png"; sourceTree = SOURCE_ROOT; };
 		2ADDFEC41944237A0000B526 /* InstructionsButtonBlueUnhighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "InstructionsButtonBlueUnhighlighted@2x.png"; path = "Mazes/Assets/Images/GameScreen/InstructionsButtonBlueUnhighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
 		2ADDFEC51944237A0000B526 /* InstructionsButtonOrangeHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "InstructionsButtonOrangeHighlighted@2x.png"; path = "Mazes/Assets/Images/GameScreen/InstructionsButtonOrangeHighlighted@2x.png"; sourceTree = SOURCE_ROOT; };
-		2ADDFECB194428CB0000B526 /* DesignScreenBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "DesignScreenBackground@2x.png"; path = "Mazes/Assets/Images/DesignScreen/DesignScreenBackground@2x.png"; sourceTree = SOURCE_ROOT; };
 		2ADDFECE194AB7AE0000B526 /* MAMapNearbyLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMapNearbyLocation.h; path = Model/Map/MAMapNearbyLocation.h; sourceTree = "<group>"; };
 		2ADDFECF194AB7AE0000B526 /* MAMapNearbyLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMapNearbyLocation.m; path = Model/Map/MAMapNearbyLocation.m; sourceTree = "<group>"; };
 		2ADDFED0194AB7AE0000B526 /* MAMapNearbyWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMapNearbyWall.h; path = Model/Map/MAMapNearbyWall.h; sourceTree = "<group>"; };
@@ -365,7 +267,6 @@
 		2AECE0E618F8CDF90094C8CB /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = Application/InfoPlist.strings; sourceTree = "<group>"; };
 		2AECE0E718F8CDF90094C8CB /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Application/main.m; sourceTree = "<group>"; };
 		2AECE0E818F8CDF90094C8CB /* Mazes-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Mazes-Info.plist"; path = "Application/Mazes-Info.plist"; sourceTree = "<group>"; };
-		2AECE0E918F8CDF90094C8CB /* Mazes-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Mazes-Prefix.pch"; path = "Application/Mazes-Prefix.pch"; sourceTree = "<group>"; };
 		2AECE0EA18F8CDF90094C8CB /* Mazes.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Mazes.entitlements; path = Application/Mazes.entitlements; sourceTree = "<group>"; };
 		2AECE0F718F8D2EF0094C8CB /* Benediction.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Benediction.caf; path = Assets/Sounds/Benediction.caf; sourceTree = "<group>"; };
 		2AECE0F818F8D2EF0094C8CB /* Eerie Wind.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Eerie Wind.caf"; path = "Assets/Sounds/Eerie Wind.caf"; sourceTree = "<group>"; };
@@ -384,98 +285,50 @@
 		2AECE10518F8D2EF0094C8CB /* The Hour of Triumph.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "The Hour of Triumph.caf"; path = "Assets/Sounds/The Hour of Triumph.caf"; sourceTree = "<group>"; };
 		2AECE10618F8D2EF0094C8CB /* Wind.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Wind.caf; path = Assets/Sounds/Wind.caf; sourceTree = "<group>"; };
 		2AECE11718F8D3050094C8CB /* Alternating Brick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Alternating Brick.png"; path = "Assets/Textures/Alternating Brick.png"; sourceTree = "<group>"; };
-		2AECE11818F8D3050094C8CB /* Alternating Brick.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Alternating Brick.pvrtc"; path = "Assets/Textures/Alternating Brick.pvrtc"; sourceTree = "<group>"; };
 		2AECE11918F8D3050094C8CB /* Black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Black.png; path = Assets/Textures/Black.png; sourceTree = "<group>"; };
-		2AECE11A18F8D3050094C8CB /* Black.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Black.pvrtc; path = Assets/Textures/Black.pvrtc; sourceTree = "<group>"; };
 		2AECE11B18F8D3050094C8CB /* Blue Marble Slabs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Blue Marble Slabs.png"; path = "Assets/Textures/Blue Marble Slabs.png"; sourceTree = "<group>"; };
-		2AECE11C18F8D3050094C8CB /* Blue Marble Slabs.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Blue Marble Slabs.pvrtc"; path = "Assets/Textures/Blue Marble Slabs.pvrtc"; sourceTree = "<group>"; };
 		2AECE11D18F8D3050094C8CB /* Blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Blue.png; path = Assets/Textures/Blue.png; sourceTree = "<group>"; };
-		2AECE11E18F8D3050094C8CB /* Blue.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Blue.pvrtc; path = Assets/Textures/Blue.pvrtc; sourceTree = "<group>"; };
 		2AECE11F18F8D3050094C8CB /* Born to Rule.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Born to Rule.png"; path = "Assets/Textures/Born to Rule.png"; sourceTree = "<group>"; };
-		2AECE12018F8D3050094C8CB /* Born to Rule.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Born to Rule.pvrtc"; path = "Assets/Textures/Born to Rule.pvrtc"; sourceTree = "<group>"; };
 		2AECE12118F8D3050094C8CB /* Born to Shine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Born to Shine.png"; path = "Assets/Textures/Born to Shine.png"; sourceTree = "<group>"; };
-		2AECE12218F8D3050094C8CB /* Born to Shine.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Born to Shine.pvrtc"; path = "Assets/Textures/Born to Shine.pvrtc"; sourceTree = "<group>"; };
 		2AECE12318F8D3050094C8CB /* Bright Purple Marble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Bright Purple Marble.png"; path = "Assets/Textures/Bright Purple Marble.png"; sourceTree = "<group>"; };
-		2AECE12418F8D3050094C8CB /* Bright Purple Marble.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Bright Purple Marble.pvrtc"; path = "Assets/Textures/Bright Purple Marble.pvrtc"; sourceTree = "<group>"; };
 		2AECE12518F8D3050094C8CB /* Bronze Armor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Bronze Armor.png"; path = "Assets/Textures/Bronze Armor.png"; sourceTree = "<group>"; };
-		2AECE12618F8D3050094C8CB /* Bronze Armor.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Bronze Armor.pvrtc"; path = "Assets/Textures/Bronze Armor.pvrtc"; sourceTree = "<group>"; };
 		2AECE12718F8D3050094C8CB /* Brown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Brown.png; path = Assets/Textures/Brown.png; sourceTree = "<group>"; };
-		2AECE12818F8D3050094C8CB /* Brown.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Brown.pvrtc; path = Assets/Textures/Brown.pvrtc; sourceTree = "<group>"; };
 		2AECE12918F8D3050094C8CB /* Bubble Grip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Bubble Grip.png"; path = "Assets/Textures/Bubble Grip.png"; sourceTree = "<group>"; };
-		2AECE12A18F8D3050094C8CB /* Bubble Grip.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Bubble Grip.pvrtc"; path = "Assets/Textures/Bubble Grip.pvrtc"; sourceTree = "<group>"; };
 		2AECE12B18F8D3050094C8CB /* Camouflage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Camouflage.png; path = Assets/Textures/Camouflage.png; sourceTree = "<group>"; };
-		2AECE12C18F8D3050094C8CB /* Camouflage.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Camouflage.pvrtc; path = Assets/Textures/Camouflage.pvrtc; sourceTree = "<group>"; };
 		2AECE12D18F8D3050094C8CB /* Chipped Bricks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Chipped Bricks.png"; path = "Assets/Textures/Chipped Bricks.png"; sourceTree = "<group>"; };
-		2AECE12E18F8D3050094C8CB /* Chipped Bricks.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Chipped Bricks.pvrtc"; path = "Assets/Textures/Chipped Bricks.pvrtc"; sourceTree = "<group>"; };
 		2AECE12F18F8D3050094C8CB /* Cinder Block.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Cinder Block.png"; path = "Assets/Textures/Cinder Block.png"; sourceTree = "<group>"; };
-		2AECE13018F8D3050094C8CB /* Cinder Block.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Cinder Block.pvrtc"; path = "Assets/Textures/Cinder Block.pvrtc"; sourceTree = "<group>"; };
 		2AECE13118F8D3050094C8CB /* Corrugated Metal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Corrugated Metal.png"; path = "Assets/Textures/Corrugated Metal.png"; sourceTree = "<group>"; };
-		2AECE13218F8D3050094C8CB /* Corrugated Metal.pvrtc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Corrugated Metal.pvrtc"; path = "Assets/Textures/Corrugated Metal.pvrtc"; sourceTree = "<group>"; };
 		2AECE13318F8D3050094C8CB /* Creamy White Marble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Creamy White Marble.png"; path = "Assets/Textures/Creamy White Marble.png"; sourceTree = "<group>"; };
-		2AECE13418F8D3050094C8CB /* Creamy White Marble.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Creamy White Marble.pvrtc"; path = "Assets/Textures/Creamy White Marble.pvrtc"; sourceTree = "<group>"; };
 		2AECE13518F8D3050094C8CB /* Gray 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gray 1.png"; path = "Assets/Textures/Gray 1.png"; sourceTree = "<group>"; };
-		2AECE13618F8D3050094C8CB /* Gray 1.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gray 1.pvrtc"; path = "Assets/Textures/Gray 1.pvrtc"; sourceTree = "<group>"; };
 		2AECE13718F8D3050094C8CB /* Gray 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gray 2.png"; path = "Assets/Textures/Gray 2.png"; sourceTree = "<group>"; };
-		2AECE13818F8D3060094C8CB /* Gray 2.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gray 2.pvrtc"; path = "Assets/Textures/Gray 2.pvrtc"; sourceTree = "<group>"; };
 		2AECE13918F8D3060094C8CB /* Gray 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gray 3.png"; path = "Assets/Textures/Gray 3.png"; sourceTree = "<group>"; };
-		2AECE13A18F8D3060094C8CB /* Gray 3.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Gray 3.pvrtc"; path = "Assets/Textures/Gray 3.pvrtc"; sourceTree = "<group>"; };
 		2AECE13B18F8D3060094C8CB /* Green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Green.png; path = Assets/Textures/Green.png; sourceTree = "<group>"; };
-		2AECE13C18F8D3060094C8CB /* Green.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Green.pvrtc; path = Assets/Textures/Green.pvrtc; sourceTree = "<group>"; };
 		2AECE13D18F8D3060094C8CB /* Light Swirl Marble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Light Swirl Marble.png"; path = "Assets/Textures/Light Swirl Marble.png"; sourceTree = "<group>"; };
-		2AECE13E18F8D3060094C8CB /* Light Swirl Marble.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Light Swirl Marble.pvrtc"; path = "Assets/Textures/Light Swirl Marble.pvrtc"; sourceTree = "<group>"; };
 		2AECE13F18F8D3060094C8CB /* Logs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Logs.png; path = Assets/Textures/Logs.png; sourceTree = "<group>"; };
-		2AECE14018F8D3060094C8CB /* Logs.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Logs.pvrtc; path = Assets/Textures/Logs.pvrtc; sourceTree = "<group>"; };
 		2AECE14118F8D3060094C8CB /* Maze.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Maze.png; path = Assets/Textures/Maze.png; sourceTree = "<group>"; };
-		2AECE14218F8D3060094C8CB /* Maze.pvrtc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Maze.pvrtc; path = Assets/Textures/Maze.pvrtc; sourceTree = "<group>"; };
 		2AECE14318F8D3060094C8CB /* Metal 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Metal 1.png"; path = "Assets/Textures/Metal 1.png"; sourceTree = "<group>"; };
-		2AECE14418F8D3060094C8CB /* Metal 1.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Metal 1.pvrtc"; path = "Assets/Textures/Metal 1.pvrtc"; sourceTree = "<group>"; };
 		2AECE14518F8D3060094C8CB /* Metal 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Metal 2.png"; path = "Assets/Textures/Metal 2.png"; sourceTree = "<group>"; };
-		2AECE14618F8D3060094C8CB /* Metal 2.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Metal 2.pvrtc"; path = "Assets/Textures/Metal 2.pvrtc"; sourceTree = "<group>"; };
 		2AECE14718F8D3060094C8CB /* Night Sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Night Sky.png"; path = "Assets/Textures/Night Sky.png"; sourceTree = "<group>"; };
-		2AECE14818F8D3060094C8CB /* Night Sky.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Night Sky.pvrtc"; path = "Assets/Textures/Night Sky.pvrtc"; sourceTree = "<group>"; };
 		2AECE14918F8D3060094C8CB /* Orange Brick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Orange Brick.png"; path = "Assets/Textures/Orange Brick.png"; sourceTree = "<group>"; };
-		2AECE14A18F8D3060094C8CB /* Orange Brick.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Orange Brick.pvrtc"; path = "Assets/Textures/Orange Brick.pvrtc"; sourceTree = "<group>"; };
 		2AECE14B18F8D3060094C8CB /* Orange Herringbone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Orange Herringbone.png"; path = "Assets/Textures/Orange Herringbone.png"; sourceTree = "<group>"; };
-		2AECE14C18F8D3060094C8CB /* Orange Herringbone.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Orange Herringbone.pvrtc"; path = "Assets/Textures/Orange Herringbone.pvrtc"; sourceTree = "<group>"; };
 		2AECE14D18F8D3060094C8CB /* Orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Orange.png; path = Assets/Textures/Orange.png; sourceTree = "<group>"; };
-		2AECE14E18F8D3060094C8CB /* Orange.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Orange.pvrtc; path = Assets/Textures/Orange.pvrtc; sourceTree = "<group>"; };
 		2AECE14F18F8D3060094C8CB /* Purple Marble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Purple Marble.png"; path = "Assets/Textures/Purple Marble.png"; sourceTree = "<group>"; };
-		2AECE15018F8D3060094C8CB /* Purple Marble.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Purple Marble.pvrtc"; path = "Assets/Textures/Purple Marble.pvrtc"; sourceTree = "<group>"; };
 		2AECE15118F8D3060094C8CB /* Red Basketweave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Red Basketweave.png"; path = "Assets/Textures/Red Basketweave.png"; sourceTree = "<group>"; };
-		2AECE15218F8D3060094C8CB /* Red Basketweave.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Red Basketweave.pvrtc"; path = "Assets/Textures/Red Basketweave.pvrtc"; sourceTree = "<group>"; };
 		2AECE15318F8D3060094C8CB /* Red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Red.png; path = Assets/Textures/Red.png; sourceTree = "<group>"; };
-		2AECE15418F8D3060094C8CB /* Red.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Red.pvrtc; path = Assets/Textures/Red.pvrtc; sourceTree = "<group>"; };
 		2AECE15518F8D3060094C8CB /* Skulls.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Skulls.png; path = Assets/Textures/Skulls.png; sourceTree = "<group>"; };
-		2AECE15618F8D3060094C8CB /* Skulls.pvrtc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Skulls.pvrtc; path = Assets/Textures/Skulls.pvrtc; sourceTree = "<group>"; };
 		2AECE15718F8D3060094C8CB /* Sky 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sky 1.png"; path = "Assets/Textures/Sky 1.png"; sourceTree = "<group>"; };
-		2AECE15818F8D3060094C8CB /* Sky 1.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Sky 1.pvrtc"; path = "Assets/Textures/Sky 1.pvrtc"; sourceTree = "<group>"; };
 		2AECE15918F8D3060094C8CB /* Sky 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sky 2.png"; path = "Assets/Textures/Sky 2.png"; sourceTree = "<group>"; };
-		2AECE15A18F8D3060094C8CB /* Sky 2.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Sky 2.pvrtc"; path = "Assets/Textures/Sky 2.pvrtc"; sourceTree = "<group>"; };
 		2AECE15B18F8D3060094C8CB /* Steel Vault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Steel Vault.png"; path = "Assets/Textures/Steel Vault.png"; sourceTree = "<group>"; };
-		2AECE15C18F8D3060094C8CB /* Steel Vault.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Steel Vault.pvrtc"; path = "Assets/Textures/Steel Vault.pvrtc"; sourceTree = "<group>"; };
 		2AECE15D18F8D3060094C8CB /* Teddy Bear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Teddy Bear.png"; path = "Assets/Textures/Teddy Bear.png"; sourceTree = "<group>"; };
-		2AECE15E18F8D3060094C8CB /* Teddy Bear.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Teddy Bear.pvrtc"; path = "Assets/Textures/Teddy Bear.pvrtc"; sourceTree = "<group>"; };
 		2AECE15F18F8D3060094C8CB /* Water.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Water.png; path = Assets/Textures/Water.png; sourceTree = "<group>"; };
-		2AECE16018F8D3060094C8CB /* Water.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Water.pvrtc; path = Assets/Textures/Water.pvrtc; sourceTree = "<group>"; };
 		2AECE16118F8D3060094C8CB /* White.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = White.png; path = Assets/Textures/White.png; sourceTree = "<group>"; };
-		2AECE16218F8D3060094C8CB /* White.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = White.pvrtc; path = Assets/Textures/White.pvrtc; sourceTree = "<group>"; };
 		2AECE16318F8D3060094C8CB /* Wood 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Wood 1.png"; path = "Assets/Textures/Wood 1.png"; sourceTree = "<group>"; };
-		2AECE16418F8D3060094C8CB /* Wood 1.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wood 1.pvrtc"; path = "Assets/Textures/Wood 1.pvrtc"; sourceTree = "<group>"; };
 		2AECE16518F8D3060094C8CB /* Wood 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Wood 2.png"; path = "Assets/Textures/Wood 2.png"; sourceTree = "<group>"; };
-		2AECE16618F8D3060094C8CB /* Wood 2.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wood 2.pvrtc"; path = "Assets/Textures/Wood 2.pvrtc"; sourceTree = "<group>"; };
 		2AECE16718F8D3060094C8CB /* Wood 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Wood 3.png"; path = "Assets/Textures/Wood 3.png"; sourceTree = "<group>"; };
-		2AECE16818F8D3060094C8CB /* Wood 3.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wood 3.pvrtc"; path = "Assets/Textures/Wood 3.pvrtc"; sourceTree = "<group>"; };
 		2AECE16918F8D3060094C8CB /* Worn Brown Brickwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Worn Brown Brickwork.png"; path = "Assets/Textures/Worn Brown Brickwork.png"; sourceTree = "<group>"; };
-		2AECE16A18F8D3060094C8CB /* Worn Brown Brickwork.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Worn Brown Brickwork.pvrtc"; path = "Assets/Textures/Worn Brown Brickwork.pvrtc"; sourceTree = "<group>"; };
 		2AECE16B18F8D3060094C8CB /* Yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Yellow.png; path = Assets/Textures/Yellow.png; sourceTree = "<group>"; };
-		2AECE16C18F8D3060094C8CB /* Yellow.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Yellow.pvrtc; path = Assets/Textures/Yellow.pvrtc; sourceTree = "<group>"; };
-		2AECE1C618F8D3B20094C8CB /* Direction Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Direction Arrow.png"; path = "Assets/Images/Direction Arrow.png"; sourceTree = "<group>"; };
 		2AECE1EF18F8D5090094C8CB /* MAActivityIndicatorStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAActivityIndicatorStyle.h; path = Library/Styles/MAActivityIndicatorStyle.h; sourceTree = "<group>"; };
 		2AECE1F018F8D5090094C8CB /* MAActivityIndicatorStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAActivityIndicatorStyle.m; path = Library/Styles/MAActivityIndicatorStyle.m; sourceTree = "<group>"; };
-		2AECE1F118F8D5090094C8CB /* MAFloorPlanStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAFloorPlanStyle.h; path = Library/Styles/MAFloorPlanStyle.h; sourceTree = "<group>"; };
-		2AECE1F218F8D5090094C8CB /* MAFloorPlanStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAFloorPlanStyle.m; path = Library/Styles/MAFloorPlanStyle.m; sourceTree = "<group>"; };
-		2AECE1F518F8D5090094C8CB /* MADesignScreenStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MADesignScreenStyle.h; path = Library/Styles/MADesignScreenStyle.h; sourceTree = "<group>"; };
-		2AECE1F618F8D5090094C8CB /* MADesignScreenStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MADesignScreenStyle.m; path = Library/Styles/MADesignScreenStyle.m; sourceTree = "<group>"; };
 		2AECE1F918F8D5090094C8CB /* MAGameScreenStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAGameScreenStyle.h; path = Library/Styles/MAGameScreenStyle.h; sourceTree = "<group>"; };
 		2AECE1FA18F8D5090094C8CB /* MAGameScreenStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAGameScreenStyle.m; path = Library/Styles/MAGameScreenStyle.m; sourceTree = "<group>"; };
 		2AECE1FD18F8D5090094C8CB /* MAMainScreenStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMainScreenStyle.h; path = Library/Styles/MAMainScreenStyle.h; sourceTree = "<group>"; };
@@ -494,8 +347,6 @@
 		2AECE25F18F8D62E0094C8CB /* MAEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAEvent.m; path = Library/MAEvent.m; sourceTree = "<group>"; };
 		2AECE26018F8D62E0094C8CB /* MAEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAEventManager.h; path = Library/MAEventManager.h; sourceTree = "<group>"; };
 		2AECE26118F8D62E0094C8CB /* MAEventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAEventManager.m; path = Library/MAEventManager.m; sourceTree = "<group>"; };
-		2AECE26218F8D62E0094C8CB /* MAMazeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMazeManager.h; path = Library/MAMazeManager.h; sourceTree = "<group>"; };
-		2AECE26318F8D62E0094C8CB /* MAMazeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMazeManager.m; path = Library/MAMazeManager.m; sourceTree = "<group>"; };
 		2AECE26418F8D62E0094C8CB /* MASettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASettings.h; path = Library/MASettings.h; sourceTree = "<group>"; };
 		2AECE26518F8D62E0094C8CB /* MASettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASettings.m; path = Library/MASettings.m; sourceTree = "<group>"; };
 		2AECE26618F8D62E0094C8CB /* MASoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASoundManager.h; path = Library/MASoundManager.h; sourceTree = "<group>"; };
@@ -504,81 +355,51 @@
 		2AECE26918F8D62E0094C8CB /* MATextureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MATextureManager.m; path = Library/MATextureManager.m; sourceTree = "<group>"; };
 		2AECE26A18F8D62E0094C8CB /* MAUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAUtilities.h; path = Library/MAUtilities.h; sourceTree = "<group>"; };
 		2AECE26B18F8D62E0094C8CB /* MAUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAUtilities.m; path = Library/MAUtilities.m; sourceTree = "<group>"; };
-		2AECE26C18F8D62E0094C8CB /* MAWebServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAWebServices.h; path = Library/MAWebServices.h; sourceTree = "<group>"; };
-		2AECE26D18F8D62E0094C8CB /* MAWebServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAWebServices.m; path = Library/MAWebServices.m; sourceTree = "<group>"; };
 		2AECE27A18F8D6A40094C8CB /* MAMazeSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMazeSummary.h; path = Model/MAMazeSummary.h; sourceTree = "<group>"; };
 		2AECE27B18F8D6A40094C8CB /* MAMazeSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMazeSummary.m; path = Model/MAMazeSummary.m; sourceTree = "<group>"; };
 		2AECE28118F8D7190094C8CB /* MAColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAColors.h; path = Library/MAColors.h; sourceTree = "<group>"; };
 		2AECE28218F8D7190094C8CB /* MAColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAColors.m; path = Library/MAColors.m; sourceTree = "<group>"; };
-		2AECE28518F8D9930094C8CB /* MACreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACreateViewController.h; sourceTree = "<group>"; };
-		2AECE28618F8D9930094C8CB /* MACreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MACreateViewController.m; sourceTree = "<group>"; };
-		2AECE28718F8D9930094C8CB /* MACreateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MACreateViewController.xib; sourceTree = "<group>"; };
-		2AECE28918F8D9930094C8CB /* MADesignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MADesignViewController.h; sourceTree = "<group>"; };
-		2AECE28A18F8D9930094C8CB /* MADesignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MADesignViewController.m; sourceTree = "<group>"; };
-		2AECE28B18F8D9930094C8CB /* MADesignViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MADesignViewController.xib; sourceTree = "<group>"; };
 		2AECE29318F8D9930094C8CB /* MAGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGameViewController.h; sourceTree = "<group>"; };
 		2AECE29418F8D9930094C8CB /* MAGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGameViewController.m; sourceTree = "<group>"; };
 		2AECE29518F8D9930094C8CB /* MAGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAGameViewController.xib; sourceTree = "<group>"; };
-		2AECE29E18F8D9930094C8CB /* MAMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMainViewController.h; sourceTree = "<group>"; };
-		2AECE29F18F8D9930094C8CB /* MAMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMainViewController.m; sourceTree = "<group>"; };
-		2AECE2A018F8D9930094C8CB /* MAMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAMainViewController.xib; sourceTree = "<group>"; };
 		2AECE2A218F8D9930094C8CB /* MAMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMapView.h; sourceTree = "<group>"; };
 		2AECE2A318F8D9930094C8CB /* MAMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMapView.m; sourceTree = "<group>"; };
-		2AECE2A518F8D9930094C8CB /* MAMazeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAMazeView.h; sourceTree = "<group>"; };
-		2AECE2A618F8D9930094C8CB /* MAMazeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAMazeView.m; sourceTree = "<group>"; };
 		2AECE2AB18F8D9930094C8CB /* MARatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MARatingView.h; sourceTree = "<group>"; };
 		2AECE2AC18F8D9930094C8CB /* MARatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MARatingView.m; sourceTree = "<group>"; };
 		2AECE2B218F8D9930094C8CB /* MATexturesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATexturesViewController.h; sourceTree = "<group>"; };
 		2AECE2B318F8D9930094C8CB /* MATexturesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATexturesViewController.m; sourceTree = "<group>"; };
 		2AECE2B418F8D9930094C8CB /* MATexturesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MATexturesViewController.xib; sourceTree = "<group>"; };
-		2AECE2B618F8D9930094C8CB /* MATopMazesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATopMazesViewController.h; sourceTree = "<group>"; };
-		2AECE2B718F8D9930094C8CB /* MATopMazesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MATopMazesViewController.m; sourceTree = "<group>"; };
-		2AECE2B818F8D9930094C8CB /* MATopMazesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MATopMazesViewController.xib; sourceTree = "<group>"; };
 		2AECE2DD18F8DB600094C8CB /* MAInfoPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAInfoPopupView.h; sourceTree = "<group>"; };
 		2AECE2DE18F8DB600094C8CB /* MAInfoPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAInfoPopupView.m; sourceTree = "<group>"; };
 		2AECE2DF18F8DB600094C8CB /* MAInfoPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MAInfoPopupView.xib; sourceTree = "<group>"; };
 		2AECE2E118F8DB600094C8CB /* MAPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAPopupView.h; sourceTree = "<group>"; };
 		2AECE2E218F8DB600094C8CB /* MAPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAPopupView.m; sourceTree = "<group>"; };
-		2AECE2E818F91F640094C8CB /* FFEF.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FFEF.framework; sourceTree = "<group>"; };
-		F49ED74217FDA9CA00D9BABD /* MASize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASize.h; path = Model/MASize.h; sourceTree = "<group>"; };
-		F49ED74317FDA9CA00D9BABD /* MASize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASize.m; path = Model/MASize.m; sourceTree = "<group>"; };
-		F49ED74517FDA9E200D9BABD /* MACoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MACoordinate.h; path = Model/MACoordinate.h; sourceTree = "<group>"; };
-		F49ED74617FDA9E200D9BABD /* MACoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MACoordinate.m; path = Model/MACoordinate.m; sourceTree = "<group>"; };
+		2AFDB1F61B40586600F13679 /* MASceneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASceneView.h; path = Views/Design/DesignViewController/MASceneView.h; sourceTree = "<group>"; };
+		2AFDB1F71B40586600F13679 /* MASceneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASceneView.m; path = Views/Design/DesignViewController/MASceneView.m; sourceTree = "<group>"; };
+		2AFDB1F91B40A1C300F13679 /* MABoxNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MABoxNode.h; path = Library/MABoxNode.h; sourceTree = "<group>"; };
+		2AFDB1FA1B40A1C300F13679 /* MABoxNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MABoxNode.m; path = Library/MABoxNode.m; sourceTree = "<group>"; };
+		2AFDB1FC1B40ABEA00F13679 /* MAWallNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAWallNode.h; path = Library/MAWallNode.h; sourceTree = "<group>"; };
+		2AFDB1FD1B40ABEA00F13679 /* MAWallNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAWallNode.m; path = Library/MAWallNode.m; sourceTree = "<group>"; };
+		2AFDB1FF1B40BE2B00F13679 /* MASceneViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASceneViewDelegate.h; path = Protocols/MASceneViewDelegate.h; sourceTree = "<group>"; };
 		F49ED74B17FDACAD00D9BABD /* MAWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAWall.h; path = Model/MAWall.h; sourceTree = "<group>"; };
 		F49ED74C17FDACAD00D9BABD /* MAWall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAWall.m; path = Model/MAWall.m; sourceTree = "<group>"; };
-		F4A6D05917FB6C610003D645 /* MALatestVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MALatestVersion.h; path = Model/MALatestVersion.h; sourceTree = "<group>"; };
-		F4A6D05A17FB6C610003D645 /* MALatestVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MALatestVersion.m; path = Model/MALatestVersion.m; sourceTree = "<group>"; };
 		F4A6D05B17FB6C610003D645 /* MALocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MALocation.h; path = Model/MALocation.h; sourceTree = "<group>"; };
 		F4A6D05C17FB6C610003D645 /* MALocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MALocation.m; path = Model/MALocation.m; sourceTree = "<group>"; };
-		F4A6D05D17FB6C610003D645 /* MAMaze.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMaze.h; path = Model/MAMaze.h; sourceTree = "<group>"; };
-		F4A6D05E17FB6C610003D645 /* MAMaze.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMaze.m; path = Model/MAMaze.m; sourceTree = "<group>"; };
+		F4A6D05D17FB6C610003D645 /* MAWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAWorld.h; path = Model/MAWorld.h; sourceTree = "<group>"; };
+		F4A6D05E17FB6C610003D645 /* MAWorld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAWorld.m; path = Model/MAWorld.m; sourceTree = "<group>"; };
 		F4A6D06317FB6C610003D645 /* MASound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASound.h; path = Model/MASound.h; sourceTree = "<group>"; };
 		F4A6D06417FB6C610003D645 /* MASound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASound.m; path = Model/MASound.m; sourceTree = "<group>"; };
 		F4A6D06517FB6C610003D645 /* MATexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MATexture.h; path = Model/MATexture.h; sourceTree = "<group>"; };
 		F4A6D06617FB6C610003D645 /* MATexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MATexture.m; path = Model/MATexture.m; sourceTree = "<group>"; };
-		F4A6D06717FB6C610003D645 /* MAUserCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAUserCounter.h; path = Model/MAUserCounter.h; sourceTree = "<group>"; };
-		F4A6D06817FB6C610003D645 /* MAUserCounter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAUserCounter.m; path = Model/MAUserCounter.m; sourceTree = "<group>"; };
-		F4DC63C517FA376800A40DE8 /* libbz2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.dylib; path = usr/lib/libbz2.dylib; sourceTree = SDKROOT; };
 		F4E4A9C5154CB92C006AA64D /* Mazes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mazes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E4A9C9154CB92C006AA64D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F4E4A9CB154CB92C006AA64D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F4E4A9CD154CB92C006AA64D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		F4E4A9CF154CB92C006AA64D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		F4E4A9E5154CB92C006AA64D /* MazesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MazesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E4A9EF154CB92C006AA64D /* MazesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MazesTests-Info.plist"; sourceTree = "<group>"; };
 		F4E4A9F1154CB92C006AA64D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F4E4A9F3154CB92C006AA64D /* MazesTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MazesTests.h; sourceTree = "<group>"; };
 		F4E4A9F4154CB92C006AA64D /* MazesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MazesTests.m; sourceTree = "<group>"; };
-		F4E4ABA3154CD20D006AA64D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		F4E4ABA5154CD237006AA64D /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
-		F4E4ABA7154CD25E006AA64D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		F4E4ABA9154CD283006AA64D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		F4E4ABAB154CD2BF006AA64D /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		F4E4ABE9154E348F006AA64D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		F4E4ABEB154E34AA006AA64D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		F4E4ABED154E34C8006AA64D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		F4E4ABEF154E34DA006AA64D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		FDD54367CCBB419990517295 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -586,24 +407,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4E4ABA4154CD21B006AA64D /* AVFoundation.framework in Frameworks */,
-				2AECE2E918F91F640094C8CB /* FFEF.framework in Frameworks */,
-				F4E4ABEA154E349E006AA64D /* CFNetwork.framework in Frameworks */,
-				F4E4A9D0154CB92C006AA64D /* CoreData.framework in Frameworks */,
-				F4E4A9CE154CB92C006AA64D /* CoreGraphics.framework in Frameworks */,
-				F4E4A9CC154CB92C006AA64D /* Foundation.framework in Frameworks */,
-				F4E4ABA6154CD244006AA64D /* iAd.framework in Frameworks */,
-				F4E4ABEE154E34D2006AA64D /* MobileCoreServices.framework in Frameworks */,
+				2A675FBD1B3D14A20046972B /* AVFoundation.framework in Frameworks */,
+				2A56DE801B3E67DF001B1C64 /* CloudKit.framework in Frameworks */,
+				2A675FBB1B3D122A0046972B /* CoreGraphics.framework in Frameworks */,
 				2A9D69B819121FF10094534F /* Crashlytics.framework in Frameworks */,
+				F4E4A9CC154CB92C006AA64D /* Foundation.framework in Frameworks */,
 				2A23A0BB19304E7F006F2294 /* GameKit.framework in Frameworks */,
-				F4E4ABA8154CD26B006AA64D /* OpenGLES.framework in Frameworks */,
-				F4E4ABAA154CD28C006AA64D /* QuartzCore.framework in Frameworks */,
-				F4E4ABEC154E34BE006AA64D /* Security.framework in Frameworks */,
-				F4E4ABF0154E34E7006AA64D /* SystemConfiguration.framework in Frameworks */,
+				2A675FB91B3D0EE90046972B /* SceneKit.framework in Frameworks */,
 				F4E4A9CA154CB92C006AA64D /* UIKit.framework in Frameworks */,
-				F4DC63C617FA376800A40DE8 /* libbz2.dylib in Frameworks */,
-				F4E4ABAC154CD2CB006AA64D /* libxml2.dylib in Frameworks */,
-				423E315F4DB84BC7AEBA7375 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -613,19 +424,56 @@
 			files = (
 				F4E4A9E8154CB92C006AA64D /* UIKit.framework in Frameworks */,
 				F4E4A9E9154CB92C006AA64D /* Foundation.framework in Frameworks */,
-				F4E4A9EA154CB92C006AA64D /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A0D5BAE1B3D090B003484C4 /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				2A0D5BAF1B3D093E003484C4 /* Design.storyboard */,
+				2A0D5BB11B3D0AA1003484C4 /* DesignViewController */,
+			);
+			name = Design;
+			sourceTree = "<group>";
+		};
+		2A0D5BB11B3D0AA1003484C4 /* DesignViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2A0D5BB21B3D0AEF003484C4 /* MADesignViewController.h */,
+				2A0D5BB31B3D0AEF003484C4 /* MADesignViewController.m */,
+				2AFDB1F61B40586600F13679 /* MASceneView.h */,
+				2AFDB1F71B40586600F13679 /* MASceneView.m */,
+			);
+			name = DesignViewController;
+			sourceTree = "<group>";
+		};
+		2A56DE8D1B3F0944001B1C64 /* TopMazeTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				2A56DE8E1B3F0950001B1C64 /* MATopMazeTableViewCell.h */,
+				2A56DE8F1B3F0950001B1C64 /* MATopMazeTableViewCell.m */,
+				2A56DE901B3F0950001B1C64 /* MATopMazeTableViewCell.xib */,
+			);
+			name = TopMazeTableViewCell;
+			sourceTree = "<group>";
+		};
+		2A675FBE1B3D16FF0046972B /* Launch */ = {
+			isa = PBXGroup;
+			children = (
+				2A675FC61B3D185C0046972B /* MALaunchView.xib */,
+			);
+			name = Launch;
+			sourceTree = "<group>";
+		};
 		2AA18E52192B3091006328B8 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				2A0A93A61935AE4B0049F5C7 /* MAFloorPlanViewDelegate.h */,
 				2AA18E55192B3377006328B8 /* MAGameKitDelegate.h */,
 				2AA18E53192B3133006328B8 /* MARatingViewDelegate.h */,
+				2AFDB1FF1B40BE2B00F13679 /* MASceneViewDelegate.h */,
 				2AA18E54192B322F006328B8 /* MATopMazeTableViewCellDelegate.h */,
 			);
 			name = Protocols;
@@ -702,91 +550,48 @@
 			isa = PBXGroup;
 			children = (
 				2AECE11718F8D3050094C8CB /* Alternating Brick.png */,
-				2AECE11818F8D3050094C8CB /* Alternating Brick.pvrtc */,
 				2AECE11918F8D3050094C8CB /* Black.png */,
-				2AECE11A18F8D3050094C8CB /* Black.pvrtc */,
 				2AECE11B18F8D3050094C8CB /* Blue Marble Slabs.png */,
-				2AECE11C18F8D3050094C8CB /* Blue Marble Slabs.pvrtc */,
 				2AECE11D18F8D3050094C8CB /* Blue.png */,
-				2AECE11E18F8D3050094C8CB /* Blue.pvrtc */,
 				2AECE11F18F8D3050094C8CB /* Born to Rule.png */,
-				2AECE12018F8D3050094C8CB /* Born to Rule.pvrtc */,
 				2AECE12118F8D3050094C8CB /* Born to Shine.png */,
-				2AECE12218F8D3050094C8CB /* Born to Shine.pvrtc */,
 				2AECE12318F8D3050094C8CB /* Bright Purple Marble.png */,
-				2AECE12418F8D3050094C8CB /* Bright Purple Marble.pvrtc */,
 				2AECE12518F8D3050094C8CB /* Bronze Armor.png */,
-				2AECE12618F8D3050094C8CB /* Bronze Armor.pvrtc */,
 				2AECE12718F8D3050094C8CB /* Brown.png */,
-				2AECE12818F8D3050094C8CB /* Brown.pvrtc */,
 				2AECE12918F8D3050094C8CB /* Bubble Grip.png */,
-				2AECE12A18F8D3050094C8CB /* Bubble Grip.pvrtc */,
 				2AECE12B18F8D3050094C8CB /* Camouflage.png */,
-				2AECE12C18F8D3050094C8CB /* Camouflage.pvrtc */,
 				2AECE12D18F8D3050094C8CB /* Chipped Bricks.png */,
-				2AECE12E18F8D3050094C8CB /* Chipped Bricks.pvrtc */,
 				2AECE12F18F8D3050094C8CB /* Cinder Block.png */,
-				2AECE13018F8D3050094C8CB /* Cinder Block.pvrtc */,
 				2AECE13118F8D3050094C8CB /* Corrugated Metal.png */,
-				2AECE13218F8D3050094C8CB /* Corrugated Metal.pvrtc */,
 				2AECE13318F8D3050094C8CB /* Creamy White Marble.png */,
-				2AECE13418F8D3050094C8CB /* Creamy White Marble.pvrtc */,
 				2AECE13518F8D3050094C8CB /* Gray 1.png */,
-				2AECE13618F8D3050094C8CB /* Gray 1.pvrtc */,
 				2AECE13718F8D3050094C8CB /* Gray 2.png */,
-				2AECE13818F8D3060094C8CB /* Gray 2.pvrtc */,
 				2AECE13918F8D3060094C8CB /* Gray 3.png */,
-				2AECE13A18F8D3060094C8CB /* Gray 3.pvrtc */,
 				2AECE13B18F8D3060094C8CB /* Green.png */,
-				2AECE13C18F8D3060094C8CB /* Green.pvrtc */,
 				2AECE13D18F8D3060094C8CB /* Light Swirl Marble.png */,
-				2AECE13E18F8D3060094C8CB /* Light Swirl Marble.pvrtc */,
 				2AECE13F18F8D3060094C8CB /* Logs.png */,
-				2AECE14018F8D3060094C8CB /* Logs.pvrtc */,
 				2AECE14118F8D3060094C8CB /* Maze.png */,
-				2AECE14218F8D3060094C8CB /* Maze.pvrtc */,
 				2AECE14318F8D3060094C8CB /* Metal 1.png */,
-				2AECE14418F8D3060094C8CB /* Metal 1.pvrtc */,
 				2AECE14518F8D3060094C8CB /* Metal 2.png */,
-				2AECE14618F8D3060094C8CB /* Metal 2.pvrtc */,
 				2AECE14718F8D3060094C8CB /* Night Sky.png */,
-				2AECE14818F8D3060094C8CB /* Night Sky.pvrtc */,
 				2AECE14918F8D3060094C8CB /* Orange Brick.png */,
-				2AECE14A18F8D3060094C8CB /* Orange Brick.pvrtc */,
 				2AECE14B18F8D3060094C8CB /* Orange Herringbone.png */,
-				2AECE14C18F8D3060094C8CB /* Orange Herringbone.pvrtc */,
 				2AECE14D18F8D3060094C8CB /* Orange.png */,
-				2AECE14E18F8D3060094C8CB /* Orange.pvrtc */,
 				2AECE14F18F8D3060094C8CB /* Purple Marble.png */,
-				2AECE15018F8D3060094C8CB /* Purple Marble.pvrtc */,
 				2AECE15118F8D3060094C8CB /* Red Basketweave.png */,
-				2AECE15218F8D3060094C8CB /* Red Basketweave.pvrtc */,
 				2AECE15318F8D3060094C8CB /* Red.png */,
-				2AECE15418F8D3060094C8CB /* Red.pvrtc */,
 				2AECE15518F8D3060094C8CB /* Skulls.png */,
-				2AECE15618F8D3060094C8CB /* Skulls.pvrtc */,
 				2AECE15718F8D3060094C8CB /* Sky 1.png */,
-				2AECE15818F8D3060094C8CB /* Sky 1.pvrtc */,
 				2AECE15918F8D3060094C8CB /* Sky 2.png */,
-				2AECE15A18F8D3060094C8CB /* Sky 2.pvrtc */,
 				2AECE15B18F8D3060094C8CB /* Steel Vault.png */,
-				2AECE15C18F8D3060094C8CB /* Steel Vault.pvrtc */,
 				2AECE15D18F8D3060094C8CB /* Teddy Bear.png */,
-				2AECE15E18F8D3060094C8CB /* Teddy Bear.pvrtc */,
 				2AECE15F18F8D3060094C8CB /* Water.png */,
-				2AECE16018F8D3060094C8CB /* Water.pvrtc */,
 				2AECE16118F8D3060094C8CB /* White.png */,
-				2AECE16218F8D3060094C8CB /* White.pvrtc */,
 				2AECE16318F8D3060094C8CB /* Wood 1.png */,
-				2AECE16418F8D3060094C8CB /* Wood 1.pvrtc */,
 				2AECE16518F8D3060094C8CB /* Wood 2.png */,
-				2AECE16618F8D3060094C8CB /* Wood 2.pvrtc */,
 				2AECE16718F8D3060094C8CB /* Wood 3.png */,
-				2AECE16818F8D3060094C8CB /* Wood 3.pvrtc */,
 				2AECE16918F8D3060094C8CB /* Worn Brown Brickwork.png */,
-				2AECE16A18F8D3060094C8CB /* Worn Brown Brickwork.pvrtc */,
 				2AECE16B18F8D3060094C8CB /* Yellow.png */,
-				2AECE16C18F8D3060094C8CB /* Yellow.pvrtc */,
 			);
 			name = Textures;
 			sourceTree = "<group>";
@@ -794,30 +599,15 @@
 		2AECE1C318F8D3A00094C8CB /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				2AECE1C418F8D3B20094C8CB /* DesignScreen */,
 				2AECE1C718F8D3B20094C8CB /* GameScreen */,
-				2AECE1CD18F8D3B20094C8CB /* TopMazesScreen */,
 				2AA28159191DEB9100C0D8D9 /* AppIcon_29x29.png */,
 				2AA2815A191DEB9100C0D8D9 /* AppIcon_40x40.png */,
 				2AA2815B191DEB9100C0D8D9 /* AppIcon_58x58.png */,
 				2AA2815C191DEB9100C0D8D9 /* AppIcon_76x76.png */,
 				2AA2815D191DEB9100C0D8D9 /* AppIcon_80x80.png */,
 				2AA2815E191DEB9100C0D8D9 /* AppIcon_152x152.png */,
-				2A9D41F51919E32000DC0F6B /* LaunchImage.png */,
-				2AA28165191DEB9B00C0D8D9 /* LaunchImage@2x.png */,
-				2AECE1C618F8D3B20094C8CB /* Direction Arrow.png */,
 			);
 			name = Images;
-			sourceTree = "<group>";
-		};
-		2AECE1C418F8D3B20094C8CB /* DesignScreen */ = {
-			isa = PBXGroup;
-			children = (
-				2A977732192323D900E1D428 /* DesignScreenBackground.png */,
-				2ADDFECB194428CB0000B526 /* DesignScreenBackground@2x.png */,
-			);
-			name = DesignScreen;
-			path = Assets/Images/Design;
 			sourceTree = "<group>";
 		};
 		2AECE1C718F8D3B20094C8CB /* GameScreen */ = {
@@ -838,42 +628,15 @@
 			path = Assets/Images/Game;
 			sourceTree = "<group>";
 		};
-		2AECE1CD18F8D3B20094C8CB /* TopMazesScreen */ = {
-			isa = PBXGroup;
-			children = (
-				2A9777471923279D00E1D428 /* TopMazesScreenBackground.png */,
-				2ADDFEB21940469C0000B526 /* TopMazesScreenBackground@2x.png */,
-				2A9777461923279D00E1D428 /* TopMazeCell.png */,
-				2ADDFEAF1940469C0000B526 /* TopMazeCell@2x.png */,
-				2A9777401923279D00E1D428 /* HighestRatedButtonBlueUnhighlighted.png */,
-				2ADDFEAB1940469C0000B526 /* HighestRatedButtonBlueUnhighlighted@2x.png */,
-				2A9777411923279D00E1D428 /* HighestRatedButtonOrangeHighlighted.png */,
-				2ADDFEAC1940469C0000B526 /* HighestRatedButtonOrangeHighlighted@2x.png */,
-				2A9777441923279D00E1D428 /* NewestButtonBlueUnhighlighted.png */,
-				2ADDFEAD1940469C0000B526 /* NewestButtonBlueUnhighlighted@2x.png */,
-				2A9777451923279D00E1D428 /* NewestButtonOrangeHighlighted.png */,
-				2ADDFEAE1940469C0000B526 /* NewestButtonOrangeHighlighted@2x.png */,
-				2A9777481923279D00E1D428 /* YoursButtonBlueUnhighlighted.png */,
-				2ADDFEB31940469C0000B526 /* YoursButtonBlueUnhighlighted@2x.png */,
-				2A9777491923279D00E1D428 /* YoursButtonOrangeHighlighted.png */,
-				2ADDFEB41940469C0000B526 /* YoursButtonOrangeHighlighted@2x.png */,
-				2A9777421923279D00E1D428 /* TopMazesButtonBlueUnhighlighted.png */,
-				2ADDFEB01940469C0000B526 /* TopMazesButtonBlueUnhighlighted@2x.png */,
-				2A9777431923279D00E1D428 /* TopMazesButtonOrangeHighlighted.png */,
-				2ADDFEB11940469C0000B526 /* TopMazesButtonOrangeHighlighted@2x.png */,
-				2A97773E1923279D00E1D428 /* CreateButtonBlueUnhighlighted.png */,
-				2ADDFEA91940469C0000B526 /* CreateButtonBlueUnhighlighted@2x.png */,
-				2A97773F1923279D00E1D428 /* CreateButtonOrangeHighlighted.png */,
-				2ADDFEAA1940469C0000B526 /* CreateButtonOrangeHighlighted@2x.png */,
-			);
-			name = TopMazesScreen;
-			path = Assets/Images/TopLists;
-			sourceTree = "<group>";
-		};
 		2AECE1ED18F8D4DD0094C8CB /* Library */ = {
 			isa = PBXGroup;
 			children = (
 				2AECE1EE18F8D4F60094C8CB /* Styles */,
+				2AA5119B1903814400010D48 /* Popups */,
+				2AC20FAC1B3BB30B0037864F /* MAAlertController.h */,
+				2AC20FAD1B3BB30B0037864F /* MAAlertController.m */,
+				2AFDB1F91B40A1C300F13679 /* MABoxNode.h */,
+				2AFDB1FA1B40A1C300F13679 /* MABoxNode.m */,
 				2AB51DAB1900F3BE0094BC82 /* MAButton.h */,
 				2AB51DAC1900F3BE0094BC82 /* MAButton.m */,
 				2AECE25A18F8D62E0094C8CB /* MACloud.h */,
@@ -890,8 +653,6 @@
 				2AA18E57192B33AA006328B8 /* MAGameKit.m */,
 				2AB51DA81900EDAA0094BC82 /* MALabel.h */,
 				2AB51DA91900EDAA0094BC82 /* MALabel.m */,
-				2AECE26218F8D62E0094C8CB /* MAMazeManager.h */,
-				2AECE26318F8D62E0094C8CB /* MAMazeManager.m */,
 				2AECE26418F8D62E0094C8CB /* MASettings.h */,
 				2AECE26518F8D62E0094C8CB /* MASettings.m */,
 				2AECE26618F8D62E0094C8CB /* MASoundManager.h */,
@@ -900,8 +661,8 @@
 				2AECE26918F8D62E0094C8CB /* MATextureManager.m */,
 				2AECE26A18F8D62E0094C8CB /* MAUtilities.h */,
 				2AECE26B18F8D62E0094C8CB /* MAUtilities.m */,
-				2AECE26C18F8D62E0094C8CB /* MAWebServices.h */,
-				2AECE26D18F8D62E0094C8CB /* MAWebServices.m */,
+				2AFDB1FC1B40ABEA00F13679 /* MAWallNode.h */,
+				2AFDB1FD1B40ABEA00F13679 /* MAWallNode.m */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -909,19 +670,12 @@
 		2AECE1EE18F8D4F60094C8CB /* Styles */ = {
 			isa = PBXGroup;
 			children = (
-				2AA5119B1903814400010D48 /* Popups */,
 				2AECE20518F8D5090094C8CB /* MAStyles.h */,
 				2AECE20618F8D5090094C8CB /* MAStyles.m */,
 				2AECE1EF18F8D5090094C8CB /* MAActivityIndicatorStyle.h */,
 				2AECE1F018F8D5090094C8CB /* MAActivityIndicatorStyle.m */,
 				2AB51DAE1900F4BF0094BC82 /* MAButtonStyle.h */,
 				2AB51DAF1900F4BF0094BC82 /* MAButtonStyle.m */,
-				2A23F63318FF9C480085B4FA /* MACreateScreenStyle.h */,
-				2A23F63418FF9C480085B4FA /* MACreateScreenStyle.m */,
-				2AECE1F518F8D5090094C8CB /* MADesignScreenStyle.h */,
-				2AECE1F618F8D5090094C8CB /* MADesignScreenStyle.m */,
-				2AECE1F118F8D5090094C8CB /* MAFloorPlanStyle.h */,
-				2AECE1F218F8D5090094C8CB /* MAFloorPlanStyle.m */,
 				2AECE1F918F8D5090094C8CB /* MAGameScreenStyle.h */,
 				2AECE1FA18F8D5090094C8CB /* MAGameScreenStyle.m */,
 				2AECE1FD18F8D5090094C8CB /* MAMainScreenStyle.h */,
@@ -939,41 +693,16 @@
 		2AECE21618F8D52C0094C8CB /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2AECE2D718F8DB4D0094C8CB /* Popups */,
-				2AECE28418F8D9930094C8CB /* CreateViewController */,
-				2AECE28818F8D9930094C8CB /* DesignViewController */,
-				2AECE29618F8D9930094C8CB /* FloorPlanViewController */,
+				2A675FBE1B3D16FF0046972B /* Launch */,
+				2AECE2B518F8D9930094C8CB /* TopMazes */,
+				2A0D5BAE1B3D090B003484C4 /* Design */,
 				2AECE29218F8D9930094C8CB /* GameViewController */,
-				2AECE29D18F8D9930094C8CB /* MainViewController */,
 				2AECE2A118F8D9930094C8CB /* MapView */,
-				2AECE2A418F8D9930094C8CB /* MazeView */,
 				2AECE2AA18F8D9930094C8CB /* RatingView */,
 				2AECE2B118F8D9930094C8CB /* TexturesViewController */,
-				2AECE2B518F8D9930094C8CB /* TopMazesViewController */,
+				2AECE2D718F8DB4D0094C8CB /* Popups */,
 			);
 			name = Views;
-			sourceTree = "<group>";
-		};
-		2AECE28418F8D9930094C8CB /* CreateViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2AECE28518F8D9930094C8CB /* MACreateViewController.h */,
-				2AECE28618F8D9930094C8CB /* MACreateViewController.m */,
-				2AECE28718F8D9930094C8CB /* MACreateViewController.xib */,
-			);
-			name = CreateViewController;
-			path = Views/CreateViewController;
-			sourceTree = "<group>";
-		};
-		2AECE28818F8D9930094C8CB /* DesignViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2AECE28918F8D9930094C8CB /* MADesignViewController.h */,
-				2AECE28A18F8D9930094C8CB /* MADesignViewController.m */,
-				2AECE28B18F8D9930094C8CB /* MADesignViewController.xib */,
-			);
-			name = DesignViewController;
-			path = Views/DesignViewController;
 			sourceTree = "<group>";
 		};
 		2AECE29018F8D9930094C8CB /* InstructionsViewController */ = {
@@ -999,30 +728,6 @@
 			path = Views/GameViewController;
 			sourceTree = "<group>";
 		};
-		2AECE29618F8D9930094C8CB /* FloorPlanViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2A0A93A71935B0500049F5C7 /* MAFloorPlanViewController.h */,
-				2A0A93A81935B0500049F5C7 /* MAFloorPlanViewController.m */,
-				2A0A93AD1935B1130049F5C7 /* MAFloorPlanViewController.xib */,
-				2A0A93A91935B0500049F5C7 /* MAFloorPlanView.h */,
-				2A0A93AA1935B0500049F5C7 /* MAFloorPlanView.m */,
-			);
-			name = FloorPlanViewController;
-			path = Views/GridView;
-			sourceTree = "<group>";
-		};
-		2AECE29D18F8D9930094C8CB /* MainViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2AECE29E18F8D9930094C8CB /* MAMainViewController.h */,
-				2AECE29F18F8D9930094C8CB /* MAMainViewController.m */,
-				2AECE2A018F8D9930094C8CB /* MAMainViewController.xib */,
-			);
-			name = MainViewController;
-			path = Views/MainViewController;
-			sourceTree = "<group>";
-		};
 		2AECE2A118F8D9930094C8CB /* MapView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1031,16 +736,6 @@
 			);
 			name = MapView;
 			path = Views/MapView;
-			sourceTree = "<group>";
-		};
-		2AECE2A418F8D9930094C8CB /* MazeView */ = {
-			isa = PBXGroup;
-			children = (
-				2AECE2A518F8D9930094C8CB /* MAMazeView.h */,
-				2AECE2A618F8D9930094C8CB /* MAMazeView.m */,
-			);
-			name = MazeView;
-			path = Views/MazeView;
 			sourceTree = "<group>";
 		};
 		2AECE2AA18F8D9930094C8CB /* RatingView */ = {
@@ -1076,27 +771,21 @@
 			path = Views/TexturesViewController;
 			sourceTree = "<group>";
 		};
-		2AECE2B518F8D9930094C8CB /* TopMazesViewController */ = {
+		2AECE2B518F8D9930094C8CB /* TopMazes */ = {
 			isa = PBXGroup;
 			children = (
-				2AECE2B618F8D9930094C8CB /* MATopMazesViewController.h */,
-				2AECE2B718F8D9930094C8CB /* MATopMazesViewController.m */,
-				2AECE2B818F8D9930094C8CB /* MATopMazesViewController.xib */,
-				2AECE2B918F8D9930094C8CB /* TopMazeTableViewCell */,
+				2A56DE891B3F0933001B1C64 /* TopMazes.storyboard */,
+				2A56DE8D1B3F0944001B1C64 /* TopMazeTableViewCell */,
+				2A56DE861B3F0933001B1C64 /* MATopMazesViewController.h */,
+				2A56DE871B3F0933001B1C64 /* MATopMazesViewController.m */,
+				2A56DE931B3F4310001B1C64 /* MATopMazesCollectionViewController.h */,
+				2A56DE941B3F4310001B1C64 /* MATopMazesCollectionViewController.m */,
+				2A56DE961B3F6D05001B1C64 /* MATopMazesSegmentedControl.h */,
+				2A56DE971B3F6D05001B1C64 /* MATopMazesSegmentedControl.m */,
+				2A56DE991B3F6D4E001B1C64 /* MATopMazesSegmentedControl.xib */,
 			);
-			name = TopMazesViewController;
+			name = TopMazes;
 			path = Views/TopMazesViewController;
-			sourceTree = "<group>";
-		};
-		2AECE2B918F8D9930094C8CB /* TopMazeTableViewCell */ = {
-			isa = PBXGroup;
-			children = (
-				2A890CA318FE3CCC00F96157 /* MATopMazeTableViewCell.h */,
-				2A890CA418FE3CCC00F96157 /* MATopMazeTableViewCell.m */,
-				2A890CA518FE3CCC00F96157 /* MATopMazeTableViewCell.xib */,
-			);
-			name = TopMazeTableViewCell;
-			path = ../TopMazeTableViewCell;
 			sourceTree = "<group>";
 		};
 		2AECE2D718F8DB4D0094C8CB /* Popups */ = {
@@ -1145,26 +834,20 @@
 			isa = PBXGroup;
 			children = (
 				2ADDFECD194AB7710000B526 /* Map */,
-				F49ED74517FDA9E200D9BABD /* MACoordinate.h */,
-				F49ED74617FDA9E200D9BABD /* MACoordinate.m */,
-				F4A6D05917FB6C610003D645 /* MALatestVersion.h */,
-				F4A6D05A17FB6C610003D645 /* MALatestVersion.m */,
 				F4A6D05B17FB6C610003D645 /* MALocation.h */,
 				F4A6D05C17FB6C610003D645 /* MALocation.m */,
-				F4A6D05D17FB6C610003D645 /* MAMaze.h */,
-				F4A6D05E17FB6C610003D645 /* MAMaze.m */,
 				2AECE27A18F8D6A40094C8CB /* MAMazeSummary.h */,
 				2AECE27B18F8D6A40094C8CB /* MAMazeSummary.m */,
-				F49ED74217FDA9CA00D9BABD /* MASize.h */,
-				F49ED74317FDA9CA00D9BABD /* MASize.m */,
 				F4A6D06317FB6C610003D645 /* MASound.h */,
 				F4A6D06417FB6C610003D645 /* MASound.m */,
 				F4A6D06517FB6C610003D645 /* MATexture.h */,
 				F4A6D06617FB6C610003D645 /* MATexture.m */,
-				F4A6D06717FB6C610003D645 /* MAUserCounter.h */,
-				F4A6D06817FB6C610003D645 /* MAUserCounter.m */,
 				F49ED74B17FDACAD00D9BABD /* MAWall.h */,
 				F49ED74C17FDACAD00D9BABD /* MAWall.m */,
+				2A56DE811B3F0662001B1C64 /* MAWorldManager.h */,
+				2A56DE821B3F0662001B1C64 /* MAWorldManager.m */,
+				F4A6D05D17FB6C610003D645 /* MAWorld.h */,
+				F4A6D05E17FB6C610003D645 /* MAWorld.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1176,7 +859,6 @@
 				F4E4A9ED154CB92C006AA64D /* MazesTests */,
 				F4E4A9C8154CB92C006AA64D /* Frameworks */,
 				F4E4A9C6154CB92C006AA64D /* Products */,
-				FDD54367CCBB419990517295 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1192,24 +874,14 @@
 		F4E4A9C8154CB92C006AA64D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2A23A0BA19304E7F006F2294 /* GameKit.framework */,
-				F4E4ABA3154CD20D006AA64D /* AVFoundation.framework */,
-				F4E4ABE9154E348F006AA64D /* CFNetwork.framework */,
-				F4E4A9CF154CB92C006AA64D /* CoreData.framework */,
+				2A675FBC1B3D14A20046972B /* AVFoundation.framework */,
+				2A56DE7F1B3E67DF001B1C64 /* CloudKit.framework */,
 				F4E4A9CD154CB92C006AA64D /* CoreGraphics.framework */,
 				2A9D69B719121FF10094534F /* Crashlytics.framework */,
-				2AECE2E818F91F640094C8CB /* FFEF.framework */,
 				F4E4A9CB154CB92C006AA64D /* Foundation.framework */,
-				F4E4ABA5154CD237006AA64D /* iAd.framework */,
-				F4E4ABED154E34C8006AA64D /* MobileCoreServices.framework */,
-				F4E4ABA7154CD25E006AA64D /* OpenGLES.framework */,
-				F4E4ABA9154CD283006AA64D /* QuartzCore.framework */,
-				F4E4ABEB154E34AA006AA64D /* Security.framework */,
-				F4E4ABEF154E34DA006AA64D /* SystemConfiguration.framework */,
+				2A23A0BA19304E7F006F2294 /* GameKit.framework */,
+				2A675FB81B3D0EE90046972B /* SceneKit.framework */,
 				F4E4A9C9154CB92C006AA64D /* UIKit.framework */,
-				F4DC63C517FA376800A40DE8 /* libbz2.dylib */,
-				F4E4ABAB154CD2BF006AA64D /* libxml2.dylib */,
-				2739B721EF9C40EAA5260DC7 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1237,7 +909,6 @@
 				2AECE0E818F8CDF90094C8CB /* Mazes-Info.plist */,
 				2AECE0EA18F8CDF90094C8CB /* Mazes.entitlements */,
 				2AECE0E618F8CDF90094C8CB /* InfoPlist.strings */,
-				2AECE0E918F8CDF90094C8CB /* Mazes-Prefix.pch */,
 				2AECE0E718F8CDF90094C8CB /* main.m */,
 			);
 			name = Application;
@@ -1269,12 +940,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4E4A9F8154CB92C006AA64D /* Build configuration list for PBXNativeTarget "Mazes" */;
 			buildPhases = (
-				B971AB1A319C488FA94A78B8 /* Check Pods Manifest.lock */,
 				F4E4A9C1154CB92C006AA64D /* Sources */,
 				F4E4A9C2154CB92C006AA64D /* Frameworks */,
 				F4E4A9C3154CB92C006AA64D /* Resources */,
-				92603C5DED3942D48661D410 /* Copy Pods Resources */,
-				2A9D69B619121F830094534F /* ShellScript */,
+				2A9D69B619121F830094534F /* Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -1312,13 +981,19 @@
 			attributes = {
 				CLASSPREFIX = MA;
 				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Andre Muis";
 				TargetAttributes = {
 					F4E4A9C4154CB92C006AA64D = {
 						DevelopmentTeam = LN6BM2BQ5J;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
+								enabled = 0;
+							};
+							com.apple.iCloud = {
 								enabled = 1;
 							};
 						};
@@ -1351,166 +1026,104 @@
 				2AECE18518F8D3060094C8CB /* Cinder Block.png in Resources */,
 				2A97773B1923247B00E1D428 /* GameScreenBackground.png in Resources */,
 				2AECE17518F8D3060094C8CB /* Born to Rule.png in Resources */,
-				2AECE19418F8D3060094C8CB /* Light Swirl Marble.pvrtc in Resources */,
-				2AECE18618F8D3060094C8CB /* Cinder Block.pvrtc in Resources */,
-				2AECE19618F8D3060094C8CB /* Logs.pvrtc in Resources */,
 				2AECE11618F8D2EF0094C8CB /* Wind.caf in Resources */,
 				2ADDFEC71944237A0000B526 /* BackButtonOrangeHighlighted@2x.png in Resources */,
-				2ADDFEBB1940469C0000B526 /* TopMazeCell@2x.png in Resources */,
 				2AECE1B918F8D3060094C8CB /* Wood 1.png in Resources */,
 				2AECE10F18F8D2EF0094C8CB /* Lost Astronaut.caf in Resources */,
-				2ADDFEBA1940469C0000B526 /* NewestButtonOrangeHighlighted@2x.png in Resources */,
-				2AECE1A218F8D3060094C8CB /* Orange Herringbone.pvrtc in Resources */,
+				2AA1724D1A35147D002F778D /* (null) in Resources */,
 				2AECE17F18F8D3060094C8CB /* Bubble Grip.png in Resources */,
 				2A97773C1923247B00E1D428 /* InstructionsButtonBlueUnhighlighted.png in Resources */,
-				2ADDFECC194428CB0000B526 /* DesignScreenBackground@2x.png in Resources */,
-				2AECE1DB18F8D3B20094C8CB /* Direction Arrow.png in Resources */,
-				2AECE17018F8D3060094C8CB /* Black.pvrtc in Resources */,
-				2AECE19C18F8D3060094C8CB /* Metal 2.pvrtc in Resources */,
-				2ADDFEC01940469C0000B526 /* YoursButtonOrangeHighlighted@2x.png in Resources */,
-				2ADDFEB91940469C0000B526 /* NewestButtonBlueUnhighlighted@2x.png in Resources */,
-				2AECE19E18F8D3060094C8CB /* Night Sky.pvrtc in Resources */,
+				2AA172501A35147D002F778D /* (null) in Resources */,
 				2A23F62F18FF8B530085B4FA /* MARatingViewController.xib in Resources */,
 				2AECE10818F8D2EF0094C8CB /* Eerie Wind.caf in Resources */,
 				2AECE18D18F8D3060094C8CB /* Gray 2.png in Resources */,
-				2AECE18418F8D3060094C8CB /* Chipped Bricks.pvrtc in Resources */,
-				2AECE18218F8D3060094C8CB /* Camouflage.pvrtc in Resources */,
+				2AA172551A35147D002F778D /* (null) in Resources */,
 				2AECE1AB18F8D3060094C8CB /* Skulls.png in Resources */,
 				2AECE1C118F8D3060094C8CB /* Yellow.png in Resources */,
-				2AECE17A18F8D3060094C8CB /* Bright Purple Marble.pvrtc in Resources */,
+				2AA172571A35147D002F778D /* (null) in Resources */,
 				2A97773A1923247B00E1D428 /* BackButtonOrangeHighlighted.png in Resources */,
 				2AA28162191DEB9100C0D8D9 /* AppIcon_76x76.png in Resources */,
-				2AECE1C018F8D3060094C8CB /* Worn Brown Brickwork.pvrtc in Resources */,
 				2AECE2E618F8DB600094C8CB /* MAInfoPopupView.xib in Resources */,
 				2ADDFECA1944237A0000B526 /* InstructionsButtonOrangeHighlighted@2x.png in Resources */,
-				2A9777551923279D00E1D428 /* YoursButtonOrangeHighlighted.png in Resources */,
 				2AECE18F18F8D3060094C8CB /* Gray 3.png in Resources */,
 				2AA28161191DEB9100C0D8D9 /* AppIcon_58x58.png in Resources */,
 				2AECE1A718F8D3060094C8CB /* Red Basketweave.png in Resources */,
-				2AECE1A618F8D3060094C8CB /* Purple Marble.pvrtc in Resources */,
 				2AA28160191DEB9100C0D8D9 /* AppIcon_40x40.png in Resources */,
-				2ADDFEBC1940469C0000B526 /* TopMazesButtonBlueUnhighlighted@2x.png in Resources */,
-				2ADDFEB61940469C0000B526 /* CreateButtonOrangeHighlighted@2x.png in Resources */,
-				2A0A93AE1935B1130049F5C7 /* MAFloorPlanViewController.xib in Resources */,
 				2AECE11018F8D2EF0094C8CB /* Medieval City.caf in Resources */,
-				2A9777531923279D00E1D428 /* TopMazesScreenBackground.png in Resources */,
-				2AECE1B018F8D3060094C8CB /* Sky 2.pvrtc in Resources */,
-				2A9777501923279D00E1D428 /* NewestButtonBlueUnhighlighted.png in Resources */,
 				2AECE10C18F8D2EF0094C8CB /* Horror 1.caf in Resources */,
 				2A97773D1923247B00E1D428 /* InstructionsButtonOrangeHighlighted.png in Resources */,
-				2AECE19218F8D3060094C8CB /* Green.pvrtc in Resources */,
-				2AECE17618F8D3060094C8CB /* Born to Rule.pvrtc in Resources */,
 				2ADDFEC81944237A0000B526 /* GameScreenBackground@2x.png in Resources */,
-				2AECE1BE18F8D3060094C8CB /* Wood 3.pvrtc in Resources */,
-				2ADDFEBD1940469C0000B526 /* TopMazesButtonOrangeHighlighted@2x.png in Resources */,
 				2AECE10918F8D2EF0094C8CB /* Fairies.caf in Resources */,
-				2AECE17218F8D3060094C8CB /* Blue Marble Slabs.pvrtc in Resources */,
+				2AA172541A35147D002F778D /* (null) in Resources */,
 				2AECE1A318F8D3060094C8CB /* Orange.png in Resources */,
 				2AECE19F18F8D3060094C8CB /* Orange Brick.png in Resources */,
-				2AECE18C18F8D3060094C8CB /* Gray 1.pvrtc in Resources */,
 				2AECE19718F8D3060094C8CB /* Maze.png in Resources */,
-				2AECE1B618F8D3060094C8CB /* Water.pvrtc in Resources */,
-				2AECE17818F8D3060094C8CB /* Born to Shine.pvrtc in Resources */,
-				2AECE19A18F8D3060094C8CB /* Metal 1.pvrtc in Resources */,
 				2AECE11518F8D2EF0094C8CB /* The Hour of Triumph.caf in Resources */,
-				2AECE17E18F8D3060094C8CB /* Brown.pvrtc in Resources */,
-				2AECE1AA18F8D3060094C8CB /* Red.pvrtc in Resources */,
-				2ADDFEBF1940469C0000B526 /* YoursButtonBlueUnhighlighted@2x.png in Resources */,
-				2A977733192323D900E1D428 /* DesignScreenBackground.png in Resources */,
 				2AECE10E18F8D2EF0094C8CB /* Land of Wonders.caf in Resources */,
-				2AECE1A418F8D3060094C8CB /* Orange.pvrtc in Resources */,
+				2A56DE921B3F0950001B1C64 /* MATopMazeTableViewCell.xib in Resources */,
 				2AECE19D18F8D3060094C8CB /* Night Sky.png in Resources */,
-				2AECE1BA18F8D3060094C8CB /* Wood 1.pvrtc in Resources */,
-				2AECE1A818F8D3060094C8CB /* Red Basketweave.pvrtc in Resources */,
-				2AECE17418F8D3060094C8CB /* Blue.pvrtc in Resources */,
-				2AECE1B818F8D3060094C8CB /* White.pvrtc in Resources */,
-				2A9D41FD1919E32000DC0F6B /* LaunchImage.png in Resources */,
+				2A56DE8C1B3F0933001B1C64 /* TopMazes.storyboard in Resources */,
 				2AECE18B18F8D3060094C8CB /* Gray 1.png in Resources */,
 				2AECE0EC18F8CDF90094C8CB /* InfoPlist.strings in Resources */,
-				2A97774D1923279D00E1D428 /* HighestRatedButtonOrangeHighlighted.png in Resources */,
 				2AECE17118F8D3060094C8CB /* Blue Marble Slabs.png in Resources */,
 				2AECE10718F8D2EF0094C8CB /* Benediction.caf in Resources */,
 				2AECE19118F8D3060094C8CB /* Green.png in Resources */,
 				2AECE18118F8D3060094C8CB /* Camouflage.png in Resources */,
-				2AECE2CA18F8D9930094C8CB /* MAMainViewController.xib in Resources */,
 				2AA28164191DEB9100C0D8D9 /* AppIcon_152x152.png in Resources */,
-				2AECE19818F8D3060094C8CB /* Maze.pvrtc in Resources */,
-				2AECE18018F8D3060094C8CB /* Bubble Grip.pvrtc in Resources */,
 				2AECE0EF18F8CDF90094C8CB /* Mazes.entitlements in Resources */,
 				2AECE19B18F8D3060094C8CB /* Metal 2.png in Resources */,
 				2AECE1B518F8D3060094C8CB /* Water.png in Resources */,
-				2AECE1A018F8D3060094C8CB /* Orange Brick.pvrtc in Resources */,
-				2A97774B1923279D00E1D428 /* CreateButtonOrangeHighlighted.png in Resources */,
 				2AECE17B18F8D3060094C8CB /* Bronze Armor.png in Resources */,
 				2AECE1B118F8D3060094C8CB /* Steel Vault.png in Resources */,
 				2AECE11118F8D2EF0094C8CB /* Rain.caf in Resources */,
 				2AECE1BB18F8D3060094C8CB /* Wood 2.png in Resources */,
-				2AECE17C18F8D3060094C8CB /* Bronze Armor.pvrtc in Resources */,
 				2AECE18918F8D3060094C8CB /* Creamy White Marble.png in Resources */,
 				2AA511971903262900010D48 /* MARatingPopupView.xib in Resources */,
-				2A97774C1923279D00E1D428 /* HighestRatedButtonBlueUnhighlighted.png in Resources */,
-				2AECE19018F8D3060094C8CB /* Gray 3.pvrtc in Resources */,
+				2AA1725A1A35147D002F778D /* (null) in Resources */,
 				2AECE1AD18F8D3060094C8CB /* Sky 1.png in Resources */,
 				2AECE17718F8D3060094C8CB /* Born to Shine.png in Resources */,
 				2AA2815F191DEB9100C0D8D9 /* AppIcon_29x29.png in Resources */,
+				2AA1724E1A35147D002F778D /* (null) in Resources */,
 				2AECE18718F8D3060094C8CB /* Corrugated Metal.png in Resources */,
 				2AECE18318F8D3060094C8CB /* Chipped Bricks.png in Resources */,
-				2AECE1AC18F8D3060094C8CB /* Skulls.pvrtc in Resources */,
+				2AA1724B1A35147D002F778D /* (null) in Resources */,
+				2A56DE9A1B3F6D4E001B1C64 /* MATopMazesSegmentedControl.xib in Resources */,
 				2AECE17918F8D3060094C8CB /* Bright Purple Marble.png in Resources */,
-				2AECE2BE18F8D9930094C8CB /* MACreateViewController.xib in Resources */,
 				2AA511AA19049E3E00010D48 /* Images.xcassets in Resources */,
 				2AECE1A118F8D3060094C8CB /* Orange Herringbone.png in Resources */,
-				2AECE1BC18F8D3060094C8CB /* Wood 2.pvrtc in Resources */,
+				2A675FC81B3D185C0046972B /* MALaunchView.xib in Resources */,
+				2AA172581A35147D002F778D /* (null) in Resources */,
 				2AECE1B318F8D3060094C8CB /* Teddy Bear.png in Resources */,
-				2AECE2C018F8D9930094C8CB /* MADesignViewController.xib in Resources */,
 				2AECE2D218F8D9930094C8CB /* MATexturesViewController.xib in Resources */,
-				2A890CA718FE3CCC00F96157 /* MATopMazeTableViewCell.xib in Resources */,
 				2AECE11318F8D2EF0094C8CB /* Speedalizer.caf in Resources */,
 				2AECE1AF18F8D3060094C8CB /* Sky 2.png in Resources */,
 				2AECE19918F8D3060094C8CB /* Metal 1.png in Resources */,
-				2A9777511923279D00E1D428 /* NewestButtonOrangeHighlighted.png in Resources */,
-				2ADDFEB51940469C0000B526 /* CreateButtonBlueUnhighlighted@2x.png in Resources */,
-				2AA28166191DEB9B00C0D8D9 /* LaunchImage@2x.png in Resources */,
 				2AECE16D18F8D3060094C8CB /* Alternating Brick.png in Resources */,
-				2AECE1B218F8D3060094C8CB /* Steel Vault.pvrtc in Resources */,
 				2AECE1B718F8D3060094C8CB /* White.png in Resources */,
-				2AECE18E18F8D3060094C8CB /* Gray 2.pvrtc in Resources */,
-				2ADDFEB81940469C0000B526 /* HighestRatedButtonOrangeHighlighted@2x.png in Resources */,
-				2A9777521923279D00E1D428 /* TopMazeCell.png in Resources */,
 				2AECE17318F8D3060094C8CB /* Blue.png in Resources */,
+				2A0D5BB01B3D093E003484C4 /* Design.storyboard in Resources */,
 				2ADDFEC61944237A0000B526 /* BackButtonBlueUnhighlighted@2x.png in Resources */,
-				2AECE1AE18F8D3060094C8CB /* Sky 1.pvrtc in Resources */,
 				2AECE0E318F8CDCA0094C8CB /* Development Notes.txt in Resources */,
 				2A890CA918FE528200F96157 /* MAInstructionsViewController.xib in Resources */,
 				2AECE1A518F8D3060094C8CB /* Purple Marble.png in Resources */,
+				2AA1724A1A35147D002F778D /* (null) in Resources */,
 				2AECE1BD18F8D3060094C8CB /* Wood 3.png in Resources */,
-				2AECE1C218F8D3060094C8CB /* Yellow.pvrtc in Resources */,
 				2AECE10A18F8D2EF0094C8CB /* Goodbye Love.caf in Resources */,
-				2A9777541923279D00E1D428 /* YoursButtonBlueUnhighlighted.png in Resources */,
-				2A97774E1923279D00E1D428 /* TopMazesButtonBlueUnhighlighted.png in Resources */,
-				2A97774A1923279D00E1D428 /* CreateButtonBlueUnhighlighted.png in Resources */,
 				2ADDFEC91944237A0000B526 /* InstructionsButtonBlueUnhighlighted@2x.png in Resources */,
 				2AECE11218F8D2EF0094C8CB /* Relaxation.caf in Resources */,
-				2AECE2D418F8D9930094C8CB /* MATopMazesViewController.xib in Resources */,
 				2AECE10B18F8D2EF0094C8CB /* Hopeful.caf in Resources */,
-				2ADDFEBE1940469C0000B526 /* TopMazesScreenBackground@2x.png in Resources */,
-				2A97774F1923279D00E1D428 /* TopMazesButtonOrangeHighlighted.png in Resources */,
 				2AA28163191DEB9100C0D8D9 /* AppIcon_80x80.png in Resources */,
-				2AECE18A18F8D3060094C8CB /* Creamy White Marble.pvrtc in Resources */,
 				2AECE10D18F8D2EF0094C8CB /* Horror 2.caf in Resources */,
-				2AECE18818F8D3060094C8CB /* Corrugated Metal.pvrtc in Resources */,
-				2AECE16E18F8D3060094C8CB /* Alternating Brick.pvrtc in Resources */,
 				2AECE17D18F8D3060094C8CB /* Brown.png in Resources */,
 				2AECE16F18F8D3060094C8CB /* Black.png in Resources */,
 				2AECE1BF18F8D3060094C8CB /* Worn Brown Brickwork.png in Resources */,
 				2AECE11418F8D2EF0094C8CB /* Submarine.caf in Resources */,
-				2AECE1B418F8D3060094C8CB /* Teddy Bear.pvrtc in Resources */,
 				2AECE19518F8D3060094C8CB /* Logs.png in Resources */,
 				2A9777391923247B00E1D428 /* BackButtonBlueUnhighlighted.png in Resources */,
 				2AECE1A918F8D3060094C8CB /* Red.png in Resources */,
+				2AA172511A35147D002F778D /* (null) in Resources */,
 				2AECE19318F8D3060094C8CB /* Light Swirl Marble.png in Resources */,
 				2AECE2C518F8D9930094C8CB /* MAGameViewController.xib in Resources */,
-				2ADDFEB71940469C0000B526 /* HighestRatedButtonBlueUnhighlighted@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1525,48 +1138,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2A9D69B619121F830094534F /* ShellScript */ = {
+		2A9D69B619121F830094534F /* Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = Crashlytics;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Crashlytics.framework/run dcf833ce95eabb0f4910d0b63d678444f65e79d1 fd4ea9157fd2a9def8311934cd69be416453c3342d3132b2ba3cd0a3d101f37f";
-		};
-		92603C5DED3942D48661D410 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B971AB1A319C488FA94A78B8 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
 		};
 		F4E4A9E3154CB92C006AA64D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1589,64 +1173,57 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AECE26E18F8D62E0094C8CB /* MACloud.m in Sources */,
+				2AFDB1FE1B40ABEA00F13679 /* MAWallNode.m in Sources */,
 				F4A6D06A17FB6C610003D645 /* MALocation.m in Sources */,
+				2AC20FAE1B3BB30B0037864F /* MAAlertController.m in Sources */,
+				2A56DE831B3F0662001B1C64 /* MAWorldManager.m in Sources */,
 				2AA18E58192B33AA006328B8 /* MAGameKit.m in Sources */,
 				2ADDFED2194AB7AE0000B526 /* MAMapNearbyLocation.m in Sources */,
 				F4A6D06F17FB6C610003D645 /* MATexture.m in Sources */,
 				2AECE21418F8D5090094C8CB /* MAStyles.m in Sources */,
 				2AECE2CB18F8D9930094C8CB /* MAMapView.m in Sources */,
-				F4A6D06B17FB6C610003D645 /* MAMaze.m in Sources */,
+				F4A6D06B17FB6C610003D645 /* MAWorld.m in Sources */,
 				2AECE2CE18F8D9930094C8CB /* MARatingView.m in Sources */,
+				2A0D5BB41B3D0AEF003484C4 /* MADesignViewController.m in Sources */,
 				2AECE27618F8D62E0094C8CB /* MAUtilities.m in Sources */,
-				F4A6D07017FB6C610003D645 /* MAUserCounter.m in Sources */,
 				2AB51DAA1900EDAA0094BC82 /* MALabel.m in Sources */,
-				2A0A93AB1935B0500049F5C7 /* MAFloorPlanViewController.m in Sources */,
 				2AECE0EB18F8CDF90094C8CB /* AppDelegate.m in Sources */,
-				2A0A93AC1935B0500049F5C7 /* MAFloorPlanView.m in Sources */,
 				2AECE20E18F8D5090094C8CB /* MAGameScreenStyle.m in Sources */,
 				2AECE20918F8D5090094C8CB /* MAActivityIndicatorStyle.m in Sources */,
 				F49ED74D17FDACAD00D9BABD /* MAWall.m in Sources */,
-				2AECE27218F8D62E0094C8CB /* MAMazeManager.m in Sources */,
 				2A23F62E18FF8B530085B4FA /* MARatingViewController.m in Sources */,
+				2A56DE951B3F4310001B1C64 /* MATopMazesCollectionViewController.m in Sources */,
 				2AECE21018F8D5090094C8CB /* MAMainScreenStyle.m in Sources */,
 				2AECE21518F8D5090094C8CB /* MATopMazesScreenStyle.m in Sources */,
 				2AA511A31903817A00010D48 /* MAPopupStyle.m in Sources */,
-				2AECE2BF18F8D9930094C8CB /* MADesignViewController.m in Sources */,
 				2ADDFED6194ABD8B0000B526 /* MAMapSegment.m in Sources */,
 				2AB51DAD1900F3BE0094BC82 /* MAButton.m in Sources */,
+				2A56DE981B3F6D05001B1C64 /* MATopMazesSegmentedControl.m in Sources */,
 				2AECE2C418F8D9930094C8CB /* MAGameViewController.m in Sources */,
 				2A890CAC18FE52AD00F96157 /* MAInstructionsViewController.m in Sources */,
-				2AECE2C918F8D9930094C8CB /* MAMainViewController.m in Sources */,
 				2AA511961903262900010D48 /* MARatingPopupView.m in Sources */,
 				2AECE27518F8D62E0094C8CB /* MATextureManager.m in Sources */,
 				2AECE27018F8D62E0094C8CB /* MAEvent.m in Sources */,
 				2AA511A41903817A00010D48 /* MARatingPopupStyle.m in Sources */,
 				2AA5119A19032C9000010D48 /* MARatingPopoverStyle.m in Sources */,
 				2AECE26F18F8D62E0094C8CB /* MAConstants.m in Sources */,
-				2AECE2D318F8D9930094C8CB /* MATopMazesViewController.m in Sources */,
 				2AECE27418F8D62E0094C8CB /* MASoundManager.m in Sources */,
-				2AECE2CC18F8D9930094C8CB /* MAMazeView.m in Sources */,
+				2A56DE911B3F0950001B1C64 /* MATopMazeTableViewCell.m in Sources */,
 				2AECE27D18F8D6A40094C8CB /* MAMazeSummary.m in Sources */,
 				2AECE2E518F8DB600094C8CB /* MAInfoPopupView.m in Sources */,
-				F49ED74417FDA9CA00D9BABD /* MASize.m in Sources */,
-				2A890CA618FE3CCC00F96157 /* MATopMazeTableViewCell.m in Sources */,
 				2AECE27118F8D62E0094C8CB /* MAEventManager.m in Sources */,
+				2A56DE8A1B3F0933001B1C64 /* MATopMazesViewController.m in Sources */,
 				2AECE0ED18F8CDF90094C8CB /* main.m in Sources */,
-				2AECE20C18F8D5090094C8CB /* MADesignScreenStyle.m in Sources */,
 				2AB51DB01900F4BF0094BC82 /* MAButtonStyle.m in Sources */,
 				F4A6D06E17FB6C610003D645 /* MASound.m in Sources */,
 				2AECE27318F8D62E0094C8CB /* MASettings.m in Sources */,
+				2AFDB1F81B40586600F13679 /* MASceneView.m in Sources */,
 				2AECE21118F8D5090094C8CB /* MAMapStyle.m in Sources */,
-				2AECE27718F8D62E0094C8CB /* MAWebServices.m in Sources */,
-				2AECE2BD18F8D9930094C8CB /* MACreateViewController.m in Sources */,
-				F49ED74717FDA9E200D9BABD /* MACoordinate.m in Sources */,
-				2A23F63518FF9C480085B4FA /* MACreateScreenStyle.m in Sources */,
 				2AECE2D118F8D9930094C8CB /* MATexturesViewController.m in Sources */,
+				2AFDB1FB1B40A1C300F13679 /* MABoxNode.m in Sources */,
 				2ADDFED3194AB7AE0000B526 /* MAMapNearbyWall.m in Sources */,
 				2AECE28318F8D7190094C8CB /* MAColors.m in Sources */,
 				2AECE2E718F8DB600094C8CB /* MAPopupView.m in Sources */,
-				2AECE20A18F8D5090094C8CB /* MAFloorPlanStyle.m in Sources */,
-				F4A6D06917FB6C610003D645 /* MALatestVersion.m in Sources */,
 				2AA511A21903817A00010D48 /* MAInfoPopupStyle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1691,11 +1268,14 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1709,7 +1289,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1726,10 +1306,13 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1737,7 +1320,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -1747,10 +1330,8 @@
 		};
 		F4E4A9F9154CB92C006AA64D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FDD54367CCBB419990517295 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = NO;
 				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = YES;
@@ -1767,7 +1348,8 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Mazes/Application/Mazes-Prefix.pch";
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = NO;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -1781,37 +1363,21 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Mazes/Application/Mazes-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lFlurry_4.2.3",
-					"-framework",
-					CoreGraphics,
-					"-framework",
-					FFEF,
-					"-framework",
-					Foundation,
-					"-framework",
-					Security,
-					"-framework",
-					SystemConfiguration,
-					"-framework",
-					UIKit,
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "44906C43-7D55-4A81-A5E2-CF7FE871E3F1";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
 		F4E4A9FA154CB92C006AA64D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FDD54367CCBB419990517295 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = NO;
 				CLANG_WARN_OBJC_EXPLICIT_OWNERSHIP_TYPE = YES;
@@ -1828,8 +1394,8 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Mazes/Application/Mazes-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=2";
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = NO;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -1843,34 +1409,19 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Mazes/Application/Mazes-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lFlurry_4.2.3",
-					"-framework",
-					CoreGraphics,
-					"-framework",
-					FFEF,
-					"-framework",
-					Foundation,
-					"-framework",
-					Security,
-					"-framework",
-					SystemConfiguration,
-					"-framework",
-					UIKit,
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "97548A9C-0A5A-443E-8E45-5C6D0474E792";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "";
-				VALID_ARCHS = "armv7 armv7s";
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
 		F4E4A9FC154CB92C006AA64D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FDD54367CCBB419990517295 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Mazes.app/Mazes";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1878,7 +1429,6 @@
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Mazes/Application/Mazes-Prefix.pch";
 				INFOPLIST_FILE = "MazesTests/MazesTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1888,7 +1438,6 @@
 		};
 		F4E4A9FD154CB92C006AA64D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FDD54367CCBB419990517295 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Mazes.app/Mazes";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1896,7 +1445,6 @@
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Mazes/Application/Mazes-Prefix.pch";
 				INFOPLIST_FILE = "MazesTests/MazesTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";

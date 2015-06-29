@@ -8,42 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MAConstants.h"
-#import "MACoordinate.h"
-
-@class MAMaze;
-@class MATextureManager;
-@class MATexture;
-
-typedef enum : int
-{
-    MALocationActionUnknown = 0,
-    MALocationActionDoNothing = 1,
-    MALocationActionStart = 2,
-    MALocationActionEnd = 3,
-    MALocationActionStartOver = 4,
-    MALocationActionTeleport = 5
-} MALocationActionType;
-
 @interface MALocation : NSObject <NSCoding>
-
-@property (readwrite, strong, nonatomic) NSString *locationId;
-@property (readwrite, strong, nonatomic) MACoordinate *coordinate;
-@property (readwrite, assign, nonatomic) int direction;
-@property (readwrite, assign, nonatomic) MALocationActionType action;
-@property (readwrite, strong, nonatomic) NSString *message;
-@property (readwrite, assign, nonatomic) int teleportId;
-@property (readwrite, assign, nonatomic) int teleportX;
-@property (readwrite, assign, nonatomic) int teleportY;
-@property (readwrite, strong, nonatomic) NSString *floorTextureId;
-@property (readwrite, strong, nonatomic) NSString *ceilingTextureId;
 
 @property (readonly, assign, nonatomic) NSUInteger row;
 @property (readonly, assign, nonatomic) NSUInteger column;
 
-@property (readwrite, assign, nonatomic) BOOL visited;
++ (instancetype)locationWithRow: (NSUInteger)row
+                         column: (NSUInteger)column;
 
-- (void)reset;
+- (instancetype)initWithRow: (NSUInteger)row
+                     column: (NSUInteger)column;
 
 @end
 

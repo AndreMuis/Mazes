@@ -10,28 +10,18 @@
 
 #import "MAConstants.h"
 
-typedef enum : NSUInteger
-{
-    MAWallUnknown = 0,
-    MAWallNone = 1,
-    MAWallBorder = 2,
-    MAWallSolid = 3,
-    MAWallInvisible = 4,
-    MAWallFake = 5
-} MAWallType;
-
-@class MACoordinate;
-
 @interface MAWall : NSObject <NSCoding>
-
-@property (readwrite, strong, nonatomic) MACoordinate *coordinate;
-@property (readwrite, assign, nonatomic) MADirectionType direction;
-@property (readwrite, assign, nonatomic) MAWallType type;
-@property (readwrite, strong, nonatomic) NSString *textureId;
 
 @property (readonly, assign, nonatomic) NSUInteger row;
 @property (readonly, assign, nonatomic) NSUInteger column;
+@property (readonly, assign, nonatomic) MAWallPositionType position;
 
-@property (readwrite, assign, nonatomic) BOOL hit;
++ (instancetype)wallWithRow: (NSUInteger)row
+                     column: (NSUInteger)column
+                   position: (MAWallPositionType)position;
+
+- (instancetype)initWithRow: (NSUInteger)row
+                     column: (NSUInteger)column
+                   position: (MAWallPositionType)position;
 
 @end

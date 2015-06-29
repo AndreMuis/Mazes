@@ -6,12 +6,9 @@
 //  Copyright 2010 Andre Muis. All rights reserved.
 //
 
-#import "Flurry.h"
-
 #import "MAUtilities.h"
 
 #import "AppDelegate.h"
-#import "MAFloorPlanStyle.h"
 
 @implementation MAUtilities
 
@@ -20,10 +17,8 @@
     NSString *classAndMessage = [NSString stringWithFormat: @"%@: %@", NSStringFromClass(class), message];
     
     #ifdef DEBUG
-    NSLog(@"%@. %@", classAndMessage, parameters);
+    NSLog(@"%@ %@", classAndMessage, parameters);
     #endif
-    
-    [Flurry logEvent: classAndMessage withParameters: parameters];
 }
 
 + (id)objectOrNull: (id)object
@@ -59,55 +54,6 @@
     }
 }
 
-+ (void)addChildViewController: (UIViewController *)childViewController
-        toParentViewController: (UIViewController *)parentViewController
-               placeholderView: (UIView *)placeholderView
-{
-    [parentViewController addChildViewController: childViewController];
-    
-    [parentViewController.view addSubview: childViewController.view];
-    childViewController.view.frame = placeholderView.frame;
-    [placeholderView removeFromSuperview];
-    
-    [childViewController didMoveToParentViewController: parentViewController];
-}
-
-+ (NSString *)requestErrorMessageWithRequestDescription: (NSString *)requestDescription
-                                           reachability: (Reachability *)reachability
-                                           userCanRetry: (BOOL)userCanRetry
-{
-    NSString *requestErrorMessage = nil;
-    
-    if (reachability.isReachable == NO)
-    {
-        if (userCanRetry == YES)
-        {
-            requestErrorMessage = [NSString stringWithFormat: @"Unable to %@ because this device is not connected to the internet. "
-                                   "This app needs an internet connection to run. Please connect if possible and try again.", requestDescription];
-        }
-        else
-        {
-            requestErrorMessage = [NSString stringWithFormat: @"Unable to %@ because this device is not connected to the internet. "
-                                   "This app needs an internet connection to run. Please connect if possible.", requestDescription];
-        }
-    }
-    else
-    {
-        if (userCanRetry == YES)
-        {
-            requestErrorMessage = [NSString stringWithFormat: @"A problem occured while trying to %@. "
-                                   "Please try again. If the problem persists an update should be available shortly.", requestDescription];
-        }
-        else
-        {
-            requestErrorMessage = [NSString stringWithFormat: @"A problem occured while trying to %@. "
-                                   "If the problem persists an update should be available shortly.", requestDescription];
-        }
-    }
-    
-    return requestErrorMessage;
-}
-
 + (double)radiansFromDegrees: (double)degrees
 {
     return degrees * ((2.0 * M_PI) / 360.0);
@@ -123,30 +69,6 @@
     NSUUID *uuid = [NSUUID UUID];
     
     return [uuid UUIDString];
-}
-
-+ (NSString *)randomNumericStringWithLength: (NSUInteger)length
-{
-    NSMutableString *string = [NSMutableString stringWithCapacity: length];
-    
-    for (NSUInteger i = 0; i < length; i = i + 1)
-    {
-        [string appendFormat: @"%c", (char)('0' + arc4random_uniform(10))];
-    }
-    
-    return string;
-}
-
-+ (void)drawBorderInsideRect: (CGRect)rect withWidth: (CGFloat)width color: (UIColor *)color
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();    
-    
-    CGContextSetFillColorWithColor(context, color.CGColor);
-    
-    CGContextFillRect(context, CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, width));
-    CGContextFillRect(context, CGRectMake(rect.origin.x, rect.origin.y + rect.size.height - width, rect.size.width, width));
-    CGContextFillRect(context, CGRectMake(rect.origin.x, rect.origin.y + width, width, rect.size.height - 2.0 * width));
-    CGContextFillRect(context, CGRectMake(rect.origin.x + rect.size.width - width, rect.origin.y + width, width, rect.size.height - 2.0 * width));
 }
 
 + (void)drawStarInRect: (CGRect)rect clipRect: (CGRect)clipRect color: (UIColor *)uiColor outline: (BOOL)outline
@@ -215,22 +137,7 @@
     CGContextRestoreGState(context);
 }
 
-+ (UIImage *)createDirectionArrowImageWidth: (CGFloat)width height: (CGFloat)height
-{
-    NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
-    UIImage *directionArrowImage = [[UIImage alloc] initWithContentsOfFile: [NSString stringWithFormat:@"%@/%@", bundlePath, @"Direction Arrow.png"]];
-
-    UIGraphicsBeginImageContext(CGSizeMake(width, height));
-
-    [directionArrowImage drawInRect: CGRectMake(0.0, 0.0, width, height)];
-    UIImage* directionArrowImageScaled = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return directionArrowImageScaled;
-}
-
-+ (void)drawArrowInRect: (CGRect)rect angleDegrees: (double)angle scale: (float)scale floorPlanStyle: (MAFloorPlanStyle *)floorPlanStyle
++ (void)drawArrowInRect: (CGRect)rect angleDegrees: (double)angle scale: (float)scale
 {
     CGContextRef context = UIGraphicsGetCurrentContext();    
     
@@ -272,7 +179,7 @@
     CGContextAddLineToPoint(context, origin.x + x4, origin.y + y4);
     CGContextClosePath(context);
     
-    CGContextSetFillColorWithColor(context, floorPlanStyle.arrowColor.CGColor);
+    //CGContextSetFillColorWithColor(context, floorPlanStyle.arrowColor.CGColor);
     CGContextFillPath(context);
 }
 

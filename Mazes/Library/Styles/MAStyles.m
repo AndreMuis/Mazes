@@ -11,9 +11,6 @@
 #import "MAActivityIndicatorStyle.h"
 #import "MAButtonStyle.h"
 #import "MAConstants.h"
-#import "MACreateScreenStyle.h"
-#import "MADesignScreenStyle.h"
-#import "MAFloorPlanStyle.h"
 #import "MAGameScreenStyle.h"
 #import "MAInfoPopupStyle.h"
 #import "MAMainScreenStyle.h"
@@ -41,9 +38,6 @@
         
         _activityIndicator = [MAActivityIndicatorStyle activityIndicatorStyle];
         _button = [MAButtonStyle buttonStyle];
-        _createScreen = [MACreateScreenStyle createScreenStyle];
-        _designScreen = [MADesignScreenStyle designScreenStyle];
-        _floorPlan = [MAFloorPlanStyle floorPlanStyle];
         _gameScreen = [MAGameScreenStyle gameScreenStyle];
         _infoPopup = [MAInfoPopupStyle infoPopupStyle];
         _mainScreen = [MAMainScreenStyle mainScreenStyle];

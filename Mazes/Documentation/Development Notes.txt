@@ -1,17 +1,2 @@
-
-
-start web server: sudo apachectl start
-
-start FatFractal service: ff-service cl &
-
-deploy: ffef deploylocal
-
-point FatFractal databrowser to: http://localhost:8080/mazes
-
-
-
-
-texturetool -e PVRTC -o kitty.pvrtc -p kitty_preview.png kitty.png
-
 afconvert -f caff -d aac {INPUT} {OUTPUT}
 

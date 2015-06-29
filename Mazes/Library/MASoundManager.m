@@ -12,11 +12,8 @@
 #import "MAGameViewController.h"
 #import "MASound.h"
 #import "MAUtilities.h"
-#import "MAWebServices.h"
 
 @interface MASoundManager ()
-
-@property (strong, nonatomic, readonly) MAWebServices *webServices;
 
 @property (strong, nonatomic, readonly) NSArray *sounds;
 
@@ -26,20 +23,18 @@
 
 @implementation MASoundManager
 
-+ (id)soundManagerWithWebServices: (MAWebServices *)webServices
++ (id)soundManager
 {
-    MASoundManager *soundManager = [[MASoundManager alloc] initWithWebServices: webServices];
+    MASoundManager *soundManager = [[MASoundManager alloc] init];
     return soundManager;
 }
 
-- (id)initWithWebServices: (MAWebServices *)webServices
+- (id)init
 {
     self = [super init];
     
     if (self)
     {
-        _webServices = webServices;
-        
         _sounds = [NSArray array];
         
         _count = 0;
@@ -50,6 +45,7 @@
 
 - (void)downloadSoundsWithCompletionHandler: (DownloadSoundsCompletionHandler)handler
 {
+    /*
     [self.webServices getSoundsWithCompletionHandler: ^(NSArray *sounds, NSError *error)
     {
         if (error == nil)
@@ -70,6 +66,7 @@
             handler(error);
         }
     }];
+    */
 }
 
 - (NSArray *)sortedByName

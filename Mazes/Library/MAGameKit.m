@@ -9,14 +9,10 @@
 #import "MAGameKit.h"
 
 #import "MAGameKitDelegate.h"
-#import "MAWebServices.h"
 
 @interface MAGameKit () <GKGameCenterControllerDelegate>
 
 @property (readonly, weak, nonatomic) id<MAGameKitDelegate> delegate;
-
-@property (readonly, strong, nonatomic) Reachability *reachability;
-@property (readonly, strong, nonatomic) MAWebServices *webServices;
 
 @property (readwrite, assign, nonatomic) NSUInteger mazeCompletionCount;
 
@@ -24,39 +20,27 @@
 
 @implementation MAGameKit
 
-+ (MAGameKit *)gameKitWithReachability: (Reachability *)reachability
-                           webServices: (MAWebServices *)webServices
++ (instancetype)gameKit
 {
-    MAGameKit *gameKit = [[MAGameKit alloc] initWithDelegate: nil
-                                                reachability: reachability
-                                                 webServices: webServices];
+    MAGameKit *gameKit = [[MAGameKit alloc] initWithDelegate: nil];
     
     return gameKit;
 }
 
-+ (MAGameKit *)gameKitWithDelegate: (id<MAGameKitDelegate>)delegate
-                      reachability: (Reachability *)reachability
-                       webServices: (MAWebServices *)webServices
++ (instancetype)gameKitWithDelegate: (id<MAGameKitDelegate>)delegate
 {
-    MAGameKit *gameKit = [[MAGameKit alloc] initWithDelegate: delegate
-                                                reachability: reachability
-                                                 webServices: webServices];
+    MAGameKit *gameKit = [[MAGameKit alloc] initWithDelegate: delegate];
     
     return gameKit;
 }
 
 - (instancetype)initWithDelegate: (id<MAGameKitDelegate>)delegate
-                    reachability: (Reachability *)reachability
-                     webServices: (MAWebServices *)webServices
 {
     self = [super init];
     
     if (self)
     {
         _delegate = delegate;
-        
-        _reachability = reachability;
-        _webServices = webServices;
         
         _mazeCompletionCount = 0;
     }
@@ -98,6 +82,7 @@
 
 - (void)downloadMazeCompletionCountWithCompletion: (DownloadMazeCompletionCountCompletionHandler)handler
 {
+    /*
     [self.webServices getMazeCompletionCountWithUserName: self.webServices.loggedInUser.userName
                                        completionHandler: ^(NSUInteger count, NSError *error)
     {
@@ -105,6 +90,7 @@
 
         handler(error);
     }];
+    */
 }
 
 - (void)reportMazeCompletionCountWithCompletion: (ReportMazeCompletionCountCompletionHandler)handler

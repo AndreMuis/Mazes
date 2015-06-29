@@ -8,24 +8,24 @@
 
 #import <Foundation/Foundation.h>
 
-@class MAMaze;
+@class MAWorld;
 
 @interface MAMazeSummary : NSObject
 
-@property (readwrite, strong, nonatomic) NSString *mazeSummaryId;
+@property (readonly, strong, nonatomic) NSString *mazeSummaryId;
 
-@property (readwrite, strong, nonatomic) NSString *mazeId;
+@property (readonly, strong, nonatomic) NSString *mazeId;
 
-@property (readwrite, strong, nonatomic) NSString *name;
-@property (readwrite, assign, nonatomic) float averageRating;
-@property (readwrite, assign, nonatomic) int ratingCount;
+@property (readonly, strong, nonatomic) NSString *name;
+@property (readonly, assign, nonatomic) float averageRating;
+@property (readonly, assign, nonatomic) NSUInteger ratingCount;
 
-@property (readwrite, strong, nonatomic) NSDate *modifiedAt;
+@property (readonly, strong, nonatomic) NSDate *modifiedAt;
 @property (readonly, strong, nonatomic) NSString *modifiedAtFormatted;
 
-@property (readwrite, assign, nonatomic) BOOL userStarted;
-@property (readwrite, assign, nonatomic) BOOL userFoundExit;
-@property (readwrite, assign, nonatomic) float rating;
+@property (readonly, assign, nonatomic) BOOL userStarted;
+@property (readonly, assign, nonatomic) BOOL userFoundExit;
+@property (readonly, assign, nonatomic) float rating;
 
 @end
 

@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class MAWebServices;
 @class MATexture;
 
 typedef void (^DownloadTexturesCompletionHandler)(NSError *error);
@@ -17,9 +16,9 @@ typedef void (^DownloadTexturesCompletionHandler)(NSError *error);
 
 @property (assign, nonatomic, readonly) NSUInteger count;
 
-+ (MATextureManager *)textureManagerWithWebServices: (MAWebServices *)webServices;
++ (MATextureManager *)textureManager;
 
-- (id)initWithWithWebServices: (MAWebServices *)webServices;
+- (id)init;
 
 - (void)downloadTexturesWithCompletionHandler: (DownloadTexturesCompletionHandler)handler;
 

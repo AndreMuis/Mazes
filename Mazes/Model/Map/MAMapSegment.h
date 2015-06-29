@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Andre Muis. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface MAMapSegment : NSObject
 

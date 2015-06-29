@@ -11,11 +11,8 @@
 #import "MAConstants.h"
 #import "MATexture.h"
 #import "MAUtilities.h"
-#import "MAWebServices.h"
 
 @interface  MATextureManager ()
-
-@property (strong, nonatomic, readonly) MAWebServices *webServices;
 
 @property (strong, nonatomic, readonly) NSArray *textures;
 
@@ -25,20 +22,18 @@
 
 @implementation MATextureManager
 
-+ (MATextureManager *)textureManagerWithWebServices: (MAWebServices *)webServices
++ (MATextureManager *)textureManager
 {
-    MATextureManager *textureManager = [[MATextureManager alloc] initWithWithWebServices: webServices];
+    MATextureManager *textureManager = [[MATextureManager alloc] init];
     return textureManager;
 }
 
-- (id)initWithWithWebServices: (MAWebServices *)webServices
+- (id)init
 {
     self = [super init];
     
     if (self)
     {
-        _webServices = webServices;
-        
         _textures = [NSArray array];
         
         _count = 0;
@@ -49,6 +44,7 @@
 
 - (void)downloadTexturesWithCompletionHandler: (DownloadTexturesCompletionHandler)handler
 {
+    /*
     [self.webServices getTexturesWithCompletionHandler: ^(NSArray *textures, NSError *error)
      {
          if (error == nil)
@@ -64,6 +60,7 @@
              handler(error);
          }
      }];
+     */
 }
 
 - (NSArray *)all

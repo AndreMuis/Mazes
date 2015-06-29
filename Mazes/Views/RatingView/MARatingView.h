@@ -10,13 +10,13 @@
 
 #import "MARatingViewDelegate.h"
 
-typedef enum : int
+typedef NS_ENUM(NSUInteger, MARatingViewType)
 {
     MARatingViewUnknown = 0,
     MARatingViewDisplayOnly = 1,
     MARatingViewEditable = 2,
     MARatingViewSelectable = 3
-} MARatingViewType;
+};
 
 @interface MARatingView : UIView <MARatingViewDelegate, UIPopoverControllerDelegate>
 

@@ -8,23 +8,30 @@
 
 #import "MAWall.h"
 
-#import "MACoordinate.h"
-#import "MATexture.h"
-
 @implementation MAWall
 
-- (id)init
++ (instancetype)wallWithRow: (NSUInteger)row
+                     column: (NSUInteger)column
+                   position: (MAWallPositionType)position
+{
+    MAWall *wall = [[self alloc] initWithRow: row
+                                      column: column
+                                    position: position];
+    
+    return wall;
+}
+
+- (instancetype)initWithRow: (NSUInteger)row
+                     column: (NSUInteger)column
+                   position: (MAWallPositionType)position
 {
     self = [super init];
     
     if (self)
     {
-        _coordinate = nil;
-        _direction = MADirectionUnknown;
-        _type = MAWallUnknown;
-        _textureId = nil;
-        
-        _hit = NO;
+        _row = row;
+        _column = column;
+        _position = position;
     }
     
     return self;
@@ -36,10 +43,9 @@
     
     if (self)
     {
-        _coordinate = [coder decodeObjectForKey: @"coordinate"];
-        _direction = [coder decodeIntegerForKey: @"direction"];
-        _type = [coder decodeIntegerForKey: @"type"];
-        _textureId = [coder decodeObjectForKey: @"textureId"];
+        _row = [coder decodeIntegerForKey: @"row"];
+        _column = [coder decodeIntegerForKey: @"column"];
+        _position = [coder decodeIntegerForKey: @"position"];
     }
     
     return self;
@@ -47,32 +53,39 @@
 
 - (void)encodeWithCoder: (NSCoder *)coder
 {
-    [coder encodeObject: self.coordinate forKey: @"coordinate"];
-    [coder encodeInteger: self.direction forKey: @"direction"];
-    [coder encodeInteger: self.type forKey: @"type"];
-    [coder encodeObject: self.textureId forKey: @"textureId"];
-}
-
-- (NSUInteger)row
-{
-    return self.coordinate.row;
-}
-
-- (NSUInteger)column
-{
-    return self.coordinate.column;
+    [coder encodeInteger: self.row forKey: @"row"];
+    [coder encodeInteger: self.column forKey: @"column"];
+    [coder encodeInteger: self.position forKey: @"position"];
 }
 
 - (NSString *)description
 {
     NSString *desc = [NSString stringWithFormat: @"<%@: %p; ", [self class], self];
-    desc = [desc stringByAppendingFormat: @"row = %d; ", self.row];
-    desc = [desc stringByAppendingFormat: @"column = %d; ", self.column];
-    desc = [desc stringByAppendingFormat: @"direction = %d; ", self.direction];
-    desc = [desc stringByAppendingFormat: @"type = %d; ", self.type];
-    desc = [desc stringByAppendingFormat: @"textureId = %@; ", self.textureId];
+    desc = [desc stringByAppendingFormat: @"row = %d; ", (int)self.row];
+    desc = [desc stringByAppendingFormat: @"column = %d; ", (int)self.column];
+    desc = [desc stringByAppendingFormat: @"position = %d>", (int)self.position];
     
     return desc;
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

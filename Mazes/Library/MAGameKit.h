@@ -9,10 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 
-#import <Reachability/Reachability.h>
-
-@class MAWebServices;
-
 @protocol MAGameKitDelegate;
 
 typedef void (^DownloadMazeCompletionCountCompletionHandler)(NSError *error);
@@ -25,16 +21,11 @@ typedef void (^ReportMazeCompletionCountCompletionHandler)(NSError *error);
 
 @property (readonly, assign, nonatomic) BOOL isReportingMazeCompletionCount;
 
-+ (MAGameKit *)gameKitWithReachability: (Reachability *)reachability
-                           webServices: (MAWebServices *)webServices;
++ (MAGameKit *)gameKit;
 
-+ (MAGameKit *)gameKitWithDelegate: (id<MAGameKitDelegate>)delegate
-                      reachability: (Reachability *)reachability
-                       webServices: (MAWebServices *)webServices;
++ (MAGameKit *)gameKitWithDelegate: (id<MAGameKitDelegate>)delegate;
 
-- (instancetype)initWithDelegate: (id<MAGameKitDelegate>)delegate
-                    reachability: (Reachability *)reachability
-                     webServices: (MAWebServices *)webServices;
+- (instancetype)initWithDelegate: (id<MAGameKitDelegate>)delegate;
 
 - (void)setupAuthenticateHandler;
 

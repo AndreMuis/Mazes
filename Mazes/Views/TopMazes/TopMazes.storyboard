@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="O08-Na-6Q8">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <scenes>
+        <!--Top Mazes View Controller-->
+        <scene sceneID="mo1-EY-Rt7">
+            <objects>
+                <viewController id="O08-Na-6Q8" customClass="MATopMazesViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="X1f-JI-HCA"/>
+                        <viewControllerLayoutGuide type="bottom" id="MPy-ge-BxR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fTb-ro-7Ob">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mZV-ck-Q9A">
+                                <rect key="frame" x="0.0" y="60" width="600" height="480"/>
+                                <connections>
+                                    <segue destination="P3z-RO-i92" kind="embed" id="i4F-7k-Xuh"/>
+                                </connections>
+                            </containerView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NavigationBar" translatesAutoresizingMaskIntoConstraints="NO" id="pcr-3C-w7i">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="67"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="67" id="ftv-48-UGc"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YMh-Rw-miP" userLabel="segmentedControlContainerView">
+                                <rect key="frame" x="162" y="12" width="276" height="37"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="37" id="WIx-gh-RPA"/>
+                                    <constraint firstAttribute="width" constant="276" id="lLa-sT-ts9"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                        <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TabBar" translatesAutoresizingMaskIntoConstraints="NO" id="d1f-NC-ieY">
+                                <rect key="frame" x="0.0" y="533" width="600" height="67"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="67" id="uac-9l-402"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VLl-of-I96">
+                                <rect key="frame" x="126" y="552" width="348" height="37"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9oh-rS-0dU" userLabel="createButton">
+                                        <rect key="frame" x="0.0" y="0.0" width="121" height="37"/>
+                                        <color key="backgroundColor" red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="121" id="8Ac-Vg-ebG"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="18"/>
+                                        <size key="titleShadowOffset" width="1" height="1"/>
+                                        <state key="normal" title="CREATE">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                                <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="createButtonTapped:" destination="O08-Na-6Q8" eventType="touchDown" id="bnr-Cz-uBS"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IBU-hc-i3J" userLabel="leaderboardButton">
+                                        <rect key="frame" x="155" y="0.0" width="193" height="37"/>
+                                        <color key="backgroundColor" red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="193" id="GIT-z0-gbV"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="18"/>
+                                        <size key="titleShadowOffset" width="1" height="1"/>
+                                        <state key="normal" title="LEADERBOARD">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                                <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="leaderboardButtonTapped:" destination="O08-Na-6Q8" eventType="touchDown" id="ES8-b3-XkO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="9oh-rS-0dU" firstAttribute="leading" secondItem="VLl-of-I96" secondAttribute="leading" id="3BI-yk-XFr"/>
+                                    <constraint firstAttribute="bottom" secondItem="IBU-hc-i3J" secondAttribute="bottom" id="BU2-BH-Z4V"/>
+                                    <constraint firstAttribute="trailing" secondItem="IBU-hc-i3J" secondAttribute="trailing" id="L4T-bf-DoX"/>
+                                    <constraint firstItem="9oh-rS-0dU" firstAttribute="top" secondItem="VLl-of-I96" secondAttribute="top" id="aBI-od-XO6"/>
+                                    <constraint firstAttribute="bottom" secondItem="9oh-rS-0dU" secondAttribute="bottom" id="ezJ-cH-eUe"/>
+                                    <constraint firstItem="IBU-hc-i3J" firstAttribute="top" secondItem="VLl-of-I96" secondAttribute="top" id="gRY-xL-QIc"/>
+                                    <constraint firstAttribute="height" constant="37" id="nHo-yl-2id"/>
+                                    <constraint firstAttribute="width" constant="348" id="vw4-rB-nKK"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                        <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="mZV-ck-Q9A" secondAttribute="trailing" id="7cS-WF-lBK"/>
+                            <constraint firstAttribute="trailing" secondItem="pcr-3C-w7i" secondAttribute="trailing" id="BdW-Io-jGZ"/>
+                            <constraint firstItem="mZV-ck-Q9A" firstAttribute="top" secondItem="X1f-JI-HCA" secondAttribute="bottom" constant="60" id="EBA-kT-i62"/>
+                            <constraint firstItem="pcr-3C-w7i" firstAttribute="leading" secondItem="fTb-ro-7Ob" secondAttribute="leading" id="EUG-AW-HtP"/>
+                            <constraint firstItem="MPy-ge-BxR" firstAttribute="top" secondItem="VLl-of-I96" secondAttribute="bottom" constant="11" id="EWq-9r-7Q4"/>
+                            <constraint firstAttribute="centerX" secondItem="YMh-Rw-miP" secondAttribute="centerX" id="FSY-XS-2PE"/>
+                            <constraint firstItem="YMh-Rw-miP" firstAttribute="top" secondItem="X1f-JI-HCA" secondAttribute="bottom" constant="12" id="GNJ-lk-AMz"/>
+                            <constraint firstAttribute="centerX" secondItem="VLl-of-I96" secondAttribute="centerX" id="QjI-1m-NNh"/>
+                            <constraint firstItem="MPy-ge-BxR" firstAttribute="top" secondItem="mZV-ck-Q9A" secondAttribute="bottom" constant="60" id="Tz7-Hg-KP2"/>
+                            <constraint firstItem="d1f-NC-ieY" firstAttribute="leading" secondItem="fTb-ro-7Ob" secondAttribute="leading" id="b58-a8-7i2"/>
+                            <constraint firstItem="mZV-ck-Q9A" firstAttribute="leading" secondItem="fTb-ro-7Ob" secondAttribute="leading" id="cXY-tq-BCp"/>
+                            <constraint firstItem="MPy-ge-BxR" firstAttribute="top" secondItem="d1f-NC-ieY" secondAttribute="bottom" id="end-Xz-hsL"/>
+                            <constraint firstAttribute="trailing" secondItem="d1f-NC-ieY" secondAttribute="trailing" id="kps-e0-ZFz"/>
+                            <constraint firstItem="pcr-3C-w7i" firstAttribute="top" secondItem="X1f-JI-HCA" secondAttribute="bottom" id="pSI-IB-WIv"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="createButton" destination="9oh-rS-0dU" id="PSv-53-8a8"/>
+                        <outlet property="leaderboardButton" destination="IBU-hc-i3J" id="qLc-qg-sjY"/>
+                        <outlet property="segmentedControlContainerView" destination="YMh-Rw-miP" id="5Ya-dQ-dU9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JbY-Xn-jYw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="301" y="437"/>
+        </scene>
+        <!--Top Mazes Collection View Controller-->
+        <scene sceneID="bbT-c8-9Bu">
+            <objects>
+                <collectionViewController id="P3z-RO-i92" customClass="MATopMazesCollectionViewController" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="rbK-KW-xhs">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Hcr-vw-prv">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells/>
+                        <connections>
+                            <outlet property="dataSource" destination="P3z-RO-i92" id="QZT-tu-5WI"/>
+                            <outlet property="delegate" destination="P3z-RO-i92" id="iu0-ea-rxX"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="E6w-bg-pMj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1075" y="437"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="NavigationBar" width="1024" height="67"/>
+        <image name="TabBar" width="1024" height="67"/>
+    </resources>
+</document>

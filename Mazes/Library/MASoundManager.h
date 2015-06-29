@@ -8,17 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@class MAWebServices;
-
 typedef void (^DownloadSoundsCompletionHandler)(NSError *error);
 
 @interface MASoundManager : NSObject
 
 @property (assign, nonatomic, readonly) NSUInteger count;
 
-+ (id)soundManagerWithWebServices: (MAWebServices *)webServices;
++ (id)soundManager;
 
-- (id)initWithWebServices: (MAWebServices *)webServices;
+- (id)init;
 
 - (void)downloadSoundsWithCompletionHandler: (DownloadSoundsCompletionHandler)handler;
 

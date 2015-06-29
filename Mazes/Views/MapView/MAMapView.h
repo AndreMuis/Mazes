@@ -11,11 +11,11 @@
 #import "MAConstants.h"
 
 @class MALocation;
-@class MAMaze;
+@class MAWorld;
 
 @interface MAMapView : UIView 
 
-@property (strong, nonatomic) MAMaze *maze;
+@property (strong, nonatomic) MAWorld *world;
 
 @property (strong, nonatomic) MALocation *currentLocation;
 @property (assign, nonatomic) MADirectionType facingDirection;

@@ -9,9 +9,6 @@
 #import <UIKit/UIKit.h>
 
 #import <Crashlytics/Crashlytics.h>
-#import <FFEF/FatFractal.h>
-#import <FlurrySDK/Flurry.h>
-#import <Reachability/Reachability.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

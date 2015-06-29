@@ -8,48 +8,38 @@
 
 #import <UIKit/UIKit.h>
 
-#import <Reachability/Reachability.h>
-
 #import "MAConstants.h"
 #import "MARatingView.h"
-#import "MAWebServices.h"
 
-typedef enum : int
+typedef NS_ENUM(NSUInteger, MAMovementType)
 {
     MAMovementBackward = 1,
     MAMovementForward = 2,
     MAMovementTurnLeft = 3,
     MAMovementTurnRight = 4
-} MAMovementType;
+};
 
 @class MAEvent;
 @class MALocation;
-@class MAMainViewController;
 @class MAMapView;
 @class MAMazeManager;
-@class MAMaze;
 @class MAMazeSummary;
-@class MAMazeView;
 @class MASoundManager;
 @class MATextureManager;
 @class MATopMazesViewController;
+@class MAWorld;
 
 @interface MAGameViewController : UIViewController
 
 @property (readwrite, strong, nonatomic) MAMazeSummary *mazeSummary;
-@property (readwrite, strong, nonatomic) MAMaze *maze;
-@property (readwrite, strong, nonatomic) MAMainViewController *mainViewController;
+@property (readwrite, strong, nonatomic) MAWorld *world;
 @property (readwrite, strong, nonatomic) MATopMazesViewController *topMazesViewController;
-
-@property (readwrite, weak, nonatomic) ADBannerView *bannerView;
 
 @property (readwrite, weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
-- (id)initWithReachability: (Reachability *)reachability
-               webServices: (MAWebServices *)webServices
-               mazeManager: (MAMazeManager *)mazeManager
-            textureManager: (MATextureManager *)textureManager
-              soundManager: (MASoundManager *)soundManager;
+- (id)initWithMazeManager: (MAMazeManager *)mazeManager
+           textureManager: (MATextureManager *)textureManager
+             soundManager: (MASoundManager *)soundManager;
 
 - (void)startSetup;
 

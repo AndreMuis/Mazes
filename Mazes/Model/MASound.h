@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#import <AVFoundation/AVFoundation.h>
+
 @interface MASound : NSObject
 
-@property (readwrite, strong, nonatomic) NSString *soundId;
-@property (readwrite, strong, nonatomic) NSString *name;
+@property (readonly, strong, nonatomic) NSString *soundId;
+@property (readonly, strong, nonatomic) NSString *name;
 
 - (void)setup;
 

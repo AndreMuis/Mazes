@@ -18,9 +18,6 @@
     {
         _textureId = nil;
         _name = nil;
-        _width = 0;
-        _height = 0;
-        _repeats = 0;
         _kind = 0;
         _order = 0;
     }
@@ -45,11 +42,8 @@
     NSString *desc = [NSString stringWithFormat: @"<%@: %p; ", [self class], self];
     desc = [desc stringByAppendingFormat: @"textureId = %@; ", self.textureId];
     desc = [desc stringByAppendingFormat: @"name = %@; ", self.name];
-    desc = [desc stringByAppendingFormat: @"width = %d; ", self.width];
-    desc = [desc stringByAppendingFormat: @"height = %d; ", self.height];
-    desc = [desc stringByAppendingFormat: @"repeats = %d; ", self.repeats];
-    desc = [desc stringByAppendingFormat: @"kind = %d; ", self.kind];
-    desc = [desc stringByAppendingFormat: @"order = %d>", self.order];
+    desc = [desc stringByAppendingFormat: @"kind = %d; ", (int)self.kind];
+    desc = [desc stringByAppendingFormat: @"order = %d>", (int)self.order];
     
     return desc;
 }

@@ -5,36 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>6A27AAA3-08FD-4567-AB03-E67ED7AC97B5</string>
+	<string>3112DE2C-03F0-4E68-8F71-3081AC8287FD</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Mazes</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>8AA8BD7F-7A65-4779-B357-C109C0084B87</key>
-		<string>ssh://github.com/AndreMuis/iOSMazes.git</string>
+		<key>2D138036C21AFF1AC4D7B4B8D6A9C4FAAA2747D2</key>
+		<string>github.com:AndreMuis/iOSMazes.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Mazes.xcodeproj/project.xcworkspace</string>
+	<string>Mazes.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>8AA8BD7F-7A65-4779-B357-C109C0084B87</key>
+		<key>2D138036C21AFF1AC4D7B4B8D6A9C4FAAA2747D2</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/AndreMuis/iOSMazes.git</string>
+	<string>github.com:AndreMuis/iOSMazes.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>8AA8BD7F-7A65-4779-B357-C109C0084B87</string>
+	<string>2D138036C21AFF1AC4D7B4B8D6A9C4FAAA2747D2</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>8AA8BD7F-7A65-4779-B357-C109C0084B87</string>
+			<string>2D138036C21AFF1AC4D7B4B8D6A9C4FAAA2747D2</string>
 			<key>IDESourceControlWCCName</key>
-			<string>iOSMazes</string>
+			<string>Mazes</string>
 		</dict>
 	</array>
 </dict>

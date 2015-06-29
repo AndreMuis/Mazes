@@ -8,7 +8,7 @@
 
 #import "MAMazeSummary.h"
 
-#import "MAMaze.h"
+#import "MAWorld.h"
 
 @implementation MAMazeSummary
 
@@ -32,7 +32,7 @@
 
     desc = [desc stringByAppendingFormat: @"name = %@; ", self.name];
     desc = [desc stringByAppendingFormat: @"averageRating = %f; ", self.averageRating];
-    desc = [desc stringByAppendingFormat: @"ratingCount = %d; ", self.ratingCount];
+    desc = [desc stringByAppendingFormat: @"ratingCount = %d; ", (int)self.ratingCount];
 
     desc = [desc stringByAppendingFormat: @"modifiedAt = %@; ", self.modifiedAt];
     desc = [desc stringByAppendingFormat: @"modifiedAtFormatted = %@; ", self.modifiedAtFormatted];

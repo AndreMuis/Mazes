@@ -13,11 +13,10 @@
 #import "MAMapNearbyWall.h"
 #import "MAMapSegment.h"
 #import "MAMapStyle.h"
-#import "MAMaze.h"
-#import "MASize.h"
 #import "MAStyles.h"
 #import "MAUtilities.h"
 #import "MAWall.h"
+#import "MAWorld.h"
 
 @interface MAMapView ()
 
@@ -47,7 +46,7 @@
 
         _segments = [[NSMutableDictionary alloc] init];
         
-        _maze = nil;
+        _world = nil;
         
         _currentLocation = nil;
         _facingDirection = MADirectionUnknown;
@@ -61,8 +60,8 @@
 
 - (CGSize)mapSize
 {
-    return CGSizeMake(self.styles.map.locationLength * self.maze.columns + self.styles.map.wallWidth * (self.maze.columns + 1),
-                      self.styles.map.locationLength * self.maze.rows + self.styles.map.wallWidth * (self.maze.rows + 1));
+    return CGSizeMake(self.styles.map.locationLength * self.world.columns + self.styles.map.wallWidth * (self.world.columns + 1),
+                      self.styles.map.locationLength * self.world.rows + self.styles.map.wallWidth * (self.world.rows + 1));
 }
 
 - (void)setupNearbyLocations
@@ -263,8 +262,7 @@
     
     [MAUtilities drawArrowInRect: CGRectOffset(arrowFrame, mapOffset.width, mapOffset.height)
                     angleDegrees: (self.facingDirection - 1) * 90.0
-                           scale: 1.0
-                  floorPlanStyle: self.styles.floorPlan];
+                           scale: 1.0];
 }
 
 #pragma mark -
@@ -304,22 +302,6 @@
             
             rotatedDirection = [self rotatedDirectionWithDirection: blockingWall.direction
                                                    facingDirection: self.facingDirection];
-            
-            BOOL wallValid = [self.maze isValidWallWithRow: self.currentLocation.row + rotatedRowDelta
-                                                    column: self.currentLocation.column + rotatedColumnDelta
-                                                 direction: rotatedDirection];
-            
-            if (wallValid == YES)
-            {
-                MAWall *wall = [self.maze wallWithRow: self.currentLocation.row + rotatedRowDelta
-                                               column: self.currentLocation.column + rotatedColumnDelta
-                                            direction: rotatedDirection];
-                
-                if (wall.type == MAWallSolid || wall.type == MAWallBorder || wall.type == MAWallFake)
-                {
-                    locationVisible = NO;
-                }
-            }
         }
         
         if (locationVisible == YES)
@@ -330,8 +312,8 @@
                            rotatedRowDelta: &rotatedRowDelta
                         rotatedColumnDelta: &rotatedColumnDelta];
             
-            MALocation *location = [self.maze locationWithRow: self.currentLocation.row + rotatedRowDelta
-                                                       column: self.currentLocation.column + rotatedColumnDelta];
+            MALocation *location = [self.world locationWithRow: self.currentLocation.row + rotatedRowDelta
+                                                        column: self.currentLocation.column + rotatedColumnDelta];
             
             CGRect locationFrame =
                 CGRectMake((location.column - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth) + self.styles.map.wallWidth,
@@ -339,28 +321,7 @@
                            self.styles.map.locationLength,
                            self.styles.map.locationLength);
             
-            UIColor *locationColor = nil;
-            
-            if (location.action == MALocationActionStart)
-            {
-                locationColor = self.styles.map.startColor;
-            }
-            else if (location.action == MALocationActionEnd)
-            {
-                locationColor = self.styles.map.endColor;
-            }
-            else if (location.action == MALocationActionStartOver && location.visited == YES)
-            {
-                locationColor = self.styles.map.startOverColor;
-            }
-            else if (location.action == MALocationActionTeleport && location.visited == YES)
-            {
-                locationColor = self.styles.map.teleportationColor;
-            }
-            else
-            {
-                locationColor = self.styles.map.doNothingColor;
-            }
+            UIColor *locationColor = self.styles.map.doNothingColor;
             
             MAMapSegment *locationSegment = [[MAMapSegment alloc] initWithFrame: locationFrame
                                                                           color: locationColor];
@@ -390,22 +351,6 @@
             
             rotatedDirection = [self rotatedDirectionWithDirection: blockingWall.direction
                                                    facingDirection: self.facingDirection];
-            
-            BOOL wallValid = [self.maze isValidWallWithRow: self.currentLocation.row + rotatedRowDelta
-                                                    column: self.currentLocation.column + rotatedColumnDelta
-                                                 direction: rotatedDirection];
-            
-            if (wallValid == YES)
-            {
-                MAWall *wall = [self.maze wallWithRow: self.currentLocation.row + rotatedRowDelta
-                                               column: self.currentLocation.column + rotatedColumnDelta
-                                            direction: rotatedDirection];
-
-                if (wall.type == MAWallSolid || wall.type == MAWallBorder || wall.type == MAWallFake)
-                {
-                    wallVisible = NO;
-                }
-            }
         }
         
         if (wallVisible == YES)
@@ -419,20 +364,22 @@
             rotatedDirection = [self rotatedDirectionWithDirection: nearbyWall.direction
                                                    facingDirection: self.facingDirection];
             
-            MAWall *wall = [self.maze wallWithRow: self.currentLocation.row + rotatedRowDelta
-                                           column: self.currentLocation.column + rotatedColumnDelta
-                                        direction: rotatedDirection];
+            // TODO
+            
+            MAWall *wall = [self.world wallWithRow: self.currentLocation.row + rotatedRowDelta
+                                            column: self.currentLocation.column + rotatedColumnDelta
+                                          position: MAWallPositionTop    ];
             
             CGRect wallFrame = CGRectZero;
             
-            if (wall.direction == MADirectionNorth)
+            if (wall.position == MAWallPositionTop)
             {
                 wallFrame = CGRectMake((wall.column - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth) + self.styles.map.wallWidth,
                                        (wall.row - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth),
                                        self.styles.map.locationLength,
                                        self.styles.map.wallWidth);
             }
-            else if (wall.direction == MADirectionWest)
+            else if (wall.position == MAWallPositionLeft)
             {
                 wallFrame = CGRectMake((wall.column - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth),
                                        (wall.row - 1) * (self.styles.map.locationLength + self.styles.map.wallWidth) + self.styles.map.wallWidth,
@@ -443,45 +390,32 @@
             {
                 [MAUtilities logWithClass: [self class]
                                   message: @"Wall direction set to an illegal value."
-                               parameters: @{@"wall.direction" : @(wall.direction)}];
+                               parameters: @{@"wall.position" : @(wall.position)}];
             }
             
-            UIColor *wallColor = nil;
-            
-            if (wall.type == MAWallSolid || wall.type == MAWallBorder || wall.type == MAWallFake)
-            {                
-                wallColor = self.styles.map.wallColor;
-            }
-            else if (wall.type == MAWallInvisible && wall.hit == YES)
-            {
-                wallColor = self.styles.map.invisibleColor;
-            }
-            else if (wall.type == MAWallNone || wall.type == MAWallInvisible)
-            {
-                wallColor = self.styles.map.noWallColor;
-            }
+            UIColor *wallColor = self.styles.map.wallColor;
 
             MAMapSegment *wallSegment = [[MAMapSegment alloc] initWithFrame: wallFrame
                                                                       color: wallColor];
             
             [self addSegment: wallSegment];
             
-            MALocation *location = [self.maze locationWithRow: wall.row
-                                                       column: wall.column];
+            MALocation *location = [self.world locationWithRow: wall.row
+                                                        column: wall.column];
                                     
             [self updateNearbyCornerSegmentsWithLocation: location];
             
-            if (wall.direction == MADirectionNorth)
+            if (wall.position == MAWallPositionTop)
             {
-                MALocation *eastLocation = [self.maze locationWithRow: wall.row
-                                                               column: wall.column + 1];
+                MALocation *eastLocation = [self.world locationWithRow: wall.row
+                                                                column: wall.column + 1];
 
                 [self updateNearbyCornerSegmentsWithLocation: eastLocation];
             }
-            else if (wall.direction == MADirectionWest)
+            else if (wall.position == MAWallPositionLeft)
             {
-                MALocation *southLocation = [self.maze locationWithRow: wall.row + 1
-                                                                column: wall.column];
+                MALocation *southLocation = [self.world locationWithRow: wall.row + 1
+                                                                 column: wall.column];
                 
                 [self updateNearbyCornerSegmentsWithLocation: southLocation];
             }
@@ -489,7 +423,7 @@
             {
                 [MAUtilities logWithClass: [self class]
                                   message: @"Wall direction set to an illegal value."
-                               parameters: @{@"wall.direction" : @(wall.direction)}];
+                               parameters: @{@"wall.position" : @(wall.position)}];
             }
         }
     }    
@@ -502,78 +436,7 @@
                                     self.styles.map.wallWidth,
                                     self.styles.map.wallWidth);
     
-    // relative to corner
-    
-    MAWall *northWall = nil;
-    if ([self.maze isValidWallWithRow: location.row - 1
-                               column: location.column
-                            direction: MADirectionWest] == YES)
-    {
-        northWall = [self.maze wallWithRow: location.row - 1
-                                    column: location.column
-                                 direction: MADirectionWest];
-    }
-    
-    MAWall *eastWall = nil;
-    if ([self.maze isValidWallWithRow: location.row
-                               column: location.column
-                            direction: MADirectionNorth] == YES)
-    {
-        eastWall = [self.maze wallWithRow: location.row
-                                   column: location.column
-                                direction: MADirectionNorth];
-    }
-
-    MAWall *southWall = nil;
-    if ([self.maze isValidWallWithRow: location.row
-                               column: location.column
-                            direction: MADirectionWest] == YES)
-    {
-        southWall = [self.maze wallWithRow: location.row
-                                    column: location.column
-                                 direction: MADirectionWest];
-    }
-    
-    MAWall *westWall = nil;
-    if ([self.maze isValidWallWithRow: location.row
-                               column: location.column - 1
-                            direction: MADirectionNorth] == YES)
-    {
-        westWall = [self.maze wallWithRow: location.row
-                                   column: location.column - 1
-                                direction: MADirectionNorth];
-    }
-    
-    UIColor *cornerColor = nil;
-    
-    if ((northWall.type == MAWallNone || (northWall.type == MAWallInvisible && northWall.hit == NO)) &&
-        (eastWall.type == MAWallNone || (eastWall.type == MAWallInvisible && eastWall.hit == NO)) &&
-        (southWall.type == MAWallNone || (southWall.type == MAWallInvisible && southWall.hit == NO)) &&
-        (westWall.type == MAWallNone || (westWall.type == MAWallInvisible && westWall.hit == NO)))
-    {
-        cornerColor = self.styles.map.noWallColor;
-    }
-    else if (northWall.type == MAWallSolid || northWall.type == MAWallBorder || northWall.type == MAWallFake ||
-             eastWall.type == MAWallSolid || eastWall.type == MAWallBorder || eastWall.type == MAWallFake ||
-             southWall.type == MAWallSolid || southWall.type == MAWallBorder || southWall.type == MAWallFake ||
-             westWall.type == MAWallSolid || westWall.type == MAWallBorder || westWall.type == MAWallFake)
-    {
-        cornerColor = self.styles.map.wallColor;
-    }
-    else if ((northWall.type == MAWallInvisible && northWall.hit == YES) ||
-             (eastWall.type == MAWallInvisible && eastWall.hit == YES) ||
-             (southWall.type == MAWallInvisible && southWall.hit == YES) ||
-             (westWall.type == MAWallInvisible && westWall.hit == YES))
-    {
-        cornerColor = self.styles.map.invisibleColor;
-    }
-    else 
-    {
-        [MAUtilities logWithClass: [self class]
-                          message: @"Map corner not handled."
-                       parameters: @{@"location" : [MAUtilities objectOrNull: location],
-                                     @"maze" : [MAUtilities objectOrNull: self.maze]}];
-    }
+    UIColor *cornerColor = self.styles.map.wallColor;
     
     MAMapSegment *cornerSegment = [[MAMapSegment alloc] initWithFrame: cornerFrame
                                                                 color: cornerColor];
@@ -583,7 +446,7 @@
 
 - (void)addSegment: (MAMapSegment *)segment
 {
-    NSString *hash = [NSString stringWithFormat: @"%d,%d", (NSUInteger)segment.frame.origin.x, (NSUInteger)segment.frame.origin.y];
+    NSString *hash = [NSString stringWithFormat: @"%d,%d", (int)segment.frame.origin.x, (int)segment.frame.origin.y];
 
     [self.segments setObject: segment
                       forKey: hash];
