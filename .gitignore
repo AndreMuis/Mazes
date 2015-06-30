@@ -1,39 +1,23 @@
-# Compiled source #
-###################
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
+#####
+# OS X temporary files that should never be committed
+#
 
-# Packages #
-############
-# it's better to unpack these files and commit the raw source
-# git has its own built in compression methods
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
+.DS_Store
 
-# Logs and databases #
-######################
-*.log
-*.sql
-*.sqlite
+#####
+# Xcode 4 - semi-personal settings
+#
+#	Throws away all personal settings (including custom schemes - unless they are "shared")
+#
 
-# OS generated files #
-######################
-.DS_Store*
-ehthumbs.db
-Icon?
-Thumbs.db
+xcuserdata
 
-# CocoaPods #
-#############
-Pods
+#####
+# Xcode 5 - VCS file
+#
+#	The data in this file does not represent state of your project.
+#	If you leave this file in git you will have merge conflicts.
+#
+
+*.xccheckout
 
