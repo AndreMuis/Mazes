@@ -32,7 +32,6 @@
 
 @interface MAGameViewController () <
     UIGestureRecognizerDelegate,
-    MARatingViewDelegate,
     UIAlertViewDelegate>
 
 @property (readonly, strong, nonatomic) MAMazeManager *mazeManager;
@@ -666,14 +665,7 @@
     {
         if (self.mazeSummary.rating == -1.0)
         {
-            MARatingPopupView *ratingPopupView = [MARatingPopupView ratingPopupViewWithParentView: self.view
-                                                                               ratingViewDelegate: self
-                                                                                           rating: self.mazeSummary.rating];
             
-            [ratingPopupView showWithDismissedHandler: ^
-             {
-                 [self goBack];
-             }];
         }
         else
         {

@@ -84,10 +84,6 @@
     {
         self.averageRating1View.hidden = NO;
         
-        [self.averageRating1View setupWithDelegate: self
-                                            rating: self.mazeSummary1.averageRating
-                                              type: MARatingViewDisplayOnly
-                                         starColor: self.styles.topMazesScreen.averageRatingStarColor];
         
         self.ratingCount1Label.text = [NSString stringWithFormat: @"%d ratings", (int)self.mazeSummary1.ratingCount];
     }
@@ -100,10 +96,6 @@
     {
         self.userRating1View.hidden = NO;
         
-        [self.userRating1View setupWithDelegate: self
-                                         rating: self.mazeSummary1.rating
-                                           type: MARatingViewEditable
-                                      starColor: self.styles.topMazesScreen.userRatingStarColor];
     }
     
     if (self.mazeSummary2 != nil)
@@ -125,11 +117,6 @@
         {
             self.averageRating2View.hidden = NO;
             
-            [self.averageRating2View setupWithDelegate: self
-                                                rating: self.mazeSummary2.averageRating
-                                                  type: MARatingViewDisplayOnly
-                                             starColor: self.styles.topMazesScreen.averageRatingStarColor];
-            
             
             self.ratingCount2Label.text = [NSString stringWithFormat: @"%d ratings", (int)self.mazeSummary2.ratingCount];
         }
@@ -142,10 +129,6 @@
         {
             self.userRating2View.hidden = NO;
             
-            [self.userRating2View setupWithDelegate: self
-                                             rating: self.mazeSummary2.rating
-                                               type: MARatingViewEditable
-                                          starColor: self.styles.topMazesScreen.userRatingStarColor];
         }
     }
     else

@@ -22,6 +22,8 @@ float const MAEyeHeight = 0.6;
 float const MAWallWidth = 1.2;
 float const MAWallDepth = 0.2;
 
+float const MSStarCuspRadiusAsPercentOfTipRadius = 0.5;
+
 NSUInteger const MAMazeNameMaxLength = 50;
 NSUInteger const MALocationMessageMaxLength = 250;
 

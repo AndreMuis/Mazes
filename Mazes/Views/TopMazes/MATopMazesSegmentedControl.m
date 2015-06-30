@@ -17,6 +17,17 @@
 
 @implementation MATopMazesSegmentedControl
 
++ (instancetype)topMazesSegmentedControl
+{
+    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed: NSStringFromClass([self class])
+                                                             owner: nil
+                                                           options: nil];
+    
+    MATopMazesSegmentedControl *segmentedControl = topLevelObjects[0];
+    
+    return segmentedControl;
+}
+
 - (instancetype)initWithCoder: (NSCoder *)coder
 {
     self = [super initWithCoder: coder];
@@ -27,17 +38,6 @@
     }
     
     return self;
-}
-
-+ (instancetype)topMazesSegmentedControl
-{
-    NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed: NSStringFromClass([self class])
-                                                             owner: nil
-                                                           options: nil];
-    
-    MATopMazesSegmentedControl *segmentedControl = topLevelObjects[0];
-    
-    return segmentedControl;
 }
 
 - (void)awakeFromNib

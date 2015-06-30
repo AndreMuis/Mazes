@@ -40,6 +40,8 @@ extern float const MAEyeHeight;
 extern float const MAWallWidth;
 extern float const MAWallDepth;
 
+extern float const MSStarCuspRadiusAsPercentOfTipRadius;
+
 extern NSUInteger const MAMazeNameMaxLength;
 extern NSUInteger const MALocationMessageMaxLength;
 

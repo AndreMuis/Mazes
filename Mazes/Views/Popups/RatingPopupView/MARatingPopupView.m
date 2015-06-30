@@ -12,7 +12,7 @@
 #import "MARatingPopupStyle.h"
 #import "MAStyles.h"
 
-@interface MARatingPopupView () <MARatingViewDelegate>
+@interface MARatingPopupView ()
 
 @property (readonly, strong, nonatomic) MAStyles *styles;
 
@@ -21,7 +21,6 @@
 @property (weak, nonatomic) IBOutlet MAButton *cancelButton;
 
 @property (readonly, strong, nonatomic) UIView *parentView;
-@property (readonly, weak, nonatomic) id<MARatingViewDelegate> ratingViewDelegate;
 @property (readonly, assign, nonatomic) float rating;
 
 @end
@@ -29,14 +28,10 @@
 @implementation MARatingPopupView
 
 + (MARatingPopupView *)ratingPopupViewWithParentView: (UIView *)parentView
-                                  ratingViewDelegate: (id<MARatingViewDelegate>)ratingViewDelegate
                                               rating: (float)rating
 {
     MARatingPopupView *ratingPopupView = [[[NSBundle mainBundle] loadNibNamed: NSStringFromClass([self class]) owner: nil options: nil] objectAtIndex: 0];
     
-    [ratingPopupView setupWithParentView: parentView
-                      ratingViewDelegate: ratingViewDelegate
-                                  rating: rating];
     
     return ratingPopupView;
 }
@@ -54,13 +49,11 @@
 }
 
 - (void)setupWithParentView: (UIView *)parentView
-         ratingViewDelegate: (id<MARatingViewDelegate>)ratingViewDelegate
                      rating: (float)rating
 {
     [super setupWithParentView: parentView];
     
     _parentView = parentView;
-    _ratingViewDelegate = ratingViewDelegate;
     _rating = rating;
 }
 
@@ -69,11 +62,6 @@
     [super showWithDismissedHandler: dismissedHandler];
     
     self.ratingView.backgroundColor = [UIColor clearColor];
-    
-    [self.ratingView setupWithDelegate: self
-                                rating: self.rating
-                                  type: MARatingViewSelectable
-                             starColor: self.styles.ratingPopup.ratingStarColor];
     
     self.messageLabel.backgroundColor = [UIColor clearColor];
     self.messageLabel.textAlignment = NSTextAlignmentCenter;
@@ -97,8 +85,6 @@
 - (void)ratingView: (MARatingView *)ratingView ratingChanged: (float)newRating
 {
     [self animateDown];
-    
-    [self.ratingViewDelegate ratingView: self.ratingView ratingChanged: newRating];
 }
 
 - (IBAction)cancelButtonTouchDown: (id)sender

@@ -8,21 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import "MARatingViewDelegate.h"
+@interface MARatingView : UIView
 
-typedef NS_ENUM(NSUInteger, MARatingViewType)
-{
-    MARatingViewUnknown = 0,
-    MARatingViewDisplayOnly = 1,
-    MARatingViewEditable = 2,
-    MARatingViewSelectable = 3
-};
++ (instancetype)ratingView;
 
-@interface MARatingView : UIView <MARatingViewDelegate, UIPopoverControllerDelegate>
-
-- (void)setupWithDelegate: (id<MARatingViewDelegate>)aDelegate
-                   rating: (float)aRating
-                     type: (MARatingViewType)aType
-                starColor: (UIColor *)aStarColor;
+- (void)setupWithRating: (float)rating
+              starColor: (UIColor *)starColor
+           outlineWidth: (float)outlineWidth;
 
 @end

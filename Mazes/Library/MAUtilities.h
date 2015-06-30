@@ -23,10 +23,6 @@
 + (double)radiansFromDegrees: (double)degrees;
 + (double)degreesFromRadians: (double)radians;
 
-+ (NSString *)createUUIDString;
-
-+ (void)drawStarInRect: (CGRect)rect clipRect: (CGRect)clipRect color: (UIColor *)color outline: (BOOL)outline;
-
 + (void)drawArrowInRect: (CGRect)rect angleDegrees: (double)angle scale: (float)scale;
 
 @end

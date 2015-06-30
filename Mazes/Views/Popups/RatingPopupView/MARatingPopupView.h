@@ -17,11 +17,9 @@
 @interface MARatingPopupView : MAPopupView
 
 + (MARatingPopupView *)ratingPopupViewWithParentView: (UIView *)parentView
-                                  ratingViewDelegate: (id<MARatingViewDelegate>)ratingViewDelegate
                                               rating: (float)rating;
 
 - (void)setupWithParentView: (UIView *)parentView
-         ratingViewDelegate: (id<MARatingViewDelegate>)ratingViewDelegate
                      rating: (float)rating;
 
 - (void)showWithDismissedHandler: (PopupViewDismissedHandler)dismissedHandler;
