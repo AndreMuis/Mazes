@@ -13,6 +13,8 @@
 @protocol MARatingViewDelegate <NSObject>
 
 @required
-- (void)ratingView: (MARatingView *)ratingView ratingChanged: (float)newRating;
+
+- (void)ratingView: (MARatingView *)ratingView
+  didTapWithRating: (float)rating;
 
 @end

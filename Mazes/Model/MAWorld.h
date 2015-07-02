@@ -32,20 +32,25 @@
                         columns: (NSUInteger)columns
                        isPublic: (NSUInteger)isPublic;
 
-- (instancetype)initWithUserId: (NSString *)userId
-                          name: (NSString *)name
-                          rows: (NSUInteger)rows
-                       columns: (NSUInteger)columns
-                      isPublic: (NSUInteger)isPublic
-              locationDataList: (NSArray *)locationDataList
-                  wallDataList: (NSArray *)wallDataList
-                  creationDate: (NSDate *)creationDate
-              modificationDate: (NSDate *)modificationDate;
-
-- (CKRecord *)record;
+- (instancetype)initWithRecordName: (NSString *)recordName
+                            userId: (NSString *)userId
+                              name: (NSString *)name
+                              rows: (NSUInteger)rows
+                           columns: (NSUInteger)columns
+                          isPublic: (NSUInteger)isPublic
+                  locationDataList: (NSArray *)locationDataList
+                      wallDataList: (NSArray *)wallDataList
+                      creationDate: (NSDate *)creationDate
+                  modificationDate: (NSDate *)modificationDate;
 
 - (MALocation *)locationWithRow: (NSUInteger)row
                          column: (NSUInteger)column;
+
+- (CKRecordID *)recordId;
+
+- (CKRecord *)record;
+
+- (void)updateRecord: (CKRecord *)record;
 
 - (void)addWall: (MAWall *)wall;
 

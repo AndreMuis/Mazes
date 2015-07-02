@@ -65,22 +65,50 @@
 - (void)saveWithWorld: (MAWorld *)world
     completionHandler: (MAWorldManagerSaveWorldCompletionHandler)completionHandler
 {
-    CKRecord *worldRecord = [world record];
-
-    [[[CKContainer defaultContainer] publicCloudDatabase] saveRecord: worldRecord
-                                                   completionHandler: ^(CKRecord *worldRecord, NSError *error)
+    CKRecordID *recordId = [world recordId];
+    
+    if (recordId == nil)
     {
-        if (error == nil)
+        CKRecord *worldRecord = [world record];
+        
+        [[[CKContainer defaultContainer] publicCloudDatabase] saveRecord: worldRecord
+                                                       completionHandler: ^(CKRecord *worldRecord, NSError *error)
         {
-            MAWorld *world = [MAWorld worldWithRecord: worldRecord];
-            
-            completionHandler(world, nil);
-        }
-        else
+            if (error == nil)
+            {
+                MAWorld *world = [MAWorld worldWithRecord: worldRecord];
+                 
+                completionHandler(world, nil);
+            }
+            else
+            {
+                completionHandler(nil, error);
+            }
+        }];
+    }
+    else
+    {
+        [[[CKContainer defaultContainer] publicCloudDatabase] fetchRecordWithID: recordId
+                                                              completionHandler: ^(CKRecord *worldRecord, NSError *error)
         {
-            completionHandler(nil, error);
-        }
-    }];
+            [world updateRecord: worldRecord];
+           
+            [[[CKContainer defaultContainer] publicCloudDatabase] saveRecord: worldRecord
+                                                           completionHandler: ^(CKRecord *worldRecord, NSError *error)
+            {
+                if (error == nil)
+                {
+                    MAWorld *world = [MAWorld worldWithRecord: worldRecord];
+                     
+                    completionHandler(world, nil);
+                }
+                else
+                {
+                    completionHandler(nil, error);
+                }
+            }];
+        }];
+    }
 }
 
 @end

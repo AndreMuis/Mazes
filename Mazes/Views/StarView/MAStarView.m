@@ -13,7 +13,7 @@
 
 @interface MAStarView ()
 
-@property (readonly, strong, nonatomic) id<MAStarViewDelegate> delegate;
+@property (readonly, weak, nonatomic) id<MAStarViewDelegate> delegate;
 
 @property (readonly, strong, nonatomic) UIColor *color;
 @property (readonly, assign, nonatomic) float fillPercent;
@@ -46,67 +46,49 @@
 
 - (void)drawRect: (CGRect)rect
 {
-    [self drawStar];
-    
-    [self drawClippingRect];
+    [self drawClippedStar];
     
     [self drawOutline];
 }
 
-- (void)drawStar
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGLayerRef layer = CGLayerCreateWithContext(context, self.bounds.size, NULL);
-    
-    CGContextRef starContext = CGLayerGetContext(layer);
-    
-    CGContextSetFillColorWithColor(starContext, self.color.CGColor);
-    
-    [self drawStarPathWithContext: starContext];
-
-    CGContextFillPath(starContext);
-    
-    CGContextDrawLayerAtPoint(context, CGPointZero, layer);
-}
-
-- (void)drawClippingRect
+- (void)drawClippedStar
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
 
-    CGSize clippingRectSize = CGSizeMake(CGRectGetWidth(self.bounds),
-                                         CGRectGetHeight(self.bounds));
+    if (self.fillPercent < 1.0)
+    {
+        CGContextSaveGState(context);
     
-    CGLayerRef layer = CGLayerCreateWithContext(context, clippingRectSize, NULL);
+        CGRect clippingRect = CGRectMake(0.0,
+                                         0.0,
+                                         self.fillPercent * self.bounds.size.width,
+                                         self.bounds.size.height);
+
+        CGContextClipToRect(context, clippingRect);
+    }
+        
+    CGContextSetFillColorWithColor(context, self.color.CGColor);
     
-    CGContextRef clippingRectContext = CGLayerGetContext(layer);
+    [self drawStarPathWithContext: context];
     
-    CGContextAddRect(clippingRectContext, CGRectMake(self.fillPercent * clippingRectSize.width,
-                                                     0.0,
-                                                     (1.0 - self.fillPercent) * clippingRectSize.width,
-                                                     clippingRectSize.height));
+    CGContextFillPath(context);
     
-    CGContextClip(clippingRectContext);
-    
-    CGContextDrawLayerAtPoint(context, CGPointZero, layer);
+    if (self.fillPercent < 1.0)
+    {
+        CGContextRestoreGState(context);
+    }
 }
 
 - (void)drawOutline
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    CGLayerRef layer = CGLayerCreateWithContext(context, self.bounds.size, NULL);
+    CGContextSetLineWidth(context, self.outlineWidth);
+    CGContextSetStrokeColorWithColor(context, self.color.CGColor);
     
-    CGContextRef outlineContext = CGLayerGetContext(layer);
+    [self drawStarPathWithContext: context];
     
-    CGContextSetLineWidth(outlineContext, self.outlineWidth);
-    CGContextSetStrokeColorWithColor(outlineContext, self.color.CGColor);
-    
-    [self drawStarPathWithContext: outlineContext];
-    
-    CGContextStrokePath(outlineContext);
-    
-    CGContextDrawLayerAtPoint(context, CGPointZero, layer);
+    CGContextStrokePath(context);
 }
 
 - (void)drawStarPathWithContext: (CGContextRef)context

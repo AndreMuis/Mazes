@@ -13,6 +13,8 @@
 
 @interface MAWorld ()
 
+@property (readonly, strong, nonatomic) NSString *recordName;
+
 @property (readonly, strong, nonatomic) NSArray *locations;
 @property (readonly, strong, nonatomic) NSArray *walls;
 
@@ -22,15 +24,16 @@
 
 + (instancetype)worldWithRecord: (CKRecord *)record
 {
-    MAWorld *world = [[MAWorld alloc] initWithUserId: record[@"userId"]
-                                                name: record[@"name"]
-                                                rows: [record[@"rows"] unsignedIntegerValue]
-                                             columns: [record[@"columns"] unsignedIntegerValue]
-                                            isPublic: [record[@"isPublic"] boolValue]
-                                    locationDataList: record[@"locationDataList"]
-                                        wallDataList: record[@"wallDataList"]
-                                        creationDate: record[@"creationDate"]
-                                    modificationDate: record[@"modificationDate"]];
+    MAWorld *world = [[MAWorld alloc] initWithRecordName: record.recordID.recordName
+                                                  userId: record[@"userId"]
+                                                    name: record[@"name"]
+                                                    rows: [record[@"rows"] unsignedIntegerValue]
+                                                 columns: [record[@"columns"] unsignedIntegerValue]
+                                                isPublic: [record[@"isPublic"] boolValue]
+                                        locationDataList: record[@"locationDataList"]
+                                            wallDataList: record[@"wallDataList"]
+                                            creationDate: record.creationDate
+                                        modificationDate: record.modificationDate];
     
     return world;
 }
@@ -41,33 +44,37 @@
                         columns: (NSUInteger)columns
                        isPublic: (NSUInteger)isPublic
 {
-    MAWorld *world = [[MAWorld alloc] initWithUserId: userId
-                                                name: name
-                                                rows: rows
-                                             columns: columns
-                                            isPublic: isPublic
-                                    locationDataList: nil
-                                        wallDataList: nil
-                                        creationDate: nil
-                                    modificationDate: nil];
+    MAWorld *world = [[MAWorld alloc] initWithRecordName: nil
+                                                  userId: userId
+                                                    name: name
+                                                    rows: rows
+                                                 columns: columns
+                                                isPublic: isPublic
+                                        locationDataList: nil
+                                            wallDataList: nil
+                                            creationDate: nil
+                                        modificationDate: nil];
     
     return world;
 }
 
-- (instancetype)initWithUserId: (NSString *)userId
-                          name: (NSString *)name
-                          rows: (NSUInteger)rows
-                       columns: (NSUInteger)columns
-                      isPublic: (NSUInteger)isPublic
-              locationDataList: (NSArray *)locationDataList
-                  wallDataList: (NSArray *)wallDataList
-                  creationDate: (NSDate *)creationDate
-              modificationDate: (NSDate *)modificationDate;
+- (instancetype)initWithRecordName: (NSString *)recordName
+                            userId: (NSString *)userId
+                              name: (NSString *)name
+                              rows: (NSUInteger)rows
+                           columns: (NSUInteger)columns
+                          isPublic: (NSUInteger)isPublic
+                  locationDataList: (NSArray *)locationDataList
+                      wallDataList: (NSArray *)wallDataList
+                      creationDate: (NSDate *)creationDate
+                  modificationDate: (NSDate *)modificationDate;
 {
     self = [super init];
     
     if (self)
     {
+        _recordName = recordName;
+        
         _userId = userId;
         _name = name;
         _rows = rows;
@@ -101,10 +108,28 @@
     return self;
 }
 
+- (CKRecordID *)recordId
+{
+    CKRecordID *recordId = nil;
+    
+    if (self.recordName != nil)
+    {
+        recordId = [[CKRecordID alloc] initWithRecordName: self.recordName];
+    }
+    
+    return recordId;
+}
+
 - (CKRecord *)record
 {
     CKRecord *record = [[CKRecord alloc] initWithRecordType: @"Worlds"];
+    [self updateRecord: record];
     
+    return record;
+}
+
+- (void)updateRecord: (CKRecord *)record
+{
     record[@"userId"] = self.userId;
     record[@"name"] = self.name;
     record[@"rows"] = @(self.rows);
@@ -130,8 +155,6 @@
     }
     
     record[@"wallDataList"] = [NSArray arrayWithArray: mutableWallDataList];
-
-    return record;
 }
 
 - (MALocation *)locationWithRow: (NSUInteger)row

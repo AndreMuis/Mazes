@@ -12,10 +12,6 @@
 #import "MATopMazesCollectionViewController.h"
 #import "MATopMazesSegmentedControl.h"
 
-
-
-#import "MARatingView.h"
-
 @interface MATopMazesViewController ()
 
 @property (readwrite, weak, nonatomic) IBOutlet UIView *segmentedControlContainerView;
@@ -26,12 +22,6 @@
 @property (readonly, strong, nonatomic) MATopMazesSegmentedControl *segmentedControl;
 
 @property (readonly, strong, nonatomic) MATopMazesCollectionViewController *collectionViewController;
-
-
-
-@property (weak, nonatomic) IBOutlet UIView *starView;
-
-
 
 @end
 
@@ -86,17 +76,6 @@
     
     [self.leaderboardButton setBackgroundImage: buttonHighlightedBackgroundImage
                                       forState: UIControlStateHighlighted];
-    
-    
-    
-    MARatingView *ratingView = [MARatingView ratingView];
-    
-    [ratingView setupWithRating: 3.5
-                      starColor: [UIColor blueColor]
-                   outlineWidth: 1.0];
-    
-    [self.starView addSubview: ratingView];
-    
 }
 
 - (void)segmentedControlDidSelectSegment: (id)sender

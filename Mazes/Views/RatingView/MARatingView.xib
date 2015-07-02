@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7706"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -10,45 +11,96 @@
             <rect key="frame" x="0.0" y="0.0" width="280" height="40"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lXb-vJ-EGf" userLabel="starView1" customClass="MAStarView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lXb-vJ-EGf" userLabel="starView1" customClass="MAStarView">
                     <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                     <color key="backgroundColor" red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="lXb-vJ-EGf" secondAttribute="height" multiplier="1:1" id="qTj-sE-RnH"/>
+                    </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
                             <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w25-an-CzQ" userLabel="starView2" customClass="MAStarView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pMq-Y5-8mR">
+                    <rect key="frame" x="40" y="0.0" width="20" height="40"/>
+                    <color key="backgroundColor" red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="calibratedRGB"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                            <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w25-an-CzQ" userLabel="starView2" customClass="MAStarView">
                     <rect key="frame" x="60" y="0.0" width="40" height="40"/>
                     <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="w25-an-CzQ" secondAttribute="height" multiplier="1:1" id="oWG-Aq-TTq"/>
+                    </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
                             <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1aZ-hj-mgV" userLabel="starView3" customClass="MAStarView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vWI-Nw-qFX">
+                    <rect key="frame" x="100" y="0.0" width="20" height="40"/>
+                    <color key="backgroundColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                            <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1aZ-hj-mgV" userLabel="starView3" customClass="MAStarView">
                     <rect key="frame" x="120" y="0.0" width="40" height="40"/>
                     <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="1aZ-hj-mgV" secondAttribute="height" multiplier="1:1" id="mzc-mt-0Fl"/>
+                    </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
                             <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zeq-ZA-UAf" userLabel="starView4" customClass="MAStarView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Kh-3n-cKr">
+                    <rect key="frame" x="160" y="0.0" width="20" height="40"/>
+                    <color key="backgroundColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                            <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeq-ZA-UAf" userLabel="starView4" customClass="MAStarView">
                     <rect key="frame" x="180" y="0.0" width="40" height="40"/>
                     <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="zeq-ZA-UAf" secondAttribute="height" multiplier="1:1" id="los-6S-w5G"/>
+                    </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
                             <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SSy-Qv-vyx" userLabel="starView5" customClass="MAStarView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J1S-SC-YJ8">
+                    <rect key="frame" x="220" y="0.0" width="20" height="40"/>
+                    <color key="backgroundColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                            <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SSy-Qv-vyx" userLabel="starView5" customClass="MAStarView">
                     <rect key="frame" x="240" y="0.0" width="40" height="40"/>
                     <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="SSy-Qv-vyx" secondAttribute="height" multiplier="1:1" id="70i-eX-Agr"/>
+                    </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
                             <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -57,6 +109,47 @@
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="SSy-Qv-vyx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="1Xh-67-jmd"/>
+                <constraint firstItem="1aZ-hj-mgV" firstAttribute="leading" secondItem="vWI-Nw-qFX" secondAttribute="trailing" id="1nu-Fx-F42"/>
+                <constraint firstItem="zeq-ZA-UAf" firstAttribute="leading" secondItem="2Kh-3n-cKr" secondAttribute="trailing" id="FE0-i1-nSG"/>
+                <constraint firstItem="lXb-vJ-EGf" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="FQr-es-8qb"/>
+                <constraint firstItem="lXb-vJ-EGf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Hrr-QX-Yt1"/>
+                <constraint firstItem="pMq-Y5-8mR" firstAttribute="leading" secondItem="lXb-vJ-EGf" secondAttribute="trailing" id="IBz-HP-zaV"/>
+                <constraint firstItem="pMq-Y5-8mR" firstAttribute="leading" secondItem="lXb-vJ-EGf" secondAttribute="trailing" id="K95-jB-Lkj"/>
+                <constraint firstItem="1aZ-hj-mgV" firstAttribute="leading" secondItem="vWI-Nw-qFX" secondAttribute="trailing" id="Kkj-R6-fSL"/>
+                <constraint firstAttribute="bottom" secondItem="SSy-Qv-vyx" secondAttribute="bottom" id="L7b-d7-ikb"/>
+                <constraint firstItem="zeq-ZA-UAf" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Lvk-wz-DKr"/>
+                <constraint firstItem="J1S-SC-YJ8" firstAttribute="leading" secondItem="zeq-ZA-UAf" secondAttribute="trailing" id="NZ1-Ex-6Q8"/>
+                <constraint firstItem="vWI-Nw-qFX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ON6-bC-m5V"/>
+                <constraint firstAttribute="bottom" secondItem="pMq-Y5-8mR" secondAttribute="bottom" id="Qep-lE-RNI"/>
+                <constraint firstItem="zeq-ZA-UAf" firstAttribute="leading" secondItem="2Kh-3n-cKr" secondAttribute="trailing" id="QgB-pO-gck"/>
+                <constraint firstItem="w25-an-CzQ" firstAttribute="leading" secondItem="pMq-Y5-8mR" secondAttribute="trailing" id="VXD-qB-UUY"/>
+                <constraint firstItem="2Kh-3n-cKr" firstAttribute="leading" secondItem="1aZ-hj-mgV" secondAttribute="trailing" id="VXx-fC-kR6"/>
+                <constraint firstItem="pMq-Y5-8mR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Vxb-08-u20"/>
+                <constraint firstItem="w25-an-CzQ" firstAttribute="leading" secondItem="pMq-Y5-8mR" secondAttribute="trailing" id="X04-bw-0ia"/>
+                <constraint firstItem="w25-an-CzQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="XWY-Pp-UlB"/>
+                <constraint firstItem="vWI-Nw-qFX" firstAttribute="leading" secondItem="w25-an-CzQ" secondAttribute="trailing" id="ZOw-N4-Pmc"/>
+                <constraint firstItem="SSy-Qv-vyx" firstAttribute="leading" secondItem="J1S-SC-YJ8" secondAttribute="trailing" id="bxY-Xj-qFH"/>
+                <constraint firstAttribute="bottom" secondItem="1aZ-hj-mgV" secondAttribute="bottom" id="dgq-Rp-Z0e"/>
+                <constraint firstItem="2Kh-3n-cKr" firstAttribute="leading" secondItem="1aZ-hj-mgV" secondAttribute="trailing" id="eEK-PO-NLo"/>
+                <constraint firstItem="1aZ-hj-mgV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ewp-29-KXL"/>
+                <constraint firstItem="SSy-Qv-vyx" firstAttribute="leading" secondItem="J1S-SC-YJ8" secondAttribute="trailing" id="f5R-dq-eJL"/>
+                <constraint firstItem="vWI-Nw-qFX" firstAttribute="width" secondItem="pMq-Y5-8mR" secondAttribute="width" id="gyM-fC-ngG"/>
+                <constraint firstItem="2Kh-3n-cKr" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="jRk-rE-zLV"/>
+                <constraint firstItem="J1S-SC-YJ8" firstAttribute="leading" secondItem="zeq-ZA-UAf" secondAttribute="trailing" id="jxq-A0-549"/>
+                <constraint firstAttribute="bottom" secondItem="vWI-Nw-qFX" secondAttribute="bottom" id="jyh-4V-h2C"/>
+                <constraint firstAttribute="trailing" secondItem="SSy-Qv-vyx" secondAttribute="trailing" id="knl-Tp-KNF"/>
+                <constraint firstAttribute="bottom" secondItem="lXb-vJ-EGf" secondAttribute="bottom" id="nSQ-QX-Hem"/>
+                <constraint firstAttribute="bottom" secondItem="J1S-SC-YJ8" secondAttribute="bottom" id="nno-UL-rN8"/>
+                <constraint firstItem="J1S-SC-YJ8" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="orF-AW-Zse"/>
+                <constraint firstItem="2Kh-3n-cKr" firstAttribute="width" secondItem="J1S-SC-YJ8" secondAttribute="width" id="rAk-ha-mCE"/>
+                <constraint firstAttribute="bottom" secondItem="zeq-ZA-UAf" secondAttribute="bottom" id="rar-uy-sbM"/>
+                <constraint firstItem="2Kh-3n-cKr" firstAttribute="width" secondItem="vWI-Nw-qFX" secondAttribute="width" id="uTR-tq-tHY"/>
+                <constraint firstItem="vWI-Nw-qFX" firstAttribute="leading" secondItem="w25-an-CzQ" secondAttribute="trailing" id="wFc-oh-LvD"/>
+                <constraint firstAttribute="bottom" secondItem="w25-an-CzQ" secondAttribute="bottom" id="z8p-ls-VyN"/>
+                <constraint firstAttribute="bottom" secondItem="2Kh-3n-cKr" secondAttribute="bottom" id="zl8-xc-tKD"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
@@ -66,7 +159,7 @@
                 <outlet property="starView4" destination="zeq-ZA-UAf" id="bsy-3V-Bt4"/>
                 <outlet property="starView5" destination="SSy-Qv-vyx" id="8Nd-xt-UVl"/>
             </connections>
-            <point key="canvasLocation" x="233" y="221"/>
+            <point key="canvasLocation" x="393" y="443"/>
         </view>
     </objects>
 </document>

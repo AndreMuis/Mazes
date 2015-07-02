@@ -110,10 +110,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rjY-Hc-ihF">
-                                <rect key="frame" x="157" y="128" width="280" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -138,7 +134,6 @@
                         <outlet property="createButton" destination="9oh-rS-0dU" id="PSv-53-8a8"/>
                         <outlet property="leaderboardButton" destination="IBU-hc-i3J" id="qLc-qg-sjY"/>
                         <outlet property="segmentedControlContainerView" destination="YMh-Rw-miP" id="5Ya-dQ-dU9"/>
-                        <outlet property="starView" destination="rjY-Hc-ihF" id="7tz-wk-mBN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JbY-Xn-jYw" userLabel="First Responder" sceneMemberID="firstResponder"/>
