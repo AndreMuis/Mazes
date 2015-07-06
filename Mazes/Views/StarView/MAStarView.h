@@ -12,9 +12,15 @@
 
 @interface MAStarView : UIView
 
+- (void)setupWithColor: (UIColor *)color
+           fillPercent: (CGFloat)fillPercent
+          outlineWidth: (CGFloat)outlineWidth;
+
 - (void)setupWithDelegate: (id<MAStarViewDelegate>)delegate
                     color: (UIColor *)color
               fillPercent: (CGFloat)fillPercent
              outlineWidth: (CGFloat)outlineWidth;
+
+- (void)refreshUIWithFillPercent: (CGFloat)fillPercent;
 
 @end

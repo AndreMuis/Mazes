@@ -25,7 +25,7 @@
 	<key>UILaunchStoryboardName</key>
 	<string>MALaunchView</string>
 	<key>UIMainStoryboardFile~ipad</key>
-	<string>TopMazes</string>
+	<string>TopWorlds</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

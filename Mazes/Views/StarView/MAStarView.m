@@ -24,6 +24,16 @@
 
 @implementation MAStarView
 
+- (void)setupWithColor: (UIColor *)color
+           fillPercent: (CGFloat)fillPercent
+          outlineWidth: (CGFloat)outlineWidth
+{
+    [self setupWithDelegate: nil
+                      color: color
+                fillPercent: fillPercent
+               outlineWidth: outlineWidth];
+}
+
 - (void)setupWithDelegate: (id<MAStarViewDelegate>)delegate
                     color: (UIColor *)color
               fillPercent: (CGFloat)fillPercent
@@ -36,10 +46,20 @@
     _cuspRadiusAsPercentOfTipRadius = MSStarCuspRadiusAsPercentOfTipRadius;
     _outlineWidth = outlineWidth;
     
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self
-                                                                                           action: @selector(tapped:)];
+    if (self.delegate != nil)
+    {
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget: self
+                                                                                               action: @selector(tapped:)];
     
-    [self addGestureRecognizer: tapGestureRecognizer];
+        [self addGestureRecognizer: tapGestureRecognizer];
+    }
+    
+    [self setNeedsDisplay];
+}
+
+- (void)refreshUIWithFillPercent: (CGFloat)fillPercent
+{
+    _fillPercent = fillPercent;
     
     [self setNeedsDisplay];
 }

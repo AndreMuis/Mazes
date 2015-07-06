@@ -11,14 +11,18 @@
 
 @class MAWorld;
 
-typedef void (^MAWorldManagerGetWorldsCompletionHandler)(NSArray *worlds, NSError *error);
+typedef void (^MAWorldManagerGetWorldsCompletionHandler)(NSError *error);
 typedef void (^MAWorldManagerSaveWorldCompletionHandler)(MAWorld *world, NSError *error);
 
 @interface MAWorldManager : NSObject
 
+@property (readonly, assign, nonatomic) NSUInteger worldsCount;
+
 + (MAWorldManager *)worldManager;
 
 - (void)getWorldsWithCompletionHandler: (MAWorldManagerGetWorldsCompletionHandler)completionHandler;
+
+- (MAWorld *)worldAtIndex: (NSUInteger)index;
 
 - (void)saveWithWorld: (MAWorld *)world
     completionHandler: (MAWorldManagerSaveWorldCompletionHandler)completionHandler;

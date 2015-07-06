@@ -10,6 +10,7 @@
 
 #import "MALocation.h"
 #import "MAWall.h"
+#import "MAWorldRating.h"
 
 @interface MAWorld ()
 
@@ -17,6 +18,7 @@
 
 @property (readonly, strong, nonatomic) NSArray *locations;
 @property (readonly, strong, nonatomic) NSArray *walls;
+@property (readonly, strong, nonatomic) NSArray *ratings;
 
 @end
 
@@ -25,33 +27,35 @@
 + (instancetype)worldWithRecord: (CKRecord *)record
 {
     MAWorld *world = [[MAWorld alloc] initWithRecordName: record.recordID.recordName
-                                                  userId: record[@"userId"]
+                                          userRecordName: record[@"userRecordName"]
                                                     name: record[@"name"]
                                                     rows: [record[@"rows"] unsignedIntegerValue]
                                                  columns: [record[@"columns"] unsignedIntegerValue]
                                                 isPublic: [record[@"isPublic"] boolValue]
                                         locationDataList: record[@"locationDataList"]
                                             wallDataList: record[@"wallDataList"]
+                                          ratingDataList: record[@"ratingDataList"]
                                             creationDate: record.creationDate
                                         modificationDate: record.modificationDate];
     
     return world;
 }
 
-+ (instancetype)worldWithUserId: (NSString *)userId
-                           name: (NSString *)name
-                           rows: (NSUInteger)rows
-                        columns: (NSUInteger)columns
-                       isPublic: (NSUInteger)isPublic
++ (instancetype)worldWithUserRecordName: (NSString *)userRecordName
+                                   name: (NSString *)name
+                                   rows: (NSUInteger)rows
+                                columns: (NSUInteger)columns
+                               isPublic: (NSUInteger)isPublic
 {
     MAWorld *world = [[MAWorld alloc] initWithRecordName: nil
-                                                  userId: userId
+                                          userRecordName: userRecordName
                                                     name: name
                                                     rows: rows
                                                  columns: columns
                                                 isPublic: isPublic
                                         locationDataList: nil
                                             wallDataList: nil
+                                          ratingDataList: nil
                                             creationDate: nil
                                         modificationDate: nil];
     
@@ -59,53 +63,64 @@
 }
 
 - (instancetype)initWithRecordName: (NSString *)recordName
-                            userId: (NSString *)userId
+                    userRecordName: (NSString *)userRecordName
                               name: (NSString *)name
                               rows: (NSUInteger)rows
                            columns: (NSUInteger)columns
                           isPublic: (NSUInteger)isPublic
                   locationDataList: (NSArray *)locationDataList
                       wallDataList: (NSArray *)wallDataList
+                    ratingDataList: (NSArray *)ratingDataList
                       creationDate: (NSDate *)creationDate
-                  modificationDate: (NSDate *)modificationDate;
+                  modificationDate: (NSDate *)modificationDate
 {
     self = [super init];
     
     if (self)
     {
-        _recordName = recordName;
-        
-        _userId = userId;
-        _name = name;
-        _rows = rows;
-        _columns = columns;
-        _isPublic = isPublic;
-        
-        NSMutableArray *mutableLocations = [NSMutableArray array];
-        
-        for (NSData *locationData in locationDataList)
-        {
-            MALocation *location = [NSKeyedUnarchiver unarchiveObjectWithData: locationData];
-            [mutableLocations addObject: location];
-        }
-        
-        _locations = [NSArray arrayWithArray: mutableLocations];
-        
-        NSMutableArray *mutableWalls = [NSMutableArray array];
-        
-        for (NSData *wallData in wallDataList)
-        {
-            MAWall *wall = [NSKeyedUnarchiver unarchiveObjectWithData: wallData];
-            [mutableWalls addObject: wall];
-        }
-
-        _walls = [NSArray arrayWithArray: mutableWalls];
-        
-        _creationDate = creationDate;
-        _modificationDate = modificationDate;
+        [self updateWithRecordName: recordName
+                    userRecordName: userRecordName
+                              name: name
+                              rows: rows
+                           columns: columns
+                          isPublic: isPublic
+                  locationDataList: locationDataList
+                      wallDataList: wallDataList
+                    ratingDataList: ratingDataList
+                      creationDate: creationDate
+                  modificationDate: modificationDate];
     }
     
     return self;
+}
+
+- (NSString *)modificationDateAsString
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    [dateFormatter setDateStyle: NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle: NSDateFormatterNoStyle];
+    
+    return [dateFormatter stringFromDate: self.modificationDate];
+}
+
+- (NSUInteger)ratingCount
+{
+    return self.ratings.count;
+}
+
+- (float)averageRating
+{
+    float sum = 0.0;
+    
+    for (MAWorldRating *rating in self.ratings)
+    {
+        sum = sum + rating.value;
+    }
+    
+    float average = sum / self.ratings.count;
+    
+    return average;
 }
 
 - (CKRecordID *)recordId
@@ -128,9 +143,78 @@
     return record;
 }
 
+- (void)updateWithRecord: (CKRecord *)record
+{
+    [self updateWithRecordName: record.recordID.recordName
+                userRecordName: record[@"userRecordName"]
+                          name: record[@"name"]
+                          rows: [record[@"rows"] unsignedIntegerValue]
+                       columns: [record[@"columns"] unsignedIntegerValue]
+                      isPublic: [record[@"isPublic"] boolValue]
+              locationDataList: record[@"locationDataList"]
+                  wallDataList: record[@"wallDataList"]
+                ratingDataList: record[@"ratingDataList"]
+                  creationDate: record.creationDate
+              modificationDate: record.modificationDate];
+}
+
+- (void)updateWithRecordName: (NSString *)recordName
+              userRecordName: (NSString *)userRecordName
+                        name: (NSString *)name
+                        rows: (NSUInteger)rows
+                     columns: (NSUInteger)columns
+                    isPublic: (NSUInteger)isPublic
+            locationDataList: (NSArray *)locationDataList
+                wallDataList: (NSArray *)wallDataList
+              ratingDataList: (NSArray *)ratingDataList
+                creationDate: (NSDate *)creationDate
+            modificationDate: (NSDate *)modificationDate
+{
+    _recordName = recordName;
+    
+    _userRecordName = userRecordName;
+    _name = name;
+    _rows = rows;
+    _columns = columns;
+    _isPublic = isPublic;
+    
+    NSMutableArray *mutableLocations = [NSMutableArray array];
+    
+    for (NSData *locationData in locationDataList)
+    {
+        MALocation *location = [NSKeyedUnarchiver unarchiveObjectWithData: locationData];
+        [mutableLocations addObject: location];
+    }
+    
+    _locations = [NSArray arrayWithArray: mutableLocations];
+    
+    NSMutableArray *mutableWalls = [NSMutableArray array];
+    
+    for (NSData *wallData in wallDataList)
+    {
+        MAWall *wall = [NSKeyedUnarchiver unarchiveObjectWithData: wallData];
+        [mutableWalls addObject: wall];
+    }
+    
+    _walls = [NSArray arrayWithArray: mutableWalls];
+    
+    NSMutableArray *mutableRatings = [NSMutableArray array];
+    
+    for (NSData *ratingData in ratingDataList)
+    {
+        MAWorldRating *rating = [NSKeyedUnarchiver unarchiveObjectWithData: ratingData];
+        [mutableRatings addObject: rating];
+    }
+    
+    _ratings = [NSArray arrayWithArray: mutableRatings];
+    
+    _creationDate = creationDate;
+    _modificationDate = modificationDate;
+}
+
 - (void)updateRecord: (CKRecord *)record
 {
-    record[@"userId"] = self.userId;
+    record[@"userRecordName"] = self.userRecordName;
     record[@"name"] = self.name;
     record[@"rows"] = @(self.rows);
     record[@"columns"] = @(self.columns);
@@ -155,6 +239,18 @@
     }
     
     record[@"wallDataList"] = [NSArray arrayWithArray: mutableWallDataList];
+
+    NSMutableArray *mutableRatingDataList = [NSMutableArray array];
+    
+    for (MAWorldRating *rating in self.ratings)
+    {
+        NSLog(@"%@", rating);
+        
+        NSData *ratingData = [NSKeyedArchiver archivedDataWithRootObject: rating];
+        [mutableRatingDataList addObject: ratingData];
+    }
+    
+    record[@"ratingDataList"] = [NSArray arrayWithArray: mutableRatingDataList];
 }
 
 - (MALocation *)locationWithRow: (NSUInteger)row
@@ -163,6 +259,55 @@
     MALocation *location = nil;
     
     return location;
+}
+
+- (NSUInteger)wallsCount
+{
+    return self.walls.count;
+}
+
+- (MAWall *)wallAtIndex: (NSUInteger)index
+{
+    MAWall *wall = nil;
+
+    if (index < self.walls.count)
+    {
+        wall = [self.walls objectAtIndex: index];
+    }
+    else
+    {
+        NSLog(@"No wall exists at index %d", (int)index);
+    }
+    
+    return wall;
+}
+
+- (MAWall *)wallWithRow: (NSUInteger)row
+                 column: (NSUInteger)column
+               position: (MAWallPositionType)position
+{
+    MAWall *wall = nil;
+    
+    NSUInteger index = [self.walls indexOfObjectPassingTest: ^BOOL(MAWall *someWall, NSUInteger idx, BOOL *stop)
+                        {
+                            if (someWall.row == row &&
+                                someWall.column == column &&
+                                someWall.position == position)
+                            {
+                                return YES;
+                            }
+                            else
+                            {
+                                return NO;
+                            }
+                        }];
+    
+    if (index != NSNotFound)
+    {
+        wall = [self.walls objectAtIndex: index];
+    }
+    
+    return wall;
 }
 
 - (void)addWall: (MAWall *)wall
@@ -193,17 +338,65 @@
     }
 }
 
-- (MAWall *)wallWithRow: (NSUInteger)row
-                 column: (NSUInteger)column
-               position: (MAWallPositionType)position
+- (BOOL)hasRatingWithUserRecordName: (NSString *)userRecordName
 {
-    MAWall *wall = nil;
+    BOOL hasRating = NO;
+   
+    MAWorldRating *rating = [self ratingWithUserRecordName: userRecordName];
     
-    NSUInteger index = [self.walls indexOfObjectPassingTest: ^BOOL(MAWall *someWall, NSUInteger idx, BOOL *stop)
+    if (rating == nil)
     {
-        if (someWall.row == row &&
-            someWall.column == column &&
-            someWall.position == position)
+        hasRating = NO;
+    }
+    else
+    {
+        hasRating = YES;
+    }
+    
+    return hasRating;
+}
+
+- (float)ratingValueWithUserRecordName: (NSString *)userRecordName
+{
+    float ratingValue = 0.0;
+    
+    MAWorldRating *rating = [self ratingWithUserRecordName: userRecordName];
+
+    if (rating != nil)
+    {
+        ratingValue = rating.value;
+    }
+    
+    return ratingValue;
+}
+
+- (void)rateWithUserRecordName: (NSString *)userRecordName
+                   ratingValue: (float)ratingValue
+{
+    MAWorldRating *rating = [self ratingWithUserRecordName: userRecordName];
+
+    if (rating == nil)
+    {
+        MAWorldRating *newRating = [MAWorldRating worldRatingWithUserRecodName: userRecordName
+                                                                         value: ratingValue];
+        
+        NSMutableArray *mutableRatings = [NSMutableArray arrayWithArray: self.ratings];
+        [mutableRatings addObject: newRating];
+        _ratings = [NSArray arrayWithArray: mutableRatings];
+    }
+    else
+    {
+        [rating updateWithValue: ratingValue];
+    }
+}
+
+- (MAWorldRating *)ratingWithUserRecordName: (NSString *)userRecordName
+{
+    MAWorldRating *rating = nil;
+    
+    NSUInteger index = [self.ratings indexOfObjectPassingTest: ^BOOL(MAWorldRating *someRating, NSUInteger idx, BOOL *stop)
+    {
+        if ([someRating.userRecordName isEqualToString: userRecordName] == YES)
         {
             return YES;
         }
@@ -215,16 +408,16 @@
     
     if (index != NSNotFound)
     {
-        wall = [self.walls objectAtIndex: index];
+        rating = [self.ratings objectAtIndex: index];
     }
     
-    return wall;
+    return rating;
 }
 
 - (NSString *)description
 {
     NSString *desc = [NSString stringWithFormat: @"<%@: %p; ", [self class], self];
-    desc = [desc stringByAppendingFormat: @"userId = %@; ", self.userId];
+    desc = [desc stringByAppendingFormat: @"userRecordName = %@; ", self.userRecordName];
     desc = [desc stringByAppendingFormat: @"name = %@; ", self.name];
     desc = [desc stringByAppendingFormat: @"rows = %d; ", (int)self.rows];
     desc = [desc stringByAppendingFormat: @"columns = %d; ", (int)self.columns];

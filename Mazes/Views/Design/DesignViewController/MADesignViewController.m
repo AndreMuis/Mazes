@@ -9,14 +9,15 @@
 #import "MADesignViewController.h"
 
 #import "MAConstants.h"
-#import "MASceneView.h"
-#import "MASceneViewDelegate.h"
+#import "MACurrentUser.h"
+#import "MADesignView.h"
+#import "MADesignViewDelegate.h"
 #import "MAWall.h"
 #import "MAWallNode.h"
 #import "MAWorldManager.h"
 #import "MAWorld.h"
 
-@interface MADesignViewController () <MASceneViewDelegate>
+@interface MADesignViewController () <MADesignViewDelegate>
 
 @property (readonly, strong, nonatomic) MAWorldManager *worldManager;
 @property (readonly, strong, nonatomic) MAWorld *world;
@@ -42,21 +43,21 @@
 {
     [super viewDidLoad];
     
-    MASceneView *view = (MASceneView *)self.view;
+    MADesignView *view = (MADesignView *)self.view;
     
     [view drawAxes];
     
-    [self.worldManager getWorldsWithCompletionHandler: ^(NSArray *worlds, NSError *error)
+    [self.worldManager getWorldsWithCompletionHandler: ^(NSError *error)
     {
         if (error == nil)
         {
-            if (worlds.count == 0)
+            if (self.worldManager.worldsCount == 0)
             {
-                MAWorld *world = [MAWorld worldWithUserId: @""
-                                                     name: @"Andre's World"
-                                                     rows: 5
-                                                  columns: 5
-                                                 isPublic: NO];
+                MAWorld *world = [MAWorld worldWithUserRecordName: [MACurrentUser shared].recordname
+                                                             name: @"Andre's World"
+                                                             rows: 5
+                                                          columns: 5
+                                                         isPublic: NO];
                 
                 [self.worldManager saveWithWorld: world
                                completionHandler: ^(MAWorld *world, NSError *error)
@@ -77,7 +78,7 @@
             }
             else
             {
-                _world = worlds.lastObject;
+                _world = [self.worldManager worldAtIndex: 0];
             
                 [view setupWithDelegate: self];
                 [view refreshWithWorld: self.world];
@@ -90,8 +91,8 @@
     }];
 }
 
-- (void)sceneView: (MASceneView *)sceneView
-   didTapWallNode: (MAWallNode *)wallNode
+- (void)designView: (MADesignView *)designView
+    didTapWallNode: (MAWallNode *)wallNode
 {
     MAWall *wall = [self.world wallWithRow: wallNode.row
                                     column: wallNode.column
@@ -110,7 +111,7 @@
         [self.world removeWall: wall];
     }
     
-    MASceneView *view = (MASceneView *)self.view;
+    MADesignView *view = (MADesignView *)self.view;
     [view refreshWithWorld: self.world];
 }
 
@@ -123,7 +124,7 @@
         {
             _world = world;
             
-            MASceneView *view = (MASceneView *)self.view;
+            MADesignView *view = (MADesignView *)self.view;
             [view refreshWithWorld: self.world];
             
             NSLog(@"saved");

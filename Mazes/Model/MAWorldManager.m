@@ -10,6 +10,12 @@
 
 #import "MAWorld.h"
 
+@interface MAWorldManager ()
+
+@property (readonly, strong, nonatomic) NSArray *worlds;
+
+@end
+
 @implementation MAWorldManager
 
 + (MAWorldManager *)worldManager
@@ -25,9 +31,15 @@
     
     if (self)
     {
+        _worlds = nil;
     }
     
     return self;
+}
+
+- (NSUInteger)worldsCount
+{
+    return self.worlds.count;
 }
 
 - (void)getWorldsWithCompletionHandler: (MAWorldManagerGetWorldsCompletionHandler)completionHandler
@@ -51,15 +63,30 @@
                 [mutableWorlds addObject: world];
             }
             
-            NSArray *worlds = [NSArray arrayWithArray: mutableWorlds];
-            
-            completionHandler(worlds, error);
+            _worlds = [NSArray arrayWithArray: mutableWorlds];
         }
-        else
+
+        dispatch_async(dispatch_get_main_queue(), ^
         {
-            completionHandler(nil, error);
-        }
+            completionHandler(error);
+        });
     }];
+}
+
+- (MAWorld *)worldAtIndex: (NSUInteger)index
+{
+    MAWorld *world = nil;
+    
+    if (index < self.worlds.count)
+    {
+        world = [self.worlds objectAtIndex: index];
+    }
+    else
+    {
+        NSLog(@"No world exists at index. index = %d", (int)index);
+    }
+    
+    return world;
 }
 
 - (void)saveWithWorld: (MAWorld *)world
@@ -76,14 +103,13 @@
         {
             if (error == nil)
             {
-                MAWorld *world = [MAWorld worldWithRecord: worldRecord];
-                 
-                completionHandler(world, nil);
+                [world updateWithRecord: worldRecord];
             }
-            else
+            
+            dispatch_async(dispatch_get_main_queue(), ^
             {
-                completionHandler(nil, error);
-            }
+                completionHandler(world, error);
+            });
         }];
     }
     else
@@ -92,21 +118,30 @@
                                                               completionHandler: ^(CKRecord *worldRecord, NSError *error)
         {
             [world updateRecord: worldRecord];
-           
-            [[[CKContainer defaultContainer] publicCloudDatabase] saveRecord: worldRecord
-                                                           completionHandler: ^(CKRecord *worldRecord, NSError *error)
+
+            if (error == nil)
             {
-                if (error == nil)
+                [[[CKContainer defaultContainer] publicCloudDatabase] saveRecord: worldRecord
+                                                               completionHandler: ^(CKRecord *worldRecord, NSError *error)
                 {
-                    MAWorld *world = [MAWorld worldWithRecord: worldRecord];
-                     
-                    completionHandler(world, nil);
-                }
-                else
+                    if (error == nil)
+                    {
+                        [world updateWithRecord: worldRecord];
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^
+                    {
+                        completionHandler(world, error);
+                    });
+                }];
+            }
+            else
+            {
+                dispatch_async(dispatch_get_main_queue(), ^
                 {
                     completionHandler(nil, error);
-                }
-            }];
+                });
+            }
         }];
     }
 }

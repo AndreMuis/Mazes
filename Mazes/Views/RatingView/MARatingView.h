@@ -14,11 +14,16 @@
 
 + (instancetype)ratingView;
 
+- (void)setupWithStarColor: (UIColor *)starColor
+              outlineWidth: (float)outlineWidth;
+
 - (void)setupWithDelegate: (id<MARatingViewDelegate>)delegate
-                   rating: (float)rating
+              ratingValue: (float)ratingValue
                 starColor: (UIColor *)starColor
              outlineWidth: (float)outlineWidth;
 
 - (void)addToParentView: (UIView *)parentView;
+
+- (void)refreshWithRatingValue: (float)ratingValue;
 
 @end

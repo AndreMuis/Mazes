@@ -14,7 +14,7 @@
 
 @required
 
-- (void)ratingView: (MARatingView *)ratingView
-  didTapWithRating: (float)rating;
+- (void)     ratingView: (MARatingView *)ratingView
+  didTapWithRatingValue: (float)ratingValue;
 
 @end

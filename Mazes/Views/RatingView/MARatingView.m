@@ -23,7 +23,7 @@
 @property (readonly, strong, nonatomic) NSArray *starViews;
 
 @property (readonly, weak, nonatomic) id<MARatingViewDelegate> delegate;
-@property (readonly, assign, nonatomic) float rating;
+@property (readonly, assign, nonatomic) float ratingValue;
 @property (readonly, strong, nonatomic) UIColor *starColor;
 @property (readonly, assign, nonatomic) float outlineWidth;
 
@@ -51,7 +51,7 @@
         _starViews = nil;
         
         _delegate = nil;
-        _rating = 0.0;
+        _ratingValue = 0.0;
         _starColor = nil;
         _outlineWidth = 0.0;
     }
@@ -61,45 +61,87 @@
 
 - (void)awakeFromNib
 {
+    self.backgroundColor = [UIColor clearColor];
+    
     _starViews = @[self.starView1, self.starView2, self.starView3, self.starView4, self.starView5];
 }
 
+- (void)setupWithStarColor: (UIColor *)starColor
+              outlineWidth: (float)outlineWidth
+{
+    [self setupWithDelegate: nil
+                ratingValue: 0.0
+                  starColor: starColor
+               outlineWidth: outlineWidth];
+}
+
 - (void)setupWithDelegate: (id<MARatingViewDelegate>)delegate
-                   rating: (float)rating
+              ratingValue: (float)ratingValue
                 starColor: (UIColor *)starColor
              outlineWidth: (float)outlineWidth
 {
     _delegate = delegate;
-    _rating = rating;
+    _ratingValue = ratingValue;
     _starColor = starColor;
     _outlineWidth = outlineWidth;
     
-    for (NSUInteger star = 1; star <= 5; star = star + 1)
+    for (NSUInteger starCount = 1; starCount <= 5; starCount = starCount + 1)
     {
-        MAStarView *starView = [self.starViews objectAtIndex: star - 1];
+        MAStarView *starView = [self.starViews objectAtIndex: starCount - 1];
         
-        if (rating <= star - 1)
+        float fillPercent = [self starFillPercentWithStarCount: starCount
+                                                   ratingValue: ratingValue];
+        
+        if (self.delegate == nil)
         {
-            [starView setupWithDelegate: self
-                                  color: self.starColor
-                            fillPercent: 0.0
-                           outlineWidth: self.outlineWidth];
-        }
-        else if (rating > star - 1 && rating <= star)
-        {
-            [starView setupWithDelegate: self
-                                  color: self.starColor
-                            fillPercent: rating - (star - 1)
-                           outlineWidth: self.outlineWidth];
+            [starView setupWithColor: self.starColor
+                         fillPercent: fillPercent
+                        outlineWidth: self.outlineWidth];
         }
         else
         {
             [starView setupWithDelegate: self
                                   color: self.starColor
-                            fillPercent: 1.0
+                            fillPercent: fillPercent
                            outlineWidth: self.outlineWidth];
         }
     }
+}
+
+- (void)refreshWithRatingValue: (float)ratingValue
+{
+    _ratingValue = ratingValue;
+    
+    for (NSUInteger starCount = 1; starCount <= 5; starCount = starCount + 1)
+    {
+        MAStarView *starView = [self.starViews objectAtIndex: starCount - 1];
+        
+        float fillPercent = [self starFillPercentWithStarCount: starCount
+                                                   ratingValue: ratingValue];
+        
+        [starView refreshUIWithFillPercent: fillPercent];
+    }
+}
+
+- (float)starFillPercentWithStarCount: (float)starCount
+                          ratingValue: (float)ratingValue
+{
+    float fillPercent = 0.0;
+
+    if (ratingValue <= starCount - 1)
+    {
+        fillPercent = 0.0;
+    }
+    else if (ratingValue > starCount - 1 && ratingValue < starCount)
+    {
+        fillPercent = ratingValue - (starCount - 1);
+    }
+    else
+    {
+        fillPercent = 1.0;
+    }
+
+    return fillPercent;
 }
 
 - (void)addToParentView: (UIView *)parentView
@@ -123,10 +165,10 @@
 
 - (void)starViewDidTap: (MAStarView *)starView
 {
-    float rating = (float)([self.starViews indexOfObject: starView] + 1);
+    float ratingValue = (float)([self.starViews indexOfObject: starView] + 1);
     
     [self.delegate ratingView: self
-             didTapWithRating: rating];
+        didTapWithRatingValue: ratingValue];
 }
 
 @end

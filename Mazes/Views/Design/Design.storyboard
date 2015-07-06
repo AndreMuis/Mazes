@@ -12,7 +12,7 @@
                         <viewControllerLayoutGuide type="top" id="h5v-IJ-8Oc"/>
                         <viewControllerLayoutGuide type="bottom" id="JGo-0z-vK2"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="KIg-LR-sNv" userLabel="view" customClass="MASceneView">
+                    <view key="view" contentMode="scaleToFill" id="KIg-LR-sNv" userLabel="view" customClass="MADesignView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
