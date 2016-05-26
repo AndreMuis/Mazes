@@ -16,4 +16,13 @@
 
 - (void)drawWorld;
 
+- (void)startMovingForward;
+- (void)stopMovingForward;
+
+- (void)startRotatingCounterClockwise;
+
+- (void)startRotatingClockwise;
+
+- (void)stopRotating;
+
 @end

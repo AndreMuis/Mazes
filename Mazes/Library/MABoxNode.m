@@ -32,6 +32,12 @@
         box.firstMaterial.specular.contents = color;
         
         self.geometry = box;
+        
+        self.physicsBody = [SCNPhysicsBody staticBody];
+        //self.physicsBody.friction = 0.0;
+        self.physicsBody.restitution = 0.0;
+        //self.physicsBody.angularDamping = 0.0;
+
         self.opacity = opacity;
         
         self.position = SCNVector3Make(x + width / 2.0,

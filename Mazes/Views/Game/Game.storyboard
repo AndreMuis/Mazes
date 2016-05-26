@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="2iI-8N-rtR">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Game View Controller-->
@@ -15,8 +16,90 @@
                     <view key="view" contentMode="scaleToFill" id="Ejx-lj-Mca" customClass="MAGameView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5wk-fb-0cn" userLabel="forwardButton">
+                                <rect key="frame" x="16" y="536" width="50" height="50"/>
+                                <color key="backgroundColor" red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="L8M-pd-ofn"/>
+                                    <constraint firstAttribute="height" constant="50" id="h9z-JY-buf"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="forwardButtonTouchDown:" destination="2iI-8N-rtR" eventType="touchDown" id="SPO-r1-dhc"/>
+                                    <action selector="forwardButtonTouchUp:" destination="2iI-8N-rtR" eventType="touchUpInside" id="gxf-hO-jjZ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ReF-ey-yM0" userLabel="upButton">
+                                <rect key="frame" x="497" y="437" width="50" height="50"/>
+                                <color key="backgroundColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="ZHi-Tq-KYE"/>
+                                    <constraint firstAttribute="width" constant="50" id="w1T-Xf-PRs"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="edm-mW-qM3" userLabel="leftButton">
+                                <rect key="frame" x="447" y="486" width="50" height="50"/>
+                                <color key="backgroundColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Lo6-F0-TgY"/>
+                                    <constraint firstAttribute="width" constant="50" id="tkm-eb-yno"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="leftButtonTouchDown:" destination="2iI-8N-rtR" eventType="touchDown" id="mBI-sk-kKl"/>
+                                    <action selector="leftButtonTouchUpInside:" destination="2iI-8N-rtR" eventType="touchUpInside" id="qGn-09-vIz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L5H-QJ-jOI" userLabel="rightButton">
+                                <rect key="frame" x="547" y="486" width="50" height="50"/>
+                                <color key="backgroundColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="JO3-7e-oFh"/>
+                                    <constraint firstAttribute="width" constant="50" id="wPC-HB-Uw7"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="rightButtonTouchDown:" destination="2iI-8N-rtR" eventType="touchDown" id="t8f-Kh-EeW"/>
+                                    <action selector="rightButtonTouchUpInside:" destination="2iI-8N-rtR" eventType="touchUpInside" id="hJJ-JI-L0V"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rMR-dq-12T" userLabel="downButton">
+                                <rect key="frame" x="497" y="536" width="50" height="50"/>
+                                <color key="backgroundColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="uPH-VG-aBj"/>
+                                    <constraint firstAttribute="height" constant="50" id="uvx-xe-grS"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="AtY-Fd-cwh" firstAttribute="top" secondItem="edm-mW-qM3" secondAttribute="bottom" constant="64" id="Cog-5b-4hS"/>
+                            <constraint firstItem="L5H-QJ-jOI" firstAttribute="leading" secondItem="edm-mW-qM3" secondAttribute="trailing" constant="50" id="F5d-uN-3KK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ReF-ey-yM0" secondAttribute="trailing" constant="37" id="IQv-Cu-6bs"/>
+                            <constraint firstItem="rMR-dq-12T" firstAttribute="top" secondItem="ReF-ey-yM0" secondAttribute="bottom" constant="49" id="Kd3-Y1-I9z"/>
+                            <constraint firstItem="5wk-fb-0cn" firstAttribute="leading" secondItem="Ejx-lj-Mca" secondAttribute="leadingMargin" id="MrR-Nh-cRa"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="rMR-dq-12T" secondAttribute="trailing" constant="37" id="N1M-j5-19N"/>
+                            <constraint firstAttribute="trailing" secondItem="L5H-QJ-jOI" secondAttribute="trailing" constant="3" id="Xq0-hS-Nuh"/>
+                            <constraint firstItem="AtY-Fd-cwh" firstAttribute="top" secondItem="L5H-QJ-jOI" secondAttribute="bottom" constant="64" id="bR0-PC-XBM"/>
+                            <constraint firstItem="AtY-Fd-cwh" firstAttribute="top" secondItem="5wk-fb-0cn" secondAttribute="bottom" constant="14" id="jKG-bB-yxB"/>
+                            <constraint firstItem="AtY-Fd-cwh" firstAttribute="top" secondItem="rMR-dq-12T" secondAttribute="bottom" constant="14" id="pmM-KV-Rsl"/>
+                        </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N7Q-DF-JEJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

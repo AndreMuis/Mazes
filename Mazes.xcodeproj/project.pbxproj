@@ -64,6 +64,7 @@
 		2ADDFED2194AB7AE0000B526 /* MAMapNearbyLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADDFECF194AB7AE0000B526 /* MAMapNearbyLocation.m */; };
 		2ADDFED3194AB7AE0000B526 /* MAMapNearbyWall.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADDFED1194AB7AE0000B526 /* MAMapNearbyWall.m */; };
 		2ADDFED6194ABD8B0000B526 /* MAMapSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADDFED5194ABD8B0000B526 /* MAMapSegment.m */; };
+		2AE6A7811B51E56A0005C5B6 /* MAGameSceneUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE6A7801B51E56A0005C5B6 /* MAGameSceneUpdater.m */; };
 		2AECE0E318F8CDCA0094C8CB /* Development Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE0E218F8CDCA0094C8CB /* Development Notes.txt */; };
 		2AECE0EB18F8CDF90094C8CB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AECE0E518F8CDF90094C8CB /* AppDelegate.m */; };
 		2AECE0EC18F8CDF90094C8CB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2AECE0E618F8CDF90094C8CB /* InfoPlist.strings */; };
@@ -256,6 +257,8 @@
 		2ADDFED1194AB7AE0000B526 /* MAMapNearbyWall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMapNearbyWall.m; path = Model/Map/MAMapNearbyWall.m; sourceTree = "<group>"; };
 		2ADDFED4194ABD8B0000B526 /* MAMapSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAMapSegment.h; path = Model/Map/MAMapSegment.h; sourceTree = "<group>"; };
 		2ADDFED5194ABD8B0000B526 /* MAMapSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAMapSegment.m; path = Model/Map/MAMapSegment.m; sourceTree = "<group>"; };
+		2AE6A77F1B51E56A0005C5B6 /* MAGameSceneUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAGameSceneUpdater.h; path = Mazes/Views/Game/GameViewController/MAGameSceneUpdater.h; sourceTree = SOURCE_ROOT; };
+		2AE6A7801B51E56A0005C5B6 /* MAGameSceneUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAGameSceneUpdater.m; path = Mazes/Views/Game/GameViewController/MAGameSceneUpdater.m; sourceTree = SOURCE_ROOT; };
 		2AECE0E218F8CDCA0094C8CB /* Development Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Development Notes.txt"; path = "Documentation/Development Notes.txt"; sourceTree = "<group>"; };
 		2AECE0E418F8CDF90094C8CB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Application/AppDelegate.h; sourceTree = "<group>"; };
 		2AECE0E518F8CDF90094C8CB /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Application/AppDelegate.m; sourceTree = "<group>"; };
@@ -518,6 +521,8 @@
 				2ADDF7E51B4A1A26008719BA /* MAGameViewController.m */,
 				2ADDF7E71B4A1EF5008719BA /* MAGameView.h */,
 				2ADDF7E81B4A1EF5008719BA /* MAGameView.m */,
+				2AE6A77F1B51E56A0005C5B6 /* MAGameSceneUpdater.h */,
+				2AE6A7801B51E56A0005C5B6 /* MAGameSceneUpdater.m */,
 			);
 			name = GameViewController;
 			sourceTree = "<group>";
@@ -1195,6 +1200,7 @@
 			files = (
 				2AECE26E18F8D62E0094C8CB /* MACloud.m in Sources */,
 				2AFDB1FE1B40ABEA00F13679 /* MAWallNode.m in Sources */,
+				2AE6A7811B51E56A0005C5B6 /* MAGameSceneUpdater.m in Sources */,
 				F4A6D06A17FB6C610003D645 /* MALocation.m in Sources */,
 				2AF02D3B1B47282800D9B080 /* MACurrentUser.m in Sources */,
 				2AC20FAE1B3BB30B0037864F /* MAAlertController.m in Sources */,

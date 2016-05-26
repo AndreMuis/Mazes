@@ -64,6 +64,42 @@
     [view drawWorld];
 }
 
+- (IBAction)forwardButtonTouchDown: (id)sender
+{
+    MAGameView *view = (MAGameView *)self.view;
+    [view startMovingForward];
+}
+
+- (IBAction)forwardButtonTouchUp: (id)sender
+{
+    MAGameView *view = (MAGameView *)self.view;
+    [view stopMovingForward];
+}
+
+- (IBAction)leftButtonTouchDown: (id)sender
+{
+    MAGameView *view = (MAGameView *)self.view;
+    [view startRotatingCounterClockwise];
+}
+
+- (IBAction)leftButtonTouchUpInside: (id)sender
+{
+    MAGameView *view = (MAGameView *)self.view;
+    [view stopRotating];
+}
+
+- (IBAction)rightButtonTouchDown: (id)sender
+{
+    MAGameView *view = (MAGameView *)self.view;
+    [view startRotatingClockwise];
+}
+
+- (IBAction)rightButtonTouchUpInside: (id)sender
+{
+    MAGameView *view = (MAGameView *)self.view;
+    [view stopRotating];
+}
+
 @end
 
 
